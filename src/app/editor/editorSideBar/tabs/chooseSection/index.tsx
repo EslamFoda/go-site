@@ -1,0 +1,154 @@
+import useEditor from "@/app/editor/store/editorStore";
+import React, { useEffect, useRef } from "react";
+import { v4 } from "uuid";
+function ChooseSection() {
+  const {
+    updateEditorSections,
+    handleSelectedSection,
+    closeSectionDesigns,
+    editor,
+    sectionIndex,
+  } = useEditor();
+
+  const handleChooseSection = (section: any) => {
+    if (sectionIndex < 0 || sectionIndex >= editor.sections.length) {
+      console.error("Index out of bounds");
+      return editor.sections;
+    }
+    editor.sections.splice(sectionIndex + 1, 0, section);
+    updateEditorSections(editor.sections);
+    handleSelectedSection(section.id);
+    closeSectionDesigns();
+  };
+  const sections = [
+    {
+      id: v4(),
+      sectionName: "Banner",
+      content: {
+        label: "",
+        title: "developer",
+        subtitle:
+          "Eslam** helps you build the best products for your customers. With our expertise and experience, we can help you take your ideas from concept to reality",
+        mediaType: "image",
+        imageSetting: { imageUrl: "", altText: "" },
+        videoSetting: { videoUrl: "" },
+        actionType: "buttons",
+        buttons: {
+          primaryButton: { text: "start your journey" },
+          secondaryButton: { text: "learn more" },
+        },
+      },
+      style: {
+        designName: "design1",
+        designSettings: {
+          titleSize: "xl",
+          align: "center",
+          subtitleWidth: "50%",
+          height: "460px",
+          video: true,
+          leftTitlePosition: true,
+          leftTitleWidth: "50%",
+          showButtons: true,
+          sectionBackground: {
+            color: "none",
+            media: "",
+            height: "100%",
+            width: "100%",
+            spacing: "xl",
+          },
+          imageSetting: {
+            objectFit: "cover",
+            backgroundColor: "primary",
+            showImage: true,
+          },
+        },
+      },
+    },
+    {
+      id: v4(),
+      sectionName: "Cards",
+      content: {
+        label: "",
+        title: "developer",
+        subtitle:
+          "Eslam** helps you build the best products for your customers. With our expertise and experience, we can help you take your ideas from concept to reality",
+        cards: [
+          {
+            id: v4(),
+            title: "Card 1",
+            text: "card 1 text",
+            image: "",
+            button: "",
+            buttonColor: "gray" || "primary",
+            link: "",
+          },
+          {
+            id: v4(),
+            title: "Card 2",
+            text: "card 2 text",
+            image: "",
+            button: "",
+            buttonColor: "gray" || "primary",
+            link: "",
+          },
+          {
+            id: v4(),
+            title: "Card 3",
+            text: "card 3 text",
+            image: "",
+            button: "",
+            buttonColor: "gray" || "primary",
+            link: "",
+          },
+        ],
+      },
+      style: {
+        designName: "design1",
+        designSettings: {
+          layout: "top",
+          grid: {
+            desktop: 3,
+            mobile: 1,
+          },
+          height: {
+            desktop: 200,
+            mobile: 200,
+          },
+          titleSize: "m",
+          align: "start",
+          image: true,
+          cardBackground: true,
+          cardBorder: false,
+          leftTitlePosition: false,
+          displayType: "grid",
+          cardSlider: {
+            desktopWidth: 300,
+            mobileWidth: 300,
+            autoScroll: false,
+            scrollSpeed: 2,
+          },
+          button: true,
+          sectionBackground: {
+            color: "none",
+            media: "",
+            height: "100%",
+            spacing: "l",
+          },
+        },
+      },
+    },
+  ];
+  return (
+    <div>
+      {sections.map((section) => {
+        return (
+          <div key={section.id} onClick={() => handleChooseSection(section)}>
+            {section.sectionName}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+export default ChooseSection;
