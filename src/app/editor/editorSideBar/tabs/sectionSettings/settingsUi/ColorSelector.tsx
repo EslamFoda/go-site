@@ -2,6 +2,7 @@ import React from "react";
 import { Label } from "@/components/ui/label";
 import { NoColorIcon } from "@/icons/common";
 import { cn } from "@/lib/utils";
+import useEditor from "@/store/editorStore";
 
 type Color = "none" | "gray" | "primary";
 
@@ -14,12 +15,13 @@ const ColorSelector: React.FC<ColorSelectorProps> = ({
   selectedColor,
   handleChangeColor,
 }) => {
+  const { selectedPallet } = useEditor();
   const colors: Color[] = ["none", "gray", "primary"];
 
   const colorsHandler = (color: Color) => {
     return cn(
       "w-4 h-4 rounded-full",
-      color === "gray" && "bg-gray-500",
+      color === "gray" && "bg-muted",
       color === "primary" && "bg-primary"
     );
   };
@@ -29,15 +31,17 @@ const ColorSelector: React.FC<ColorSelectorProps> = ({
   };
 
   return (
-    <div className="space-y-1 flex items-center justify-between">
+    <div
+      className={`${selectedPallet} space-y-1 flex items-center justify-between`}
+    >
       <Label>Color</Label>
-      <div className="border-[#222] flex border-solid border-[1px] rounded-sm h-10 w-4/6">
+      <div className="border-muted-bg flex border-solid border-[1px] rounded-sm h-10 w-4/6">
         {colors.map((color) => (
           <div
             key={color}
             onClick={() => handleColorClick(color)}
             className={`${
-              selectedColor === color ? "bg-[#222]" : ""
+              selectedColor === color ? "bg-muted-bg" : ""
             } flex items-center justify-center cursor-pointer w-full`}
           >
             <div>

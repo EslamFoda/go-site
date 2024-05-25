@@ -1,25 +1,31 @@
 import { Button } from "@/components/ui/button";
 import { ImagePlaceHolder } from "@/icons/common";
 import { cn } from "@/lib/utils";
+import useEditor from "@/store/editorStore";
 import React from "react";
 interface Design3Props {
   section: any;
   handleSelectedSection: (selectedSection: any) => void;
 }
 function Design3({ section, handleSelectedSection }: Design3Props) {
+  const { selectedPallet } = useEditor();
   const titleSize = section.style.designSettings.titleSize;
   const align = section.style.designSettings.align;
   const showImage = section?.style.designSettings.imageSetting.showImage;
   const showButtons = section?.style.designSettings.showButtons;
   const subTitleWidth = section?.style.designSettings.subtitleWidth;
-
+  const bgMuted =
+    section?.style.designSettings.sectionBackground.color === "gray";
+  const dynamicTextColor =
+    selectedPallet === "default-theme" &&
+    section.style.designSettings.sectionBackground.color === "primary";
   const sectionBgClassName = cn(
     " flex flex-col",
     section.style.designSettings.sectionBackground.color === "primary"
       ? "bg-primary"
       : "",
     section.style.designSettings.sectionBackground.color === "gray"
-      ? "bg-gray-500"
+      ? "bg-muted"
       : "",
     section.style.designSettings.sectionBackground.color === "none"
       ? "bg-none"
@@ -47,7 +53,7 @@ function Design3({ section, handleSelectedSection }: Design3Props) {
       ? "bg-primary"
       : "",
     section.style.designSettings.imageSetting.backgroundColor === "gray"
-      ? "bg-gray-500"
+      ? "bg-muted"
       : "",
     section.style.designSettings.imageSetting.backgroundColor === "none"
       ? "bg-none"
@@ -55,6 +61,7 @@ function Design3({ section, handleSelectedSection }: Design3Props) {
   );
 
   const titleClassName = cn(
+    dynamicTextColor && "text-textColor",
     titleSize === "xl" ? "text-7xl" : "",
     titleSize === "l" ? "text-6xl" : "",
     titleSize === "m" ? "text-5xl" : "",
@@ -73,6 +80,10 @@ function Design3({ section, handleSelectedSection }: Design3Props) {
     align === "start" ? "items-start" : "",
     align === "center" ? "items-center " : "",
     align === "end" ? "items-end" : ""
+  );
+  const imagePlaceholderClassNames = cn(
+    "w-full flex justify-center items-center",
+    bgMuted ? "bg-background" : "bg-muted"
   );
 
   return (
@@ -120,9 +131,11 @@ function Design3({ section, handleSelectedSection }: Design3Props) {
             ) : (
               <div
                 style={{ height: section.style.designSettings.height }}
-                className="bg-[#222]  w-full flex justify-center items-center"
+                className={imagePlaceholderClassNames}
               >
-                <ImagePlaceHolder />
+                <ImagePlaceHolder
+                  fillColor={bgMuted ? "fill-muted" : "fill-background"}
+                />
               </div>
             )}
           </>

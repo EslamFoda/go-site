@@ -1,5 +1,5 @@
-import useEditor from "@/app/editor/store/editorStore";
-import React, { useEffect, useRef } from "react";
+import useEditor from "@/store/editorStore";
+import React from "react";
 import { v4 } from "uuid";
 function ChooseSection() {
   const {
@@ -106,13 +106,14 @@ function ChooseSection() {
         designName: "design1",
         designSettings: {
           layout: "top",
+          layoutV2: "bottom",
           grid: {
             desktop: 3,
             mobile: 1,
           },
           height: {
-            desktop: 200,
-            mobile: 200,
+            desktop: 300,
+            mobile: 300,
           },
           titleSize: "m",
           align: "start",

@@ -1,101 +1,6 @@
+import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
+import { Card, CardStyle, CardsContent } from "@/types/sectionsTypes/cards";
 import { create, SetState } from "zustand";
-
-// Define types for Banner content
-export interface BannerContent {
-  label?: string;
-  title: string;
-  subtitle: string;
-  mediaType: "image" | "video";
-  imageSetting?: { imageUrl?: string; altText?: string };
-  videoSetting?: { videoUrl: string };
-  actionType: "buttons";
-  buttons: {
-    primaryButton: { text: string };
-    secondaryButton: { text: string };
-  };
-}
-
-export interface BannerStyle {
-  designName: string;
-  designSettings: {
-    titleSize: "s" | "m" | "l" | "xl";
-    align: "start" | "center" | "end";
-    subtitleWidth: string;
-    height: string;
-    video: boolean;
-    leftTitlePosition: boolean;
-    leftTitleWidth: string;
-    showButtons: boolean;
-    sectionBackground: {
-      color?: "primary" | "gray" | "none";
-      media?: string;
-      height?: "fill" | "fit";
-      align?: "start" | "center" | "end";
-      width?: string;
-      spacing?: string;
-    };
-    imageSetting: {
-      objectFit: "cover" | "contain";
-      backgroundColor: "primary" | "gray" | "none";
-      showImage: boolean;
-    };
-  };
-}
-
-// Define types for Card content
-export interface Card {
-  id: string;
-  title: string;
-  text: string;
-  image: string;
-  button: string;
-  buttonColor: "gray" | "primary";
-  link: string;
-}
-
-// Define types for Cards content
-export interface CardsContent {
-  label?: string;
-  title: string;
-  subtitle: string;
-  cards: Card[];
-}
-
-export interface CardStyle {
-  // Define properties specific to Card style
-  designName: string;
-  designSettings: {
-    layout: "top" | "center" | "bottom";
-    grid: {
-      desktop: number;
-      mobile: number;
-    };
-    height: {
-      desktop: number;
-      mobile: number;
-    };
-    titleSize: "s" | "m" | "l";
-    align: "start" | "center" | "end";
-    displayType: "grid" | "carousel";
-    image: boolean;
-    cardBackground: boolean;
-    cardBorder: boolean;
-    leftTitlePosition: boolean;
-    button: boolean;
-    cardSlider: {
-      desktopWidth: number;
-      mobileWidth: number;
-      autoScroll: boolean;
-      scrollSpeed: number;
-    };
-    sectionBackground: {
-      color: string;
-      media: string;
-      height: string;
-      spacing: string;
-    };
-  };
-}
 
 // Define all possible content types
 export type SectionContentTypes = {
@@ -134,6 +39,9 @@ export interface EditorStore {
     keyof SectionStyleTypes
   > | null;
   selectedItem: Card | null;
+  openSectionDesigns: boolean;
+  openPallet: boolean;
+  selectedPallet: string;
   handleSelectedSection: (selectedSectionId: string) => void;
   handleSelectedItem: (item: Card | null) => void;
   updateContent: (
@@ -144,8 +52,9 @@ export interface EditorStore {
     sectionId: string,
     newStyle: Partial<SectionStyleTypes[keyof SectionStyleTypes]>
   ) => void;
-  openSectionDesigns: boolean;
-  toggleSectionDesigns: () => void;
+  handleSelectedPallet: (pallet: string) => void;
+  handleOpenPallet: () => void;
+  handleOpenSectionDesigns: () => void;
   closeSectionDesigns: () => void;
   updateEditorSections: (
     sections: EditorSection<
@@ -209,8 +118,15 @@ const useEditor = create<EditorStore>((set: SetState<EditorStore>) => ({
   selectedSection: null,
   selectedItem: null,
   sectionIndex: 0,
+  
+  selectedPallet: "default-theme",
+  openSectionDesigns: false,
+  openPallet: false,
+  handleSelectedPallet: (pallet: string) =>
+    set((state) => ({ selectedPallet: pallet })),
   handleSelectedSection: (selectedSectionId: string) =>
     set((state) => ({
+      openPallet: false,
       selectedSection:
         state.editor.sections.find(
           (section) => section.id === selectedSectionId
@@ -244,9 +160,14 @@ const useEditor = create<EditorStore>((set: SetState<EditorStore>) => ({
         ),
       },
     })),
-  openSectionDesigns: false,
-  toggleSectionDesigns: () =>
-    set((state) => ({ openSectionDesigns: !state.openSectionDesigns })),
+  handleOpenPallet: () =>
+    set((state) => ({
+      openPallet: true,
+      openSectionDesigns: false,
+      selectedSection: null,
+    })),
+  handleOpenSectionDesigns: () =>
+    set((state) => ({ openSectionDesigns: true, openPallet: false })),
   closeSectionDesigns: () => set(() => ({ openSectionDesigns: false })),
   updateEditorSections: (
     sections: EditorSection<

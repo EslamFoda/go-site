@@ -17,13 +17,13 @@ const DisplaySettings: React.FC<DisplaySettingsProps> = ({
   return (
     <div className="space-y-1 flex items-center justify-between">
       <Label>{label}</Label>
-      <div className="border-[#222]  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
+      <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
         {displayTypes.map((type) => (
           <div
             key={type}
             onClick={() => onValueChange(type as "grid" | "carousel")}
             className={`${
-              displayValue === type ? "bg-[#222]" : ""
+              displayValue === type ? "bg-muted-bg" : ""
             } flex items-center justify-center cursor-pointer w-full`}
           >
             <span className="capitalize">{type}</span>

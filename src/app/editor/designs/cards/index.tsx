@@ -2,7 +2,7 @@ import React from "react";
 import Design1 from "./design1";
 import Design2 from "./design2";
 
-import useEditor from "../../store/editorStore";
+import useEditor from "../../../../store/editorStore";
 interface CardsProps {
   section: any;
   handleSelectedSection: (selectedSection: any) => void;

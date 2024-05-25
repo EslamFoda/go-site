@@ -1,0 +1,57 @@
+// Define types for Card content
+export interface Card {
+  id: string;
+  title: string;
+  text: string;
+  image: string;
+  button: string;
+  buttonColor: "gray" | "primary";
+  link: string;
+}
+
+// Define types for Cards content
+export interface CardsContent {
+  label?: string;
+  title: string;
+  subtitle: string;
+  cards: Card[];
+}
+
+export interface CardStyle {
+  // Define properties specific to Card style
+  designName: string;
+  designSettings: {
+    layout: "top" | "center" | "bottom";
+    layoutV2: "top" | "center" | "bottom";
+    grid: {
+      desktop: number;
+      mobile: number;
+    };
+    height: {
+      desktop: number;
+      mobile: number;
+    };
+    titleSize: "s" | "m" | "l";
+    align: "start" | "center" | "end";
+    displayType: "grid" | "carousel";
+    image: boolean;
+    cardBackground: boolean;
+    cardBorder: boolean;
+    leftTitlePosition: boolean;
+    button: boolean;
+    cardSlider: {
+      desktopWidth: number;
+      mobileWidth: number;
+      autoScroll: boolean;
+      scrollSpeed: number;
+    };
+    sectionBackground: {
+      color?: "primary" | "gray" | "none";
+      media?: string;
+      height?: "fill" | "fit";
+      align?: "start" | "center" | "end";
+      width?: string;
+      spacing?: string;
+    };
+  };
+}

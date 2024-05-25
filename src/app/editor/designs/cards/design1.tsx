@@ -1,7 +1,6 @@
 import { ImagePlaceHolder } from "@/icons/common";
 import Image from "next/image";
 import React from "react";
-import { Card, CardStyle } from "../../store/editorStore";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "react-responsive";
 import {
@@ -11,8 +10,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import autoPlay from "embla-carousel-autoplay";
 import AutoScroll from "embla-carousel-auto-scroll";
+import { Card, CardStyle } from "@/types/sectionsTypes/cards";
 
 interface DesignProps {
   section: any;
@@ -25,7 +24,8 @@ function Design1({
   handleSelectedItem,
 }: DesignProps) {
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
-
+  const bgMuted =
+    section?.style.designSettings.sectionBackground.color === "gray";
   const cardStyle = section?.style as CardStyle;
   const autoScroll = cardStyle?.designSettings?.cardSlider?.autoScroll;
   const scrollSpeed = cardStyle?.designSettings?.cardSlider?.scrollSpeed;
@@ -78,13 +78,15 @@ function Design1({
 
   const cardClassNames = cn(
     "flex flex-col  gap-2 rounded-md",
-    cardStyle.designSettings.cardBackground && "bg-[#222] p-5",
-    cardStyle.designSettings.cardBorder && "border border-[#222] p-5"
+    cardStyle.designSettings.cardBackground && "bg-muted p-5",
+    cardStyle.designSettings.cardBorder && "border border-muted p-5",
+    bgMuted && "bg-background"
   );
 
   const imagePlaceholderClassNames = cn(
     "w-full flex justify-center items-center rounded-md",
-    cardStyle.designSettings.cardBackground ? "bg-background" : "bg-[#222]"
+    cardStyle.designSettings.cardBackground ? "bg-background" : "bg-muted",
+    bgMuted && "bg-muted"
   );
 
   const containerClassNames = cn(
@@ -93,8 +95,36 @@ function Design1({
       "md:grid-cols-[1fr_2fr] grid-cols-1 gap-4 md:space-y-0 space-y-4"
   );
 
+  const sectionBgClassName = cn(
+    " flex flex-col",
+    section.style.designSettings.sectionBackground.color === "primary"
+      ? "bg-primary"
+      : "",
+    section.style.designSettings.sectionBackground.color === "gray"
+      ? "bg-muted"
+      : "",
+    section.style.designSettings.sectionBackground.color === "none"
+      ? "bg-none"
+      : "",
+    section.style.designSettings.sectionBackground.height === "fill"
+      ? "h-screen"
+      : "",
+    section.style.designSettings.sectionBackground.height === "fit"
+      ? "h-auto"
+      : "",
+    section.style.designSettings.sectionBackground.align === "start"
+      ? "justify-start"
+      : "",
+    section.style.designSettings.sectionBackground.align === "center"
+      ? "justify-center"
+      : "",
+    section.style.designSettings.sectionBackground.align === "end"
+      ? "justify-end"
+      : ""
+  );
+
   return (
-    <section>
+    <section className={sectionBgClassName}>
       <div
         className={alignClassNames}
         onClick={() => {
@@ -151,8 +181,9 @@ function Design1({
                         >
                           <ImagePlaceHolder
                             fillColor={
-                              cardStyle.designSettings.cardBackground
-                                ? "fill-[#222]"
+                              cardStyle.designSettings.cardBackground &&
+                              !bgMuted
+                                ? "fill-muted"
                                 : "fill-background"
                             }
                           />
@@ -167,15 +198,15 @@ function Design1({
             <Carousel
               plugins={autoScrollPlugin}
               opts={{
-                align: "start",
                 skipSnaps: true,
                 loop: autoScroll ? true : false,
               }}
               className="w-full"
             >
-              <CarouselContent>
+              <CarouselContent className="items-stretch">
                 {section.content.cards.map((card: any, index: number) => (
                   <CarouselItem
+                    className="h-full"
                     key={index}
                     style={{
                       flexBasis: isDesktop
@@ -185,7 +216,7 @@ function Design1({
                   >
                     <div
                       key={index}
-                      className={cardClassNames}
+                      className={cardClassNames + " h-full"}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleSelectedItem(card);
@@ -224,8 +255,8 @@ function Design1({
                             >
                               <ImagePlaceHolder
                                 fillColor={
-                                  cardStyle.designSettings.cardBackground
-                                    ? "fill-[#222]"
+                                  cardStyle.designSettings.cardBackground && !bgMuted
+                                    ? "fill-muted"
                                     : "fill-background"
                                 }
                               />

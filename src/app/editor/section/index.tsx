@@ -2,12 +2,12 @@
 import React from "react";
 import Banner from "../designs/banner";
 import Cards from "../designs/cards";
-import useEditor, { EditorStore } from "../store/editorStore";
 import AddSection from "./addSection";
+import useEditor, { EditorStore } from "@/store/editorStore";
 
 const Section = () => {
   const editorState = useEditor((state: EditorStore) => state.editor);
-  const { handleSelectedSection } = useEditor();
+  const { handleSelectedSection, closeSectionDesigns } = useEditor();
 
   const sectionsMapper = { Banner: Banner, Cards: Cards };
   console.log(editorState, "editorState");
@@ -19,11 +19,13 @@ const Section = () => {
         const Section = sectionsMapper[section.sectionName];
         return (
           <div key={section.id}>
-            <Section
-              key={section.id}
-              section={section}
-              handleSelectedSection={handleSelectedSection}
-            />
+            <div onClick={closeSectionDesigns}>
+              <Section
+                key={section.id}
+                section={section}
+                handleSelectedSection={handleSelectedSection}
+              />
+            </div>
             <AddSection sectionIndex={i} />
           </div>
         );

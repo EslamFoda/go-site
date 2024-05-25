@@ -1,12 +1,12 @@
 import {
-  BannerStyle,
-  CardStyle,
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
-} from "@/app/editor/store/editorStore";
+} from "@/store/editorStore";
 import { Label } from "@/components/ui/label";
 import React from "react";
+import { CardStyle } from "@/types/sectionsTypes/cards";
+import { BannerStyle } from "@/types/sectionsTypes/banner";
 
 interface TitleSizeProps {
   label: string;
@@ -32,7 +32,7 @@ const TitleSize: React.FC<TitleSizeProps> = ({
   return (
     <div className="space-y-1 flex items-center justify-between">
       <Label>{label}</Label>
-      <div className="border-[#222]  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
+      <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
         {sizes.map((size) => (
           <div
             key={size}
@@ -46,7 +46,7 @@ const TitleSize: React.FC<TitleSizeProps> = ({
             }}
             className={`${
               selectedSectionStyles.designSettings.titleSize === size
-                ? "bg-[#222]"
+                ? "bg-muted-bg"
                 : ""
             } flex items-center justify-center cursor-pointer w-full`}
           >

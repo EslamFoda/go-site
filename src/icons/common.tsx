@@ -4,8 +4,8 @@ export const NoColorIcon = () => {
   return (
     <svg
       data-v-62352d9f=""
-      width="24"
-      height="24"
+      width="16"
+      height="16"
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -13,10 +13,11 @@ export const NoColorIcon = () => {
       <path
         data-v-62352d9f=""
         d="M5 5L19.1 19.1L5 5ZM12 22C17.5 22 22 17.5 22 12C22 6.5 17.5 2 12 2C6.5 2 2 6.5 2 12C2 17.5 6.5 22 12 22Z"
-        stroke="#222"
+        stroke="none"
         stroke-miterlimit="10"
         stroke-linecap="round"
         stroke-linejoin="round"
+        className="stroke-foreground"
       ></path>
     </svg>
   );

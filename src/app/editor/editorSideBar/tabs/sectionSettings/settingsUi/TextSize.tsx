@@ -17,13 +17,13 @@ const TextSize: React.FC<TextSizeProps> = ({
   return (
     <div className="space-y-1 flex items-center justify-between">
       <Label>{label}</Label>
-      <div className="border-[#222]  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
+      <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
         {sizes.map((size) => (
           <div
             key={size}
             onClick={() => onValueChange(size as "s" | "m" | "l")}
             className={`${
-              titleSizeValue === size ? "bg-[#222]" : ""
+              titleSizeValue === size ? "bg-muted-bg" : ""
             } flex items-center justify-center cursor-pointer w-full`}
           >
             <span>{size.toUpperCase()}</span>

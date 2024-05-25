@@ -1,9 +1,9 @@
 // DraggableList.js
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { Card } from "@/app/editor/store/editorStore";
 import { ChevronRight, GripVertical, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Card } from "@/types/sectionsTypes/cards";
 interface DraggableListProps {
   label: string;
   items: Card[];

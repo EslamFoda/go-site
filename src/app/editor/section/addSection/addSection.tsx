@@ -1,11 +1,11 @@
+import useEditor from "@/store/editorStore";
 import { PlusCircle } from "lucide-react";
 import React from "react";
-import useEditor from "../../store/editorStore";
 
 function AddSection({ sectionIndex }: { sectionIndex: number }) {
-  const { toggleSectionDesigns, handleSelectedSectionIndex } = useEditor();
+  const { handleOpenSectionDesigns, handleSelectedSectionIndex } = useEditor();
   const handleToggleSectionDesigns = () => {
-    toggleSectionDesigns();
+    handleOpenSectionDesigns();
     handleSelectedSectionIndex(sectionIndex);
   };
   return (

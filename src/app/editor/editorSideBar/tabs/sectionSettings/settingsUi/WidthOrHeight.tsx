@@ -20,7 +20,7 @@ function WidthOrHeight({
   return (
     <div className="space-y-1 flex items-center justify-between">
       <Label>{label}</Label>
-      <div className="border-[#222] flex border-solid border-[1px] rounded-sm h-10 w-4/6">
+      <div className="border-muted-bg flex border-solid border-[1px] rounded-sm h-10 w-4/6">
         <Slider
           customText={customText}
           min={min}

@@ -1,18 +1,25 @@
 import { Button } from "@/components/ui/button";
 import { ImagePlaceHolder } from "@/icons/common";
 import { cn } from "@/lib/utils";
+import useEditor from "@/store/editorStore";
 import React from "react";
 interface Design1Props {
   section: any;
   handleSelectedSection: (selectedSection: any) => void;
 }
 function Design1({ section, handleSelectedSection }: Design1Props) {
+  const { selectedPallet } = useEditor();
   const leftTitlePosition = section.style.designSettings.leftTitlePosition;
   const titleSize = section.style.designSettings.titleSize;
   const align = section.style.designSettings.align;
   const showImage = section?.style.designSettings.imageSetting.showImage;
   const leftTitleWidth = section?.style.designSettings.leftTitleWidth;
   const showButtons = section?.style.designSettings.showButtons;
+  const bgMuted =
+    section?.style.designSettings.sectionBackground.color === "gray";
+  const dynamicTextColor =
+    selectedPallet === "default-theme" &&
+    section.style.designSettings.sectionBackground.color === "primary";
 
   const sectionBgClassName = cn(
     " flex flex-col",
@@ -20,7 +27,7 @@ function Design1({ section, handleSelectedSection }: Design1Props) {
       ? "bg-primary"
       : "",
     section.style.designSettings.sectionBackground.color === "gray"
-      ? "bg-gray-500"
+      ? "bg-muted"
       : "",
     section.style.designSettings.sectionBackground.color === "none"
       ? "bg-none"
@@ -56,6 +63,7 @@ function Design1({ section, handleSelectedSection }: Design1Props) {
   );
 
   const titleClassName = cn(
+    dynamicTextColor && "text-textColor",
     titleSize === "xl" ? "text-7xl" : "",
     titleSize === "l" ? "text-6xl" : "",
     titleSize === "m" ? "text-5xl" : "",
@@ -78,6 +86,11 @@ function Design1({ section, handleSelectedSection }: Design1Props) {
     align === "center" ? "items-center " : "",
     align === "end" ? "items-end" : "",
     leftTitlePosition ? " text-start items-start" : ""
+  );
+
+  const imagePlaceholderClassNames = cn(
+    "w-full flex justify-center items-center",
+    bgMuted ? "bg-background" : "bg-muted"
   );
 
   return (
@@ -141,9 +154,11 @@ function Design1({ section, handleSelectedSection }: Design1Props) {
             ) : (
               <div
                 style={{ height: section.style.designSettings.height }}
-                className="bg-[#222]  w-full flex justify-center items-center"
+                className={imagePlaceholderClassNames}
               >
-                <ImagePlaceHolder />
+                <ImagePlaceHolder
+                  fillColor={bgMuted ? "fill-muted" : "fill-background"}
+                />
               </div>
             )}
           </>

@@ -2,23 +2,50 @@
 import React from "react";
 import BannerSettings from "./tabs/sectionSettings/banner/bannerSettings";
 import ChooseSection from "./tabs/chooseSection";
-import useEditor from "../store/editorStore";
 import CardsSettings from "./tabs/sectionSettings/cards/CardsSettings";
+import useEditor from "@/store/editorStore";
 
 const EditorSidebar = () => {
-  const { selectedSection, updateContent, updateStyle, openSectionDesigns } =
-    useEditor();
+  const {
+    selectedSection,
+    openSectionDesigns,
+    openPallet,
+    handleSelectedPallet,
+  } = useEditor();
+
+  const themeMapping: Record<string, string> = {
+    "theme-rose": "Rose",
+    "theme-green": "Green",
+    "theme-orange": "Orange",
+    "default-theme": "default",
+  };
 
   return (
-    <div>
-      {!openSectionDesigns ? (
-        selectedSection?.sectionName === "Banner" ? (
-          <BannerSettings />
-        ) : selectedSection?.sectionName === "Cards" ? (
-          <CardsSettings />
-        ) : null
+    <div className="overflow-auto">
+      {openSectionDesigns ? (
+        <ChooseSection />
+      ) : selectedSection?.sectionName === "Banner" ? (
+        <BannerSettings />
+      ) : selectedSection?.sectionName === "Cards" ? (
+        <CardsSettings />
       ) : null}
-      {openSectionDesigns && <ChooseSection />}
+
+      {openPallet && (
+        <div className="overflow-y-auto h-screen pb-20">
+          <div className="grid grid-cols-2 gap-2">
+            {Object.entries(themeMapping).map(([key, value]) => (
+              <div key={key} className={key}>
+                <div
+                  className="bg-primary h-12"
+                  onClick={() => handleSelectedPallet(key)}
+                >
+                  {value}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
