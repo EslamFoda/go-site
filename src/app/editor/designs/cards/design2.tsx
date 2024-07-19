@@ -64,13 +64,16 @@ function Design2({
   );
 
   const cardClassNames = cn(
-    "flex flex-col  gap-2 rounded-md relative",
+    "flex flex-col  gap-2 rounded-md relative p-5",
     cardStyle.designSettings.cardBackground && "bg-muted p-5",
-    cardStyle.designSettings.cardBorder && "border border-muted p-5",
+    cardStyle.designSettings.cardBorder && "border border-muted",
     bgMuted && "bg-background",
     cardStyle.designSettings.layoutV2 === "top" && "justify-start",
     cardStyle.designSettings.layoutV2 === "center" && "justify-center",
-    cardStyle.designSettings.layoutV2 === "bottom" && "justify-end"
+    cardStyle.designSettings.layoutV2 === "bottom" && "justify-end",
+    !cardStyle.designSettings.cardBackground &&
+      !cardStyle.designSettings.cardBorder &&
+      "bg-muted"
   );
 
   const imagePlaceholderClassNames = cn(
@@ -113,6 +116,16 @@ function Design2({
       : ""
   );
 
+  const cardContentClasses = cn(
+    "z-10 rounded-md p-5 ",
+    !cardStyle.designSettings.cardBackground &&
+      !cardStyle.designSettings.cardBorder
+      ? "bg-background"
+      : "bg-muted",
+    cardStyle.designSettings.cardBorder && "bg-muted",
+    cardStyle.designSettings.cardBackground && "bg-background"
+  );
+
   return (
     <section className={sectionBgClassName}>
       <div
@@ -144,7 +157,7 @@ function Design2({
                     handleSelectedItem(card);
                   }}
                 >
-                  <div className="bg-background rounded-md p-5">
+                  <div className={cardContentClasses}>
                     <h5 className={titleClassName}>{card.title}</h5>
                     <p className={textOrderClassName}>{card.text}</p>
                   </div>
