@@ -37,6 +37,7 @@ export interface CardStyle {
     image: boolean;
     cardBackground: boolean;
     cardBorder: boolean;
+    glassEffect: boolean;
     leftTitlePosition: boolean;
     button: boolean;
     cardSlider: {

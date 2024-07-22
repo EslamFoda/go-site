@@ -140,15 +140,29 @@ function CardsSettings() {
           <ColorSelector
             selectedColor={cardStyle.designSettings.sectionBackground.color}
             handleChangeColor={(color) => {
-              updateStyle(findSelectedSection?.id!, {
-                designSettings: {
-                  ...cardStyle.designSettings!,
-                  sectionBackground: {
-                    ...cardStyle.designSettings.sectionBackground,
-                    color,
+              if (color === "none") {
+                updateStyle(findSelectedSection?.id!, {
+                  designSettings: {
+                    ...cardStyle.designSettings!,
+                    sectionBackground: {
+                      ...cardStyle.designSettings.sectionBackground,
+                      color,
+                    },
                   },
-                },
-              });
+                });
+              } else {
+                updateStyle(findSelectedSection?.id!, {
+                  designSettings: {
+                    ...cardStyle.designSettings!,
+                    cardBackground: true,
+                    cardBorder: false,
+                    sectionBackground: {
+                      ...cardStyle.designSettings.sectionBackground,
+                      color,
+                    },
+                  },
+                });
+              }
             }}
           />
           <div className="space-y-1 flex items-center justify-between">
@@ -215,8 +229,7 @@ function CardsSettings() {
                     });
                   }}
                   className={`${
-                    cardStyle.designSettings.sectionBackground.align ===
-                    "start"
+                    cardStyle.designSettings.sectionBackground.align === "start"
                       ? "bg-muted-bg"
                       : ""
                   } flex items-center justify-center cursor-pointer w-full`}

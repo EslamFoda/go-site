@@ -52,7 +52,7 @@ function ChooseSection() {
           sectionBackground: {
             color: "none",
             media: "",
-            height: "100%",
+            height: "fit",
             width: "100%",
             spacing: "xl",
           },
@@ -132,7 +132,7 @@ function ChooseSection() {
           sectionBackground: {
             color: "none",
             media: "",
-            height: "100%",
+            height: "fit",
             spacing: "l",
           },
         },

@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { Card, CardStyle } from "@/types/sectionsTypes/cards";
+import useEditor from "@/store/editorStore";
+import { useTheme } from "next-themes";
 
 interface DesignProps {
   section: any;
@@ -24,8 +26,13 @@ function Design2({
   handleSelectedItem,
 }: DesignProps) {
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
+  const { selectedPallet } = useEditor();
+  const { theme } = useTheme();
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
+  const dynamicTextColor =
+    selectedPallet === "default-theme" &&
+    section.style.designSettings.sectionBackground.color === "primary";
   const cardStyle = section?.style as CardStyle;
   const autoScroll = cardStyle?.designSettings?.cardSlider?.autoScroll;
   const scrollSpeed = cardStyle?.designSettings?.cardSlider?.scrollSpeed;
@@ -40,6 +47,13 @@ function Design2({
         }),
       ]
     : [];
+  const titleAndSubtitleClassName = cn(
+    dynamicTextColor && "text-textColor",
+    theme === "light" &&
+      selectedPallet === "default-theme" &&
+      section.style.designSettings.sectionBackground.color === "primary" &&
+      "text-white"
+  );
 
   const titleClassName = cn(
     cardStyle.designSettings.titleSize === "s" && "text-sm font-medium",
@@ -64,9 +78,7 @@ function Design2({
   );
 
   const cardClassNames = cn(
-    "flex flex-col  gap-2 rounded-md relative p-5",
-    cardStyle.designSettings.cardBackground && "bg-muted p-5",
-    cardStyle.designSettings.cardBorder && "border border-muted",
+    "flex flex-col  gap-2 rounded-md relative p-5 bg-muted p-5",
     bgMuted && "bg-background",
     cardStyle.designSettings.layoutV2 === "top" && "justify-start",
     cardStyle.designSettings.layoutV2 === "center" && "justify-center",
@@ -77,9 +89,7 @@ function Design2({
   );
 
   const imagePlaceholderClassNames = cn(
-    "w-full flex justify-center items-center rounded-md",
-    cardStyle.designSettings.cardBackground ? "bg-background" : "bg-muted",
-    bgMuted && "bg-muted"
+    " absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
   );
 
   const containerClassNames = cn(
@@ -90,40 +100,33 @@ function Design2({
 
   const sectionBgClassName = cn(
     " flex flex-col",
-    section.style.designSettings.sectionBackground.color === "primary"
-      ? "bg-primary"
-      : "",
-    section.style.designSettings.sectionBackground.color === "gray"
-      ? "bg-muted"
-      : "",
-    section.style.designSettings.sectionBackground.color === "none"
-      ? "bg-none"
-      : "",
-    section.style.designSettings.sectionBackground.height === "fill"
-      ? "h-screen"
-      : "",
-    section.style.designSettings.sectionBackground.height === "fit"
-      ? "h-auto"
-      : "",
-    section.style.designSettings.sectionBackground.align === "start"
-      ? "justify-start"
-      : "",
-    section.style.designSettings.sectionBackground.align === "center"
-      ? "justify-center"
-      : "",
-    section.style.designSettings.sectionBackground.align === "end"
-      ? "justify-end"
-      : ""
+    section.style.designSettings.sectionBackground.color === "primary" &&
+      "bg-primary",
+    section.style.designSettings.sectionBackground.color === "gray" &&
+      "bg-muted",
+    section.style.designSettings.sectionBackground.color === "none" &&
+      "bg-none",
+    section.style.designSettings.sectionBackground.height === "fill" &&
+      "h-screen",
+    section.style.designSettings.sectionBackground.height === "fit" && "h-auto",
+    section.style.designSettings.sectionBackground.align === "start" &&
+      "justify-start",
+    section.style.designSettings.sectionBackground.align === "center" &&
+      "justify-center",
+    section.style.designSettings.sectionBackground.align === "end" &&
+      "justify-end"
   );
 
   const cardContentClasses = cn(
-    "z-10 rounded-md p-5 ",
-    !cardStyle.designSettings.cardBackground &&
-      !cardStyle.designSettings.cardBorder
-      ? "bg-background"
-      : "bg-muted",
-    cardStyle.designSettings.cardBorder && "bg-muted",
-    cardStyle.designSettings.cardBackground && "bg-background"
+    "z-10 rounded-md p-5",
+    cardStyle.designSettings.glassEffect &&
+      bgMuted &&
+      "bg-muted/30  backdrop-blur-lg",
+    cardStyle.designSettings.glassEffect &&
+      !bgMuted &&
+      "bg-background/30 backdrop-blur-lg",
+    !cardStyle.designSettings.glassEffect && bgMuted && "bg-muted",
+    !cardStyle.designSettings.glassEffect && !bgMuted && "bg-background"
   );
 
   return (
@@ -136,7 +139,7 @@ function Design2({
         }}
       >
         <div className={containerClassNames}>
-          <div>
+          <div className={titleAndSubtitleClassName}>
             <h1 className="text-4xl">{section.content.title}</h1>
             <p>{section.content.subtitle}</p>
           </div>
@@ -148,7 +151,9 @@ function Design2({
                     minHeight: isDesktop
                       ? cardStyle.designSettings.height.desktop
                       : cardStyle.designSettings.height.mobile,
-                    // backgroundImage: `url(${card.image})`,
+                    backgroundImage: `url(${card.image})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
                   }}
                   key={index}
                   className={cardClassNames}
@@ -161,9 +166,13 @@ function Design2({
                     <h5 className={titleClassName}>{card.title}</h5>
                     <p className={textOrderClassName}>{card.text}</p>
                   </div>
-                  <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-                    <ImagePlaceHolder />
-                  </div>
+                  {!card.image && (
+                    <div className={imagePlaceholderClassNames}>
+                      <ImagePlaceHolder
+                        fillColor={bgMuted ? "fill-muted" : "fill-background"}
+                      />
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -188,54 +197,32 @@ function Design2({
                     }}
                   >
                     <div
+                      style={{
+                        minHeight: isDesktop
+                          ? cardStyle.designSettings.height.desktop
+                          : cardStyle.designSettings.height.mobile,
+                        backgroundImage: `url(${card.image})`,
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                      }}
                       key={index}
-                      className={cardClassNames + " h-full"}
+                      className={cardClassNames}
                       onClick={(e) => {
                         e.stopPropagation();
                         handleSelectedItem(card);
                       }}
                     >
-                      <h5 className={titleClassName}>{card.title}</h5>
-                      <p className={textOrderClassName}>{card.text}</p>
-                      {cardStyle.designSettings.image && (
-                        <div>
-                          {card.image.length ? (
-                            <div
-                              className="relative w-full rounded-md"
-                              style={{
-                                height: isDesktop
-                                  ? cardStyle.designSettings.height.desktop
-                                  : cardStyle.designSettings.height.mobile,
-                                // backgroundImage: `url(${card.image})`,
-                              }}
-                            >
-                              <Image
-                                alt={card.image}
-                                src={card.image}
-                                fill
-                                objectFit="cover"
-                              />
-                            </div>
-                          ) : (
-                            <div
-                              style={{
-                                height: isDesktop
-                                  ? cardStyle.designSettings.height.desktop
-                                  : cardStyle.designSettings.height.mobile,
-                                // backgroundImage: `url(${card.image})`,
-                              }}
-                              className={imagePlaceholderClassNames}
-                            >
-                              <ImagePlaceHolder
-                                fillColor={
-                                  cardStyle.designSettings.cardBackground &&
-                                  !bgMuted
-                                    ? "fill-muted"
-                                    : "fill-background"
-                                }
-                              />
-                            </div>
-                          )}
+                      <div className={cardContentClasses}>
+                        <h5 className={titleClassName}>{card.title}</h5>
+                        <p className={textOrderClassName}>{card.text}</p>
+                      </div>
+                      {!card.image && (
+                        <div className={imagePlaceholderClassNames}>
+                          <ImagePlaceHolder
+                            fillColor={
+                              bgMuted ? "fill-muted" : "fill-background"
+                            }
+                          />
                         </div>
                       )}
                     </div>

@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { Card, CardStyle } from "@/types/sectionsTypes/cards";
+import useEditor from "@/store/editorStore";
+import { useTheme } from "next-themes";
 
 interface DesignProps {
   section: any;
@@ -24,8 +26,13 @@ function Design1({
   handleSelectedItem,
 }: DesignProps) {
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
+  const { selectedPallet } = useEditor();
+  const { theme } = useTheme();
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
+  const dynamicTextColor =
+    selectedPallet === "default-theme" &&
+    section.style.designSettings.sectionBackground.color === "primary";
   const cardStyle = section?.style as CardStyle;
   const autoScroll = cardStyle?.designSettings?.cardSlider?.autoScroll;
   const scrollSpeed = cardStyle?.designSettings?.cardSlider?.scrollSpeed;
@@ -40,6 +47,15 @@ function Design1({
         }),
       ]
     : [];
+
+  const titleAndSubtitleClassName = cn(
+    dynamicTextColor && "text-textColor",
+    theme === "light" &&
+      selectedPallet === "default-theme" &&
+      section.style.designSettings.sectionBackground.color === "primary" &&
+      "text-white"
+    // theme === "dark" && selectedPallet === "default-theme" && "text-black"
+  );
 
   const imageOrderClassName = cn(
     cardStyle.designSettings.layout === "top" && "order-1",
@@ -133,7 +149,7 @@ function Design1({
         }}
       >
         <div className={containerClassNames}>
-          <div>
+          <div className={titleAndSubtitleClassName}>
             <h1 className="text-4xl">{section.content.title}</h1>
             <p>{section.content.subtitle}</p>
           </div>
@@ -255,7 +271,8 @@ function Design1({
                             >
                               <ImagePlaceHolder
                                 fillColor={
-                                  cardStyle.designSettings.cardBackground && !bgMuted
+                                  cardStyle.designSettings.cardBackground &&
+                                  !bgMuted
                                     ? "fill-muted"
                                     : "fill-background"
                                 }

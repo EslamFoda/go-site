@@ -255,44 +255,61 @@ function CardStyleTab({
             })
           }
         />
-        <SwitchSetting
-          label="Image"
-          defaultChecked={cardStyle.designSettings?.image}
-          onCheckedChange={(value) => {
-            updateStyle(findSelectedSection?.id!, {
-              designSettings: {
-                ...cardStyle.designSettings!,
-                image: value,
-              },
-            });
-          }}
-        />
-        <SwitchSetting
-          label="Background"
-          defaultChecked={cardStyle.designSettings.cardBackground}
-          onCheckedChange={(value) => {
-            updateStyle(findSelectedSection?.id!, {
-              designSettings: {
-                ...cardStyle.designSettings!,
-                cardBackground: value,
-                cardBorder: false,
-              },
-            });
-          }}
-        />
-        <SwitchSetting
-          label="Border"
-          defaultChecked={cardStyle.designSettings.cardBorder}
-          onCheckedChange={(value) =>
-            updateStyle(findSelectedSection?.id!, {
-              designSettings: {
-                ...cardStyle.designSettings!,
-                cardBorder: value,
-                cardBackground: false,
-              },
-            })
-          }
-        />
+        {findSelectedSection.style.designName === "design1" ? (
+          <>
+            <SwitchSetting
+              label="Image"
+              defaultChecked={cardStyle.designSettings?.image}
+              onCheckedChange={(value) => {
+                updateStyle(findSelectedSection?.id!, {
+                  designSettings: {
+                    ...cardStyle.designSettings!,
+                    image: value,
+                  },
+                });
+              }}
+            />
+            <SwitchSetting
+              label="Background"
+              defaultChecked={cardStyle.designSettings.cardBackground}
+              onCheckedChange={(value) => {
+                updateStyle(findSelectedSection?.id!, {
+                  designSettings: {
+                    ...cardStyle.designSettings!,
+                    cardBackground: value,
+                    cardBorder: false,
+                  },
+                });
+              }}
+            />
+            <SwitchSetting
+              label="Border"
+              defaultChecked={cardStyle.designSettings.cardBorder}
+              onCheckedChange={(value) =>
+                updateStyle(findSelectedSection?.id!, {
+                  designSettings: {
+                    ...cardStyle.designSettings!,
+                    cardBorder: value,
+                    cardBackground: false,
+                  },
+                })
+              }
+            />
+          </>
+        ) : (
+          <SwitchSetting
+            label="Glass"
+            defaultChecked={cardStyle.designSettings.glassEffect}
+            onCheckedChange={(value) =>
+              updateStyle(findSelectedSection?.id!, {
+                designSettings: {
+                  ...cardStyle.designSettings!,
+                  glassEffect: value,
+                },
+              })
+            }
+          />
+        )}
 
         {cardStyle.designSettings.displayType === "carousel" && (
           <SwitchSetting
