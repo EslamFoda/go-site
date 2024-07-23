@@ -4,9 +4,10 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { ChevronRight, GripVertical, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card } from "@/types/sectionsTypes/cards";
+import { ListItem } from "@/types/sectionsTypes/list";
 interface DraggableListProps {
   label: string;
-  items: Card[];
+  items: Card[] | ListItem[];
   handleDragEnd: (result: any) => void;
   handleAdd: () => void;
   setSelectedItem?: any;

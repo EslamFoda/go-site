@@ -69,9 +69,8 @@ function ChooseSection() {
       sectionName: "Cards",
       content: {
         label: "",
-        title: "developer",
-        subtitle:
-          "Eslam** helps you build the best products for your customers. With our expertise and experience, we can help you take your ideas from concept to reality",
+        title: "Heading",
+        subtitle: "",
         cards: [
           {
             id: v4(),
@@ -129,6 +128,92 @@ function ChooseSection() {
             scrollSpeed: 2,
           },
           button: true,
+          sectionBackground: {
+            color: "none",
+            media: "",
+            height: "fit",
+            spacing: "l",
+          },
+        },
+      },
+    },
+    {
+      id: v4(),
+      sectionName: "List",
+      content: {
+        label: "",
+        title: "Heading",
+        subtitle: "",
+        type: "icon",
+        list: [
+          {
+            id: v4(),
+            title: "List 1",
+            text: "List 1 text",
+            icon: "",
+            link: "",
+          },
+          {
+            id: v4(),
+            title: "List 2",
+            text: "",
+            icon: "",
+            link: "",
+          },
+          {
+            id: v4(),
+            title: "List 3",
+            text: "",
+            icon: "",
+            link: "",
+          },
+          {
+            id: v4(),
+            title: "List 4",
+            text: "",
+            icon: "",
+            link: "",
+          },
+          {
+            id: v4(),
+            title: "List 5",
+            text: "",
+            icon: "",
+            link: "",
+          },
+          {
+            id: v4(),
+            title: "List 6",
+            text: "",
+            icon: "",
+            link: "",
+          },
+        ],
+      },
+      style: {
+        designName: "design1",
+        designSettings: {
+          layout: "row",
+          grid: {
+            desktop: 3,
+            mobile: 1,
+          },
+          height: 50,
+          shape: "square",
+          iconColor: "none",
+          textSize: "m",
+          align: "start",
+          icon: true,
+          background: true,
+          border: false,
+          leftTitlePosition: false,
+          displayType: "grid",
+          carouselSettings: {
+            desktopWidth: 200,
+            mobileWidth: 200,
+            autoScroll: false,
+            scrollSpeed: 2,
+          },
           sectionBackground: {
             color: "none",
             media: "",

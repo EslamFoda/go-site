@@ -1,9 +1,10 @@
 "use client";
 import React from "react";
-import BannerSettings from "./tabs/sectionSettings/banner/bannerSettings";
+import BannerSettings from "./tabs/sectionSettings/banner";
 import ChooseSection from "./tabs/chooseSection";
-import CardsSettings from "./tabs/sectionSettings/cards/CardsSettings";
+import CardsSettings from "./tabs/sectionSettings/cards";
 import useEditor from "@/store/editorStore";
+import ListSettings from "./tabs/sectionSettings/list";
 
 const EditorSidebar = () => {
   const {
@@ -28,6 +29,8 @@ const EditorSidebar = () => {
         <BannerSettings />
       ) : selectedSection?.sectionName === "Cards" ? (
         <CardsSettings />
+      ) : selectedSection?.sectionName === "List" ? (
+        <ListSettings />
       ) : null}
 
       {openPallet && (

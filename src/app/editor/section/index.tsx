@@ -2,6 +2,7 @@
 import React from "react";
 import Banner from "../designs/banner";
 import Cards from "../designs/cards";
+import List from "../designs/list";
 import AddSection from "./addSection";
 import useEditor, { EditorStore } from "@/store/editorStore";
 
@@ -9,8 +10,7 @@ const Section = () => {
   const editorState = useEditor((state: EditorStore) => state.editor);
   const { handleSelectedSection, closeSectionDesigns } = useEditor();
 
-  const sectionsMapper = { Banner: Banner, Cards: Cards };
-  console.log(editorState, "editorState");
+  const sectionsMapper = { Banner: Banner, Cards: Cards, List: List };
 
   return (
     <div>

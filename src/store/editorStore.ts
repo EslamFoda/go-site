@@ -1,17 +1,20 @@
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
 import { Card, CardStyle, CardsContent } from "@/types/sectionsTypes/cards";
+import { ListContent, ListItem, ListStyle } from "@/types/sectionsTypes/list";
 import { create, SetState } from "zustand";
 
 // Define all possible content types
 export type SectionContentTypes = {
   banner: BannerContent;
   cards: CardsContent;
+  list: ListContent;
   // Add more content types here as needed
 };
 
 export type SectionStyleTypes = {
   banner: BannerStyle;
   cards: CardStyle;
+  list: ListStyle;
 };
 
 // Define the type for a single editor section
@@ -38,12 +41,12 @@ export interface EditorStore {
     keyof SectionContentTypes,
     keyof SectionStyleTypes
   > | null;
-  selectedItem: Card | null;
+  selectedItem: Card | ListItem | null;
   openSectionDesigns: boolean;
   openPallet: boolean;
   selectedPallet: string;
   handleSelectedSection: (selectedSectionId: string) => void;
-  handleSelectedItem: (item: Card | null) => void;
+  handleSelectedItem: (item: Card | ListItem | null) => void;
   updateContent: (
     sectionId: string,
     newContent: Partial<SectionContentTypes[keyof SectionContentTypes]>
@@ -118,7 +121,7 @@ const useEditor = create<EditorStore>((set: SetState<EditorStore>) => ({
   selectedSection: null,
   selectedItem: null,
   sectionIndex: 0,
-  
+
   selectedPallet: "default-theme",
   openSectionDesigns: false,
   openPallet: false,
@@ -132,7 +135,7 @@ const useEditor = create<EditorStore>((set: SetState<EditorStore>) => ({
           (section) => section.id === selectedSectionId
         ) || null,
     })),
-  handleSelectedItem: (item: Card | null) =>
+  handleSelectedItem: (item: Card | ListItem | null) =>
     set((state) => ({ selectedItem: item })),
   updateContent: (
     sectionId: string,

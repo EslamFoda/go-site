@@ -78,12 +78,20 @@ export const JustifyEnd = () => {
   );
 };
 
-export const ImagePlaceHolder = ({ fillColor }: { fillColor?: string }) => {
+export const ImagePlaceHolder = ({
+  fillColor,
+  width = "50",
+  height = "45",
+}: {
+  fillColor?: string;
+  width?: string;
+  height?: string;
+}) => {
   const iconClassName = cn("", fillColor ? fillColor : "fill-background");
   return (
     <svg
-      width="50"
-      height="45"
+      width={width}
+      height={height}
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

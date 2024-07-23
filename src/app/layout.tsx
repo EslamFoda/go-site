@@ -85,7 +85,7 @@ export default function RootLayout({
                   <Triangle className="size-5 fill-foreground" />
                 </Button>
               </div>
-              <div x-chunk="dashboard-03-chunk-0">
+              <div x-chunk="dashboard-03-chunk-0" className="overflow-y-auto">
                 <EditorSidebar />
               </div>
             </aside>
