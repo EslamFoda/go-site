@@ -15,6 +15,7 @@ const Section = () => {
   return (
     <div>
       {editorState.sections.map((section, i) => {
+        console.log(section, "section");
         // @ts-ignore
         const Section = sectionsMapper[section.sectionName];
         return (

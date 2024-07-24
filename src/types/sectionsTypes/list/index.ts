@@ -38,15 +38,15 @@ interface DesignSettings {
   layout: "row" | "col";
   grid: GridSettings;
   height: number;
-  shape: string;
-  iconColor: string;
-  textSize: string;
+  shape: "square" | "rounded";
+  iconColor: "none" | "primary";
+  textSize: "s" | "m" | "l";
   align: string;
   icon: boolean;
   background: boolean;
   border: boolean;
   leftTitlePosition: boolean;
-  displayType: string;
+  displayType: "grid" | "carousel";
   carouselSettings: CarouselSettings;
   sectionBackground: SectionBackground;
 }

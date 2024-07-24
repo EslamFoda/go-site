@@ -80,12 +80,12 @@ export const JustifyEnd = () => {
 
 export const ImagePlaceHolder = ({
   fillColor,
-  width = "50",
-  height = "45",
+  width = 50,
+  height = 45,
 }: {
   fillColor?: string;
-  width?: string;
-  height?: string;
+  width?: number;
+  height?: number;
 }) => {
   const iconClassName = cn("", fillColor ? fillColor : "fill-background");
   return (

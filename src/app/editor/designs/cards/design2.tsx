@@ -159,6 +159,7 @@ function Design2({
                   className={cardClassNames}
                   onClick={(e) => {
                     e.stopPropagation();
+                    handleSelectedSection(section.id);
                     handleSelectedItem(card);
                   }}
                 >
@@ -209,6 +210,7 @@ function Design2({
                       className={cardClassNames}
                       onClick={(e) => {
                         e.stopPropagation();
+                        handleSelectedSection(section.id);
                         handleSelectedItem(card);
                       }}
                     >

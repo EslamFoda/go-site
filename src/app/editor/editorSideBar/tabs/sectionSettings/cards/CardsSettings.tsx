@@ -1,5 +1,5 @@
 import { Label } from "@/components/ui/label";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useEditor, {
   EditorSection,
@@ -35,6 +35,10 @@ function CardsSettings() {
   const cardItem = selectedItem as Card;
 
   const [items, setItems] = useState(cardsContent?.cards || []);
+
+  useEffect(() => {
+    setItems(cardsContent?.cards || []);
+  }, [cardsContent?.cards]);
 
   const handleDeleteCard = () => {
     const filterCards = items.filter((card) => card.id !== cardItem?.id);

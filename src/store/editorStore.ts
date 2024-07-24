@@ -44,6 +44,7 @@ export interface EditorStore {
   selectedItem: Card | ListItem | null;
   openSectionDesigns: boolean;
   openPallet: boolean;
+  chooseIcon: boolean;
   selectedPallet: string;
   handleSelectedSection: (selectedSectionId: string) => void;
   handleSelectedItem: (item: Card | ListItem | null) => void;
@@ -59,6 +60,8 @@ export interface EditorStore {
   handleOpenPallet: () => void;
   handleOpenSectionDesigns: () => void;
   closeSectionDesigns: () => void;
+  closeChooseIcon: () => void;
+  openChooseIcon: () => void;
   updateEditorSections: (
     sections: EditorSection<
       keyof SectionContentTypes,
@@ -121,7 +124,7 @@ const useEditor = create<EditorStore>((set: SetState<EditorStore>) => ({
   selectedSection: null,
   selectedItem: null,
   sectionIndex: 0,
-
+  chooseIcon: false,
   selectedPallet: "default-theme",
   openSectionDesigns: false,
   openPallet: false,
@@ -164,14 +167,16 @@ const useEditor = create<EditorStore>((set: SetState<EditorStore>) => ({
       },
     })),
   handleOpenPallet: () =>
-    set((state) => ({
+    set(() => ({
       openPallet: true,
       openSectionDesigns: false,
       selectedSection: null,
     })),
   handleOpenSectionDesigns: () =>
-    set((state) => ({ openSectionDesigns: true, openPallet: false })),
+    set(() => ({ openSectionDesigns: true, openPallet: false })),
   closeSectionDesigns: () => set(() => ({ openSectionDesigns: false })),
+  openChooseIcon: () => set(() => ({ chooseIcon: true })),
+  closeChooseIcon: () => set(() => ({ chooseIcon: false })),
   updateEditorSections: (
     sections: EditorSection<
       keyof SectionContentTypes,
@@ -182,7 +187,7 @@ const useEditor = create<EditorStore>((set: SetState<EditorStore>) => ({
       editor: { sections },
     })),
   handleSelectedSectionIndex: (sectionIndex: number) =>
-    set((state) => ({ sectionIndex })),
+    set(() => ({ sectionIndex })),
 }));
 
 export default useEditor;

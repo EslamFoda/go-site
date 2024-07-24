@@ -20,11 +20,13 @@ interface DesignProps {
   section: any;
   handleSelectedSection: (selectedSection: any) => void;
   handleSelectedItem: (item: ListItem | null) => void;
+  closeChooseIcon: () => void;
 }
 function Design1({
   section,
   handleSelectedSection,
   handleSelectedItem,
+  closeChooseIcon,
 }: DesignProps) {
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const { selectedPallet } = useEditor();
@@ -64,7 +66,7 @@ function Design1({
   );
   const textOrderClassName = cn("text-gray-400");
   const gridClassNames = cn(
-    "grid gap-5",
+    "grid gap-5 items-start",
     listStyle.designSettings.grid.desktop === 3 && "lg:grid-cols-3",
     listStyle.designSettings.grid.desktop === 2 && "lg:grid-cols-2",
     listStyle.designSettings.grid.desktop === 1 && "lg:grid-cols-1",
@@ -79,13 +81,27 @@ function Design1({
     listStyle.designSettings.align === "end" && "text-end"
   );
 
-  const cardClassNames = cn("flex gap-5 items-center rounded-md", {
+  const cardClassNames = cn("flex gap-5 gap-y-3  rounded-md", {
     "bg-muted p-5": listStyle.designSettings.background,
     "border border-muted p-5": listStyle.designSettings.border,
     "bg-background": bgMuted,
-    "flex-row": listStyle.designSettings.layout === "row",
+    "flex-row items-start": listStyle.designSettings.layout === "row",
     "flex-col": listStyle.designSettings.layout === "col",
   });
+
+  const listItemTextClassNames = cn("self-center", {
+    "self-start": listStyle.designSettings.layout === "col",
+  });
+
+  const iconContainerClassNames = cn(
+    "flex items-center justify-center shrink-0",
+    {
+      "rounded-md": listStyle.designSettings.shape === "square",
+      "rounded-full": listStyle.designSettings.shape === "rounded",
+      "bg-background": listStyle.designSettings.iconColor === "none",
+      "bg-primary": listStyle.designSettings.iconColor === "primary",
+    }
+  );
 
   const imagePlaceholderClassNames = cn(
     "w-full flex justify-center items-center rounded-md",
@@ -121,6 +137,7 @@ function Design1({
         onClick={() => {
           handleSelectedSection(section.id);
           handleSelectedItem(null);
+          closeChooseIcon();
         }}
       >
         <div className={containerClassNames}>
@@ -140,30 +157,31 @@ function Design1({
                     className={cardClassNames}
                     onClick={(e) => {
                       e.stopPropagation();
+                      handleSelectedSection(section.id);
                       handleSelectedItem(listItem);
+                      closeChooseIcon();
                     }}
                   >
                     <div
-                      onClick={() => {
-                        console.log(listItem, "listItem");
-                      }}
-                      className="bg-background flex items-center justify-center rounded-md"
+                      className={iconContainerClassNames}
                       style={{
                         height: listStyle.designSettings.height,
                         width: listStyle.designSettings.height,
                       }}
                     >
                       {listItem.icon ? (
-                        <ListIcon />
+                        <ListIcon
+                          size={listStyle.designSettings.height / 2.5}
+                        />
                       ) : (
                         <ImagePlaceHolder
                           fillColor="fill-muted"
-                          height="30"
-                          width="30"
+                          height={listStyle.designSettings.height / 2.5}
+                          width={listStyle.designSettings.height / 2.5}
                         />
                       )}
                     </div>
-                    <div>
+                    <div className={listItemTextClassNames}>
                       <h5 className={titleClassName}>{listItem.title}</h5>
                       <p className={textOrderClassName}>{listItem.text}</p>
                     </div>
@@ -181,70 +199,57 @@ function Design1({
               className="w-full"
             >
               <CarouselContent className="items-stretch">
-                {section.content.list.map((listItem: any, index: number) => (
-                  <CarouselItem
-                    className="h-full"
-                    key={index}
-                    style={{
-                      flexBasis: isDesktop
-                        ? listStyle.designSettings.carouselSettings.desktopWidth
-                        : listStyle.designSettings.carouselSettings.mobileWidth,
-                    }}
-                  >
-                    <div
+                {section.content.list.map((listItem: any, index: number) => {
+                  const ListIcon = PhosphorIcons[
+                    listItem.icon as keyof typeof PhosphorIcons
+                  ] as PhosphorIcons.Icon;
+                  return (
+                    <CarouselItem
+                      className="h-full"
                       key={index}
-                      className={cardClassNames + " h-full"}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleSelectedItem(listItem);
+                      style={{
+                        flexBasis: isDesktop
+                          ? listStyle.designSettings.carouselSettings
+                              .desktopWidth
+                          : listStyle.designSettings.carouselSettings
+                              .mobileWidth,
                       }}
                     >
-                      <h5 className={titleClassName}>{listItem.title}</h5>
-                      <p className={textOrderClassName}>{listItem.text}</p>
-                      {/* {cardStyle.designSettings.image && (
-                        <div className={imageOrderClassName}>
-                          {card.image.length ? (
-                            <div
-                              className="relative w-full rounded-md"
-                              style={{
-                                height: isDesktop
-                                  ? cardStyle.designSettings.height.desktop
-                                  : cardStyle.designSettings.height.mobile,
-                                // backgroundImage: `url(${card.image})`,
-                              }}
-                            >
-                              <Image
-                                alt={card.image}
-                                src={card.image}
-                                fill
-                                objectFit="cover"
-                              />
-                            </div>
+                      <div
+                        key={index}
+                        className={cardClassNames}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleSelectedSection(section.id);
+                          handleSelectedItem(listItem);
+                          closeChooseIcon();
+                        }}
+                      >
+                        <div
+                          className={iconContainerClassNames}
+                          style={{
+                            height: listStyle.designSettings.height,
+                            width: listStyle.designSettings.height,
+                          }}
+                        >
+                          {listItem.icon ? (
+                            <ListIcon />
                           ) : (
-                            <div
-                              style={{
-                                height: isDesktop
-                                  ? cardStyle.designSettings.height.desktop
-                                  : cardStyle.designSettings.height.mobile,
-                                // backgroundImage: `url(${card.image})`,
-                              }}
-                              className={imagePlaceholderClassNames}
-                            >
-                              <ImagePlaceHolder
-                                fillColor={
-                                  cardStyle.designSettings.cardBackground &&
-                                  !bgMuted
-                                    ? "fill-muted"
-                                    : "fill-background"
-                                }
-                              />
-                            </div>
+                            <ImagePlaceHolder
+                              fillColor="fill-muted"
+                              height={listStyle.designSettings.height / 2.5}
+                              width={listStyle.designSettings.height / 2.5}
+                            />
                           )}
                         </div>
-                      )} */}
-                    </div>
-                  </CarouselItem>
-                ))}
+                        <div className={listItemTextClassNames}>
+                          <h5 className={titleClassName}>{listItem.title}</h5>
+                          <p className={textOrderClassName}>{listItem.text}</p>
+                        </div>
+                      </div>
+                    </CarouselItem>
+                  );
+                })}
               </CarouselContent>
               <CarouselPrevious />
               <CarouselNext />

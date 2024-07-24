@@ -7,7 +7,7 @@ interface ListProps {
   handleSelectedSection: (selectedSection: any) => void;
 }
 function List({ section, handleSelectedSection }: ListProps) {
-  const { handleSelectedItem } = useEditor();
+  const { handleSelectedItem, closeChooseIcon } = useEditor();
   const designs = {
     design1: Design1,
   };
@@ -18,6 +18,7 @@ function List({ section, handleSelectedSection }: ListProps) {
       section={section}
       handleSelectedSection={handleSelectedSection}
       handleSelectedItem={handleSelectedItem}
+      closeChooseIcon={closeChooseIcon}
     />
   );
 }

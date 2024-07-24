@@ -1,5 +1,5 @@
 import { Label } from "@/components/ui/label";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useEditor, {
   EditorSection,
@@ -19,6 +19,7 @@ import {
 import { ListItem } from "@/types/sectionsTypes/list";
 import ListContentTab from "./listContentTab";
 import IconList from "./comps/iconList";
+import ListStyleTab from "./listStyleTab";
 
 function ListSettings() {
   const [tabValue, setTabValue] = useState("content");
@@ -30,6 +31,8 @@ function ListSettings() {
     handleSelectedItem,
     updateStyle,
     editor,
+    chooseIcon,
+    openChooseIcon,
   } = useEditor();
   const findSelectedSection = editor.sections.find(
     (section) => section.id === selectedSection?.id
@@ -39,8 +42,12 @@ function ListSettings() {
     findSelectedSection?.content as SectionContentTypes["list"];
   const listStyle = findSelectedSection?.style as SectionStyleTypes["list"];
   const selectedListItem = selectedItem as ListItem;
-  const [chooseIcon, setChooseIcon] = useState(false);
+
   const [items, setItems] = useState(listContent?.list || []);
+
+  useEffect(() => {
+    setItems(listContent?.list || []);
+  }, [listContent?.list]);
 
   const handleDeleteCard = () => {
     const filterList = items.filter((list) => list.id !== selectedListItem?.id);
@@ -89,7 +96,12 @@ function ListSettings() {
   };
 
   if (chooseIcon) {
-    return <IconList handlePropertyChange={handlePropertyChange} />;
+    return (
+      <IconList
+        handlePropertyChange={handlePropertyChange}
+        selectedListItem={selectedListItem}
+      />
+    );
   }
   if (selectedListItem)
     return (
@@ -125,7 +137,7 @@ function ListSettings() {
           />
 
           <div
-            onClick={() => setChooseIcon(true)}
+            onClick={() => openChooseIcon()}
             className="space-y-1 cursor-pointer flex items-center justify-between"
           >
             <Label htmlFor="title">Icon</Label>
@@ -133,8 +145,8 @@ function ListSettings() {
               <div className=" basis-4/5 flex items-center justify-center h-full">
                 <ImagePlaceHolder
                   fillColor="fill-muted"
-                  width="20"
-                  height="20"
+                  width={20}
+                  height={20}
                 />
               </div>
               <div className=" flex items-center border-s justify-center basis-1/5 h-full ">
@@ -319,12 +331,12 @@ function ListSettings() {
           items={items}
           setItems={setItems}
         />
-        {/* <CardsStyleTab
-          cardStyle={cardStyle}
-          cardsContent={cardsContent}
+        <ListStyleTab
+          listStyle={listStyle}
+          listContent={listContent}
           findSelectedSection={findSelectedSection}
           setSectionBgOpened={setSectionBgOpened}
-        /> */}
+        />
       </Tabs>
     </div>
   );

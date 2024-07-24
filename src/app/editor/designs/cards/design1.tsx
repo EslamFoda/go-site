@@ -161,6 +161,7 @@ function Design1({
                   className={cardClassNames}
                   onClick={(e) => {
                     e.stopPropagation();
+                    handleSelectedSection(section.id);
                     handleSelectedItem(card);
                   }}
                 >
@@ -235,6 +236,7 @@ function Design1({
                       className={cardClassNames + " h-full"}
                       onClick={(e) => {
                         e.stopPropagation();
+                        handleSelectedSection(section.id);
                         handleSelectedItem(card);
                       }}
                     >
