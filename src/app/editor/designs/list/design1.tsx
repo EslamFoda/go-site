@@ -11,25 +11,23 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
-import useEditor from "@/store/editorStore";
 import { useTheme } from "next-themes";
-import { ListItem, ListStyle } from "@/types/sectionsTypes/list";
+import { ListStyle } from "@/types/sectionsTypes/list";
 import * as PhosphorIcons from "@phosphor-icons/react";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import {
+  closeChooseIcon,
+  updateSelectedItem,
+  updateSelectedSection,
+} from "@/reduxStore/action";
 
 interface DesignProps {
   section: any;
-  handleSelectedSection: (selectedSection: any) => void;
-  handleSelectedItem: (item: ListItem | null) => void;
-  closeChooseIcon: () => void;
 }
-function Design1({
-  section,
-  handleSelectedSection,
-  handleSelectedItem,
-  closeChooseIcon,
-}: DesignProps) {
+function Design1({ section }: DesignProps) {
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
-  const { selectedPallet } = useEditor();
+  const dispatch = useAppDispatch();
+  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
   const { theme } = useTheme();
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
@@ -42,7 +40,7 @@ function Design1({
   const autoScrollPlugin = autoScroll
     ? [
         AutoScroll({
-          delay: 3000,
+          startDelay: 3000,
           stopOnMouseEnter: true,
           stopOnInteraction: false,
           playOnInit: true,
@@ -135,9 +133,9 @@ function Design1({
       <div
         className={alignClassNames}
         onClick={() => {
-          handleSelectedSection(section.id);
-          handleSelectedItem(null);
-          closeChooseIcon();
+          dispatch(updateSelectedSection(section.id));
+          dispatch(updateSelectedItem(null));
+          dispatch(closeChooseIcon());
         }}
       >
         <div className={containerClassNames}>
@@ -157,9 +155,9 @@ function Design1({
                     className={cardClassNames}
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleSelectedSection(section.id);
-                      handleSelectedItem(listItem);
-                      closeChooseIcon();
+                      dispatch(updateSelectedSection(section.id));
+                      dispatch(updateSelectedItem(listItem));
+                      dispatch(closeChooseIcon());
                     }}
                   >
                     <div
@@ -220,9 +218,9 @@ function Design1({
                         className={cardClassNames}
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleSelectedSection(section.id);
-                          handleSelectedItem(listItem);
-                          closeChooseIcon();
+                          dispatch(updateSelectedSection(section.id));
+                          dispatch(updateSelectedItem(listItem));
+                          dispatch(closeChooseIcon());
                         }}
                       >
                         <div

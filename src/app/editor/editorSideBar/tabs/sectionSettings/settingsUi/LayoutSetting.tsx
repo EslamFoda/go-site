@@ -1,15 +1,25 @@
+import { Label } from "@/components/ui/label";
+import React from "react";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
-} from "@/store/editorStore";
-import { Label } from "@/components/ui/label";
-import React from "react";
+} from "@/reduxStore/types";
+import { BannerStyle } from "@/types/sectionsTypes/banner";
+import { CardStyle } from "@/types/sectionsTypes/cards";
+import { ListStyle } from "@/types/sectionsTypes/list";
 interface AlignProps {
   updateStyle: (
     sectionId: string,
     newStyle: Partial<SectionStyleTypes[keyof SectionStyleTypes]>
-  ) => void;
+  ) => {
+    type: string;
+    payload: {
+      sectionId: string;
+      newStyle: Partial<BannerStyle | CardStyle | ListStyle>;
+    };
+  };
   findSelectedSection: EditorSection<
     keyof SectionContentTypes,
     keyof SectionStyleTypes
@@ -21,6 +31,7 @@ function LayoutSetting({
   findSelectedSection,
   layoutV2 = false,
 }: AlignProps) {
+  const dispatch = useAppDispatch();
   const layoutOptions = [
     {
       align: layoutV2 ? "bottom" : "top",
@@ -43,19 +54,23 @@ function LayoutSetting({
             key={align}
             onClick={() => {
               if (layoutV2) {
-                updateStyle(findSelectedSection.id, {
-                  designSettings: {
-                    ...selectedSectionStyles.designSettings,
-                    layoutV2: align as "top" | "center" | "bottom",
-                  },
-                });
+                dispatch(
+                  updateStyle(findSelectedSection.id, {
+                    designSettings: {
+                      ...selectedSectionStyles.designSettings,
+                      layoutV2: align as "top" | "center" | "bottom",
+                    },
+                  })
+                );
               } else {
-                updateStyle(findSelectedSection.id, {
-                  designSettings: {
-                    ...selectedSectionStyles.designSettings,
-                    layout: align as "top" | "center" | "bottom",
-                  },
-                });
+                dispatch(
+                  updateStyle(findSelectedSection.id, {
+                    designSettings: {
+                      ...selectedSectionStyles.designSettings,
+                      layout: align as "top" | "center" | "bottom",
+                    },
+                  })
+                );
               }
             }}
             className={`${

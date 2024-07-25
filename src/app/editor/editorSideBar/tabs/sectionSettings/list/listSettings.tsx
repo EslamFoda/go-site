@@ -1,11 +1,6 @@
 import { Label } from "@/components/ui/label";
 import React, { useEffect, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import useEditor, {
-  EditorSection,
-  SectionContentTypes,
-  SectionStyleTypes,
-} from "@/store/editorStore";
 import { ArrowUpFromLine, ChevronLeft, Trash2 } from "lucide-react";
 import EditText from "../settingsUi/EditText";
 
@@ -20,20 +15,30 @@ import { ListItem } from "@/types/sectionsTypes/list";
 import ListContentTab from "./listContentTab";
 import IconList from "./comps/iconList";
 import ListStyleTab from "./listStyleTab";
+import {
+  EditorSection,
+  SectionContentTypes,
+  SectionStyleTypes,
+} from "@/reduxStore/types";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import {
+  openChooseIcon,
+  updateContent,
+  updateSelectedItem,
+  updateStyle,
+} from "@/reduxStore/action";
 
 function ListSettings() {
   const [tabValue, setTabValue] = useState("content");
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
-  const {
-    selectedSection,
-    selectedItem,
-    updateContent,
-    handleSelectedItem,
-    updateStyle,
-    editor,
-    chooseIcon,
-    openChooseIcon,
-  } = useEditor();
+  const dispatch = useAppDispatch();
+  const editor = useAppSelector((state) => state.editor.editor);
+  const selectedSection = useAppSelector(
+    (state) => state.editor.selectedSection
+  );
+  const selectedItem = useAppSelector((state) => state.editor.selectedItem);
+  const chooseIcon = useAppSelector((state) => state.editor.chooseIcon);
+
   const findSelectedSection = editor.sections.find(
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
@@ -52,15 +57,17 @@ function ListSettings() {
   const handleDeleteCard = () => {
     const filterList = items.filter((list) => list.id !== selectedListItem?.id);
     setItems(filterList);
-    updateContent(findSelectedSection.id, { list: filterList });
-    handleSelectedItem(null);
+    dispatch(updateContent(findSelectedSection.id, { list: filterList }));
+    dispatch(updateSelectedItem(null));
     if (listContent.list.length <= 5) {
-      updateStyle(findSelectedSection?.id!, {
-        designSettings: {
-          ...listStyle.designSettings,
-          displayType: "grid",
-        },
-      });
+      dispatch(
+        updateStyle(findSelectedSection?.id!, {
+          designSettings: {
+            ...listStyle.designSettings,
+            displayType: "grid",
+          },
+        })
+      );
     }
   };
 
@@ -92,7 +99,7 @@ function ListSettings() {
       propertyValue
     ) as ListItem[];
     setItems(updatedItems);
-    updateContent(findSelectedSection.id, { list: updatedItems });
+    dispatch(updateContent(findSelectedSection.id, { list: updatedItems }));
   };
 
   if (chooseIcon) {
@@ -109,7 +116,7 @@ function ListSettings() {
         <div
           className="flex justify-between p-5 items-center gap-4  border-b-[1px] border-b-muted-bg mb-3"
           onClick={() => {
-            handleSelectedItem(null);
+            dispatch(updateSelectedItem(null));
           }}
         >
           <div className="flex gap-4 items-center cursor-pointer">
@@ -137,7 +144,7 @@ function ListSettings() {
           />
 
           <div
-            onClick={() => openChooseIcon()}
+            onClick={() => dispatch(openChooseIcon())}
             className="space-y-1 cursor-pointer flex items-center justify-between"
           >
             <Label htmlFor="title">Icon</Label>
@@ -175,27 +182,31 @@ function ListSettings() {
             selectedColor={listStyle.designSettings.sectionBackground.color}
             handleChangeColor={(color) => {
               if (color === "none") {
-                updateStyle(findSelectedSection?.id!, {
-                  designSettings: {
-                    ...listStyle.designSettings!,
-                    sectionBackground: {
-                      ...listStyle.designSettings.sectionBackground,
-                      color,
+                dispatch(
+                  updateStyle(findSelectedSection?.id!, {
+                    designSettings: {
+                      ...listStyle.designSettings!,
+                      sectionBackground: {
+                        ...listStyle.designSettings.sectionBackground,
+                        color,
+                      },
                     },
-                  },
-                });
+                  })
+                );
               } else {
-                updateStyle(findSelectedSection?.id!, {
-                  designSettings: {
-                    ...listStyle.designSettings!,
-                    background: true,
-                    border: false,
-                    sectionBackground: {
-                      ...listStyle.designSettings.sectionBackground,
-                      color,
+                dispatch(
+                  updateStyle(findSelectedSection?.id!, {
+                    designSettings: {
+                      ...listStyle.designSettings!,
+                      background: true,
+                      border: false,
+                      sectionBackground: {
+                        ...listStyle.designSettings.sectionBackground,
+                        color,
+                      },
                     },
-                  },
-                });
+                  })
+                );
               }
             }}
           />
@@ -204,16 +215,18 @@ function ListSettings() {
             <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
               <div
                 onClick={() => {
-                  updateStyle(findSelectedSection?.id!, {
-                    designSettings: {
-                      ...listStyle.designSettings!,
-                      sectionBackground: {
-                        ...listStyle.designSettings.sectionBackground,
-                        height: "fill",
-                        align: "center",
+                  dispatch(
+                    updateStyle(findSelectedSection?.id!, {
+                      designSettings: {
+                        ...listStyle.designSettings!,
+                        sectionBackground: {
+                          ...listStyle.designSettings.sectionBackground,
+                          height: "fill",
+                          align: "center",
+                        },
                       },
-                    },
-                  });
+                    })
+                  );
                 }}
                 className={`${
                   listStyle.designSettings.sectionBackground.height === "fill"
@@ -225,16 +238,18 @@ function ListSettings() {
               </div>
               <div
                 onClick={() => {
-                  updateStyle(findSelectedSection?.id!, {
-                    designSettings: {
-                      ...listStyle.designSettings!,
-                      sectionBackground: {
-                        ...listStyle.designSettings.sectionBackground,
-                        height: "fit",
-                        align: "center",
+                  dispatch(
+                    updateStyle(findSelectedSection?.id!, {
+                      designSettings: {
+                        ...listStyle.designSettings!,
+                        sectionBackground: {
+                          ...listStyle.designSettings.sectionBackground,
+                          height: "fit",
+                          align: "center",
+                        },
                       },
-                    },
-                  });
+                    })
+                  );
                 }}
                 className={`${
                   listStyle.designSettings.sectionBackground.height === "fit"
@@ -252,15 +267,17 @@ function ListSettings() {
               <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
                 <div
                   onClick={() => {
-                    updateStyle(findSelectedSection?.id!, {
-                      designSettings: {
-                        ...listStyle.designSettings!,
-                        sectionBackground: {
-                          ...listStyle.designSettings.sectionBackground,
-                          align: "start",
+                    dispatch(
+                      updateStyle(findSelectedSection?.id!, {
+                        designSettings: {
+                          ...listStyle.designSettings!,
+                          sectionBackground: {
+                            ...listStyle.designSettings.sectionBackground,
+                            align: "start",
+                          },
                         },
-                      },
-                    });
+                      })
+                    );
                   }}
                   className={`${
                     listStyle.designSettings.sectionBackground.align === "start"
@@ -272,15 +289,17 @@ function ListSettings() {
                 </div>
                 <div
                   onClick={() => {
-                    updateStyle(findSelectedSection?.id!, {
-                      designSettings: {
-                        ...listStyle.designSettings!,
-                        sectionBackground: {
-                          ...listStyle.designSettings.sectionBackground,
-                          align: "center",
+                    dispatch(
+                      updateStyle(findSelectedSection?.id!, {
+                        designSettings: {
+                          ...listStyle.designSettings!,
+                          sectionBackground: {
+                            ...listStyle.designSettings.sectionBackground,
+                            align: "center",
+                          },
                         },
-                      },
-                    });
+                      })
+                    );
                   }}
                   className={`${
                     listStyle.designSettings.sectionBackground.align ===
@@ -293,15 +312,17 @@ function ListSettings() {
                 </div>
                 <div
                   onClick={() => {
-                    updateStyle(findSelectedSection?.id!, {
-                      designSettings: {
-                        ...listStyle.designSettings!,
-                        sectionBackground: {
-                          ...listStyle.designSettings.sectionBackground,
-                          align: "end",
+                    dispatch(
+                      updateStyle(findSelectedSection?.id!, {
+                        designSettings: {
+                          ...listStyle.designSettings!,
+                          sectionBackground: {
+                            ...listStyle.designSettings.sectionBackground,
+                            align: "end",
+                          },
                         },
-                      },
-                    });
+                      })
+                    );
                   }}
                   className={`${
                     listStyle.designSettings.sectionBackground.align === "end"

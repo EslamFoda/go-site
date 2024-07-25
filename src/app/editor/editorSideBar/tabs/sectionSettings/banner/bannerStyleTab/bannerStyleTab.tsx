@@ -8,11 +8,6 @@ import {
   SixthDesign,
   ThirdDesign,
 } from "@/icons/banner";
-import useEditor, {
-  EditorSection,
-  SectionContentTypes,
-  SectionStyleTypes,
-} from "@/store/editorStore";
 import React from "react";
 import ColorSelector from "../../settingsUi/ColorSelector";
 import TitleSize from "../../settingsUi/TitleSizes";
@@ -21,6 +16,13 @@ import Align from "../../settingsUi/Align";
 import SwitchSetting from "../../settingsUi/SwitchSetting";
 import { ChevronRightIcon } from "lucide-react";
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
+import {
+  EditorSection,
+  SectionContentTypes,
+  SectionStyleTypes,
+} from "@/reduxStore/types";
+import { useAppDispatch } from "@/reduxStore/hooks";
+import { updateStyle } from "@/reduxStore/action";
 
 const BANNER_DESIGNS = [
   { designName: "design1", Icon: FirstDesign },
@@ -47,7 +49,7 @@ function BannerStyleTab({
   bannerContent,
   setSectionBgOpened,
 }: BannerStyleTabProps) {
-  const { updateStyle } = useEditor();
+  const dispatch = useAppDispatch();
   return (
     <TabsContent className="space-y-2 px-5" value="style">
       <div className="grid grid-cols-3 gap-2">
@@ -55,16 +57,18 @@ function BannerStyleTab({
           return (
             <div
               onClick={() => {
-                updateStyle(findSelectedSection?.id!, {
-                  designName: designName,
-                  designSettings: {
-                    ...bannerStyle.designSettings,
-                    align:
-                      designName === "design3" || designName === "design4"
-                        ? "start"
-                        : "center",
-                  },
-                });
+                dispatch(
+                  updateStyle(findSelectedSection?.id!, {
+                    designName: designName,
+                    designSettings: {
+                      ...bannerStyle.designSettings,
+                      align:
+                        designName === "design3" || designName === "design4"
+                          ? "start"
+                          : "center",
+                    },
+                  })
+                );
               }}
               className="h-20 flex items-center justify-center relative border-muted-bg border-solid border-[1px] rounded-sm"
               key={i}
@@ -82,15 +86,17 @@ function BannerStyleTab({
             <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
               <div
                 onClick={() => {
-                  updateStyle(findSelectedSection?.id!, {
-                    designSettings: {
-                      ...bannerStyle.designSettings,
-                      imageSetting: {
-                        ...bannerStyle.designSettings.imageSetting,
-                        objectFit: "cover",
+                  dispatch(
+                    updateStyle(findSelectedSection?.id!, {
+                      designSettings: {
+                        ...bannerStyle.designSettings,
+                        imageSetting: {
+                          ...bannerStyle.designSettings.imageSetting,
+                          objectFit: "cover",
+                        },
                       },
-                    },
-                  });
+                    })
+                  );
                 }}
                 className={`${
                   bannerStyle.designSettings.imageSetting.objectFit === "cover"
@@ -102,15 +108,17 @@ function BannerStyleTab({
               </div>
               <div
                 onClick={() => {
-                  updateStyle(findSelectedSection?.id!, {
-                    designSettings: {
-                      ...bannerStyle.designSettings,
-                      imageSetting: {
-                        ...bannerStyle.designSettings.imageSetting,
-                        objectFit: "contain",
+                  dispatch(
+                    updateStyle(findSelectedSection?.id!, {
+                      designSettings: {
+                        ...bannerStyle.designSettings,
+                        imageSetting: {
+                          ...bannerStyle.designSettings.imageSetting,
+                          objectFit: "contain",
+                        },
                       },
-                    },
-                  });
+                    })
+                  );
                 }}
                 className={`${
                   bannerStyle.designSettings.imageSetting.objectFit ===
@@ -129,15 +137,17 @@ function BannerStyleTab({
                 bannerStyle.designSettings.imageSetting.backgroundColor
               }
               handleChangeColor={(value) => {
-                updateStyle(findSelectedSection?.id!, {
-                  designSettings: {
-                    ...bannerStyle.designSettings,
-                    imageSetting: {
-                      ...bannerStyle.designSettings.imageSetting,
-                      backgroundColor: value,
+                dispatch(
+                  updateStyle(findSelectedSection?.id!, {
+                    designSettings: {
+                      ...bannerStyle.designSettings,
+                      imageSetting: {
+                        ...bannerStyle.designSettings.imageSetting,
+                        backgroundColor: value,
+                      },
                     },
-                  },
-                });
+                  })
+                );
               }}
             />
           )}
@@ -164,24 +174,28 @@ function BannerStyleTab({
                 customText={`${bannerStyle.designSettings.leftTitleWidth}`}
                 value={[parseInt(bannerStyle.designSettings.leftTitleWidth!)]}
                 onValueChange={(value) => {
-                  updateStyle(findSelectedSection?.id!, {
-                    designSettings: {
-                      ...bannerStyle.designSettings!,
-                      leftTitleWidth: `${value[0]}%`,
-                    },
-                  });
+                  dispatch(
+                    updateStyle(findSelectedSection?.id!, {
+                      designSettings: {
+                        ...bannerStyle.designSettings!,
+                        leftTitleWidth: `${value[0]}%`,
+                      },
+                    })
+                  );
                 }}
               />
             ) : (
               <Align
                 alignValue={bannerStyle.designSettings.align}
                 onValueChange={(value) => {
-                  updateStyle(findSelectedSection?.id!, {
-                    designSettings: {
-                      ...bannerStyle.designSettings!,
-                      align: value,
-                    },
-                  });
+                  dispatch(
+                    updateStyle(findSelectedSection?.id!, {
+                      designSettings: {
+                        ...bannerStyle.designSettings!,
+                        align: value,
+                      },
+                    })
+                  );
                 }}
               />
             )}
@@ -193,12 +207,14 @@ function BannerStyleTab({
           <Align
             alignValue={bannerStyle.designSettings.align}
             onValueChange={(value) => {
-              updateStyle(findSelectedSection?.id!, {
-                designSettings: {
-                  ...bannerStyle.designSettings!,
-                  align: value,
-                },
-              });
+              dispatch(
+                updateStyle(findSelectedSection?.id!, {
+                  designSettings: {
+                    ...bannerStyle.designSettings!,
+                    align: value,
+                  },
+                })
+              );
             }}
           />
         )}
@@ -207,12 +223,14 @@ function BannerStyleTab({
           <Align
             alignValue={bannerStyle.designSettings.align}
             onValueChange={(value) => {
-              updateStyle(findSelectedSection?.id!, {
-                designSettings: {
-                  ...bannerStyle.designSettings!,
-                  align: value,
-                },
-              });
+              dispatch(
+                updateStyle(findSelectedSection?.id!, {
+                  designSettings: {
+                    ...bannerStyle.designSettings!,
+                    align: value,
+                  },
+                })
+              );
             }}
           />
         )}
@@ -230,12 +248,14 @@ function BannerStyleTab({
             customText={`${bannerStyle.designSettings.subtitleWidth}`}
             value={[parseInt(bannerStyle.designSettings.subtitleWidth!)]}
             onValueChange={(value) => {
-              updateStyle(findSelectedSection?.id!, {
-                designSettings: {
-                  ...bannerStyle.designSettings!,
-                  subtitleWidth: `${value[0]}%`,
-                },
-              });
+              dispatch(
+                updateStyle(findSelectedSection?.id!, {
+                  designSettings: {
+                    ...bannerStyle.designSettings!,
+                    subtitleWidth: `${value[0]}%`,
+                  },
+                })
+              );
             }}
           />
         )}
@@ -251,12 +271,14 @@ function BannerStyleTab({
             customText={`${bannerStyle.designSettings.subtitleWidth}`}
             value={[parseInt(bannerStyle.designSettings.subtitleWidth!)]}
             onValueChange={(value) => {
-              updateStyle(findSelectedSection?.id!, {
-                designSettings: {
-                  ...bannerStyle.designSettings!,
-                  subtitleWidth: `${value[0]}%`,
-                },
-              });
+              dispatch(
+                updateStyle(findSelectedSection?.id!, {
+                  designSettings: {
+                    ...bannerStyle.designSettings!,
+                    subtitleWidth: `${value[0]}%`,
+                  },
+                })
+              );
             }}
           />
         )}
@@ -270,12 +292,14 @@ function BannerStyleTab({
           value={[parseInt(bannerStyle.designSettings.height!)]}
           onValueChange={(value) => {
             const height = value[0];
-            updateStyle(findSelectedSection?.id!, {
-              designSettings: {
-                ...bannerStyle.designSettings!,
-                height: `${height}px`,
-              },
-            });
+            dispatch(
+              updateStyle(findSelectedSection?.id!, {
+                designSettings: {
+                  ...bannerStyle.designSettings!,
+                  height: `${height}px`,
+                },
+              })
+            );
           }}
         />
       )}
@@ -285,15 +309,17 @@ function BannerStyleTab({
             label="Image"
             defaultChecked={bannerStyle.designSettings.imageSetting.showImage}
             onCheckedChange={(value) => {
-              updateStyle(findSelectedSection?.id!, {
-                designSettings: {
-                  ...bannerStyle.designSettings!,
-                  imageSetting: {
-                    ...bannerStyle.designSettings.imageSetting,
-                    showImage: value,
+              dispatch(
+                updateStyle(findSelectedSection?.id!, {
+                  designSettings: {
+                    ...bannerStyle.designSettings!,
+                    imageSetting: {
+                      ...bannerStyle.designSettings.imageSetting,
+                      showImage: value,
+                    },
                   },
-                },
-              });
+                })
+              );
             }}
           />
         )}
@@ -305,12 +331,14 @@ function BannerStyleTab({
               label="Left Title"
               defaultChecked={bannerStyle.designSettings.leftTitlePosition}
               onCheckedChange={(value) => {
-                updateStyle(findSelectedSection?.id!, {
-                  designSettings: {
-                    ...bannerStyle.designSettings!,
-                    leftTitlePosition: value,
-                  },
-                });
+                dispatch(
+                  updateStyle(findSelectedSection?.id!, {
+                    designSettings: {
+                      ...bannerStyle.designSettings!,
+                      leftTitlePosition: value,
+                    },
+                  })
+                );
               }}
             />
           )}
@@ -319,12 +347,14 @@ function BannerStyleTab({
           label="Button"
           defaultChecked={bannerStyle.designSettings.showButtons}
           onCheckedChange={(value) => {
-            updateStyle(findSelectedSection?.id!, {
-              designSettings: {
-                ...bannerStyle.designSettings!,
-                showButtons: value,
-              },
-            });
+            dispatch(
+              updateStyle(findSelectedSection?.id!, {
+                designSettings: {
+                  ...bannerStyle.designSettings!,
+                  showButtons: value,
+                },
+              })
+            );
           }}
         />
         <div

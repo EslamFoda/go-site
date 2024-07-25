@@ -5,20 +5,25 @@ import { ChevronRight, GripVertical, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Card } from "@/types/sectionsTypes/cards";
 import { ListItem } from "@/types/sectionsTypes/list";
+import { useAppDispatch } from "@/reduxStore/hooks";
 interface DraggableListProps {
   label: string;
   items: Card[] | ListItem[];
   handleDragEnd: (result: any) => void;
   handleAdd: () => void;
-  setSelectedItem?: any;
+  updateSelectedItem: (item: Card | ListItem | null) => {
+    type: string;
+    payload: Card | ListItem | null;
+  };
 }
 function DraggableList({
   label,
   items,
-  setSelectedItem,
+  updateSelectedItem,
   handleDragEnd,
   handleAdd,
 }: DraggableListProps) {
+  const dispatch = useAppDispatch();
   const listClassName = cn(
     "flex items-center cursor-pointer justify-between h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm"
   );
@@ -27,7 +32,7 @@ function DraggableList({
       <Draggable key={item.id} draggableId={item.id} index={index}>
         {(provided) => (
           <div
-            onClick={() => setSelectedItem(item)}
+            onClick={() => dispatch(updateSelectedItem(item))}
             className={listClassName}
             ref={provided.innerRef}
             {...provided.draggableProps}

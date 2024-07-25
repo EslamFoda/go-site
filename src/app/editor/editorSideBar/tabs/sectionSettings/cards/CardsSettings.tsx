@@ -1,11 +1,6 @@
 import { Label } from "@/components/ui/label";
 import React, { useEffect, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import useEditor, {
-  EditorSection,
-  SectionContentTypes,
-  SectionStyleTypes,
-} from "@/store/editorStore";
 import { ChevronLeft, Trash2 } from "lucide-react";
 import EditText from "../settingsUi/EditText";
 import { Card } from "@/types/sectionsTypes/cards";
@@ -13,18 +8,28 @@ import CardContentTab from "./cardContentTab";
 import CardsStyleTab from "./cardsStyleTab";
 import ColorSelector from "../settingsUi/ColorSelector";
 import { JustifyCenter, JustifyEnd, JustifyStart } from "@/icons/common";
+import {
+  EditorSection,
+  SectionContentTypes,
+  SectionStyleTypes,
+} from "@/reduxStore/types";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import {
+  updateContent,
+  updateSelectedItem,
+  updateStyle,
+} from "@/reduxStore/action";
 
 function CardsSettings() {
   const [tabValue, setTabValue] = useState("content");
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
-  const {
-    selectedSection,
-    selectedItem,
-    updateContent,
-    handleSelectedItem,
-    updateStyle,
-    editor,
-  } = useEditor();
+
+  const dispatch = useAppDispatch();
+  const editor = useAppSelector((state) => state.editor.editor);
+  const selectedSection = useAppSelector(
+    (state) => state.editor.selectedSection
+  );
+  const selectedItem = useAppSelector((state) => state.editor.selectedItem);
   const findSelectedSection = editor.sections.find(
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
@@ -34,24 +39,21 @@ function CardsSettings() {
   const cardStyle = findSelectedSection?.style as SectionStyleTypes["cards"];
   const cardItem = selectedItem as Card;
 
-  const [items, setItems] = useState(cardsContent?.cards || []);
-
-  useEffect(() => {
-    setItems(cardsContent?.cards || []);
-  }, [cardsContent?.cards]);
-
   const handleDeleteCard = () => {
-    const filterCards = items.filter((card) => card.id !== cardItem?.id);
-    setItems(filterCards);
-    updateContent(findSelectedSection.id, { cards: filterCards });
-    handleSelectedItem(null);
+    const filterCards = cardsContent?.cards?.filter(
+      (card) => card.id !== cardItem?.id
+    );
+    dispatch(updateContent(findSelectedSection.id, { cards: filterCards }));
+    dispatch(updateSelectedItem(null));
     if (cardsContent.cards.length <= 5) {
-      updateStyle(findSelectedSection?.id!, {
-        designSettings: {
-          ...cardStyle.designSettings,
-          displayType: "grid",
-        },
-      });
+      dispatch(
+        updateStyle(findSelectedSection?.id!, {
+          designSettings: {
+            ...cardStyle.designSettings,
+            displayType: "grid",
+          },
+        })
+      );
     }
   };
 
@@ -66,7 +68,7 @@ function CardsSettings() {
     if (!findCard) return;
 
     findCard[propertyName] = propertyValue;
-    const newItems = [...items];
+    const newItems = [...cardsContent?.cards];
 
     return newItems;
   }
@@ -77,13 +79,13 @@ function CardsSettings() {
     propertyValue: any
   ) => {
     const updatedItems = updateCardProperty(
-      items,
+      cardsContent?.cards,
       cardItem?.id,
       propertyName,
       propertyValue
     ) as Card[];
-    setItems(updatedItems);
-    updateContent(findSelectedSection.id, { cards: updatedItems });
+
+    dispatch(updateContent(findSelectedSection.id, { cards: updatedItems }));
   };
 
   if (cardItem)
@@ -92,7 +94,7 @@ function CardsSettings() {
         <div
           className="flex justify-between p-5 items-center gap-4  border-b-[1px] border-b-muted-bg mb-3"
           onClick={() => {
-            handleSelectedItem(null);
+            dispatch(updateSelectedItem(null));
           }}
         >
           <div className="flex gap-4 items-center cursor-pointer">
@@ -146,27 +148,31 @@ function CardsSettings() {
             selectedColor={cardStyle.designSettings.sectionBackground.color}
             handleChangeColor={(color) => {
               if (color === "none") {
-                updateStyle(findSelectedSection?.id!, {
-                  designSettings: {
-                    ...cardStyle.designSettings!,
-                    sectionBackground: {
-                      ...cardStyle.designSettings.sectionBackground,
-                      color,
+                dispatch(
+                  updateStyle(findSelectedSection?.id!, {
+                    designSettings: {
+                      ...cardStyle.designSettings!,
+                      sectionBackground: {
+                        ...cardStyle.designSettings.sectionBackground,
+                        color,
+                      },
                     },
-                  },
-                });
+                  })
+                );
               } else {
-                updateStyle(findSelectedSection?.id!, {
-                  designSettings: {
-                    ...cardStyle.designSettings!,
-                    cardBackground: true,
-                    cardBorder: false,
-                    sectionBackground: {
-                      ...cardStyle.designSettings.sectionBackground,
-                      color,
+                dispatch(
+                  updateStyle(findSelectedSection?.id!, {
+                    designSettings: {
+                      ...cardStyle.designSettings!,
+                      cardBackground: true,
+                      cardBorder: false,
+                      sectionBackground: {
+                        ...cardStyle.designSettings.sectionBackground,
+                        color,
+                      },
                     },
-                  },
-                });
+                  })
+                );
               }
             }}
           />
@@ -175,16 +181,18 @@ function CardsSettings() {
             <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
               <div
                 onClick={() => {
-                  updateStyle(findSelectedSection?.id!, {
-                    designSettings: {
-                      ...cardStyle.designSettings!,
-                      sectionBackground: {
-                        ...cardStyle.designSettings.sectionBackground,
-                        height: "fill",
-                        align: "center",
+                  dispatch(
+                    updateStyle(findSelectedSection?.id!, {
+                      designSettings: {
+                        ...cardStyle.designSettings!,
+                        sectionBackground: {
+                          ...cardStyle.designSettings.sectionBackground,
+                          height: "fill",
+                          align: "center",
+                        },
                       },
-                    },
-                  });
+                    })
+                  );
                 }}
                 className={`${
                   cardStyle.designSettings.sectionBackground.height === "fill"
@@ -196,16 +204,18 @@ function CardsSettings() {
               </div>
               <div
                 onClick={() => {
-                  updateStyle(findSelectedSection?.id!, {
-                    designSettings: {
-                      ...cardStyle.designSettings!,
-                      sectionBackground: {
-                        ...cardStyle.designSettings.sectionBackground,
-                        height: "fit",
-                        align: "center",
+                  dispatch(
+                    updateStyle(findSelectedSection?.id!, {
+                      designSettings: {
+                        ...cardStyle.designSettings!,
+                        sectionBackground: {
+                          ...cardStyle.designSettings.sectionBackground,
+                          height: "fit",
+                          align: "center",
+                        },
                       },
-                    },
-                  });
+                    })
+                  );
                 }}
                 className={`${
                   cardStyle.designSettings.sectionBackground.height === "fit"
@@ -223,15 +233,17 @@ function CardsSettings() {
               <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
                 <div
                   onClick={() => {
-                    updateStyle(findSelectedSection?.id!, {
-                      designSettings: {
-                        ...cardStyle.designSettings!,
-                        sectionBackground: {
-                          ...cardStyle.designSettings.sectionBackground,
-                          align: "start",
+                    dispatch(
+                      updateStyle(findSelectedSection?.id!, {
+                        designSettings: {
+                          ...cardStyle.designSettings!,
+                          sectionBackground: {
+                            ...cardStyle.designSettings.sectionBackground,
+                            align: "start",
+                          },
                         },
-                      },
-                    });
+                      })
+                    );
                   }}
                   className={`${
                     cardStyle.designSettings.sectionBackground.align === "start"
@@ -243,15 +255,17 @@ function CardsSettings() {
                 </div>
                 <div
                   onClick={() => {
-                    updateStyle(findSelectedSection?.id!, {
-                      designSettings: {
-                        ...cardStyle.designSettings!,
-                        sectionBackground: {
-                          ...cardStyle.designSettings.sectionBackground,
-                          align: "center",
+                    dispatch(
+                      updateStyle(findSelectedSection?.id!, {
+                        designSettings: {
+                          ...cardStyle.designSettings!,
+                          sectionBackground: {
+                            ...cardStyle.designSettings.sectionBackground,
+                            align: "center",
+                          },
                         },
-                      },
-                    });
+                      })
+                    );
                   }}
                   className={`${
                     cardStyle.designSettings.sectionBackground.align ===
@@ -264,15 +278,17 @@ function CardsSettings() {
                 </div>
                 <div
                   onClick={() => {
-                    updateStyle(findSelectedSection?.id!, {
-                      designSettings: {
-                        ...cardStyle.designSettings!,
-                        sectionBackground: {
-                          ...cardStyle.designSettings.sectionBackground,
-                          align: "end",
+                    dispatch(
+                      updateStyle(findSelectedSection?.id!, {
+                        designSettings: {
+                          ...cardStyle.designSettings!,
+                          sectionBackground: {
+                            ...cardStyle.designSettings.sectionBackground,
+                            align: "end",
+                          },
                         },
-                      },
-                    });
+                      })
+                    );
                   }}
                   className={`${
                     cardStyle.designSettings.sectionBackground.align === "end"
@@ -299,8 +315,7 @@ function CardsSettings() {
         <CardContentTab
           cardsContent={cardsContent}
           findSelectedSection={findSelectedSection}
-          items={items}
-          setItems={setItems}
+          items={cardsContent?.cards}
         />
         <CardsStyleTab
           cardStyle={cardStyle}

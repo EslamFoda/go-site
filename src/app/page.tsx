@@ -1,10 +1,9 @@
 "use client";
+import { useAppSelector } from "@/reduxStore/hooks";
 import Section from "./editor/section";
-import useEditor from "@/store/editorStore";
-
 
 export default function Home() {
-  const { selectedPallet } = useEditor();
+  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
   return (
     <main className={selectedPallet}>
       <Section />

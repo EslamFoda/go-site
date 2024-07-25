@@ -1,12 +1,13 @@
-import useEditor from "@/store/editorStore";
+import { openSectionDesigns, updateSectionIndex } from "@/reduxStore/action";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import { PlusCircle } from "lucide-react";
 import React from "react";
 
 function AddSection({ sectionIndex }: { sectionIndex: number }) {
-  const { handleOpenSectionDesigns, handleSelectedSectionIndex } = useEditor();
+  const dispatch = useAppDispatch();
   const handleToggleSectionDesigns = () => {
-    handleOpenSectionDesigns();
-    handleSelectedSectionIndex(sectionIndex);
+    dispatch(openSectionDesigns());
+    dispatch(updateSectionIndex(sectionIndex));
   };
   return (
     <div

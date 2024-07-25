@@ -1,14 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { ImagePlaceHolder } from "@/icons/common";
 import { cn } from "@/lib/utils";
-import useEditor from "@/store/editorStore";
+import { updateSelectedSection } from "@/reduxStore/action";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import React from "react";
 interface Design4Props {
   section: any;
-  handleSelectedSection: (selectedSection: any) => void;
 }
-function Design4({ section, handleSelectedSection }: Design4Props) {
-  const { selectedPallet } = useEditor();
+function Design4({ section }: Design4Props) {
+  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
+  const dispatch = useAppDispatch();
+
   const dynamicTextColor =
     selectedPallet === "default-theme" &&
     section.style.designSettings.sectionBackground.color === "primary";
@@ -90,7 +92,7 @@ function Design4({ section, handleSelectedSection }: Design4Props) {
     <section
       className={sectionBgClassName}
       onClick={() => {
-        handleSelectedSection(section.id);
+        dispatch(updateSelectedSection(section.id));
       }}
     >
       <div className="flex max-lg:flex-col container gap-10 w-full py-12 text-center justify-center items-center">

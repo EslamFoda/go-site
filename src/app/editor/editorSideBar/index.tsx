@@ -3,16 +3,19 @@ import React from "react";
 import BannerSettings from "./tabs/sectionSettings/banner";
 import ChooseSection from "./tabs/chooseSection";
 import CardsSettings from "./tabs/sectionSettings/cards";
-import useEditor from "@/store/editorStore";
 import ListSettings from "./tabs/sectionSettings/list";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { updateSelectedPallet } from "@/reduxStore/action";
 
 const EditorSidebar = () => {
-  const {
-    selectedSection,
-    openSectionDesigns,
-    openPallet,
-    handleSelectedPallet,
-  } = useEditor();
+  const dispatch = useAppDispatch();
+  const openSectionDesigns = useAppSelector(
+    (state) => state.editor.openSectionDesigns
+  );
+  const selectedSection = useAppSelector(
+    (state) => state.editor.selectedSection
+  );
+  const openPallet = useAppSelector((state) => state.editor.openPallet);
 
   const themeMapping: Record<string, string> = {
     "theme-rose": "Rose",
@@ -40,7 +43,7 @@ const EditorSidebar = () => {
               <div key={key} className={key}>
                 <div
                   className="bg-primary h-12"
-                  onClick={() => handleSelectedPallet(key)}
+                  onClick={() => dispatch(updateSelectedPallet(key))}
                 >
                   {value}
                 </div>

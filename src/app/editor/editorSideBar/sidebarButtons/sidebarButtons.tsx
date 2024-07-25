@@ -3,10 +3,14 @@
 import { Button } from "@/components/ui/button";
 import { Book, Code2, Palette, Settings2, SquareTerminal } from "lucide-react";
 import React from "react";
-import useEditor from "../../../../store/editorStore";
+import { useAppDispatch } from "@/reduxStore/hooks";
+import { openPallet } from "@/reduxStore/action";
 
 function SidebarButtons() {
-  const { handleOpenPallet } = useEditor();
+  const dispatch = useAppDispatch();
+  const handleOpenPallet = () => {
+    dispatch(openPallet());
+  };
   return (
     <nav className="grid gap-1 p-2">
       <Button

@@ -1,14 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { ImagePlaceHolder } from "@/icons/common";
 import { cn } from "@/lib/utils";
-import useEditor from "@/store/editorStore";
+import { updateSelectedSection } from "@/reduxStore/action";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+
 import React from "react";
 interface Design2Props {
   section: any;
-  handleSelectedSection: (selectedSection: any) => void;
 }
-function Design2({ section, handleSelectedSection }: Design2Props) {
-  const { selectedPallet } = useEditor();
+function Design2({ section }: Design2Props) {
+  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
+  const dispatch = useAppDispatch();
+
   const leftTitlePosition = section.style.designSettings.leftTitlePosition;
   const titleSize = section.style.designSettings.titleSize;
   const align = section.style.designSettings.align;
@@ -96,7 +99,7 @@ function Design2({ section, handleSelectedSection }: Design2Props) {
     <section
       className={sectionBgClassName}
       onClick={() => {
-        handleSelectedSection(section.id);
+        dispatch(updateSelectedSection(section.id));
       }}
     >
       <div className=" flex container w-full gap-10 py-12 flex-col text-center justify-center items-center">
