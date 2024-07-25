@@ -263,7 +263,5 @@
   body {
     @apply bg-background text-foreground;
   }
-  .test {
-    @apply bg-red-500;
-  }
 }
+
