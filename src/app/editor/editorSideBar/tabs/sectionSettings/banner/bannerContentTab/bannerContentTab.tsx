@@ -3,11 +3,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import useEditor, {
+import { updateContent } from "@/reduxStore/action";
+import { useAppDispatch } from "@/reduxStore/hooks";
+import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
-} from "@/store/editorStore";
+} from "@/reduxStore/types";
 import { BannerContent } from "@/types/sectionsTypes/banner";
 import React from "react";
 
@@ -22,7 +24,7 @@ function BannerContentTab({
   bannerContent,
   findSelectedSection,
 }: BannerContentTabProps) {
-  const { updateContent } = useEditor();
+  const dispatch = useAppDispatch();
   return (
     <TabsContent className="px-5 h space-y-2" value="content">
       <div className="space-y-1 flex items-center justify-between">
@@ -34,9 +36,11 @@ function BannerContentTab({
           onChange={(e: any) => {
             console.log(e.target.value);
             // @ts-ignore
-            updateContent(findSelectedSection.id, {
-              label: e.target.value,
-            });
+            dispatch(
+              updateContent(findSelectedSection.id, {
+                label: e.target.value,
+              })
+            );
           }}
         />
       </div>
@@ -47,9 +51,11 @@ function BannerContentTab({
           id="title"
           value={bannerContent?.title}
           onChange={(e: any) => {
-            updateContent(findSelectedSection?.id!, {
-              title: e.target.value,
-            });
+            dispatch(
+              updateContent(findSelectedSection?.id!, {
+                title: e.target.value,
+              })
+            );
           }}
         />
       </div>
@@ -60,9 +66,11 @@ function BannerContentTab({
           id="subtitle"
           value={bannerContent?.subtitle}
           onChange={(e: any) => {
-            updateContent(findSelectedSection?.id!, {
-              subtitle: e.target.value,
-            });
+            dispatch(
+              updateContent(findSelectedSection?.id!, {
+                subtitle: e.target.value,
+              })
+            );
           }}
         />
       </div>
@@ -74,9 +82,11 @@ function BannerContentTab({
               bannerContent?.mediaType === "image" ? "outline" : "secondary"
             }
             onClick={() => {
-              updateContent(findSelectedSection?.id!, {
-                mediaType: "image",
-              });
+              dispatch(
+                updateContent(findSelectedSection?.id!, {
+                  mediaType: "image",
+                })
+              );
             }}
             className=" hover:!bg-transparent w-full "
           >
@@ -87,9 +97,11 @@ function BannerContentTab({
               bannerContent?.mediaType === "video" ? "outline" : "secondary"
             }
             onClick={() => {
-              updateContent(findSelectedSection?.id!, {
-                mediaType: "video",
-              });
+              dispatch(
+                updateContent(findSelectedSection?.id!, {
+                  mediaType: "video",
+                })
+              );
             }}
             className=" hover:!bg-transparent w-full"
           >
@@ -106,12 +118,14 @@ function BannerContentTab({
               id="alt text"
               value={bannerContent?.imageSetting?.altText}
               onChange={(e: any) => {
-                updateContent(findSelectedSection?.id, {
-                  imageSetting: {
-                    ...bannerContent?.imageSetting,
-                    altText: e.target.value,
-                  },
-                });
+                dispatch(
+                  updateContent(findSelectedSection?.id, {
+                    imageSetting: {
+                      ...bannerContent?.imageSetting,
+                      altText: e.target.value,
+                    },
+                  })
+                );
               }}
             />
           </div>
@@ -123,12 +137,14 @@ function BannerContentTab({
               id="Video"
               value={bannerContent?.videoSetting?.videoUrl}
               onChange={(e: any) => {
-                updateContent(findSelectedSection?.id!, {
-                  videoSetting: {
-                    ...bannerContent?.videoSetting,
-                    videoUrl: e.target.value,
-                  },
-                });
+                dispatch(
+                  updateContent(findSelectedSection?.id!, {
+                    videoSetting: {
+                      ...bannerContent?.videoSetting,
+                      videoUrl: e.target.value,
+                    },
+                  })
+                );
               }}
             />
           </div>

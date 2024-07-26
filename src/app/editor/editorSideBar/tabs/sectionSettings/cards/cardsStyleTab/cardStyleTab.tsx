@@ -9,14 +9,16 @@ import TextSize from "../../settingsUi/TextSize";
 import Align from "../../settingsUi/Align";
 import SwitchSetting from "../../settingsUi/SwitchSetting";
 import { FirstDesign, SecDesign } from "@/icons/cards";
-import useEditor, {
-  EditorSection,
-  SectionContentTypes,
-  SectionStyleTypes,
-} from "@/store/editorStore";
 import { CardStyle, CardsContent } from "@/types/sectionsTypes/cards";
 import { Label } from "@/components/ui/label";
 import { ChevronRightIcon } from "lucide-react";
+import {
+  EditorSection,
+  SectionContentTypes,
+  SectionStyleTypes,
+} from "@/reduxStore/types";
+import { useAppDispatch } from "@/reduxStore/hooks";
+import { updateStyle } from "@/reduxStore/action";
 const CARD_DESIGNS = [
   { designName: "design1", Icon: FirstDesign },
   { designName: "design2", Icon: SecDesign },
@@ -37,7 +39,7 @@ function CardStyleTab({
   cardStyle,
   setSectionBgOpened,
 }: CardStyleTabProps) {
-  const { updateStyle } = useEditor();
+  const dispatch = useAppDispatch();
   const [isDesktop, setIsDesktop] = useState(true);
   const [isHeightDesktop, setIsHeightDesktop] = useState(true);
   const [isCardSliderWidthDesktop, setIsCardSliderWidthDesktop] =
@@ -59,9 +61,11 @@ function CardStyleTab({
           return (
             <div
               onClick={() => {
-                updateStyle(findSelectedSection?.id!, {
-                  designName: designName,
-                });
+                dispatch(
+                  updateStyle(findSelectedSection?.id!, {
+                    designName: designName,
+                  })
+                );
               }}
               className="h-20 flex items-center justify-center relative border-muted-bg border-solid border-[1px] rounded-sm"
               key={i}
@@ -90,12 +94,14 @@ function CardStyleTab({
           label="Display"
           displayValue={cardStyle.designSettings.displayType}
           onValueChange={(value) => {
-            updateStyle(findSelectedSection?.id!, {
-              designSettings: {
-                ...cardStyle.designSettings,
-                displayType: value,
-              },
-            });
+            dispatch(
+              updateStyle(findSelectedSection?.id!, {
+                designSettings: {
+                  ...cardStyle.designSettings,
+                  displayType: value,
+                },
+              })
+            );
           }}
         />
       )}
@@ -109,15 +115,17 @@ function CardStyleTab({
             max={8}
             value={[cardStyle.designSettings.cardSlider.scrollSpeed]}
             onValueChange={(value) => {
-              updateStyle(findSelectedSection?.id!, {
-                designSettings: {
-                  ...cardStyle.designSettings!,
-                  cardSlider: {
-                    ...cardStyle.designSettings.cardSlider,
-                    scrollSpeed: value[0],
+              dispatch(
+                updateStyle(findSelectedSection?.id!, {
+                  designSettings: {
+                    ...cardStyle.designSettings!,
+                    cardSlider: {
+                      ...cardStyle.designSettings.cardSlider,
+                      scrollSpeed: value[0],
+                    },
                   },
-                },
-              });
+                })
+              );
             }}
           />
         )}
@@ -143,15 +151,17 @@ function CardStyleTab({
               ? { desktop: value[0] }
               : { mobile: value[0] };
 
-            updateStyle(findSelectedSection?.id!, {
-              designSettings: {
-                ...cardStyle.designSettings!,
-                grid: {
-                  ...cardStyle.designSettings.grid,
-                  ...newGridSetting,
+            dispatch(
+              updateStyle(findSelectedSection?.id!, {
+                designSettings: {
+                  ...cardStyle.designSettings!,
+                  grid: {
+                    ...cardStyle.designSettings.grid,
+                    ...newGridSetting,
+                  },
                 },
-              },
-            });
+              })
+            );
           }}
         />
       ) : (
@@ -175,15 +185,17 @@ function CardStyleTab({
             const newWidthSetting = isCardSliderWidthDesktop
               ? { desktopWidth: value[0] }
               : { mobileWidth: value[0] };
-            updateStyle(findSelectedSection?.id!, {
-              designSettings: {
-                ...cardStyle.designSettings!,
-                cardSlider: {
-                  ...cardStyle.designSettings.cardSlider,
-                  ...newWidthSetting,
+            dispatch(
+              updateStyle(findSelectedSection?.id!, {
+                designSettings: {
+                  ...cardStyle.designSettings!,
+                  cardSlider: {
+                    ...cardStyle.designSettings.cardSlider,
+                    ...newWidthSetting,
+                  },
                 },
-              },
-            });
+              })
+            );
           }}
         />
       )}
@@ -208,38 +220,44 @@ function CardStyleTab({
           const newHeightSetting = isHeightDesktop
             ? { desktop: value[0] }
             : { mobile: value[0] };
-          updateStyle(findSelectedSection?.id!, {
-            designSettings: {
-              ...cardStyle.designSettings!,
-              height: {
-                ...cardStyle.designSettings.height,
-                ...newHeightSetting,
+          dispatch(
+            updateStyle(findSelectedSection?.id!, {
+              designSettings: {
+                ...cardStyle.designSettings!,
+                height: {
+                  ...cardStyle.designSettings.height,
+                  ...newHeightSetting,
+                },
               },
-            },
-          });
+            })
+          );
         }}
       />
       <TextSize
         label="Text"
         titleSizeValue={cardStyle.designSettings?.titleSize}
         onValueChange={(value) => {
-          updateStyle(findSelectedSection?.id!, {
-            designSettings: {
-              ...cardStyle.designSettings!,
-              titleSize: value,
-            },
-          });
+          dispatch(
+            updateStyle(findSelectedSection?.id!, {
+              designSettings: {
+                ...cardStyle.designSettings!,
+                titleSize: value,
+              },
+            })
+          );
         }}
       />
       <Align
         alignValue={cardStyle.designSettings?.align}
         onValueChange={(value) => {
-          updateStyle(findSelectedSection?.id!, {
-            designSettings: {
-              ...cardStyle.designSettings!,
-              align: value,
-            },
-          });
+          dispatch(
+            updateStyle(findSelectedSection?.id!, {
+              designSettings: {
+                ...cardStyle.designSettings!,
+                align: value,
+              },
+            })
+          );
         }}
       />
       <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
@@ -247,12 +265,14 @@ function CardStyleTab({
           label="Left Title"
           defaultChecked={cardStyle.designSettings.leftTitlePosition}
           onCheckedChange={(value) =>
-            updateStyle(findSelectedSection?.id!, {
-              designSettings: {
-                ...cardStyle.designSettings!,
-                leftTitlePosition: value,
-              },
-            })
+            dispatch(
+              updateStyle(findSelectedSection?.id!, {
+                designSettings: {
+                  ...cardStyle.designSettings!,
+                  leftTitlePosition: value,
+                },
+              })
+            )
           }
         />
         {findSelectedSection.style.designName === "design1" ? (
@@ -261,52 +281,64 @@ function CardStyleTab({
               label="Image"
               defaultChecked={cardStyle.designSettings?.image}
               onCheckedChange={(value) => {
-                updateStyle(findSelectedSection?.id!, {
-                  designSettings: {
-                    ...cardStyle.designSettings!,
-                    image: value,
-                  },
-                });
+                dispatch(
+                  updateStyle(findSelectedSection?.id!, {
+                    designSettings: {
+                      ...cardStyle.designSettings!,
+                      image: value,
+                    },
+                  })
+                );
               }}
             />
-            <SwitchSetting
-              label="Background"
-              defaultChecked={cardStyle.designSettings.cardBackground}
-              onCheckedChange={(value) => {
-                updateStyle(findSelectedSection?.id!, {
-                  designSettings: {
-                    ...cardStyle.designSettings!,
-                    cardBackground: value,
-                    cardBorder: false,
-                  },
-                });
-              }}
-            />
-            <SwitchSetting
-              label="Border"
-              defaultChecked={cardStyle.designSettings.cardBorder}
-              onCheckedChange={(value) =>
-                updateStyle(findSelectedSection?.id!, {
-                  designSettings: {
-                    ...cardStyle.designSettings!,
-                    cardBorder: value,
-                    cardBackground: false,
-                  },
-                })
-              }
-            />
+            {cardStyle.designSettings.sectionBackground.color === "none" && (
+              <>
+                <SwitchSetting
+                  label="Background"
+                  defaultChecked={cardStyle.designSettings.cardBackground}
+                  onCheckedChange={(value) => {
+                    dispatch(
+                      updateStyle(findSelectedSection?.id!, {
+                        designSettings: {
+                          ...cardStyle.designSettings!,
+                          cardBackground: value,
+                          cardBorder: false,
+                        },
+                      })
+                    );
+                  }}
+                />
+                <SwitchSetting
+                  label="Border"
+                  defaultChecked={cardStyle.designSettings.cardBorder}
+                  onCheckedChange={(value) =>
+                    dispatch(
+                      updateStyle(findSelectedSection?.id!, {
+                        designSettings: {
+                          ...cardStyle.designSettings!,
+                          cardBorder: value,
+                          cardBackground: false,
+                        },
+                      })
+                    )
+                  }
+                />
+              </>
+            )}
           </>
         ) : (
           <SwitchSetting
             label="Glass"
             defaultChecked={cardStyle.designSettings.glassEffect}
             onCheckedChange={(value) =>
-              updateStyle(findSelectedSection?.id!, {
-                designSettings: {
-                  ...cardStyle.designSettings!,
-                  glassEffect: value,
-                },
-              })
+              dispatch(
+                updateStyle(findSelectedSection?.id!, {
+                  designSettings: {
+                    ...cardStyle.designSettings!,
+                    glassEffect: value,
+                  },
+                })
+              )
             }
           />
         )}
@@ -316,15 +348,17 @@ function CardStyleTab({
             label="Auto scroll"
             defaultChecked={cardStyle.designSettings.cardSlider.autoScroll}
             onCheckedChange={(value) =>
-              updateStyle(findSelectedSection?.id!, {
-                designSettings: {
-                  ...cardStyle.designSettings!,
-                  cardSlider: {
-                    ...cardStyle.designSettings.cardSlider,
-                    autoScroll: value,
+              dispatch(
+                updateStyle(findSelectedSection?.id!, {
+                  designSettings: {
+                    ...cardStyle.designSettings!,
+                    cardSlider: {
+                      ...cardStyle.designSettings.cardSlider,
+                      autoScroll: value,
+                    },
                   },
-                },
-              })
+                })
+              )
             }
           />
         )}

@@ -2,7 +2,7 @@ import React from "react";
 import { Label } from "@/components/ui/label";
 import { NoColorIcon } from "@/icons/common";
 import { cn } from "@/lib/utils";
-import useEditor from "@/store/editorStore";
+import { useAppSelector } from "@/reduxStore/hooks";
 
 type Color = "none" | "gray" | "primary";
 
@@ -15,7 +15,7 @@ const ColorSelector: React.FC<ColorSelectorProps> = ({
   selectedColor,
   handleChangeColor,
 }) => {
-  const { selectedPallet } = useEditor();
+  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
   const colors: Color[] = ["none", "gray", "primary"];
 
   const colorsHandler = (color: Color) => {

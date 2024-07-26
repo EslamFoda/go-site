@@ -1,12 +1,14 @@
-import {
-  EditorSection,
-  SectionContentTypes,
-  SectionStyleTypes,
-} from "@/store/editorStore";
 import { Label } from "@/components/ui/label";
 import React from "react";
 import { CardStyle } from "@/types/sectionsTypes/cards";
 import { BannerStyle } from "@/types/sectionsTypes/banner";
+import {
+  EditorSection,
+  SectionContentTypes,
+  SectionStyleTypes,
+} from "@/reduxStore/types";
+import { useAppDispatch } from "@/reduxStore/hooks";
+import { ListStyle } from "@/types/sectionsTypes/list";
 
 interface TitleSizeProps {
   label: string;
@@ -16,8 +18,14 @@ interface TitleSizeProps {
   >;
   updateStyle: (
     sectionId: string,
-    newStyle: Partial<BannerStyle | CardStyle>
-  ) => void;
+    newStyle: Partial<SectionStyleTypes[keyof SectionStyleTypes]>
+  ) => {
+    type: string;
+    payload: {
+      sectionId: string;
+      newStyle: Partial<BannerStyle | CardStyle | ListStyle>;
+    };
+  };
 }
 
 const TitleSize: React.FC<TitleSizeProps> = ({
@@ -25,6 +33,7 @@ const TitleSize: React.FC<TitleSizeProps> = ({
   findSelectedSection,
   updateStyle,
 }) => {
+  const dispatch = useAppDispatch();
   const sizes = ["s", "m", "l", "xl"];
   const selectedSectionStyles =
     findSelectedSection.style as SectionStyleTypes["banner"];
@@ -37,12 +46,14 @@ const TitleSize: React.FC<TitleSizeProps> = ({
           <div
             key={size}
             onClick={() => {
-              updateStyle(findSelectedSection?.id!, {
-                designSettings: {
-                  ...selectedSectionStyles.designSettings!,
-                  titleSize: size as "s" | "m" | "l" | "xl",
-                },
-              });
+              dispatch(
+                updateStyle(findSelectedSection?.id!, {
+                  designSettings: {
+                    ...selectedSectionStyles.designSettings!,
+                    titleSize: size as "s" | "m" | "l" | "xl",
+                  },
+                })
+              );
             }}
             className={`${
               selectedSectionStyles.designSettings.titleSize === size

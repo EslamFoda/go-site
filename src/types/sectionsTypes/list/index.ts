@@ -41,7 +41,7 @@ interface DesignSettings {
   shape: "square" | "rounded";
   iconColor: "none" | "primary";
   textSize: "s" | "m" | "l";
-  align: string;
+  align: "start" | "center" | "end";
   icon: boolean;
   background: boolean;
   border: boolean;

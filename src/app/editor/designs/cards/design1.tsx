@@ -11,22 +11,18 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
-import { Card, CardStyle } from "@/types/sectionsTypes/cards";
-import useEditor from "@/store/editorStore";
+import { CardStyle } from "@/types/sectionsTypes/cards";
 import { useTheme } from "next-themes";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { updateSelectedItem, updateSelectedSection } from "@/reduxStore/action";
 
 interface DesignProps {
   section: any;
-  handleSelectedSection: (selectedSection: any) => void;
-  handleSelectedItem: (item: Card | null) => void;
 }
-function Design1({
-  section,
-  handleSelectedSection,
-  handleSelectedItem,
-}: DesignProps) {
+function Design1({ section }: DesignProps) {
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
-  const { selectedPallet } = useEditor();
+  const dispatch = useAppDispatch();
+  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
   const { theme } = useTheme();
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
@@ -39,7 +35,7 @@ function Design1({
   const autoScrollPlugin = autoScroll
     ? [
         AutoScroll({
-          delay: 3000,
+          startDelay: 3000,
           stopOnMouseEnter: true,
           stopOnInteraction: false,
           playOnInit: true,
@@ -54,7 +50,6 @@ function Design1({
       selectedPallet === "default-theme" &&
       section.style.designSettings.sectionBackground.color === "primary" &&
       "text-white"
-    // theme === "dark" && selectedPallet === "default-theme" && "text-black"
   );
 
   const imageOrderClassName = cn(
@@ -144,8 +139,8 @@ function Design1({
       <div
         className={alignClassNames}
         onClick={() => {
-          handleSelectedSection(section.id);
-          handleSelectedItem(null);
+          dispatch(updateSelectedSection(section.id));
+          dispatch(updateSelectedItem(null));
         }}
       >
         <div className={containerClassNames}>
@@ -161,8 +156,8 @@ function Design1({
                   className={cardClassNames}
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleSelectedSection(section.id);
-                    handleSelectedItem(card);
+                    dispatch(updateSelectedSection(section.id));
+                    dispatch(updateSelectedItem(card));
                   }}
                 >
                   <h5 className={titleClassName}>{card.title}</h5>
@@ -236,8 +231,8 @@ function Design1({
                       className={cardClassNames + " h-full"}
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleSelectedSection(section.id);
-                        handleSelectedItem(card);
+                        dispatch(updateSelectedSection(section.id));
+                        dispatch(updateSelectedItem(card));
                       }}
                     >
                       <h5 className={titleClassName}>{card.title}</h5>

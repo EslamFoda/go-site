@@ -1,25 +1,32 @@
-import useEditor from "@/store/editorStore";
+import {
+  closeSectionDesigns,
+  updateEditorSections,
+  updateSelectedSection,
+} from "@/reduxStore/action";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import React from "react";
 import { v4 } from "uuid";
+
 function ChooseSection() {
-  const {
-    updateEditorSections,
-    handleSelectedSection,
-    closeSectionDesigns,
-    editor,
-    sectionIndex,
-  } = useEditor();
+  const editor = useAppSelector((state) => state.editor.editor);
+  const sectionIndex = useAppSelector((state) => state.editor.sectionIndex);
+  const dispatch = useAppDispatch();
 
   const handleChooseSection = (section: any) => {
     if (sectionIndex < 0 || sectionIndex >= editor.sections.length) {
       console.error("Index out of bounds");
       return editor.sections;
     }
-    editor.sections.splice(sectionIndex + 1, 0, section);
-    updateEditorSections(editor.sections);
-    handleSelectedSection(section.id);
-    closeSectionDesigns();
+
+    // Create a copy of the sections array
+    const newSections = [...editor.sections];
+    newSections.splice(sectionIndex + 1, 0, section);
+
+    dispatch(closeSectionDesigns());
+    dispatch(updateEditorSections(newSections));
+    dispatch(updateSelectedSection(section.id));
   };
+
   const sections = [
     {
       id: v4(),
@@ -224,15 +231,14 @@ function ChooseSection() {
       },
     },
   ];
+
   return (
     <div>
-      {sections.map((section) => {
-        return (
-          <div key={section.id} onClick={() => handleChooseSection(section)}>
-            {section.sectionName}
-          </div>
-        );
-      })}
+      {sections.map((section) => (
+        <div key={section.id} onClick={() => handleChooseSection(section)}>
+          {section.sectionName}
+        </div>
+      ))}
     </div>
   );
 }

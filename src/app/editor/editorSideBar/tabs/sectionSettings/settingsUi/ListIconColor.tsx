@@ -1,16 +1,15 @@
 import { Label } from "@/components/ui/label";
-import useEditor from "@/store/editorStore";
-import { useTheme } from "next-themes";
+import { useAppSelector } from "@/reduxStore/hooks";
 import React from "react";
 interface ListIconColorProps {
   iconColorValue: "none" | "primary";
   onValueChange: (value: "none" | "primary") => void;
 }
 function ListIconColor({ iconColorValue, onValueChange }: ListIconColorProps) {
-  const { selectedPallet } = useEditor();
+  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
   return (
     <div className="space-y-1 flex items-center justify-between">
-      <Label>Align</Label>
+      <Label>Color</Label>
       <div className="border-muted-bg flex border-solid border-[1px] rounded-sm h-10 w-4/6">
         {["none", "primary"].map((iconColor) => (
           <div

@@ -3,11 +3,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import useEditor, {
+import { updateContent, updateSelectedItem } from "@/reduxStore/action";
+import { useAppDispatch } from "@/reduxStore/hooks";
+import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
-} from "@/store/editorStore";
+} from "@/reduxStore/types";
 import { Card, CardsContent } from "@/types/sectionsTypes/cards";
 import React from "react";
 import { v4 } from "uuid";
@@ -18,22 +20,19 @@ interface CardContentTabProps {
   >;
   cardsContent: CardsContent;
   items: Card[];
-  setItems: React.Dispatch<React.SetStateAction<Card[]>>;
 }
 function CardContentTab({
   findSelectedSection,
   cardsContent,
   items,
-  setItems,
 }: CardContentTabProps) {
-  const { updateContent, handleSelectedItem } = useEditor();
+  const dispatch = useAppDispatch();
   const handleDragEnd = (result: any) => {
     if (!result.destination) return; // dropped outside the list
     const newItems = [...items];
     const [reorderedItem] = newItems.splice(result.source.index, 1);
     newItems.splice(result.destination.index, 0, reorderedItem);
-    setItems(newItems);
-    updateContent(findSelectedSection.id, { cards: newItems });
+    dispatch(updateContent(findSelectedSection.id, { cards: newItems }));
   };
 
   const handleAddCard = () => {
@@ -47,8 +46,8 @@ function CardContentTab({
       link: "",
     };
     const newItems = [...items, newItem] as Card[];
-    setItems(newItems);
-    updateContent(findSelectedSection.id, { cards: newItems });
+    
+    dispatch(updateContent(findSelectedSection.id, { cards: newItems }));
   };
   return (
     <TabsContent className="px-5 h space-y-2" value="content">
@@ -75,9 +74,11 @@ function CardContentTab({
           value={cardsContent?.title}
           onChange={(e: any) => {
             console.log(e.target.value);
-            updateContent(findSelectedSection?.id!, {
-              title: e.target.value,
-            });
+            dispatch(
+              updateContent(findSelectedSection?.id!, {
+                title: e.target.value,
+              })
+            );
           }}
         />
       </div>
@@ -88,9 +89,11 @@ function CardContentTab({
           id="subtitle"
           value={cardsContent?.subtitle}
           onChange={(e: any) => {
-            updateContent(findSelectedSection?.id!, {
-              subtitle: e.target.value,
-            });
+            dispatch(
+              updateContent(findSelectedSection?.id!, {
+                subtitle: e.target.value,
+              })
+            );
           }}
         />
       </div>
@@ -99,7 +102,7 @@ function CardContentTab({
         handleDragEnd={handleDragEnd}
         items={cardsContent?.cards || []}
         handleAdd={handleAddCard}
-        setSelectedItem={handleSelectedItem}
+        updateSelectedItem={updateSelectedItem}
       />
     </TabsContent>
   );

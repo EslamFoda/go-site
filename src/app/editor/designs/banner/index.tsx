@@ -7,9 +7,8 @@ import Design6 from "./design6";
 import Design5 from "./design5";
 interface BannerProps {
   section: any;
-  handleSelectedSection: (selectedSection: any) => void;
 }
-function Banner({ section, handleSelectedSection }: BannerProps) {
+function Banner({ section }: BannerProps) {
   const designs = {
     design1: Design1,
     design2: Design2,
@@ -23,10 +22,7 @@ function Banner({ section, handleSelectedSection }: BannerProps) {
   const BannerSection = designs[section.style.designName];
   return (
     <>
-      <BannerSection
-        section={section}
-        handleSelectedSection={handleSelectedSection}
-      />
+      <BannerSection section={section} />
     </>
   );
 }

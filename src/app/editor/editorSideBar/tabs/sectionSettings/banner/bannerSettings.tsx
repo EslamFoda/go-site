@@ -2,20 +2,26 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChevronLeft } from "lucide-react";
 import React, { useState } from "react";
-import useEditor, {
-  EditorSection,
-  SectionContentTypes,
-  SectionStyleTypes,
-} from "@/store/editorStore";
 import { JustifyCenter, JustifyEnd, JustifyStart } from "@/icons/common";
 import ColorSelector from "../settingsUi/ColorSelector";
 import BannerContentTab from "./bannerContentTab";
 import BannerStyleTab from "./bannerStyleTab";
+import {
+  EditorSection,
+  SectionContentTypes,
+  SectionStyleTypes,
+} from "@/reduxStore/types";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { updateStyle } from "@/reduxStore/action";
 
 function BannerSettings({}) {
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
   const [tabValue, setTabValue] = useState("content");
-  const { selectedSection, updateStyle, editor } = useEditor();
+  const dispatch = useAppDispatch();
+  const editor = useAppSelector((state) => state.editor.editor);
+  const selectedSection = useAppSelector(
+    (state) => state.editor.selectedSection
+  );
   const findSelectedSection = editor.sections.find(
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
@@ -42,15 +48,27 @@ function BannerSettings({}) {
             <ColorSelector
               selectedColor={bannerStyle.designSettings.sectionBackground.color}
               handleChangeColor={(color) => {
-                updateStyle(findSelectedSection?.id!, {
-                  designSettings: {
-                    ...bannerStyle.designSettings!,
-                    sectionBackground: {
-                      ...bannerStyle.designSettings.sectionBackground,
-                      color,
+                // updateStyle(findSelectedSection?.id!, {
+                //   designSettings: {
+                //     ...bannerStyle.designSettings!,
+                //     sectionBackground: {
+                //       ...bannerStyle.designSettings.sectionBackground,
+                //       color,
+                //     },
+                //   },
+                // });
+
+                dispatch(
+                  updateStyle(findSelectedSection?.id!, {
+                    designSettings: {
+                      ...bannerStyle.designSettings!,
+                      sectionBackground: {
+                        ...bannerStyle.designSettings.sectionBackground,
+                        color,
+                      },
                     },
-                  },
-                });
+                  })
+                );
               }}
             />
 
@@ -59,16 +77,29 @@ function BannerSettings({}) {
               <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
                 <div
                   onClick={() => {
-                    updateStyle(findSelectedSection?.id!, {
-                      designSettings: {
-                        ...bannerStyle.designSettings!,
-                        sectionBackground: {
-                          ...bannerStyle.designSettings.sectionBackground,
-                          height: "fill",
-                          align: "center",
+                    // updateStyle(findSelectedSection?.id!, {
+                    //   designSettings: {
+                    //     ...bannerStyle.designSettings!,
+                    //     sectionBackground: {
+                    //       ...bannerStyle.designSettings.sectionBackground,
+                    //       height: "fill",
+                    //       align: "center",
+                    //     },
+                    //   },
+                    // });
+
+                    dispatch(
+                      updateStyle(findSelectedSection?.id!, {
+                        designSettings: {
+                          ...bannerStyle.designSettings!,
+                          sectionBackground: {
+                            ...bannerStyle.designSettings.sectionBackground,
+                            height: "fill",
+                            align: "center",
+                          },
                         },
-                      },
-                    });
+                      })
+                    );
                   }}
                   className={`${
                     bannerStyle.designSettings.sectionBackground.height ===
@@ -81,16 +112,28 @@ function BannerSettings({}) {
                 </div>
                 <div
                   onClick={() => {
-                    updateStyle(findSelectedSection?.id!, {
-                      designSettings: {
-                        ...bannerStyle.designSettings!,
-                        sectionBackground: {
-                          ...bannerStyle.designSettings.sectionBackground,
-                          height: "fit",
-                          align: "center",
+                    // updateStyle(findSelectedSection?.id!, {
+                    //   designSettings: {
+                    //     ...bannerStyle.designSettings!,
+                    //     sectionBackground: {
+                    //       ...bannerStyle.designSettings.sectionBackground,
+                    //       height: "fit",
+                    //       align: "center",
+                    //     },
+                    //   },
+                    // });
+                    dispatch(
+                      updateStyle(findSelectedSection?.id!, {
+                        designSettings: {
+                          ...bannerStyle.designSettings!,
+                          sectionBackground: {
+                            ...bannerStyle.designSettings.sectionBackground,
+                            height: "fit",
+                            align: "center",
+                          },
                         },
-                      },
-                    });
+                      })
+                    );
                   }}
                   className={`${
                     bannerStyle.designSettings.sectionBackground.height ===
@@ -109,15 +152,27 @@ function BannerSettings({}) {
                 <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
                   <div
                     onClick={() => {
-                      updateStyle(findSelectedSection?.id!, {
-                        designSettings: {
-                          ...bannerStyle.designSettings!,
-                          sectionBackground: {
-                            ...bannerStyle.designSettings.sectionBackground,
-                            align: "start",
+                      // updateStyle(findSelectedSection?.id!, {
+                      //   designSettings: {
+                      //     ...bannerStyle.designSettings!,
+                      //     sectionBackground: {
+                      //       ...bannerStyle.designSettings.sectionBackground,
+                      //       align: "start",
+                      //     },
+                      //   },
+                      // });
+
+                      dispatch(
+                        updateStyle(findSelectedSection?.id!, {
+                          designSettings: {
+                            ...bannerStyle.designSettings!,
+                            sectionBackground: {
+                              ...bannerStyle.designSettings.sectionBackground,
+                              align: "start",
+                            },
                           },
-                        },
-                      });
+                        })
+                      );
                     }}
                     className={`${
                       bannerStyle.designSettings.sectionBackground.align ===
@@ -130,15 +185,17 @@ function BannerSettings({}) {
                   </div>
                   <div
                     onClick={() => {
-                      updateStyle(findSelectedSection?.id!, {
-                        designSettings: {
-                          ...bannerStyle.designSettings!,
-                          sectionBackground: {
-                            ...bannerStyle.designSettings.sectionBackground,
-                            align: "center",
+                      dispatch(
+                        updateStyle(findSelectedSection?.id!, {
+                          designSettings: {
+                            ...bannerStyle.designSettings!,
+                            sectionBackground: {
+                              ...bannerStyle.designSettings.sectionBackground,
+                              align: "center",
+                            },
                           },
-                        },
-                      });
+                        })
+                      );
                     }}
                     className={`${
                       bannerStyle.designSettings.sectionBackground.align ===
@@ -151,15 +208,17 @@ function BannerSettings({}) {
                   </div>
                   <div
                     onClick={() => {
-                      updateStyle(findSelectedSection?.id!, {
-                        designSettings: {
-                          ...bannerStyle.designSettings!,
-                          sectionBackground: {
-                            ...bannerStyle.designSettings.sectionBackground,
-                            align: "end",
+                      dispatch(
+                        updateStyle(findSelectedSection?.id!, {
+                          designSettings: {
+                            ...bannerStyle.designSettings!,
+                            sectionBackground: {
+                              ...bannerStyle.designSettings.sectionBackground,
+                              align: "end",
+                            },
                           },
-                        },
-                      });
+                        })
+                      );
                     }}
                     className={`${
                       bannerStyle.designSettings.sectionBackground.align ===

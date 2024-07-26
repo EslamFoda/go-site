@@ -4,27 +4,33 @@ import Banner from "../designs/banner";
 import Cards from "../designs/cards";
 import List from "../designs/list";
 import AddSection from "./addSection";
-import useEditor, { EditorStore } from "@/store/editorStore";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import {
+  closeSectionDesigns,
+  updateSelectedSection,
+} from "@/reduxStore/action";
 
 const Section = () => {
-  const editorState = useEditor((state: EditorStore) => state.editor);
-  const { handleSelectedSection, closeSectionDesigns } = useEditor();
+  const editorSections = useAppSelector(
+    (state) => state.editor.editor.sections
+  );
+  const dispatch = useAppDispatch();
 
   const sectionsMapper = { Banner: Banner, Cards: Cards, List: List };
 
   return (
     <div>
-      {editorState.sections.map((section, i) => {
+      {editorSections.map((section, i) => {
         console.log(section, "section");
         // @ts-ignore
         const Section = sectionsMapper[section.sectionName];
         return (
           <div key={section.id}>
-            <div onClick={closeSectionDesigns}>
+            <div onClick={() => dispatch(closeSectionDesigns())}>
               <Section
                 key={section.id}
                 section={section}
-                handleSelectedSection={handleSelectedSection}
+                handleSelectedSection={updateSelectedSection}
               />
             </div>
             <AddSection sectionIndex={i} />
