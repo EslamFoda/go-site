@@ -50,7 +50,6 @@ function Design1({ section }: DesignProps) {
       selectedPallet === "default-theme" &&
       section.style.designSettings.sectionBackground.color === "primary" &&
       "text-white"
-    // theme === "dark" && selectedPallet === "default-theme" && "text-black"
   );
 
   const imageOrderClassName = cn(

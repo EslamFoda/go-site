@@ -1,6 +1,5 @@
 import { TabsContent } from "@/components/ui/tabs";
 import React, { useState } from "react";
-import LayoutSetting from "../../settingsUi/LayoutSetting";
 import DisplaySettings from "../../settingsUi/DisplaySettings";
 import WidthOrHeight from "../../settingsUi/WidthOrHeight";
 import GridSetting from "../../settingsUi/GridSetting";
@@ -8,7 +7,6 @@ import HeightOrWidthSetting from "../../settingsUi/HeightOrWidthSetting";
 import TextSize from "../../settingsUi/TextSize";
 import Align from "../../settingsUi/Align";
 import SwitchSetting from "../../settingsUi/SwitchSetting";
-import { FirstDesign, SecDesign } from "@/icons/cards";
 import { Label } from "@/components/ui/label";
 import { ChevronRightIcon } from "lucide-react";
 import { ListContent, ListStyle } from "@/types/sectionsTypes/list";
@@ -22,7 +20,8 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { updateStyle } from "@/reduxStore/action";
-const CARD_DESIGNS = [
+import { FirstDesign, SecDesign } from "@/icons/list";
+const List_DESIGNS = [
   { designName: "design1", Icon: FirstDesign },
   { designName: "design2", Icon: SecDesign },
 ];
@@ -60,7 +59,7 @@ function ListStyleTab({
   return (
     <TabsContent className="space-y-2 px-5" value="style">
       <div className="grid grid-cols-2 gap-2">
-        {CARD_DESIGNS?.map(({ designName, Icon }, i) => {
+        {List_DESIGNS?.map(({ designName, Icon }, i) => {
           return (
             <div
               onClick={() => {
@@ -254,23 +253,25 @@ function ListStyleTab({
             updateStyle(findSelectedSection?.id!, {
               designSettings: {
                 ...listStyle.designSettings!,
-                titleSize: value,
+                textSize: value,
               },
             })
           );
         }}
       />
-      {/* <Align
-        alignValue={listStyle.designSettings?.align}
+      <Align
+        alignValue={listStyle.designSettings.align}
         onValueChange={(value) => {
-          updateStyle(findSelectedSection?.id!, {
-            designSettings: {
-              ...listStyle.designSettings!,
-              align: value,
-            },
-          });
+          dispatch(
+            updateStyle(findSelectedSection?.id!, {
+              designSettings: {
+                ...listStyle.designSettings!,
+                align: value,
+              },
+            })
+          );
         }}
-      /> */}
+      />
       <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
         <SwitchSetting
           label="Left Title"
@@ -287,48 +288,54 @@ function ListStyleTab({
           }
         />
 
-        {/* <SwitchSetting
-          label="Image"
-          defaultChecked={cardStyle.designSettings?.image}
-          onCheckedChange={(value) => {
-            updateStyle(findSelectedSection?.id!, {
-              designSettings: {
-                ...cardStyle.designSettings!,
-                image: value,
-              },
-            });
-          }}
-        /> */}
         <SwitchSetting
-          label="Background"
-          defaultChecked={listStyle.designSettings.background}
+          label="Icon"
+          defaultChecked={listStyle.designSettings?.icon}
           onCheckedChange={(value) => {
             dispatch(
               updateStyle(findSelectedSection?.id!, {
                 designSettings: {
                   ...listStyle.designSettings!,
-                  background: value,
-                  border: false,
+                  icon: value,
                 },
               })
             );
           }}
         />
-        <SwitchSetting
-          label="Border"
-          defaultChecked={listStyle.designSettings.border}
-          onCheckedChange={(value) =>
-            dispatch(
-              updateStyle(findSelectedSection?.id!, {
-                designSettings: {
-                  ...listStyle.designSettings!,
-                  border: value,
-                  background: false,
-                },
-              })
-            )
-          }
-        />
+        {listStyle.designSettings.sectionBackground.color === "none" && (
+          <>
+            <SwitchSetting
+              label="Background"
+              defaultChecked={listStyle.designSettings.background}
+              onCheckedChange={(value) => {
+                dispatch(
+                  updateStyle(findSelectedSection?.id!, {
+                    designSettings: {
+                      ...listStyle.designSettings!,
+                      background: value,
+                      border: !value, // Toggle border opposite to background
+                    },
+                  })
+                );
+              }}
+            />
+            <SwitchSetting
+              label="Border"
+              defaultChecked={listStyle.designSettings.border}
+              onCheckedChange={(value) => {
+                dispatch(
+                  updateStyle(findSelectedSection?.id!, {
+                    designSettings: {
+                      ...listStyle.designSettings!,
+                      border: value,
+                      background: !value, // Toggle background opposite to border
+                    },
+                  })
+                );
+              }}
+            />
+          </>
+        )}
 
         {listStyle.designSettings.displayType === "carousel" && (
           <SwitchSetting

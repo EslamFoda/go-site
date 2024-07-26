@@ -24,7 +24,7 @@ import {
 interface DesignProps {
   section: any;
 }
-function Design1({ section }: DesignProps) {
+function Design2({ section }: DesignProps) {
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
@@ -77,29 +77,30 @@ function Design1({ section }: DesignProps) {
 
   const alignClassNames = cn("container gap-10 w-full py-12");
 
-  const listItemClassNames = cn("flex gap-5 gap-y-3  rounded-md", {
-    "bg-muted p-5": listStyle.designSettings.background,
-    "border border-muted p-5": listStyle.designSettings.border,
-    "bg-background": bgMuted,
-    "flex-row items-start": listStyle.designSettings.layout === "row",
-    "flex-col": listStyle.designSettings.layout === "col",
-  });
+  const listItemClassNames = cn(
+    "flex justify-between gap-5 gap-y-3  rounded-md",
+    {
+      "bg-muted p-5": listStyle.designSettings.background,
+      "border border-muted p-5": listStyle.designSettings.border,
+      "bg-background": bgMuted,
+      "flex-row items-start": listStyle.designSettings.layout === "row",
+      "flex-col-reverse": listStyle.designSettings.layout === "col",
+    }
+  );
 
   const listItemTextClassNames = cn("self-center", {
     "self-start": listStyle.designSettings.layout === "col",
   });
 
   const iconContainerClassNames = cn(
-    "flex items-center  justify-center shrink-0",
+    "flex items-center justify-center shrink-0",
     {
       "rounded-md": listStyle.designSettings.shape === "square",
       "rounded-full": listStyle.designSettings.shape === "rounded",
       "bg-background": listStyle.designSettings.iconColor === "none",
       "bg-primary": listStyle.designSettings.iconColor === "primary",
       hidden: !listStyle.designSettings.icon,
-      "bg-muted":
-        listStyle.designSettings.iconColor === "none" &&
-        listStyle.designSettings.border,
+      "self-end": listStyle.designSettings.layout === "col",
     }
   );
 
@@ -168,6 +169,10 @@ function Design1({ section }: DesignProps) {
                       dispatch(closeChooseIcon());
                     }}
                   >
+                    <div className={listItemTextClassNames}>
+                      <h5 className={titleClassName}>{listItem.title}</h5>
+                      <p className={texClassName}>{listItem.text}</p>
+                    </div>
                     <div
                       className={iconContainerClassNames}
                       style={{
@@ -182,19 +187,11 @@ function Design1({ section }: DesignProps) {
                         />
                       ) : (
                         <ImagePlaceHolder
-                          fillColor={
-                            listStyle.designSettings.border
-                              ? "fill-background"
-                              : "fill-muted"
-                          }
+                          fillColor="fill-muted"
                           height={listStyle.designSettings.height / 2.5}
                           width={listStyle.designSettings.height / 2.5}
                         />
                       )}
-                    </div>
-                    <div className={listItemTextClassNames}>
-                      <h5 className={titleClassName}>{listItem.title}</h5>
-                      <p className={texClassName}>{listItem.text}</p>
                     </div>
                   </div>
                 );
@@ -236,6 +233,10 @@ function Design1({ section }: DesignProps) {
                           dispatch(closeChooseIcon());
                         }}
                       >
+                        <div className={listItemTextClassNames}>
+                          <h5 className={titleClassName}>{listItem.title}</h5>
+                          <p className={texClassName}>{listItem.text}</p>
+                        </div>
                         <div
                           className={iconContainerClassNames}
                           style={{
@@ -250,19 +251,11 @@ function Design1({ section }: DesignProps) {
                             />
                           ) : (
                             <ImagePlaceHolder
-                              fillColor={
-                                listStyle.designSettings.border
-                                  ? "fill-background"
-                                  : "fill-muted"
-                              }
+                              fillColor="fill-muted"
                               height={listStyle.designSettings.height / 2.5}
                               width={listStyle.designSettings.height / 2.5}
                             />
                           )}
-                        </div>
-                        <div className={listItemTextClassNames}>
-                          <h5 className={titleClassName}>{listItem.title}</h5>
-                          <p className={texClassName}>{listItem.text}</p>
                         </div>
                       </div>
                     </CarouselItem>
@@ -279,4 +272,4 @@ function Design1({ section }: DesignProps) {
   );
 }
 
-export default Design1;
+export default Design2;

@@ -71,41 +71,18 @@ function ListSettings() {
     }
   };
 
-  function updateCardProperty(
-    list: ListItem[],
-    listId: string | undefined,
-    propertyName: keyof ListItem,
-    propertyValue: any
-  ) {
-    const findList = list.find((listItem) => listItem.id === listId);
-
-    if (!findList) return;
-
-    findList[propertyName] = propertyValue;
-    const newItems = [...items];
-
-    return newItems;
-  }
-
-  // Inside your component function
-  const handlePropertyChange = (
-    propertyName: keyof ListItem,
-    propertyValue: any
-  ) => {
-    const updatedItems = updateCardProperty(
-      items,
-      selectedListItem?.id,
-      propertyName,
-      propertyValue
-    ) as ListItem[];
-    setItems(updatedItems);
-    dispatch(updateContent(findSelectedSection.id, { list: updatedItems }));
+  const handleUpdateListItem = (field: keyof ListItem, value: any) => {
+    const updatedList = listContent.list.map((listItem) =>
+      listItem.id === selectedListItem.id ? { ...listItem, [field]: value } : listItem
+    );
+    dispatch(updateSelectedItem({ ...selectedListItem, [field]: value }));
+    dispatch(updateContent(findSelectedSection.id, { list: updatedList }));
   };
 
   if (chooseIcon) {
     return (
       <IconList
-        handlePropertyChange={handlePropertyChange}
+        handlePropertyChange={handleUpdateListItem}
         selectedListItem={selectedListItem}
       />
     );
@@ -132,14 +109,14 @@ function ListSettings() {
             label="Title"
             value={selectedListItem.title}
             handleUpdate={(e: any) =>
-              handlePropertyChange("title", e.target.value)
+              handleUpdateListItem("title", e.target.value)
             }
           />
           <EditText
             label="Text"
             value={selectedListItem.text}
             handleUpdate={(e: any) =>
-              handlePropertyChange("text", e.target.value)
+              handleUpdateListItem("text", e.target.value)
             }
           />
 

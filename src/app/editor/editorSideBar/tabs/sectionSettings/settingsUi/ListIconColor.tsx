@@ -9,7 +9,7 @@ function ListIconColor({ iconColorValue, onValueChange }: ListIconColorProps) {
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
   return (
     <div className="space-y-1 flex items-center justify-between">
-      <Label>Align</Label>
+      <Label>Color</Label>
       <div className="border-muted-bg flex border-solid border-[1px] rounded-sm h-10 w-4/6">
         {["none", "primary"].map((iconColor) => (
           <div

@@ -291,36 +291,40 @@ function CardStyleTab({
                 );
               }}
             />
-            <SwitchSetting
-              label="Background"
-              defaultChecked={cardStyle.designSettings.cardBackground}
-              onCheckedChange={(value) => {
-                dispatch(
-                  updateStyle(findSelectedSection?.id!, {
-                    designSettings: {
-                      ...cardStyle.designSettings!,
-                      cardBackground: value,
-                      cardBorder: false,
-                    },
-                  })
-                );
-              }}
-            />
-            <SwitchSetting
-              label="Border"
-              defaultChecked={cardStyle.designSettings.cardBorder}
-              onCheckedChange={(value) =>
-                dispatch(
-                  updateStyle(findSelectedSection?.id!, {
-                    designSettings: {
-                      ...cardStyle.designSettings!,
-                      cardBorder: value,
-                      cardBackground: false,
-                    },
-                  })
-                )
-              }
-            />
+            {cardStyle.designSettings.sectionBackground.color === "none" && (
+              <>
+                <SwitchSetting
+                  label="Background"
+                  defaultChecked={cardStyle.designSettings.cardBackground}
+                  onCheckedChange={(value) => {
+                    dispatch(
+                      updateStyle(findSelectedSection?.id!, {
+                        designSettings: {
+                          ...cardStyle.designSettings!,
+                          cardBackground: value,
+                          cardBorder: false,
+                        },
+                      })
+                    );
+                  }}
+                />
+                <SwitchSetting
+                  label="Border"
+                  defaultChecked={cardStyle.designSettings.cardBorder}
+                  onCheckedChange={(value) =>
+                    dispatch(
+                      updateStyle(findSelectedSection?.id!, {
+                        designSettings: {
+                          ...cardStyle.designSettings!,
+                          cardBorder: value,
+                          cardBackground: false,
+                        },
+                      })
+                    )
+                  }
+                />
+              </>
+            )}
           </>
         ) : (
           <SwitchSetting

@@ -1,5 +1,5 @@
 import { Label } from "@/components/ui/label";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChevronLeft, Trash2 } from "lucide-react";
 import EditText from "../settingsUi/EditText";
@@ -57,35 +57,12 @@ function CardsSettings() {
     }
   };
 
-  function updateCardProperty(
-    cards: Card[],
-    cardId: string | undefined,
-    propertyName: keyof Card,
-    propertyValue: any
-  ) {
-    const findCard = cards.find((card) => card.id === cardId);
-
-    if (!findCard) return;
-
-    findCard[propertyName] = propertyValue;
-    const newItems = [...cardsContent?.cards];
-
-    return newItems;
-  }
-
-  // Inside your component function
-  const handlePropertyChange = (
-    propertyName: keyof Card,
-    propertyValue: any
-  ) => {
-    const updatedItems = updateCardProperty(
-      cardsContent?.cards,
-      cardItem?.id,
-      propertyName,
-      propertyValue
-    ) as Card[];
-
-    dispatch(updateContent(findSelectedSection.id, { cards: updatedItems }));
+  const handleUpdateCardItem = (field: keyof Card, value: any) => {
+    const updatedCards = cardsContent.cards.map((card) =>
+      card.id === cardItem.id ? { ...card, [field]: value } : card
+    );
+    dispatch(updateSelectedItem({ ...cardItem, [field]: value }));
+    dispatch(updateContent(findSelectedSection.id, { cards: updatedCards }));
   };
 
   if (cardItem)
@@ -110,21 +87,21 @@ function CardsSettings() {
             label="Title"
             value={cardItem.title}
             handleUpdate={(e: any) =>
-              handlePropertyChange("title", e.target.value)
+              handleUpdateCardItem("title", e.target.value)
             }
           />
           <EditText
             label="Text"
             value={cardItem.text}
             handleUpdate={(e: any) =>
-              handlePropertyChange("text", e.target.value)
+              handleUpdateCardItem("text", e.target.value)
             }
           />
           <EditText
             label="Image"
             value={cardItem.image}
             handleUpdate={(e: any) =>
-              handlePropertyChange("image", e.target.value)
+              handleUpdateCardItem("image", e.target.value)
             }
           />
         </div>
