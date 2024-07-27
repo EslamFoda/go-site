@@ -50,6 +50,8 @@ function BannerStyleTab({
   setSectionBgOpened,
 }: BannerStyleTabProps) {
   const dispatch = useAppDispatch();
+  const selectedSectionStyle =
+    findSelectedSection?.style as SectionStyleTypes["banner"];
   return (
     <TabsContent className="space-y-2 px-5" value="style">
       <div className="grid grid-cols-3 gap-2">
@@ -166,7 +168,7 @@ function BannerStyleTab({
         findSelectedSection.style.designName !== "design5" &&
         findSelectedSection.style.designName !== "design6" && (
           <>
-            {findSelectedSection.style.designSettings.leftTitlePosition ? (
+            {selectedSectionStyle.designSettings.leftTitlePosition ? (
               <WidthOrHeight
                 label="width"
                 min={50}
@@ -236,7 +238,7 @@ function BannerStyleTab({
         )}
 
       {findSelectedSection &&
-        !findSelectedSection.style.designSettings.leftTitlePosition &&
+        !selectedSectionStyle.designSettings.leftTitlePosition &&
         findSelectedSection.style.designName !== "design3" &&
         findSelectedSection.style.designName !== "design4" &&
         findSelectedSection.style.designName !== "design5" &&

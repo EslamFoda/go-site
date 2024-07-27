@@ -9,6 +9,7 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { ListStyle } from "@/types/sectionsTypes/list";
+import { AccordionStyle } from "@/types/sectionsTypes/accordion";
 
 interface TitleSizeProps {
   label: string;
@@ -23,7 +24,7 @@ interface TitleSizeProps {
     type: string;
     payload: {
       sectionId: string;
-      newStyle: Partial<BannerStyle | CardStyle | ListStyle>;
+      newStyle: Partial<BannerStyle | CardStyle | ListStyle | AccordionStyle>;
     };
   };
 }

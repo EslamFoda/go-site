@@ -1,6 +1,7 @@
 // types.ts
 
 import {
+  Accordion,
   AccordionContent,
   AccordionStyle,
 } from "@/types/sectionsTypes/accordion";
@@ -48,7 +49,7 @@ export interface EditorStore {
     keyof SectionContentTypes,
     keyof SectionStyleTypes
   > | null;
-  selectedItem: Card | ListItem | null;
+  selectedItem: Card | ListItem | Accordion | null;
   openSectionDesigns: boolean;
   openPallet: boolean;
   chooseIcon: boolean;

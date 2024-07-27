@@ -9,6 +9,7 @@ import {
 import { BannerStyle } from "@/types/sectionsTypes/banner";
 import { CardStyle } from "@/types/sectionsTypes/cards";
 import { ListStyle } from "@/types/sectionsTypes/list";
+import { AccordionStyle } from "@/types/sectionsTypes/accordion";
 interface AlignProps {
   updateStyle: (
     sectionId: string,
@@ -17,7 +18,7 @@ interface AlignProps {
     type: string;
     payload: {
       sectionId: string;
-      newStyle: Partial<BannerStyle | CardStyle | ListStyle>;
+      newStyle: Partial<BannerStyle | CardStyle | ListStyle | AccordionStyle>;
     };
   };
   findSelectedSection: EditorSection<

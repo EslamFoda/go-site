@@ -1,41 +1,38 @@
-type SectionBackground = {
+interface SectionBackground {
   color: "primary" | "gray" | "none";
   media: string;
   height: string;
   spacing: string;
-  align?: AlignTypes;
-};
+  align?: "start" | "center" | "end";
+}
 
-type IconType = {
+interface IconType {
   ARROW: "arrow";
   PLUS: "plus";
-};
+}
 
-export type AlignTypes = "start" | "center" | "end";
- 
-
-type DesignSettings = {
+interface DesignSettings {
   icon: IconType;
-  align: AlignTypes;
+  align: "start" | "center" | "end";
   background: boolean;
   border: boolean;
   sectionBackground: SectionBackground;
-};
+}
 
-export type AccordionStyle = {
+export interface AccordionStyle {
   designName: string;
   designSettings: DesignSettings;
-};
+}
 
-export type Accordion = {
+export interface Accordion {
   id: string;
   title: string;
   text: string;
-};
+}
 
-export type AccordionContent = {
+export interface AccordionContent {
   label: string;
   title: string;
   subtitle: string;
   accordions: Accordion[];
-};
+}
