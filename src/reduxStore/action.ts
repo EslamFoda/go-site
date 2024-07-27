@@ -2,13 +2,14 @@ import { ListItem } from "@/types/sectionsTypes/list";
 import * as types from "./actionTypes";
 import { Card } from "@/types/sectionsTypes/cards";
 import { EditorSection, SectionContentTypes, SectionStyleTypes } from "./types";
+import { Accordion } from "@/types/sectionsTypes/accordion";
 
 export const updateSelectedSection = (selectedSectionId: string) => ({
   type: types.UPDATE_SELECTED_SECTION,
   payload: selectedSectionId,
 });
 
-export const updateSelectedItem = (item: Card | ListItem | null) => ({
+export const updateSelectedItem = (item: Card | ListItem | Accordion | null) => ({
   type: types.UPDATE_SELECTED_ITEM,
   payload: item,
 });

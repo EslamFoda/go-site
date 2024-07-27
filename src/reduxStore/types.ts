@@ -1,5 +1,9 @@
 // types.ts
 
+import {
+  AccordionContent,
+  AccordionStyle,
+} from "@/types/sectionsTypes/accordion";
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
 import { Card, CardStyle, CardsContent } from "@/types/sectionsTypes/cards";
 import { ListContent, ListItem, ListStyle } from "@/types/sectionsTypes/list";
@@ -9,6 +13,7 @@ export type SectionContentTypes = {
   banner: BannerContent;
   cards: CardsContent;
   list: ListContent;
+  accordion: AccordionContent;
   // Add more content types here as needed
 };
 
@@ -16,6 +21,7 @@ export type SectionStyleTypes = {
   banner: BannerStyle;
   cards: CardStyle;
   list: ListStyle;
+  accordion: AccordionStyle;
 };
 
 // Define the type for a single editor section

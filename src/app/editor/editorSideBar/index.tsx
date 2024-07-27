@@ -4,6 +4,7 @@ import BannerSettings from "./tabs/sectionSettings/banner";
 import ChooseSection from "./tabs/chooseSection";
 import CardsSettings from "./tabs/sectionSettings/cards";
 import ListSettings from "./tabs/sectionSettings/list";
+import AccordionSettings from "./tabs/sectionSettings/accordion/accordionSettings";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { updateSelectedPallet } from "@/reduxStore/action";
 
@@ -24,16 +25,23 @@ const EditorSidebar = () => {
     "default-theme": "default",
   };
 
+  const sectionComponents: Record<string, React.ComponentType | null> = {
+    Banner: BannerSettings,
+    Cards: CardsSettings,
+    List: ListSettings,
+    Accordion:AccordionSettings
+  };
+
+  const SelectedSectionComponent = selectedSection
+    ? sectionComponents[selectedSection.sectionName]
+    : null;
+
   return (
     <div className="overflow-auto">
       {openSectionDesigns ? (
         <ChooseSection />
-      ) : selectedSection?.sectionName === "Banner" ? (
-        <BannerSettings />
-      ) : selectedSection?.sectionName === "Cards" ? (
-        <CardsSettings />
-      ) : selectedSection?.sectionName === "List" ? (
-        <ListSettings />
+      ) : SelectedSectionComponent ? (
+        <SelectedSectionComponent />
       ) : null}
 
       {openPallet && (

@@ -3,6 +3,7 @@ import React from "react";
 import Banner from "../designs/banner";
 import Cards from "../designs/cards";
 import List from "../designs/list";
+import Accordion from "../designs/accordion";
 import AddSection from "./addSection";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
@@ -16,7 +17,12 @@ const Section = () => {
   );
   const dispatch = useAppDispatch();
 
-  const sectionsMapper = { Banner: Banner, Cards: Cards, List: List };
+  const sectionsMapper = {
+    Banner: Banner,
+    Cards: Cards,
+    List: List,
+    Accordion: Accordion,
+  };
 
   return (
     <div>

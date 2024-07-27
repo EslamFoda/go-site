@@ -103,7 +103,7 @@ function Design1({ section }: DesignProps) {
   const containerClassNames = cn(
     " grid grid-cols-1 space-y-4",
     cardStyle.designSettings.leftTitlePosition &&
-      "md:grid-cols-[1fr_2fr] grid-cols-1 gap-4 md:space-y-0 space-y-4"
+      "md:grid-cols-3 grid-cols-1 gap-4 md:space-y-0 space-y-4"
   );
 
   const sectionBgClassName = cn(
@@ -148,144 +148,146 @@ function Design1({ section }: DesignProps) {
             <h1 className="text-4xl">{section.content.title}</h1>
             <p>{section.content.subtitle}</p>
           </div>
-          {cardStyle.designSettings.displayType === "grid" ? (
-            <div className={gridClassNames}>
-              {section.content.cards.map((card: any, index: number) => (
-                <div
-                  key={index}
-                  className={cardClassNames}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    dispatch(updateSelectedSection(section.id));
-                    dispatch(updateSelectedItem(card));
-                  }}
-                >
-                  <h5 className={titleClassName}>{card.title}</h5>
-                  <p className={textOrderClassName}>{card.text}</p>
-                  {cardStyle.designSettings.image && (
-                    <div className={imageOrderClassName}>
-                      {card.image.length ? (
-                        <div
-                          className="relative w-full rounded-md"
-                          style={{
-                            height: isDesktop
-                              ? cardStyle.designSettings.height.desktop
-                              : cardStyle.designSettings.height.mobile,
-                            // backgroundImage: `url(${card.image})`,
-                          }}
-                        >
-                          <Image
-                            alt={card.image}
-                            src={card.image}
-                            fill
-                            objectFit="cover"
-                          />
-                        </div>
-                      ) : (
-                        <div
-                          style={{
-                            height: isDesktop
-                              ? cardStyle.designSettings.height.desktop
-                              : cardStyle.designSettings.height.mobile,
-                            // backgroundImage: `url(${card.image})`,
-                          }}
-                          className={imagePlaceholderClassNames}
-                        >
-                          <ImagePlaceHolder
-                            fillColor={
-                              cardStyle.designSettings.cardBackground &&
-                              !bgMuted
-                                ? "fill-muted"
-                                : "fill-background"
-                            }
-                          />
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <Carousel
-              plugins={autoScrollPlugin}
-              opts={{
-                skipSnaps: true,
-                loop: autoScroll ? true : false,
-              }}
-              className="w-full"
-            >
-              <CarouselContent className="items-stretch">
+          <div className="md:col-span-2">
+            {cardStyle.designSettings.displayType === "grid" ? (
+              <div className={gridClassNames}>
                 {section.content.cards.map((card: any, index: number) => (
-                  <CarouselItem
-                    className="h-full"
+                  <div
                     key={index}
-                    style={{
-                      flexBasis: isDesktop
-                        ? cardStyle.designSettings.cardSlider.desktopWidth
-                        : cardStyle.designSettings.cardSlider.mobileWidth,
+                    className={cardClassNames}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      dispatch(updateSelectedSection(section.id));
+                      dispatch(updateSelectedItem(card));
                     }}
                   >
-                    <div
+                    <h5 className={titleClassName}>{card.title}</h5>
+                    <p className={textOrderClassName}>{card.text}</p>
+                    {cardStyle.designSettings.image && (
+                      <div className={imageOrderClassName}>
+                        {card.image.length ? (
+                          <div
+                            className="relative w-full rounded-md"
+                            style={{
+                              height: isDesktop
+                                ? cardStyle.designSettings.height.desktop
+                                : cardStyle.designSettings.height.mobile,
+                              // backgroundImage: `url(${card.image})`,
+                            }}
+                          >
+                            <Image
+                              alt={card.image}
+                              src={card.image}
+                              fill
+                              objectFit="cover"
+                            />
+                          </div>
+                        ) : (
+                          <div
+                            style={{
+                              height: isDesktop
+                                ? cardStyle.designSettings.height.desktop
+                                : cardStyle.designSettings.height.mobile,
+                              // backgroundImage: `url(${card.image})`,
+                            }}
+                            className={imagePlaceholderClassNames}
+                          >
+                            <ImagePlaceHolder
+                              fillColor={
+                                cardStyle.designSettings.cardBackground &&
+                                !bgMuted
+                                  ? "fill-muted"
+                                  : "fill-background"
+                              }
+                            />
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <Carousel
+                plugins={autoScrollPlugin}
+                opts={{
+                  skipSnaps: true,
+                  loop: autoScroll ? true : false,
+                }}
+                className="w-full"
+              >
+                <CarouselContent className="items-stretch">
+                  {section.content.cards.map((card: any, index: number) => (
+                    <CarouselItem
+                      className="h-full"
                       key={index}
-                      className={cardClassNames + " h-full"}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        dispatch(updateSelectedSection(section.id));
-                        dispatch(updateSelectedItem(card));
+                      style={{
+                        flexBasis: isDesktop
+                          ? cardStyle.designSettings.cardSlider.desktopWidth
+                          : cardStyle.designSettings.cardSlider.mobileWidth,
                       }}
                     >
-                      <h5 className={titleClassName}>{card.title}</h5>
-                      <p className={textOrderClassName}>{card.text}</p>
-                      {cardStyle.designSettings.image && (
-                        <div className={imageOrderClassName}>
-                          {card.image.length ? (
-                            <div
-                              className="relative w-full rounded-md"
-                              style={{
-                                height: isDesktop
-                                  ? cardStyle.designSettings.height.desktop
-                                  : cardStyle.designSettings.height.mobile,
-                                // backgroundImage: `url(${card.image})`,
-                              }}
-                            >
-                              <Image
-                                alt={card.image}
-                                src={card.image}
-                                fill
-                                objectFit="cover"
-                              />
-                            </div>
-                          ) : (
-                            <div
-                              style={{
-                                height: isDesktop
-                                  ? cardStyle.designSettings.height.desktop
-                                  : cardStyle.designSettings.height.mobile,
-                                // backgroundImage: `url(${card.image})`,
-                              }}
-                              className={imagePlaceholderClassNames}
-                            >
-                              <ImagePlaceHolder
-                                fillColor={
-                                  cardStyle.designSettings.cardBackground &&
-                                  !bgMuted
-                                    ? "fill-muted"
-                                    : "fill-background"
-                                }
-                              />
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          )}
+                      <div
+                        key={index}
+                        className={cardClassNames + " h-full"}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(updateSelectedSection(section.id));
+                          dispatch(updateSelectedItem(card));
+                        }}
+                      >
+                        <h5 className={titleClassName}>{card.title}</h5>
+                        <p className={textOrderClassName}>{card.text}</p>
+                        {cardStyle.designSettings.image && (
+                          <div className={imageOrderClassName}>
+                            {card.image.length ? (
+                              <div
+                                className="relative w-full rounded-md"
+                                style={{
+                                  height: isDesktop
+                                    ? cardStyle.designSettings.height.desktop
+                                    : cardStyle.designSettings.height.mobile,
+                                  // backgroundImage: `url(${card.image})`,
+                                }}
+                              >
+                                <Image
+                                  alt={card.image}
+                                  src={card.image}
+                                  fill
+                                  objectFit="cover"
+                                />
+                              </div>
+                            ) : (
+                              <div
+                                style={{
+                                  height: isDesktop
+                                    ? cardStyle.designSettings.height.desktop
+                                    : cardStyle.designSettings.height.mobile,
+                                  // backgroundImage: `url(${card.image})`,
+                                }}
+                                className={imagePlaceholderClassNames}
+                              >
+                                <ImagePlaceHolder
+                                  fillColor={
+                                    cardStyle.designSettings.cardBackground &&
+                                    !bgMuted
+                                      ? "fill-muted"
+                                      : "fill-background"
+                                  }
+                                />
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            )}
+          </div>
         </div>
       </div>
     </section>

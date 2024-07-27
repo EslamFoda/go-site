@@ -110,7 +110,7 @@ function Design1({ section }: DesignProps) {
   );
 
   const containerClassNames = cn(" grid grid-cols-1 space-y-4", {
-    "md:grid-cols-[1fr_2fr] grid-cols-1 gap-4 md:space-y-0 space-y-4":
+    "md:grid-cols-3 grid-cols-1 gap-4 md:space-y-0 space-y-4":
       listStyle.designSettings.leftTitlePosition,
   });
 
@@ -151,128 +151,130 @@ function Design1({ section }: DesignProps) {
             <h1 className="text-4xl">{section.content.title}</h1>
             <p>{section.content.subtitle}</p>
           </div>
-          {listStyle.designSettings.displayType === "grid" ? (
-            <div className={gridClassNames}>
-              {section.content.list.map((listItem: any, index: number) => {
-                const ListIcon = PhosphorIcons[
-                  listItem.icon as keyof typeof PhosphorIcons
-                ] as PhosphorIcons.Icon;
-                return (
-                  <div
-                    key={index}
-                    className={listItemClassNames}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      dispatch(updateSelectedSection(section.id));
-                      dispatch(updateSelectedItem(listItem));
-                      dispatch(closeChooseIcon());
-                    }}
-                  >
-                    <div
-                      className={iconContainerClassNames}
-                      style={{
-                        height: listStyle.designSettings.height,
-                        width: listStyle.designSettings.height,
-                      }}
-                    >
-                      {listItem.icon ? (
-                        <ListIcon
-                          size={listStyle.designSettings.height / 2.5}
-                          className={iconClassNames}
-                        />
-                      ) : (
-                        <ImagePlaceHolder
-                          fillColor={
-                            listStyle.designSettings.border
-                              ? "fill-background"
-                              : "fill-muted"
-                          }
-                          height={listStyle.designSettings.height / 2.5}
-                          width={listStyle.designSettings.height / 2.5}
-                        />
-                      )}
-                    </div>
-                    <div className={listItemTextClassNames}>
-                      <h5 className={titleClassName}>{listItem.title}</h5>
-                      <p className={texClassName}>{listItem.text}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <Carousel
-              plugins={autoScrollPlugin}
-              opts={{
-                skipSnaps: true,
-                loop: autoScroll ? true : false,
-              }}
-              className="w-full"
-            >
-              <CarouselContent className="items-stretch">
+          <div className="md:col-span-2">
+            {listStyle.designSettings.displayType === "grid" ? (
+              <div className={gridClassNames}>
                 {section.content.list.map((listItem: any, index: number) => {
                   const ListIcon = PhosphorIcons[
                     listItem.icon as keyof typeof PhosphorIcons
                   ] as PhosphorIcons.Icon;
                   return (
-                    <CarouselItem
-                      className="h-full"
+                    <div
                       key={index}
-                      style={{
-                        flexBasis: isDesktop
-                          ? listStyle.designSettings.carouselSettings
-                              .desktopWidth
-                          : listStyle.designSettings.carouselSettings
-                              .mobileWidth,
+                      className={listItemClassNames}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        dispatch(updateSelectedSection(section.id));
+                        dispatch(updateSelectedItem(listItem));
+                        dispatch(closeChooseIcon());
                       }}
                     >
                       <div
+                        className={iconContainerClassNames}
+                        style={{
+                          height: listStyle.designSettings.height,
+                          width: listStyle.designSettings.height,
+                        }}
+                      >
+                        {listItem.icon ? (
+                          <ListIcon
+                            size={listStyle.designSettings.height / 2.5}
+                            className={iconClassNames}
+                          />
+                        ) : (
+                          <ImagePlaceHolder
+                            fillColor={
+                              listStyle.designSettings.border
+                                ? "fill-background"
+                                : "fill-muted"
+                            }
+                            height={listStyle.designSettings.height / 2.5}
+                            width={listStyle.designSettings.height / 2.5}
+                          />
+                        )}
+                      </div>
+                      <div className={listItemTextClassNames}>
+                        <h5 className={titleClassName}>{listItem.title}</h5>
+                        <p className={texClassName}>{listItem.text}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <Carousel
+                plugins={autoScrollPlugin}
+                opts={{
+                  skipSnaps: true,
+                  loop: autoScroll ? true : false,
+                }}
+                className="w-full"
+              >
+                <CarouselContent className="items-stretch">
+                  {section.content.list.map((listItem: any, index: number) => {
+                    const ListIcon = PhosphorIcons[
+                      listItem.icon as keyof typeof PhosphorIcons
+                    ] as PhosphorIcons.Icon;
+                    return (
+                      <CarouselItem
+                        className="h-full"
                         key={index}
-                        className={listItemClassNames}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          dispatch(updateSelectedSection(section.id));
-                          dispatch(updateSelectedItem(listItem));
-                          dispatch(closeChooseIcon());
+                        style={{
+                          flexBasis: isDesktop
+                            ? listStyle.designSettings.carouselSettings
+                                .desktopWidth
+                            : listStyle.designSettings.carouselSettings
+                                .mobileWidth,
                         }}
                       >
                         <div
-                          className={iconContainerClassNames}
-                          style={{
-                            height: listStyle.designSettings.height,
-                            width: listStyle.designSettings.height,
+                          key={index}
+                          className={listItemClassNames}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch(updateSelectedSection(section.id));
+                            dispatch(updateSelectedItem(listItem));
+                            dispatch(closeChooseIcon());
                           }}
                         >
-                          {listItem.icon ? (
-                            <ListIcon
-                              size={listStyle.designSettings.height / 2.5}
-                              className={iconClassNames}
-                            />
-                          ) : (
-                            <ImagePlaceHolder
-                              fillColor={
-                                listStyle.designSettings.border
-                                  ? "fill-background"
-                                  : "fill-muted"
-                              }
-                              height={listStyle.designSettings.height / 2.5}
-                              width={listStyle.designSettings.height / 2.5}
-                            />
-                          )}
+                          <div
+                            className={iconContainerClassNames}
+                            style={{
+                              height: listStyle.designSettings.height,
+                              width: listStyle.designSettings.height,
+                            }}
+                          >
+                            {listItem.icon ? (
+                              <ListIcon
+                                size={listStyle.designSettings.height / 2.5}
+                                className={iconClassNames}
+                              />
+                            ) : (
+                              <ImagePlaceHolder
+                                fillColor={
+                                  listStyle.designSettings.border
+                                    ? "fill-background"
+                                    : "fill-muted"
+                                }
+                                height={listStyle.designSettings.height / 2.5}
+                                width={listStyle.designSettings.height / 2.5}
+                              />
+                            )}
+                          </div>
+                          <div className={listItemTextClassNames}>
+                            <h5 className={titleClassName}>{listItem.title}</h5>
+                            <p className={texClassName}>{listItem.text}</p>
+                          </div>
                         </div>
-                        <div className={listItemTextClassNames}>
-                          <h5 className={titleClassName}>{listItem.title}</h5>
-                          <p className={texClassName}>{listItem.text}</p>
-                        </div>
-                      </div>
-                    </CarouselItem>
-                  );
-                })}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
-          )}
+                      </CarouselItem>
+                    );
+                  })}
+                </CarouselContent>
+                <CarouselPrevious />
+                <CarouselNext />
+              </Carousel>
+            )}
+          </div>
         </div>
       </div>
     </section>
