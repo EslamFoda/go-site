@@ -1,3 +1,5 @@
+import { AlignType, SectionBgColorType, TextSizeType } from "@/types/common";
+
 // Define types for Card content
 export interface Card {
   id: string;
@@ -31,8 +33,8 @@ export interface CardStyle {
       desktop: number;
       mobile: number;
     };
-    titleSize: "s" | "m" | "l";
-    align: "start" | "center" | "end";
+    titleSize: TextSizeType;
+    align: AlignType;
     displayType: "grid" | "carousel";
     image: boolean;
     cardBackground: boolean;
@@ -47,10 +49,10 @@ export interface CardStyle {
       scrollSpeed: number;
     };
     sectionBackground: {
-      color?: "primary" | "gray" | "none";
+      color?: SectionBgColorType;
       media?: string;
       height?: "fill" | "fit";
-      align?: "start" | "center" | "end";
+      align?: AlignType;
       width?: string;
       spacing?: string;
     };

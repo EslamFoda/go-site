@@ -1,20 +1,10 @@
 import { Label } from "@/components/ui/label";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowUpFromLine, ChevronLeft, Trash2 } from "lucide-react";
+import { ChevronLeft, Trash2 } from "lucide-react";
 import EditText from "../settingsUi/EditText";
-
 import ColorSelector from "../settingsUi/ColorSelector";
-import {
-  ImagePlaceHolder,
-  JustifyCenter,
-  JustifyEnd,
-  JustifyStart,
-} from "@/icons/common";
-import { ListItem } from "@/types/sectionsTypes/list";
-import ListContentTab from "./listContentTab";
-import IconList from "./comps/iconList";
-import ListStyleTab from "./listStyleTab";
+import { JustifyCenter, JustifyEnd, JustifyStart } from "@/icons/common";
 import {
   EditorSection,
   SectionContentTypes,
@@ -22,74 +12,68 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
-  openChooseIcon,
   updateContent,
   updateSelectedItem,
   updateStyle,
 } from "@/reduxStore/action";
+import { Accordion } from "@/types/sectionsTypes/accordion";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Testimonial,
+  TestimonialContent,
+  TestimonialStyle,
+} from "@/types/sectionsTypes/testimonials";
 
-function ListSettings() {
+function TestimonialsSettings() {
   const [tabValue, setTabValue] = useState("content");
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
+
   const dispatch = useAppDispatch();
   const editor = useAppSelector((state) => state.editor.editor);
   const selectedSection = useAppSelector(
     (state) => state.editor.selectedSection
   );
   const selectedItem = useAppSelector((state) => state.editor.selectedItem);
-  const chooseIcon = useAppSelector((state) => state.editor.chooseIcon);
-
   const findSelectedSection = editor.sections.find(
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
 
-  const listContent =
-    findSelectedSection?.content as SectionContentTypes["list"];
-  const listStyle = findSelectedSection?.style as SectionStyleTypes["list"];
-  const selectedListItem = selectedItem as ListItem;
+  const TestimonialsContent =
+    findSelectedSection?.content as TestimonialContent;
+  const TestimonialsStyle = findSelectedSection?.style as TestimonialStyle;
+  const TestimonialItem = selectedItem as Testimonial;
 
-  const [items, setItems] = useState(listContent?.list || []);
-
-  useEffect(() => {
-    setItems(listContent?.list || []);
-  }, [listContent?.list]);
-
-  const handleDeleteCard = () => {
-    const filterList = items.filter((list) => list.id !== selectedListItem?.id);
-    setItems(filterList);
-    dispatch(updateContent(findSelectedSection.id, { list: filterList }));
+  const handleDeleteTestimonial = () => {
+    const filterTestimonials = TestimonialsContent?.testimonials?.filter(
+      (testimonial) => testimonial.id !== TestimonialItem?.id
+    );
+    dispatch(
+      updateContent(findSelectedSection.id, {
+        testimonials: filterTestimonials,
+      })
+    );
     dispatch(updateSelectedItem(null));
-    if (listContent.list.length <= 5) {
-      dispatch(
-        updateStyle(findSelectedSection?.id!, {
-          designSettings: {
-            ...listStyle.designSettings,
-            displayType: "grid",
-          },
-        })
-      );
-    }
   };
 
-  const handleUpdateListItem = (field: keyof ListItem, value: any) => {
-    const updatedList = listContent.list.map((listItem) =>
-      listItem.id === selectedListItem.id
-        ? { ...listItem, [field]: value }
-        : listItem
+  const handleUpdateTestimonialItem = (
+    field: keyof Testimonial,
+    value: any
+  ) => {
+    const updatedTestimonials = TestimonialsContent.testimonials.map(
+      (testimonial) =>
+        testimonial.id === TestimonialItem.id
+          ? { ...testimonial, [field]: value }
+          : testimonial
     );
-    dispatch(updateSelectedItem({ ...selectedListItem, [field]: value }));
-    dispatch(updateContent(findSelectedSection.id, { list: updatedList }));
+    dispatch(updateSelectedItem({ ...TestimonialItem, [field]: value }));
+    dispatch(
+      updateContent(findSelectedSection.id, {
+        testimonials: updatedTestimonials,
+      })
+    );
   };
 
-  if (chooseIcon) {
-    return (
-      <IconList
-        handlePropertyChange={handleUpdateListItem}
-        selectedListItem={selectedListItem}
-      />
-    );
-  }
-  if (selectedListItem)
+  if (TestimonialItem)
     return (
       <div className="space-y-2">
         <div
@@ -100,47 +84,28 @@ function ListSettings() {
         >
           <div className="flex gap-4 items-center cursor-pointer">
             <ChevronLeft size={18} />
-            <Label className="cursor-pointer">{selectedListItem.title}</Label>
+            <Label className="cursor-pointer">{TestimonialItem.name}</Label>
           </div>
-          <div className="cursor-pointer" onClick={handleDeleteCard}>
+          <div className="cursor-pointer" onClick={handleDeleteTestimonial}>
             <Trash2 size="18px" color="red" />
           </div>
         </div>
-        <div className="px-5 space-y-2">
+        <div className="px-5 pb-1 space-y-2">
           <EditText
             label="Title"
-            value={selectedListItem.title}
+            value={TestimonialItem.review}
             handleUpdate={(e: any) =>
-              handleUpdateListItem("title", e.target.value)
+              handleUpdateTestimonialItem("review", e.target.value)
             }
           />
           <EditText
             inputType="textArea"
             label="Text"
-            value={selectedListItem.text}
+            value={TestimonialItem.bio}
             handleUpdate={(e: any) =>
-              handleUpdateListItem("text", e.target.value)
+              handleUpdateTestimonialItem("bio", e.target.value)
             }
           />
-
-          <div
-            onClick={() => dispatch(openChooseIcon())}
-            className="space-y-1 cursor-pointer flex items-center justify-between"
-          >
-            <Label htmlFor="title">Icon</Label>
-            <div className="w-4/6 border flex h-10 border-input rounded-md">
-              <div className=" basis-4/5 flex items-center justify-center h-full">
-                <ImagePlaceHolder
-                  fillColor="fill-muted"
-                  width={20}
-                  height={20}
-                />
-              </div>
-              <div className=" flex items-center border-s justify-center basis-1/5 h-full ">
-                <ArrowUpFromLine size="18px" />
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     );
@@ -159,15 +124,17 @@ function ListSettings() {
         </div>
         <div className="px-5 space-y-2">
           <ColorSelector
-            selectedColor={listStyle.designSettings.sectionBackground.color}
+            selectedColor={
+              TestimonialsStyle.designSettings.sectionBackground.color
+            }
             handleChangeColor={(color) => {
               if (color === "none") {
                 dispatch(
                   updateStyle(findSelectedSection?.id!, {
                     designSettings: {
-                      ...listStyle.designSettings!,
+                      ...TestimonialsStyle.designSettings!,
                       sectionBackground: {
-                        ...listStyle.designSettings.sectionBackground,
+                        ...TestimonialsStyle.designSettings.sectionBackground,
                         color,
                       },
                     },
@@ -177,11 +144,11 @@ function ListSettings() {
                 dispatch(
                   updateStyle(findSelectedSection?.id!, {
                     designSettings: {
-                      ...listStyle.designSettings!,
+                      ...TestimonialsStyle.designSettings!,
                       background: true,
                       border: false,
                       sectionBackground: {
-                        ...listStyle.designSettings.sectionBackground,
+                        ...TestimonialsStyle.designSettings.sectionBackground,
                         color,
                       },
                     },
@@ -198,9 +165,9 @@ function ListSettings() {
                   dispatch(
                     updateStyle(findSelectedSection?.id!, {
                       designSettings: {
-                        ...listStyle.designSettings!,
+                        ...TestimonialsStyle.designSettings!,
                         sectionBackground: {
-                          ...listStyle.designSettings.sectionBackground,
+                          ...TestimonialsStyle.designSettings.sectionBackground,
                           height: "fill",
                           align: "center",
                         },
@@ -209,7 +176,8 @@ function ListSettings() {
                   );
                 }}
                 className={`${
-                  listStyle.designSettings.sectionBackground.height === "fill"
+                  TestimonialsStyle.designSettings.sectionBackground.height ===
+                  "fill"
                     ? "bg-muted-bg"
                     : ""
                 } flex items-center justify-center cursor-pointer w-full`}
@@ -221,9 +189,9 @@ function ListSettings() {
                   dispatch(
                     updateStyle(findSelectedSection?.id!, {
                       designSettings: {
-                        ...listStyle.designSettings!,
+                        ...TestimonialsStyle.designSettings!,
                         sectionBackground: {
-                          ...listStyle.designSettings.sectionBackground,
+                          ...TestimonialsStyle.designSettings.sectionBackground,
                           height: "fit",
                           align: "center",
                         },
@@ -232,7 +200,8 @@ function ListSettings() {
                   );
                 }}
                 className={`${
-                  listStyle.designSettings.sectionBackground.height === "fit"
+                  TestimonialsStyle.designSettings.sectionBackground.height ===
+                  "fit"
                     ? "bg-muted-bg"
                     : ""
                 } flex items-center justify-center cursor-pointer w-full`}
@@ -241,7 +210,8 @@ function ListSettings() {
               </div>
             </div>
           </div>
-          {listStyle.designSettings.sectionBackground.height === "fill" && (
+          {TestimonialsStyle.designSettings.sectionBackground.height ===
+            "fill" && (
             <div className="space-y-1 flex items-center justify-between">
               <Label>Align</Label>
               <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
@@ -250,9 +220,10 @@ function ListSettings() {
                     dispatch(
                       updateStyle(findSelectedSection?.id!, {
                         designSettings: {
-                          ...listStyle.designSettings!,
+                          ...TestimonialsStyle.designSettings!,
                           sectionBackground: {
-                            ...listStyle.designSettings.sectionBackground,
+                            ...TestimonialsStyle.designSettings
+                              .sectionBackground,
                             align: "start",
                           },
                         },
@@ -260,7 +231,8 @@ function ListSettings() {
                     );
                   }}
                   className={`${
-                    listStyle.designSettings.sectionBackground.align === "start"
+                    TestimonialsStyle.designSettings.sectionBackground.align ===
+                    "start"
                       ? "bg-muted-bg"
                       : ""
                   } flex items-center justify-center cursor-pointer w-full`}
@@ -272,9 +244,10 @@ function ListSettings() {
                     dispatch(
                       updateStyle(findSelectedSection?.id!, {
                         designSettings: {
-                          ...listStyle.designSettings!,
+                          ...TestimonialsStyle.designSettings!,
                           sectionBackground: {
-                            ...listStyle.designSettings.sectionBackground,
+                            ...TestimonialsStyle.designSettings
+                              .sectionBackground,
                             align: "center",
                           },
                         },
@@ -282,7 +255,7 @@ function ListSettings() {
                     );
                   }}
                   className={`${
-                    listStyle.designSettings.sectionBackground.align ===
+                    TestimonialsStyle.designSettings.sectionBackground.align ===
                     "center"
                       ? "bg-muted-bg"
                       : ""
@@ -295,9 +268,10 @@ function ListSettings() {
                     dispatch(
                       updateStyle(findSelectedSection?.id!, {
                         designSettings: {
-                          ...listStyle.designSettings!,
+                          ...TestimonialsStyle.designSettings!,
                           sectionBackground: {
-                            ...listStyle.designSettings.sectionBackground,
+                            ...TestimonialsStyle.designSettings
+                              .sectionBackground,
                             align: "end",
                           },
                         },
@@ -305,7 +279,8 @@ function ListSettings() {
                     );
                   }}
                   className={`${
-                    listStyle.designSettings.sectionBackground.align === "end"
+                    TestimonialsStyle.designSettings.sectionBackground.align ===
+                    "end"
                       ? "bg-muted-bg"
                       : ""
                   } flex items-center justify-center cursor-pointer w-full`}
@@ -326,21 +301,20 @@ function ListSettings() {
           <TabsTrigger value="content">content</TabsTrigger>
           <TabsTrigger value="style">style</TabsTrigger>
         </TabsList>
-        <ListContentTab
-          listContent={listContent}
+        {/* <AccordionContentTab
+          accordionContent={accordionContent}
           findSelectedSection={findSelectedSection}
-          items={items}
-          setItems={setItems}
+          items={accordionContent?.accordions}
         />
-        <ListStyleTab
-          listStyle={listStyle}
-          listContent={listContent}
+        <AccordionStyleTab
+          accordionContent={accordionContent}
+          accordionStyle={AccordionStyle}
           findSelectedSection={findSelectedSection}
           setSectionBgOpened={setSectionBgOpened}
-        />
+        /> */}
       </Tabs>
     </div>
   );
 }
 
-export default ListSettings;
+export default TestimonialsSettings;

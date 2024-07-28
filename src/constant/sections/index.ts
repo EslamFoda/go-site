@@ -235,6 +235,73 @@ export const sections = [
         align: "start",
         background: true,
         border: false,
+        leftTitlePosition: false,
+        sectionBackground: {
+          color: "none",
+          media: "",
+          height: "fit",
+          spacing: "l",
+        },
+      },
+    },
+  },
+  {
+    id: v4(),
+    sectionName: "Testimonials",
+    content: {
+      label: "",
+      title: "Heading",
+      subtitle: "",
+      iconType: "rating",
+      testimonials: [
+        {
+          id: v4(),
+          review:
+            "Add a customer review that describes their experience with your product/service",
+          name: "John Doe",
+          bio: "@johnDoe",
+          rating: 4,
+          avatar: "",
+          link: "",
+        },
+        {
+          id: v4(),
+          review:
+            "Add a customer review that describes their experience with your product/service",
+          name: "John Doe",
+          bio: "@johnDoe",
+          rating: 4,
+          avatar: "",
+          link: "",
+        },
+        {
+          id: v4(),
+          review:
+            "Add a customer review that describes their experience with your product/service",
+          name: "John Doe",
+          bio: "@johnDoe",
+          rating: 4,
+          avatar: "",
+          link: "",
+        },
+      ],
+    },
+    style: {
+      designName: "design1",
+      designSettings: {
+        textSize: "m",
+        displayType: "grid",
+        grid: {
+          desktop: 3,
+          mobile: 1,
+        },
+        shape: "square",
+        align: "start",
+        background: true,
+        border: false,
+        avatar: true,
+        rating: true,
+        leftTitlePosition: false,
         sectionBackground: {
           color: "none",
           media: "",

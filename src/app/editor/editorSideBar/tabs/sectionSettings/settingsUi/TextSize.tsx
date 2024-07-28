@@ -23,7 +23,7 @@ const TextSize: React.FC<TextSizeProps> = ({
             key={size}
             onClick={() => onValueChange(size as "s" | "m" | "l")}
             className={`${
-              titleSizeValue === size ? "bg-muted-bg" : ""
+              titleSizeValue === size ? "bg-muted-bg" : "text-muted-foreground"
             } flex items-center justify-center cursor-pointer w-full`}
           >
             <span>{size.toUpperCase()}</span>

@@ -91,6 +91,7 @@ function CardsSettings() {
             }
           />
           <EditText
+            inputType="textArea"
             label="Text"
             value={cardItem.text}
             handleUpdate={(e: any) =>

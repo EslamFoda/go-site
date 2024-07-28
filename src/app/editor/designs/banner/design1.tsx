@@ -125,7 +125,7 @@ function Design1({ section }: Design1Props) {
                   ? ""
                   : section.style.designSettings.subtitleWidth,
               }}
-              className="text-lg text-gray-400 max-lg:!w-full"
+              className="text-lg text-muted-foreground max-lg:!w-full"
             >
               {section.content.subtitle}
             </p>

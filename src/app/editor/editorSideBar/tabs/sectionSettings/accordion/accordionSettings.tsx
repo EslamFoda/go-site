@@ -17,6 +17,9 @@ import {
   updateStyle,
 } from "@/reduxStore/action";
 import { Accordion } from "@/types/sectionsTypes/accordion";
+import AccordionContentTab from "./accordionContentTab";
+import AccordionStyleTab from "./accordionStyleTab";
+import { Textarea } from "@/components/ui/textarea";
 
 function AccordionSettings() {
   const [tabValue, setTabValue] = useState("content");
@@ -77,7 +80,7 @@ function AccordionSettings() {
             <Trash2 size="18px" color="red" />
           </div>
         </div>
-        <div className="px-5 space-y-2">
+        <div className="px-5 pb-1 space-y-2">
           <EditText
             label="Title"
             value={accordionItem.title}
@@ -86,6 +89,7 @@ function AccordionSettings() {
             }
           />
           <EditText
+            inputType="textArea"
             label="Text"
             value={accordionItem.text}
             handleUpdate={(e: any) =>
@@ -110,7 +114,9 @@ function AccordionSettings() {
         </div>
         <div className="px-5 space-y-2">
           <ColorSelector
-            selectedColor={AccordionStyle.designSettings.sectionBackground.color}
+            selectedColor={
+              AccordionStyle.designSettings.sectionBackground.color
+            }
             handleChangeColor={(color) => {
               if (color === "none") {
                 dispatch(
@@ -160,7 +166,8 @@ function AccordionSettings() {
                   );
                 }}
                 className={`${
-                  AccordionStyle.designSettings.sectionBackground.height === "fill"
+                  AccordionStyle.designSettings.sectionBackground.height ===
+                  "fill"
                     ? "bg-muted-bg"
                     : ""
                 } flex items-center justify-center cursor-pointer w-full`}
@@ -183,7 +190,8 @@ function AccordionSettings() {
                   );
                 }}
                 className={`${
-                  AccordionStyle.designSettings.sectionBackground.height === "fit"
+                  AccordionStyle.designSettings.sectionBackground.height ===
+                  "fit"
                     ? "bg-muted-bg"
                     : ""
                 } flex items-center justify-center cursor-pointer w-full`}
@@ -192,7 +200,8 @@ function AccordionSettings() {
               </div>
             </div>
           </div>
-          {AccordionStyle.designSettings.sectionBackground.height === "fill" && (
+          {AccordionStyle.designSettings.sectionBackground.height ===
+            "fill" && (
             <div className="space-y-1 flex items-center justify-between">
               <Label>Align</Label>
               <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
@@ -211,7 +220,8 @@ function AccordionSettings() {
                     );
                   }}
                   className={`${
-                    AccordionStyle.designSettings.sectionBackground.align === "start"
+                    AccordionStyle.designSettings.sectionBackground.align ===
+                    "start"
                       ? "bg-muted-bg"
                       : ""
                   } flex items-center justify-center cursor-pointer w-full`}
@@ -256,7 +266,8 @@ function AccordionSettings() {
                     );
                   }}
                   className={`${
-                    AccordionStyle.designSettings.sectionBackground.align === "end"
+                    AccordionStyle.designSettings.sectionBackground.align ===
+                    "end"
                       ? "bg-muted-bg"
                       : ""
                   } flex items-center justify-center cursor-pointer w-full`}
@@ -277,17 +288,17 @@ function AccordionSettings() {
           <TabsTrigger value="content">content</TabsTrigger>
           <TabsTrigger value="style">style</TabsTrigger>
         </TabsList>
-        {/* <CardContentTab
+        <AccordionContentTab
           accordionContent={accordionContent}
           findSelectedSection={findSelectedSection}
-          items={accordionContent?.cards}
-        /> */}
-        {/* <CardsStyleTab
-          cardStyle={cardStyle}
+          items={accordionContent?.accordions}
+        />
+        <AccordionStyleTab
           accordionContent={accordionContent}
+          accordionStyle={AccordionStyle}
           findSelectedSection={findSelectedSection}
           setSectionBgOpened={setSectionBgOpened}
-        /> */}
+        />
       </Tabs>
     </div>
   );

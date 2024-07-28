@@ -6,10 +6,7 @@ import {
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
-import { BannerStyle } from "@/types/sectionsTypes/banner";
-import { CardStyle } from "@/types/sectionsTypes/cards";
-import { ListStyle } from "@/types/sectionsTypes/list";
-import { AccordionStyle } from "@/types/sectionsTypes/accordion";
+import { SectionsStyleType } from "@/types/common";
 interface AlignProps {
   updateStyle: (
     sectionId: string,
@@ -18,7 +15,7 @@ interface AlignProps {
     type: string;
     payload: {
       sectionId: string;
-      newStyle: Partial<BannerStyle | CardStyle | ListStyle | AccordionStyle>;
+      newStyle: Partial<SectionsStyleType>;
     };
   };
   findSelectedSection: EditorSection<

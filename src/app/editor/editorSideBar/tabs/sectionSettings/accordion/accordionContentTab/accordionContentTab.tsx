@@ -10,45 +10,39 @@ import {
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
-import { ListContent, ListItem } from "@/types/sectionsTypes/list";
+import { Accordion, AccordionContent } from "@/types/sectionsTypes/accordion";
 import React from "react";
 import { v4 } from "uuid";
-interface ListContentTabProps {
+interface AccordionContentTabProps {
   findSelectedSection: EditorSection<
     keyof SectionContentTypes,
     keyof SectionStyleTypes
   >;
-  listContent: ListContent;
-  items: ListItem[];
-  setItems: React.Dispatch<React.SetStateAction<ListItem[]>>;
+  accordionContent: AccordionContent;
+  items: Accordion[];
 }
-function ListContentTab({
+function AccordionContentTab({
   findSelectedSection,
-  listContent,
+  accordionContent,
   items,
-  setItems,
-}: ListContentTabProps) {
+}: AccordionContentTabProps) {
   const dispatch = useAppDispatch();
   const handleDragEnd = (result: any) => {
     if (!result.destination) return; // dropped outside the list
     const newItems = [...items];
     const [reorderedItem] = newItems.splice(result.source.index, 1);
     newItems.splice(result.destination.index, 0, reorderedItem);
-    setItems(newItems);
-    dispatch(updateContent(findSelectedSection.id, { list: newItems }));
+    dispatch(updateContent(findSelectedSection.id, { accordions: newItems }));
   };
 
-  const handleAddList = () => {
+  const handleAddAccordion = () => {
     const newItem = {
       id: v4(),
       title: "Add title",
       text: "Add text here",
-      icon: "",
-      link: "",
-    } as ListItem;
-    const newItems = [...items, newItem] as ListItem[];
-    setItems(newItems);
-    dispatch(updateContent(findSelectedSection.id, { list: newItems }));
+    } as Accordion;
+    const newItems = [...items, newItem] as Accordion[];
+    dispatch(updateContent(findSelectedSection.id, { accordions: newItems }));
   };
   return (
     <TabsContent className="px-5 h space-y-2" value="content">
@@ -57,9 +51,8 @@ function ListContentTab({
         <Input
           id="label"
           className="w-4/6"
-          value={listContent?.label}
+          value={accordionContent?.label}
           onChange={(e: any) => {
-            console.log(e.target.value);
             dispatch(
               updateContent(findSelectedSection.id, {
                 label: e.target.value,
@@ -73,9 +66,8 @@ function ListContentTab({
         <Input
           className="w-4/6"
           id="title"
-          value={listContent?.title}
+          value={accordionContent?.title}
           onChange={(e: any) => {
-            console.log(e.target.value);
             dispatch(
               updateContent(findSelectedSection?.id!, {
                 title: e.target.value,
@@ -89,7 +81,7 @@ function ListContentTab({
         <Textarea
           className="w-4/6 "
           id="subtitle"
-          value={listContent?.subtitle}
+          value={accordionContent?.subtitle}
           onChange={(e: any) => {
             dispatch(
               updateContent(findSelectedSection?.id!, {
@@ -100,14 +92,14 @@ function ListContentTab({
         />
       </div>
       <DraggableList
-        label="List"
+        label="Accordion"
         handleDragEnd={handleDragEnd}
-        items={listContent?.list || []}
-        handleAdd={handleAddList}
+        items={accordionContent?.accordions || []}
+        handleAdd={handleAddAccordion}
         updateSelectedItem={updateSelectedItem}
       />
     </TabsContent>
   );
 }
 
-export default ListContentTab;
+export default AccordionContentTab;

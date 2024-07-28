@@ -1,18 +1,18 @@
 interface SectionBackground {
   color: "primary" | "gray" | "none";
   media: string;
-  height: string;
+  height: "fill" | "fit";
   spacing: string;
   align?: "start" | "center" | "end";
 }
 
-interface IconType {
-  ARROW: "arrow";
-  PLUS: "plus";
+export enum AccordionIconType {
+  "ARROW" = "arrow",
+  "PLUS" = "plus",
 }
-
 interface DesignSettings {
-  icon: IconType;
+  leftTitlePosition: boolean;
+  icon: AccordionIconType;
   align: "start" | "center" | "end";
   background: boolean;
   border: boolean;

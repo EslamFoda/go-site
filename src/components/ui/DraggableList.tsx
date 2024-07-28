@@ -7,14 +7,16 @@ import { Card } from "@/types/sectionsTypes/cards";
 import { ListItem } from "@/types/sectionsTypes/list";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { Accordion } from "@/types/sectionsTypes/accordion";
+import { SelectedItemType } from "@/types/common";
+import { Testimonial } from "@/types/sectionsTypes/testimonials";
 interface DraggableListProps {
   label: string;
-  items: Card[] | ListItem[];
+  items: Card[] | ListItem[] | Accordion[] | Testimonial[];
   handleDragEnd: (result: any) => void;
   handleAdd: () => void;
-  updateSelectedItem: (item: Card | ListItem | Accordion | null) => {
+  updateSelectedItem: (item: SelectedItemType) => {
     type: string;
-    payload: Card | ListItem | Accordion | null;
+    payload: SelectedItemType;
   };
 }
 function DraggableList({

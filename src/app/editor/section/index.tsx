@@ -4,6 +4,7 @@ import Banner from "../designs/banner";
 import Cards from "../designs/cards";
 import List from "../designs/list";
 import Accordion from "../designs/accordion";
+import Testimonials from "../designs/testimonials";
 import AddSection from "./addSection";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
@@ -22,6 +23,7 @@ const Section = () => {
     Cards: Cards,
     List: List,
     Accordion: Accordion,
+    Testimonials: Testimonials,
   };
 
   return (

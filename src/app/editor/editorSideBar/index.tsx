@@ -1,12 +1,13 @@
 "use client";
 import React from "react";
-import BannerSettings from "./tabs/sectionSettings/banner";
 import ChooseSection from "./tabs/chooseSection";
-import CardsSettings from "./tabs/sectionSettings/cards";
-import ListSettings from "./tabs/sectionSettings/list";
-import AccordionSettings from "./tabs/sectionSettings/accordion/accordionSettings";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { updateSelectedPallet } from "@/reduxStore/action";
+import testimonials from "./tabs/sectionSettings/testimonials";
+import accordion from "./tabs/sectionSettings/accordion";
+import list from "./tabs/sectionSettings/list";
+import cards from "./tabs/sectionSettings/cards";
+import banner from "./tabs/sectionSettings/banner";
 
 const EditorSidebar = () => {
   const dispatch = useAppDispatch();
@@ -26,10 +27,11 @@ const EditorSidebar = () => {
   };
 
   const sectionComponents: Record<string, React.ComponentType | null> = {
-    Banner: BannerSettings,
-    Cards: CardsSettings,
-    List: ListSettings,
-    Accordion:AccordionSettings
+    Banner: banner,
+    Cards: cards,
+    List: list,
+    Accordion: accordion,
+    Testimonials: testimonials,
   };
 
   const SelectedSectionComponent = selectedSection

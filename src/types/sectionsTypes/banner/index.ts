@@ -1,3 +1,5 @@
+import { AlignType, SectionBgColorType } from "@/types/common";
+
 // Define types for Banner content
 export interface BannerContent {
   label?: string;
@@ -17,7 +19,7 @@ export interface BannerStyle {
   designName: string;
   designSettings: {
     titleSize: "s" | "m" | "l" | "xl";
-    align: "start" | "center" | "end";
+    align: AlignType;
     subtitleWidth: string;
     height: string;
     video: boolean;
@@ -25,16 +27,16 @@ export interface BannerStyle {
     leftTitleWidth: string;
     showButtons: boolean;
     sectionBackground: {
-      color?: "primary" | "gray" | "none";
+      color?: SectionBgColorType;
       media?: string;
       height?: "fill" | "fit";
-      align?: "start" | "center" | "end";
+      align?: AlignType;
       width?: string;
       spacing?: string;
     };
     imageSetting: {
       objectFit: "cover" | "contain";
-      backgroundColor: "primary" | "gray" | "none";
+      backgroundColor: SectionBgColorType;
       showImage: boolean;
     };
   };

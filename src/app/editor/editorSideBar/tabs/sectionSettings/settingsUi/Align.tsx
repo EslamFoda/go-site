@@ -41,51 +41,61 @@ const AlignStartIcon = ({ active }: { active: boolean }) => {
     <svg
       width={16}
       height={16}
-      data-v-62352d9f=""
-      fill="none"
+      data-v-b69aee76=""
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        data-v-62352d9f=""
-        d="M2 2V22M7 9H22V15H7V9Z"
-        className={`${active ? "stroke-foreground" : "stroke-primary"}`}
+        data-v-b69aee76=""
+        d="M2 2V22H4V2H2Z"
+        className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
+      ></path>
+      <path
+        data-v-b69aee76=""
+        d="m22 8.5h-15v7h15v-7z"
+        className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
       ></path>
     </svg>
   );
 };
+
 const AlignCenterIcon = ({ active }: { active: boolean }) => {
   return (
     <svg
       width={16}
       height={16}
-      data-v-62352d9f=""
+      data-v-b69aee76=""
       fill="none"
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        data-v-62352d9f=""
-        d="M12 2V9M12 15V22M3 9H21V15H3V9Z"
-        className={`${active ? "stroke-foreground" : "stroke-primary"}`}
+        data-v-b69aee76=""
+        d="m11 15.5v6.5h2v-6.5h9v-7h-9v-6.5h-2v6.5h-9v7h9z"
+        className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
       ></path>
     </svg>
   );
 };
+
 const AlignEndIcon = ({ active }: { active: boolean }) => {
   return (
     <svg
       width={16}
       height={16}
-      data-v-62352d9f=""
-      fill="none"
+      data-v-b69aee76=""
       viewBox="0 0 24 24"
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        data-v-62352d9f=""
-        d="M22 2V22M2 9H17V15H2V9Z"
-        className={`${active ? "stroke-primary" : "stroke-primary"}`}
+        data-v-b69aee76=""
+        d="M20 2V22H22V2H20Z"
+        className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
+      ></path>
+      <path
+        data-v-b69aee76=""
+        d="m17 8.5h-15v7h15v-7z"
+        className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
       ></path>
     </svg>
   );

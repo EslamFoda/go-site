@@ -1,3 +1,10 @@
+import {
+  AlignType,
+  SectionBgColorType,
+  ShapeType,
+  TextSizeType,
+} from "@/types/common";
+
 export interface ListItem {
   id: string;
   title: string;
@@ -27,21 +34,21 @@ interface CarouselSettings {
 }
 
 interface SectionBackground {
-  color?: "primary" | "gray" | "none";
+  color?: SectionBgColorType;
   media: string;
-  height: string;
+  height: "fill" | "fit";
   spacing: string;
-  align?: "start" | "center" | "end";
+  align?: AlignType;
 }
 
 interface DesignSettings {
   layout: "row" | "col";
   grid: GridSettings;
   height: number;
-  shape: "square" | "rounded";
+  shape: ShapeType;
   iconColor: "none" | "primary";
-  textSize: "s" | "m" | "l";
-  align: "start" | "center" | "end";
+  textSize: TextSizeType;
+  align: AlignType;
   icon: boolean;
   background: boolean;
   border: boolean;

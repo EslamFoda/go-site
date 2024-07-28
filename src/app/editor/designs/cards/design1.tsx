@@ -66,7 +66,7 @@ function Design1({ section }: DesignProps) {
     cardStyle.designSettings.titleSize === "l" && "text-lg font-bold"
   );
   const textOrderClassName = cn(
-    "text-gray-400",
+    "text-muted-foreground",
     cardStyle.designSettings.layout === "top" && "order-3",
     cardStyle.designSettings.layout === "center" && "order-3",
     cardStyle.designSettings.layout === "bottom" && "order-2"
@@ -90,7 +90,7 @@ function Design1({ section }: DesignProps) {
   const cardClassNames = cn(
     "flex flex-col  gap-2 rounded-md",
     cardStyle.designSettings.cardBackground && "bg-muted p-5",
-    cardStyle.designSettings.cardBorder && "border border-muted p-5",
+    cardStyle.designSettings.cardBorder && "outline outline-[1px] outline-muted p-5",
     bgMuted && "bg-background"
   );
 

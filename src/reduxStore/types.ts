@@ -8,6 +8,11 @@ import {
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
 import { Card, CardStyle, CardsContent } from "@/types/sectionsTypes/cards";
 import { ListContent, ListItem, ListStyle } from "@/types/sectionsTypes/list";
+import {
+  Testimonial,
+  TestimonialContent,
+  TestimonialStyle,
+} from "@/types/sectionsTypes/testimonials";
 
 // Define all possible content types
 export type SectionContentTypes = {
@@ -15,6 +20,7 @@ export type SectionContentTypes = {
   cards: CardsContent;
   list: ListContent;
   accordion: AccordionContent;
+  testimonial: TestimonialContent;
   // Add more content types here as needed
 };
 
@@ -23,6 +29,7 @@ export type SectionStyleTypes = {
   cards: CardStyle;
   list: ListStyle;
   accordion: AccordionStyle;
+  testimonial: TestimonialStyle;
 };
 
 // Define the type for a single editor section
@@ -49,7 +56,7 @@ export interface EditorStore {
     keyof SectionContentTypes,
     keyof SectionStyleTypes
   > | null;
-  selectedItem: Card | ListItem | Accordion | null;
+  selectedItem: Card | ListItem | Accordion | Testimonial | null;
   openSectionDesigns: boolean;
   openPallet: boolean;
   chooseIcon: boolean;

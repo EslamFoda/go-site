@@ -65,7 +65,7 @@ function Design2({ section }: DesignProps) {
     listStyle.designSettings.textSize === "m" && "text-base font-semibold",
     listStyle.designSettings.textSize === "l" && "text-lg font-bold"
   );
-  const texClassName = cn("text-gray-400 text-sm");
+  const texClassName = cn("text-muted-foreground text-sm");
   const gridClassNames = cn(
     "grid gap-5 items-start",
     listStyle.designSettings.grid.desktop === 3 && "lg:grid-cols-3",
@@ -81,7 +81,7 @@ function Design2({ section }: DesignProps) {
     "flex justify-between gap-5 gap-y-3  rounded-md",
     {
       "bg-muted p-5": listStyle.designSettings.background,
-      "border border-muted p-5": listStyle.designSettings.border,
+      "outline outline-[1px] outline-muted p-5": listStyle.designSettings.border,
       "bg-background": bgMuted,
       "flex-row items-start": listStyle.designSettings.layout === "row",
       "flex-col-reverse": listStyle.designSettings.layout === "col",

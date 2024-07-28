@@ -7,7 +7,7 @@ interface ShapeProps {
 function Shape({ shapeValue, onValueChange }: ShapeProps) {
   return (
     <div className="space-y-1 flex items-center justify-between">
-      <Label>Align</Label>
+      <Label>Shape</Label>
       <div className="border-muted-bg flex border-solid border-[1px] rounded-sm h-10 w-4/6">
         {["square", "rounded"].map((shape) => (
           <div

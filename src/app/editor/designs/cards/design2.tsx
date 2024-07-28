@@ -56,7 +56,7 @@ function Design2({ section }: DesignProps) {
     cardStyle.designSettings.titleSize === "m" && "text-base font-semibold",
     cardStyle.designSettings.titleSize === "l" && "text-lg font-bold"
   );
-  const textOrderClassName = cn("text-gray-400");
+  const textOrderClassName = cn("text-muted-foreground");
   const gridClassNames = cn(
     "grid gap-5",
     cardStyle.designSettings.grid.desktop === 3 && "lg:grid-cols-3",

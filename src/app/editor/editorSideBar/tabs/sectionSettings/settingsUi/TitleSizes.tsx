@@ -1,15 +1,12 @@
 import { Label } from "@/components/ui/label";
 import React from "react";
-import { CardStyle } from "@/types/sectionsTypes/cards";
-import { BannerStyle } from "@/types/sectionsTypes/banner";
 import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
 import { useAppDispatch } from "@/reduxStore/hooks";
-import { ListStyle } from "@/types/sectionsTypes/list";
-import { AccordionStyle } from "@/types/sectionsTypes/accordion";
+import { SectionsStyleType } from "@/types/common";
 
 interface TitleSizeProps {
   label: string;
@@ -24,7 +21,7 @@ interface TitleSizeProps {
     type: string;
     payload: {
       sectionId: string;
-      newStyle: Partial<BannerStyle | CardStyle | ListStyle | AccordionStyle>;
+      newStyle: Partial<SectionsStyleType>;
     };
   };
 }
