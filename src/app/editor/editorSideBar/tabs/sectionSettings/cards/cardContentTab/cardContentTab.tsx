@@ -46,7 +46,7 @@ function CardContentTab({
       link: "",
     };
     const newItems = [...items, newItem] as Card[];
-    
+
     dispatch(updateContent(findSelectedSection.id, { cards: newItems }));
   };
   return (
@@ -86,7 +86,7 @@ function CardContentTab({
         <Label htmlFor="subtitle">Subtitle</Label>
         <Textarea
           className="w-4/6 "
-          id="subtitle"
+          id={findSelectedSection.id + "subtitle"}
           value={cardsContent?.subtitle}
           onChange={(e: any) => {
             dispatch(

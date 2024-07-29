@@ -16,13 +16,14 @@ import {
   updateSelectedItem,
   updateStyle,
 } from "@/reduxStore/action";
-import { Accordion } from "@/types/sectionsTypes/accordion";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Testimonial,
   TestimonialContent,
   TestimonialStyle,
 } from "@/types/sectionsTypes/testimonials";
+import TestimonialsContentTab from "./testimonialsContentTab/testimonialsContentTab";
+import WidthOrHeight from "../settingsUi/WidthOrHeight";
+import TestimonialsStyleTab from "./testimonialsStyleTab";
 
 function TestimonialsSettings() {
   const [tabValue, setTabValue] = useState("content");
@@ -42,6 +43,7 @@ function TestimonialsSettings() {
     findSelectedSection?.content as TestimonialContent;
   const TestimonialsStyle = findSelectedSection?.style as TestimonialStyle;
   const TestimonialItem = selectedItem as Testimonial;
+  console.log(TestimonialsContent.testimonials, "asdasoidaisod");
 
   const handleDeleteTestimonial = () => {
     const filterTestimonials = TestimonialsContent?.testimonials?.filter(
@@ -61,7 +63,7 @@ function TestimonialsSettings() {
   ) => {
     const updatedTestimonials = TestimonialsContent.testimonials.map(
       (testimonial) =>
-        testimonial.id === TestimonialItem.id
+        TestimonialItem.id === testimonial.id
           ? { ...testimonial, [field]: value }
           : testimonial
     );
@@ -92,7 +94,9 @@ function TestimonialsSettings() {
         </div>
         <div className="px-5 pb-1 space-y-2">
           <EditText
-            label="Title"
+            inputType="textArea"
+            label="Review"
+            id={TestimonialItem.id}
             value={TestimonialItem.review}
             handleUpdate={(e: any) =>
               handleUpdateTestimonialItem("review", e.target.value)
@@ -100,10 +104,41 @@ function TestimonialsSettings() {
           />
           <EditText
             inputType="textArea"
-            label="Text"
+            label="Name"
+            id={TestimonialItem.id}
+            value={TestimonialItem.name}
+            handleUpdate={(e: any) =>
+              handleUpdateTestimonialItem("name", e.target.value)
+            }
+          />
+          <EditText
+            inputType="textArea"
+            label="Bio"
+            id={TestimonialItem.id}
             value={TestimonialItem.bio}
             handleUpdate={(e: any) =>
               handleUpdateTestimonialItem("bio", e.target.value)
+            }
+          />
+          {TestimonialsContent.iconType === "star" && (
+            <WidthOrHeight
+              label="Rating"
+              min={0}
+              max={5}
+              customText={`${TestimonialItem.rating}/5`}
+              value={[TestimonialItem.rating]}
+              onValueChange={(value) => {
+                handleUpdateTestimonialItem("rating", value[0]);
+              }}
+            />
+          )}
+
+          <EditText
+            label="Avatar"
+            id={TestimonialItem.id}
+            value={TestimonialItem.avatar}
+            handleUpdate={(e: any) =>
+              handleUpdateTestimonialItem("avatar", e.target.value)
             }
           />
         </div>
@@ -301,17 +336,17 @@ function TestimonialsSettings() {
           <TabsTrigger value="content">content</TabsTrigger>
           <TabsTrigger value="style">style</TabsTrigger>
         </TabsList>
-        {/* <AccordionContentTab
-          accordionContent={accordionContent}
+        <TestimonialsContentTab
+          testimonialsContent={TestimonialsContent}
           findSelectedSection={findSelectedSection}
-          items={accordionContent?.accordions}
+          items={TestimonialsContent?.testimonials}
         />
-        <AccordionStyleTab
-          accordionContent={accordionContent}
-          accordionStyle={AccordionStyle}
+        <TestimonialsStyleTab
           findSelectedSection={findSelectedSection}
           setSectionBgOpened={setSectionBgOpened}
-        /> */}
+          testimonialContent={TestimonialsContent}
+          testimonialStyle={TestimonialsStyle}
+        />
       </Tabs>
     </div>
   );

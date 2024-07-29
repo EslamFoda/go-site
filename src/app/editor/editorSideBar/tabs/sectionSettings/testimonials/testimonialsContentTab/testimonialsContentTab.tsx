@@ -1,3 +1,5 @@
+import React from "react";
+import { v4 } from "uuid";
 import DraggableList from "@/components/ui/DraggableList";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,45 +12,45 @@ import {
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
-import { ListContent, ListItem } from "@/types/sectionsTypes/list";
-import React from "react";
-import { v4 } from "uuid";
-interface ListContentTabProps {
+import {
+  Testimonial,
+  TestimonialContent,
+} from "@/types/sectionsTypes/testimonials";
+import ReviewType from "../../settingsUi/ReviewType";
+interface TestimonialsContentTabProps {
   findSelectedSection: EditorSection<
     keyof SectionContentTypes,
     keyof SectionStyleTypes
   >;
-  listContent: ListContent;
-  items: ListItem[];
-  setItems: React.Dispatch<React.SetStateAction<ListItem[]>>;
+  testimonialsContent: TestimonialContent;
+  items: Testimonial[];
 }
-function ListContentTab({
+function TestimonialsContentTab({
   findSelectedSection,
-  listContent,
+  testimonialsContent,
   items,
-  setItems,
-}: ListContentTabProps) {
+}: TestimonialsContentTabProps) {
   const dispatch = useAppDispatch();
   const handleDragEnd = (result: any) => {
     if (!result.destination) return; // dropped outside the list
     const newItems = [...items];
     const [reorderedItem] = newItems.splice(result.source.index, 1);
     newItems.splice(result.destination.index, 0, reorderedItem);
-    setItems(newItems);
-    dispatch(updateContent(findSelectedSection.id, { list: newItems }));
+    dispatch(updateContent(findSelectedSection.id, { testimonials: newItems }));
   };
 
   const handleAddList = () => {
     const newItem = {
       id: v4(),
-      title: "Add title",
-      text: "Add text here",
-      icon: "",
+      review: "Add quote",
+      name: "Add name",
+      bio: "Add bio",
+      rating: 3,
+      avatar: "",
       link: "",
-    } as ListItem;
-    const newItems = [...items, newItem] as ListItem[];
-    setItems(newItems);
-    dispatch(updateContent(findSelectedSection.id, { list: newItems }));
+    } as Testimonial;
+    const newItems = [...items, newItem] as Testimonial[];
+    dispatch(updateContent(findSelectedSection.id, { testimonials: newItems }));
   };
   return (
     <TabsContent className="px-5 h space-y-2" value="content">
@@ -57,7 +59,7 @@ function ListContentTab({
         <Input
           id="label"
           className="w-4/6"
-          value={listContent?.label}
+          value={testimonialsContent?.label}
           onChange={(e: any) => {
             console.log(e.target.value);
             dispatch(
@@ -73,7 +75,7 @@ function ListContentTab({
         <Input
           className="w-4/6"
           id="title"
-          value={listContent?.title}
+          value={testimonialsContent?.title}
           onChange={(e: any) => {
             console.log(e.target.value);
             dispatch(
@@ -89,7 +91,7 @@ function ListContentTab({
         <Textarea
           className="w-4/6 "
           id={findSelectedSection.id + "subtitle"}
-          value={listContent?.subtitle}
+          value={testimonialsContent?.subtitle}
           onChange={(e: any) => {
             dispatch(
               updateContent(findSelectedSection?.id!, {
@@ -99,10 +101,16 @@ function ListContentTab({
           }}
         />
       </div>
+      <ReviewType
+        reviewType={testimonialsContent?.iconType}
+        onValueChange={(value) =>
+          dispatch(updateContent(findSelectedSection?.id!, { iconType: value }))
+        }
+      />
       <DraggableList
-        label="List"
+        label="Review"
         handleDragEnd={handleDragEnd}
-        items={listContent?.list || []}
+        items={testimonialsContent?.testimonials || []}
         handleAdd={handleAddList}
         updateSelectedItem={updateSelectedItem}
       />
@@ -110,4 +118,4 @@ function ListContentTab({
   );
 }
 
-export default ListContentTab;
+export default TestimonialsContentTab;

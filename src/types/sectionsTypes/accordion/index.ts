@@ -1,5 +1,7 @@
+import { SectionBgColorType } from "@/types/common";
+
 interface SectionBackground {
-  color: "primary" | "gray" | "none";
+  color: SectionBgColorType;
   media: string;
   height: "fill" | "fit";
   spacing: string;

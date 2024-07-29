@@ -83,6 +83,7 @@ function AccordionSettings() {
         <div className="px-5 pb-1 space-y-2">
           <EditText
             label="Title"
+            id={accordionItem.id}
             value={accordionItem.title}
             handleUpdate={(e: any) =>
               handleUpdateAccordionItem("title", e.target.value)
@@ -91,6 +92,7 @@ function AccordionSettings() {
           <EditText
             inputType="textArea"
             label="Text"
+            id={accordionItem.id}
             value={accordionItem.text}
             handleUpdate={(e: any) =>
               handleUpdateAccordionItem("text", e.target.value)

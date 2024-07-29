@@ -1,5 +1,7 @@
 import {
   AlignType,
+  CarouselSettings,
+  displayType,
   SectionBgColorType,
   ShapeType,
   TextSizeType,
@@ -43,7 +45,7 @@ interface SectionBackground {
 // Define the interface for the design settings
 interface DesignSettings {
   textSize: TextSizeType;
-  displayType: string;
+  displayType: displayType;
   grid: GridSettings;
   shape: ShapeType;
   align: AlignType;
@@ -53,6 +55,7 @@ interface DesignSettings {
   rating: boolean;
   leftTitlePosition: boolean;
   sectionBackground: SectionBackground;
+  carouselSettings: CarouselSettings;
 }
 
 // Define the interface for the style object

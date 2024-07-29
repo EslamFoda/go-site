@@ -1,4 +1,4 @@
-import { AlignType, SectionBgColorType, TextSizeType } from "@/types/common";
+import { AlignType, displayType, SectionBgColorType, TextSizeType } from "@/types/common";
 
 // Define types for Card content
 export interface Card {
@@ -35,7 +35,7 @@ export interface CardStyle {
     };
     titleSize: TextSizeType;
     align: AlignType;
-    displayType: "grid" | "carousel";
+    displayType: displayType;
     image: boolean;
     cardBackground: boolean;
     cardBorder: boolean;

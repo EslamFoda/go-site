@@ -1,5 +1,7 @@
 import {
   AlignType,
+  CarouselSettings,
+  displayType,
   SectionBgColorType,
   ShapeType,
   TextSizeType,
@@ -26,12 +28,7 @@ interface GridSettings {
   mobile: number;
 }
 
-interface CarouselSettings {
-  desktopWidth: number;
-  mobileWidth: number;
-  autoScroll: boolean;
-  scrollSpeed: number;
-}
+
 
 interface SectionBackground {
   color?: SectionBgColorType;
@@ -53,7 +50,7 @@ interface DesignSettings {
   background: boolean;
   border: boolean;
   leftTitlePosition: boolean;
-  displayType: "grid" | "carousel";
+  displayType: displayType;
   carouselSettings: CarouselSettings;
   sectionBackground: SectionBackground;
 }

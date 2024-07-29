@@ -63,7 +63,7 @@ function BannerContentTab({
         <Label htmlFor="subtitle">subtitle</Label>
         <Textarea
           className="w-4/6 h-28"
-          id="subtitle"
+          id={findSelectedSection.id + "subtitle"}
           value={bannerContent?.subtitle}
           onChange={(e: any) => {
             dispatch(

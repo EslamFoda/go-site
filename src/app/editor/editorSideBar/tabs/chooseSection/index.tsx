@@ -1,4 +1,4 @@
-import { sections } from "@/constant/sections";
+import { useSections } from "@/hooks/useSections";
 import {
   closeSectionDesigns,
   updateEditorSections,
@@ -11,6 +11,7 @@ function ChooseSection() {
   const editor = useAppSelector((state) => state.editor.editor);
   const sectionIndex = useAppSelector((state) => state.editor.sectionIndex);
   const dispatch = useAppDispatch();
+  const { sections } = useSections();
 
   const handleChooseSection = (section: any) => {
     if (sectionIndex < 0 || sectionIndex >= editor.sections.length) {

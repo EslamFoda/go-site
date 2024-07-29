@@ -109,6 +109,7 @@ function ListSettings() {
         <div className="px-5 space-y-2">
           <EditText
             label="Title"
+            id={selectedListItem.id}
             value={selectedListItem.title}
             handleUpdate={(e: any) =>
               handleUpdateListItem("title", e.target.value)
@@ -117,6 +118,7 @@ function ListSettings() {
           <EditText
             inputType="textArea"
             label="Text"
+            id={selectedListItem.id}
             value={selectedListItem.text}
             handleUpdate={(e: any) =>
               handleUpdateListItem("text", e.target.value)

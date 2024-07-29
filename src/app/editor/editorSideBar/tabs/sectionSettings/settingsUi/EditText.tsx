@@ -7,8 +7,15 @@ interface EditTextProps {
   value: string;
   inputType?: "text" | "textArea";
   handleUpdate: (e: any) => void;
+  id: string;
 }
-function EditText({ label, value, inputType = "text", handleUpdate }: EditTextProps) {
+function EditText({
+  label,
+  value,
+  inputType = "text",
+  id,
+  handleUpdate,
+}: EditTextProps) {
   return (
     <div className="space-y-1 flex items-center justify-between">
       <Label htmlFor="title">{label}</Label>
@@ -22,7 +29,7 @@ function EditText({ label, value, inputType = "text", handleUpdate }: EditTextPr
       ) : (
         <Textarea
           className="w-4/6"
-          id="title"
+          id={id}
           value={value}
           onChange={handleUpdate}
         />

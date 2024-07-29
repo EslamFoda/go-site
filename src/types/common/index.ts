@@ -16,3 +16,11 @@ export type TextSizeType = "s" | "m" | "l";
 export type AlignType = "start" | "center" | "end";
 export type SectionBgColorType = "primary" | "gray" | "none";
 export type ShapeType = "square" | "rounded";
+export type displayType = "grid" | "carousel";
+
+export interface CarouselSettings {
+  desktopWidth: number;
+  mobileWidth: number;
+  autoScroll: boolean;
+  scrollSpeed: number;
+}

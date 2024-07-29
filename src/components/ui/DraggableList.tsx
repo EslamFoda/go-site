@@ -18,6 +18,7 @@ interface DraggableListProps {
     type: string;
     payload: SelectedItemType;
   };
+  listType?: "testimonial";
 }
 function DraggableList({
   label,
@@ -47,7 +48,7 @@ function DraggableList({
               >
                 <GripVertical size={15} />
               </div>
-              <span>{item.title}</span>
+              <span>{item.title || item.name}</span>
             </div>
             <div>
               <ChevronRight size={15} />

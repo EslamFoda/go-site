@@ -86,11 +86,13 @@ function CardsSettings() {
           <EditText
             label="Title"
             value={cardItem.title}
+            id={cardItem.id}
             handleUpdate={(e: any) =>
               handleUpdateCardItem("title", e.target.value)
             }
           />
           <EditText
+            id={cardItem.id}
             inputType="textArea"
             label="Text"
             value={cardItem.text}
@@ -99,6 +101,7 @@ function CardsSettings() {
             }
           />
           <EditText
+            id={cardItem.id}
             label="Image"
             value={cardItem.image}
             handleUpdate={(e: any) =>
