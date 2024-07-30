@@ -1,3 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik+Distressed&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Bangers&family=Hind&family=Kdam+Thmor+Pro&family=Krub&family=Lato&family=Lora&family=Nerko+One&family=Poppins&family=Roboto&family=Roboto+Mono&family=Ropa+Sans&family=Rubik+Distressed&family=Russo+One&family=Saira+Condensed&family=Secular+One&family=Tillana&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Bangers&family=Hind&family=Kdam+Thmor+Pro&family=Krub&family=Lato&family=Lora&family=Nerko+One&family=Poppins&family=Roboto&family=Roboto+Mono&family=Ropa+Sans&family=Rubik+Distressed&family=Russo+One&family=Saira+Condensed&family=Secular+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Bangers&family=Hind&family=Karla&family=Kdam+Thmor+Pro&family=Krub&family=Lato&family=Lora&family=Nerko+One&family=Poppins&family=Roboto&family=Roboto+Mono&family=Ropa+Sans&family=Rubik+Distressed&family=Russo+One&family=Saira+Condensed&family=Secular+One&family=Tillana&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hind&family=Rubik+Distressed&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Bangers&family=Hind&family=Karla&family=Kdam+Thmor+Pro&family=Krub&family=Lato&family=Lora&family=Montserrat&family=Nerko+One&family=Poppins&family=Roboto&family=Roboto+Mono&family=Ropa+Sans&family=Rubik+Distressed&family=Russo+One&family=Saira+Condensed&family=Secular+One&family=Tillana&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hind&family=Rubik+Distressed&family=Saira+Condensed&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hind&family=Poppins&family=Rubik+Distressed&family=Saira+Condensed&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hind&family=Poppins&family=Roboto&family=Rubik+Distressed&family=Saira+Condensed&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hind&family=Lato&family=Poppins&family=Roboto&family=Rubik+Distressed&family=Saira+Condensed&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hind&family=Lato&family=Poppins&family=Roboto&family=Roboto+Mono&family=Rubik+Distressed&family=Saira+Condensed&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hind&family=Lato&family=Lora&family=Poppins&family=Roboto&family=Roboto+Mono&family=Rubik+Distressed&family=Saira+Condensed&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hind&family=Lato&family=Lora&family=Poppins&family=Roboto&family=Roboto+Mono&family=Rubik+Distressed&family=Saira+Condensed&family=Secular+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Hind&family=Lato&family=Lora&family=Nerko+One&family=Poppins&family=Roboto&family=Roboto+Mono&family=Rubik+Distressed&family=Saira+Condensed&family=Secular+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Hind&family=Lato&family=Lora&family=Nerko+One&family=Poppins&family=Roboto&family=Roboto+Mono&family=Rubik+Distressed&family=Saira+Condensed&family=Secular+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Hind&family=Lato&family=Lora&family=Nerko+One&family=Poppins&family=Roboto&family=Roboto+Mono&family=Rubik+Distressed&family=Russo+One&family=Saira+Condensed&family=Secular+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Hind&family=Lato&family=Lora&family=Nerko+One&family=Poppins&family=Roboto&family=Roboto+Mono&family=Rubik+Distressed&family=Russo+One&family=Saira+Condensed&family=Secular+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Hind&family=Lato&family=Lora&family=Nerko+One&family=Poppins&family=Roboto&family=Roboto+Mono&family=Ropa+Sans&family=Rubik+Distressed&family=Russo+One&family=Saira+Condensed&family=Secular+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Bangers&family=Hind&family=Lato&family=Lora&family=Nerko+One&family=Poppins&family=Roboto&family=Roboto+Mono&family=Ropa+Sans&family=Rubik+Distressed&family=Russo+One&family=Saira+Condensed&family=Secular+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amatic+SC&family=Bangers&family=Hind&family=Krub&family=Lato&family=Lora&family=Nerko+One&family=Poppins&family=Roboto&family=Roboto+Mono&family=Ropa+Sans&family=Rubik+Distressed&family=Russo+One&family=Saira+Condensed&family=Secular+One&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -265,3 +285,76 @@
   }
 }
 
+.fontName-sans {
+  --font: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.fontName-rubek {
+  --font: "Rubik Distressed";
+}
+
+.fontName-hind {
+  --font: "Hind";
+}
+
+.fontName-Saira {
+  --font: "Saira Condensed";
+}
+.fontName-Poppins {
+  --font: "Poppins";
+}
+
+.fontName-Roboto {
+  --font: "Roboto";
+}
+.fontName-Amatic {
+  --font: "Amatic SC";
+}
+.fontName-Bangers {
+  --font: "Bangers";
+}
+.fontName-Kdam {
+  --font: "Kdam Thmor Pro";
+}
+.fontName-Krub {
+  --font: "Krub";
+}
+.fontName-Lato {
+  --font: "Lato";
+}
+.fontName-Lora {
+  --font: "Lora";
+}
+.fontName-Nerko {
+  --font: "Nerko One";
+}
+.fontName-Roboto {
+  --font: "Roboto";
+}
+.fontName-Roboto-Mono {
+  --font: "Roboto Mono";
+}
+.fontName-Ropa-Sans {
+  --font: "Ropa Sans";
+}
+.fontName-Russo-One {
+  --font: "Russo One";
+}
+.fontName-Saira-Condensed {
+  --font: "Saira Condensed";
+}
+.fontName-Secular-One {
+  --font: "Secular One";
+}
+.fontName-Tillana {
+  --font: "Tillana";
+}
+.fontName-Montserrat {
+  --font: "Montserrat";
+}
+
+.font {
+  --mainFont: var(--font);
+}
