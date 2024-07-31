@@ -1,4 +1,5 @@
 import { Label } from "@/components/ui/label";
+import { getCSSVariableValueByClassName } from "@/helper";
 import { useAppSelector } from "@/reduxStore/hooks";
 import React from "react";
 interface ListIconColorProps {
@@ -7,6 +8,10 @@ interface ListIconColorProps {
 }
 function ListIconColor({ iconColorValue, onValueChange }: ListIconColorProps) {
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
+  const primaryColor = getCSSVariableValueByClassName(
+    "page-container",
+    "--primary"
+  );
   return (
     <div className="space-y-1 flex items-center justify-between">
       <Label>Color</Label>
@@ -24,7 +29,10 @@ function ListIconColor({ iconColorValue, onValueChange }: ListIconColorProps) {
             <div>
               {iconColor === "none" && <RoundedIcon color="bg-muted" />}
             </div>
-            <div className={selectedPallet}>
+            <div
+              className={selectedPallet}
+              style={{ "--primary": primaryColor } as React.CSSProperties}
+            >
               {iconColor === "primary" && <RoundedIcon color="bg-primary" />}
             </div>
           </div>

@@ -132,7 +132,9 @@ function Design1({ section }: Design1Props) {
 
             {showButtons && (
               <div className="flex justify-center gap-2">
-                <Button>{section.content.buttons.primaryButton.text}</Button>
+                <Button>
+                  {section.content.buttons.primaryButton.text}
+                </Button>
                 <Button variant="outline">
                   {section.content.buttons.secondaryButton.text}
                 </Button>

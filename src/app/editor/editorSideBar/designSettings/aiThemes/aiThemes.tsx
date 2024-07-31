@@ -1,34 +1,45 @@
-import { updateSelectedPallet } from "@/reduxStore/action";
+import React, { useRef, useCallback } from "react";
 import { useAppDispatch } from "@/reduxStore/hooks";
-import Color from "color";
-import React, { useRef } from "react";
+import { updateSelectedPallet } from "@/reduxStore/action";
+import { themeMapping } from "@/constant/theme";
+import { getCSSVariableValueByElement } from "@/helper";
 
 function AiThemes() {
   const dispatch = useAppDispatch();
-  const themeRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+  const themeRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  const themeMapping: Record<string, string> = {
-    "theme-rose": "Rose",
-    "theme-green": "Green",
-    "theme-orange": "Orange",
-    "default-theme": "default",
-  };
+  const handleThemeClick = useCallback(
+    (key: string) => {
+      const pageContainer = document.querySelector(
+        ".page-container"
+      ) as HTMLElement;
+      if (!pageContainer) return;
+      pageContainer.style.removeProperty("--radius");
+      if (key === "default-theme") {
+        pageContainer.style.removeProperty("--primary");
+        pageContainer.style.removeProperty("--primary-foreground");
+      } else {
+        const themeElement = themeRefs.current[key];
+        if (themeElement) {
+          const primaryColor = getCSSVariableValueByElement(
+            themeElement,
+            "--primary"
+          );
+          pageContainer.style.setProperty("--primary", primaryColor);
+        }
+      }
 
-  const getCSSVariableValue = (
-    element: HTMLElement | null,
-    variableName: string
-  ): string => {
-    if (!element) return "";
-    return getComputedStyle(element).getPropertyValue(variableName).trim();
-  };
-  const updatePageContainerColor = (primaryColor: string): void => {
-    const pageContainer = document.querySelector(
-      ".page-container"
-    ) as HTMLElement;
-    if (pageContainer) {
-      pageContainer.style.setProperty("--primary", primaryColor);
-    }
-  };
+      dispatch(updateSelectedPallet(key));
+    },
+    [dispatch]
+  );
+
+  const setThemeRef = useCallback(
+    (key: string) => (el: HTMLDivElement | null) => {
+      themeRefs.current[key] = el;
+    },
+    []
+  );
 
   return (
     <div className="pb-20">
@@ -36,18 +47,9 @@ function AiThemes() {
         {Object.entries(themeMapping).map(([key, value]) => (
           <div key={key} className={key}>
             <div
-              ref={(el: HTMLDivElement | null) => {
-                themeRefs.current[key] = el;
-              }}
+              ref={setThemeRef(key)}
               className="bg-primary h-12"
-              onClick={() => {
-                dispatch(updateSelectedPallet(key));
-                const primaryColor = getCSSVariableValue(
-                  themeRefs.current[key],
-                  "--primary"
-                );
-                updatePageContainerColor(primaryColor);
-              }}
+              onClick={() => handleThemeClick(key)}
             >
               {value}
             </div>

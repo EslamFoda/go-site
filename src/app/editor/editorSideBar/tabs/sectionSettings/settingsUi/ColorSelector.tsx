@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import { NoColorIcon } from "@/icons/common";
 import { cn } from "@/lib/utils";
 import { useAppSelector } from "@/reduxStore/hooks";
+import { getCSSVariableValueByClassName } from "@/helper/index";
 
 type Color = "none" | "gray" | "primary";
 
@@ -30,9 +31,15 @@ const ColorSelector: React.FC<ColorSelectorProps> = ({
     handleChangeColor(color);
   };
 
+  const primaryColor = getCSSVariableValueByClassName(
+    "page-container",
+    "--primary"
+  );
+
   return (
     <div
       className={`${selectedPallet} space-y-1 flex items-center justify-between`}
+      style={{ "--primary": primaryColor } as React.CSSProperties}
     >
       <Label>Color</Label>
       <div className="border-muted-bg flex border-solid border-[1px] rounded-sm h-10 w-4/6">

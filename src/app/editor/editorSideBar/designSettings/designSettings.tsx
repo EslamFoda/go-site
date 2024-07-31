@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React, { useState } from "react";
 import AiThemes from "./aiThemes";
-import ColorPicker from "../../test/colorPicker";
+import Customize from "./customize";
 
 function DesignSettings() {
   const [tabValue, setTabValue] = useState("ai-theme");
@@ -13,11 +13,11 @@ function DesignSettings() {
           <TabsTrigger value="ai-theme">AI Theme</TabsTrigger>
           <TabsTrigger value="customize">Customize</TabsTrigger>
         </TabsList>
-        <TabsContent className="px-5 h " value="ai-theme">
+        <TabsContent className="px-5" value="ai-theme">
           <AiThemes />
         </TabsContent>
-        <TabsContent className="px-5 h " value="customize">
-          <ColorPicker />
+        <TabsContent className="px-5" value="customize">
+          <Customize />
         </TabsContent>
       </Tabs>
     </div>
