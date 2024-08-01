@@ -3,7 +3,12 @@ import ColorPicker from "./colorPicker";
 import Shape from "./shape";
 import { getCSSVariableValueByClassName } from "@/helper";
 
-function Customize() {
+import FontButtons from "./fonts/fontButtons";
+interface CustomizeProps {
+  setFontSettingsTab: React.Dispatch<React.SetStateAction<string>>;
+  setOpenFonts: React.Dispatch<React.SetStateAction<boolean>>;
+}
+function Customize({ setFontSettingsTab, setOpenFonts }: CustomizeProps) {
   const radiusValue = getCSSVariableValueByClassName(
     "page-container",
     "--radius"
@@ -27,6 +32,10 @@ function Customize() {
     <div className="space-y-4">
       <ColorPicker />
       <Shape initialShape={initialShape} />
+      <FontButtons
+        setFontSettingsTab={setFontSettingsTab}
+        setOpenFonts={setOpenFonts}
+      />
     </div>
   );
 }

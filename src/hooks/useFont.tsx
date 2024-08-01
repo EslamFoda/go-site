@@ -1,11 +1,12 @@
+import { GoogleFontItem } from "@/helper/fontUtils";
 import { useEffect, useState } from "react";
 
 export const useGoogleFonts = () => {
   const NX_GOOGLE_FONTS_API_KEY = "AIzaSyC_ulHC5c08LdfxEAAXnTV5hm-2YCwFY2g";
 
   const [loading, setLoading] = useState(false);
+  const [fonts, setFonts] = useState<GoogleFontItem[]>();
   const [error, setError] = useState<any>();
-  const [fonts, setFonts] = useState();
 
   useEffect(() => {
     const fetchFonts = async () => {

@@ -24,3 +24,4 @@ export interface CarouselSettings {
   autoScroll: boolean;
   scrollSpeed: number;
 }
+

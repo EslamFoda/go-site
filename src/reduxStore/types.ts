@@ -61,4 +61,16 @@ export interface EditorStore {
   openPallet: boolean;
   chooseIcon: boolean;
   selectedPallet: string;
+  designSettings: DesignSettings;
+}
+
+export interface DesignSettings {
+  fonts: {
+    headerFonts: {
+      fontFamily: string;
+      fontWeight: string;
+      fontFamilyUrl: string;
+      fontWeightUrl: string;
+    };
+  };
 }

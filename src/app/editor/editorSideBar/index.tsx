@@ -7,12 +7,9 @@ import accordion from "./tabs/sectionSettings/accordion";
 import list from "./tabs/sectionSettings/list";
 import cards from "./tabs/sectionSettings/cards";
 import banner from "./tabs/sectionSettings/banner";
-import { useGoogleFonts } from "@/hooks/useFont";
 import DesignSettings from "./designSettings";
 
 const EditorSidebar = () => {
-  const { fonts } = useGoogleFonts();
-  console.log(fonts, "fonts");
   const openSectionDesigns = useAppSelector(
     (state) => state.editor.openSectionDesigns
   );

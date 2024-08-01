@@ -60,6 +60,16 @@ const initialState: EditorStore = {
   selectedPallet: "default-theme",
   openSectionDesigns: false,
   openPallet: false,
+  designSettings: {
+    fonts: {
+      headerFonts: {
+        fontFamily: "Inter",
+        fontWeight: "700",
+        fontFamilyUrl: "",
+        fontWeightUrl: "",
+      },
+    },
+  },
 };
 
 const editorReducer = (state = initialState, action: any): EditorStore =>
@@ -152,6 +162,13 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.CLOSE_PALLET:
         draft.openPallet = false;
+        break;
+
+      case types.UPDATE_DESIGN_SETTINGS:
+        draft.designSettings = {
+          ...draft.designSettings,
+          ...action.payload,
+        };
         break;
     }
   });

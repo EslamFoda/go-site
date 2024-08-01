@@ -1,5 +1,5 @@
 import * as types from "./actionTypes";
-import { EditorSection, SectionContentTypes, SectionStyleTypes } from "./types";
+import { DesignSettings, EditorSection, SectionContentTypes, SectionStyleTypes } from "./types";
 
 import { SelectedItemType } from "@/types/common";
 
@@ -80,4 +80,9 @@ export const openPallet = () => ({
 
 export const closePallet = () => ({
   type: types.CLOSE_PALLET,
+});
+
+export const updateDesignSettings = (newSettings: DesignSettings) => ({
+  type: types.UPDATE_DESIGN_SETTINGS,
+  payload: newSettings,
 });

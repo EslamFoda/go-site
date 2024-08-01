@@ -2,9 +2,24 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React, { useState } from "react";
 import AiThemes from "./aiThemes";
 import Customize from "./customize";
-
+import Fonts from "./customize/fonts";
+import { useGoogleFonts } from "@/hooks/useFont";
 function DesignSettings() {
   const [tabValue, setTabValue] = useState("ai-theme");
+  const [fontSettingsTab, setFontSettingsTab] = useState("Title");
+  const [openFonts, setOpenFonts] = useState(false);
+  const { fonts, loading, error } = useGoogleFonts();
+
+  if (openFonts)
+    return (
+      <Fonts
+        fontSettingsTab={fontSettingsTab}
+        setFontSettingsTab={setFontSettingsTab}
+        fonts={fonts}
+        loading={loading}
+        error={error}
+      />
+    );
 
   return (
     <div>
@@ -17,7 +32,10 @@ function DesignSettings() {
           <AiThemes />
         </TabsContent>
         <TabsContent className="px-5" value="customize">
-          <Customize />
+          <Customize
+            setFontSettingsTab={setFontSettingsTab}
+            setOpenFonts={setOpenFonts}
+          />
         </TabsContent>
       </Tabs>
     </div>
