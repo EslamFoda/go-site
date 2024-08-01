@@ -250,20 +250,20 @@ const FontSelector = ({
               </div>
             )}
 
-            {/* {selectedFont && selectedStyle && (
-        <div
-          className="mt-4 p-4 border rounded"
-          style={{
-            fontFamily: selectedFont.value,
-            fontWeight: selectedStyle.weight,
-            fontStyle: selectedStyle.italic ? "italic" : "normal",
-          }}
-        >
-          <p className="text-lg">
-            Preview: Almost before we knew it, we had left the ground.
-          </p>
-        </div>
-      )} */}
+            {selectedFont && selectedStyle && (
+              <div
+                className="mt-4 p-4 border rounded"
+                style={{
+                  fontFamily: selectedFont.value,
+                  fontWeight: selectedStyle.weight,
+                  fontStyle: selectedStyle.italic ? "italic" : "normal",
+                }}
+              >
+                <p className="text-lg">
+                  Preview: Almost before we knew it, we had left the ground.
+                </p>
+              </div>
+            )}
           </div>
         </TabsContent>
         <TabsContent className="px-5" value="Body">
