@@ -66,11 +66,15 @@ export interface EditorStore {
 
 export interface DesignSettings {
   fonts: {
-    headerFonts: {
+    titleFont: {
       fontFamily: string;
       fontWeight: string;
       fontFamilyUrl: string;
-      fontWeightUrl: string;
+    };
+    bodyFont: {
+      fontFamily: string;
+      fontWeight: string;
+      fontFamilyUrl: string;
     };
   };
 }

@@ -38,15 +38,41 @@ import EditorSidebar from "./editorSideBar";
 const inter = Inter({ subsets: ["latin"] });
 function Editor({ children }: { children: React.ReactNode }) {
   const { designSettings } = useAppSelector((state) => state.editor);
-  const fontFamilyUrl = designSettings.fonts.headerFonts.fontFamilyUrl;
+  const { bodyFont, titleFont } = designSettings.fonts;
   return (
     <>
       <head>
         <link rel="preconnect" href="https://maps.googleapis.com"></link>
         <link rel="preconnect" href="https://fonts.gstatic.com/"></link>
         <style>
-          {fontFamilyUrl &&
-            `@import url('${designSettings.fonts.headerFonts.fontFamilyUrl}')`}
+          {titleFont.fontFamilyUrl &&
+            `@import url('${titleFont.fontFamilyUrl}')`}
+        </style>
+        <style>
+          {bodyFont.fontFamilyUrl && `@import url('${bodyFont.fontFamilyUrl}')`}
+        </style>
+        <style>
+          {titleFont.fontFamilyUrl &&
+            titleFont.fontFamily &&
+            ` .page-container h1,
+              .page-container h2,
+              .page-container h3,
+              .page-container h4,
+              .page-container h5,
+              .page-container h6 {
+               font-family: "${titleFont.fontFamily}", sans-serif;
+              }
+  `}
+        </style>
+        <style>
+          {bodyFont.fontFamilyUrl &&
+            bodyFont.fontFamily &&
+            ` .page-container span,
+              .page-container p,
+              .page-container div {
+               font-family: "${bodyFont.fontFamily}", sans-serif;
+              }
+  `}
         </style>
       </head>
       <body className={inter.className}>

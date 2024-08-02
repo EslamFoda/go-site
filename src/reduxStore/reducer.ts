@@ -62,11 +62,15 @@ const initialState: EditorStore = {
   openPallet: false,
   designSettings: {
     fonts: {
-      headerFonts: {
+      titleFont: {
         fontFamily: "Inter",
         fontWeight: "700",
         fontFamilyUrl: "",
-        fontWeightUrl: "",
+      },
+      bodyFont: {
+        fontFamily: "Inter",
+        fontWeight: "700",
+        fontFamilyUrl: "",
       },
     },
   },
