@@ -17,7 +17,7 @@ interface ThemeItemProps {
   setRef: (el: HTMLDivElement | null) => void;
 }
 
- const ThemeItem: React.FC<ThemeItemProps> = React.memo(
+const ThemeItem: React.FC<ThemeItemProps> = React.memo(
   ({ theme, isSelected, onClick, setRef }) => (
     <div className={theme.colorPallet} onClick={onClick}>
       <div
@@ -61,5 +61,6 @@ interface ThemeItemProps {
   )
 );
 
+ThemeItem.displayName = "AccordionItem";
 
-export default ThemeItem
+export default ThemeItem;
