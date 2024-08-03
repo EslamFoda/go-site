@@ -1,19 +1,32 @@
+import { useCallback } from "react";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { updateDesignSettings } from "@/reduxStore/action";
 import { calculateTextColor, cssColorToHex } from "@/helper";
 import Color from "color";
-import { useCallback, useState } from "react";
 
-// Custom hook for color management
 export const useColorManagement = () => {
-  const [selectedColor, setSelectedColor] = useState<string>("#F8EDE3");
-  const [textColor, setTextColor] = useState<string>("0 0% 0%");
+  const dispatch = useAppDispatch();
+  const designSettings = useAppSelector((state) => state.editor.designSettings);
 
-  const updateColors = useCallback((bgColor: string) => {
-    const hexColor = cssColorToHex(bgColor);
-    setSelectedColor(hexColor);
-    const newTextColor = calculateTextColor(hexColor);
-    setTextColor(newTextColor);
-    updatePageContainerColor(hexColor, newTextColor);
-  }, []);
+  const updateColors = useCallback(
+    (bgColor: string) => {
+      const hexColor = cssColorToHex(bgColor);
+      const newTextColor = calculateTextColor(hexColor);
+
+      dispatch(
+        updateDesignSettings({
+          ...designSettings,
+          colors: {
+            primary: hexColor,
+            primaryForGround: newTextColor,
+          },
+        })
+      );
+
+      updatePageContainerColor(hexColor, newTextColor);
+    },
+    [dispatch]
+  );
 
   const updatePageContainerColor = (bgColor: string, textColorHSL: string) => {
     const pageContainer = document.querySelector(
@@ -27,5 +40,9 @@ export const useColorManagement = () => {
     }
   };
 
-  return { selectedColor, textColor, updateColors };
+  return {
+    selectedColor: designSettings.colors.primary,
+    textColor: designSettings.colors.primaryForGround,
+    updateColors,
+  };
 };

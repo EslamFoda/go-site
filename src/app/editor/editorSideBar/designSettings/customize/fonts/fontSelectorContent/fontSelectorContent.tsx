@@ -48,7 +48,7 @@ const FontSelectorContent = ({
   const listHeight = Math.min(filteredFonts.length * itemSize, 300);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 mb-2">
       <div className="space-y-2">
         <Command className="rounded-lg border shadow-md">
           <CommandInput
@@ -109,21 +109,6 @@ const FontSelectorContent = ({
                 ))}
             </SelectContent>
           </Select>
-        </div>
-      )}
-
-      {selectedFont && selectedStyle && (
-        <div
-          className="mt-4 p-4 border rounded"
-          style={{
-            fontFamily: selectedFont.value,
-            fontWeight: selectedStyle.weight,
-            fontStyle: selectedStyle.italic ? "italic" : "normal",
-          }}
-        >
-          <p className="text-lg">
-            Preview: Almost before we knew it, we had left the ground.
-          </p>
         </div>
       )}
     </div>

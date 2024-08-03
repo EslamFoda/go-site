@@ -64,15 +64,20 @@ const initialState: EditorStore = {
     fonts: {
       titleFont: {
         fontFamily: "Inter",
-        fontWeight: "700",
+        fontWeight: "",
         fontFamilyUrl: "",
       },
       bodyFont: {
         fontFamily: "Inter",
-        fontWeight: "700",
+        fontWeight: "",
         fontFamilyUrl: "",
       },
     },
+    colors: {
+      primary: "",
+      primaryForGround: "",
+    },
+    borderRadius: "",
   },
 };
 

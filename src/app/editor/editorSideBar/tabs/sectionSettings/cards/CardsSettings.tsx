@@ -19,6 +19,7 @@ import {
   updateSelectedItem,
   updateStyle,
 } from "@/reduxStore/action";
+import BackBtn from "@/components/shared/backBtn";
 
 function CardsSettings() {
   const [tabValue, setTabValue] = useState("content");
@@ -115,15 +116,10 @@ function CardsSettings() {
   if (sectionBgOpened)
     return (
       <div className="space-y-2">
-        <div
-          className="flex p-5 items-center gap-4 cursor-pointer border-b-[1px] border-b-muted-bg mb-3"
-          onClick={() => {
-            setSectionBgOpened(false);
-          }}
-        >
-          <ChevronLeft size={18} />
-          <Label>Section Background</Label>
-        </div>
+        <BackBtn
+          label="Section Background"
+          handleBack={() => setSectionBgOpened(false)}
+        />
         <div className="px-5 space-y-2">
           <ColorSelector
             selectedColor={cardStyle.designSettings.sectionBackground.color}

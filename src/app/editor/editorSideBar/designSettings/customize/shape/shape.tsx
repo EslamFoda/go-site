@@ -1,13 +1,10 @@
-import React, { useState, useCallback } from "react";
+import React, { useCallback } from "react";
 import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils"; // Adjust this import path as needed
+import { cn } from "@/lib/utils";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { updateDesignSettings } from "@/reduxStore/action";
 
 type ShapeOption = "square" | "rounded-sm" | "rounded-full";
-
-interface ShapeProps {
-  initialShape?: ShapeOption;
-  onChange?: (shape: ShapeOption) => void;
-}
 
 interface ShapeIconProps {
   active: boolean;
@@ -27,13 +24,28 @@ const ShapeIcon: React.FC<ShapeIconProps> = ({ active, shape }) => {
   );
 };
 
-const Shape: React.FC<ShapeProps> = ({ initialShape = "square", onChange }) => {
-  const [shapeValue, setShapeValue] = useState<ShapeOption>(initialShape);
+const Shape: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const designSettings = useAppSelector((state) => state.editor.designSettings);
+  console.log(designSettings, "designSettings");
+
+  const shapeValue = useCallback((radius: string): ShapeOption => {
+    switch (radius) {
+      case "0":
+        return "square";
+      case "0.5rem":
+        return "rounded-sm";
+      case "1.5rem":
+        return "rounded-full";
+      default:
+        return "square";
+    }
+  }, []);
 
   const updateCSSVariable = useCallback((shape: ShapeOption) => {
     const pageContainer = document.querySelector(".page-container");
     if (pageContainer) {
-      let radiusValue = "none";
+      let radiusValue = "0";
       switch (shape) {
         case "rounded-sm":
           radiusValue = "0.5rem";
@@ -41,17 +53,25 @@ const Shape: React.FC<ShapeProps> = ({ initialShape = "square", onChange }) => {
         case "rounded-full":
           radiusValue = "1.5rem";
           break;
-        default:
-          radiusValue = "0";
       }
       (pageContainer as HTMLElement).style.setProperty("--radius", radiusValue);
     }
   }, []);
 
   const handleShapeChange = (shape: ShapeOption) => {
-    setShapeValue(shape);
+    let radiusValue = "0";
+    switch (shape) {
+      case "rounded-sm":
+        radiusValue = "0.5rem";
+        break;
+      case "rounded-full":
+        radiusValue = "1.5rem";
+        break;
+    }
+    dispatch(
+      updateDesignSettings({ ...designSettings, borderRadius: radiusValue })
+    );
     updateCSSVariable(shape);
-    onChange?.(shape);
   };
 
   return (
@@ -67,12 +87,15 @@ const Shape: React.FC<ShapeProps> = ({ initialShape = "square", onChange }) => {
             onClick={() => handleShapeChange(shape)}
             className={cn(
               "flex items-center justify-center w-full cursor-pointer",
-              shapeValue === shape && "bg-muted-bg"
+              shapeValue(designSettings.borderRadius) === shape && "bg-muted-bg"
             )}
             aria-label={`Select ${shape} shape`}
-            aria-pressed={shapeValue === shape}
+            aria-pressed={shapeValue(designSettings.borderRadius) === shape}
           >
-            <ShapeIcon active={shapeValue === shape} shape={shape} />
+            <ShapeIcon
+              active={shapeValue(designSettings.borderRadius) === shape}
+              shape={shape}
+            />
           </button>
         ))}
       </div>

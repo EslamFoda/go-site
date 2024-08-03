@@ -9,3 +9,91 @@ export const themeMapping: Record<string, string> = {
   "theme-red": "Red",
   "default-theme": "default",
 };
+
+export const aiThemes = [
+  {
+    colorPallet: "theme-rose",
+    colorName: "Rose",
+    borderRadius: "0.5rem",
+    titleFontFamily: "Gloock",
+    titleFontFamilyUrl:
+      "https://fonts.googleapis.com/css2?family=Gloock:wght@400&display=swap",
+    bodyFontFamily: "Noto Serif SC",
+    bodyFontFamilyUrl:
+      "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200&display=swap",
+  },
+  {
+    colorPallet: "theme-green",
+    colorName: "Green",
+    borderRadius: "0.5rem",
+    titleFontFamily: "Unbounded",
+    titleFontFamilyUrl:
+      "https://fonts.googleapis.com/css2?family=Unbounded:wght@200&display=swap",
+    bodyFontFamily: "Roboto",
+    bodyFontFamilyUrl:
+      "https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap",
+  },
+  {
+    colorPallet: "theme-orange",
+    colorName: "Orange",
+    borderRadius: "0",
+    titleFontFamily: "Poppins",
+    titleFontFamilyUrl: "Poppins",
+    bodyFontFamily: "Poppins",
+    bodyFontFamilyUrl: "Poppins",
+  },
+  {
+    colorPallet: "theme-violet",
+    colorName: "Violet",
+    borderRadius: "1.5rem",
+    titleFontFamily: "Poppins",
+    titleFontFamilyUrl: "Poppins",
+    bodyFontFamily: "Poppins",
+    bodyFontFamilyUrl: "Poppins",
+  },
+  {
+    colorPallet: "theme-yellow",
+    colorName: "Yellow",
+    borderRadius: "1.5rem",
+    titleFontFamily: "Poppins",
+    titleFontFamilyUrl: "Poppins",
+    bodyFontFamily: "Poppins",
+    bodyFontFamilyUrl: "Poppins",
+  },
+  {
+    colorPallet: "theme-blue",
+    colorName: "Blue",
+    borderRadius: "0",
+    titleFontFamily: "Poppins",
+    titleFontFamilyUrl: "Poppins",
+    bodyFontFamily: "Poppins",
+    bodyFontFamilyUrl: "Poppins",
+  },
+  {
+    colorPallet: "theme-vesper",
+    colorName: "Vesper",
+    borderRadius: "0.5rem",
+    titleFontFamily: "Poppins",
+    titleFontFamilyUrl: "Poppins",
+    bodyFontFamily: "Poppins",
+    bodyFontFamilyUrl: "Poppins",
+  },
+  {
+    colorPallet: "theme-red",
+    colorName: "Red",
+    borderRadius: "1.5rem",
+    titleFontFamily: "Poppins",
+    titleFontFamilyUrl: "Poppins",
+    bodyFontFamily: "Poppins",
+    bodyFontFamilyUrl: "Poppins",
+  },
+  {
+    colorPallet: "default-theme",
+    colorName: "default",
+    borderRadius: "0.5rem",
+    titleFontFamily: "Poppins",
+    titleFontFamilyUrl: "Poppins",
+    bodyFontFamily: "Poppins",
+    bodyFontFamilyUrl: "Poppins",
+  },
+];

@@ -19,7 +19,7 @@ import {
 import { Accordion } from "@/types/sectionsTypes/accordion";
 import AccordionContentTab from "./accordionContentTab";
 import AccordionStyleTab from "./accordionStyleTab";
-import { Textarea } from "@/components/ui/textarea";
+import BackBtn from "@/components/shared/backBtn";
 
 function AccordionSettings() {
   const [tabValue, setTabValue] = useState("content");
@@ -105,15 +105,10 @@ function AccordionSettings() {
   if (sectionBgOpened)
     return (
       <div className="space-y-2">
-        <div
-          className="flex p-5 items-center gap-4 cursor-pointer border-b-[1px] border-b-muted-bg mb-3"
-          onClick={() => {
-            setSectionBgOpened(false);
-          }}
-        >
-          <ChevronLeft size={18} />
-          <Label>Section Background</Label>
-        </div>
+        <BackBtn
+          label="Section Background"
+          handleBack={() => setSectionBgOpened(false)}
+        />
         <div className="px-5 space-y-2">
           <ColorSelector
             selectedColor={

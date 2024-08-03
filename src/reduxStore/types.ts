@@ -77,4 +77,9 @@ export interface DesignSettings {
       fontFamilyUrl: string;
     };
   };
+  colors: {
+    primary: string;
+    primaryForGround: string;
+  };
+  borderRadius: string;
 }

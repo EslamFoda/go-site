@@ -1,6 +1,4 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { FixedSizeList as List } from "react-window";
-import { Check } from "lucide-react";
 import {
   createFontFamilyOption,
   createFontVariantOption,
@@ -9,27 +7,11 @@ import {
   GoogleFontItem,
   createSelectedFontHref,
 } from "@/helper/fontUtils";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
-import { cn } from "@/lib/utils";
 import { updateDesignSettings } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { TabsContent, TabsList, TabsTrigger, Tabs } from "@/components/ui/tabs";
 import FontSelectorContent from "./fontSelectorContent/fontSelectorContent";
+import BackBtn from "@/components/shared/backBtn";
 
 function useDebounce(value: string, delay: number) {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -49,10 +31,11 @@ function useDebounce(value: string, delay: number) {
 
 interface FontSelectorProps {
   fontSettingsTab: string;
-  setFontSettingsTab: React.Dispatch<React.SetStateAction<string>>;
   fonts: GoogleFontItem[] | undefined;
   loading: boolean;
   error: any;
+  setFontSettingsTab: React.Dispatch<React.SetStateAction<string>>;
+  setOpenFonts: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const FontSelector = ({
@@ -61,11 +44,14 @@ const FontSelector = ({
   error,
   loading,
   setFontSettingsTab,
+  setOpenFonts,
 }: FontSelectorProps) => {
   const dispatch = useAppDispatch();
   const currentFontSettings = useAppSelector(
     (state) => state.editor.designSettings.fonts
   );
+  console.log(currentFontSettings, "currentFontSettings");
+  const designSettings = useAppSelector((state) => state.editor.designSettings);
   const [selectedTitleFont, setSelectedTitleFont] =
     useState<FontFamilyOption | null>(null);
   const [selectedTitleStyle, setSelectedTitleStyle] =
@@ -104,6 +90,7 @@ const FontSelector = ({
         setSelectedTitleStyle(firstStyle || null);
         dispatch(
           updateDesignSettings({
+            ...designSettings,
             fonts: {
               ...currentFontSettings,
               titleFont: {
@@ -120,6 +107,7 @@ const FontSelector = ({
         setSelectedBodyStyle(firstStyle || null);
         dispatch(
           updateDesignSettings({
+            ...designSettings,
             fonts: {
               ...currentFontSettings,
               bodyFont: {
@@ -153,6 +141,7 @@ const FontSelector = ({
         setSelectedTitleStyle(style);
         dispatch(
           updateDesignSettings({
+            ...designSettings,
             fonts: {
               ...currentFontSettings,
               titleFont: {
@@ -167,6 +156,7 @@ const FontSelector = ({
         setSelectedBodyStyle(style);
         dispatch(
           updateDesignSettings({
+            ...designSettings,
             fonts: {
               ...currentFontSettings,
               bodyFont: {
@@ -213,17 +203,13 @@ const FontSelector = ({
     }
   }, [currentFontSettings, fontOptions]);
 
-  console.log(currentFontSettings, "currentFontSettings");
-
   if (loading) return <div className="text-center">Loading fonts...</div>;
   if (error)
     return <div className="text-center text-red-500">Error loading fonts</div>;
 
-  const itemSize = 35;
-  const listHeight = Math.min(filteredFonts.length * itemSize, 300);
-
   return (
     <>
+      <BackBtn label="Fonts" handleBack={() => setOpenFonts(false)} />
       <Tabs
         onValueChange={setFontSettingsTab}
         value={fontSettingsTab}

@@ -18,6 +18,7 @@ function DesignSettings() {
         fonts={fonts}
         loading={loading}
         error={error}
+        setOpenFonts={setOpenFonts}
       />
     );
 

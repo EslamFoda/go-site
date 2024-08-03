@@ -13,6 +13,7 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { updateStyle } from "@/reduxStore/action";
+import BackBtn from "@/components/shared/backBtn";
 
 function BannerSettings({}) {
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
@@ -35,15 +36,10 @@ function BannerSettings({}) {
       {/* <SettingsTab /> */}
       {sectionBgOpened ? (
         <div className="space-y-2">
-          <div
-            className="flex p-5 items-center gap-4 cursor-pointer border-b-[1px] border-b-muted-bg mb-3"
-            onClick={() => {
-              setSectionBgOpened(false);
-            }}
-          >
-            <ChevronLeft size={18} />
-            <Label>Section Background</Label>
-          </div>
+          <BackBtn
+            label="Section Background"
+            handleBack={() => setSectionBgOpened(false)}
+          />
           <div className="px-5 space-y-2">
             <ColorSelector
               selectedColor={bannerStyle.designSettings.sectionBackground.color}

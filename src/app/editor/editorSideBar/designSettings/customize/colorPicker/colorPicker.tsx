@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useMemo, useCallback } from "react";
 import { HexColorInput, HexColorPicker } from "react-colorful";
-import { updateSelectedPallet } from "@/reduxStore/action";
+import {
+  updateDesignSettings,
+  updateSelectedPallet,
+} from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { getCSSVariableValueByElement } from "@/helper";
 import { Label } from "@/components/ui/label";
@@ -19,6 +22,7 @@ const ColorPicker: React.FC = () => {
   const selectedPalette = useAppSelector(
     (state) => state.editor.selectedPallet
   );
+  const designSettings = useAppSelector((state) => state.editor.designSettings);
 
   useEffect(() => {
     const pageContainer = document.querySelector(
@@ -45,6 +49,15 @@ const ColorPicker: React.FC = () => {
           pageContainer.style.removeProperty("--primary");
           pageContainer.style.removeProperty("--primary-foreground");
         }
+        dispatch(
+          updateDesignSettings({
+            ...designSettings,
+            colors: {
+              primary: "",
+              primaryForGround: "",
+            },
+          })
+        );
       } else {
         const primaryColor = getCSSVariableValueByElement(
           themeRefs.current[key],
