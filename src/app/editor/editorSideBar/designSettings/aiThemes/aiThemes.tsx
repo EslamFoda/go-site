@@ -9,14 +9,16 @@ import { aiThemes } from "@/constant/theme";
 import ThemeItem from "./themeItem";
 
 // Define types
-interface Theme {
+export interface Theme {
   colorPallet: string;
   colorName: string;
   borderRadius: string;
   titleFontFamily: string;
+  titleFontWeight: string;
   bodyFontFamily: string;
   titleFontFamilyUrl: string;
   bodyFontFamilyUrl: string;
+  bodyFontWeight: string;
 }
 
 function AiThemes() {
@@ -90,11 +92,13 @@ function AiThemes() {
               ...designSettings.fonts.bodyFont,
               fontFamily: theme.bodyFontFamily,
               fontFamilyUrl: theme.bodyFontFamilyUrl,
+              fontWeight: theme.bodyFontWeight,
             },
             titleFont: {
               ...designSettings.fonts.titleFont,
               fontFamily: theme.titleFontFamily,
               fontFamilyUrl: theme.titleFontFamilyUrl,
+              fontWeight: theme.titleFontWeight,
             },
           },
         })
@@ -122,7 +126,7 @@ function AiThemes() {
         />
 
         {/* Theme Options */}
-        {aiThemes.map((theme) => (
+        {aiThemes.map((theme: any) => (
           <ThemeItem
             key={theme.colorPallet}
             theme={theme}

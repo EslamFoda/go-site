@@ -61,9 +61,9 @@ function Design1({ section }: DesignProps) {
   );
 
   const titleClassName = cn(
-    listStyle.designSettings.textSize === "s" && "text-sm font-medium",
-    listStyle.designSettings.textSize === "m" && "text-base font-semibold",
-    listStyle.designSettings.textSize === "l" && "text-lg font-bold"
+    listStyle.designSettings.textSize === "s" && "text-sm",
+    listStyle.designSettings.textSize === "m" && "text-base",
+    listStyle.designSettings.textSize === "l" && "text-lg"
   );
   const texClassName = cn("text-muted-foreground text-sm");
   const gridClassNames = cn(

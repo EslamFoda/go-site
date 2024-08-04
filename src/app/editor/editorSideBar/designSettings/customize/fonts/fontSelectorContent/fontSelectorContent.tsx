@@ -46,6 +46,7 @@ const FontSelectorContent = ({
 }: FontSelectorContentProps) => {
   const itemSize = 35;
   const listHeight = Math.min(filteredFonts.length * itemSize, 300);
+  console.log(selectedStyle, "selectedStyle");
 
   return (
     <div className="space-y-4 mb-2">

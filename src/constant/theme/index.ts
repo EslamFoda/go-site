@@ -16,49 +16,65 @@ export const aiThemes = [
     colorName: "Rose",
     borderRadius: "0.5rem",
     titleFontFamily: "Gloock",
+    titleFontWeight: "400",
     titleFontFamilyUrl:
       "https://fonts.googleapis.com/css2?family=Gloock:wght@400&display=swap",
     bodyFontFamily: "Noto Serif SC",
     bodyFontFamilyUrl:
-      "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@200&display=swap",
+      "https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400&display=swap",
+    bodyFontWeight: "400",
   },
   {
     colorPallet: "theme-green",
     colorName: "Green",
     borderRadius: "0.5rem",
     titleFontFamily: "Unbounded",
+    titleFontWeight: "500",
     titleFontFamilyUrl:
-      "https://fonts.googleapis.com/css2?family=Unbounded:wght@200&display=swap",
-    bodyFontFamily: "Roboto",
+      "https://fonts.googleapis.com/css2?family=Unbounded:wght@500&display=swap",
+    bodyFontFamily: "Arimo",
     bodyFontFamilyUrl:
-      "https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap",
+      "https://fonts.googleapis.com/css2?family=Arimo:wght@400&display=swap",
+    bodyFontWeight: "400",
   },
   {
     colorPallet: "theme-orange",
     colorName: "Orange",
     borderRadius: "0",
-    titleFontFamily: "Poppins",
-    titleFontFamilyUrl: "Poppins",
-    bodyFontFamily: "Poppins",
-    bodyFontFamilyUrl: "Poppins",
+    titleFontFamily: "Aboreto",
+    titleFontFamilyUrl:
+      "https://fonts.googleapis.com/css2?family=Aboreto:wght@400&display=swap",
+    titleFontWeight: "400",
+    bodyFontFamily: "Questrial",
+    bodyFontFamilyUrl:
+      "https://fonts.googleapis.com/css2?family=Questrial:wght@400&display=swap",
+    bodyFontWeight: "400",
   },
   {
     colorPallet: "theme-violet",
     colorName: "Violet",
     borderRadius: "1.5rem",
-    titleFontFamily: "Poppins",
-    titleFontFamilyUrl: "Poppins",
-    bodyFontFamily: "Poppins",
-    bodyFontFamilyUrl: "Poppins",
+    titleFontFamily: "JetBrains Mono",
+    titleFontFamilyUrl:
+      "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap",
+    titleFontWeight: "400",
+    bodyFontFamily: "JetBrains Mono",
+    bodyFontFamilyUrl:
+      "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap",
+    bodyFontWeight: "400",
   },
   {
     colorPallet: "theme-yellow",
     colorName: "Yellow",
     borderRadius: "1.5rem",
-    titleFontFamily: "Poppins",
-    titleFontFamilyUrl: "Poppins",
-    bodyFontFamily: "Poppins",
-    bodyFontFamilyUrl: "Poppins",
+    titleFontFamily: "ADLaM Display",
+    titleFontFamilyUrl:
+      "https://fonts.googleapis.com/css2?family=ADLaM+Display:wght@400&display=swap",
+    titleFontWeight: "400",
+    bodyFontFamily: "Andada Pro",
+    bodyFontFamilyUrl:
+      "https://fonts.googleapis.com/css2?family=Andada+Pro:wght@400&display=swap",
+    bodyFontWeight: "400",
   },
   {
     colorPallet: "theme-blue",
