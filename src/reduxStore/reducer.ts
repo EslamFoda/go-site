@@ -63,14 +63,16 @@ const initialState: EditorStore = {
   designSettings: {
     fonts: {
       titleFont: {
-        fontFamily: "Inter",
-        fontWeight: "",
-        fontFamilyUrl: "",
+        fontFamily: "Space Grotesk",
+        fontWeight: "600",
+        fontFamilyUrl:
+          "https://fonts.gstatic.com/s/spacegrotesk/v15/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gOoraIAEj4PVksjNsFjTDJK.ttf",
       },
       bodyFont: {
-        fontFamily: "Inter",
-        fontWeight: "",
-        fontFamilyUrl: "",
+        fontFamily: "Space Grotesk",
+        fontWeight: "regular",
+        fontFamilyUrl:
+          "https://fonts.gstatic.com/s/spacegrotesk/v15/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gOoraIAEj7oUUsjNsFjTDJK.ttf",
       },
     },
     colors: {

@@ -1,39 +1,17 @@
-import React, { useState, useMemo, useEffect } from "react";
-import {
-  createFontFamilyOption,
-  createFontVariantOption,
-  FontFamilyOption,
-  FontVariantOption,
-  GoogleFontItem,
-  createSelectedFontHref,
-} from "@/helper/fontUtils";
+import React, { useState, useEffect } from "react";
 import { updateDesignSettings } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { TabsContent, TabsList, TabsTrigger, Tabs } from "@/components/ui/tabs";
-import FontSelectorContent from "./fontSelectorContent/fontSelectorContent";
 import BackBtn from "@/components/shared/backBtn";
-
-function useDebounce(value: string, delay: number) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedValue(value);
-    }, delay);
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [value, delay]);
-
-  return debouncedValue;
-}
+import SelectGFont from "./selectFont";
+import { Font, FontOption } from "@/types/common";
 
 interface FontSelectorProps {
   fontSettingsTab: string;
-  fonts: GoogleFontItem[] | undefined;
-  loading: boolean;
-  error: any;
+  fonts: Font[];
+  fontOptions: FontOption[];
+  // loading: boolean;
+  // error: any;
   setFontSettingsTab: React.Dispatch<React.SetStateAction<string>>;
   setOpenFonts: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -41,171 +19,85 @@ interface FontSelectorProps {
 const FontSelector = ({
   fontSettingsTab,
   fonts,
-  error,
-  loading,
+  fontOptions,
+  // error,
+  // loading,
   setFontSettingsTab,
   setOpenFonts,
 }: FontSelectorProps) => {
   const dispatch = useAppDispatch();
-  const currentFontSettings = useAppSelector(
+
+  const designSettings = useAppSelector((state) => state.editor.designSettings);
+  const storedFonts = useAppSelector(
     (state) => state.editor.designSettings.fonts
   );
-  console.log(currentFontSettings, "currentFontSettings");
-  const designSettings = useAppSelector((state) => state.editor.designSettings);
-  const [selectedTitleFont, setSelectedTitleFont] =
-    useState<FontFamilyOption | null>(null);
-  const [selectedTitleStyle, setSelectedTitleStyle] =
-    useState<FontVariantOption | null>(null);
-  const [selectedBodyFont, setSelectedBodyFont] =
-    useState<FontFamilyOption | null>(null);
-  const [selectedBodyStyle, setSelectedBodyStyle] =
-    useState<FontVariantOption | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
+  console.log(storedFonts, "storedFontsstoredFonts");
 
-  const debouncedSearchQuery = useDebounce(searchQuery, 0); // Adjust debounce delay as needed
-
-  const fontOptions = useMemo(() => {
-    if (!fonts || !Array.isArray(fonts)) return [];
-    return fonts.map((font: GoogleFontItem) => createFontFamilyOption(font));
-  }, [fonts]);
-
-  const filteredFonts = useMemo(() => {
-    if (!debouncedSearchQuery) return fontOptions;
-    return fontOptions.filter((font) =>
-      font.label.toLowerCase().includes(debouncedSearchQuery.toLowerCase())
-    );
-  }, [debouncedSearchQuery, fontOptions]);
-
-  const handleFontChange = (fontValue: string, isTitle: boolean) => {
-    const font = fontOptions.find((f) => f.value === fontValue);
-    if (font) {
-      const firstStyle = font.variants.map(createFontVariantOption)[0];
-      const fontHref = createSelectedFontHref({
-        family: font,
-        variant: firstStyle,
-      });
-
-      if (isTitle) {
-        setSelectedTitleFont(font);
-        setSelectedTitleStyle(firstStyle || null);
-        dispatch(
-          updateDesignSettings({
-            ...designSettings,
-            fonts: {
-              ...currentFontSettings,
-              titleFont: {
-                ...currentFontSettings.titleFont,
-                fontFamily: font.value,
-                fontWeight: firstStyle ? firstStyle.weight : "400",
-                fontFamilyUrl: fontHref,
-              },
-            },
-          })
-        );
-      } else {
-        setSelectedBodyFont(font);
-        setSelectedBodyStyle(firstStyle || null);
-        dispatch(
-          updateDesignSettings({
-            ...designSettings,
-            fonts: {
-              ...currentFontSettings,
-              bodyFont: {
-                ...currentFontSettings.bodyFont,
-                fontFamily: font.value,
-                fontWeight: firstStyle ? firstStyle.weight : "400",
-                fontFamilyUrl: fontHref,
-              },
-            },
-          })
-        );
-      }
-    }
-  };
-
-  const handleStyleChange = (styleValue: string, isTitle: boolean) => {
-    const selectedFont = isTitle ? selectedTitleFont : selectedBodyFont;
-    if (!selectedFont) return;
-
-    const style = selectedFont.variants
-      .map(createFontVariantOption)
-      .find((s) => s.value === styleValue);
-
-    if (style) {
-      const fontHref = createSelectedFontHref({
-        family: selectedFont,
-        variant: style,
-      });
-
-      if (isTitle) {
-        setSelectedTitleStyle(style);
-        dispatch(
-          updateDesignSettings({
-            ...designSettings,
-            fonts: {
-              ...currentFontSettings,
-              titleFont: {
-                ...currentFontSettings.titleFont,
-                fontWeight: style.weight,
-                fontFamilyUrl: fontHref,
-              },
-            },
-          })
-        );
-      } else {
-        setSelectedBodyStyle(style);
-        dispatch(
-          updateDesignSettings({
-            ...designSettings,
-            fonts: {
-              ...currentFontSettings,
-              bodyFont: {
-                ...currentFontSettings.bodyFont,
-                fontWeight: style.weight,
-                fontFamilyUrl: fontHref,
-              },
-            },
-          })
-        );
-      }
-    }
-  };
+  const [selectedTitleFont, setSelectedTitleFont] = useState<FontOption | null>(
+    null
+  );
+  const [selectedBodyFont, setSelectedBodyFont] = useState<FontOption | null>(
+    null
+  );
+  const [selectedBodyVariant, setSelectedBodyVariant] = useState<string | null>(
+    null
+  );
+  const [selectedTitleVariant, setSelectedTitleVariant] = useState<
+    string | null
+  >(null);
 
   useEffect(() => {
-    if (currentFontSettings.titleFont) {
-      const titleFont = fontOptions.find(
-        (f) => f.value === currentFontSettings.titleFont.fontFamily
-      );
-      if (titleFont) {
-        setSelectedTitleFont(titleFont);
-        const titleStyle = titleFont.variants
-          .map(createFontVariantOption)
-          .find((s) => s.weight === currentFontSettings.titleFont.fontWeight);
-        if (titleStyle) {
-          setSelectedTitleStyle(titleStyle);
-        }
-      }
-    }
+    // Set initial selected fonts based on Redux store
+    const titleFontOption = fontOptions.find(
+      (option) => option.label === storedFonts.titleFont.fontFamily
+    );
+    const bodyFontOption = fontOptions.find(
+      (option) => option.label === storedFonts.bodyFont.fontFamily
+    );
+    setSelectedTitleVariant(storedFonts.titleFont.fontWeight);
+    setSelectedBodyVariant(storedFonts.bodyFont.fontWeight);
 
-    if (currentFontSettings.bodyFont) {
-      const bodyFont = fontOptions.find(
-        (f) => f.value === currentFontSettings.bodyFont.fontFamily
-      );
-      if (bodyFont) {
-        setSelectedBodyFont(bodyFont);
-        const bodyStyle = bodyFont.variants
-          .map(createFontVariantOption)
-          .find((s) => s.weight === currentFontSettings.bodyFont.fontWeight);
-        if (bodyStyle) {
-          setSelectedBodyStyle(bodyStyle);
-        }
-      }
-    }
-  }, [currentFontSettings, fontOptions]);
+    if (titleFontOption) setSelectedTitleFont(titleFontOption);
+    if (bodyFontOption) setSelectedBodyFont(bodyFontOption);
+  }, [storedFonts, fontOptions]);
 
-  if (loading) return <div className="text-center">Loading fonts...</div>;
-  if (error)
-    return <div className="text-center text-red-500">Error loading fonts</div>;
+  const updateFontSettings = (
+    family: string,
+    variant: string,
+    isTitle: boolean,
+    fontUrl: string
+  ) => {
+    console.log(isTitle, "isTitle");
+    dispatch(
+      updateDesignSettings({
+        ...designSettings,
+        fonts: {
+          ...designSettings.fonts,
+          [isTitle ? "titleFont" : "bodyFont"]: {
+            fontFamily: family,
+            fontWeight: variant,
+            fontFamilyUrl: fontUrl,
+          },
+        },
+      })
+    );
+  };
+
+  const config = {
+    key: "AIzaSyC_ulHC5c08LdfxEAAXnTV5hm-2YCwFY2g",
+    containerFonte: fontSettingsTab === "Title" ? "titleFont" : "bodyFont",
+    containerVariante: "defaultVariant",
+    onSelectFonte: (family: string, variant: string, fontData: any) => {
+      console.log("Selected font:", family, variant, fontData);
+      const fontUrl = fontData.files[variant];
+      updateFontSettings(family, variant, fontSettingsTab === "Title", fontUrl);
+    },
+    onSelectVariante: (family: string, variant: string, fontData: any) => {
+      console.log("Selected variant:", family, variant, fontData);
+      const fontUrl = fontData.files[variant];
+      updateFontSettings(family, variant, fontSettingsTab === "Title", fontUrl);
+    },
+  };
 
   return (
     <>
@@ -221,26 +113,24 @@ const FontSelector = ({
         </TabsList>
         <TabsContent className="px-5" value="Title">
           {/* Title font selector */}
-          <FontSelectorContent
+          <SelectGFont
+            config={config}
+            fontOptions={fontOptions}
+            fonts={fonts}
             selectedFont={selectedTitleFont}
-            selectedStyle={selectedTitleStyle}
-            onFontChange={(value: string) => handleFontChange(value, true)}
-            onStyleChange={(value: string) => handleStyleChange(value, true)}
-            filteredFonts={filteredFonts}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
+            setSelectedFont={setSelectedTitleFont}
+            selectedFontVariant={selectedTitleVariant}
           />
         </TabsContent>
         <TabsContent className="px-5" value="Body">
           {/* Body font selector */}
-          <FontSelectorContent
+          <SelectGFont
+            config={config}
+            fontOptions={fontOptions}
+            fonts={fonts}
             selectedFont={selectedBodyFont}
-            selectedStyle={selectedBodyStyle}
-            onFontChange={(value) => handleFontChange(value, false)}
-            onStyleChange={(value) => handleStyleChange(value, false)}
-            filteredFonts={filteredFonts}
-            searchQuery={searchQuery}
-            setSearchQuery={setSearchQuery}
+            setSelectedFont={setSelectedBodyFont}
+            selectedFontVariant={selectedBodyVariant}
           />
         </TabsContent>
       </Tabs>

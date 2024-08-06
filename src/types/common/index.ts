@@ -25,3 +25,19 @@ export interface CarouselSettings {
   scrollSpeed: number;
 }
 
+export interface Font {
+  family: string;
+  category: string;
+  variants: string[];
+}
+
+export interface FontOption {
+  value: number;
+  label: string;
+  category: string;
+}
+
+export interface VariantOption {
+  value: string;
+  label: string;
+}

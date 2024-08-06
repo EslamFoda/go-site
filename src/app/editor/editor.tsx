@@ -39,41 +39,83 @@ const inter = Inter({ subsets: ["latin"] });
 function Editor({ children }: { children: React.ReactNode }) {
   const { designSettings } = useAppSelector((state) => state.editor);
   const { bodyFont, titleFont } = designSettings.fonts;
+
   return (
     <>
       <head>
         <link rel="preconnect" href="https://maps.googleapis.com"></link>
         <link rel="preconnect" href="https://fonts.gstatic.com/"></link>
-        <style>
-          {titleFont.fontFamilyUrl &&
-            `@import url('${titleFont.fontFamilyUrl}')`}
-        </style>
-        <style>
-          {bodyFont.fontFamilyUrl && `@import url('${bodyFont.fontFamilyUrl}')`}
-        </style>
-        <style>
-          {titleFont.fontFamilyUrl &&
-            titleFont.fontFamily &&
-            ` .page-container h1,
-              .page-container h2,
-              .page-container h3,
-              .page-container h4,
-              .page-container h5,
-              .page-container h6 {
-               font-family: "${titleFont.fontFamily}", sans-serif;
-              }
-  `}
-        </style>
-        <style>
-          {bodyFont.fontFamilyUrl &&
-            bodyFont.fontFamily &&
-            ` .page-container span,
-              .page-container p,
-              .page-container div {
-               font-family: "${bodyFont.fontFamily}", sans-serif;
-              }
-  `}
-        </style>
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+    ${
+      titleFont.fontFamilyUrl
+        ? `
+      @font-face {
+        font-family: ${titleFont.fontFamily}-title;
+        src: url("${titleFont.fontFamilyUrl}");
+      }
+    `
+        : ""
+    }
+  `,
+          }}
+        />
+
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+    ${
+      bodyFont.fontFamilyUrl
+        ? `
+      @font-face {
+        font-family: ${bodyFont.fontFamily}-body;
+        src: url("${bodyFont.fontFamilyUrl}");
+      }
+    `
+        : ""
+    }
+  `,
+          }}
+        />
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+    ${
+      titleFont.fontFamilyUrl && titleFont.fontFamily
+        ? `
+      .page-container h1,
+      .page-container h2,
+      .page-container h3,
+      .page-container h4,
+      .page-container h5,
+      .page-container h6 {
+        font-family: "${titleFont.fontFamily}-title";
+      }
+    `
+        : ""
+    }
+  `,
+          }}
+        />
+
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
+    ${
+      bodyFont.fontFamilyUrl && bodyFont.fontFamily
+        ? `
+      .page-container span,
+      .page-container p,
+      .page-container div {
+        font-family: "${bodyFont.fontFamily}-body";
+      }
+    `
+        : ""
+    }
+  `,
+          }}
+        />
       </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>

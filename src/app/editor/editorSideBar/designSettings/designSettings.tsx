@@ -1,26 +1,29 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import AiThemes from "./aiThemes";
 import Customize from "./customize";
 import Fonts from "./customize/fonts";
-import { useGoogleFonts } from "@/hooks/useFont";
+import useGoogleFonts from "@/hooks/useGoogleFonts";
 function DesignSettings() {
   const [tabValue, setTabValue] = useState("ai-theme");
   const [fontSettingsTab, setFontSettingsTab] = useState("Title");
   const [openFonts, setOpenFonts] = useState(false);
-  const { fonts, loading, error } = useGoogleFonts();
+  const { fonts, fontOptions } = useGoogleFonts();
 
-  if (openFonts)
-    return (
-      <Fonts
-        fontSettingsTab={fontSettingsTab}
-        setFontSettingsTab={setFontSettingsTab}
-        fonts={fonts}
-        loading={loading}
-        error={error}
-        setOpenFonts={setOpenFonts}
-      />
-    );
+  const fontSelectorProps = useMemo(
+    () => ({
+      fontSettingsTab,
+      fonts,
+      fontOptions,
+      setFontSettingsTab,
+      setOpenFonts,
+    }),
+    [fontSettingsTab, fonts, fontOptions]
+  );
+
+  if (openFonts) {
+    return <Fonts {...fontSelectorProps} />;
+  }
 
   return (
     <div>

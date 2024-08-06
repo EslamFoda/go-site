@@ -27,6 +27,7 @@ export type FontFamilyOption = {
   label: string;
   value: string;
   variants: string[];
+  files: { [key: string]: string };
 };
 
 export type FontVariantOption = {
@@ -146,6 +147,7 @@ export function createFontFamilyOption(fontItem: GoogleFontItem) {
     label: fontItem.family,
     value: fontItem.family,
     variants: fontItem.variants,
+    files: fontItem.files,
   };
 }
 

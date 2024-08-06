@@ -1,7 +1,24 @@
 import { Check } from "lucide-react";
 import React from "react";
 import { Theme } from "../aiThemes";
-import { Noto_Serif_SC, Gloock } from "next/font/google";
+import {
+  Noto_Serif_SC,
+  Gloock,
+  Unbounded,
+  Aboreto,
+  Poppins,
+  Andada_Pro,
+  JetBrains_Mono,
+  Questrial,
+  Arimo,
+  ADLaM_Display,
+  Space_Grotesk,
+  Fredericka_the_Great,
+  Merriweather,
+  Luckiest_Guy,
+  Manrope,
+  Fira_Sans,
+} from "next/font/google";
 
 interface ThemeItemProps {
   theme: Theme;
@@ -23,6 +40,84 @@ const notoSerifSC = Noto_Serif_SC({
   subsets: ["latin"],
 });
 
+const unbounded = Unbounded({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
+
+const aboreto = Aboreto({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
+
+const poppins = Poppins({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
+
+const arimo = Arimo({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
+
+const questrial = Questrial({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
+
+const jetBrainsMono = JetBrains_Mono({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
+
+const andadaPro = Andada_Pro({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
+
+const aDLaM_Display = ADLaM_Display({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
+const space_Grotesk = Space_Grotesk({
+  weight: ["400", "500"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
+const fredericka_the_Great = Fredericka_the_Great({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
+const merriweather = Merriweather({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
+const luckiest_Guy = Luckiest_Guy({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
+
+const manrope = Manrope({
+  weight: ["400"],
+  style: ["normal"],
+  subsets: ["latin"],
+});
+const fira_Sans = Fira_Sans({
+  weight: ["400",'700'],
+  style: ["normal"],
+  subsets: ["latin"],
+});
 // Add more local fonts as needed
 // const anotherFont = localFont({
 //   src: "../../../../../../fonts/AnotherFont.ttf",
@@ -32,8 +127,20 @@ const notoSerifSC = Noto_Serif_SC({
 const fontMap = {
   Gloock: gloock,
   "Noto Serif SC": notoSerifSC,
-  // "Another Font": anotherFont,
-  // Add more fonts to the map as needed
+  Unbounded: unbounded,
+  Aboreto: aboreto,
+  Poppins: poppins,
+  Arimo: arimo,
+  Questrial: questrial,
+  "JetBrains Mono": jetBrainsMono,
+  "Andada Pro": andadaPro,
+  "ADLaM Display": aDLaM_Display,
+  "Space Grotesk": space_Grotesk,
+  "Fredericka the Great": fredericka_the_Great,
+  Merriweather: merriweather,
+  "Luckiest Guy": luckiest_Guy,
+  Manrope: manrope,
+  "Fira Sans": fira_Sans,
 };
 
 const getFontFamily = (fontName: string) => {
@@ -62,7 +169,7 @@ const ThemeItem: React.FC<ThemeItemProps> = React.memo(
               Title
             </span>
             <span
-              className="text-sm"
+              className="text-xs"
               style={{
                 fontFamily: getFontFamily(theme.bodyFontFamily),
                 fontWeight: theme.bodyFontWeight,
@@ -92,6 +199,6 @@ const ThemeItem: React.FC<ThemeItemProps> = React.memo(
   )
 );
 
-ThemeItem.displayName = "AccordionItem";
+ThemeItem.displayName = "ThemeItem";
 
 export default ThemeItem;
