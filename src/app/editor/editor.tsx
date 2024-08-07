@@ -89,7 +89,8 @@ function Editor({ children }: { children: React.ReactNode }) {
       .page-container h3,
       .page-container h4,
       .page-container h5,
-      .page-container h6 {
+      .page-container h6,
+      .text-title {
         font-family: "${titleFont.fontFamily}-title";
       }
     `
@@ -107,7 +108,8 @@ function Editor({ children }: { children: React.ReactNode }) {
         ? `
       .page-container span,
       .page-container p,
-      .page-container div {
+      .page-container div,
+      .text-body {
         font-family: "${bodyFont.fontFamily}-body";
       }
     `

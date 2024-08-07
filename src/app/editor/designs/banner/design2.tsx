@@ -102,7 +102,7 @@ function Design2({ section }: Design2Props) {
         dispatch(updateSelectedSection(section.id));
       }}
     >
-      <div className=" flex container w-full gap-10 py-12 flex-col text-center justify-center items-center">
+      <div className=" flex container max-w-container w-full gap-10 py-12 flex-col text-center justify-center items-center">
         {showImage && (
           <>
             {section.content.imageSetting.altText ? (

@@ -75,8 +75,6 @@ function Design2({ section }: DesignProps) {
     listStyle.designSettings.grid.mobile === 1 && "grid-cols-1"
   );
 
-  const alignClassNames = cn("container gap-10 w-full py-12");
-
   const listItemClassNames = cn(
     "flex justify-between gap-5 gap-y-3  rounded-md",
     {
@@ -141,7 +139,7 @@ function Design2({ section }: DesignProps) {
   return (
     <section className={sectionBgClassName}>
       <div
-        className={alignClassNames}
+        className="container max-w-container gap-10 w-full py-12"
         onClick={() => {
           dispatch(updateSelectedSection(section.id));
           dispatch(updateSelectedItem(null));

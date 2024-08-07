@@ -12,12 +12,16 @@ const config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
+      padding: {
+        DEFAULT: "var(--container-padding, 2rem)",
+        sm: "var(--container-padding-sm, 2rem)",
+        lg: "var(--container-padding-lg, 4rem)",
       },
     },
     extend: {
+      maxWidth: {
+        container: "var(--container-max-width)",
+      },
       colors: {
         textColor: "hsl(var(--text-color))",
         border: "hsl(var(--border))",

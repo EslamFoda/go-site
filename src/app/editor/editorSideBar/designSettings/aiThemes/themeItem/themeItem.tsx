@@ -20,14 +20,6 @@ import {
   Fira_Sans,
 } from "next/font/google";
 
-interface ThemeItemProps {
-  theme: Theme;
-  isSelected: boolean;
-  onClick: () => void;
-  setRef: (el: HTMLDivElement | null) => void;
-}
-
-// Define all your local fonts
 const gloock = Gloock({
   weight: ["400"],
   style: ["normal"],
@@ -114,16 +106,11 @@ const manrope = Manrope({
   subsets: ["latin"],
 });
 const fira_Sans = Fira_Sans({
-  weight: ["400",'700'],
+  weight: ["400", "700"],
   style: ["normal"],
   subsets: ["latin"],
 });
-// Add more local fonts as needed
-// const anotherFont = localFont({
-//   src: "../../../../../../fonts/AnotherFont.ttf",
-// });
 
-// Create a mapping of font names to their localFont objects
 const fontMap = {
   Gloock: gloock,
   "Noto Serif SC": notoSerifSC,
@@ -142,6 +129,13 @@ const fontMap = {
   Manrope: manrope,
   "Fira Sans": fira_Sans,
 };
+
+interface ThemeItemProps {
+  theme: Theme;
+  isSelected: boolean;
+  onClick: () => void;
+  setRef: (el: HTMLDivElement | null) => void;
+}
 
 const getFontFamily = (fontName: string) => {
   const font = fontMap[fontName as keyof typeof fontMap];
@@ -183,6 +177,14 @@ const ThemeItem: React.FC<ThemeItemProps> = React.memo(
                 borderRadius: theme.borderRadius,
                 fontFamily: getFontFamily(theme.bodyFontFamily),
                 fontWeight: theme.bodyFontWeight,
+                backgroundColor:
+                  theme.colorName === "default-theme" && !theme.colorPallet
+                    ? ""
+                    : `hsl(${theme.colorPallet})`,
+                color:
+                  theme.colorName === "default-theme" && !theme.colorPallet
+                    ? ""
+                    : `hsl(${theme.primaryForGround})`,
               }}
             >
               Link
@@ -191,7 +193,9 @@ const ThemeItem: React.FC<ThemeItemProps> = React.memo(
           <div ref={setRef}></div>
         </div>
         <div className="flex items-center justify-between pt-2">
-          <span className="text-sm">{theme.colorName}</span>
+          <span className="text-sm">
+            {theme.colorName.replace("theme-", "")}
+          </span>
           {isSelected && <Check size={15} />}
         </div>
       </div>

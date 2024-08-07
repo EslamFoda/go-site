@@ -35,7 +35,7 @@ const Shape: React.FC = () => {
         return "square";
       case "0.5rem":
         return "rounded-sm";
-      case "1.5rem":
+      case "1.3rem":
         return "rounded-full";
       default:
         return "square";
@@ -51,7 +51,7 @@ const Shape: React.FC = () => {
           radiusValue = "0.5rem";
           break;
         case "rounded-full":
-          radiusValue = "1.5rem";
+          radiusValue = "1.3rem";
           break;
       }
       (pageContainer as HTMLElement).style.setProperty("--radius", radiusValue);
@@ -65,7 +65,7 @@ const Shape: React.FC = () => {
         radiusValue = "0.5rem";
         break;
       case "rounded-full":
-        radiusValue = "1.5rem";
+        radiusValue = "1.3rem";
         break;
     }
     dispatch(

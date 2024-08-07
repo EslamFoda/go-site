@@ -25,6 +25,10 @@
     --input: 240 5.9% 90%;
     --ring: 240 5.9% 10%;
     --radius: 0.5rem;
+    --container-padding: 1rem;
+    --container-padding-sm: 1rem;
+    --container-padding-lg: 1rem;
+    --container-max-width: 1400px;
   }
   .dark {
     --background: 240 10% 3.9%;
@@ -434,7 +438,7 @@
     --destructive: 15 99% 31%;
     --destructive-foreground: 15 99% 91%;
     --ring: 252 11% 35%;
-    --radius: 1.5rem;
+    --radius: 1.3rem;
   }
 
   .dark .theme-vesper {

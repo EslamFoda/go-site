@@ -53,7 +53,7 @@ export const aiThemes = [
   {
     colorPallet: "theme-violet",
     colorName: "Violet",
-    borderRadius: "1.5rem",
+    borderRadius: "1.3rem",
     titleFontFamily: "JetBrains Mono",
     titleFontFamilyUrl:
       "https://fonts.gstatic.com/s/jetbrainsmono/v18/tDbY2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKxjPVmUsaaDhw.ttf",
@@ -66,7 +66,7 @@ export const aiThemes = [
   {
     colorPallet: "theme-yellow",
     colorName: "Yellow",
-    borderRadius: "1.5rem",
+    borderRadius: "1.3rem",
     titleFontFamily: "ADLaM Display",
     titleFontFamilyUrl:
       "https://fonts.gstatic.com/s/adlamdisplay/v1/KFOhCnGXkPOLlhx6jD8_b1ZECsHYkYBPY3o.ttf",
@@ -105,7 +105,7 @@ export const aiThemes = [
   {
     colorPallet: "theme-red",
     colorName: "Red",
-    borderRadius: "1.5rem",
+    borderRadius: "1.3rem",
     titleFontFamily: "Fira Sans",
     titleFontWeight: "700italic",
     titleFontFamilyUrl:

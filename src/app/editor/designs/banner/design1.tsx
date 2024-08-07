@@ -101,7 +101,7 @@ function Design1({ section }: Design1Props) {
         dispatch(updateSelectedSection(section.id));
       }}
     >
-      <div className=" flex container gap-10 w-full py-12 flex-col text-center justify-center items-center">
+      <div className=" flex container max-w-container gap-10 w-full py-12 flex-col text-center justify-center items-center">
         <div className={`${TitleAndSubtitleClassName}`}>
           <div
             className="max-lg:!w-full"
@@ -132,9 +132,7 @@ function Design1({ section }: Design1Props) {
 
             {showButtons && (
               <div className="flex justify-center gap-2">
-                <Button>
-                  {section.content.buttons.primaryButton.text}
-                </Button>
+                <Button>{section.content.buttons.primaryButton.text}</Button>
                 <Button variant="outline">
                   {section.content.buttons.secondaryButton.text}
                 </Button>

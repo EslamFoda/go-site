@@ -8,7 +8,7 @@ interface FontButtonsProps {
 function FontButtons({ setFontSettingsTab, setOpenFonts }: FontButtonsProps) {
   return (
     <div className="flex items-center justify-between space-y-1">
-      <Label htmlFor="shape-selector">Shape</Label>
+      <Label htmlFor="shape-selector">Fonts</Label>
       <div
         id="shape-selector"
         className="flex flex-col w-4/6 divide-y  border border-solid border-muted-bg rounded-sm"
@@ -20,7 +20,7 @@ function FontButtons({ setFontSettingsTab, setOpenFonts }: FontButtonsProps) {
             setFontSettingsTab("Title");
           }}
         >
-          <span className="text-sm">Title</span>
+          <span className="text-sm text-title">Title</span>
           <ChevronRight size={16} />
         </div>
         <div
@@ -30,7 +30,7 @@ function FontButtons({ setFontSettingsTab, setOpenFonts }: FontButtonsProps) {
             setFontSettingsTab("Body");
           }}
         >
-          <span className="text-sm">Body</span>
+          <span className="text-sm text-body">Body</span>
           <ChevronRight size={16} />
         </div>
       </div>

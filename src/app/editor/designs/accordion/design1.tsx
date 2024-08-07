@@ -46,8 +46,6 @@ function Design1({ section }: DesignProps) {
     accordionStyle.designSettings.align === "end" && "text-end"
   );
 
-  const alignClassNames = cn("container gap-10 w-full py-12");
-
   const containerClassNames = cn(" grid grid-cols-1 space-y-4", {
     "md:grid-cols-3 grid-cols-1 gap-4 md:space-y-0 space-y-4":
       accordionStyle.designSettings.leftTitlePosition,
@@ -78,7 +76,7 @@ function Design1({ section }: DesignProps) {
   return (
     <section className={sectionBgClassName}>
       <div
-        className={alignClassNames}
+        className="container max-w-container gap-10 w-full py-12"
         onClick={() => {
           dispatch(updateSelectedSection(section.id));
           dispatch(updateSelectedItem(null));

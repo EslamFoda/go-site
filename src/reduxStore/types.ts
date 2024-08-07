@@ -82,4 +82,8 @@ export interface DesignSettings {
     primaryForGround: string;
   };
   borderRadius: string;
+  width: {
+    pages: number;
+    fullWidthPage: boolean;
+  };
 }

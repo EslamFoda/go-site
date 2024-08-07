@@ -11,13 +11,15 @@ export const useColorManagement = () => {
   const updateColors = useCallback(
     (bgColor: string) => {
       const hexColor = cssColorToHex(bgColor);
+      const hslColor = Color(hexColor).hsl().string();
+      const hslPrimaryColor = hslColor.replace(/hsl\(|\)|,/g, "").trim();
       const newTextColor = calculateTextColor(hexColor);
 
       dispatch(
         updateDesignSettings({
           ...designSettings,
           colors: {
-            primary: hexColor,
+            primary: hslPrimaryColor,
             primaryForGround: newTextColor,
           },
         })

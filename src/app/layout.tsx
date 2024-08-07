@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/reduxStore/providers";
-import Editor from "./editor/editor";
+import Editor from "./editor";
 
 export const metadata: Metadata = {
   title: "Create Next App",

@@ -79,7 +79,11 @@ const initialState: EditorStore = {
       primary: "",
       primaryForGround: "",
     },
-    borderRadius: "",
+    borderRadius: ".5rem",
+    width: {
+      pages: 1400,
+      fullWidthPage: false,
+    },
   },
 };
 

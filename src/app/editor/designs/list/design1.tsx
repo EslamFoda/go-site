@@ -75,8 +75,6 @@ function Design1({ section }: DesignProps) {
     listStyle.designSettings.grid.mobile === 1 && "grid-cols-1"
   );
 
-  const alignClassNames = cn("container gap-10 w-full py-12");
-
   const listItemClassNames = cn("flex gap-5 gap-y-3  rounded-md", {
     "bg-muted p-5": listStyle.designSettings.background,
     "outline outline-[1px] outline-muted p-5": listStyle.designSettings.border,
@@ -92,7 +90,7 @@ function Design1({ section }: DesignProps) {
   const iconContainerClassNames = cn(
     "flex items-center  justify-center shrink-0",
     {
-      "rounded-md": listStyle.designSettings.shape === "square",
+      "rounded-sm": listStyle.designSettings.shape === "square",
       "rounded-full": listStyle.designSettings.shape === "rounded",
       "bg-background": listStyle.designSettings.iconColor === "none",
       "bg-primary": listStyle.designSettings.iconColor === "primary",
@@ -139,7 +137,7 @@ function Design1({ section }: DesignProps) {
   return (
     <section className={sectionBgClassName}>
       <div
-        className={alignClassNames}
+        className="container max-w-container gap-10 w-full py-12"
         onClick={() => {
           dispatch(updateSelectedSection(section.id));
           dispatch(updateSelectedItem(null));

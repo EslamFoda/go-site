@@ -95,7 +95,7 @@ function Design4({ section }: Design4Props) {
         dispatch(updateSelectedSection(section.id));
       }}
     >
-      <div className="flex max-lg:flex-col container gap-10 w-full py-12 text-center justify-center items-center">
+      <div className="flex max-lg:flex-col container max-w-container gap-10 w-full py-12 text-center justify-center items-center">
         {showImage && (
           <>
             {section.content.imageSetting.altText ? (

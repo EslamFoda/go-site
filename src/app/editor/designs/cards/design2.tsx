@@ -67,7 +67,7 @@ function Design2({ section }: DesignProps) {
   );
 
   const alignClassNames = cn(
-    "container gap-10 w-full py-12",
+    "container max-w-container gap-10 w-full py-12",
     cardStyle.designSettings.align === "start" && "text-start",
     cardStyle.designSettings.align === "center" && "text-center",
     cardStyle.designSettings.align === "end" && "text-end"

@@ -5,7 +5,7 @@ import {
   updateSelectedPallet,
 } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
-import { getCSSVariableValueByElement } from "@/helper";
+import { cssColorToHex, getCSSVariableValueByElement } from "@/helper";
 import { Label } from "@/components/ui/label";
 import { themeMapping } from "@/constant/theme";
 import {
@@ -92,7 +92,7 @@ const ColorPicker: React.FC = () => {
 
   return (
     <div className="flex flex-col">
-      <div className={`space-y-1 flex items-center justify-between`}>
+      <div className="space-y-1 flex items-center justify-between">
         <Label>Color</Label>
         <div className="border-solid border divide-y rounded-sm w-4/6">
           <div className="grid grid-cols-4 gap-1 p-1">{themeButtons}</div>
@@ -104,14 +104,17 @@ const ColorPicker: React.FC = () => {
                   className="px-2 w-full focus:outline-none focus-within:outline-none outline-none rounded-b-[4px] h-10"
                   style={{
                     color: `hsl(${textColor})`,
-                    backgroundColor: selectedColor,
+                    backgroundColor: `hsl(${selectedColor})`,
                   }}
-                  color={selectedColor}
+                  color={cssColorToHex(selectedColor)}
                   onChange={updateColors}
                 />
               </PopoverTrigger>
               <PopoverContent align="start" className="border-none w-auto p-0">
-                <HexColorPicker color={selectedColor} onChange={updateColors} />
+                <HexColorPicker
+                  color={cssColorToHex(selectedColor)}
+                  onChange={updateColors}
+                />
               </PopoverContent>
             </Popover>
           </div>

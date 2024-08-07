@@ -95,7 +95,7 @@ function Design3({ section }: Design3Props) {
         dispatch(updateSelectedSection(section.id));
       }}
     >
-      <div className="flex max-lg:flex-col container gap-10 w-full py-12 text-center justify-center items-center">
+      <div className="flex max-lg:flex-col container max-w-container gap-10 w-full py-12 text-center justify-center items-center">
         <div className={TitleAndSubtitleClassName}>
           <div>
             <h1 className={titleClassName}>{section.content.title}</h1>

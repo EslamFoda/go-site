@@ -19,6 +19,8 @@ export interface Theme {
   titleFontFamilyUrl: string;
   bodyFontFamilyUrl: string;
   bodyFontWeight: string;
+  primaryColor?: string;
+  primaryForGround?: string;
 }
 
 function AiThemes() {
@@ -27,12 +29,18 @@ function AiThemes() {
   const designSettings = useAppSelector((state) => state.editor.designSettings);
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
 
-  const activeTheme = useMemo(
-    () =>
-      aiThemes.find((theme) => theme.colorPallet === selectedPallet) as Theme,
-    [selectedPallet]
-  );
-
+  const activeTheme = {
+    colorPallet: designSettings.colors.primary,
+    colorName: selectedPallet,
+    borderRadius: designSettings.borderRadius,
+    titleFontFamily: designSettings.fonts.titleFont.fontFamily,
+    titleFontWeight: designSettings.fonts.titleFont.fontWeight,
+    bodyFontFamily: designSettings.fonts.bodyFont.fontFamily,
+    titleFontFamilyUrl: designSettings.fonts.titleFont.fontFamilyUrl,
+    bodyFontFamilyUrl: designSettings.fonts.bodyFont.fontFamilyUrl,
+    bodyFontWeight: designSettings.fonts.bodyFont.fontWeight,
+    primaryForGround: designSettings.colors.primaryForGround,
+  } as Theme;
   const handleThemeClick = useCallback(
     (theme: Theme) => {
       const pageContainer = document.querySelector(

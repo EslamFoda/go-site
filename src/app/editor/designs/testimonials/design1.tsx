@@ -85,8 +85,6 @@ function Design1({ section }: DesignProps) {
     testimonialStyle.designSettings.grid.mobile === 1 && "grid-cols-1"
   );
 
-  const alignClassNames = cn("container gap-10 w-full py-12");
-
   const listItemClassNames = cn(
     "flex flex-col justify-between h-full rounded-md min-h-44",
     {
@@ -153,7 +151,7 @@ function Design1({ section }: DesignProps) {
   return (
     <section className={sectionBgClassName}>
       <div
-        className={alignClassNames}
+        className="container max-w-container gap-10 w-full py-12"
         onClick={() => {
           dispatch(updateSelectedSection(section.id));
           dispatch(updateSelectedItem(null));

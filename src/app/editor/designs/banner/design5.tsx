@@ -86,7 +86,7 @@ function Design5({ section }: Design5Props) {
         dispatch(updateSelectedSection(section.id));
       }}
     >
-      <div className="container py-12">
+      <div className="container max-w-container py-12">
         <div className="mb-8">
           <h1 className={titleClassName}>{section.content.title}</h1>
         </div>

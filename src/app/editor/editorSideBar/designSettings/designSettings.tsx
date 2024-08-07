@@ -4,10 +4,12 @@ import AiThemes from "./aiThemes";
 import Customize from "./customize";
 import Fonts from "./customize/fonts";
 import useGoogleFonts from "@/hooks/useGoogleFonts";
+import Width from "./customize/width";
 function DesignSettings() {
   const [tabValue, setTabValue] = useState("ai-theme");
   const [fontSettingsTab, setFontSettingsTab] = useState("Title");
   const [openFonts, setOpenFonts] = useState(false);
+  const [openWidth, setOpenWidth] = useState(false);
   const { fonts, fontOptions } = useGoogleFonts();
 
   const fontSelectorProps = useMemo(
@@ -25,6 +27,10 @@ function DesignSettings() {
     return <Fonts {...fontSelectorProps} />;
   }
 
+  if (openWidth) {
+    return <Width setOpenWidth={setOpenWidth} />;
+  }
+
   return (
     <div>
       <Tabs onValueChange={setTabValue} value={tabValue} className="w-full">
@@ -39,6 +45,7 @@ function DesignSettings() {
           <Customize
             setFontSettingsTab={setFontSettingsTab}
             setOpenFonts={setOpenFonts}
+            setOpenWidth={setOpenWidth}
           />
         </TabsContent>
       </Tabs>
