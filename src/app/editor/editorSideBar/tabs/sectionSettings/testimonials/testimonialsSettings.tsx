@@ -44,7 +44,6 @@ function TestimonialsSettings() {
     findSelectedSection?.content as TestimonialContent;
   const TestimonialsStyle = findSelectedSection?.style as TestimonialStyle;
   const TestimonialItem = selectedItem as Testimonial;
-  console.log(TestimonialsContent.testimonials, "asdasoidaisod");
 
   const handleDeleteTestimonial = () => {
     const filterTestimonials = TestimonialsContent?.testimonials?.filter(

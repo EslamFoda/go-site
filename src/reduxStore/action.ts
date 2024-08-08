@@ -1,9 +1,14 @@
 import * as types from "./actionTypes";
-import { DesignSettings, EditorSection, SectionContentTypes, SectionStyleTypes } from "./types";
+import {
+  DesignSettings,
+  EditorSection,
+  SectionContentTypes,
+  SectionStyleTypes,
+} from "./types";
 
 import { SelectedItemType } from "@/types/common";
 
-export const updateSelectedSection = (selectedSectionId: string) => ({
+export const updateSelectedSection = (selectedSectionId: string | null) => ({
   type: types.UPDATE_SELECTED_SECTION,
   payload: selectedSectionId,
 });

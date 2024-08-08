@@ -54,6 +54,9 @@ function CardStyleTab({
   const handleToggleCardSliderWidthSetting = () => {
     setIsCardSliderWidthDesktop(!isCardSliderWidthDesktop);
   };
+
+  if (!cardStyle) return null;
+
   return (
     <TabsContent className="space-y-2 px-5" value="style">
       <div className="grid grid-cols-2 gap-2">
@@ -71,7 +74,7 @@ function CardStyleTab({
               key={i}
             >
               <Icon
-                active={findSelectedSection.style.designName === designName}
+                active={findSelectedSection?.style.designName === designName}
               />
             </div>
           );

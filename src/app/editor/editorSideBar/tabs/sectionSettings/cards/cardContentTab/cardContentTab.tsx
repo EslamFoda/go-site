@@ -86,7 +86,7 @@ function CardContentTab({
         <Label htmlFor="subtitle">Subtitle</Label>
         <Textarea
           className="w-4/6 "
-          id={findSelectedSection.id + "subtitle"}
+          id={findSelectedSection?.id + "subtitle"}
           value={cardsContent?.subtitle}
           onChange={(e: any) => {
             dispatch(

@@ -33,6 +33,8 @@ function AccordionStyleTab({
 }: AccordionStyleTabProps) {
   const dispatch = useAppDispatch();
 
+  if (!accordionStyle) return null;
+
   return (
     <TabsContent className="space-y-2 px-5" value="style">
       <AccordionIcon

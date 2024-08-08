@@ -56,6 +56,8 @@ function ListStyleTab({
   const handleToggleCardSliderWidthSetting = () => {
     setIsCardSliderWidthDesktop(!isCardSliderWidthDesktop);
   };
+
+  if (!listStyle) return null;
   return (
     <TabsContent className="space-y-2 px-5" value="style">
       <div className="grid grid-cols-2 gap-2">

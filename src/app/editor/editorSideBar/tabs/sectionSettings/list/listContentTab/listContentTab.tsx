@@ -88,7 +88,7 @@ function ListContentTab({
         <Label htmlFor="subtitle">Subtitle</Label>
         <Textarea
           className="w-4/6 "
-          id={findSelectedSection.id + "subtitle"}
+          id={findSelectedSection?.id + "subtitle"}
           value={listContent?.subtitle}
           onChange={(e: any) => {
             dispatch(

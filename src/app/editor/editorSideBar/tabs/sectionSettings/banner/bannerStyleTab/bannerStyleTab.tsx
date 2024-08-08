@@ -52,6 +52,7 @@ function BannerStyleTab({
   const dispatch = useAppDispatch();
   const selectedSectionStyle =
     findSelectedSection?.style as SectionStyleTypes["banner"];
+  if (!bannerStyle) return null;
   return (
     <TabsContent className="space-y-2 px-5" value="style">
       <div className="grid grid-cols-3 gap-2">
@@ -75,12 +76,12 @@ function BannerStyleTab({
               className="h-20 flex items-center justify-center relative border-muted-bg border-solid border-[1px] rounded-sm"
               key={i}
             >
-              <Icon active={bannerStyle.designName === designName} />
+              <Icon active={bannerStyle?.designName === designName} />
             </div>
           );
         })}
       </div>
-      {bannerContent.mediaType === "image" ? (
+      {bannerContent?.mediaType === "image" ? (
         <>
           <div className="space-y-1 flex items-center justify-between">
             <Label>Image</Label>
@@ -261,11 +262,11 @@ function BannerStyleTab({
             }}
           />
         )}
-      {(bannerStyle.designName === "design3" ||
-        bannerStyle.designName === "design4" ||
-        bannerStyle.designName === "design5" ||
-        bannerStyle.designName === "design6") &&
-        !bannerStyle.designSettings.imageSetting.showImage && (
+      {(bannerStyle?.designName === "design3" ||
+        bannerStyle?.designName === "design4" ||
+        bannerStyle?.designName === "design5" ||
+        bannerStyle?.designName === "design6") &&
+        !bannerStyle?.designSettings.imageSetting.showImage && (
           <WidthOrHeight
             label="width"
             min={50}
@@ -285,7 +286,7 @@ function BannerStyleTab({
           />
         )}
 
-      {bannerStyle.designSettings.imageSetting.showImage && (
+      {bannerStyle?.designSettings.imageSetting.showImage && (
         <WidthOrHeight
           customText={`${bannerStyle.designSettings.height}`}
           label="height"

@@ -1,6 +1,5 @@
 import { TabsContent } from "@/components/ui/tabs";
 import React, { useState } from "react";
-import LayoutSetting from "../../settingsUi/LayoutSetting";
 import DisplaySettings from "../../settingsUi/DisplaySettings";
 import WidthOrHeight from "../../settingsUi/WidthOrHeight";
 import GridSetting from "../../settingsUi/GridSetting";
@@ -53,6 +52,9 @@ function TestimonialsStyleTab({
   const handleToggleCardSliderWidthSetting = () => {
     setIsCardSliderWidthDesktop(!isCardSliderWidthDesktop);
   };
+
+  if (!testimonialStyle) return null;
+
   return (
     <TabsContent className="space-y-2 px-5" value="style">
       <div className="grid grid-cols-2 gap-2">
