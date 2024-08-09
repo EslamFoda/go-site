@@ -43,7 +43,9 @@ function ControlButtons({ sectionIndex, sectionId }: ControlButtonsProps) {
         newSections[sectionIndex],
       ];
       dispatch(updateEditorSections(newSections));
-      scrollToSection(sectionIndex + 1);
+      setTimeout(() => {
+        scrollToSection(sectionIndex + 1);
+      }, 0);
     }
   };
 
@@ -71,7 +73,7 @@ function ControlButtons({ sectionIndex, sectionId }: ControlButtonsProps) {
         disabled={isLastSection}
       />
 
-      <SectionSettingsBtn sectionId={sectionId} sectionIndex={sectionIndex}/>
+      <SectionSettingsBtn sectionId={sectionId} sectionIndex={sectionIndex} />
     </div>
   );
 }
