@@ -11,10 +11,10 @@ import { SelectedItemType } from "@/types/common";
 // Update selected section
 export const updateSelectedSection = (
   pageId: string,
-  selectedSectionId: string | null
+  sectionId: string | null
 ) => ({
   type: types.UPDATE_SELECTED_SECTION,
-  payload: { pageId, selectedSectionId },
+  payload: { pageId, sectionId },
 });
 
 // Update selected item

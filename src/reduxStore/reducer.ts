@@ -173,11 +173,10 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
     switch (action.type) {
       case types.UPDATE_SELECTED_SECTION: {
         draft.openPallet = false;
-        const page = draft.editor.pages.find(
+        const page = state.editor.pages.find(
           (p) => p.pageId === action.payload.pageId
         );
         if (page) {
-          console.log(draft.editor.pages, "selectedsectionasjdn");
           draft.selectedSection =
             page.sections.find(
               (section) => section.id === action.payload.sectionId
