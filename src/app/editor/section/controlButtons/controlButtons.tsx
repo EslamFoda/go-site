@@ -9,40 +9,46 @@ import SectionSettingsBtn from "./sectionSettingsBtn";
 interface ControlButtonsProps {
   sectionIndex: number;
   sectionId: string;
+  pageId: string;
 }
 
-function ControlButtons({ sectionIndex, sectionId }: ControlButtonsProps) {
-  const editorSections = useAppSelector(
-    (state) => state.editor.editor.sections
+function ControlButtons({
+  sectionIndex,
+  sectionId,
+  pageId,
+}: ControlButtonsProps) {
+  const currentPage = useAppSelector((state) =>
+    state.editor.editor.pages.find((page) => page.pageId === pageId)
   );
+  const sections = currentPage?.sections;
   const dispatch = useAppDispatch();
 
   const isFirstSection = useMemo(() => sectionIndex === 0, [sectionIndex]);
   const isLastSection = useMemo(
-    () => sectionIndex === editorSections.length - 1,
-    [sectionIndex, editorSections.length]
+    () => sections && sectionIndex === sections.length - 1,
+    [sectionIndex, sections]
   );
 
   const moveSectionUp = () => {
-    if (!isFirstSection) {
-      const newSections = [...editorSections];
+    if (!isFirstSection && sections) {
+      const newSections = [...sections];
       [newSections[sectionIndex - 1], newSections[sectionIndex]] = [
         newSections[sectionIndex],
         newSections[sectionIndex - 1],
       ];
-      dispatch(updateEditorSections(newSections));
+      dispatch(updateEditorSections(pageId, newSections));
       scrollToSection(sectionIndex - 1);
     }
   };
 
   const moveSectionDown = () => {
-    if (!isLastSection) {
-      const newSections = [...editorSections];
+    if (!isLastSection && sections) {
+      const newSections = [...sections];
       [newSections[sectionIndex], newSections[sectionIndex + 1]] = [
         newSections[sectionIndex + 1],
         newSections[sectionIndex],
       ];
-      dispatch(updateEditorSections(newSections));
+      dispatch(updateEditorSections(pageId, newSections));
       setTimeout(() => {
         scrollToSection(sectionIndex + 1);
       }, 0);
@@ -73,7 +79,12 @@ function ControlButtons({ sectionIndex, sectionId }: ControlButtonsProps) {
         disabled={isLastSection}
       />
 
-      <SectionSettingsBtn sectionId={sectionId} sectionIndex={sectionIndex} />
+      <SectionSettingsBtn
+        sectionId={sectionId}
+        sectionIndex={sectionIndex}
+        pageId={pageId}
+        sections={sections}
+      />
     </div>
   );
 }

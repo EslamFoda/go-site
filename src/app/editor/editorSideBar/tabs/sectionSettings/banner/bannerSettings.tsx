@@ -1,6 +1,5 @@
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ChevronLeft } from "lucide-react";
 import React, { useState } from "react";
 import { JustifyCenter, JustifyEnd, JustifyStart } from "@/icons/common";
 import ColorSelector from "../settingsUi/ColorSelector";
@@ -14,16 +13,20 @@ import {
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { updateStyle } from "@/reduxStore/action";
 import BackBtn from "@/components/shared/backBtn";
-
-function BannerSettings({}) {
+interface BannerSettingsProps {
+  sections:
+    | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
+    | undefined;
+  pageId: string;
+}
+function BannerSettings({ sections, pageId }: BannerSettingsProps) {
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
   const [tabValue, setTabValue] = useState("content");
   const dispatch = useAppDispatch();
-  const editor = useAppSelector((state) => state.editor.editor);
   const selectedSection = useAppSelector(
     (state) => state.editor.selectedSection
   );
-  const findSelectedSection = editor.sections.find(
+  const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
 
@@ -44,18 +47,8 @@ function BannerSettings({}) {
             <ColorSelector
               selectedColor={bannerStyle.designSettings.sectionBackground.color}
               handleChangeColor={(color) => {
-                // updateStyle(findSelectedSection?.id!, {
-                //   designSettings: {
-                //     ...bannerStyle.designSettings!,
-                //     sectionBackground: {
-                //       ...bannerStyle.designSettings.sectionBackground,
-                //       color,
-                //     },
-                //   },
-                // });
-
                 dispatch(
-                  updateStyle(findSelectedSection?.id!, {
+                  updateStyle(pageId, findSelectedSection?.id!, {
                     designSettings: {
                       ...bannerStyle.designSettings!,
                       sectionBackground: {
@@ -73,19 +66,8 @@ function BannerSettings({}) {
               <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
                 <div
                   onClick={() => {
-                    // updateStyle(findSelectedSection?.id!, {
-                    //   designSettings: {
-                    //     ...bannerStyle.designSettings!,
-                    //     sectionBackground: {
-                    //       ...bannerStyle.designSettings.sectionBackground,
-                    //       height: "fill",
-                    //       align: "center",
-                    //     },
-                    //   },
-                    // });
-
                     dispatch(
-                      updateStyle(findSelectedSection?.id!, {
+                      updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
                           ...bannerStyle.designSettings!,
                           sectionBackground: {
@@ -108,18 +90,8 @@ function BannerSettings({}) {
                 </div>
                 <div
                   onClick={() => {
-                    // updateStyle(findSelectedSection?.id!, {
-                    //   designSettings: {
-                    //     ...bannerStyle.designSettings!,
-                    //     sectionBackground: {
-                    //       ...bannerStyle.designSettings.sectionBackground,
-                    //       height: "fit",
-                    //       align: "center",
-                    //     },
-                    //   },
-                    // });
                     dispatch(
-                      updateStyle(findSelectedSection?.id!, {
+                      updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
                           ...bannerStyle.designSettings!,
                           sectionBackground: {
@@ -148,18 +120,8 @@ function BannerSettings({}) {
                 <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
                   <div
                     onClick={() => {
-                      // updateStyle(findSelectedSection?.id!, {
-                      //   designSettings: {
-                      //     ...bannerStyle.designSettings!,
-                      //     sectionBackground: {
-                      //       ...bannerStyle.designSettings.sectionBackground,
-                      //       align: "start",
-                      //     },
-                      //   },
-                      // });
-
                       dispatch(
-                        updateStyle(findSelectedSection?.id!, {
+                        updateStyle(pageId, findSelectedSection?.id!, {
                           designSettings: {
                             ...bannerStyle.designSettings!,
                             sectionBackground: {
@@ -182,7 +144,7 @@ function BannerSettings({}) {
                   <div
                     onClick={() => {
                       dispatch(
-                        updateStyle(findSelectedSection?.id!, {
+                        updateStyle(pageId, findSelectedSection?.id!, {
                           designSettings: {
                             ...bannerStyle.designSettings!,
                             sectionBackground: {
@@ -205,7 +167,7 @@ function BannerSettings({}) {
                   <div
                     onClick={() => {
                       dispatch(
-                        updateStyle(findSelectedSection?.id!, {
+                        updateStyle(pageId, findSelectedSection?.id!, {
                           designSettings: {
                             ...bannerStyle.designSettings!,
                             sectionBackground: {

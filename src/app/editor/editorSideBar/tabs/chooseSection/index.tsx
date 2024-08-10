@@ -21,9 +21,13 @@ import { useTheme } from "next-themes";
 import React from "react";
 
 function ChooseSection() {
-  const editor = useAppSelector((state) => state.editor.editor);
-  const { theme } = useTheme();
   const sectionIndex = useAppSelector((state) => state.editor.sectionIndex);
+  const activePageId = useAppSelector((state) => state.editor.activePage);
+  const page = useAppSelector((state) =>
+    state.editor.editor.pages.find((page) => page.pageId === activePageId)
+  );
+
+  const { theme } = useTheme();
   const dispatch = useAppDispatch();
   const { sections } = useSections();
 
@@ -57,18 +61,20 @@ function ChooseSection() {
     // Add more mappings as needed
   };
 
+  if (!page) return null;
+
   const handleChooseSection = (section: any) => {
-    if (sectionIndex < 0 || sectionIndex >= editor.sections.length) {
-      return editor.sections;
+    if (sectionIndex < 0 || sectionIndex >= page.sections.length) {
+      return page.sections;
     }
 
     // Create a copy of the sections array
-    const newSections = [...editor.sections];
+    const newSections = [...page.sections];
     newSections.splice(sectionIndex + 1, 0, section);
 
     dispatch(closeSectionDesigns());
-    dispatch(updateEditorSections(newSections));
-    dispatch(updateSelectedSection(section.id));
+    dispatch(updateEditorSections(activePageId, newSections));
+    dispatch(updateSelectedSection(activePageId, section.id));
   };
 
   return (

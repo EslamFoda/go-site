@@ -18,9 +18,9 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 
-const Section: React.FC = () => {
-  const editorSections = useAppSelector(
-    (state) => state.editor.editor.sections
+const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
+  const currentPage = useAppSelector((state) =>
+    state.editor.editor.pages.find((page) => page.pageId === pageId)
   );
   const dispatch = useAppDispatch();
   const [hoveringIndex, setHoveringIndex] = useState<number | null>(null);
@@ -32,6 +32,7 @@ const Section: React.FC = () => {
     Accordion,
     Testimonials,
   };
+
   const handleMouseEnter = (index: number) => {
     setHoveringIndex(index);
   };
@@ -39,9 +40,14 @@ const Section: React.FC = () => {
   const handleMouseLeave = () => {
     setHoveringIndex(null);
   };
+
+  if (!currentPage) {
+    return <div>Page not found</div>;
+  }
+
   return (
     <div>
-      {editorSections.map((section, i) => {
+      {currentPage.sections.map((section, i) => {
         const SectionComponent = sectionsMapper[section.sectionName];
         return (
           <HoverCard
@@ -64,16 +70,20 @@ const Section: React.FC = () => {
                   sideOffset={-45}
                   alignOffset={10}
                 >
-                  <ControlButtons sectionIndex={i} sectionId={section.id} />
+                  <ControlButtons
+                    sectionIndex={i}
+                    sectionId={section.id}
+                    pageId={pageId} // Pass pageId for any actions that require it
+                  />
                 </HoverCardContent>
                 <div onClick={() => dispatch(closeSectionDesigns())}>
                   <SectionComponent
                     key={section.id}
                     section={section}
-                    handleSelectedSection={updateSelectedSection}
+                    pageId={pageId}
                   />
                 </div>
-                <AddSection sectionIndex={i} />
+                <AddSection sectionIndex={i} pageId={pageId} />
               </HoverCardTrigger>
             </div>
           </HoverCard>
