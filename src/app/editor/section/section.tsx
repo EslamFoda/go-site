@@ -7,10 +7,7 @@ import Accordion from "../designs/accordion";
 import Testimonials from "../designs/testimonials";
 import AddSection from "./addSection";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
-import {
-  closeSectionDesigns,
-  updateSelectedSection,
-} from "@/reduxStore/action";
+import { closeSectionDesigns } from "@/reduxStore/action";
 import ControlButtons from "./controlButtons";
 import {
   HoverCard,

@@ -65,12 +65,12 @@ const initialState: EditorStore = {
           pagePasswordButton: "Continue",
           seoTitle: "Mobile Shop | Buy & Sell New & Used Phones Online",
           showFooter: true,
-          title: "Shop for mobile phones onlinee d",
+          title: "homepage",
           userEditedSlug: false,
         },
       },
       {
-        pageId: "1",
+        pageId: uuidv4(),
         sections: [
           {
             id: uuidv4(),
@@ -127,7 +127,7 @@ const initialState: EditorStore = {
           pagePasswordButton: "Continue",
           seoTitle: "Mobile Shop | Buy & Sell New & Used Phones Online",
           showFooter: true,
-          title: "Shop for mobile phones onlinee d",
+          title: "about",
           userEditedSlug: false,
         },
       },
@@ -141,7 +141,7 @@ const initialState: EditorStore = {
   selectedPallet: "default-theme",
   openSectionDesigns: false,
   openPallet: false,
-  openPages: false,
+  openPages: true,
   designSettings: {
     fonts: {
       titleFont: {

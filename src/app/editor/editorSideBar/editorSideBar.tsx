@@ -52,10 +52,12 @@ const EditorSidebar = () => {
 
   return (
     <div className="overflow-auto">
-      <Link className="block" href="/editor/1">
-        eslam
-      </Link>
-      <Link href="/editor/">ediotr</Link>
+      {/* <div className="mt-2">
+        <Link className="block" href="/editor/1">
+          eslam
+        </Link>
+        <Link href="/editor/">ediotr</Link>
+      </div> */}
       {openSectionDesigns ? (
         <ChooseSection />
       ) : SelectedSectionComponent ? (
