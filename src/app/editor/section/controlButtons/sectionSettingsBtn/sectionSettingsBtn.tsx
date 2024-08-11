@@ -26,38 +26,75 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   updateEditorSections,
   updateSelectedSection,
 } from "@/reduxStore/action";
 import { v4 } from "uuid";
 import { toast } from "sonner";
+import {
+  EditorSection,
+  SectionContentTypes,
+  SectionStyleTypes,
+} from "@/reduxStore/types";
 
 interface SectionSettingsBtnProps {
   sectionId: string;
   sectionIndex: number;
+  pageId: string;
+  sections:
+    | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
+    | undefined;
 }
 function SectionSettingsBtn({
   sectionId,
   sectionIndex,
+  pageId,
+  sections,
 }: SectionSettingsBtnProps) {
-  const editorSections = useAppSelector(
-    (state) => state.editor.editor.sections
-  );
   const dispatch = useAppDispatch();
 
   const duplicateSection = () => {
-    const cloneSections = [...editorSections];
+    if (!sections) return;
+    const cloneSections = [...sections];
     const sectionToClone = cloneSections.find(
       (section) => section.id === sectionId
     );
     if (sectionToClone) {
       const newSection = { ...sectionToClone, id: v4() };
       cloneSections.splice(sectionIndex + 1, 0, newSection);
-      dispatch(updateEditorSections(cloneSections));
-      dispatch(updateSelectedSection(newSection.id));
+      dispatch(updateEditorSections(pageId, cloneSections));
+      dispatch(updateSelectedSection(pageId, newSection.id));
     }
+  };
+
+  const deleteSection = () => {
+    if (!sections) return;
+    const deletedIndex = sections.findIndex(
+      (section) => section.id === sectionId
+    );
+
+    // Find the section itself
+    const deletedSection = sections[deletedIndex];
+
+    dispatch(updateSelectedSection(pageId, null));
+    const cloneSections = [...sections];
+    const deleteSection = cloneSections.filter(
+      (section) => section.id !== sectionId
+    );
+    dispatch(updateEditorSections(pageId, deleteSection));
+    toast(`${deletedSection.sectionName} deleted`, {
+      action: {
+        label: "Undo",
+        onClick: () => {
+          // Insert the deleted section back at its original index
+          const restoredSections = [...deleteSection];
+          restoredSections.splice(deletedIndex, 0, deletedSection);
+          dispatch(updateEditorSections(pageId, restoredSections));
+        },
+      },
+    });
   };
 
   return (
@@ -100,34 +137,7 @@ function SectionSettingsBtn({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => {
-                const deletedIndex = editorSections.findIndex(
-                  (section) => section.id === sectionId
-                );
-
-                // Find the section itself
-                const deletedSection = editorSections[deletedIndex];
-
-                dispatch(updateSelectedSection(null));
-                const cloneSections = [...editorSections];
-                const deleteSection = cloneSections.filter(
-                  (section) => section.id !== sectionId
-                );
-                dispatch(updateEditorSections(deleteSection));
-                toast(`${deletedSection.sectionName} deleted`, {
-                  action: {
-                    label: "Undo",
-                    onClick: () => {
-                      // Insert the deleted section back at its original index
-                      const restoredSections = [...deleteSection];
-                      restoredSections.splice(deletedIndex, 0, deletedSection);
-                      dispatch(updateEditorSections(restoredSections));
-                    },
-                  },
-                });
-              }}
-            >
+            <AlertDialogAction onClick={deleteSection}>
               delete
             </AlertDialogAction>
           </AlertDialogFooter>

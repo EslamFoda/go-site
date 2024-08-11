@@ -1,12 +1,12 @@
 "use client";
-import { useAppSelector } from "@/reduxStore/hooks";
-import Section from "./editor/section";
+
+import Link from "next/link";
 
 export default function Home() {
-  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
   return (
-    <main className={`${selectedPallet} page-container`}>
-      <Section />
+    <main>
+      create site is gonna be here
+      <Link href="/editor">test</Link>
     </main>
   );
 }

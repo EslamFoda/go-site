@@ -4,15 +4,16 @@ import Design2 from "./design2";
 
 interface CardsProps {
   section: any;
+  pageId: string;
 }
-function Cards({ section }: CardsProps) {
+function Cards({ section, pageId }: CardsProps) {
   const designs = {
     design1: Design1,
     design2: Design2,
   };
   //@ts-ignore
   const CardsSection = designs[section.style.designName];
-  return <CardsSection section={section} />;
+  return <CardsSection section={section} pageId={pageId} />;
 }
 
 export default Cards;

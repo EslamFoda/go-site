@@ -15,7 +15,7 @@ export default function ControlBtn({
   icon: React.ReactNode;
   tooltipContent: string;
   onClick: () => void;
-  disabled: boolean;
+  disabled: boolean | undefined;
 }) {
   if (disabled) return null;
 

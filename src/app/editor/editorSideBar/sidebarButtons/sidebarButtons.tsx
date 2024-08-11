@@ -1,10 +1,10 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Book, Code2, Palette, Settings2, SquareTerminal } from "lucide-react";
+import { Book, Code2, File, Palette, Settings2 } from "lucide-react";
 import React from "react";
 import { useAppDispatch } from "@/reduxStore/hooks";
-import { openPallet } from "@/reduxStore/action";
+import { openPageSettings, openPallet } from "@/reduxStore/action";
 
 function SidebarButtons() {
   const dispatch = useAppDispatch();
@@ -16,10 +16,11 @@ function SidebarButtons() {
       <Button
         variant="ghost"
         size="icon"
-        className="rounded-lg bg-muted"
+        className="rounded-lg"
         aria-label="Playground"
+        onClick={() => dispatch(openPageSettings())}
       >
-        <SquareTerminal className="size-5" />
+        <File className="size-5" />
       </Button>
       <Button
         variant="ghost"

@@ -7,8 +7,9 @@ import Design6 from "./design6";
 import Design5 from "./design5";
 interface BannerProps {
   section: any;
+  pageId: string;
 }
-function Banner({ section }: BannerProps) {
+function Banner({ section, pageId }: BannerProps) {
   const designs = {
     design1: Design1,
     design2: Design2,
@@ -22,7 +23,7 @@ function Banner({ section }: BannerProps) {
   const BannerSection = designs[section.style.designName];
   return (
     <>
-      <BannerSection section={section} />
+      <BannerSection section={section} pageId={pageId} />
     </>
   );
 }

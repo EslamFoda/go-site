@@ -1,5 +1,4 @@
-// types.ts
-
+// Import section-specific content and style types
 import {
   Accordion,
   AccordionContent,
@@ -14,7 +13,7 @@ import {
   TestimonialStyle,
 } from "@/types/sectionsTypes/testimonials";
 
-// Define all possible content types
+// Define all possible content types for sections
 export type SectionContentTypes = {
   banner: BannerContent;
   cards: CardsContent;
@@ -24,12 +23,14 @@ export type SectionContentTypes = {
   // Add more content types here as needed
 };
 
+// Define all possible style types for sections
 export type SectionStyleTypes = {
   banner: BannerStyle;
   cards: CardStyle;
   list: ListStyle;
   accordion: AccordionStyle;
   testimonial: TestimonialStyle;
+  // Add more style types here as needed
 };
 
 // Define the type for a single editor section
@@ -43,13 +44,10 @@ export interface EditorSection<
   style: SectionStyleTypes[U];
 }
 
-// Updated EditorStore interface
+// Define the type for the editor's state in the store
 export interface EditorStore {
   editor: {
-    sections: EditorSection<
-      keyof SectionContentTypes,
-      keyof SectionStyleTypes
-    >[];
+    pages: EditorPage[]; // Add this line to include pages in the editor
   };
   sectionIndex: number;
   selectedSection: EditorSection<
@@ -62,20 +60,36 @@ export interface EditorStore {
   chooseIcon: boolean;
   selectedPallet: string;
   designSettings: DesignSettings;
+  activePage: string;
+  openPages: boolean;
 }
 
+// Define the type for an editor page
+export interface EditorPage {
+  pageId: string;
+  sections: EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[];
+  pageSettings: PageSettings;
+}
+
+// Define the type for page settings
+export interface PageSettings {
+  coverImage: string;
+  description: string;
+  isPublished: boolean;
+  isVisibleInSearch: boolean;
+  link: string;
+  pagePasswordButton: string;
+  seoTitle: string;
+  showFooter: boolean;
+  title: string;
+  userEditedSlug: boolean;
+}
+
+// Define the type for design settings
 export interface DesignSettings {
   fonts: {
-    titleFont: {
-      fontFamily: string;
-      fontWeight: string;
-      fontFamilyUrl: string;
-    };
-    bodyFont: {
-      fontFamily: string;
-      fontWeight: string;
-      fontFamilyUrl: string;
-    };
+    titleFont: FontSettings;
+    bodyFont: FontSettings;
   };
   colors: {
     primary: string;
@@ -86,4 +100,11 @@ export interface DesignSettings {
     pages: number;
     fullWidthPage: boolean;
   };
+}
+
+// Define the type for font settings
+export interface FontSettings {
+  fontFamily: string;
+  fontWeight: string;
+  fontFamilyUrl: string;
 }

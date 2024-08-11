@@ -2,8 +2,11 @@ import { openSectionDesigns, updateSectionIndex } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { PlusCircle } from "lucide-react";
 import React from "react";
-
-function AddSection({ sectionIndex }: { sectionIndex: number }) {
+interface AddSectionProps {
+  sectionIndex: number;
+  pageId: string;
+}
+function AddSection({ sectionIndex }: AddSectionProps) {
   const dispatch = useAppDispatch();
   const handleToggleSectionDesigns = () => {
     dispatch(openSectionDesigns());

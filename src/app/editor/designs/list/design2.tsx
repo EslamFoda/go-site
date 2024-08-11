@@ -23,8 +23,9 @@ import {
 
 interface DesignProps {
   section: any;
+  pageId: string;
 }
-function Design2({ section }: DesignProps) {
+function Design2({ section, pageId }: DesignProps) {
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
@@ -141,7 +142,7 @@ function Design2({ section }: DesignProps) {
       <div
         className="container max-w-container gap-10 w-full py-12"
         onClick={() => {
-          dispatch(updateSelectedSection(section.id));
+          dispatch(updateSelectedSection(pageId, section.id));
           dispatch(updateSelectedItem(null));
           dispatch(closeChooseIcon());
         }}
@@ -164,7 +165,7 @@ function Design2({ section }: DesignProps) {
                       className={listItemClassNames}
                       onClick={(e) => {
                         e.stopPropagation();
-                        dispatch(updateSelectedSection(section.id));
+                        dispatch(updateSelectedSection(pageId, section.id));
                         dispatch(updateSelectedItem(listItem));
                         dispatch(closeChooseIcon());
                       }}
@@ -228,7 +229,7 @@ function Design2({ section }: DesignProps) {
                           className={listItemClassNames}
                           onClick={(e) => {
                             e.stopPropagation();
-                            dispatch(updateSelectedSection(section.id));
+                            dispatch(updateSelectedSection(pageId, section.id));
                             dispatch(updateSelectedItem(listItem));
                             dispatch(closeChooseIcon());
                           }}
