@@ -6,8 +6,9 @@ import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import React from "react";
 interface Design5Props {
   section: any;
+  pageId: string;
 }
-function Design5({ section }: Design5Props) {
+function Design5({ section, pageId }: Design5Props) {
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
   const dispatch = useAppDispatch();
   const dynamicTextColor =
@@ -83,7 +84,7 @@ function Design5({ section }: Design5Props) {
     <section
       className={sectionBgClassName}
       onClick={() => {
-        dispatch(updateSelectedSection(section.id));
+        dispatch(updateSelectedSection(pageId, section.id));
       }}
     >
       <div className="container max-w-container py-12">

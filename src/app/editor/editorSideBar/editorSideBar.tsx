@@ -1,30 +1,30 @@
 "use client";
 import React from "react";
-import ChooseSection from "./tabs/chooseSection";
+import ChooseSection from "./chooseSection";
 import { useAppSelector } from "@/reduxStore/hooks";
-import testimonials from "./tabs/sectionSettings/testimonials";
-import accordion from "./tabs/sectionSettings/accordion";
-import list from "./tabs/sectionSettings/list";
-import cards from "./tabs/sectionSettings/cards";
-import banner from "./tabs/sectionSettings/banner";
-import DesignSettings from "./designSettings";
 import Link from "next/link";
+import DesignSettings from "./designSettings";
+import banner from "./sectionSettings/banner";
+import cards from "./sectionSettings/cards";
+import accordion from "./sectionSettings/accordion";
+import testimonials from "./sectionSettings/testimonials";
+import list from "./sectionSettings/list";
 import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
+import Pages from "./pages";
 
 const EditorSidebar = () => {
-  const openSectionDesigns = useAppSelector(
-    (state) => state.editor.openSectionDesigns
-  );
-  const selectedSection = useAppSelector(
-    (state) => state.editor.selectedSection
-  );
-  console.log(selectedSection, "slectedsection");
-  const openPallet = useAppSelector((state) => state.editor.openPallet);
-  const activePageId = useAppSelector((state) => state.editor.activePage);
+  const {
+    activePage: activePageId,
+    selectedSection,
+    openPallet,
+    openPages,
+    openSectionDesigns,
+  } = useAppSelector((state) => state.editor);
+
   const page = useAppSelector((state) =>
     state.editor.editor.pages.find((page) => page.pageId === activePageId)
   );
@@ -63,6 +63,7 @@ const EditorSidebar = () => {
       ) : null}
 
       {openPallet && <DesignSettings />}
+      {openPages && <Pages />}
     </div>
   );
 };

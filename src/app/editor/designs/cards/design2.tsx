@@ -18,8 +18,9 @@ import { updateSelectedItem, updateSelectedSection } from "@/reduxStore/action";
 
 interface DesignProps {
   section: any;
+  pageId: string;
 }
-function Design2({ section }: DesignProps) {
+function Design2({ section, pageId }: DesignProps) {
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
@@ -130,7 +131,7 @@ function Design2({ section }: DesignProps) {
       <div
         className={alignClassNames}
         onClick={() => {
-          dispatch(updateSelectedSection(section.id));
+          dispatch(updateSelectedSection(pageId, section.id));
           dispatch(updateSelectedItem(null));
         }}
       >
@@ -156,7 +157,7 @@ function Design2({ section }: DesignProps) {
                     className={cardClassNames}
                     onClick={(e) => {
                       e.stopPropagation();
-                      dispatch(updateSelectedSection(section.id));
+                      dispatch(updateSelectedSection(pageId, section.id));
                       dispatch(updateSelectedItem(card));
                     }}
                   >
@@ -207,7 +208,7 @@ function Design2({ section }: DesignProps) {
                         className={cardClassNames}
                         onClick={(e) => {
                           e.stopPropagation();
-                          dispatch(updateSelectedSection(section.id));
+                          dispatch(updateSelectedSection(pageId, section.id));
                           dispatch(updateSelectedItem(card));
                         }}
                       >

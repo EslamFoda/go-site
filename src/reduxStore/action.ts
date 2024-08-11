@@ -119,3 +119,11 @@ export const updateActivePage = (pageId: string) => ({
   type: types.UPDATE_ACTIVE_PAGE,
   payload: pageId,
 });
+
+export const openPageSettings = () => ({
+  type: types.OPEN_PAGE_SETTINGS,
+});
+
+export const closePageSettings = () => ({
+  type: types.CLOSE_PAGE_SETTINGS,
+});

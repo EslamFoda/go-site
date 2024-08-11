@@ -6,8 +6,9 @@ import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import React from "react";
 interface Design6Props {
   section: any;
+  pageId: string;
 }
-function Design6({ section }: Design6Props) {
+function Design6({ section, pageId }: Design6Props) {
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
   const dispatch = useAppDispatch();
   const dynamicTextColor =
@@ -83,7 +84,7 @@ function Design6({ section }: Design6Props) {
     <section
       className={sectionBgClassName}
       onClick={() => {
-        dispatch(updateSelectedSection(section.id));
+        dispatch(updateSelectedSection(pageId, section.id));
       }}
     >
       <div className="container max-w-container py-12">

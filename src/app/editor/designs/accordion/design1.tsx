@@ -22,8 +22,9 @@ import {
 
 interface DesignProps {
   section: any;
+  pageId: string;
 }
-function Design1({ section }: DesignProps) {
+function Design1({ section, pageId }: DesignProps) {
   const dispatch = useAppDispatch();
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
   const { theme } = useTheme();
@@ -78,7 +79,7 @@ function Design1({ section }: DesignProps) {
       <div
         className="container max-w-container gap-10 w-full py-12"
         onClick={() => {
-          dispatch(updateSelectedSection(section.id));
+          dispatch(updateSelectedSection(pageId, section.id));
           dispatch(updateSelectedItem(null));
           dispatch(closeChooseIcon());
         }}
@@ -97,7 +98,7 @@ function Design1({ section }: DesignProps) {
                   value={accordion.id}
                   onClick={(e) => {
                     e.stopPropagation();
-                    dispatch(updateSelectedSection(section.id));
+                    dispatch(updateSelectedSection(pageId, section.id));
                     dispatch(updateSelectedItem(accordion));
                   }}
                 >

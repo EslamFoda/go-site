@@ -141,6 +141,7 @@ const initialState: EditorStore = {
   selectedPallet: "default-theme",
   openSectionDesigns: false,
   openPallet: false,
+  openPages: false,
   designSettings: {
     fonts: {
       titleFont: {
@@ -232,12 +233,14 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = !draft.openPallet;
         draft.openSectionDesigns = false;
         draft.selectedSection = null;
+        draft.openPages = false;
         break;
       }
 
       case types.TOGGLE_SECTION_DESIGNS: {
         draft.openSectionDesigns = !draft.openSectionDesigns;
         draft.openPallet = false;
+        draft.openPages = false;
         break;
       }
 
@@ -264,12 +267,14 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
       case types.OPEN_SECTION_DESIGNS: {
         draft.openSectionDesigns = true;
         draft.openPallet = false;
+        draft.openPages = false;
         break;
       }
 
       case types.CLOSE_SECTION_DESIGNS: {
         draft.openSectionDesigns = false;
         draft.openPallet = false;
+        draft.openPages = false;
         break;
       }
 
@@ -288,6 +293,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
         draft.selectedSection = null;
+        draft.openPages = false;
         break;
       }
 
@@ -306,6 +312,24 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.UPDATE_ACTIVE_PAGE: {
         draft.activePage = action.payload;
+        break;
+      }
+
+      case types.OPEN_PAGE_SETTINGS: {
+        draft.openPages = true;
+        draft.openPallet = false;
+        draft.openSectionDesigns = false;
+        draft.chooseIcon = false;
+        draft.selectedSection = null;
+        break;
+      }
+
+      case types.CLOSE_PAGE_SETTINGS: {
+        draft.openPages = false;
+        draft.openPallet = false;
+        draft.openSectionDesigns = false;
+        draft.chooseIcon = false;
+        draft.selectedSection = null;
         break;
       }
 

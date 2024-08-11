@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Book, Code2, File, Palette, Settings2 } from "lucide-react";
 import React from "react";
 import { useAppDispatch } from "@/reduxStore/hooks";
-import { openPallet } from "@/reduxStore/action";
+import { openPageSettings, openPallet } from "@/reduxStore/action";
 
 function SidebarButtons() {
   const dispatch = useAppDispatch();
@@ -18,6 +18,7 @@ function SidebarButtons() {
         size="icon"
         className="rounded-lg"
         aria-label="Playground"
+        onClick={() => dispatch(openPageSettings())}
       >
         <File className="size-5" />
       </Button>

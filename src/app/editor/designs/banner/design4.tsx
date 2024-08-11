@@ -6,8 +6,9 @@ import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import React from "react";
 interface Design4Props {
   section: any;
+  pageId: string;
 }
-function Design4({ section }: Design4Props) {
+function Design4({ section, pageId }: Design4Props) {
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
   const dispatch = useAppDispatch();
 
@@ -92,7 +93,7 @@ function Design4({ section }: Design4Props) {
     <section
       className={sectionBgClassName}
       onClick={() => {
-        dispatch(updateSelectedSection(section.id));
+        dispatch(updateSelectedSection(pageId, section.id));
       }}
     >
       <div className="flex max-lg:flex-col container max-w-container gap-10 w-full py-12 text-center justify-center items-center">

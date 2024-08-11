@@ -61,6 +61,7 @@ export interface EditorStore {
   selectedPallet: string;
   designSettings: DesignSettings;
   activePage: string;
+  openPages: boolean;
 }
 
 // Define the type for an editor page
