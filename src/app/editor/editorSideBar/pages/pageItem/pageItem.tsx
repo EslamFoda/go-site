@@ -25,7 +25,7 @@ function PageItem({ page }: PageItemProps) {
   );
 
   return (
-    <div key={page.pageId} className={pageButtonClassNames}>
+    <div className={pageButtonClassNames}>
       <Link
         href={`/editor/${page.pageId}`}
         className="h-10 w-full flex items-center"

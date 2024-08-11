@@ -344,7 +344,7 @@ function Pages() {
         <span>New Page</span>
       </div>
       {pages.map((page) => (
-        <PageItem page={page} />
+        <PageItem page={page} key={page.pageId} />
       ))}
     </div>
   );
