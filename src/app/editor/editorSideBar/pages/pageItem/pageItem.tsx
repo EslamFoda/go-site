@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { EditorPage } from "@/reduxStore/types";
 import { Ellipsis } from "lucide-react";
 import Link from "next/link";
-import { useRouter, useParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import React from "react";
 import { v4 } from "uuid";
 
@@ -25,7 +25,6 @@ function PageItem({ page }: PageItemProps) {
   const dispatch = useAppDispatch();
   const { editor } = useAppSelector((state) => state.editor);
   const { pages } = editor;
-  const router = useRouter();
 
   const pageButtonClassNames = cn(
     "w-full flex justify-between items-center  rounded-sm px-2 gap-2 cursor-pointer border",
