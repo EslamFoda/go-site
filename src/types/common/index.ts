@@ -41,3 +41,5 @@ export interface VariantOption {
   value: string;
   label: string;
 }
+
+export type PageTypes = "about" | "landing" | "";

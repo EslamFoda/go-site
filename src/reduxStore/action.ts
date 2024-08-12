@@ -1,6 +1,7 @@
 import * as types from "./actionTypes";
 import {
   DesignSettings,
+  EditorPage,
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
@@ -126,4 +127,14 @@ export const openPageSettings = () => ({
 
 export const closePageSettings = () => ({
   type: types.CLOSE_PAGE_SETTINGS,
+});
+
+export const addNewPage = (page: EditorPage) => ({
+  type: types.ADD_NEW_PAGE,
+  payload: page,
+});
+
+export const deletePage = (pageId: string) => ({
+  type: types.DELETE_PAGE,
+  payload: pageId,
 });

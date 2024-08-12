@@ -17,6 +17,7 @@ import * as PhosphorIcons from "@phosphor-icons/react";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
   closeChooseIcon,
+  closePageSettings,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -119,7 +120,8 @@ function Design2({ section, pageId }: DesignProps) {
     "bg-primary":
       section.style.designSettings.sectionBackground.color === "primary",
     "bg-muted": section.style.designSettings.sectionBackground.color === "gray",
-    "bg-none": section.style.designSettings.sectionBackground.color === "none",
+    "bg-background":
+      section.style.designSettings.sectionBackground.color === "none",
     "h-screen":
       section.style.designSettings.sectionBackground.height === "fill",
     "h-auto": section.style.designSettings.sectionBackground.height === "fit",
@@ -168,6 +170,7 @@ function Design2({ section, pageId }: DesignProps) {
                         dispatch(updateSelectedSection(pageId, section.id));
                         dispatch(updateSelectedItem(listItem));
                         dispatch(closeChooseIcon());
+                        dispatch(closePageSettings());
                       }}
                     >
                       <div className={listItemTextClassNames}>
@@ -232,6 +235,7 @@ function Design2({ section, pageId }: DesignProps) {
                             dispatch(updateSelectedSection(pageId, section.id));
                             dispatch(updateSelectedItem(listItem));
                             dispatch(closeChooseIcon());
+                            dispatch(closePageSettings());
                           }}
                         >
                           <div className={listItemTextClassNames}>

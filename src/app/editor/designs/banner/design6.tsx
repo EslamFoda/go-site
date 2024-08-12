@@ -29,7 +29,7 @@ function Design6({ section, pageId }: Design6Props) {
       ? "bg-muted"
       : "",
     section.style.designSettings.sectionBackground.color === "none"
-      ? "bg-none"
+      ? "bg-background"
       : "",
     section.style.designSettings.sectionBackground.height === "fill"
       ? "h-screen"

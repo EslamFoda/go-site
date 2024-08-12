@@ -7,22 +7,36 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 import { cn } from "@/lib/utils";
+import { addNewPage, deletePage } from "@/reduxStore/action";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { EditorPage } from "@/reduxStore/types";
 import { Ellipsis } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import React from "react";
+import { v4 } from "uuid";
+
 interface PageItemProps {
   page: EditorPage;
 }
+
 function PageItem({ page }: PageItemProps) {
   const { pageId } = useParams();
+  const dispatch = useAppDispatch();
+  const { editor } = useAppSelector((state) => state.editor);
+  const { pages } = editor;
+  const router = useRouter();
+
   const pageButtonClassNames = cn(
     "w-full flex justify-between items-center  rounded-sm px-2 gap-2 cursor-pointer border",
     {
       "bg-secondary": pageId === page.pageId,
     }
   );
+
+  const handleDelete = () => {
+    dispatch(deletePage(page.pageId));
+  };
 
   return (
     <div className={pageButtonClassNames}>
@@ -35,16 +49,26 @@ function PageItem({ page }: PageItemProps) {
       <div className="h-10 flex items-center">
         <Menubar className="bg-inherit">
           <MenubarMenu>
-            <MenubarTrigger>
+            <MenubarTrigger className="cursor-pointer">
               <Ellipsis size={16} />
             </MenubarTrigger>
-            <MenubarContent>
-              <MenubarItem></MenubarItem>
+            <MenubarContent align="end">
               <MenubarItem>New Window</MenubarItem>
               <MenubarSeparator />
-              <MenubarItem>Share</MenubarItem>
+              <MenubarItem
+                onClick={() => dispatch(addNewPage({ ...page, pageId: v4() }))}
+              >
+                Duplicate
+              </MenubarItem>
               <MenubarSeparator />
-              <MenubarItem>Print</MenubarItem>
+              {pages.length > 1 && (
+                <MenubarItem
+                  className="text-destructive"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </MenubarItem>
+              )}
             </MenubarContent>
           </MenubarMenu>
         </Menubar>

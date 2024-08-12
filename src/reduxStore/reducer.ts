@@ -65,6 +65,7 @@ const initialState: EditorStore = {
           pagePasswordButton: "Continue",
           seoTitle: "Mobile Shop | Buy & Sell New & Used Phones Online",
           showFooter: true,
+          showHeader: true,
           title: "homepage",
           userEditedSlug: false,
         },
@@ -127,6 +128,7 @@ const initialState: EditorStore = {
           pagePasswordButton: "Continue",
           seoTitle: "Mobile Shop | Buy & Sell New & Used Phones Online",
           showFooter: true,
+          showHeader: true,
           title: "about",
           userEditedSlug: false,
         },
@@ -329,7 +331,19 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
-        draft.selectedSection = null;
+
+        break;
+      }
+
+      case types.ADD_NEW_PAGE: {
+        draft.editor.pages.push(action.payload);
+        break;
+      }
+
+      case types.DELETE_PAGE: {
+        draft.editor.pages = draft.editor.pages.filter(
+          (page) => page.pageId !== action.payload
+        );
         break;
       }
 

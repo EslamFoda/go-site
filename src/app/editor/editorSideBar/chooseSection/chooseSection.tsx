@@ -26,7 +26,6 @@ function ChooseSection() {
   const page = useAppSelector((state) =>
     state.editor.editor.pages.find((page) => page.pageId === activePageId)
   );
-
   const { theme } = useTheme();
   const dispatch = useAppDispatch();
   const { sections } = useSections();

@@ -34,7 +34,7 @@ function Design2({ section, pageId }: Design2Props) {
       ? "bg-muted"
       : "",
     section.style.designSettings.sectionBackground.color === "none"
-      ? "bg-none"
+      ? "bg-background"
       : "",
     section.style.designSettings.sectionBackground.height === "fill"
       ? "h-screen"

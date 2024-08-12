@@ -14,7 +14,11 @@ import AutoScroll from "embla-carousel-auto-scroll";
 import { Card, CardStyle } from "@/types/sectionsTypes/cards";
 import { useTheme } from "next-themes";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
-import { updateSelectedItem, updateSelectedSection } from "@/reduxStore/action";
+import {
+  closePageSettings,
+  updateSelectedItem,
+  updateSelectedSection,
+} from "@/reduxStore/action";
 
 interface DesignProps {
   section: any;
@@ -102,7 +106,7 @@ function Design2({ section, pageId }: DesignProps) {
     section.style.designSettings.sectionBackground.color === "gray" &&
       "bg-muted",
     section.style.designSettings.sectionBackground.color === "none" &&
-      "bg-none",
+      "bg-background",
     section.style.designSettings.sectionBackground.height === "fill" &&
       "h-screen",
     section.style.designSettings.sectionBackground.height === "fit" && "h-auto",
@@ -159,6 +163,7 @@ function Design2({ section, pageId }: DesignProps) {
                       e.stopPropagation();
                       dispatch(updateSelectedSection(pageId, section.id));
                       dispatch(updateSelectedItem(card));
+                      dispatch(closePageSettings());
                     }}
                   >
                     <div className={cardContentClasses}>
@@ -210,6 +215,7 @@ function Design2({ section, pageId }: DesignProps) {
                           e.stopPropagation();
                           dispatch(updateSelectedSection(pageId, section.id));
                           dispatch(updateSelectedItem(card));
+                          dispatch(closePageSettings());
                         }}
                       >
                         <div className={cardContentClasses}>

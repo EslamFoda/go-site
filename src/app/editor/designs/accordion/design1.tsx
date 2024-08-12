@@ -11,6 +11,7 @@ import { useTheme } from "next-themes";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
   closeChooseIcon,
+  closePageSettings,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -56,7 +57,8 @@ function Design1({ section, pageId }: DesignProps) {
     "bg-primary":
       section.style.designSettings.sectionBackground.color === "primary",
     "bg-muted": section.style.designSettings.sectionBackground.color === "gray",
-    "bg-none": section.style.designSettings.sectionBackground.color === "none",
+    "bg-background":
+      section.style.designSettings.sectionBackground.color === "none",
     "h-screen":
       section.style.designSettings.sectionBackground.height === "fill",
     "h-auto": section.style.designSettings.sectionBackground.height === "fit",
@@ -100,6 +102,7 @@ function Design1({ section, pageId }: DesignProps) {
                     e.stopPropagation();
                     dispatch(updateSelectedSection(pageId, section.id));
                     dispatch(updateSelectedItem(accordion));
+                    dispatch(closePageSettings());
                   }}
                 >
                   <AccordionTrigger

@@ -81,6 +81,7 @@ export interface PageSettings {
   pagePasswordButton: string;
   seoTitle: string;
   showFooter: boolean;
+  showHeader: boolean;
   title: string;
   userEditedSlug: boolean;
 }
