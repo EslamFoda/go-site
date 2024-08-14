@@ -1,0 +1,89 @@
+"use client";
+import { supabase } from "@/config/supabase";
+import { Provider } from "@supabase/supabase-js";
+import Link from "next/link";
+import React from "react";
+
+function Page() {
+  const signInWithProvider = async (): Promise<null | { id: string }> => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+
+    if (error) {
+      console.error("OAuth Sign In Error:", error.message);
+      return null;
+    }
+    //@ts-ignore
+    return data.user;
+  };
+
+  return (
+    <div className="bg-foreground text-primary-foreground flex items-center justify-center h-screen">
+      <div className="space-y-3 w-80 text-center flex flex-col items-center justify-center">
+        <h1 className="text-2xl font-bold">Login</h1>
+        <div className="flex gap-1">
+          <span className="text-muted-foreground">new to go-site?</span>
+          <Link className="underline underline-offset-4" href="/signup">
+            Sign up
+          </Link>
+        </div>
+        <div
+          className="flex items-center rounded-sm h-10 cursor-pointer justify-center gap-2 bg-muted-foreground/50 w-full"
+          onClick={signInWithProvider}
+        >
+          <GoogleIcon />
+          <span>Continue with Google</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Page;
+
+const GoogleIcon = () => (
+  <svg
+    data-v-655c19f5=""
+    data-v-5e610566-s=""
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+  >
+    <g data-v-655c19f5="" data-v-5e610566-s="" fill="none" fill-rule="evenodd">
+      <rect
+        data-v-655c19f5=""
+        data-v-5e610566-s=""
+        width="24"
+        height="24"
+      ></rect>
+      <g data-v-655c19f5="" data-v-5e610566-s="" transform="translate(2 2)">
+        <path
+          data-v-655c19f5=""
+          data-v-5e610566-s=""
+          fill="#4285F4"
+          d="M19.6,10.2272727 C19.6,9.51818182 19.5363636,8.83636364 19.4181818,8.18181818 L10,8.18181818 L10,12.05 L15.3818182,12.05 C15.15,13.3 14.4454545,14.3590909 13.3863636,15.0681818 L13.3863636,17.5772727 L16.6181818,17.5772727 C18.5090909,15.8363636 19.6,13.2727273 19.6,10.2272727 L19.6,10.2272727 Z"
+        ></path>
+        <path
+          data-v-655c19f5=""
+          data-v-5e610566-s=""
+          fill="#34A853"
+          d="M10,20 C12.7,20 14.9636364,19.1045455 16.6181818,17.5772727 L13.3863636,15.0681818 C12.4909091,15.6681818 11.3454545,16.0227273 10,16.0227273 C7.39545455,16.0227273 5.19090909,14.2636364 4.40454545,11.9 L1.06363636,11.9 L1.06363636,14.4909091 C2.70909091,17.7590909 6.09090909,20 10,20 L10,20 Z"
+        ></path>
+        <path
+          data-v-655c19f5=""
+          data-v-5e610566-s=""
+          fill="#FBBC05"
+          d="M4.40454545,11.9 C4.20454545,11.3 4.09090909,10.6590909 4.09090909,10 C4.09090909,9.34090909 4.20454545,8.7 4.40454545,8.1 L4.40454545,5.50909091 L1.06363636,5.50909091 C0.386363636,6.85909091 0,8.38636364 0,10 C0,11.6136364 0.386363636,13.1409091 1.06363636,14.4909091 L4.40454545,11.9 L4.40454545,11.9 Z"
+        ></path>
+        <path
+          data-v-655c19f5=""
+          data-v-5e610566-s=""
+          fill="#EA4335"
+          d="M10,3.97727273 C11.4681818,3.97727273 12.7863636,4.48181818 13.8227273,5.47272727 L16.6909091,2.60454545 C14.9590909,0.990909091 12.6954545,0 10,0 C6.09090909,0 2.70909091,2.24090909 1.06363636,5.50909091 L4.40454545,8.1 C5.19090909,5.73636364 7.39545455,3.97727273 10,3.97727273 L10,3.97727273 Z"
+        ></path>
+      </g>
+    </g>
+  </svg>
+);
