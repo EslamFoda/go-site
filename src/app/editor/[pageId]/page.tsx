@@ -12,7 +12,8 @@ function Page({ params }: any) {
   const pageId = currentPage?.pageId;
   const dispatch = useAppDispatch();
   useEffect(() => {
-    if (params.pageId !== pageId) redirect(`/editor/${pages[pages.length - 1].pageId}`);
+    if (params.pageId !== pageId)
+      redirect(`/editor/${pages[pages.length - 1].pageId}`);
     if (pageId) dispatch(updateActivePage(pageId));
   }, [pageId, dispatch, params.pageId]);
 
