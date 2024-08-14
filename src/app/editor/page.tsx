@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import Section from "./section";
 import { useEffect } from "react";
 import { updateActivePage } from "@/reduxStore/action";
+import Editor from "./editor";
 
 export default function Home() {
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
@@ -16,8 +17,12 @@ export default function Home() {
   }, [homePageId, dispatch]);
 
   return (
-    <main className={`${selectedPallet} page-container`}>
-      <Section pageId={homePageId} />
-    </main>
+    <>
+      <Editor>
+        <main className={`${selectedPallet} page-container`}>
+          <Section pageId={homePageId} />
+        </main>
+      </Editor>
+    </>
   );
 }

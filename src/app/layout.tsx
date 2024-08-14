@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/reduxStore/providers";
+import Head from "./editor/head";
+import { ThemeProvider } from "@/lib/theme-provider";
+import { Suspense } from "react";
+import Toaster from "@/components/shared/toaster/";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,8 +17,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <Providers>{children}</Providers>
-    </html>
+    <Providers>
+      <html lang="en">
+        <Head />
+        <body>
+          <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+            {children}
+          </ThemeProvider>
+          <Suspense>
+            <Toaster />
+          </Suspense>
+        </body>
+      </html>
+    </Providers>
   );
 }
