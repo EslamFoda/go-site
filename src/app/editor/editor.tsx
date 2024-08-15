@@ -3,10 +3,10 @@ import React from "react";
 import { Settings, Share, Triangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import { ModeToggle } from "@/components/modes/modeToggle";
 import SidebarButtons from "./editorSideBar/sidebarButtons";
 import EditorSidebar from "./editorSideBar";
 import { Toaster } from "@/components/ui/sonner";
+import ThemeToggle from "@/components/themeToggle";
 function Editor({ children }: { children: React.ReactNode }) {
   return (
     <div className="grid h-screen w-full pl-[56px]">
@@ -50,13 +50,13 @@ function Editor({ children }: { children: React.ReactNode }) {
             <Share className="size-3.5" />
             Share
           </Button>
-          <ModeToggle />
+          <ThemeToggle />
         </header>
         <main className="grid flex-1 pl-[400px] max-md:pl-0 gap-4 overflow-auto  grid-cols-1">
           {children}
         </main>
-        <Toaster visibleToasts={1} />
       </div>
+      <Toaster visibleToasts={1} />
     </div>
   );
 }

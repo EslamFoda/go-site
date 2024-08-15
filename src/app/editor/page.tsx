@@ -17,12 +17,10 @@ export default function Home() {
   }, [homePageId, dispatch]);
 
   return (
-    <>
-      <Editor>
-        <main className={`${selectedPallet} page-container`}>
-          <Section pageId={homePageId} />
-        </main>
-      </Editor>
-    </>
+    <Editor>
+      <div className={`${selectedPallet} page-container`}>
+        <Section pageId={homePageId} />
+      </div>
+    </Editor>
   );
 }

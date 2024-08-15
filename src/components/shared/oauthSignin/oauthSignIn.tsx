@@ -42,7 +42,7 @@ const GoogleIcon = () => (
     height="24"
     viewBox="0 0 24 24"
   >
-    <g data-v-655c19f5="" data-v-5e610566-s="" fill="none" fill-rule="evenodd">
+    <g data-v-655c19f5="" data-v-5e610566-s="" fill="none" fillRule="evenodd">
       <rect
         data-v-655c19f5=""
         data-v-5e610566-s=""

@@ -1,6 +1,6 @@
 "use client";
 
-import { type Provider } from "@supabase/supabase-js";
+import { User, type Provider } from "@supabase/supabase-js";
 import { redirectToPath } from "./server";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { getURL } from "../helpers";
@@ -42,3 +42,5 @@ export async function signInWithOAuth(e: React.FormEvent<HTMLFormElement>) {
     },
   });
 }
+
+export type ActiveUserType = User | null;
