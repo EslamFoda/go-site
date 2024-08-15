@@ -8,14 +8,15 @@ async function Page() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  const userName = user?.user_metadata?.userName || user?.user_metadata?.name;
+
   return (
     <AuthWrapper>
       <div className="flex items-center justify-center w-full px-5">
         <div className="mt-20 space-y-8 w-[700px]">
           <div className="space-y-4">
-            <h1 className="text-3xl font-bold">
-              hello {user?.user_metadata.userName}
-            </h1>
+            <h1 className="text-3xl font-bold">hello {userName}</h1>
             <span className="text-muted-foreground block">
               Manage your account here
             </span>

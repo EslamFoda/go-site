@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 function UserMenu({ user }: { user: ActiveUserType }) {
   const router = useRouter();
-  const activeUser = user?.user_metadata?.userName;
+  const activeUser = user?.user_metadata?.userName || user?.user_metadata?.name;
 
   if (!user) return null;
 
