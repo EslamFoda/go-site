@@ -11,13 +11,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 function UserMenu({ user }: { user: ActiveUserType }) {
   const router = useRouter();
+  const activeUser = user?.user_metadata?.userName;
 
   if (!user) return null;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="bg-muted h-8 w-8 rounded-full flex items-center justify-center">
-        {user?.user_metadata.userName.slice(0, 1).toUpperCase()}
+        {activeUser?.slice(0, 1).toUpperCase()}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem>
