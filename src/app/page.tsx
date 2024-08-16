@@ -1,11 +1,19 @@
 import { Toaster } from "@/components/ui/sonner";
-import { AuthWrapper } from "./auth/authWrapper";
+import { createClient } from "@/utlis/supabase/server";
+import { redirect } from "next/navigation";
+import Dashboard from "@/components/dashboard";
 
-export default  function Home() {
+export default async function Home() {
+  const supabase = createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) redirect("/login");
   return (
-    <AuthWrapper>
-      create site is gonna be here
+    <div>
+      <Dashboard user={user} />
       <Toaster />
-    </AuthWrapper>
+    </div>
   );
 }

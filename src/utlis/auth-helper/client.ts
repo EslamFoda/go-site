@@ -44,3 +44,18 @@ export async function signInWithOAuth(e: React.FormEvent<HTMLFormElement>) {
 }
 
 export type ActiveUserType = User | null;
+
+export async function CreateSite(siteData: any) {
+  console.log(siteData, "siteData");
+  const supabase = createClient();
+  const { data, error: siteError } = await supabase
+    .from("sites")
+    .insert([
+      {
+        siteData,
+      },
+    ])
+    .select();
+  console.log(data, "data");
+  console.log(siteError);
+}
