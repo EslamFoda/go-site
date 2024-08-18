@@ -20,8 +20,15 @@ import { useToast } from "@/components/ui/use-toast";
 interface CreateSiteModalProps {
   children: React.ReactNode;
   user: ActiveUserType;
+  sites: any[];
+  setSites: React.Dispatch<React.SetStateAction<any[]>>;
 }
-function CreateSiteModal({ children, user }: CreateSiteModalProps) {
+function CreateSiteModal({
+  children,
+  user,
+  sites,
+  setSites,
+}: CreateSiteModalProps) {
   const [siteName, setSiteName] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -47,7 +54,7 @@ function CreateSiteModal({ children, user }: CreateSiteModalProps) {
       showMadeBy: true,
       name: siteName,
       link: "",
-      siteId: v4(),
+      siteId: siteId,
     };
     const supabase = createClient();
     const { data, error: siteError } = await supabase
@@ -67,7 +74,7 @@ function CreateSiteModal({ children, user }: CreateSiteModalProps) {
                   sectionName: "Banner",
                   content: {
                     label: "",
-                    title: "developer",
+                    title: "ana mabdon",
                     subtitle:
                       "Eslam helps you build the best products for your customers. With our expertise and experience, we can help you take your ideas from concept to reality",
                     mediaType: "image",
@@ -131,7 +138,7 @@ function CreateSiteModal({ children, user }: CreateSiteModalProps) {
                   sectionName: "Banner",
                   content: {
                     label: "",
-                    title: "test page2",
+                    title: "beeeeeeeeeeeeeeed",
                     subtitle: "test page2 description for go site editor",
                     mediaType: "image",
                     imageSetting: { imageUrl: "", altText: "" },
@@ -217,6 +224,7 @@ function CreateSiteModal({ children, user }: CreateSiteModalProps) {
       .select();
 
     if (data) {
+      setSites([data[0], ...(sites || [])]);
       setOpen(false);
       setSiteName("");
       setLoading(false);
@@ -239,6 +247,7 @@ function CreateSiteModal({ children, user }: CreateSiteModalProps) {
             value={siteName}
             onChange={(e) => setSiteName(e.target.value)}
             placeholder="Your site name or brand name"
+            className="focus-visible:ring-0 focus-visible:ring-transparent"
           />
         </div>
         <DialogFooter className="gap-3">

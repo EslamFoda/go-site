@@ -1,8 +1,3 @@
-import Accordion from "@/app/editor/designs/accordion";
-import Banner from "@/app/editor/designs/banner";
-import Cards from "@/app/editor/designs/cards";
-import List from "@/app/editor/designs/list";
-import Testimonials from "@/app/editor/designs/testimonials";
 import BackBtn from "@/components/shared/backBtn";
 import { addNewPage } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
@@ -10,6 +5,11 @@ import { EditorPage } from "@/reduxStore/types";
 import { PageTypes } from "@/types/common";
 import React from "react";
 import { v4 } from "uuid";
+import Banner from "../../../designs/banner";
+import Cards from "../../../designs/cards";
+import List from "../../../designs/list";
+import Accordion from "../../../designs/accordion";
+import Testimonials from "../../../designs/testimonials";
 interface PageTypeProps {
   pageType: PageTypes;
   setPageType: React.Dispatch<React.SetStateAction<PageTypes>>;

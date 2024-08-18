@@ -7,8 +7,10 @@ import React from "react";
 import CreateSiteModal from "../createSiteModal";
 interface CreateSiteProps {
   user: ActiveUserType;
+  setSites: React.Dispatch<React.SetStateAction<any[]>>;
+  sites: any[];
 }
-function CreateSite({ user }: CreateSiteProps) {
+function CreateSite({ user, setSites, sites }: CreateSiteProps) {
   const [hideCreateSite, setHideCreateSite] = React.useState(true);
   const userName = user?.user_metadata?.userName || user?.user_metadata?.name;
 
@@ -28,7 +30,7 @@ function CreateSite({ user }: CreateSiteProps) {
           <CircleCheck className="fill-primary stroke-background" />
         </Button>
         {hideCreateSite && (
-          <CreateSiteModal user={user}>
+          <CreateSiteModal user={user} setSites={setSites} sites={sites}>
             <Button className="w-32 flex items-center justify-between">
               New Site <Stars />
             </Button>

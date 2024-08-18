@@ -169,6 +169,26 @@ const initialState: EditorStore = {
       fullWidthPage: false,
     },
   },
+  settings: {
+    email: "",
+    favicon: "",
+    homePage: "",
+    isTemplate: false,
+    showMadeBy: true,
+    name: "",
+    link: "",
+    siteId: "",
+  },
+};
+
+// Helper function to update state at a given path
+const setNestedState = (state: any, path: string[], value: any) => {
+  return path.reduce((acc, key, index) => {
+    if (index === path.length - 1) {
+      acc[key] = value;
+    }
+    return acc[key];
+  }, state);
 };
 
 const editorReducer = (state = initialState, action: any): EditorStore =>
@@ -344,6 +364,10 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.editor.pages = draft.editor.pages.filter(
           (page) => page.pageId !== action.payload
         );
+        break;
+      }
+      case types.UPDATE_EDITOR: {
+        setNestedState(draft, action.payload.path, action.payload.value);
         break;
       }
 

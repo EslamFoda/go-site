@@ -1,25 +1,24 @@
 // store.ts
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import editorReducer from "./reducer";
-import { configureStore } from "@reduxjs/toolkit";
+import { thunk } from 'redux-thunk';
 
-// Define the root state type
+const store = configureStore({
+  reducer: {
+    editor: editorReducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().prepend(thunk as any),
+});
 
-// Define a type for thunk actions
-
-// Create an array of middleware
-// const middlewares: Middleware[] = [thunk];
-
-// Create the store with the correct typing for middleware
-const store = configureStore(
-  {
-    reducer: {
-      editor: editorReducer,
-    },
-  }
-  //   editorReducer,
-  //   composeWithDevTools(applyMiddleware(...middlewares))
-);
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;
 
 export default store;

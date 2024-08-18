@@ -21,15 +21,17 @@ interface PageItemProps {
 }
 
 function PageItem({ page }: PageItemProps) {
-  const { pageId } = useParams();
   const dispatch = useAppDispatch();
-  const { editor } = useAppSelector((state) => state.editor);
+  const { pageId, siteId } = useParams();
+  const { editor, settings } = useAppSelector((state) => state.editor);
   const { pages } = editor;
 
   const pageButtonClassNames = cn(
     "w-full flex justify-between items-center  rounded-sm px-2 gap-2 cursor-pointer border",
     {
-      "bg-secondary": pageId === page.pageId,
+      "bg-secondary":
+        pageId === page.pageId ||
+        (page.pageId === settings.homePage && !pageId), // to make sure if the user navigate to /editor it will make the first page (home page) active
     }
   );
 
@@ -40,7 +42,7 @@ function PageItem({ page }: PageItemProps) {
   return (
     <div className={pageButtonClassNames}>
       <Link
-        href={`/editor/${page.pageId}`}
+        href={`/site/${siteId}/editor/${page.pageId}`}
         className="h-10 w-full flex items-center"
       >
         <span>{page.pageSettings.title}</span>

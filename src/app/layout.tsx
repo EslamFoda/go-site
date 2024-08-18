@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Providers } from "@/reduxStore/providers";
-import Head from "./editor/head";
 import { ThemeProvider } from "@/lib/theme-provider";
 import { Suspense } from "react";
 import Toaster from "@/components/shared/toaster/";
 import TopBar from "@/components/shared/topBar";
 import { createClient } from "@/utlis/supabase/server";
+import Head from "./site/[siteId]/editor/head";
 
 export const metadata: Metadata = {
   title: "Create Next App",

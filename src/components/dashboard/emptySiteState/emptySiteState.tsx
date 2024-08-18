@@ -4,8 +4,10 @@ import CreateSiteModal from "../createSiteModal";
 import { ActiveUserType } from "@/utlis/auth-helper/client";
 interface EmptySiteStateProps {
   user: ActiveUserType;
+  sites: any[];
+  setSites: React.Dispatch<React.SetStateAction<any[]>>;
 }
-function EmptySiteState({ user }: EmptySiteStateProps) {
+function EmptySiteState({ user, sites, setSites }: EmptySiteStateProps) {
   return (
     <div className="mt-60 flex items-center justify-center text-center">
       <div className="w-80 flex flex-col gap-4 justify-center items-center">
@@ -15,7 +17,7 @@ function EmptySiteState({ user }: EmptySiteStateProps) {
             No sites yet. Create landing pages, blog posts, SEO and digital
             products.
           </p>
-          <CreateSiteModal user={user}>
+          <CreateSiteModal user={user} sites={sites} setSites={setSites}>
             <Button className="w-full">Create New Site</Button>
           </CreateSiteModal>
         </div>

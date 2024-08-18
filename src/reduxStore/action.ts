@@ -138,3 +138,8 @@ export const deletePage = (pageId: string) => ({
   type: types.DELETE_PAGE,
   payload: pageId,
 });
+
+export const updateEditorState = (path: string[], value: any) => ({
+  type: types.UPDATE_EDITOR,
+  payload: { path, value },
+});

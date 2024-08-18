@@ -23,3 +23,4 @@ export const CLOSE_PAGE_SETTINGS = "CLOSE_PAGE_SETTINGS";
 export const ADD_NEW_PAGE = "ADD_NEW_PAGE";
 export const DELETE_PAGE = "DELETE_PAGE";
 export const DUPLICATE_PAGE = "DUPLICATE_PAGE";
+export const UPDATE_EDITOR = "UPDATE_EDITOR";

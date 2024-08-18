@@ -5,6 +5,8 @@ import CreateSite from "./createSite";
 import EmptySiteState from "./emptySiteState";
 import { ActiveUserType } from "@/utlis/auth-helper/client";
 import { createClient } from "@/utlis/supabase/client";
+import Sites from "./sites";
+import SiteSkeleton from "./sites/sitesSkeleton/siteSkeleton";
 
 interface DashboardProps {
   user: ActiveUserType;
@@ -40,12 +42,20 @@ function Dashboard({ user }: DashboardProps) {
     fetchUserSites();
   }, [ownerId]);
 
-  console.log(sites, "asdasd");
-
   return (
     <div className="max-w-4xl m-auto px-5 mt-16">
-      <CreateSite user={user} />
-      <EmptySiteState user={user} />
+      <CreateSite user={user} setSites={setSites} sites={sites} />
+      {loading ? (
+        <SiteSkeleton />
+      ) : (
+        <>
+          {sites.length > 0 ? (
+            <Sites sites={sites} setSites={setSites} />
+          ) : (
+            <EmptySiteState user={user} setSites={setSites} sites={sites} />
+          )}
+        </>
+      )}
     </div>
   );
 }

@@ -9,7 +9,7 @@ import Link from "next/link";
 
 function TopBar({ user }: { user: ActiveUserType }) {
   const pathname = usePathname();
-  if (pathname.includes("/editor")) return null;
+  if (pathname.includes("/site")) return null;
   return (
     <header className="h-16 w-full border-b px-5 flex items-center justify-between">
       <div>

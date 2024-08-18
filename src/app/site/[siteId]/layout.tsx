@@ -1,5 +1,6 @@
 import React from "react";
-import { AuthWrapper } from "../auth/authWrapper";
+import { AuthWrapper } from "../../auth/authWrapper";
+import Editor from "./editor";
 
 function Layout({
   children,
@@ -8,7 +9,7 @@ function Layout({
 }>) {
   return (
     <AuthWrapper>
-      <div>{children}</div>
+      <Editor>{children}</Editor>
     </AuthWrapper>
   );
 }

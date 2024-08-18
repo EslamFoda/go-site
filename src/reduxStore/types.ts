@@ -62,6 +62,7 @@ export interface EditorStore {
   designSettings: DesignSettings;
   activePage: string;
   openPages: boolean;
+  settings: SiteSettings;
 }
 
 // Define the type for an editor page
@@ -108,4 +109,15 @@ export interface FontSettings {
   fontFamily: string;
   fontWeight: string;
   fontFamilyUrl: string;
+}
+
+export interface SiteSettings {
+  email: string | undefined;
+  favicon: string;
+  homePage: string;
+  isTemplate: boolean;
+  showMadeBy: boolean;
+  name: string;
+  link: string;
+  siteId: string;
 }
