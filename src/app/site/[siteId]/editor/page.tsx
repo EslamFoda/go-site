@@ -3,7 +3,11 @@
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import Section from "./section";
 import { useEffect, useState } from "react";
-import { updateEditorState } from "@/reduxStore/action";
+import {
+  updateActivePage,
+  updateEditorState,
+  updateSelectedPallet,
+} from "@/reduxStore/action";
 import { createClient } from "@/utlis/supabase/client";
 
 export default function Home({ params }: any) {
@@ -35,10 +39,12 @@ export default function Home({ params }: any) {
         dispatch(updateEditorState(["editor", "pages"], siteData.pages));
 
         // Update activePage
-        dispatch(updateEditorState(["activePage"], siteData.pages[0].pageId));
-
+        dispatch(updateActivePage(siteData.pages[0].pageId));
         // Update site settings
         dispatch(updateEditorState(["settings"], siteData.settings));
+
+        // Update selected pallet settings
+        dispatch(updateSelectedPallet(siteData.selectedPallet));
 
         setLoading(false);
       }

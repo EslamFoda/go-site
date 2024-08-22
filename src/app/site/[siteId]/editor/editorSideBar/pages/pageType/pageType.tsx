@@ -10,6 +10,8 @@ import Cards from "../../../designs/cards";
 import List from "../../../designs/list";
 import Accordion from "../../../designs/accordion";
 import Testimonials from "../../../designs/testimonials";
+import { createClient } from "@/utlis/supabase/client";
+import { useRouter } from "next/navigation";
 interface PageTypeProps {
   pageType: PageTypes;
   setPageType: React.Dispatch<React.SetStateAction<PageTypes>>;
@@ -739,8 +741,12 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
     Accordion,
     Testimonials,
   };
-  const { selectedPallet, editor } = useAppSelector((state) => state.editor);
+  const { selectedPallet, editor, settings } = useAppSelector(
+    (state) => state.editor
+  );
   const { pages } = editor;
+  const siteId = settings.siteId;
+  const router = useRouter();
   const generateUniqueLink = (baseLink: string) => {
     const matchingPages = pages.filter((page) =>
       page.pageSettings.link.startsWith(baseLink)
@@ -756,6 +762,22 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
 
     const maxNumber = Math.max(0, ...numbers);
     return `${baseLink}-${maxNumber + 1}`;
+  };
+
+  const handleAddNewPage = async (newPage: EditorPage) => {
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from("sites")
+      .update({ pages: [...pages, newPage] })
+      .eq("siteId", siteId)
+      .select();
+    if (data) {
+      const pageId = data[0].pages[data[0].pages.length - 1].pageId;
+      router.push(`/site/${siteId}/editor/${pageId}`);
+      dispatch(addNewPage(newPage));
+      setPageType("");
+      setAddPage(false);
+    }
   };
   return (
     <div>
@@ -812,9 +834,7 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
                       userEditedSlug: false,
                     },
                   } as EditorPage;
-                  dispatch(addNewPage(newPage));
-                  setPageType("");
-                  setAddPage(false);
+                  handleAddNewPage(newPage);
                 }}
               >
                 <span className="text-sm">Add Page</span>

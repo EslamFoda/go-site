@@ -16,6 +16,7 @@ import { ActiveUserType } from "@/utlis/auth-helper/client";
 import { v4 } from "uuid";
 import { createClient } from "@/utlis/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 interface CreateSiteModalProps {
   children: React.ReactNode;
@@ -33,6 +34,7 @@ function CreateSiteModal({
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const { toast } = useToast();
+  const router = useRouter();
 
   const createSite = async () => {
     if (!siteName) {
@@ -219,6 +221,7 @@ function CreateSiteModal({
               fullWidthPage: false,
             },
           },
+          selectedPallet: "default-theme",
         },
       ])
       .select();
@@ -228,6 +231,7 @@ function CreateSiteModal({
       setOpen(false);
       setSiteName("");
       setLoading(false);
+      router.push(`/site/${data[0].siteId}/editor`);
     }
     if (siteError) {
       setLoading(false);

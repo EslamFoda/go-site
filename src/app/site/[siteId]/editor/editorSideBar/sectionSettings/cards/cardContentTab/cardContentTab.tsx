@@ -64,7 +64,6 @@ function CardContentTab({
           className="w-4/6"
           value={cardsContent?.label}
           onChange={(e: any) => {
-            console.log(e.target.value);
             // @ts-ignore
             updateContent(pageId, findSelectedSection.id, {
               label: e.target.value,
@@ -79,7 +78,6 @@ function CardContentTab({
           id="title"
           value={cardsContent?.title}
           onChange={(e: any) => {
-            console.log(e.target.value);
             dispatch(
               updateContent(pageId, findSelectedSection?.id!, {
                 title: e.target.value,

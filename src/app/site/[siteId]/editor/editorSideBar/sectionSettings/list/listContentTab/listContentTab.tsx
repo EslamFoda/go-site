@@ -61,7 +61,6 @@ function ListContentTab({
           className="w-4/6"
           value={listContent?.label}
           onChange={(e: any) => {
-            console.log(e.target.value);
             dispatch(
               updateContent(pageId, findSelectedSection.id, {
                 label: e.target.value,
@@ -77,7 +76,6 @@ function ListContentTab({
           id="title"
           value={listContent?.title}
           onChange={(e: any) => {
-            console.log(e.target.value);
             dispatch(
               updateContent(pageId, findSelectedSection?.id!, {
                 title: e.target.value,

@@ -50,7 +50,6 @@ function SiteCard({ site, setSites }: SiteCardProps) {
   );
 
   const deleteSite = async () => {
-    console.log(site.siteId);
     const supabase = createClient();
     const { data } = await supabase
       .from("sites")
@@ -94,7 +93,7 @@ function SiteCard({ site, setSites }: SiteCardProps) {
             dispatch(updateEditorState(["activePage"], site.pages[0].pageId));
 
             // Navigate to the editor page
-            router.push(`site/${site.siteId}/editor/${site.pages[0].pageId}`);
+            router.push(`site/${site.siteId}/editor`);
           }}
         >
           <span className="group-hover:text-background">Edit</span>

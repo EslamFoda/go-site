@@ -1,8 +1,7 @@
 "use client";
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import ChooseSection from "./chooseSection";
 import { useAppSelector } from "@/reduxStore/hooks";
-import Link from "next/link";
 import DesignSettings from "./designSettings";
 import banner from "./sectionSettings/banner";
 import cards from "./sectionSettings/cards";
@@ -15,6 +14,8 @@ import {
   SectionStyleTypes,
 } from "@/reduxStore/types";
 import Pages from "./pages";
+import { createClient } from "@/utlis/supabase/client";
+import debounce from "debounce";
 
 const EditorSidebar = () => {
   const {
@@ -23,6 +24,8 @@ const EditorSidebar = () => {
     openPallet,
     openPages,
     openSectionDesigns,
+    editor: { pages },
+    settings: { siteId },
   } = useAppSelector((state) => state.editor);
 
   const page = useAppSelector((state) =>
@@ -50,14 +53,37 @@ const EditorSidebar = () => {
     ? sectionComponents[selectedSection.sectionName]
     : null;
 
+  const updatePageStyleAndContent = useCallback(async () => {
+    const supabase = await createClient();
+    const { data, error } = await supabase
+      .from("sites")
+      .update({
+        pages: pages,
+      })
+      .eq("siteId", siteId)
+      .select();
+
+    if (error) {
+      console.error("Error updating pages:", error);
+    }
+  }, [pages, siteId]);
+
+  const debouncedUpdatePageStyleAndContent = debounce(
+    updatePageStyleAndContent,
+    2000
+  );
+
+  useEffect(() => {
+    debouncedUpdatePageStyleAndContent();
+
+    // Cleanup function to cancel any pending debounced calls when the component unmounts
+    return () => {
+      debouncedUpdatePageStyleAndContent.clear();
+    };
+  }, [debouncedUpdatePageStyleAndContent]);
+
   return (
     <div className="overflow-auto">
-      {/* <div className="mt-2">
-        <Link className="block" href="/editor/1">
-          eslam
-        </Link>
-        <Link href="/editor/">ediotr</Link>
-      </div> */}
       {openSectionDesigns ? (
         <ChooseSection />
       ) : SelectedSectionComponent ? (

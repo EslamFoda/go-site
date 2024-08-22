@@ -7,6 +7,8 @@ import {
 import { getCSSVariableValueByElement } from "@/helper";
 import { aiThemes } from "@/constant/theme";
 import ThemeItem from "./themeItem";
+import { createClient } from "@/utlis/supabase/client";
+import { DesignSettings } from "@/reduxStore/types";
 
 // Define types
 export interface Theme {
@@ -28,6 +30,20 @@ function AiThemes() {
   const themeRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const designSettings = useAppSelector((state) => state.editor.designSettings);
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
+  const {
+    settings: { siteId },
+  } = useAppSelector((state) => state.editor);
+  const updateSitePallet = async (
+    pallet: string,
+    designSettings: DesignSettings
+  ) => {
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from("sites")
+      .update({ selectedPallet: pallet, designSettings })
+      .eq("siteId", siteId)
+      .select();
+  };
 
   const activeTheme = {
     colorPallet: designSettings.colors.primary,
@@ -72,45 +88,46 @@ function AiThemes() {
         }
       }
 
+      const updatedDesignSettings = {
+        ...designSettings,
+        borderRadius: theme.borderRadius,
+        colors: {
+          ...designSettings.colors,
+          primary:
+            theme.colorPallet === "default-theme"
+              ? ""
+              : getCSSVariableValueByElement(
+                  themeRefs.current[theme.colorPallet],
+                  "--primary"
+                ),
+          primaryForGround:
+            theme.colorPallet === "default-theme"
+              ? ""
+              : getCSSVariableValueByElement(
+                  themeRefs.current[theme.colorPallet],
+                  "--primary-foreground"
+                ),
+        },
+        fonts: {
+          ...designSettings.fonts,
+          bodyFont: {
+            ...designSettings.fonts.bodyFont,
+            fontFamily: theme.bodyFontFamily,
+            fontFamilyUrl: theme.bodyFontFamilyUrl,
+            fontWeight: theme.bodyFontWeight,
+          },
+          titleFont: {
+            ...designSettings.fonts.titleFont,
+            fontFamily: theme.titleFontFamily,
+            fontFamilyUrl: theme.titleFontFamilyUrl,
+            fontWeight: theme.titleFontWeight,
+          },
+        },
+      };
+
       dispatch(updateSelectedPallet(theme.colorPallet));
-      dispatch(
-        updateDesignSettings({
-          ...designSettings,
-          borderRadius: theme.borderRadius,
-          colors: {
-            ...designSettings.colors,
-            primary:
-              theme.colorPallet === "default-theme"
-                ? ""
-                : getCSSVariableValueByElement(
-                    themeRefs.current[theme.colorPallet],
-                    "--primary"
-                  ),
-            primaryForGround:
-              theme.colorPallet === "default-theme"
-                ? ""
-                : getCSSVariableValueByElement(
-                    themeRefs.current[theme.colorPallet],
-                    "--primary-foreground"
-                  ),
-          },
-          fonts: {
-            ...designSettings.fonts,
-            bodyFont: {
-              ...designSettings.fonts.bodyFont,
-              fontFamily: theme.bodyFontFamily,
-              fontFamilyUrl: theme.bodyFontFamilyUrl,
-              fontWeight: theme.bodyFontWeight,
-            },
-            titleFont: {
-              ...designSettings.fonts.titleFont,
-              fontFamily: theme.titleFontFamily,
-              fontFamilyUrl: theme.titleFontFamilyUrl,
-              fontWeight: theme.titleFontWeight,
-            },
-          },
-        })
-      );
+      dispatch(updateDesignSettings(updatedDesignSettings));
+      updateSitePallet(theme.colorPallet, updatedDesignSettings);
     },
     [dispatch, designSettings]
   );

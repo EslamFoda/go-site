@@ -1,16 +1,18 @@
 "use client";
+
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import React, { useEffect } from "react";
 import Section from "../section";
-import { updateEditorState } from "@/reduxStore/action";
+import {
+  updateActivePage,
+  updateEditorState,
+  updateSelectedPallet,
+} from "@/reduxStore/action";
 import { createClient } from "@/utlis/supabase/client";
 
 function Page({ params }: any) {
   const dispatch = useAppDispatch();
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
-  const pages = useAppSelector((state) => state.editor.editor.pages);
-  const currentPage = pages.find((page) => page.pageId === params.pageId);
-  const pageId = currentPage?.pageId;
 
   useEffect(() => {
     const fetchSiteData = async () => {
@@ -25,6 +27,7 @@ function Page({ params }: any) {
       if (error) console.log(error);
       if (siteData) {
         // Update designSettings
+        console.log(siteData, "siteData");
         dispatch(
           updateEditorState(["designSettings"], siteData.designSettings)
         );
@@ -33,21 +36,24 @@ function Page({ params }: any) {
         dispatch(updateEditorState(["editor", "pages"], siteData.pages));
 
         // Update activePage
-        dispatch(updateEditorState(["activePage"], siteData.pages[0].pageId));
+        dispatch(updateActivePage(params.pageId));
 
         // Update site settings
         dispatch(updateEditorState(["settings"], siteData.settings));
+
+        // Update selected pallet settings
+        dispatch(updateSelectedPallet(siteData.selectedPallet));
       }
     };
 
     fetchSiteData();
-  }, [params.siteId, dispatch, pageId, params.pageId]);
+  }, [params.siteId, dispatch, params.pageId]);
 
-  if (!pageId) return null;
+  if (!params.pageId) return null;
 
   return (
     <main className={`${selectedPallet} page-container`}>
-      <Section pageId={pageId} />
+      <Section pageId={params.pageId} />
     </main>
   );
 }

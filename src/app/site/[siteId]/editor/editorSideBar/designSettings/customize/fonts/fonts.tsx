@@ -31,7 +31,6 @@ const FontSelector = ({
   const storedFonts = useAppSelector(
     (state) => state.editor.designSettings.fonts
   );
-  console.log(storedFonts, "storedFontsstoredFonts");
 
   const [selectedTitleFont, setSelectedTitleFont] = useState<FontOption | null>(
     null
@@ -67,7 +66,6 @@ const FontSelector = ({
     isTitle: boolean,
     fontUrl: string
   ) => {
-    console.log(isTitle, "isTitle");
     dispatch(
       updateDesignSettings({
         ...designSettings,
@@ -88,12 +86,10 @@ const FontSelector = ({
     containerFonte: fontSettingsTab === "Title" ? "titleFont" : "bodyFont",
     containerVariante: "defaultVariant",
     onSelectFonte: (family: string, variant: string, fontData: any) => {
-      console.log("Selected font:", family, variant, fontData);
       const fontUrl = fontData.files[variant];
       updateFontSettings(family, variant, fontSettingsTab === "Title", fontUrl);
     },
     onSelectVariante: (family: string, variant: string, fontData: any) => {
-      console.log("Selected variant:", family, variant, fontData);
       const fontUrl = fontData.files[variant];
       updateFontSettings(family, variant, fontSettingsTab === "Title", fontUrl);
     },

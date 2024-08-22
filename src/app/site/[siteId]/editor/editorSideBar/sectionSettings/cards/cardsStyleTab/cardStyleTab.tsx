@@ -46,7 +46,6 @@ function CardStyleTab({
   const [isHeightDesktop, setIsHeightDesktop] = useState(true);
   const [isCardSliderWidthDesktop, setIsCardSliderWidthDesktop] =
     useState(true);
-  console.log(findSelectedSection, "findSelectedSection");
   const handleToggleHeightSetting = () => {
     setIsHeightDesktop(!isHeightDesktop);
   };
