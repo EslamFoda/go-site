@@ -14,6 +14,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import Header from "../designs/header";
 
 const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const currentPage = useAppSelector((state) =>
@@ -28,6 +29,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
     List,
     Accordion,
     Testimonials,
+    Header,
   };
 
   const handleMouseEnter = (index: number) => {
@@ -38,9 +40,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
     setHoveringIndex(null);
   };
 
-  if (!currentPage) {
-    return <div>Page not found</div>;
-  }
+  if (!currentPage) return null;
 
   return (
     <div>

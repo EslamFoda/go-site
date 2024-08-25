@@ -3,6 +3,7 @@ import {
   DesignSettings,
   EditorPage,
   EditorSection,
+  PageSettings,
   SectionContentTypes,
   SectionStyleTypes,
 } from "./types";
@@ -142,4 +143,20 @@ export const deletePage = (pageId: string) => ({
 export const updateEditorState = (path: string[], value: any) => ({
   type: types.UPDATE_EDITOR,
   payload: { path, value },
+});
+
+export const openPageSetting = () => ({
+  type: types.OPEN_PAGE_SETTING,
+});
+
+export const closePageSetting = () => ({
+  type: types.CLOSE_PAGE_SETTING,
+});
+
+export const updatePageSetting = (
+  pageId: string | string[],
+  newSettings: PageSettings
+) => ({
+  type: types.UPDATE_PAGE_SETTING,
+  payload: { pageId, newSettings },
 });

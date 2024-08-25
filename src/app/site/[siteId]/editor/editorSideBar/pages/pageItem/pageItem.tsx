@@ -29,13 +29,14 @@ function PageItem({ page }: PageItemProps) {
   const router = useRouter();
 
   const pageButtonClassNames = cn(
-    "w-full flex justify-between items-center  rounded-sm px-2 gap-2 cursor-pointer border",
+    "w-full flex justify-between items-center rounded-sm px-2 gap-2 cursor-pointer border",
     {
       "bg-secondary":
         pageId === page.pageId ||
-        (page.pageId === settings.homePage && !pageId), // to make sure if the user navigate to /editor it will make the first page (home page) active
+        (page.pageId === settings.homePage && !pageId),
     }
   );
+
   const handleDeletePage = async () => {
     const supabase = createClient();
     const { data } = await supabase
@@ -51,7 +52,41 @@ function PageItem({ page }: PageItemProps) {
     }
   };
 
-  const handleDuplicatePage = async (duplicatedPage: EditorPage) => {
+  const generateUniqueLink = (baseLink: string) => {
+    // Remove any existing numbering
+    const baseLinkWithoutNumber = baseLink.replace(/-\d+$/, "");
+
+    const matchingPages = pages.filter((p) =>
+      p.pageSettings.link.startsWith(baseLinkWithoutNumber)
+    );
+
+    if (matchingPages.length === 1) return `${baseLinkWithoutNumber}-2`;
+
+    const numbers = matchingPages.map((p) => {
+      const match = p.pageSettings.link.match(
+        new RegExp(`${baseLinkWithoutNumber}-(\\d+)$`)
+      );
+      return match ? parseInt(match[1], 10) : 1;
+    });
+
+    const maxNumber = Math.max(...numbers);
+    return `${baseLinkWithoutNumber}-${maxNumber + 1}`;
+  };
+
+  const handleDuplicatePage = async (originalPage: EditorPage) => {
+    const newPageId = v4();
+    const newLink = generateUniqueLink(originalPage.pageSettings.link);
+
+    const duplicatedPage: EditorPage = {
+      ...originalPage,
+      pageId: newPageId,
+      pageSettings: {
+        ...originalPage.pageSettings,
+        link: newLink,
+        title: `${originalPage.pageSettings.title} (Copy)`,
+      },
+    };
+
     const supabase = createClient();
     const { data } = await supabase
       .from("sites")
@@ -85,8 +120,7 @@ function PageItem({ page }: PageItemProps) {
               <MenubarSeparator />
               <MenubarItem
                 onClick={() => {
-                  const duplicatedPage = { ...page, pageId: v4() };
-                  handleDuplicatePage(duplicatedPage);
+                  handleDuplicatePage(page);
                 }}
               >
                 Duplicate

@@ -16,6 +16,8 @@ import {
 import Pages from "./pages";
 import { createClient } from "@/utlis/supabase/client";
 import debounce from "debounce";
+import PageSetting from "./pageSetting";
+import header from "./sectionSettings/header";
 
 const EditorSidebar = () => {
   const {
@@ -24,6 +26,7 @@ const EditorSidebar = () => {
     openPallet,
     openPages,
     openSectionDesigns,
+    openPageSetting,
     editor: { pages },
     settings: { siteId },
   } = useAppSelector((state) => state.editor);
@@ -47,6 +50,7 @@ const EditorSidebar = () => {
     List: list,
     Accordion: accordion,
     Testimonials: testimonials,
+    Header: header,
   };
 
   const SelectedSectionComponent = selectedSection
@@ -70,7 +74,7 @@ const EditorSidebar = () => {
 
   const debouncedUpdatePageStyleAndContent = debounce(
     updatePageStyleAndContent,
-    2000
+    500
   );
 
   useEffect(() => {
@@ -80,7 +84,7 @@ const EditorSidebar = () => {
     return () => {
       debouncedUpdatePageStyleAndContent.clear();
     };
-  }, [debouncedUpdatePageStyleAndContent]);
+  }, [pages]);
 
   return (
     <div className="overflow-auto">
@@ -92,6 +96,7 @@ const EditorSidebar = () => {
 
       {openPallet && <DesignSettings />}
       {openPages && <Pages />}
+      {openPageSetting && <PageSetting />}
     </div>
   );
 };

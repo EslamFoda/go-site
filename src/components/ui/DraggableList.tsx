@@ -9,9 +9,10 @@ import { useAppDispatch } from "@/reduxStore/hooks";
 import { Accordion } from "@/types/sectionsTypes/accordion";
 import { SelectedItemType } from "@/types/common";
 import { Testimonial } from "@/types/sectionsTypes/testimonials";
+import { Link } from "@/types/sectionsTypes/header";
 interface DraggableListProps {
   label: string;
-  items: Card[] | ListItem[] | Accordion[] | Testimonial[];
+  items: Card[] | ListItem[] | Accordion[] | Testimonial[] | Link[];
   handleDragEnd: (result: any) => void;
   handleAdd: () => void;
   updateSelectedItem: (item: SelectedItemType) => {
@@ -48,7 +49,7 @@ function DraggableList({
               >
                 <GripVertical size={15} />
               </div>
-              <span>{item.title || item.name}</span>
+              <span>{item.title || item.name || item.text}</span>
             </div>
             <div>
               <ChevronRight size={15} />

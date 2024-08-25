@@ -6,6 +6,7 @@ import {
 } from "@/types/sectionsTypes/accordion";
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
 import { Card, CardStyle, CardsContent } from "@/types/sectionsTypes/cards";
+import { HeaderContent, HeaderStyle, Link } from "@/types/sectionsTypes/header";
 import { ListContent, ListItem, ListStyle } from "@/types/sectionsTypes/list";
 import {
   Testimonial,
@@ -20,6 +21,7 @@ export type SectionContentTypes = {
   list: ListContent;
   accordion: AccordionContent;
   testimonial: TestimonialContent;
+  header: HeaderContent;
   // Add more content types here as needed
 };
 
@@ -30,6 +32,7 @@ export type SectionStyleTypes = {
   list: ListStyle;
   accordion: AccordionStyle;
   testimonial: TestimonialStyle;
+  header: HeaderStyle;
   // Add more style types here as needed
 };
 
@@ -54,7 +57,7 @@ export interface EditorStore {
     keyof SectionContentTypes,
     keyof SectionStyleTypes
   > | null;
-  selectedItem: Card | ListItem | Accordion | Testimonial | null;
+  selectedItem: Card | ListItem | Accordion | Testimonial | Link | null;
   openSectionDesigns: boolean;
   openPallet: boolean;
   chooseIcon: boolean;
@@ -63,6 +66,7 @@ export interface EditorStore {
   activePage: string;
   openPages: boolean;
   settings: SiteSettings;
+  openPageSetting: boolean;
 }
 
 // Define the type for an editor page

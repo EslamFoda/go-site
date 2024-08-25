@@ -38,7 +38,6 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
   const [tabValue, setTabValue] = useState("content");
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
   const dispatch = useAppDispatch();
-  const editor = useAppSelector((state) => state.editor.editor);
   const selectedSection = useAppSelector(
     (state) => state.editor.selectedSection
   );

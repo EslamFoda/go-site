@@ -1,10 +1,14 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Book, Code2, File, Palette, Settings2 } from "lucide-react";
+import { File, Palette, Settings } from "lucide-react";
 import React from "react";
 import { useAppDispatch } from "@/reduxStore/hooks";
-import { openPageSettings, openPallet } from "@/reduxStore/action";
+import {
+  openPageSetting,
+  openPageSettings,
+  openPallet,
+} from "@/reduxStore/action";
 
 function SidebarButtons() {
   const dispatch = useAppDispatch();
@@ -12,7 +16,7 @@ function SidebarButtons() {
     dispatch(openPallet());
   };
   return (
-    <nav className="grid gap-1 p-2">
+    <nav className="grid gap-3 p-2">
       <Button
         variant="ghost"
         size="icon"
@@ -37,25 +41,9 @@ function SidebarButtons() {
         size="icon"
         className="rounded-lg"
         aria-label="API"
+        onClick={() => dispatch(openPageSetting())}
       >
-        <Code2 className="size-5" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="rounded-lg"
-        aria-label="Documentation"
-      >
-        <Book className="size-5" />
-      </Button>
-
-      <Button
-        variant="ghost"
-        size="icon"
-        className="rounded-lg"
-        aria-label="Settings"
-      >
-        <Settings2 className="size-5" />
+        <Settings className="size-5" />
       </Button>
     </nav>
   );

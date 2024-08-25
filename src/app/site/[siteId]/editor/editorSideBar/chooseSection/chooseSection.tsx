@@ -5,6 +5,7 @@ import {
   AccordionSectionIcon,
   AccordionSectionLightIcon,
 } from "@/icons/common";
+import { HeaderDark, HeaderLight } from "@/icons/header";
 import { ListSectionIcon, ListSectionLightIcon } from "@/icons/list";
 import {
   TestimonialSectionIcon,
@@ -25,6 +26,9 @@ function ChooseSection() {
   const activePageId = useAppSelector((state) => state.editor.activePage);
   const page = useAppSelector((state) =>
     state.editor.editor.pages.find((page) => page.pageId === activePageId)
+  );
+  const hasHeaderSection = page?.sections.some(
+    (section) => section.sectionName === "Header"
   );
   const { theme } = useTheme();
   const dispatch = useAppDispatch();
@@ -57,28 +61,40 @@ function ChooseSection() {
         theme === "dark" ? TestimonialSectionIcon : TestimonialSectionLightIcon,
       desc: "Customer praise and trust snippets",
     },
+    Header: {
+      Icon: theme === "dark" ? HeaderDark : HeaderLight,
+      desc: "Logo, Links and buttons",
+    },
     // Add more mappings as needed
   };
 
   if (!page) return null;
 
   const handleChooseSection = (section: any) => {
-    if (sectionIndex < 0 || sectionIndex >= page.sections.length) {
-      return page.sections;
-    }
+    let newSections = [...page.sections];
+    console.log(section, "section");
 
-    // Create a copy of the sections array
-    const newSections = [...page.sections];
-    newSections.splice(sectionIndex + 1, 0, section);
+    if (section.sectionName === "Header") {
+      newSections = [section, ...newSections];
+    } else {
+      if (sectionIndex < 0 || sectionIndex >= page.sections.length) {
+        return newSections;
+      }
+      newSections.splice(sectionIndex + 1, 0, section);
+    }
 
     dispatch(closeSectionDesigns());
     dispatch(updateEditorSections(activePageId, newSections));
     dispatch(updateSelectedSection(activePageId, section.id));
   };
 
+  const filteredSections = hasHeaderSection
+    ? sections.filter((section) => section.sectionName !== "Header")
+    : sections;
+
   return (
     <div className="p-5 space-y-3">
-      {sections.map((section) => {
+      {filteredSections.map((section) => {
         const { Icon, desc } = SectionIcons[section.sectionName];
         return (
           <div

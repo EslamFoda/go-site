@@ -179,6 +179,7 @@ const initialState: EditorStore = {
     link: "",
     siteId: "",
   },
+  openPageSetting: false,
 };
 
 // Helper function to update state at a given path
@@ -256,6 +257,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openSectionDesigns = false;
         draft.selectedSection = null;
         draft.openPages = false;
+        draft.openPageSetting = false;
         break;
       }
 
@@ -263,6 +265,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openSectionDesigns = !draft.openSectionDesigns;
         draft.openPallet = false;
         draft.openPages = false;
+        draft.openPageSetting = false;
         break;
       }
 
@@ -290,6 +293,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openSectionDesigns = true;
         draft.openPallet = false;
         draft.openPages = false;
+        draft.openPageSetting = false;
         break;
       }
 
@@ -297,6 +301,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openSectionDesigns = false;
         draft.openPallet = false;
         draft.openPages = false;
+        draft.openPageSetting = false;
         break;
       }
 
@@ -316,6 +321,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.chooseIcon = false;
         draft.selectedSection = null;
         draft.openPages = false;
+        draft.openPageSetting = false;
         break;
       }
 
@@ -343,6 +349,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
         draft.selectedSection = null;
+        draft.openPageSetting = false;
         break;
       }
 
@@ -351,6 +358,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
+        draft.openPageSetting = false;
 
         break;
       }
@@ -368,6 +376,35 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
       }
       case types.UPDATE_EDITOR: {
         setNestedState(draft, action.payload.path, action.payload.value);
+        break;
+      }
+
+      case types.OPEN_PAGE_SETTING: {
+        draft.openPageSetting = true;
+        draft.openPages = false;
+        draft.openPallet = false;
+        draft.openSectionDesigns = false;
+        draft.chooseIcon = false;
+        draft.selectedSection = null;
+        break;
+      }
+
+      case types.CLOSE_PAGE_SETTING: {
+        draft.openPageSetting = false;
+        draft.openPages = false;
+        draft.openPallet = false;
+        draft.openSectionDesigns = false;
+        draft.chooseIcon = false;
+        draft.selectedSection = null;
+        break;
+      }
+
+      case types.UPDATE_PAGE_SETTING: {
+        const { pageId, newSettings } = action.payload;
+        const page = draft.editor.pages.find((p) => p.pageId === pageId);
+        if (page) {
+          Object.assign(page.pageSettings, newSettings);
+        }
         break;
       }
 

@@ -113,3 +113,42 @@ export const TestimonialSectionLightIcon = () => (
     />
   </svg>
 );
+
+export const FirstDesign = ({ active }: { active: boolean }) => {
+  return (
+    <svg
+      height="50"
+      width="50"
+      viewBox="0 0 51 34"
+      xmlns="http://www.w3.org/2000/svg"
+      data-v-b09a8f86=""
+      className={`${active ? "fill-primary" : "fill-muted"}`}
+    >
+      <path d="m50.695 16.402h-50v1h50v-1z" data-v-b09a8f86=""></path>
+      <path d="m50.695 8.4023-50 1e-5v1l50-1e-5v-1z" data-v-b09a8f86=""></path>
+      <path d="m50.695 0.40234-50 4e-6v1l50-1e-5v-1z" data-v-b09a8f86=""></path>
+      <path d="m16.695 32.402 34-1e-4v1l-34 1e-4v-1z" data-v-b09a8f86=""></path>
+      <path d="m50.695 24.402-34 1e-4v1l34-1e-4v-1z" data-v-b09a8f86=""></path>
+      <path d="m0.69548 24.403h9v9h-9v-9z" data-v-b09a8f86=""></path>
+    </svg>
+  );
+};
+
+export const SecDesign = ({ active }: { active: boolean }) => {
+  return (
+    <svg
+      height="50"
+      width="50"
+      viewBox="0 0 51 41"
+      xmlns="http://www.w3.org/2000/svg"
+      data-v-b09a8f86=""
+      className={`${active ? "fill-primary" : "fill-muted"}`}
+    >
+      <path d="m50.443 16.703h-50v1h50v-1z" data-v-b09a8f86=""></path>
+      <path d="m50.443 8.7031-50 1e-5v1l50-1e-5v-1z" data-v-b09a8f86=""></path>
+      <path d="m50.443 0.70312-50 4e-6v1l50-1e-5v-1z" data-v-b09a8f86=""></path>
+      <path d="m8.4434 39.703h34v1h-34v-1z" data-v-b09a8f86=""></path>
+      <path d="m20.943 24.703h9v9h-9v-9z" data-v-b09a8f86=""></path>
+    </svg>
+  );
+};

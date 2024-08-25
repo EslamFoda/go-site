@@ -10,7 +10,7 @@ import ThemeToggle from "@/components/themeToggle";
 import Link from "next/link";
 function Editor({ children }: { children: React.ReactNode }) {
   return (
-    <div className="grid h-screen w-full pl-[56px]">
+    <div className="grid h-screen w-full pl-[46px]">
       <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
         <div className="border-b p-2">
           <Link href="/">
@@ -32,7 +32,7 @@ function Editor({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
       <div className="flex flex-col">
-        <header className="sticky top-0 z-10 flex h-[57px] items-center gap-1 border-b bg-background px-4">
+        <header className="sticky top-0 z-10 flex h-[48px] items-center gap-1 border-b bg-background px-4">
           <h1 className="text-xl font-semibold">Playground</h1>
           <Drawer>
             <DrawerTrigger asChild>

@@ -7,7 +7,6 @@ import HeightOrWidthSetting from "../../settingsUi/HeightOrWidthSetting";
 import TextSize from "../../settingsUi/TextSize";
 import Align from "../../settingsUi/Align";
 import SwitchSetting from "../../settingsUi/SwitchSetting";
-import { FirstDesign, SecDesign } from "@/icons/cards";
 import { Label } from "@/components/ui/label";
 import { ChevronRightIcon } from "lucide-react";
 import {
@@ -17,6 +16,7 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { updateStyle } from "@/reduxStore/action";
+import { FirstDesign, SecDesign } from "@/icons/testimonials";
 import {
   TestimonialContent,
   TestimonialStyle,
