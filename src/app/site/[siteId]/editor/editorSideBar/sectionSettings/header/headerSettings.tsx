@@ -7,13 +7,13 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import HeaderContentTab from "./headerContentTab";
-import HeaderStyleTab from "./headerStyleTab";
 import Links from "./links";
 import { updateContent, updateSelectedItem } from "@/reduxStore/action";
 import { Link } from "@/types/sectionsTypes/header";
 import LinkItem from "./linkItem";
 import Announcement from "./announcement";
 import Buttons from "./buttons";
+import HeaderStyleTab from "./headerStyleTab";
 interface HeaderSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -122,7 +122,12 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
           headerContent={headerContent}
           findSelectedSection={findSelectedSection}
         />
-        <HeaderStyleTab />
+        <HeaderStyleTab
+          findSelectedSection={findSelectedSection}
+          headerContent={headerContent}
+          headerStyle={headerStyle}
+          pageId={pageId}
+        />
       </Tabs>
     </div>
   );

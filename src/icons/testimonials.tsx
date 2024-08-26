@@ -122,7 +122,7 @@ export const FirstDesign = ({ active }: { active: boolean }) => {
       viewBox="0 0 51 34"
       xmlns="http://www.w3.org/2000/svg"
       data-v-b09a8f86=""
-      className={`${active ? "fill-primary" : "fill-muted"}`}
+      className={`${active ? "fill-primary" : "fill-muted-foreground/70"}`}
     >
       <path d="m50.695 16.402h-50v1h50v-1z" data-v-b09a8f86=""></path>
       <path d="m50.695 8.4023-50 1e-5v1l50-1e-5v-1z" data-v-b09a8f86=""></path>
@@ -142,7 +142,7 @@ export const SecDesign = ({ active }: { active: boolean }) => {
       viewBox="0 0 51 41"
       xmlns="http://www.w3.org/2000/svg"
       data-v-b09a8f86=""
-      className={`${active ? "fill-primary" : "fill-muted"}`}
+      className={`${active ? "fill-primary" : "fill-muted-foreground/70"}`}
     >
       <path d="m50.443 16.703h-50v1h50v-1z" data-v-b09a8f86=""></path>
       <path d="m50.443 8.7031-50 1e-5v1l50-1e-5v-1z" data-v-b09a8f86=""></path>

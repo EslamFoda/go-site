@@ -5,7 +5,7 @@ export const FirstDesign = ({ active }: { active: boolean }) => {
       height="40"
       viewBox="0 0 60 40"
       fill="none"
-      className={`${active ? "fill-primary" : "fill-muted"}`}
+      className={`${active ? "fill-primary" : "fill-muted-foreground/70"}`}
       xmlns="http://www.w3.org/2000/svg"
       data-v-62352d9f=""
     >
@@ -31,7 +31,7 @@ export const SecondDesign = ({ active }: { active: boolean }) => {
       height="40"
       viewBox="0 0 60 40"
       fill="none"
-      className={`${active ? "fill-primary" : "fill-muted"}`}
+      className={`${active ? "fill-primary" : "fill-muted-foreground/70"}`}
       xmlns="http://www.w3.org/2000/svg"
       data-v-62352d9f=""
     >
@@ -58,7 +58,7 @@ export const ThirdDesign = ({ active }: { active: boolean }) => {
       height="40"
       viewBox="0 0 60 40"
       fill="none"
-      className={`${active ? "fill-primary" : "fill-muted"}`}
+      className={`${active ? "fill-primary" : "fill-muted-foreground/70"}`}
       xmlns="http://www.w3.org/2000/svg"
       data-v-62352d9f=""
     >
@@ -78,7 +78,7 @@ export const FourthDesign = ({ active }: { active: boolean }) => {
       height="40"
       viewBox="0 0 60 40"
       fill="none"
-      className={`${active ? "fill-primary" : "fill-muted"}`}
+      className={`${active ? "fill-primary" : "fill-muted-foreground/70"}`}
       xmlns="http://www.w3.org/2000/svg"
       data-v-62352d9f=""
     >
@@ -98,7 +98,7 @@ export const FifthDesign = ({ active }: { active: boolean }) => {
       height="40"
       viewBox="0 0 60 40"
       fill="none"
-      className={`${active ? "fill-primary" : "fill-muted"}`}
+      className={`${active ? "fill-primary" : "fill-muted-foreground/70"}`}
       xmlns="http://www.w3.org/2000/svg"
       data-v-62352d9f=""
     >
@@ -118,7 +118,7 @@ export const SixthDesign = ({ active }: { active: boolean }) => {
       height="41"
       viewBox="0 0 61 41"
       fill="none"
-      className={`${active ? "fill-primary" : "fill-muted"}`}
+      className={`${active ? "fill-primary" : "fill-muted-foreground/70"}`}
       xmlns="http://www.w3.org/2000/svg"
       data-v-62352d9f=""
     >

@@ -7,7 +7,7 @@ export const FirstDesign = ({ active }: { active: boolean }) => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       data-v-00c72fd8=""
-      className={`${active ? "fill-primary" : "fill-muted"}`}
+      className={`${active ? "fill-primary" : "fill-muted-foreground/70"}`}
     >
       <path
         d="M50.124 0.154297H0.124023V24.1543H50.124V0.154297Z"
@@ -38,7 +38,7 @@ export const SecDesign = ({ active }: { active: boolean }) => {
       viewBox="0 0 51 51"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`${active ? "fill-primary" : "fill-muted"}`}
+      className={`${active ? "fill-primary" : "fill-muted-foreground/70"}`}
     >
       <path
         data-v-00c72fd8=""

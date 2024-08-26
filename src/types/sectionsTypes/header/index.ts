@@ -40,9 +40,10 @@ export type HeaderContent = {
   announcement: Announcement;
 };
 
+export type MobileMenuIconType = "icon-1" | "icon-2" | "icon-3";
 type DesignSettings = {
-  logoColor: "normal" | "primary";
-  mobileMenuIcon: "icon-1" | "icon-2" | "icon-3";
+  logoColor: "none" | "primary";
+  mobileMenuIcon: MobileMenuIconType;
   width: "fill" | "fit";
   sticky: boolean;
   float: boolean;

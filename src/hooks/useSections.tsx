@@ -58,7 +58,7 @@ export function useSections() {
       style: {
         designName: "design1",
         designSettings: {
-          logoColor: "normal",
+          logoColor: "none",
           mobileMenuIcon: "icon-1", // icon-1, icon-2, icon-3
           width: "fill", // fill , fit
           sticky: false,

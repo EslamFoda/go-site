@@ -67,11 +67,13 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                   sideOffset={-45}
                   alignOffset={10}
                 >
-                  <ControlButtons
-                    sectionIndex={i}
-                    sectionId={section.id}
-                    pageId={pageId} // Pass pageId for any actions that require it
-                  />
+                  {section.sectionName !== "Header" && (
+                    <ControlButtons
+                      sectionIndex={i}
+                      sectionId={section.id}
+                      pageId={pageId}
+                    />
+                  )}
                 </HoverCardContent>
                 <div onClick={() => dispatch(closeSectionDesigns())}>
                   <SectionComponent
@@ -80,7 +82,9 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                     pageId={pageId}
                   />
                 </div>
-                <AddSection sectionIndex={i} pageId={pageId} />
+                {section.sectionName !== "Header" && (
+                  <AddSection sectionIndex={i} pageId={pageId} />
+                )}
               </HoverCardTrigger>
             </div>
           </HoverCard>

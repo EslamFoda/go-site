@@ -13,17 +13,19 @@ import { Link } from "@/types/sectionsTypes/header";
 interface DraggableListProps {
   label: string;
   items: Card[] | ListItem[] | Accordion[] | Testimonial[] | Link[];
+  maxItems?: number; // Add the maxItems prop
+  listType?: "testimonial";
   handleDragEnd: (result: any) => void;
   handleAdd: () => void;
   updateSelectedItem: (item: SelectedItemType) => {
     type: string;
     payload: SelectedItemType;
   };
-  listType?: "testimonial";
 }
 function DraggableList({
   label,
   items,
+  maxItems,
   updateSelectedItem,
   handleDragEnd,
   handleAdd,
@@ -77,10 +79,12 @@ function DraggableList({
           )}
         </Droppable>
       </DragDropContext>
-      <div className={listClassName} onClick={handleAdd}>
-        <span>Add {label}</span>
-        <Plus size={15} />
-      </div>
+      {(!maxItems || items.length < maxItems) && ( // Conditionally render the "Add" button
+        <div className={listClassName} onClick={handleAdd}>
+          <span>Add {label}</span>
+          <Plus size={15} />
+        </div>
+      )}
     </div>
   );
 }

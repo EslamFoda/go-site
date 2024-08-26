@@ -69,6 +69,7 @@ function Links({
       <div className="px-5 h space-y-2">
         <DraggableList
           label="Link"
+          maxItems={10}
           handleDragEnd={handleDragEnd}
           items={links}
           handleAdd={handleAddLink}

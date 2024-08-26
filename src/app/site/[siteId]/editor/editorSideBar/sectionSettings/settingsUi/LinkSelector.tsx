@@ -35,14 +35,22 @@ const LinkSelector: React.FC<LinkSelectorProps> = ({
   onSelect,
 }) => {
   const [value, setValue] = useState<string>(
-    selectedLink.startsWith("/") ? selectedLink : `/${selectedLink}`
+    selectedLink === ""
+      ? ""
+      : selectedLink?.startsWith("/")
+      ? selectedLink
+      : `/${selectedLink}`
   );
+
   const [open, setOpen] = useState<boolean>(false);
 
   const handleSelectLink = (currentValue: string) => {
-    const formattedValue = currentValue.startsWith("/")
-      ? currentValue
-      : `/${currentValue}`;
+    const formattedValue =
+      currentValue === ""
+        ? ""
+        : currentValue.startsWith("/")
+        ? currentValue
+        : `/${currentValue}`;
     setValue(formattedValue === value ? "" : formattedValue);
     setOpen(false);
     onSelect(formattedValue);
@@ -84,10 +92,13 @@ const LinkSelector: React.FC<LinkSelectorProps> = ({
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        value === `/${link.link}` ? "opacity-100" : "opacity-0"
+                        value === `/${link.link}` ||
+                          (value === "" && link.link === "")
+                          ? "opacity-100"
+                          : "opacity-0"
                       )}
                     />
-                    {`/${link.link}`}
+                    {link.link === "" ? "None" : `/${link.link}`}
                   </CommandItem>
                 ))}
               </CommandGroup>

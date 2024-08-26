@@ -24,7 +24,7 @@ function Design1({ section, pageId }: Design1Props) {
     section.style.designSettings.sectionBackground.color === "primary";
 
   const sectionBgClassName = cn(
-    " flex flex-col",
+    " flex flex-col pt-16",
     section.style.designSettings.sectionBackground.color === "primary"
       ? "bg-primary"
       : "",
