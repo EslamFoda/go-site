@@ -1,7 +1,7 @@
 import { Label } from "@/components/ui/label";
 import { Link } from "@/types/sectionsTypes/header";
 import { ChevronLeft, Trash2 } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 import EditText from "../../settingsUi/EditText";
 import { useAppSelector } from "@/reduxStore/hooks";
 import LinkSelector from "../../settingsUi/LinkSelector";
