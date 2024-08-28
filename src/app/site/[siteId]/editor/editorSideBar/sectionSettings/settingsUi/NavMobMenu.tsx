@@ -1,4 +1,5 @@
 import { Label } from "@/components/ui/label";
+import { MenuIcon1, MenuIcon2, MenuIcon3 } from "@/icons/common";
 import { MobileMenuIconType } from "@/types/sectionsTypes/header";
 import React from "react";
 interface NavMobMenuProps {
@@ -10,7 +11,7 @@ function NavMobMenu({ menuValue, onValueChange }: NavMobMenuProps) {
     <div className="space-y-1 flex items-center justify-between">
       <Label>Mobile</Label>
       <div className="border-muted-bg flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-        {["icon-1", "icon-2", "icon-3"].map((menuIcon) => (
+        {["icon-1", "icon-2", "icon-3"].map((menuIcon: any) => (
           <div
             key={menuIcon}
             onClick={() => {
@@ -37,65 +38,3 @@ function NavMobMenu({ menuValue, onValueChange }: NavMobMenuProps) {
 }
 
 export default NavMobMenu;
-const MenuIcon1 = ({ active }: { active: boolean }) => {
-  return (
-    <svg
-      data-v-90cc7c96=""
-      width={16}
-      height={16}
-      fill="none"
-      viewBox="0 0 24 25"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        data-v-90cc7c96=""
-        d="m2 4.5h20v2h-20v-2zm0 7h20v2h-20v-2zm0 7h20v2h-20v-2z"
-        clip-rule="evenodd"
-        className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
-        fill-rule="evenodd"
-      ></path>
-    </svg>
-  );
-};
-
-const MenuIcon2 = ({ active }: { active: boolean }) => {
-  return (
-    <svg
-      data-v-90cc7c96=""
-      width={16}
-      height={16}
-      fill="none"
-      viewBox="0 0 24 25"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        data-v-90cc7c96=""
-        d="m2 4.5h20v2h-20v-2zm0 7h12v2h-12v-2zm0 7h20v2h-20v-2z"
-        clip-rule="evenodd"
-        className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
-        fill-rule="evenodd"
-      ></path>
-    </svg>
-  );
-};
-
-const MenuIcon3 = ({ active }: { active: boolean }) => {
-  return (
-    <svg
-      width={16}
-      height={16}
-      data-v-90cc7c96=""
-      fill="none"
-      viewBox="0 0 24 25"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        data-v-90cc7c96=""
-        d="m2 4.5h20v2h-20v-2zm0 14h20v2h-20v-2z"
-        clip-rule="evenodd"
-        className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
-        fill-rule="evenodd"
-      ></path>
-    </svg>
-  );
-};

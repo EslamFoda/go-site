@@ -64,7 +64,6 @@ export function useSections() {
           sticky: false,
           float: false,
           shadow: false,
-          border: false,
           glass: false,
           scrollIndicator: false,
           autoHide: false,

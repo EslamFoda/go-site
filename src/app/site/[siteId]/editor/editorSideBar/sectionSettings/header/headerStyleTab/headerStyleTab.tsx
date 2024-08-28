@@ -46,7 +46,6 @@ function HeaderStyleTab({
 
   const {
     autoHide,
-    border,
     float,
     glass,
     logoColor,
@@ -90,7 +89,6 @@ function HeaderStyleTab({
 
     // If shadow is true, turn off border and glass
     if (value) {
-      newSettings.border = false;
       newSettings.glass = false;
     }
 
@@ -224,11 +222,6 @@ function HeaderStyleTab({
           label="Shadow"
           defaultChecked={shadow}
           onCheckedChange={handleShadowChange}
-        />
-        <SwitchSetting
-          label="Border"
-          defaultChecked={border}
-          onCheckedChange={handleBorderChange}
         />
         <SwitchSetting
           label="Glass"

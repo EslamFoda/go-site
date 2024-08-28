@@ -162,3 +162,87 @@ export const AccordionSectionLightIcon = () => (
     />
   </svg>
 );
+
+export const MenuIcon1 = ({
+  active,
+  className,
+}: {
+  active: boolean;
+  className?: string;
+}) => {
+  return (
+    <svg
+      data-v-90cc7c96=""
+      width={16}
+      height={16}
+      fill="none"
+      viewBox="0 0 24 25"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        data-v-90cc7c96=""
+        d="m2 4.5h20v2h-20v-2zm0 7h20v2h-20v-2zm0 7h20v2h-20v-2z"
+        clip-rule="evenodd"
+        className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
+        fill-rule="evenodd"
+      ></path>
+    </svg>
+  );
+};
+
+export const MenuIcon2 = ({
+  active,
+  className,
+}: {
+  active: boolean;
+  className?: string;
+}) => {
+  return (
+    <svg
+      data-v-90cc7c96=""
+      width={16}
+      height={16}
+      fill="none"
+      viewBox="0 0 24 25"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        data-v-90cc7c96=""
+        d="m2 4.5h20v2h-20v-2zm0 7h12v2h-12v-2zm0 7h20v2h-20v-2z"
+        clip-rule="evenodd"
+        className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
+        fill-rule="evenodd"
+      ></path>
+    </svg>
+  );
+};
+
+export const MenuIcon3 = ({
+  active,
+  className,
+}: {
+  active: boolean;
+  className?: string;
+}) => {
+  return (
+    <svg
+      width={16}
+      height={16}
+      data-v-90cc7c96=""
+      fill="none"
+      viewBox="0 0 24 25"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+    >
+      <path
+        data-v-90cc7c96=""
+        d="m2 4.5h20v2h-20v-2zm0 14h20v2h-20v-2z"
+        clip-rule="evenodd"
+        className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
+        fill-rule="evenodd"
+      ></path>
+    </svg>
+  );
+};

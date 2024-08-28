@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
-
 export type SubLink = {
   text: string;
   link: string;
@@ -48,7 +46,6 @@ type DesignSettings = {
   sticky: boolean;
   float: boolean;
   shadow: boolean;
-  border: boolean;
   glass: boolean;
   scrollIndicator: boolean;
   autoHide: boolean;
