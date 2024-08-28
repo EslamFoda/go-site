@@ -33,7 +33,7 @@ function Design4({ pageId, section }: Design4Props) {
   });
 
   const normalHeaderClassName = cn(
-    "bg-background transition-transform rounded-sm ease-linear",
+    "bg-background transition-transform ease-linear",
     {
       "fixed right-0  w-[calc(100vw_-_450px)] top-0 z-50 mt-12": sticky,
       "-translate-y-48": !isVisible && autoHide && sticky, // hide navbar when not visible
@@ -71,7 +71,7 @@ function Design4({ pageId, section }: Design4Props) {
   });
 
   const innerHeaderClassName = cn(
-    "grid grid-cols-2 lg:grid-cols-[1fr_auto_1fr] items-center gap-7 w-full bg-background px-5 h-20",
+    "grid grid-cols-2 rounded-sm lg:grid-cols-[1fr_auto_1fr] items-center gap-7 w-full bg-background px-5 h-20",
     {
       "shadow-lg": shadow && width === "fit",
       "bg-transparent": glass && width === "fill",

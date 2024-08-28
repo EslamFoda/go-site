@@ -33,7 +33,7 @@ function Design2({ pageId, section }: Design2Props) {
   });
 
   const normalHeaderClassName = cn(
-    "bg-background transition-transform rounded-sm ease-linear",
+    "bg-background transition-transform ease-linear",
     {
       "fixed right-0  w-[calc(100vw_-_450px)] top-0 z-50 mt-12": sticky,
       "-translate-y-48": !isVisible && autoHide && sticky, // hide navbar when not visible
@@ -71,7 +71,7 @@ function Design2({ pageId, section }: Design2Props) {
   });
 
   const innerHeaderClassName = cn(
-    "flex items-center justify-between w-full bg-background px-5 h-20",
+    "flex items-center rounded-sm justify-between w-full bg-background px-5 h-20",
     {
       "shadow-lg": shadow && width === "fit",
       "bg-transparent": glass && width === "fill",
