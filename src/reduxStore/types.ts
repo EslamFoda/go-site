@@ -6,7 +6,12 @@ import {
 } from "@/types/sectionsTypes/accordion";
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
 import { Card, CardStyle, CardsContent } from "@/types/sectionsTypes/cards";
-import { HeaderContent, HeaderStyle, Link } from "@/types/sectionsTypes/header";
+import {
+  HeaderContent,
+  HeaderStyle,
+  Link,
+  SubLink,
+} from "@/types/sectionsTypes/header";
 import { ListContent, ListItem, ListStyle } from "@/types/sectionsTypes/list";
 import {
   Testimonial,
@@ -58,6 +63,7 @@ export interface EditorStore {
     keyof SectionStyleTypes
   > | null;
   selectedItem: Card | ListItem | Accordion | Testimonial | Link | null;
+  selectedSubLink: SubLink | null;
   openSectionDesigns: boolean;
   openPallet: boolean;
   chooseIcon: boolean;

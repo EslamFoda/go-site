@@ -9,17 +9,17 @@ import { useAppDispatch } from "@/reduxStore/hooks";
 import { Accordion } from "@/types/sectionsTypes/accordion";
 import { SelectedItemType } from "@/types/common";
 import { Testimonial } from "@/types/sectionsTypes/testimonials";
-import { Link } from "@/types/sectionsTypes/header";
+import { Link, SubLink } from "@/types/sectionsTypes/header";
 interface DraggableListProps {
   label: string;
-  items: Card[] | ListItem[] | Accordion[] | Testimonial[] | Link[];
+  items: Card[] | ListItem[] | Accordion[] | Testimonial[] | Link[] | SubLink[];
   maxItems?: number; // Add the maxItems prop
   listType?: "testimonial";
   handleDragEnd: (result: any) => void;
   handleAdd: () => void;
-  updateSelectedItem: (item: SelectedItemType) => {
+  updateSelectedItem: (item: SelectedItemType | SubLink) => {
     type: string;
-    payload: SelectedItemType;
+    payload: SelectedItemType | SubLink;
   };
 }
 function DraggableList({

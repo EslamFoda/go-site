@@ -138,6 +138,7 @@ const initialState: EditorStore = {
   selectedSection: null,
   activePage: "",
   selectedItem: null,
+  selectedSubLink: null,
   sectionIndex: 0,
   chooseIcon: false,
   selectedPallet: "default-theme",
@@ -211,6 +212,11 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.UPDATE_SELECTED_ITEM: {
         draft.selectedItem = action.payload;
+        break;
+      }
+
+      case types.UPDATE_SELECTED_SUB_LINK: {
+        draft.selectedSubLink = action.payload;
         break;
       }
 

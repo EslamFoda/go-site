@@ -1,20 +1,39 @@
 import { Label } from "@/components/ui/label";
-import { Link } from "@/types/sectionsTypes/header";
+import { HeaderContent, Link, SubLink } from "@/types/sectionsTypes/header";
 import { ChevronLeft, Trash2 } from "lucide-react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import EditText from "../../settingsUi/EditText";
-import { useAppSelector } from "@/reduxStore/hooks";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import LinkSelector from "../../settingsUi/LinkSelector";
+import DraggableList from "@/components/ui/DraggableList";
+import {
+  updateContent,
+  updateSelectedItem,
+  updateSelectedSubLink,
+} from "@/reduxStore/action";
+import {
+  EditorSection,
+  SectionContentTypes,
+  SectionStyleTypes,
+} from "@/reduxStore/types";
+import { v4 } from "uuid";
 
 interface LinkItemProps {
   selectedLink: Link;
+  pageId: string;
   handleDeleteLink: () => void;
   clearLinkItem: () => void;
   handleUpdateLinkItem: (field: keyof Link, value: any) => void;
+  findSelectedSection: EditorSection<
+    keyof SectionContentTypes,
+    keyof SectionStyleTypes
+  >;
 }
 
 function LinkItem({
   selectedLink,
+  findSelectedSection,
+  pageId,
   handleDeleteLink,
   clearLinkItem,
   handleUpdateLinkItem,
@@ -22,6 +41,69 @@ function LinkItem({
   const {
     editor: { pages },
   } = useAppSelector((state) => state.editor);
+  const [items, setItems] = useState<SubLink[]>(selectedLink.subLinks || []);
+
+  const dispatch = useAppDispatch();
+  const headerContent = findSelectedSection.content as HeaderContent;
+
+  const handleAddSubLink = () => {
+    const newItem = {
+      id: v4(),
+      link: "",
+      text: `Sub Link ${items.length + 1}`,
+      openNewTab: false,
+    } as Link;
+
+    const newItems = [...items, newItem];
+    setItems(newItems); // Update the local state
+
+    // Update the selected link's subLinks
+    const updatedLinks = headerContent.links.map((link) => {
+      if (link.id === selectedLink.id) {
+        return {
+          ...link,
+          subLinks: items, // Use the updated items with the new sublink added
+        };
+      }
+      return link;
+    });
+
+    dispatch(
+      updateContent(pageId, findSelectedSection.id, {
+        links: updatedLinks,
+      })
+    );
+  };
+
+  const handleDragEnd = (result: any) => {
+    if (!result.destination) return; // dropped outside the list
+
+    const reorderedItems = Array.from(items);
+    const [movedItem] = reorderedItems.splice(result.source.index, 1);
+    reorderedItems.splice(result.destination.index, 0, movedItem);
+
+    setItems(reorderedItems); // Update the local state
+
+    const updatedLinks = headerContent.links.map((link) => {
+      if (link.id === selectedLink.id) {
+        return {
+          ...link,
+          subLinks: reorderedItems, // Use the reordered items
+        };
+      }
+      return link;
+    });
+
+    dispatch(
+      updateContent(pageId, findSelectedSection.id, {
+        links: updatedLinks,
+      })
+    );
+  };
+
+  useEffect(() => {
+    setItems(selectedLink.subLinks || []);
+  }, [selectedLink.subLinks]);
 
   return (
     <div className="space-y-2">
@@ -54,6 +136,15 @@ function LinkItem({
           }))}
           selectedLink={selectedLink.link}
           onSelect={(link) => handleUpdateLinkItem("link", link)}
+        />
+
+        <DraggableList
+          label="Dropdown Link"
+          maxItems={10}
+          handleDragEnd={handleDragEnd}
+          items={selectedLink.subLinks} // Use the local state items
+          handleAdd={handleAddSubLink}
+          updateSelectedItem={updateSelectedSubLink}
         />
       </div>
     </div>

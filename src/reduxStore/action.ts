@@ -1,3 +1,4 @@
+import { SubLink } from "@/types/sectionsTypes/header";
 import * as types from "./actionTypes";
 import {
   DesignSettings,
@@ -22,6 +23,11 @@ export const updateSelectedSection = (
 // Update selected item
 export const updateSelectedItem = (item: SelectedItemType) => ({
   type: types.UPDATE_SELECTED_ITEM,
+  payload: item,
+});
+
+export const updateSelectedSubLink = (item: SelectedItemType) => ({
+  type: types.UPDATE_SELECTED_SUB_LINK,
   payload: item,
 });
 

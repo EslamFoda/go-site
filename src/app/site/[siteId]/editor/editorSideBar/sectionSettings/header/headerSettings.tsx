@@ -8,12 +8,17 @@ import {
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import HeaderContentTab from "./headerContentTab";
 import Links from "./links";
-import { updateContent, updateSelectedItem } from "@/reduxStore/action";
-import { Link } from "@/types/sectionsTypes/header";
+import {
+  updateContent,
+  updateSelectedItem,
+  updateSelectedSubLink,
+} from "@/reduxStore/action";
+import { Link, SubLink as SubLinkType } from "@/types/sectionsTypes/header";
 import LinkItem from "./linkItem";
 import Announcement from "./announcement";
 import Buttons from "./buttons";
 import HeaderStyleTab from "./headerStyleTab";
+import SubLink from "./subLink";
 interface HeaderSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -24,9 +29,10 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
   const [openLinkTab, setOpenLinkTab] = useState(false);
   const [openAnnounceTab, setOpenAnnounceTab] = useState(false);
   const [openButtonTab, setOpenButtonsTab] = useState(false);
+  const [linksCopy, setLinksCopy] = useState<Link[]>([]);
   const [tabValue, setTabValue] = useState("content");
   const dispatch = useAppDispatch();
-  const { selectedSection, selectedItem } = useAppSelector(
+  const { selectedSection, selectedItem, selectedSubLink } = useAppSelector(
     (state) => state.editor
   );
 
@@ -39,6 +45,7 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
   const headerStyle = findSelectedSection?.style as SectionStyleTypes["header"];
   const links = headerContent?.links || [];
   const selectedLink = selectedItem as Link;
+  const selectedSubLinkItem = selectedSubLink as SubLinkType;
 
   const handleDeleteLink = () => {
     const filterLinks = links.filter(
@@ -51,8 +58,18 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
     dispatch(updateSelectedItem(null));
   };
 
+  const handleDeleteSubLink = () => {
+    const filterLinks = selectedLink?.subLinks?.filter(
+      (subLink: SubLinkType) => subLink.id !== selectedSubLinkItem?.id
+    );
+  };
+
   const clearLinkItem = () => {
     dispatch(updateSelectedItem(null));
+  };
+
+  const clearSubLinkItem = () => {
+    dispatch(updateSelectedSubLink(null));
   };
 
   const handleUpdateLinkItem = (field: keyof Link, value: any) => {
@@ -67,6 +84,31 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
     );
   };
 
+  const handleUpdateSubLinkItem = (field: keyof SubLinkType, value: any) => {
+    // Create a new array of links with updated subLinks
+    const updatedLinks = headerContent.links.map((link) => {
+      if (link.id === selectedLink.id) {
+        return {
+          ...link,
+          subLinks: link.subLinks.map((subLink) =>
+            subLink.id === selectedSubLinkItem.id
+              ? { ...subLink, [field]: value } // Return a new object for the updated subLink
+              : subLink
+          ),
+        };
+      }
+      return link;
+    });
+
+    // Update the selected subLink and content immutably
+    dispatch(updateSelectedSubLink({ ...selectedSubLinkItem, [field]: value }));
+    dispatch(
+      updateContent(pageId, findSelectedSection.id, {
+        links: [...updatedLinks],
+      }) // Use spread operator to ensure a new array reference
+    );
+  };
+
   if (openButtonTab)
     return (
       <Buttons
@@ -76,6 +118,17 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
       />
     );
 
+  if (selectedSubLink) {
+    return (
+      <SubLink
+        selectedSubLink={selectedSubLink}
+        clearSubLinkItem={clearSubLinkItem}
+        handleDeleteSubLink={handleDeleteSubLink}
+        handleUpdateSubLinkItem={handleUpdateSubLinkItem}
+      />
+    );
+  }
+
   if (selectedLink)
     return (
       <LinkItem
@@ -83,6 +136,8 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
         handleDeleteLink={handleDeleteLink}
         clearLinkItem={clearLinkItem}
         handleUpdateLinkItem={handleUpdateLinkItem}
+        findSelectedSection={findSelectedSection}
+        pageId={pageId}
       />
     );
 
