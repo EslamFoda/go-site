@@ -12,7 +12,7 @@ import {
   SectionStyleTypes,
 } from "@/reduxStore/types";
 import { useAppDispatch } from "@/reduxStore/hooks";
-import { HeaderContent, HeaderStyle } from "@/types/sectionsTypes/header";
+import { HeaderStyle } from "@/types/sectionsTypes/header";
 import { updateStyle } from "@/reduxStore/action";
 import LogoColor from "../../settingsUi/LogoColor";
 import NavMobMenu from "../../settingsUi/NavMobMenu";
@@ -32,17 +32,16 @@ interface HeaderStyleTabProps {
     keyof SectionStyleTypes
   >;
   headerStyle: HeaderStyle;
-  headerContent: HeaderContent;
   pageId: string;
 }
 
 function HeaderStyleTab({
   findSelectedSection,
-  headerContent,
   headerStyle,
   pageId,
 }: HeaderStyleTabProps) {
   const dispatch = useAppDispatch();
+  if (!headerStyle) return null;
 
   const {
     autoHide,
@@ -90,21 +89,6 @@ function HeaderStyleTab({
     // If shadow is true, turn off border and glass
     if (value) {
       newSettings.glass = false;
-    }
-
-    dispatch(
-      updateStyle(pageId, findSelectedSection?.id, {
-        designSettings: newSettings,
-      })
-    );
-  };
-
-  const handleBorderChange = (value: boolean) => {
-    let newSettings = { ...headerStyle.designSettings, border: value };
-
-    // If border is true, turn off shadow
-    if (value) {
-      newSettings.shadow = false;
     }
 
     dispatch(

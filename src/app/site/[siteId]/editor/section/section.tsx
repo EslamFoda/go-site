@@ -45,7 +45,15 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   return (
     <div>
       {currentPage.sections.map((section, i) => {
+        if (
+          section.sectionName === "Header" &&
+          !currentPage.pageSettings.showHeader
+        ) {
+          return null; // Skip rendering the Header section
+        }
+
         const SectionComponent = sectionsMapper[section.sectionName];
+
         return (
           <HoverCard
             key={section.id}

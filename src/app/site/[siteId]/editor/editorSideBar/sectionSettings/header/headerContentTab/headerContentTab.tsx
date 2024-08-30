@@ -1,7 +1,12 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
-import { updateContent, updatePageSetting } from "@/reduxStore/action";
+import {
+  updateContent,
+  updateEditorSections,
+  updatePageSetting,
+  updateSelectedSection,
+} from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
   EditorPage,
@@ -104,6 +109,25 @@ function HeaderContentTab({
                 showHeader: value,
               })
             );
+            // remove header section
+
+            // const findPage = pages.find((page) => page.pageId === pageId);
+            // if (!findPage) return;
+            // const removeHeaderSection = findPage.sections.filter(
+            //   (section) => section.sectionName !== "Header"
+            // );
+            // // EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
+            // if (value) {
+            //   // dispatch(
+            //   //   updateEditorSections(pageId, [
+            //   //     ...removeHeaderSection,
+            //   //     { ...findSelectedSection, sectionName: "Header" },
+            //   //   ])
+            //   // );
+            // } else {
+            //   dispatch(updateEditorSections(pageId, removeHeaderSection));
+            //   dispatch(updateSelectedSection(pageId, null));
+            // }
           }}
         />
       </div>

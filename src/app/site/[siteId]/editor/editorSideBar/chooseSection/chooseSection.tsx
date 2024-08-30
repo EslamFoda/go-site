@@ -14,6 +14,7 @@ import {
 import {
   closeSectionDesigns,
   updateEditorSections,
+  updatePageSetting,
   updateSelectedSection,
 } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
@@ -27,9 +28,8 @@ function ChooseSection() {
   const page = useAppSelector((state) =>
     state.editor.editor.pages.find((page) => page.pageId === activePageId)
   );
-  const hasHeaderSection = page?.sections.some(
-    (section) => section.sectionName === "Header"
-  );
+  const showHeader = page?.pageSettings.showHeader;
+
   const { theme } = useTheme();
   const dispatch = useAppDispatch();
   const { sections } = useSections();
@@ -72,29 +72,32 @@ function ChooseSection() {
 
   const handleChooseSection = (section: any) => {
     let newSections = [...page.sections];
-    console.log(section, "section");
 
     if (section.sectionName === "Header") {
-      newSections = [section, ...newSections];
+      dispatch(closeSectionDesigns());
+      dispatch(
+        updatePageSetting(activePageId, {
+          ...page.pageSettings,
+          showHeader: true,
+        })
+      );
+      dispatch(updateSelectedSection(activePageId, page.sections[0].id));
     } else {
       if (sectionIndex < 0 || sectionIndex >= page.sections.length) {
         return newSections;
       }
       newSections.splice(sectionIndex + 1, 0, section);
+      dispatch(closeSectionDesigns());
+      dispatch(updateEditorSections(activePageId, newSections));
+      dispatch(updateSelectedSection(activePageId, section.id));
     }
-
-    dispatch(closeSectionDesigns());
-    dispatch(updateEditorSections(activePageId, newSections));
-    dispatch(updateSelectedSection(activePageId, section.id));
   };
-
-  const filteredSections = hasHeaderSection
-    ? sections.filter((section) => section.sectionName !== "Header")
-    : sections;
 
   return (
     <div className="p-5 space-y-3">
-      {filteredSections.map((section) => {
+      {sections.map((section) => {
+        if (section.sectionName === "Header" && showHeader) return null;
+
         const { Icon, desc } = SectionIcons[section.sectionName];
         return (
           <div

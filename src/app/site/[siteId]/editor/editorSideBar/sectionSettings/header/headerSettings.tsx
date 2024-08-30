@@ -29,7 +29,6 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
   const [openLinkTab, setOpenLinkTab] = useState(false);
   const [openAnnounceTab, setOpenAnnounceTab] = useState(false);
   const [openButtonTab, setOpenButtonsTab] = useState(false);
-  const [linksCopy, setLinksCopy] = useState<Link[]>([]);
   const [tabValue, setTabValue] = useState("content");
   const dispatch = useAppDispatch();
   const { selectedSection, selectedItem, selectedSubLink } = useAppSelector(
@@ -62,6 +61,16 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
     const filterLinks = selectedLink?.subLinks?.filter(
       (subLink: SubLinkType) => subLink.id !== selectedSubLinkItem?.id
     );
+
+    dispatch(
+      updateContent(pageId, findSelectedSection.id, {
+        links: links.map((link) =>
+          link.id === selectedLink?.id
+            ? { ...link, subLinks: filterLinks }
+            : link
+        ),
+      })
+    );
   };
 
   const clearLinkItem = () => {
@@ -70,18 +79,6 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
 
   const clearSubLinkItem = () => {
     dispatch(updateSelectedSubLink(null));
-  };
-
-  const handleUpdateLinkItem = (field: keyof Link, value: any) => {
-    const updatedLinks = links.map((linkItem) =>
-      linkItem.id === selectedLink.id
-        ? { ...linkItem, [field]: value }
-        : linkItem
-    );
-    dispatch(updateSelectedItem({ ...selectedLink, [field]: value }));
-    dispatch(
-      updateContent(pageId, findSelectedSection.id, { links: updatedLinks })
-    );
   };
 
   const handleUpdateSubLinkItem = (field: keyof SubLinkType, value: any) => {
@@ -132,11 +129,10 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
   if (selectedLink)
     return (
       <LinkItem
-        selectedLink={selectedLink}
+        selectedLinkId={selectedLink.id}
         handleDeleteLink={handleDeleteLink}
         clearLinkItem={clearLinkItem}
-        handleUpdateLinkItem={handleUpdateLinkItem}
-        findSelectedSection={findSelectedSection}
+        sectionId={findSelectedSection.id}
         pageId={pageId}
       />
     );
@@ -179,7 +175,6 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
         />
         <HeaderStyleTab
           findSelectedSection={findSelectedSection}
-          headerContent={headerContent}
           headerStyle={headerStyle}
           pageId={pageId}
         />

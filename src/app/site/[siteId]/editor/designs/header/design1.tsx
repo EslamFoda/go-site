@@ -5,6 +5,12 @@ import { cn } from "@/lib/utils";
 import { updateSelectedSection } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { HeaderContent, HeaderStyle } from "@/types/sectionsTypes/header";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { ChevronDown } from "lucide-react";
 
 interface Design1Props {
   section: any;
@@ -18,11 +24,17 @@ function Design1({ pageId, section }: Design1Props) {
   const { sticky, float, autoHide, width, shadow, glass, scrollIndicator } =
     headerStyle.designSettings;
 
-
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [hoveringIndex, setHoveringIndex] = useState<number | null>(null);
+  const handleMouseEnter = (index: number) => {
+    setHoveringIndex(index);
+  };
 
+  const handleMouseLeave = () => {
+    setHoveringIndex(null);
+  };
   const NavIcon = {
     "icon-1": <MenuIcon1 className="animate-fadeIn" active={false} />,
     "icon-2": <MenuIcon2 className="animate-fadeIn" active={false} />,
@@ -131,13 +143,47 @@ function Design1({ pageId, section }: Design1Props) {
             <div className="flex items-center gap-5">
               <h2 className={logoClassNames}>{headerContent.Logo.text}</h2>
               <nav className="hidden lg:flex gap-7 group">
-                {headerContent.links.map((link) => (
-                  <span
-                    key={link.id}
-                    className="cursor-pointer whitespace-nowrap group-hover:text-muted-foreground transition-colors hover:!text-secondary-foreground"
-                  >
-                    {link.text}
-                  </span>
+                {headerContent.links.map((link, i) => (
+                  <HoverCard key={link.id} closeDelay={100} openDelay={100}>
+                    <HoverCardTrigger
+                      onMouseEnter={() => handleMouseEnter(i)}
+                      onMouseLeave={handleMouseLeave}
+                      onMouseOver={() => handleMouseEnter(i)}
+                      className={`flex items-center gap-1 cursor-pointer  whitespace-nowrap group-hover:text-muted-foreground transition-colors hover:!text-secondary-foreground ${
+                        hoveringIndex === i && "!text-secondary-foreground"
+                      }`}
+                    >
+                      <span key={link.id}>{link.text}</span>
+                      {link.subLinks.length > 0 && (
+                        <span>
+                          <ChevronDown
+                            size={16}
+                            className={`${
+                              hoveringIndex === i && "rotate-180"
+                            } transition-transform ease-in-out`}
+                          />
+                        </span>
+                      )}
+                    </HoverCardTrigger>
+                    {link.subLinks.length ? (
+                      <HoverCardContent
+                        onMouseEnter={() => handleMouseEnter(i)}
+                        onMouseLeave={handleMouseLeave}
+                        onMouseOver={() => handleMouseEnter(i)}
+                        className="flex flex-col gap-2 p-1"
+                        align="start"
+                      >
+                        {link.subLinks.map((subLink) => (
+                          <span
+                            key={subLink.id}
+                            className="cursor-pointer whitespace-nowrap hover:bg-muted py-1 px-2"
+                          >
+                            {subLink.text}
+                          </span>
+                        ))}
+                      </HoverCardContent>
+                    ) : null}
+                  </HoverCard>
                 ))}
               </nav>
             </div>
@@ -166,13 +212,47 @@ function Design1({ pageId, section }: Design1Props) {
         <div className="flex items-center gap-5">
           <h2 className={logoClassNames}>{headerContent.Logo.text}</h2>
           <nav className="hidden lg:flex gap-7 group">
-            {headerContent.links.map((link) => (
-              <span
-                key={link.id}
-                className="cursor-pointer whitespace-nowrap group-hover:text-muted-foreground transition-colors hover:!text-secondary-foreground"
-              >
-                {link.text}
-              </span>
+            {headerContent.links.map((link, i) => (
+              <HoverCard key={link.id} closeDelay={100} openDelay={100}>
+                <HoverCardTrigger
+                  onMouseEnter={() => handleMouseEnter(i)}
+                  onMouseLeave={handleMouseLeave}
+                  onMouseOver={() => handleMouseEnter(i)}
+                  className={`flex items-center gap-1 cursor-pointer  whitespace-nowrap group-hover:text-muted-foreground transition-colors hover:!text-secondary-foreground ${
+                    hoveringIndex === i && "!text-secondary-foreground"
+                  }`}
+                >
+                  <span key={link.id}>{link.text}</span>
+                  {link.subLinks.length > 0 && (
+                    <span>
+                      <ChevronDown
+                        size={16}
+                        className={`${
+                          hoveringIndex === i && "rotate-180"
+                        } transition-transform ease-in-out`}
+                      />
+                    </span>
+                  )}
+                </HoverCardTrigger>
+                {link.subLinks.length ? (
+                  <HoverCardContent
+                    onMouseEnter={() => handleMouseEnter(i)}
+                    onMouseLeave={handleMouseLeave}
+                    onMouseOver={() => handleMouseEnter(i)}
+                    className="flex flex-col gap-2 p-1"
+                    align="start"
+                  >
+                    {link.subLinks.map((subLink) => (
+                      <span
+                        key={subLink.id}
+                        className="cursor-pointer whitespace-nowrap hover:bg-muted py-1 px-2"
+                      >
+                        {subLink.text}
+                      </span>
+                    ))}
+                  </HoverCardContent>
+                ) : null}
+              </HoverCard>
             ))}
           </nav>
         </div>

@@ -73,6 +73,74 @@ function CreateSiteModal({
               sections: [
                 {
                   id: v4(),
+                  sectionName: "Header",
+                  content: {
+                    Logo: {
+                      type: "text",
+                      text: "logo",
+                    },
+                    logo: {
+                      link: "",
+                      openNewTab: false,
+                    },
+                    links: [
+                      {
+                        text: "link 2",
+                        link: "",
+                        id: v4(),
+                        openNewTab: false,
+                        subLinks: [],
+                      },
+                      {
+                        text: "link 3",
+                        link: "",
+                        id: v4(),
+                        openNewTab: false,
+                        subLinks: [],
+                      },
+                      {
+                        text: "link 4",
+                        link: "",
+                        id: v4(),
+                        openNewTab: false,
+                        subLinks: [],
+                      },
+                    ],
+                    buttons: [
+                      {
+                        text: "button 1",
+                        link: "",
+                        id: v4(),
+                      },
+                      {
+                        text: "button 2",
+                        link: "",
+                        id: v4(),
+                      },
+                    ],
+                    announcement: {
+                      position: "above", // above, below
+                      text: "",
+                      link: "",
+                    },
+                  },
+                  style: {
+                    designName: "design1",
+                    designSettings: {
+                      logoColor: "none",
+                      mobileMenuIcon: "icon-1", // icon-1, icon-2, icon-3
+                      width: "fill", // fill , fit
+                      sticky: false,
+                      float: false,
+                      shadow: false,
+                      glass: false,
+                      scrollIndicator: false,
+                      autoHide: false,
+                    },
+                  },
+                },
+                {
+                  id: v4(),
                   sectionName: "Banner",
                   content: {
                     label: "",

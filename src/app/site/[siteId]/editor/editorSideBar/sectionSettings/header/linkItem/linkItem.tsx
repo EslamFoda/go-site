@@ -1,109 +1,80 @@
 import { Label } from "@/components/ui/label";
 import { HeaderContent, Link, SubLink } from "@/types/sectionsTypes/header";
 import { ChevronLeft, Trash2 } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import EditText from "../../settingsUi/EditText";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import LinkSelector from "../../settingsUi/LinkSelector";
 import DraggableList from "@/components/ui/DraggableList";
-import {
-  updateContent,
-  updateSelectedItem,
-  updateSelectedSubLink,
-} from "@/reduxStore/action";
-import {
-  EditorSection,
-  SectionContentTypes,
-  SectionStyleTypes,
-} from "@/reduxStore/types";
+import { updateContent, updateSelectedSubLink } from "@/reduxStore/action";
 import { v4 } from "uuid";
 
 interface LinkItemProps {
-  selectedLink: Link;
+  selectedLinkId: string;
   pageId: string;
   handleDeleteLink: () => void;
   clearLinkItem: () => void;
-  handleUpdateLinkItem: (field: keyof Link, value: any) => void;
-  findSelectedSection: EditorSection<
-    keyof SectionContentTypes,
-    keyof SectionStyleTypes
-  >;
+  sectionId: string;
 }
 
 function LinkItem({
-  selectedLink,
-  findSelectedSection,
+  selectedLinkId,
   pageId,
+  sectionId,
   handleDeleteLink,
   clearLinkItem,
-  handleUpdateLinkItem,
 }: LinkItemProps) {
-  const {
-    editor: { pages },
-  } = useAppSelector((state) => state.editor);
-  const [items, setItems] = useState<SubLink[]>(selectedLink.subLinks || []);
-
   const dispatch = useAppDispatch();
-  const headerContent = findSelectedSection.content as HeaderContent;
+  const { editor } = useAppSelector((state) => state.editor);
+  const page = editor.pages.find((page) => page.pageId === pageId);
+  const section = page?.sections.find((section) => section.id === sectionId);
+  const headerContent = section?.content as HeaderContent;
+  const selectedLink = headerContent?.links.find(
+    (link) => link.id === selectedLinkId
+  );
+
+  if (!selectedLink) return null;
+
+  const handleUpdateLinkItem = (field: keyof Link, value: any) => {
+    const updatedLinks = headerContent.links.map((link) =>
+      link.id === selectedLinkId ? { ...link, [field]: value } : link
+    );
+
+    dispatch(updateContent(pageId, sectionId, { links: updatedLinks }));
+  };
 
   const handleAddSubLink = () => {
-    const newItem = {
+    const newSubLink: SubLink = {
       id: v4(),
       link: "",
-      text: `Sub Link ${items.length + 1}`,
-      openNewTab: false,
-    } as Link;
+      text: `Sub Link ${(selectedLink.subLinks?.length || 0) + 1}`,
+    };
 
-    const newItems = [...items, newItem];
-    setItems(newItems); // Update the local state
-
-    // Update the selected link's subLinks
-    const updatedLinks = headerContent.links.map((link) => {
-      if (link.id === selectedLink.id) {
-        return {
-          ...link,
-          subLinks: items, // Use the updated items with the new sublink added
-        };
-      }
-      return link;
-    });
-
-    dispatch(
-      updateContent(pageId, findSelectedSection.id, {
-        links: updatedLinks,
-      })
+    const updatedLinks = headerContent.links.map((link) =>
+      link.id === selectedLinkId
+        ? { ...link, subLinks: [...(link.subLinks || []), newSubLink] }
+        : link
     );
+
+    dispatch(updateContent(pageId, sectionId, { links: updatedLinks }));
   };
 
   const handleDragEnd = (result: any) => {
-    if (!result.destination) return; // dropped outside the list
-
-    const reorderedItems = Array.from(items);
-    const [movedItem] = reorderedItems.splice(result.source.index, 1);
-    reorderedItems.splice(result.destination.index, 0, movedItem);
-
-    setItems(reorderedItems); // Update the local state
+    if (!result.destination) return;
 
     const updatedLinks = headerContent.links.map((link) => {
-      if (link.id === selectedLink.id) {
-        return {
-          ...link,
-          subLinks: reorderedItems, // Use the reordered items
-        };
+      if (link.id === selectedLinkId) {
+        const reorderedSubLinks = Array.from(link.subLinks || []);
+        const [movedItem] = reorderedSubLinks.splice(result.source.index, 1);
+        reorderedSubLinks.splice(result.destination.index, 0, movedItem);
+
+        return { ...link, subLinks: reorderedSubLinks };
       }
       return link;
     });
 
-    dispatch(
-      updateContent(pageId, findSelectedSection.id, {
-        links: updatedLinks,
-      })
-    );
+    dispatch(updateContent(pageId, sectionId, { links: updatedLinks }));
   };
-
-  useEffect(() => {
-    setItems(selectedLink.subLinks || []);
-  }, [selectedLink.subLinks]);
 
   return (
     <div className="space-y-2">
@@ -130,7 +101,7 @@ function LinkItem({
         />
         <LinkSelector
           label="Link"
-          links={pages.map((page) => ({
+          links={editor.pages.map((page) => ({
             id: page.pageId,
             link: page.pageSettings.link,
           }))}
@@ -142,7 +113,7 @@ function LinkItem({
           label="Dropdown Link"
           maxItems={10}
           handleDragEnd={handleDragEnd}
-          items={selectedLink.subLinks} // Use the local state items
+          items={selectedLink.subLinks || []}
           handleAdd={handleAddSubLink}
           updateSelectedItem={updateSelectedSubLink}
         />
