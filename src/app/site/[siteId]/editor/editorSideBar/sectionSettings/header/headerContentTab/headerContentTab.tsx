@@ -109,25 +109,6 @@ function HeaderContentTab({
                 showHeader: value,
               })
             );
-            // remove header section
-
-            // const findPage = pages.find((page) => page.pageId === pageId);
-            // if (!findPage) return;
-            // const removeHeaderSection = findPage.sections.filter(
-            //   (section) => section.sectionName !== "Header"
-            // );
-            // // EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
-            // if (value) {
-            //   // dispatch(
-            //   //   updateEditorSections(pageId, [
-            //   //     ...removeHeaderSection,
-            //   //     { ...findSelectedSection, sectionName: "Header" },
-            //   //   ])
-            //   // );
-            // } else {
-            //   dispatch(updateEditorSections(pageId, removeHeaderSection));
-            //   dispatch(updateSelectedSection(pageId, null));
-            // }
           }}
         />
       </div>
