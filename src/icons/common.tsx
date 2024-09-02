@@ -183,9 +183,9 @@ export const MenuIcon1 = ({
       <path
         data-v-90cc7c96=""
         d="m2 4.5h20v2h-20v-2zm0 7h20v2h-20v-2zm0 7h20v2h-20v-2z"
-        clip-rule="evenodd"
+        clipRule="evenodd"
         className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
-        fill-rule="evenodd"
+        fillRule="evenodd"
       ></path>
     </svg>
   );
@@ -211,9 +211,9 @@ export const MenuIcon2 = ({
       <path
         data-v-90cc7c96=""
         d="m2 4.5h20v2h-20v-2zm0 7h12v2h-12v-2zm0 7h20v2h-20v-2z"
-        clip-rule="evenodd"
+        clipRule="evenodd"
         className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
-        fill-rule="evenodd"
+        fillRule="evenodd"
       ></path>
     </svg>
   );
@@ -239,9 +239,9 @@ export const MenuIcon3 = ({
       <path
         data-v-90cc7c96=""
         d="m2 4.5h20v2h-20v-2zm0 14h20v2h-20v-2z"
-        clip-rule="evenodd"
+        clipRule="evenodd"
         className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
-        fill-rule="evenodd"
+        fillRule="evenodd"
       ></path>
     </svg>
   );
