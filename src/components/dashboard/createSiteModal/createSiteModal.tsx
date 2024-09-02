@@ -59,6 +59,10 @@ function CreateSiteModal({
       const cardsResult = await AIChatSession.sendMessage(cardsPrompt);
       const generateCards = JSON.parse(cardsResult.response.text());
 
+      const accordionPrompt = `Generate engaging Accordion content for a website called "${siteDescription}". Include a title, subtitle, and a list of 4 accordions, each accordion has a title, text`;
+      const accordionResult = await AIChatSession.sendMessage(accordionPrompt);
+      const generateAccordion = JSON.parse(accordionResult.response.text());
+
       const testimonialsPrompt = `Generate engaging Testimonial content for a website called "${siteName}". Include a title, subtitle, and a list of 3 testimonials, each testimonial has a review mentioning "${siteName}", name, bio, rating from 1 to 5, and an empty link.`;
       const testimonialsResult = await AIChatSession.sendMessage(
         testimonialsPrompt
@@ -90,6 +94,13 @@ function CreateSiteModal({
                 unsplashResponseUsers.response?.results[i]?.urls.regular || "",
             })
           ),
+        },
+        accordions: {
+          ...generateAccordion,
+          accordions: generateAccordion.accordions.map((accordion: any) => ({
+            ...accordion,
+            id: v4(),
+          })),
         },
       };
     } catch (error) {
@@ -337,6 +348,34 @@ function CreateSiteModal({
                         autoScroll: false,
                         scrollSpeed: 2,
                       },
+                      sectionBackground: {
+                        color: "none",
+                        media: "",
+                        height: "fit",
+                        spacing: "l",
+                      },
+                    },
+                  },
+                },
+                {
+                  id: v4(),
+                  sectionName: "Accordion",
+                  content: {
+                    label: "",
+                    title:
+                      generatedData.accordions.title || "Heading",
+                    subtitle: generatedData.accordions.subtitle || "",
+                    accordions:
+                      generatedData.accordions.accordions || [],
+                  },
+                  style: {
+                    designName: "design1",
+                    designSettings: {
+                      icon: "arrow",
+                      align: "start",
+                      background: true,
+                      border: false,
+                      leftTitlePosition: false,
                       sectionBackground: {
                         color: "none",
                         media: "",
