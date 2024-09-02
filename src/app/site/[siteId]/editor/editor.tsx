@@ -8,11 +8,14 @@ import EditorSidebar from "./editorSideBar";
 import { Toaster } from "@/components/ui/sonner";
 import ThemeToggle from "@/components/themeToggle";
 import Link from "next/link";
+import { useAppDispatch } from "@/reduxStore/hooks";
+import { closeSideBar } from "@/reduxStore/action";
 function Editor({ children }: { children: React.ReactNode }) {
+  const dispatch = useAppDispatch();
   return (
     <div className="grid h-screen w-full pl-[46px]">
       <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
-        <div className="border-b p-2">
+        <div className="border-b p-2" onClick={() => dispatch(closeSideBar())}>
           <Link href="/">
             <Button variant="outline" size="icon" aria-label="Home">
               <Triangle className="size-5 fill-foreground" />

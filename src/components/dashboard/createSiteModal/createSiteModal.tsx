@@ -17,6 +17,8 @@ import { v4 } from "uuid";
 import { createClient } from "@/utlis/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { AIChatSession } from "../../../services/AImodal";
+import { unsplashClient } from "@/helper/unsplash/unsplashClient";
 
 interface CreateSiteModalProps {
   children: React.ReactNode;
@@ -31,21 +33,83 @@ function CreateSiteModal({
   setSites,
 }: CreateSiteModalProps) {
   const [siteName, setSiteName] = React.useState("");
+  const [siteDescription, setSiteDescription] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
+  const generateBannerAi = async () => {
+    try {
+      const prompt = `Generate engaging banner content for a website called "${siteDescription}". Include a title, subtitle, and a call to action.`;
+      const result = await AIChatSession.sendMessage(prompt);
+      const generateBanner = JSON.parse(result.response.text());
+
+      const unsplashResponse = await unsplashClient.search.getPhotos({
+        query: siteDescription,
+        page: 1,
+      });
+
+      const unsplashResponseUsers = await unsplashClient.search.getPhotos({
+        query: siteDescription + " Random person",
+        page: 1,
+      });
+
+      const cardsPrompt = `Generate engaging Card content for a website called "${siteDescription}". Include a title, subtitle, and a list of 3 cards, each card has a title, text, buttonColor ("gray" or "primary"), and a button with text and an empty link.`;
+      const cardsResult = await AIChatSession.sendMessage(cardsPrompt);
+      const generateCards = JSON.parse(cardsResult.response.text());
+
+      const testimonialsPrompt = `Generate engaging Testimonial content for a website called "${siteName}". Include a title, subtitle, and a list of 3 testimonials, each testimonial has a review mentioning "${siteName}", name, bio, rating from 1 to 5, and an empty link.`;
+      const testimonialsResult = await AIChatSession.sendMessage(
+        testimonialsPrompt
+      );
+      const generateTestimonials = JSON.parse(
+        testimonialsResult.response.text()
+      );
+
+      const generatedImage = unsplashResponse.response?.results[0].urls.regular;
+
+      return {
+        banner: { ...generateBanner, imageUrl: generatedImage },
+        cards: {
+          ...generateCards,
+          cards: generateCards.cards.map((card: any, i: number) => ({
+            ...card,
+            id: v4(),
+            image:
+              unsplashResponse.response?.results[i + 1]?.urls.regular || "",
+          })),
+        },
+        testimonials: {
+          ...generateTestimonials,
+          testimonials: generateTestimonials.testimonials.map(
+            (testimonial: any, i: number) => ({
+              ...testimonial,
+              id: v4(),
+              avatar:
+                unsplashResponseUsers.response?.results[i]?.urls.regular || "",
+            })
+          ),
+        },
+      };
+    } catch (error) {
+      console.error("Error generating content:", error);
+    }
+  };
+
   const createSite = async () => {
-    if (!siteName) {
+    if (!siteName || !siteDescription) {
       toast({
         title: "Error",
-        description: "Site name is required",
+        description: "Please enter site name and description",
         variant: "destructive",
       });
       return;
     }
     setLoading(true);
+    const generatedData = await generateBannerAi();
+    console.log(generatedData, "generatedData");
+    if (!generatedData) return;
     const siteId = v4();
     const homePageId = v4();
     const settings = {
@@ -67,6 +131,7 @@ function CreateSiteModal({
           owner_id: user?.id,
           deployed: false,
           siteId: siteId,
+
           pages: [
             {
               pageId: homePageId,
@@ -144,16 +209,28 @@ function CreateSiteModal({
                   sectionName: "Banner",
                   content: {
                     label: "",
-                    title: "ana mabdon",
+                    title: generatedData.banner.title || "ana mabdon",
                     subtitle:
+                      generatedData.banner.subtitle ||
                       "Eslam helps you build the best products for your customers. With our expertise and experience, we can help you take your ideas from concept to reality",
                     mediaType: "image",
-                    imageSetting: { imageUrl: "", altText: "" },
+                    imageSetting: {
+                      imageUrl: generatedData.banner.imageUrl,
+                      altText: generatedData.banner.imageUrl,
+                    },
                     videoSetting: { videoUrl: "" },
                     actionType: "buttons",
                     buttons: {
-                      primaryButton: { text: "start your journey" },
-                      secondaryButton: { text: "learn more" },
+                      primaryButton: {
+                        text:
+                          generatedData.banner?.buttons?.primaryButton?.text ||
+                          "start your journey",
+                      },
+                      secondaryButton: {
+                        text:
+                          generatedData.banner.buttons?.secondaryButton?.text ||
+                          "learn more",
+                      },
                     },
                   },
                   style: {
@@ -161,7 +238,7 @@ function CreateSiteModal({
                     designSettings: {
                       titleSize: "l",
                       align: "center",
-                      subtitleWidth: "50%",
+                      subtitleWidth: "80%",
                       height: "460px",
                       video: true,
                       leftTitlePosition: false,
@@ -179,6 +256,92 @@ function CreateSiteModal({
                         objectFit: "cover",
                         backgroundColor: "primary",
                         showImage: true,
+                      },
+                    },
+                  },
+                },
+                {
+                  id: v4(),
+                  sectionName: "Cards",
+                  content: {
+                    label: "",
+                    title: generatedData.cards.title || "Heading",
+                    subtitle: generatedData.cards.subtitle || "",
+                    cards: generatedData.cards.cards || [],
+                  },
+                  style: {
+                    designName: "design1",
+                    designSettings: {
+                      layout: "top",
+                      layoutV2: "bottom",
+                      grid: {
+                        desktop: 3,
+                        mobile: 1,
+                      },
+                      height: {
+                        desktop: 300,
+                        mobile: 300,
+                      },
+                      titleSize: "m",
+                      align: "start",
+                      image: true,
+                      cardBackground: true,
+                      cardBorder: false,
+                      leftTitlePosition: false,
+                      displayType: "grid",
+                      cardSlider: {
+                        desktopWidth: 300,
+                        mobileWidth: 300,
+                        autoScroll: false,
+                        scrollSpeed: 2,
+                      },
+                      button: true,
+                      sectionBackground: {
+                        color: "none",
+                        media: "",
+                        height: "fit",
+                        spacing: "l",
+                      },
+                    },
+                  },
+                },
+                {
+                  id: v4(),
+                  sectionName: "Testimonials",
+                  content: {
+                    label: "",
+                    title: generatedData.testimonials.title || "Heading",
+                    subtitle: generatedData.testimonials.subtitle || "",
+                    iconType: "star",
+                    testimonials: generatedData.testimonials.testimonials || [],
+                  },
+                  style: {
+                    designName: "design1",
+                    designSettings: {
+                      textSize: "m",
+                      displayType: "grid",
+                      grid: {
+                        desktop: 3,
+                        mobile: 1,
+                      },
+                      shape: "square",
+                      align: "start",
+                      background: true,
+                      border: false,
+                      avatar: true,
+                      rating: true,
+                      leftTitlePosition: false,
+                      carouselSettings: {
+                        desktopWidth: 350,
+                        mobileWidth: 300,
+                        autoScroll: false,
+                        scrollSpeed: 2,
+                      },
+                      sectionBackground: {
+                        color: "none",
+                        media: "",
+                        height: "fit",
+                        spacing: "l",
                       },
                     },
                   },
@@ -298,6 +461,7 @@ function CreateSiteModal({
       setSites([data[0], ...(sites || [])]);
       setOpen(false);
       setSiteName("");
+      setSiteDescription("");
       setLoading(false);
       router.push(`/site/${data[0].siteId}/editor`);
     }
@@ -313,12 +477,19 @@ function CreateSiteModal({
         <DialogHeader className="items-center">
           <DialogTitle>Site Name</DialogTitle>
         </DialogHeader>
-        <div className="py-5">
+        <div className="py-5 space-y-4">
           <Input
             id="siteName"
             value={siteName}
             onChange={(e) => setSiteName(e.target.value)}
             placeholder="Your site name or brand name"
+            className="focus-visible:ring-0 focus-visible:ring-transparent"
+          />
+          <Input
+            id="description"
+            value={siteDescription}
+            onChange={(e) => setSiteDescription(e.target.value)}
+            placeholder="Select category or industry..."
             className="focus-visible:ring-0 focus-visible:ring-transparent"
           />
         </div>

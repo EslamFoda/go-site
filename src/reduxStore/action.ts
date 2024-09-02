@@ -166,3 +166,7 @@ export const updatePageSetting = (
   type: types.UPDATE_PAGE_SETTING,
   payload: { pageId, newSettings },
 });
+
+export const closeSideBar = () => ({
+  type: types.CLOSE_SIDEBAR,
+});

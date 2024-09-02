@@ -414,6 +414,16 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         break;
       }
 
+      case types.CLOSE_SIDEBAR: {
+        draft.openPallet = false;
+        draft.openSectionDesigns = false;
+        draft.chooseIcon = false;
+        draft.selectedSection = null;
+        draft.openPageSetting = false;
+        draft.openPages = true;
+        break;
+      }
+
       default:
         return state;
     }

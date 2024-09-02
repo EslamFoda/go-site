@@ -117,6 +117,20 @@ function Design1({ section, pageId }: DesignProps) {
     }
   );
 
+  const imgContainerClassNames = cn(
+    "flex items-center h-10 w-10  self-baseline  justify-center shrink-0",
+    {
+      "rounded-md": testimonialStyle.designSettings.shape === "square",
+      "rounded-full": testimonialStyle.designSettings.shape === "rounded",
+      // "bg-background": testimonialStyle.designSettings.iconColor === "none",
+      // "bg-primary": testimonialStyle.designSettings.iconColor === "primary",
+      // hidden: !testimonialStyle.designSettings.icon,
+      // "bg-muted":
+      //   testimonialStyle.designSettings.iconColor === "none" &&
+      //   testimonialStyle.designSettings.border,
+    }
+  );
+
   const imagePlaceholderClassNames = cn(
     "w-full flex justify-center items-center rounded-md",
     testimonialStyle.designSettings.background ? "bg-background" : "bg-muted",
@@ -204,13 +218,25 @@ function Design1({ section, pageId }: DesignProps) {
                           <p>{listItem.review}</p>
                         </div>
                         <div className="flex items-center mt-10 gap-2">
-                          <div className={iconContainerClassNames}>
-                            <ImagePlaceHolder
-                              fillColor={"fill-muted"}
-                              height={20}
-                              width={20}
-                            />
-                          </div>
+                          {listItem.avatar ? (
+                            <div
+                              className={imgContainerClassNames}
+                              style={{
+                                backgroundImage: `url(${listItem.avatar})`,
+                                backgroundSize: "cover",
+                                backgroundPosition: "center",
+                                backgroundRepeat: "no-repeat",
+                              }}
+                            ></div>
+                          ) : (
+                            <div className={iconContainerClassNames}>
+                              <ImagePlaceHolder
+                                fillColor={"fill-muted"}
+                                height={20}
+                                width={20}
+                              />
+                            </div>
+                          )}
                           <div className="flex flex-col gap-1">
                             <span className="text-xs">{listItem.name}</span>
                             <span className="text-xs text-muted-foreground">
@@ -281,13 +307,25 @@ function Design1({ section, pageId }: DesignProps) {
                               <p>{listItem.review}</p>
                             </div>
                             <div className="flex items-center mt-10 gap-2">
-                              <div className={iconContainerClassNames}>
-                                <ImagePlaceHolder
-                                  fillColor={"fill-muted"}
-                                  height={20}
-                                  width={20}
-                                />
-                              </div>
+                              {listItem.avatar ? (
+                                <div
+                                  className={imgContainerClassNames}
+                                  style={{
+                                    backgroundImage: `url(${listItem.avatar})`,
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "center",
+                                    backgroundRepeat: "no-repeat",
+                                  }}
+                                ></div>
+                              ) : (
+                                <div className={iconContainerClassNames}>
+                                  <ImagePlaceHolder
+                                    fillColor={"fill-muted"}
+                                    height={20}
+                                    width={20}
+                                  />
+                                </div>
+                              )}
                               <div className="flex flex-col gap-1">
                                 <span className="text-xs">{listItem.name}</span>
                                 <span className="text-xs text-muted-foreground">
