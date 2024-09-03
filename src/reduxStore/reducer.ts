@@ -414,6 +414,15 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         break;
       }
 
+      case types.UPDATE_SELECTED_PAGE: {
+        const { pageId, newSections } = action.payload;
+        const page = draft.editor.pages.find((p) => p.pageId === pageId);
+        if (page) {
+          Object.assign(page.sections, newSections);
+        }
+        break;
+      }
+
       case types.CLOSE_SIDEBAR: {
         draft.openPallet = false;
         draft.openSectionDesigns = false;

@@ -170,3 +170,11 @@ export const updatePageSetting = (
 export const closeSideBar = () => ({
   type: types.CLOSE_SIDEBAR,
 });
+
+export const updateSelectedPage = (
+  pageId: string | string[],
+  newSections: EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
+) => ({
+  type: types.UPDATE_SELECTED_PAGE,
+  payload: { pageId, newSections },
+});

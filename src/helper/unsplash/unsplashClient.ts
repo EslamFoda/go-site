@@ -1,7 +1,7 @@
 import { createApi } from "unsplash-js";
 
 // Replace this with your actual Unsplash API key
-const unsplashApiKey = "gjivxJvo8q8wm0OFt-U3OWCBnxMutY9NOTPN9RfRVAM";
+const unsplashApiKey = process.env.NEXT_PUBLIC_UNSPLASH_API_KEY!;
 
 const unsplashClient = createApi({
   accessKey: unsplashApiKey,

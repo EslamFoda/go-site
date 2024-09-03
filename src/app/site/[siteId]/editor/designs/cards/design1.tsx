@@ -172,7 +172,7 @@ function Design1({ section, pageId }: DesignProps) {
                     <p className={textOrderClassName}>{card.text}</p>
                     {cardStyle.designSettings.image && (
                       <div className={imageOrderClassName}>
-                        {card.image.length ? (
+                        {card.image?.length ? (
                           <div
                             className="relative w-full rounded-md"
                             style={{

@@ -19,6 +19,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { AIChatSession } from "../../../services/AImodal";
 import { unsplashClient } from "@/helper/unsplash/unsplashClient";
+import { insertSiteData } from "./siteData";
 
 interface CreateSiteModalProps {
   children: React.ReactNode;
@@ -26,6 +27,7 @@ interface CreateSiteModalProps {
   sites: any[];
   setSites: React.Dispatch<React.SetStateAction<any[]>>;
 }
+
 function CreateSiteModal({
   children,
   user,
@@ -36,75 +38,159 @@ function CreateSiteModal({
   const [siteDescription, setSiteDescription] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+  let generatedData: any = {};
   const { toast } = useToast();
   const router = useRouter();
 
-  const generateBannerAi = async () => {
+  const generateBanner = async () => {
+    toast({
+      title: "Generating Banner",
+      description: "Creating the banner section.",
+    });
+    const prompt = `Generate engaging banner content for a website called "${siteDescription}". Include a title, subtitle, and a call to action.`;
+    const result = await AIChatSession.sendMessage(prompt);
+
+    let bannerData;
     try {
-      const prompt = `Generate engaging banner content for a website called "${siteDescription}". Include a title, subtitle, and a call to action.`;
-      const result = await AIChatSession.sendMessage(prompt);
-      const generateBanner = JSON.parse(result.response.text());
+      bannerData = JSON.parse(result.response.text());
+    } catch (parseError) {
+      console.error("Error parsing banner data:", parseError);
+      throw new Error("Failed to generate banner content.");
+    }
 
-      const unsplashResponse = await unsplashClient.search.getPhotos({
-        query: siteDescription,
-        page: 1,
-      });
+    const unsplashResponse = await unsplashClient.search.getPhotos({
+      query: siteDescription,
+      page: 1,
+    });
 
-      const unsplashResponseUsers = await unsplashClient.search.getPhotos({
-        query: siteDescription + " Random person",
-        page: 1,
-      });
+    console.log(bannerData, "bannerData");
 
-      const cardsPrompt = `Generate engaging Card content for a website called "${siteDescription}". Include a title, subtitle, and a list of 3 cards, each card has a title, text, buttonColor ("gray" or "primary"), and a button with text and an empty link.`;
-      const cardsResult = await AIChatSession.sendMessage(cardsPrompt);
-      const generateCards = JSON.parse(cardsResult.response.text());
+    const generatedImage =
+      unsplashResponse.response?.results[0]?.urls?.regular || "";
 
-      const accordionPrompt = `Generate engaging Accordion content for a website called "${siteDescription}". Include a title, subtitle, and a list of 4 accordions, each accordion has a title, text`;
-      const accordionResult = await AIChatSession.sendMessage(accordionPrompt);
-      const generateAccordion = JSON.parse(accordionResult.response.text());
+    toast({
+      title: "Banner Generated",
+      description: "The banner section has been created.",
+    });
+    return {
+      ...bannerData,
+      imageUrl: generatedImage,
+    };
+  };
 
-      const testimonialsPrompt = `Generate engaging Testimonial content for a website called "${siteName}". Include a title, subtitle, and a list of 3 testimonials, each testimonial has a review mentioning "${siteName}", name, bio, rating from 1 to 5, and an empty link.`;
-      const testimonialsResult = await AIChatSession.sendMessage(
-        testimonialsPrompt
-      );
-      const generateTestimonials = JSON.parse(
-        testimonialsResult.response.text()
-      );
+  const generateCards = async () => {
+    toast({
+      title: "Generating Cards",
+      description: "Creating the cards section.",
+    });
+    const cardsPrompt = `Generate engaging Card content for a website called "${siteDescription}". Include a title, subtitle, and a list of 3 cards, each card has a title, text, buttonColor ("gray" or "primary"), and a button with text and an empty link.`;
+    const cardsResult = await AIChatSession.sendMessage(cardsPrompt);
+    const unsplashResponse = await unsplashClient.search.getPhotos({
+      query: siteDescription,
+      page: 1,
+    });
 
-      const generatedImage = unsplashResponse.response?.results[0].urls.regular;
+    let cardsData;
+    try {
+      cardsData = JSON.parse(cardsResult.response.text());
+    } catch (parseError) {
+      console.error("Error parsing cards data:", parseError);
+      throw new Error("Failed to generate cards content.");
+    }
 
-      return {
-        banner: { ...generateBanner, imageUrl: generatedImage },
-        cards: {
-          ...generateCards,
-          cards: generateCards.cards.map((card: any, i: number) => ({
-            ...card,
-            id: v4(),
-            image:
-              unsplashResponse.response?.results[i + 1]?.urls.regular || "",
-          })),
-        },
-        testimonials: {
-          ...generateTestimonials,
-          testimonials: generateTestimonials.testimonials.map(
-            (testimonial: any, i: number) => ({
-              ...testimonial,
-              id: v4(),
-              avatar:
-                unsplashResponseUsers.response?.results[i]?.urls.regular || "",
-            })
-          ),
-        },
-        accordions: {
-          ...generateAccordion,
-          accordions: generateAccordion.accordions.map((accordion: any) => ({
-            ...accordion,
-            id: v4(),
-          })),
-        },
-      };
-    } catch (error) {
-      console.error("Error generating content:", error);
+    toast({
+      title: "Cards Generated",
+      description: "The cards section has been created.",
+    });
+
+    return {
+      ...cardsData,
+      cards: cardsData.cards.map((card: any, i: number) => ({
+        ...card,
+        id: v4(),
+        image: unsplashResponse.response?.results[i + 1]?.urls?.regular || "",
+      })),
+    };
+  };
+
+  const generateAccordions = async () => {
+    toast({
+      title: "Generating Accordions",
+      description: "Creating the accordion section.",
+    });
+    const accordionPrompt = `Generate engaging Accordion content for a website called "${siteDescription}". Include a title, subtitle, and a list of 4 accordions, each accordion has a title, text.`;
+    const accordionResult = await AIChatSession.sendMessage(accordionPrompt);
+
+    let accordionData;
+    try {
+      accordionData = JSON.parse(accordionResult.response.text());
+    } catch (parseError) {
+      console.error("Error parsing accordion data:", parseError);
+      throw new Error("Failed to generate accordion content.");
+    }
+
+    toast({
+      title: "Accordions Generated",
+      description: "The accordion section has been created.",
+    });
+
+    return {
+      ...accordionData,
+      accordions: accordionData.accordions.map((accordion: any) => ({
+        ...accordion,
+        id: v4(),
+      })),
+    };
+  };
+
+  const generateTestimonials = async () => {
+    toast({
+      title: "Generating Testimonials",
+      description: "Creating the testimonials section.",
+    });
+    const testimonialsPrompt = `Generate engaging Testimonial content for a website called "${siteName}". Include a title, subtitle, and a list of 3 testimonials, each testimonial has a review mentioning "${siteName}", name, bio, rating from 1 to 5, and an empty link.`;
+    const testimonialsResult = await AIChatSession.sendMessage(
+      testimonialsPrompt
+    );
+
+    let testimonialsData;
+    try {
+      testimonialsData = JSON.parse(testimonialsResult.response.text());
+    } catch (parseError) {
+      console.error("Error parsing testimonials data:", parseError);
+      throw new Error("Failed to generate testimonials content.");
+    }
+
+    const unsplashResponseUsers = await unsplashClient.search.getPhotos({
+      query: `${siteDescription} Random person`,
+      page: 1,
+    });
+
+    toast({
+      title: "Testimonials Generated",
+      description: "The testimonials section has been created.",
+    });
+
+    return {
+      ...testimonialsData,
+      testimonials: testimonialsData.testimonials.map(
+        (testimonial: any, i: number) => ({
+          ...testimonial,
+          id: v4(),
+          avatar:
+            unsplashResponseUsers.response?.results[i]?.urls?.regular || "",
+        })
+      ),
+    };
+  };
+
+  const validateGeneratedData = () => {
+    const requiredSections = ["banner", "cards", "accordions", "testimonials"];
+    for (const section of requiredSections) {
+      console.log(generatedData, section, "asddasds");
+      if (!generatedData[section]) {
+        throw new Error(`Missing generated data for section: ${section}`);
+      }
     }
   };
 
@@ -118,9 +204,8 @@ function CreateSiteModal({
       return;
     }
     setLoading(true);
-    const generatedData = await generateBannerAi();
-    console.log(generatedData, "generatedData");
-    if (!generatedData) return;
+    console.log("Starting site creation...");
+
     const siteId = v4();
     const homePageId = v4();
     const settings = {
@@ -133,378 +218,59 @@ function CreateSiteModal({
       link: "",
       siteId: siteId,
     };
-    const supabase = createClient();
-    const { data, error: siteError } = await supabase
-      .from("sites")
-      .insert([
-        {
-          settings,
-          owner_id: user?.id,
-          deployed: false,
-          siteId: siteId,
 
-          pages: [
-            {
-              pageId: homePageId,
-              sections: [
-                {
-                  id: v4(),
-                  sectionName: "Header",
-                  content: {
-                    Logo: {
-                      type: "text",
-                      text: "logo",
-                    },
-                    logo: {
-                      link: "",
-                      openNewTab: false,
-                    },
-                    links: [
-                      {
-                        text: "link 2",
-                        link: "",
-                        id: v4(),
-                        openNewTab: false,
-                        subLinks: [],
-                      },
-                      {
-                        text: "link 3",
-                        link: "",
-                        id: v4(),
-                        openNewTab: false,
-                        subLinks: [],
-                      },
-                      {
-                        text: "link 4",
-                        link: "",
-                        id: v4(),
-                        openNewTab: false,
-                        subLinks: [],
-                      },
-                    ],
-                    buttons: [
-                      {
-                        text: "button 1",
-                        link: "",
-                        id: v4(),
-                      },
-                      {
-                        text: "button 2",
-                        link: "",
-                        id: v4(),
-                      },
-                    ],
-                    announcement: {
-                      position: "above", // above, below
-                      text: "",
-                      link: "",
-                    },
-                  },
-                  style: {
-                    designName: "design1",
-                    designSettings: {
-                      logoColor: "none",
-                      mobileMenuIcon: "icon-1", // icon-1, icon-2, icon-3
-                      width: "fill", // fill , fit
-                      sticky: false,
-                      float: false,
-                      shadow: false,
-                      glass: false,
-                      scrollIndicator: false,
-                      autoHide: false,
-                    },
-                  },
-                },
-                {
-                  id: v4(),
-                  sectionName: "Banner",
-                  content: {
-                    label: "",
-                    title: generatedData.banner.title || "ana mabdon",
-                    subtitle:
-                      generatedData.banner.subtitle ||
-                      "Eslam helps you build the best products for your customers. With our expertise and experience, we can help you take your ideas from concept to reality",
-                    mediaType: "image",
-                    imageSetting: {
-                      imageUrl: generatedData.banner.imageUrl,
-                      altText: generatedData.banner.imageUrl,
-                    },
-                    videoSetting: { videoUrl: "" },
-                    actionType: "buttons",
-                    buttons: {
-                      primaryButton: {
-                        text:
-                          generatedData.banner?.buttons?.primaryButton?.text ||
-                          "start your journey",
-                      },
-                      secondaryButton: {
-                        text:
-                          generatedData.banner.buttons?.secondaryButton?.text ||
-                          "learn more",
-                      },
-                    },
-                  },
-                  style: {
-                    designName: "design1",
-                    designSettings: {
-                      titleSize: "l",
-                      align: "center",
-                      subtitleWidth: "80%",
-                      height: "460px",
-                      video: true,
-                      leftTitlePosition: false,
-                      leftTitleWidth: "50%",
-                      showButtons: true,
-                      sectionBackground: {
-                        color: "none",
-                        media: "",
-                        height: "fit",
-                        width: "100%",
-                        spacing: "xl",
-                        align: "center",
-                      },
-                      imageSetting: {
-                        objectFit: "cover",
-                        backgroundColor: "primary",
-                        showImage: true,
-                      },
-                    },
-                  },
-                },
-                {
-                  id: v4(),
-                  sectionName: "Cards",
-                  content: {
-                    label: "",
-                    title: generatedData.cards.title || "Heading",
-                    subtitle: generatedData.cards.subtitle || "",
-                    cards: generatedData.cards.cards || [],
-                  },
-                  style: {
-                    designName: "design1",
-                    designSettings: {
-                      layout: "top",
-                      layoutV2: "bottom",
-                      grid: {
-                        desktop: 3,
-                        mobile: 1,
-                      },
-                      height: {
-                        desktop: 300,
-                        mobile: 300,
-                      },
-                      titleSize: "m",
-                      align: "start",
-                      image: true,
-                      cardBackground: true,
-                      cardBorder: false,
-                      leftTitlePosition: false,
-                      displayType: "grid",
-                      cardSlider: {
-                        desktopWidth: 300,
-                        mobileWidth: 300,
-                        autoScroll: false,
-                        scrollSpeed: 2,
-                      },
-                      button: true,
-                      sectionBackground: {
-                        color: "none",
-                        media: "",
-                        height: "fit",
-                        spacing: "l",
-                      },
-                    },
-                  },
-                },
-                {
-                  id: v4(),
-                  sectionName: "Testimonials",
-                  content: {
-                    label: "",
-                    title: generatedData.testimonials.title || "Heading",
-                    subtitle: generatedData.testimonials.subtitle || "",
-                    iconType: "star",
-                    testimonials: generatedData.testimonials.testimonials || [],
-                  },
-                  style: {
-                    designName: "design1",
-                    designSettings: {
-                      textSize: "m",
-                      displayType: "grid",
-                      grid: {
-                        desktop: 3,
-                        mobile: 1,
-                      },
-                      shape: "square",
-                      align: "start",
-                      background: true,
-                      border: false,
-                      avatar: true,
-                      rating: true,
-                      leftTitlePosition: false,
-                      carouselSettings: {
-                        desktopWidth: 350,
-                        mobileWidth: 300,
-                        autoScroll: false,
-                        scrollSpeed: 2,
-                      },
-                      sectionBackground: {
-                        color: "none",
-                        media: "",
-                        height: "fit",
-                        spacing: "l",
-                      },
-                    },
-                  },
-                },
-                {
-                  id: v4(),
-                  sectionName: "Accordion",
-                  content: {
-                    label: "",
-                    title:
-                      generatedData.accordions.title || "Heading",
-                    subtitle: generatedData.accordions.subtitle || "",
-                    accordions:
-                      generatedData.accordions.accordions || [],
-                  },
-                  style: {
-                    designName: "design1",
-                    designSettings: {
-                      icon: "arrow",
-                      align: "start",
-                      background: true,
-                      border: false,
-                      leftTitlePosition: false,
-                      sectionBackground: {
-                        color: "none",
-                        media: "",
-                        height: "fit",
-                        spacing: "l",
-                      },
-                    },
-                  },
-                },
-              ],
-              pageSettings: {
-                coverImage:
-                  "https://images.unsplash.com/photo-1674062284636-c7b6b6c7a358?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNDk5MjB8MHwxfHNlYXJjaHw4MXx8bW9iaWxlJTIwc2hvcHxlbnwwfHx8fDE3MDYyNjQxMzR8MA&ixlib=rb-4.0.3&q=80&w=1080",
-                description:
-                  "Shop for the latest mobile phones, tablets, and accessories at our online mobile shop. We offer a wide selection of products from top brands at competitive prices",
-                isPublished: true,
-                isVisibleInSearch: true,
-                link: "home",
-                pagePasswordButton: "Continue",
-                seoTitle: "Mobile Shop | Buy & Sell New & Used Phones Online",
-                showFooter: true,
-                showHeader: true,
-                title: "homepage",
-                userEditedSlug: false,
-              },
-            },
-            {
-              pageId: v4(),
-              sections: [
-                {
-                  id: v4(),
-                  sectionName: "Banner",
-                  content: {
-                    label: "",
-                    title: "beeeeeeeeeeeeeeed",
-                    subtitle: "test page2 description for go site editor",
-                    mediaType: "image",
-                    imageSetting: { imageUrl: "", altText: "" },
-                    videoSetting: { videoUrl: "" },
-                    actionType: "buttons",
-                    buttons: {
-                      primaryButton: { text: "start your journey" },
-                      secondaryButton: { text: "learn more" },
-                    },
-                  },
-                  style: {
-                    designName: "design1",
-                    designSettings: {
-                      titleSize: "l",
-                      align: "center",
-                      subtitleWidth: "50%",
-                      height: "460px",
-                      video: true,
-                      leftTitlePosition: false,
-                      leftTitleWidth: "50%",
-                      showButtons: true,
-                      sectionBackground: {
-                        color: "none",
-                        media: "",
-                        height: "fit",
-                        width: "100%",
-                        spacing: "xl",
-                        align: "center",
-                      },
-                      imageSetting: {
-                        objectFit: "cover",
-                        backgroundColor: "primary",
-                        showImage: true,
-                      },
-                    },
-                  },
-                },
-              ],
-              pageSettings: {
-                coverImage:
-                  "https://images.unsplash.com/photo-1674062284636-c7b6b6c7a358?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNDk5MjB8MHwxfHNlYXJjaHw4MXx8bW9iaWxlJTIwc2hvcHxlbnwwfHx8fDE3MDYyNjQxMzR8MA&ixlib=rb-4.0.3&q=80&w=1080",
-                description:
-                  "Shop for the latest mobile phones, tablets, and accessories at our online mobile shop. We offer a wide selection of products from top brands at competitive prices",
-                isPublished: true,
-                isVisibleInSearch: true,
-                link: "home",
-                pagePasswordButton: "Continue",
-                seoTitle: "Mobile Shop | Buy & Sell New & Used Phones Online",
-                showFooter: true,
-                showHeader: true,
-                title: "about",
-                userEditedSlug: false,
-              },
-            },
-          ],
-          designSettings: {
-            fonts: {
-              titleFont: {
-                fontFamily: "Space Grotesk",
-                fontWeight: "600",
-                fontFamilyUrl:
-                  "https://fonts.gstatic.com/s/spacegrotesk/v15/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gOoraIAEj4PVksjNsFjTDJK.ttf",
-              },
-              bodyFont: {
-                fontFamily: "Space Grotesk",
-                fontWeight: "regular",
-                fontFamilyUrl:
-                  "https://fonts.gstatic.com/s/spacegrotesk/v15/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gOoraIAEj7oUUsjNsFjTDJK.ttf",
-              },
-            },
-            colors: {
-              primary: "",
-              primaryForGround: "",
-            },
-            borderRadius: ".5rem",
-            width: {
-              pages: 1400,
-              fullWidthPage: false,
-            },
-          },
-          selectedPallet: "default-theme",
-        },
-      ])
-      .select();
+    try {
+      console.log("Generating Banner...");
+      const bannerData = await generateBanner();
+      generatedData.banner = bannerData;
+      console.log("Banner Generated.", bannerData);
 
-    if (data) {
-      setSites([data[0], ...(sites || [])]);
-      setOpen(false);
-      setSiteName("");
-      setSiteDescription("");
-      setLoading(false);
-      router.push(`/site/${data[0].siteId}/editor`);
-    }
-    if (siteError) {
+      console.log("Generating Cards...");
+      const cardsData = await generateCards();
+      generatedData.cards = cardsData;
+      console.log("Cards Generated.", cardsData);
+
+      console.log("Generating Accordions...");
+      const accordionsData = await generateAccordions();
+      generatedData.accordions = accordionsData;
+      console.log("Accordions Generated.", accordionsData);
+
+      console.log("Generating Testimonials...");
+      const testimonialsData = await generateTestimonials();
+      generatedData.testimonials = testimonialsData;
+      console.log("Testimonials Generated.", testimonialsData);
+
+      // Validate generated data
+      validateGeneratedData();
+      console.log("All sections generated. Proceeding to create site...");
+
+      const supabase = createClient();
+      const { data, error: siteError } = await supabase
+        .from("sites")
+        .insert(
+          insertSiteData(generatedData, user, siteId, homePageId, siteName)
+        )
+        .select();
+
+      if (data) {
+        setSites([data[0], ...(sites || [])]);
+        setOpen(false);
+        setSiteName("");
+        setSiteDescription("");
+        setLoading(false);
+        router.push(`/site/${data[0].siteId}/editor`);
+      }
+      if (siteError) {
+        throw siteError;
+      }
+    } catch (error) {
+      console.error("Error during site creation:", error);
+      toast({
+        title: "Error",
+        description:
+          "There was an issue creating your site. Please check the console for details.",
+        variant: "destructive",
+      });
       setLoading(false);
     }
   };
@@ -543,7 +309,7 @@ function CreateSiteModal({
             onClick={createSite}
             className="w-full disabled:opacity-40"
           >
-            Continue
+            {loading ? "Creating..." : "Continue"}
           </Button>
         </DialogFooter>
       </DialogContent>
