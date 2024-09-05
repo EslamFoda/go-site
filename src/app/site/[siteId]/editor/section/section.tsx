@@ -5,6 +5,7 @@ import Cards from "../designs/cards";
 import List from "../designs/list";
 import Accordion from "../designs/accordion";
 import Testimonials from "../designs/testimonials";
+import Gallery from "../designs/gallery";
 import AddSection from "./addSection";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { closeSectionDesigns } from "@/reduxStore/action";
@@ -37,6 +38,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
     Accordion,
     Testimonials,
     Header,
+    Gallery,
   };
 
   const handleMouseEnter = (index: number) => {

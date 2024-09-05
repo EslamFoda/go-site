@@ -1,11 +1,20 @@
 import { Accordion, AccordionStyle } from "../sectionsTypes/accordion";
 import { BannerStyle } from "../sectionsTypes/banner";
 import { Card, CardStyle } from "../sectionsTypes/cards";
+import { Photo } from "../sectionsTypes/gallery";
 import { HeaderStyle, Link, SubLink } from "../sectionsTypes/header";
 import { ListItem, ListStyle } from "../sectionsTypes/list";
 import { Testimonial, TestimonialStyle } from "../sectionsTypes/testimonials";
 
-export type SelectedItemType = Card | ListItem | Accordion | Testimonial | Link | SubLink | null;
+export type SelectedItemType =
+  | Card
+  | ListItem
+  | Accordion
+  | Testimonial
+  | Link
+  | Photo
+  | SubLink
+  | null;
 export type SectionsStyleType =
   | BannerStyle
   | CardStyle

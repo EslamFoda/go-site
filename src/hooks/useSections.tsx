@@ -386,6 +386,61 @@ export function useSections() {
         },
       },
     },
+    {
+      id: v4(),
+      sectionName: "Gallery",
+      content: {
+        label: "",
+        title: "Heading",
+        subtitle: "",
+        photos: [
+          {
+            id: v4(),
+            url: "",
+          },
+          {
+            id: v4(),
+            url: "",
+          },
+          {
+            id: v4(),
+            url: "",
+          },
+          {
+            id: v4(),
+            url: "",
+          },
+        ],
+      },
+      style: {
+        designName: "design1",
+        designSettings: {
+          grid: {
+            desktop: 4,
+            mobile: 1,
+          },
+          height: {
+            desktop: 250,
+            mobile: 100,
+          },
+
+          leftTitlePosition: false,
+          displayType: "grid",
+          cardSlider: {
+            desktopWidth: 300,
+            mobileWidth: 300,
+            autoScroll: false,
+            scrollSpeed: 2,
+          },
+          sectionBackground: {
+            color: "none",
+            media: "",
+            height: "fit",
+            spacing: "l",
+          },
+        },
+      },
+    },
   ];
 
   return { sections };

@@ -18,6 +18,7 @@ import { createClient } from "@/utlis/supabase/client";
 import debounce from "debounce";
 import PageSetting from "./pageSetting";
 import header from "./sectionSettings/header";
+import gallery from "./sectionSettings/gallery";
 
 const EditorSidebar = () => {
   const {
@@ -51,6 +52,7 @@ const EditorSidebar = () => {
     Accordion: accordion,
     Testimonials: testimonials,
     Header: header,
+    Gallery: gallery,
   };
 
   const SelectedSectionComponent = selectedSection

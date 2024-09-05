@@ -5,6 +5,7 @@ import {
   AccordionSectionIcon,
   AccordionSectionLightIcon,
 } from "@/icons/common";
+import { GallerySectionDark, GallerySectionLight } from "@/icons/gallery";
 import { HeaderDark, HeaderLight } from "@/icons/header";
 import { ListSectionIcon, ListSectionLightIcon } from "@/icons/list";
 import {
@@ -64,6 +65,10 @@ function ChooseSection() {
     Header: {
       Icon: theme === "dark" ? HeaderDark : HeaderLight,
       desc: "Logo, Links and buttons",
+    },
+    Gallery: {
+      Icon: theme === "dark" ? GallerySectionDark : GallerySectionLight,
+      desc: "Display images in grids and carousel",
     },
     // Add more mappings as needed
   };

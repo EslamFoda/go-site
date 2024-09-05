@@ -1,4 +1,5 @@
 // Import section-specific content and style types
+import { SelectedItemType } from "@/types/common";
 import {
   Accordion,
   AccordionContent,
@@ -6,6 +7,11 @@ import {
 } from "@/types/sectionsTypes/accordion";
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
 import { Card, CardStyle, CardsContent } from "@/types/sectionsTypes/cards";
+import {
+  GalleryContent,
+  GalleryStyle,
+  Photo,
+} from "@/types/sectionsTypes/gallery";
 import {
   HeaderContent,
   HeaderStyle,
@@ -27,6 +33,7 @@ export type SectionContentTypes = {
   accordion: AccordionContent;
   testimonial: TestimonialContent;
   header: HeaderContent;
+  gallery: GalleryContent;
   // Add more content types here as needed
 };
 
@@ -38,6 +45,7 @@ export type SectionStyleTypes = {
   accordion: AccordionStyle;
   testimonial: TestimonialStyle;
   header: HeaderStyle;
+  gallery: GalleryStyle;
   // Add more style types here as needed
 };
 
@@ -62,7 +70,7 @@ export interface EditorStore {
     keyof SectionContentTypes,
     keyof SectionStyleTypes
   > | null;
-  selectedItem: Card | ListItem | Accordion | Testimonial | Link | null;
+  selectedItem: SelectedItemType;
   selectedSubLink: SubLink | null;
   openSectionDesigns: boolean;
   openPallet: boolean;

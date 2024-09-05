@@ -2,7 +2,6 @@ import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChevronLeft, Trash2 } from "lucide-react";
-import EditText from "../settingsUi/EditText";
 import ColorSelector from "../settingsUi/ColorSelector";
 import { JustifyCenter, JustifyEnd, JustifyStart } from "@/icons/common";
 import {
@@ -16,17 +15,16 @@ import {
   updateSelectedItem,
   updateStyle,
 } from "@/reduxStore/action";
-import { Accordion } from "@/types/sectionsTypes/accordion";
-import AccordionContentTab from "./accordionContentTab";
-import AccordionStyleTab from "./accordionStyleTab";
 import BackBtn from "@/components/shared/backBtn";
-interface AccordionSettingsProps {
+import { Photo } from "@/types/sectionsTypes/gallery";
+
+interface GallerySettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
     | undefined;
   pageId: string;
 }
-function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
+function GallerySettings({ pageId, sections }: GallerySettingsProps) {
   const [tabValue, setTabValue] = useState("content");
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
 
@@ -39,39 +37,37 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
 
-  const accordionContent =
-    findSelectedSection?.content as SectionContentTypes["accordion"];
-  const accordionStyle =
-    findSelectedSection?.style as SectionStyleTypes["accordion"];
-  const accordionItem = selectedItem as Accordion;
+  const galleryContent =
+    findSelectedSection?.content as SectionContentTypes["gallery"];
+  const galleryStyle =
+    findSelectedSection?.style as SectionStyleTypes["gallery"];
+  const photoItem = selectedItem as Photo;
 
-  const handleDeleteAccordion = () => {
-    const filterAccordions = accordionContent?.accordions?.filter(
-      (card) => card.id !== accordionItem?.id
+  const handleDeletePhoto = () => {
+    const filterPhotos = galleryContent?.photos?.filter(
+      (photo) => photo.id !== photoItem?.id
     );
     dispatch(
       updateContent(pageId, findSelectedSection.id, {
-        accordions: filterAccordions,
+        photos: filterPhotos,
       })
     );
     dispatch(updateSelectedItem(null));
   };
 
-  const handleUpdateAccordionItem = (field: keyof Accordion, value: any) => {
-    const updatedAccordions = accordionContent.accordions.map((accordion) =>
-      accordion.id === accordionItem.id
-        ? { ...accordion, [field]: value }
-        : accordion
+  const handleUpdateAccordionItem = (field: keyof Photo, value: any) => {
+    const updatedAccordions = galleryContent.photos.map((photo) =>
+      photo.id === photoItem.id ? { ...photo, [field]: value } : photo
     );
-    dispatch(updateSelectedItem({ ...accordionItem, [field]: value }));
+    dispatch(updateSelectedItem({ ...photoItem, [field]: value }));
     dispatch(
       updateContent(pageId, findSelectedSection.id, {
-        accordions: updatedAccordions,
+        photos: updatedAccordions,
       })
     );
   };
 
-  if (accordionItem)
+  if (photoItem)
     return (
       <div className="space-y-2">
         <div
@@ -82,31 +78,13 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
         >
           <div className="flex gap-4 items-center cursor-pointer">
             <ChevronLeft size={18} />
-            <Label className="cursor-pointer">{accordionItem.title}</Label>
+            <Label className="cursor-pointer">Media</Label>
           </div>
-          <div className="cursor-pointer" onClick={handleDeleteAccordion}>
+          <div className="cursor-pointer" onClick={handleDeletePhoto}>
             <Trash2 size="18px" color="red" />
           </div>
         </div>
-        <div className="px-5 pb-1 space-y-2">
-          <EditText
-            label="Title"
-            id={accordionItem.id}
-            value={accordionItem.title}
-            handleUpdate={(e: any) =>
-              handleUpdateAccordionItem("title", e.target.value)
-            }
-          />
-          <EditText
-            inputType="textArea"
-            label="Text"
-            id={accordionItem.id}
-            value={accordionItem.text}
-            handleUpdate={(e: any) =>
-              handleUpdateAccordionItem("text", e.target.value)
-            }
-          />
-        </div>
+        <div className="px-5 pb-1 space-y-2">photo item</div>
       </div>
     );
 
@@ -119,17 +97,15 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
         />
         <div className="px-5 space-y-2">
           <ColorSelector
-            selectedColor={
-              accordionStyle.designSettings.sectionBackground.color
-            }
+            selectedColor={galleryStyle.designSettings.sectionBackground.color}
             handleChangeColor={(color) => {
               if (color === "none") {
                 dispatch(
                   updateStyle(pageId, findSelectedSection?.id!, {
                     designSettings: {
-                      ...accordionStyle.designSettings!,
+                      ...galleryStyle.designSettings!,
                       sectionBackground: {
-                        ...accordionStyle.designSettings.sectionBackground,
+                        ...galleryStyle.designSettings.sectionBackground,
                         color,
                       },
                     },
@@ -139,11 +115,11 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
                 dispatch(
                   updateStyle(pageId, findSelectedSection?.id!, {
                     designSettings: {
-                      ...accordionStyle.designSettings!,
+                      ...galleryStyle.designSettings!,
                       background: true,
                       border: false,
                       sectionBackground: {
-                        ...accordionStyle.designSettings.sectionBackground,
+                        ...galleryStyle.designSettings.sectionBackground,
                         color,
                       },
                     },
@@ -160,9 +136,9 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
                   dispatch(
                     updateStyle(pageId, findSelectedSection?.id!, {
                       designSettings: {
-                        ...accordionStyle.designSettings!,
+                        ...galleryStyle.designSettings!,
                         sectionBackground: {
-                          ...accordionStyle.designSettings.sectionBackground,
+                          ...galleryStyle.designSettings.sectionBackground,
                           height: "fill",
                           align: "center",
                         },
@@ -171,7 +147,7 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
                   );
                 }}
                 className={`${
-                  accordionStyle.designSettings.sectionBackground.height ===
+                  galleryStyle.designSettings.sectionBackground.height ===
                   "fill"
                     ? "bg-muted-bg"
                     : ""
@@ -184,9 +160,9 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
                   dispatch(
                     updateStyle(pageId, findSelectedSection?.id!, {
                       designSettings: {
-                        ...accordionStyle.designSettings!,
+                        ...galleryStyle.designSettings!,
                         sectionBackground: {
-                          ...accordionStyle.designSettings.sectionBackground,
+                          ...galleryStyle.designSettings.sectionBackground,
                           height: "fit",
                           align: "center",
                         },
@@ -195,8 +171,7 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
                   );
                 }}
                 className={`${
-                  accordionStyle.designSettings.sectionBackground.height ===
-                  "fit"
+                  galleryStyle.designSettings.sectionBackground.height === "fit"
                     ? "bg-muted-bg"
                     : ""
                 } flex items-center justify-center cursor-pointer w-full`}
@@ -205,8 +180,7 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
               </div>
             </div>
           </div>
-          {accordionStyle.designSettings.sectionBackground.height ===
-            "fill" && (
+          {galleryStyle.designSettings.sectionBackground.height === "fill" && (
             <div className="space-y-1 flex items-center justify-between">
               <Label>Align</Label>
               <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
@@ -215,9 +189,9 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
-                          ...accordionStyle.designSettings!,
+                          ...galleryStyle.designSettings!,
                           sectionBackground: {
-                            ...accordionStyle.designSettings.sectionBackground,
+                            ...galleryStyle.designSettings.sectionBackground,
                             align: "start",
                           },
                         },
@@ -225,7 +199,7 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
                     );
                   }}
                   className={`${
-                    accordionStyle.designSettings.sectionBackground.align ===
+                    galleryStyle.designSettings.sectionBackground.align ===
                     "start"
                       ? "bg-muted-bg"
                       : ""
@@ -238,9 +212,9 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
-                          ...accordionStyle.designSettings!,
+                          ...galleryStyle.designSettings!,
                           sectionBackground: {
-                            ...accordionStyle.designSettings.sectionBackground,
+                            ...galleryStyle.designSettings.sectionBackground,
                             align: "center",
                           },
                         },
@@ -248,7 +222,7 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
                     );
                   }}
                   className={`${
-                    accordionStyle.designSettings.sectionBackground.align ===
+                    galleryStyle.designSettings.sectionBackground.align ===
                     "center"
                       ? "bg-muted-bg"
                       : ""
@@ -261,9 +235,9 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
-                          ...accordionStyle.designSettings!,
+                          ...galleryStyle.designSettings!,
                           sectionBackground: {
-                            ...accordionStyle.designSettings.sectionBackground,
+                            ...galleryStyle.designSettings.sectionBackground,
                             align: "end",
                           },
                         },
@@ -271,7 +245,7 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
                     );
                   }}
                   className={`${
-                    accordionStyle.designSettings.sectionBackground.align ===
+                    galleryStyle.designSettings.sectionBackground.align ===
                     "end"
                       ? "bg-muted-bg"
                       : ""
@@ -293,22 +267,9 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
           <TabsTrigger value="content">content</TabsTrigger>
           <TabsTrigger value="style">style</TabsTrigger>
         </TabsList>
-        <AccordionContentTab
-          pageId={pageId}
-          accordionContent={accordionContent}
-          findSelectedSection={findSelectedSection}
-          items={accordionContent?.accordions}
-        />
-        <AccordionStyleTab
-          pageId={pageId}
-          accordionContent={accordionContent}
-          accordionStyle={accordionStyle}
-          findSelectedSection={findSelectedSection}
-          setSectionBgOpened={setSectionBgOpened}
-        />
       </Tabs>
     </div>
   );
 }
 
-export default AccordionSettings;
+export default GallerySettings;
