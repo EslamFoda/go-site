@@ -89,7 +89,7 @@ export const generateSections = (
         leftTitleWidth: "50%",
         showButtons: true,
         sectionBackground: {
-          color: "none",
+          color: "gray",
           media: "",
           height: "fit",
           width: "100%",
@@ -98,7 +98,7 @@ export const generateSections = (
         },
         imageSetting: {
           objectFit: "cover",
-          backgroundColor: "gray",
+          backgroundColor: "primary",
           showImage: true,
         },
       },
