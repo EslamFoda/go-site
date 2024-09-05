@@ -7,6 +7,7 @@ import {
   PageSettings,
   SectionContentTypes,
   SectionStyleTypes,
+  User,
 } from "./types";
 
 import { SelectedItemType } from "@/types/common";
@@ -173,8 +174,21 @@ export const closeSideBar = () => ({
 
 export const updateSelectedPage = (
   pageId: string | string[],
-  newSections: EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
+  newSection: EditorSection<
+    keyof SectionContentTypes,
+    keyof SectionStyleTypes
+  > | null
 ) => ({
   type: types.UPDATE_SELECTED_PAGE,
-  payload: { pageId, newSections },
+  payload: { pageId, newSection },
+});
+
+export const updateUser = (user: User) => ({
+  type: types.UPDATE_USER,
+  payload: user,
+});
+
+export const updateAiGenerator = (isGenerating: boolean) => ({
+  type: types.UPDATE_AI_GENERATOR,
+  payload: isGenerating,
 });

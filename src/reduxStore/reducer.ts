@@ -145,6 +145,7 @@ const initialState: EditorStore = {
   openSectionDesigns: false,
   openPallet: false,
   openPages: true,
+  aiGenerator: false,
   designSettings: {
     fonts: {
       titleFont: {
@@ -181,6 +182,10 @@ const initialState: EditorStore = {
     siteId: "",
   },
   openPageSetting: false,
+  user: {
+    email: "",
+    id: "",
+  },
 };
 
 // Helper function to update state at a given path
@@ -415,10 +420,10 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
       }
 
       case types.UPDATE_SELECTED_PAGE: {
-        const { pageId, newSections } = action.payload;
+        const { pageId, newSection } = action.payload;
         const page = draft.editor.pages.find((p) => p.pageId === pageId);
         if (page) {
-          Object.assign(page.sections, newSections);
+          page.sections.push(newSection);
         }
         break;
       }
@@ -430,6 +435,16 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.selectedSection = null;
         draft.openPageSetting = false;
         draft.openPages = true;
+        break;
+      }
+
+      case types.UPDATE_USER: {
+        draft.user = action.payload;
+        break;
+      }
+      case types.UPDATE_AI_GENERATOR: {
+        console.log(action.payload);
+        draft.aiGenerator = action.payload;
         break;
       }
 

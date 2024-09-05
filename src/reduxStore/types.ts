@@ -73,6 +73,13 @@ export interface EditorStore {
   openPages: boolean;
   settings: SiteSettings;
   openPageSetting: boolean;
+  user: User;
+  aiGenerator: boolean;
+}
+
+export interface User {
+  email: string | undefined;
+  id: string | undefined;
 }
 
 // Define the type for an editor page

@@ -20,6 +20,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const currentPage = useAppSelector((state) =>
     state.editor.editor.pages.find((page) => page.pageId === pageId)
   );
+  console.log(currentPage?.sections, "currentPage?.sections");
   const dispatch = useAppDispatch();
   const [hoveringIndex, setHoveringIndex] = useState<number | null>(null);
 

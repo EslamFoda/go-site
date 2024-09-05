@@ -20,6 +20,12 @@ import { useRouter } from "next/navigation";
 import { AIChatSession } from "../../../services/AImodal";
 import { unsplashClient } from "@/helper/unsplash/unsplashClient";
 import { insertSiteData } from "./siteData";
+import { useAppDispatch } from "@/reduxStore/hooks";
+import {
+  updateAiGenerator,
+  updateEditorState,
+  updateUser,
+} from "@/reduxStore/action";
 
 interface CreateSiteModalProps {
   children: React.ReactNode;
@@ -41,6 +47,7 @@ function CreateSiteModal({
   let generatedData: any = {};
   const { toast } = useToast();
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const generateBanner = async () => {
     toast({
@@ -208,61 +215,142 @@ function CreateSiteModal({
 
     const siteId = v4();
     const homePageId = v4();
-    const settings = {
-      email: user?.email,
-      favicon: "",
-      homePage: homePageId,
-      isTemplate: false,
-      showMadeBy: true,
-      name: siteName,
-      link: "",
-      siteId: siteId,
-    };
+    dispatch(updateAiGenerator(true));
+    dispatch(
+      updateEditorState(
+        ["editor", "pages"],
+        [
+          {
+            pageId: homePageId,
+            sections: [
+              {
+                id: v4(),
+                sectionName: "Header",
+                content: {
+                  Logo: {
+                    type: "text",
+                    text: "logo",
+                  },
+                  logo: {
+                    link: "",
+                    openNewTab: false,
+                  },
+                  links: [
+                    {
+                      text: "link 2",
+                      link: "",
+                      id: v4(),
+                      openNewTab: false,
+                      subLinks: [],
+                    },
+                    {
+                      text: "link 3",
+                      link: "",
+                      id: v4(),
+                      openNewTab: false,
+                      subLinks: [],
+                    },
+                    {
+                      text: "link 4",
+                      link: "",
+                      id: v4(),
+                      openNewTab: false,
+                      subLinks: [],
+                    },
+                  ],
+                  buttons: [
+                    { text: "button 1", link: "", id: v4() },
+                    { text: "button 2", link: "", id: v4() },
+                  ],
+                  announcement: {
+                    position: "above",
+                    text: "",
+                    link: "",
+                  },
+                },
+                style: {
+                  designName: "design1",
+                  designSettings: {
+                    logoColor: "none",
+                    mobileMenuIcon: "icon-1",
+                    width: "fill",
+                    sticky: false,
+                    float: false,
+                    shadow: false,
+                    glass: false,
+                    scrollIndicator: false,
+                    autoHide: false,
+                  },
+                },
+              },
+            ],
+            pageSettings: {
+              coverImage:
+                "https://images.unsplash.com/photo-1674062284636-c7b6b6c7a358...",
+              description: "Shop for the latest mobile phones...",
+              isPublished: true,
+              isVisibleInSearch: true,
+              link: "home",
+              pagePasswordButton: "Continue",
+              seoTitle: "Mobile Shop | Buy & Sell New & Used Phones Online",
+              showFooter: true,
+              showHeader: true,
+              title: "homepage",
+              userEditedSlug: false,
+            },
+          },
+        ]
+      )
+    );
+
+    dispatch(
+      updateUser({
+        email: user?.email,
+        id: user?.id,
+      })
+    );
+
+    router.push(`/site/${siteId}/editor`);
 
     try {
-      console.log("Generating Banner...");
-      const bannerData = await generateBanner();
-      generatedData.banner = bannerData;
-      console.log("Banner Generated.", bannerData);
-
-      console.log("Generating Cards...");
-      const cardsData = await generateCards();
-      generatedData.cards = cardsData;
-      console.log("Cards Generated.", cardsData);
-
-      console.log("Generating Accordions...");
-      const accordionsData = await generateAccordions();
-      generatedData.accordions = accordionsData;
-      console.log("Accordions Generated.", accordionsData);
-
-      console.log("Generating Testimonials...");
-      const testimonialsData = await generateTestimonials();
-      generatedData.testimonials = testimonialsData;
-      console.log("Testimonials Generated.", testimonialsData);
-
-      // Validate generated data
-      validateGeneratedData();
-      console.log("All sections generated. Proceeding to create site...");
-
-      const supabase = createClient();
-      const { data, error: siteError } = await supabase
-        .from("sites")
-        .insert(
-          insertSiteData(generatedData, user, siteId, homePageId, siteName)
-        )
-        .select();
-
-      if (data) {
-        setSites([data[0], ...(sites || [])]);
-        setOpen(false);
-        setSiteName("");
-        setSiteDescription("");
-        setLoading(false);
-        router.push(`/site/${data[0].siteId}/editor`);
-      }
-      if (siteError) {
-        throw siteError;
-      }
+      // console.log("Generating Banner...");
+      // const bannerData = await generateBanner();
+      // generatedData.banner = bannerData;
+      // console.log("Banner Generated.", bannerData);
+      // console.log("Generating Cards...");
+      // const cardsData = await generateCards();
+      // generatedData.cards = cardsData;
+      // console.log("Cards Generated.", cardsData);
+      // console.log("Generating Accordions...");
+      // const accordionsData = await generateAccordions();
+      // generatedData.accordions = accordionsData;
+      // console.log("Accordions Generated.", accordionsData);
+      // console.log("Generating Testimonials...");
+      // const testimonialsData = await generateTestimonials();
+      // generatedData.testimonials = testimonialsData;
+      // console.log("Testimonials Generated.", testimonialsData);
+      // // Validate generated data
+      // validateGeneratedData();
+      // console.log("All sections generated. Proceeding to create site...");
+      // const supabase = createClient();
+      // const { data, error: siteError } = await supabase
+      //   .from("sites")
+      //   .insert(
+      //     insertSiteData(generatedData, user, siteId, homePageId, siteName)
+      //   )
+      //   .select();
+      // if (data) {
+      //   setSites([data[0], ...(sites || [])]);
+      //   setOpen(false);
+      //   setSiteName("");
+      //   setSiteDescription("");
+      //   // Refresh the route
+      //   router.push(`/site/${siteId}/editor`);
+      //   setLoading(false);
+      // }
+      // if (siteError) {
+      //   throw siteError;
+      // }
     } catch (error) {
       console.error("Error during site creation:", error);
       toast({
