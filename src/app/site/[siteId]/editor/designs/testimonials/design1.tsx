@@ -1,5 +1,4 @@
 import { ImagePlaceHolder } from "@/icons/common";
-import Image from "next/image";
 import React from "react";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "react-responsive";
@@ -12,7 +11,6 @@ import {
 } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { useTheme } from "next-themes";
-import * as PhosphorIcons from "@phosphor-icons/react";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
   closeChooseIcon,
@@ -71,13 +69,6 @@ function Design1({ section, pageId }: DesignProps) {
     testimonialStyle.designSettings.align === "end" && "text-end"
   );
 
-  const titleClassName = cn(
-    testimonialStyle.designSettings.textSize === "s" && "text-sm font-medium",
-    testimonialStyle.designSettings.textSize === "m" &&
-      "text-base font-semibold",
-    testimonialStyle.designSettings.textSize === "l" && "text-lg font-bold"
-  );
-  const texClassName = cn("text-muted-foreground text-sm");
   const gridClassNames = cn(
     "grid gap-5 items-start",
     testimonialStyle.designSettings.grid.desktop === 3 && "lg:grid-cols-3",
@@ -94,26 +85,16 @@ function Design1({ section, pageId }: DesignProps) {
       "outline outline-[1px] outline-muted p-5":
         testimonialStyle.designSettings.border,
       "bg-background": bgMuted,
-      // "flex-row items-start": testimonialStyle.designSettings.layout === "row",
-      // "flex-col": testimonialStyle.designSettings.layout === "col",
     }
   );
-
-  const listItemTextClassNames = cn("self-center", {
-    // "self-start": testimonialStyle.designSettings.layout === "col",
-  });
 
   const iconContainerClassNames = cn(
     "flex items-center h-10 w-10 bg-background self-baseline  justify-center shrink-0",
     {
       "rounded-md": testimonialStyle.designSettings.shape === "square",
       "rounded-full": testimonialStyle.designSettings.shape === "rounded",
-      // "bg-background": testimonialStyle.designSettings.iconColor === "none",
-      // "bg-primary": testimonialStyle.designSettings.iconColor === "primary",
-      // hidden: !testimonialStyle.designSettings.icon,
-      // "bg-muted":
-      //   testimonialStyle.designSettings.iconColor === "none" &&
-      //   testimonialStyle.designSettings.border,
+      "bg-muted":
+        testimonialStyle.designSettings.sectionBackground.color === "gray",
     }
   );
 
@@ -122,19 +103,7 @@ function Design1({ section, pageId }: DesignProps) {
     {
       "rounded-md": testimonialStyle.designSettings.shape === "square",
       "rounded-full": testimonialStyle.designSettings.shape === "rounded",
-      // "bg-background": testimonialStyle.designSettings.iconColor === "none",
-      // "bg-primary": testimonialStyle.designSettings.iconColor === "primary",
-      // hidden: !testimonialStyle.designSettings.icon,
-      // "bg-muted":
-      //   testimonialStyle.designSettings.iconColor === "none" &&
-      //   testimonialStyle.designSettings.border,
     }
-  );
-
-  const imagePlaceholderClassNames = cn(
-    "w-full flex justify-center items-center rounded-md",
-    testimonialStyle.designSettings.background ? "bg-background" : "bg-muted",
-    bgMuted && "bg-muted"
   );
 
   const containerClassNames = cn(" grid grid-cols-1 space-y-4", {
@@ -158,12 +127,6 @@ function Design1({ section, pageId }: DesignProps) {
     "justify-end":
       section.style.designSettings.sectionBackground.align === "end",
   });
-
-  // const iconClassNames = cn("", {
-  //   "text-textColor": testimonialStyle.designSettings.iconColor === "primary",
-  //   "text-white":
-  //     theme === "light" && testimonialStyle.designSettings.iconColor === "primary",
-  // });
 
   return (
     <section className={sectionBgClassName}>
@@ -231,7 +194,9 @@ function Design1({ section, pageId }: DesignProps) {
                           ) : (
                             <div className={iconContainerClassNames}>
                               <ImagePlaceHolder
-                                fillColor={"fill-muted"}
+                                fillColor={
+                                  bgMuted ? "fill-background" : "fill-muted"
+                                }
                                 height={20}
                                 width={20}
                               />
@@ -320,7 +285,9 @@ function Design1({ section, pageId }: DesignProps) {
                               ) : (
                                 <div className={iconContainerClassNames}>
                                   <ImagePlaceHolder
-                                    fillColor={"fill-muted"}
+                                    fillColor={
+                                      bgMuted ? "fill-background" : "fill-muted"
+                                    }
                                     height={20}
                                     width={20}
                                   />

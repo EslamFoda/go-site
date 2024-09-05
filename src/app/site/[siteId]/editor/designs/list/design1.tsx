@@ -98,8 +98,9 @@ function Design1({ section, pageId }: DesignProps) {
       "bg-primary": listStyle.designSettings.iconColor === "primary",
       hidden: !listStyle.designSettings.icon,
       "bg-muted":
-        listStyle.designSettings.iconColor === "none" &&
-        listStyle.designSettings.border,
+        (listStyle.designSettings.iconColor === "none" &&
+          listStyle.designSettings.border) ||
+        bgMuted,
     }
   );
 
@@ -186,7 +187,7 @@ function Design1({ section, pageId }: DesignProps) {
                         ) : (
                           <ImagePlaceHolder
                             fillColor={
-                              listStyle.designSettings.border
+                              listStyle.designSettings.border || bgMuted
                                 ? "fill-background"
                                 : "fill-muted"
                             }
@@ -255,7 +256,7 @@ function Design1({ section, pageId }: DesignProps) {
                             ) : (
                               <ImagePlaceHolder
                                 fillColor={
-                                  listStyle.designSettings.border
+                                  listStyle.designSettings.border || bgMuted
                                     ? "fill-background"
                                     : "fill-muted"
                                 }

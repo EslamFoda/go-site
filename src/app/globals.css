@@ -30,6 +30,7 @@
     --container-padding-lg: 1rem;
     --container-max-width: 1400px;
   }
+
   .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;

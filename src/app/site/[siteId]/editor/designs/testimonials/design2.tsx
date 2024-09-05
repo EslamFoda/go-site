@@ -96,15 +96,8 @@ function Design1({ section, pageId }: DesignProps) {
       "items-start": testimonialStyle.designSettings.align === "start",
       "items-center": testimonialStyle.designSettings.align === "center",
       "items-end": testimonialStyle.designSettings.align === "end",
-
-      // "flex-row items-start": testimonialStyle.designSettings.layout === "row",
-      // "flex-col": testimonialStyle.designSettings.layout === "col",
     }
   );
-
-  const listItemTextClassNames = cn("self-center", {
-    // "self-start": testimonialStyle.designSettings.layout === "col",
-  });
 
   const iconContainerClassNames = cn(
     "flex items-center h-10 w-10 bg-background self-baseline  justify-center shrink-0",
@@ -114,12 +107,8 @@ function Design1({ section, pageId }: DesignProps) {
       "self-baseline": testimonialStyle.designSettings.align === "start",
       "self-center": testimonialStyle.designSettings.align === "center",
       "self-end": testimonialStyle.designSettings.align === "end",
-      // "bg-background": testimonialStyle.designSettings.iconColor === "none",
-      // "bg-primary": testimonialStyle.designSettings.iconColor === "primary",
-      // hidden: !testimonialStyle.designSettings.icon,
-      // "bg-muted":
-      //   testimonialStyle.designSettings.iconColor === "none" &&
-      //   testimonialStyle.designSettings.border,
+      "bg-muted":
+        testimonialStyle.designSettings.sectionBackground.color === "gray",
     }
   );
 
@@ -158,6 +147,22 @@ function Design1({ section, pageId }: DesignProps) {
       testimonialStyle.designSettings.align === "center",
     "items-end text-end": testimonialStyle.designSettings.align === "end",
   });
+
+  const imgContainerClassNames = cn(
+    "flex items-center h-10 w-10  self-baseline justify-center shrink-0",
+    {
+      "rounded-md": testimonialStyle.designSettings.shape === "square",
+      "rounded-full": testimonialStyle.designSettings.shape === "rounded",
+
+      // "bg-muted":testimonialStyle.designSettings.sectionBackground.color === "gray"
+      // "bg-background": testimonialStyle.designSettings.iconColor === "none",
+      // "bg-primary": testimonialStyle.designSettings.iconColor === "primary",
+      // hidden: !testimonialStyle.designSettings.icon,
+      // "bg-muted":
+      //   testimonialStyle.designSettings.iconColor === "none" &&
+      //   testimonialStyle.designSettings.border,
+    }
+  );
 
   return (
     <section className={sectionBgClassName}>
@@ -213,11 +218,27 @@ function Design1({ section, pageId }: DesignProps) {
                         </div>
                         <div className="flex flex-col items-start mt-10 gap-2">
                           <div className={iconContainerClassNames}>
-                            <ImagePlaceHolder
-                              fillColor={"fill-muted"}
-                              height={20}
-                              width={20}
-                            />
+                            {listItem.avatar ? (
+                              <div
+                                className={imgContainerClassNames}
+                                style={{
+                                  backgroundImage: `url(${listItem.avatar})`,
+                                  backgroundSize: "cover",
+                                  backgroundPosition: "center",
+                                  backgroundRepeat: "no-repeat",
+                                }}
+                              ></div>
+                            ) : (
+                              <div className={iconContainerClassNames}>
+                                <ImagePlaceHolder
+                                  fillColor={
+                                    bgMuted ? "fill-background" : "fill-muted"
+                                  }
+                                  height={20}
+                                  width={20}
+                                />
+                              </div>
+                            )}
                           </div>
                           <div className={userClassNames}>
                             <span className="text-xs">{listItem.name}</span>
@@ -290,11 +311,29 @@ function Design1({ section, pageId }: DesignProps) {
                             </div>
                             <div className="flex flex-col items-center mt-10 gap-2">
                               <div className={iconContainerClassNames}>
-                                <ImagePlaceHolder
-                                  fillColor={"fill-muted"}
-                                  height={20}
-                                  width={20}
-                                />
+                                {listItem.avatar ? (
+                                  <div
+                                    className={imgContainerClassNames}
+                                    style={{
+                                      backgroundImage: `url(${listItem.avatar})`,
+                                      backgroundSize: "cover",
+                                      backgroundPosition: "center",
+                                      backgroundRepeat: "no-repeat",
+                                    }}
+                                  ></div>
+                                ) : (
+                                  <div className={iconContainerClassNames}>
+                                    <ImagePlaceHolder
+                                      fillColor={
+                                        bgMuted
+                                          ? "fill-background"
+                                          : "fill-muted"
+                                      }
+                                      height={20}
+                                      width={20}
+                                    />
+                                  </div>
+                                )}
                               </div>
                               <div className={userClassNames}>
                                 <span className="text-xs">{listItem.name}</span>

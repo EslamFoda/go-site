@@ -15,6 +15,13 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import Header from "../designs/header";
+import {
+  Tooltip,
+  TooltipArrow,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const currentPage = useAppSelector((state) =>
@@ -91,7 +98,28 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                   />
                 </div>
                 {section.sectionName !== "Header" && (
-                  <AddSection sectionIndex={i} pageId={pageId} />
+                  <HoverCardContent
+                    className="rounded-full"
+                    align="center"
+                    side="bottom"
+                    avoidCollisions={false}
+                    sideOffset={-14}
+                    alignOffset={0}
+                  >
+                    <TooltipProvider delayDuration={0}>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span>
+                            <AddSection sectionIndex={i} pageId={pageId} />
+                          </span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          Add Section
+                          <TooltipArrow className="fill-muted" />
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </HoverCardContent>
                 )}
               </HoverCardTrigger>
             </div>
@@ -103,3 +131,20 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
 };
 
 export default Section;
+
+{
+  /* <TooltipProvider delayDuration={0}>
+  <Tooltip>
+    <TooltipTrigger
+      className="flex items-center justify-center h-[30px] w-[30px] hover:bg-muted"
+      onClick={onClick}
+    >
+      {icon}
+    </TooltipTrigger>
+    <TooltipContent>
+      {tooltipContent}
+      <TooltipArrow className="fill-muted" />
+    </TooltipContent>
+  </Tooltip>
+</TooltipProvider>; */
+}
