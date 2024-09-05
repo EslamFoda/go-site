@@ -1,7 +1,7 @@
 import { Accordion, AccordionStyle } from "../sectionsTypes/accordion";
 import { BannerStyle } from "../sectionsTypes/banner";
 import { Card, CardStyle } from "../sectionsTypes/cards";
-import { Photo } from "../sectionsTypes/gallery";
+import { GalleryStyle, Photo } from "../sectionsTypes/gallery";
 import { HeaderStyle, Link, SubLink } from "../sectionsTypes/header";
 import { ListItem, ListStyle } from "../sectionsTypes/list";
 import { Testimonial, TestimonialStyle } from "../sectionsTypes/testimonials";
@@ -21,7 +21,8 @@ export type SectionsStyleType =
   | ListStyle
   | AccordionStyle
   | TestimonialStyle
-  | HeaderStyle;
+  | HeaderStyle
+  | GalleryStyle;
 export type TextSizeType = "s" | "m" | "l";
 
 export type AlignType = "start" | "center" | "end";
