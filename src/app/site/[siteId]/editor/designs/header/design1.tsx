@@ -48,7 +48,7 @@ function Design1({ pageId, section }: Design1Props) {
   const normalHeaderClassName = cn(
     "bg-background transition-transform ease-linear",
     {
-      "fixed right-0  w-[calc(100vw_-_450px)] top-0 z-50 mt-12": sticky,
+      "fixed right-0  w-[calc(100vw_-_435px)] top-0 z-50 mt-12": sticky,
       "-translate-y-48": !isVisible && autoHide && sticky, // hide navbar when not visible
       "translate-y-0": isVisible && autoHide && sticky, // show navbar when visible
       "bg-background/50 backdrop-blur-lg": glass,
@@ -67,7 +67,7 @@ function Design1({ pageId, section }: Design1Props) {
   const floatHeaderClassName = cn(
     "bg-background transition-transform ease-linear",
     {
-      "mx-auto inset-x-0 mt-14 ms-[456px] fixed right-0 top-0 z-50 mt-14":
+      "mx-auto inset-x-0 mt-14 ms-[450px] fixed right-0 top-0 z-50 mt-14":
         float,
       "px-5 w-[calc(99vw_-_450px)]": width === "fill",
       "-translate-y-48": !isVisible && autoHide && sticky, // hide navbar when not visible

@@ -49,7 +49,7 @@ function Design4({ pageId, section }: Design4Props) {
   const normalHeaderClassName = cn(
     "bg-background transition-transform ease-linear",
     {
-      "fixed right-0  w-[calc(100vw_-_450px)] top-0 z-50 mt-12": sticky,
+      "fixed right-0  w-[calc(100vw_-450px)] top-0 z-50 mt-12": sticky,
       "-translate-y-48": !isVisible && autoHide && sticky, // hide navbar when not visible
       "translate-y-0": isVisible && autoHide && sticky, // show navbar when visible
       "bg-background/50 backdrop-blur-lg": glass,
@@ -68,9 +68,9 @@ function Design4({ pageId, section }: Design4Props) {
   const floatHeaderClassName = cn(
     "bg-background transition-transform ease-linear rounded-sm",
     {
-      "mx-auto inset-x-0 mt-14 ms-[456px] fixed right-0 top-0 z-50 mt-14":
+      "mx-auto inset-x-0 mt-14 ms-[440px] fixed right-0 top-0 z-50 mt-14":
         float,
-      "px-5 w-[calc(99vw_-_450px)]": width === "fill",
+      "px-5 w-[calc(99vw_-_435px)]": width === "fill",
       "-translate-y-48": !isVisible && autoHide && sticky, // hide navbar when not visible
       "translate-y-0": isVisible && autoHide && sticky, // show navbar when visible
       "bg-transparent ms-[447px]": width === "fit",

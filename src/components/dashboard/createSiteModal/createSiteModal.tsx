@@ -175,7 +175,7 @@ function CreateSiteModal({
     }
 
     const unsplashResponseUsers = await unsplashClient.search.getPhotos({
-      query: `${siteDescription} Random person`,
+      query: `${siteDescription} user`,
       page: 1,
     });
 
