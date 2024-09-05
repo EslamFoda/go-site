@@ -369,42 +369,42 @@ const BrainCircuit = () => {
         className="animate-pulse"
         strokeDasharray="50 50"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-width="6"
+        strokeLinecap="round"
+        strokeWidth="6"
         d="M97 80.5V88C97 93.5228 92.5228 98 87 98H80M31 80.5V88C31 93.5228 35.4772 98 41 98H47.5M31 47V41C31 35.4772 35.4772 31 41 31H47.5M97 47V41C97 35.4772 92.5228 31 87 31H80M31 70.125V63.75 57.375M97 70.125V63.75 57.375M69.375 31H62.75 57.125M69.375 98H62.75 57.125M46 76L58.0844 52.2089C58.1495 52.0807 58.281 52 58.4248 52V52C58.5725 52 58.7069 52.0852 58.77 52.2187L70 76M52 70H63M81 76V52M97 80H104M48 98L48 106"
       ></path>
       <path
         className="animate-draw"
         strokeDasharray="16"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="6"
         d="M31 80H23"
       ></path>
       <path
         className="animate-draw"
         strokeDasharray="16"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-width="6"
+        strokeLinecap="round"
+        strokeWidth="6"
         d="M48 31L48 23"
       ></path>
       <path
         className="animate-draw"
         strokeDasharray="16"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="6"
         d="M97 47H104"
       ></path>
       <path
         className="animate-draw"
         strokeDasharray="16"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-width="6"
+        strokeLinecap="round"
+        strokeWidth="6"
         d="M80 98L80 106"
       ></path>
       <path
@@ -417,17 +417,17 @@ const BrainCircuit = () => {
         className="animate-draw"
         strokeDasharray="16"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="6"
         d="M31 47H23"
       ></path>
       <path
         className="animate-draw"
         strokeDasharray="16"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-width="6"
+        strokeLinecap="round"
+        strokeWidth="6"
         d="M80 31L80 23"
       ></path>
     </svg>
