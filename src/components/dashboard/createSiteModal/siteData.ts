@@ -98,7 +98,7 @@ export const generateSections = (
         },
         imageSetting: {
           objectFit: "cover",
-          backgroundColor: "primary",
+          backgroundColor: "gray",
           showImage: true,
         },
       },
