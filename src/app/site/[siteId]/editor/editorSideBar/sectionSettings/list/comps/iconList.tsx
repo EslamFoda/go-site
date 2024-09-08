@@ -41,7 +41,7 @@ function IconList({ handlePropertyChange, selectedListItem }: IconListProps) {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
-        <Search className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" />
+        <Search className="absolute left-2.5 top-3 h-4 w-4 text-muted-foreground" size={10}/>
       </div>
       <div
         className="px-3 overflow-y-auto"

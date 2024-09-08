@@ -141,6 +141,7 @@ const initialState: EditorStore = {
   selectedSubLink: null,
   sectionIndex: 0,
   chooseIcon: false,
+  chooseImage: false,
   selectedPallet: "default-theme",
   openSectionDesigns: false,
   openPallet: false,
@@ -325,6 +326,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = true;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
+        draft.chooseImage = false
         draft.selectedSection = null;
         draft.openPages = false;
         draft.openPageSetting = false;
@@ -354,6 +356,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
+        draft.chooseImage = false
         draft.selectedSection = null;
         draft.openPageSetting = false;
         break;
@@ -364,6 +367,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
+        draft.chooseImage = false
         draft.openPageSetting = false;
 
         break;
@@ -391,6 +395,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
+        draft.chooseImage = false
         draft.selectedSection = null;
         break;
       }
@@ -401,6 +406,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
+        draft.chooseImage = false
         draft.selectedSection = null;
         break;
       }
@@ -427,9 +433,20 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
+        draft.chooseImage = false;
         draft.selectedSection = null;
         draft.openPageSetting = false;
         draft.openPages = true;
+        break;
+      }
+
+      case types.OPEN_CHOOSE_IMAGE: {
+        draft.chooseImage = true;
+        break;
+      }
+
+      case types.CLOSE_CHOOSE_IMAGE: {
+        draft.chooseImage = false;
         break;
       }
 

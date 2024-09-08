@@ -426,7 +426,7 @@ export function useSections() {
 
           leftTitlePosition: false,
           displayType: "grid",
-          cardSlider: {
+          carouselSettings: {
             desktopWidth: 300,
             mobileWidth: 300,
             autoScroll: false,

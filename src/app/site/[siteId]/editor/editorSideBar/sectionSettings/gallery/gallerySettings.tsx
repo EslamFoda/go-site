@@ -1,9 +1,14 @@
 import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ChevronLeft, Trash2 } from "lucide-react";
+import { ArrowUpFromLine, ChevronLeft, Trash2 } from "lucide-react";
 import ColorSelector from "../settingsUi/ColorSelector";
-import { JustifyCenter, JustifyEnd, JustifyStart } from "@/icons/common";
+import {
+  ImagePlaceHolder,
+  JustifyCenter,
+  JustifyEnd,
+  JustifyStart,
+} from "@/icons/common";
 import {
   EditorSection,
   SectionContentTypes,
@@ -11,12 +16,16 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
+  openChooseImage,
   updateContent,
   updateSelectedItem,
   updateStyle,
 } from "@/reduxStore/action";
 import BackBtn from "@/components/shared/backBtn";
 import { Photo } from "@/types/sectionsTypes/gallery";
+import GalleryContentTab from "./galleryContentTab";
+import ChooseImage from "./chooseImage";
+import GalleryStyleTab from "./galleryStyleTab";
 
 interface GallerySettingsProps {
   sections:
@@ -32,6 +41,7 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
   const selectedSection = useAppSelector(
     (state) => state.editor.selectedSection
   );
+  const chooseImage = useAppSelector((state) => state.editor.chooseImage);
   const selectedItem = useAppSelector((state) => state.editor.selectedItem);
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id
@@ -55,17 +65,21 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
     dispatch(updateSelectedItem(null));
   };
 
-  const handleUpdateAccordionItem = (field: keyof Photo, value: any) => {
-    const updatedAccordions = galleryContent.photos.map((photo) =>
-      photo.id === photoItem.id ? { ...photo, [field]: value } : photo
+  const handleUpdatePhoto = (updates: Partial<Photo>) => {
+    const updatedPhotos = galleryContent.photos.map((photo) =>
+      photo.id === photoItem.id ? { ...photo, ...updates } : photo
     );
-    dispatch(updateSelectedItem({ ...photoItem, [field]: value }));
+    dispatch(updateSelectedItem({ ...photoItem, ...updates }));
     dispatch(
       updateContent(pageId, findSelectedSection.id, {
-        photos: updatedAccordions,
+        photos: updatedPhotos,
       })
     );
   };
+
+  if (chooseImage) {
+    return <ChooseImage handleUpdatePhoto={handleUpdatePhoto} />;
+  }
 
   if (photoItem)
     return (
@@ -84,7 +98,52 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
             <Trash2 size="18px" color="red" />
           </div>
         </div>
-        <div className="px-5 pb-1 space-y-2">photo item</div>
+        <div className="px-5 pb-1 space-y-2">
+          <div
+            onClick={() => dispatch(openChooseImage())}
+            className="space-y-1 cursor-pointer flex items-center justify-between"
+          >
+            <Label htmlFor="title">Image</Label>
+            <div className="w-4/6 border flex h-10 border-input rounded-md">
+              <div className=" basis-4/5 flex items-center justify-center h-full">
+                {photoItem.url ? (
+                  <div
+                    className="h-5 w-5"
+                    style={{
+                      backgroundImage: `url(${photoItem.url})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  ></div>
+                ) : (
+                  <ImagePlaceHolder
+                    fillColor="fill-muted"
+                    width={20}
+                    height={20}
+                  />
+                )}
+              </div>
+              {photoItem.url ? (
+                <div
+                  className=" flex items-center border-s justify-center basis-1/5 h-full "
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleUpdatePhoto({
+                      id: "",
+                      url: undefined,
+                    });
+                  }}
+                >
+                  <Trash2 className="stroke-destructive" size={16} />
+                </div>
+              ) : (
+                <div className=" flex items-center border-s justify-center basis-1/5 h-full ">
+                  <ArrowUpFromLine size={18} />
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
     );
 
@@ -267,6 +326,19 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
           <TabsTrigger value="content">content</TabsTrigger>
           <TabsTrigger value="style">style</TabsTrigger>
         </TabsList>
+        <GalleryContentTab
+          findSelectedSection={findSelectedSection}
+          galleryContent={galleryContent}
+          items={galleryContent?.photos || []}
+          pageId={pageId}
+        />
+        <GalleryStyleTab
+          findSelectedSection={findSelectedSection}
+          galleryContent={galleryContent}
+          galleryStyle={galleryStyle}
+          pageId={pageId}
+          setSectionBgOpened={setSectionBgOpened}
+        />
       </Tabs>
     </div>
   );

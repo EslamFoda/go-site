@@ -28,7 +28,7 @@ export interface GalleryStyle {
     };
     displayType: displayType;
     leftTitlePosition: boolean;
-    cardSlider: {
+    carouselSettings: {
       desktopWidth: number;
       mobileWidth: number;
       autoScroll: boolean;

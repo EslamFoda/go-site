@@ -75,6 +75,7 @@ export interface EditorStore {
   openSectionDesigns: boolean;
   openPallet: boolean;
   chooseIcon: boolean;
+  chooseImage: boolean;
   selectedPallet: string;
   designSettings: DesignSettings;
   activePage: string;

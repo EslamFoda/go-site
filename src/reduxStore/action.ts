@@ -178,3 +178,11 @@ export const updateSelectedPage = (
   type: types.UPDATE_SELECTED_PAGE,
   payload: { pageId, newSections },
 });
+
+export const openChooseImage = () => ({
+  type: types.OPEN_CHOOSE_IMAGE,
+});
+
+export const closeChooseImage = () => ({
+  type: types.CLOSE_CHOOSE_IMAGE,
+})

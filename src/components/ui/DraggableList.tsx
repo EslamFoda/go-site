@@ -10,9 +10,18 @@ import { Accordion } from "@/types/sectionsTypes/accordion";
 import { SelectedItemType } from "@/types/common";
 import { Testimonial } from "@/types/sectionsTypes/testimonials";
 import { Link, SubLink } from "@/types/sectionsTypes/header";
+import { Photo } from "@/types/sectionsTypes/gallery";
+import { ImagePlaceHolder } from "@/icons/common";
 interface DraggableListProps {
   label: string;
-  items: Card[] | ListItem[] | Accordion[] | Testimonial[] | Link[] | SubLink[];
+  items:
+    | Card[]
+    | ListItem[]
+    | Accordion[]
+    | Testimonial[]
+    | Link[]
+    | SubLink[]
+    | Photo[];
   maxItems?: number; // Add the maxItems prop
   listType?: "testimonial";
   handleDragEnd: (result: any) => void;
@@ -21,8 +30,10 @@ interface DraggableListProps {
     type: string;
     payload: SelectedItemType | SubLink;
   };
+  hasImg?: boolean;
 }
 function DraggableList({
+  hasImg = false,
   label,
   items,
   maxItems,
@@ -51,6 +62,19 @@ function DraggableList({
               >
                 <GripVertical size={15} />
               </div>
+              {hasImg && (
+                <div
+                  className="w-20 flex items-center justify-center rounded-sm h-7 bg-muted"
+                  style={{
+                    backgroundImage: `url(${item.url})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                >
+                  {!item.url && <ImagePlaceHolder width={20} height={20} />}
+                </div>
+              )}
               <span>{item.title || item.name || item.text}</span>
             </div>
             <div>
