@@ -5,8 +5,13 @@ import { cn } from "@/lib/utils";
 import { updateSelectedSection } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { HeaderContent, HeaderStyle } from "@/types/sectionsTypes/header";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { ChevronDown } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 interface Design3Props {
   section: any;
@@ -122,9 +127,9 @@ function Design3({ pageId, section }: Design3Props) {
   }, [lastScrollY]);
 
   const ScrollIndicator = () => (
-    <div
-      className={scrollIndicatorClassName}
-      style={{ width: `${scrollProgress}%` }}
+    <Progress
+      className="h-1 transition-width duration-300 ease-in-out bg-background"
+      value={scrollProgress}
     />
   );
 

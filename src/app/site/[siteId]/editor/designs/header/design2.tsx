@@ -11,6 +11,7 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { ChevronDown } from "lucide-react";
+import { Progress } from "@/components/ui/progress";
 
 interface Design2Props {
   section: any;
@@ -93,11 +94,6 @@ function Design2({ pageId, section }: Design2Props) {
     }
   );
 
-  const scrollIndicatorClassName = cn(
-    "h-1  transition-width duration-300 ease-in-out",
-    { "bg-primary": scrollIndicator }
-  );
-
   useEffect(() => {
     const handleScroll = () => {
       if (typeof window !== "undefined") {
@@ -126,9 +122,9 @@ function Design2({ pageId, section }: Design2Props) {
   }, [lastScrollY]);
 
   const ScrollIndicator = () => (
-    <div
-      className={scrollIndicatorClassName}
-      style={{ width: `${scrollProgress}%` }}
+    <Progress
+      className="h-1 transition-width duration-300 ease-in-out bg-background"
+      value={scrollProgress}
     />
   );
 

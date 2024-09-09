@@ -1,3 +1,4 @@
+import { useMotion } from "@/hooks/useMotion";
 import { useSections } from "@/hooks/useSections";
 import { BannerSectionIcon, BannerSectionLightIcon } from "@/icons/banner";
 import { CardSectionIcon, CardSectionLightIcon } from "@/icons/cards";
@@ -23,7 +24,34 @@ import { ChevronRight } from "lucide-react";
 import { useTheme } from "next-themes";
 import React from "react";
 
+const variants = {
+  open: {
+    transition: { staggerChildren: 0.07, delayChildren: 0.2 },
+  },
+  closed: {
+    transition: { staggerChildren: 0.05, staggerDirection: -1 },
+  },
+};
+
+const sectionVariants = {
+  open: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      y: { stiffness: 1000, velocity: -100 },
+    },
+  },
+  closed: {
+    y: 20,
+    opacity: 0,
+    transition: {
+      y: { stiffness: 1000 },
+    },
+  },
+};
+
 function ChooseSection() {
+  const { motion } = useMotion();
   const sectionIndex = useAppSelector((state) => state.editor.sectionIndex);
   const activePageId = useAppSelector((state) => state.editor.activePage);
   const page = useAppSelector((state) =>
@@ -99,13 +127,21 @@ function ChooseSection() {
   };
 
   return (
-    <div className="p-5 space-y-3">
+    <motion.div
+      variants={variants}
+      initial="closed"
+      animate="open"
+      className="p-5 space-y-3"
+    >
       {sections.map((section) => {
         if (section.sectionName === "Header" && showHeader) return null;
 
         const { Icon, desc } = SectionIcons[section.sectionName];
         return (
-          <div
+          <motion.div
+            variants={sectionVariants}
+            whileHover={{ scale: 1.06 }}
+            whileTap={{ scale: 0.95 }}
             className="flex justify-between items-center bg-muted p-[10px] cursor-pointer rounded-sm hover:bg-muted-foreground/65 group"
             key={section.id}
             onClick={() => handleChooseSection(section)}
@@ -126,10 +162,10 @@ function ChooseSection() {
             <div>
               <ChevronRight size={16} />
             </div>
-          </div>
+          </motion.div>
         );
       })}
-    </div>
+    </motion.div>
   );
 }
 

@@ -9,6 +9,7 @@ import { aiThemes } from "@/constant/theme";
 import ThemeItem from "./themeItem";
 import { createClient } from "@/utlis/supabase/client";
 import { DesignSettings } from "@/reduxStore/types";
+import { useMotion } from "@/hooks/useMotion";
 
 // Define types
 export interface Theme {
@@ -25,8 +26,18 @@ export interface Theme {
   primaryForGround?: string;
 }
 
+const variants = {
+  open: {
+    transition: { staggerChildren: 0.07, delayChildren: 0.2 },
+  },
+  closed: {
+    transition: { staggerChildren: 0.05, staggerDirection: -1 },
+  },
+};
+
 function AiThemes() {
   const dispatch = useAppDispatch();
+  const { motion } = useMotion();
   const themeRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const designSettings = useAppSelector((state) => state.editor.designSettings);
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
@@ -141,7 +152,12 @@ function AiThemes() {
 
   return (
     <div className="pb-20">
-      <div className="grid grid-cols-2 gap-2">
+      <motion.div
+        className="grid grid-cols-2 gap-2"
+        variants={variants}
+        initial="closed"
+        animate="open"
+      >
         {/* Selected Theme */}
         <ThemeItem
           theme={activeTheme}
@@ -160,7 +176,7 @@ function AiThemes() {
             setRef={setThemeRef(theme.colorPallet)}
           />
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }
