@@ -4,6 +4,7 @@ import { AlignType, displayType, SectionBgColorType } from "@/types/common";
 export interface Photo {
   id: string;
   url: string;
+  imgId: string;
 }
 
 // Define types for Cards content

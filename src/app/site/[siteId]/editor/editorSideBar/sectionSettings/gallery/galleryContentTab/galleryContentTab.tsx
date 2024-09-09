@@ -43,6 +43,7 @@ function GalleryContentTab({
     const newItem = {
       id: v4(),
       url: "",
+      imgId: "",
     } as Photo;
     const newItems = [...items, newItem] as Photo[];
     dispatch(

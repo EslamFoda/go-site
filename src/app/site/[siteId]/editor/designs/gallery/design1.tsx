@@ -22,12 +22,14 @@ import {
   GalleryStyle,
   Photo,
 } from "@/types/sectionsTypes/gallery";
+import { useMotion } from "@/hooks/useMotion";
 
 interface DesignProps {
   section: any;
   pageId: string;
 }
 function Design1({ section, pageId }: DesignProps) {
+  const { motion, AnimatePresence } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
@@ -122,34 +124,43 @@ function Design1({ section, pageId }: DesignProps) {
           <div className="md:col-span-2">
             {galleryStyle.designSettings.displayType === "grid" ? (
               <div className={gridClassNames}>
-                {galleryContent.photos.map((photo: Photo, index: number) => (
-                  <div
-                    style={{
-                      minHeight: isDesktop
-                        ? galleryStyle.designSettings.height.desktop
-                        : galleryStyle.designSettings.height.mobile,
-                      backgroundImage: `url(${photo.url})`,
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                    }}
-                    key={index}
-                    className={cardClassNames}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      dispatch(updateSelectedSection(pageId, section.id));
-                      dispatch(updateSelectedItem(photo));
-                      dispatch(closePageSettings());
-                    }}
-                  >
-                    {!photo.url && (
-                      <div className={imagePlaceholderClassNames}>
-                        <ImagePlaceHolder
-                          fillColor={bgMuted ? "fill-muted" : "fill-background"}
-                        />
-                      </div>
-                    )}
-                  </div>
-                ))}
+                <AnimatePresence mode={"popLayout"}>
+                  {galleryContent.photos.map((photo: Photo, index: number) => (
+                    <motion.div
+                      layout="preserve-aspect"
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.8, opacity: 0 }}
+                      transition={{ type: "tween" }}
+                      style={{
+                        minHeight: isDesktop
+                          ? galleryStyle.designSettings.height.desktop
+                          : galleryStyle.designSettings.height.mobile,
+                        backgroundImage: `url(${photo.url})`,
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                      }}
+                      key={photo.id || index} // Ensure this key is unique and stable
+                      className={cardClassNames}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        dispatch(updateSelectedSection(pageId, section.id));
+                        dispatch(updateSelectedItem(photo));
+                        dispatch(closePageSettings());
+                      }}
+                    >
+                      {!photo.url && (
+                        <div className={imagePlaceholderClassNames}>
+                          <ImagePlaceHolder
+                            fillColor={
+                              bgMuted ? "fill-muted" : "fill-background"
+                            }
+                          />
+                        </div>
+                      )}
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
               </div>
             ) : (
               <Carousel

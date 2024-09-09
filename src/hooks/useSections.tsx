@@ -396,18 +396,22 @@ export function useSections() {
         photos: [
           {
             id: v4(),
+            imgId: "",
             url: "",
           },
           {
             id: v4(),
+            imgId: "",
             url: "",
           },
           {
             id: v4(),
+            imgId: "",
             url: "",
           },
           {
             id: v4(),
+            imgId: "",
             url: "",
           },
         ],

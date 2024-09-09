@@ -18,8 +18,10 @@ interface PhotoCardProps {
 }
 
 const PhotoCard: React.FC<PhotoCardProps> = ({ image, handleUpdatePhoto }) => {
-  const selectedPhoto = useAppSelector((state) => state.editor.selectedItem);
-  const isSelected = image.id === selectedPhoto?.id;
+  const selectedPhoto = useAppSelector(
+    (state) => state.editor.selectedItem
+  ) as Photo;
+  const isSelected = image.id === selectedPhoto?.imgId;
 
   return (
     <div
@@ -29,7 +31,7 @@ const PhotoCard: React.FC<PhotoCardProps> = ({ image, handleUpdatePhoto }) => {
       }`}
       onClick={() => {
         handleUpdatePhoto({
-          id: image.id,
+          imgId: image.id,
           url: image.urls.regular,
         });
       }}
