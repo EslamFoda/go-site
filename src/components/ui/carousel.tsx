@@ -8,8 +8,6 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { useMotion } from "@/hooks/useMotion";
-import { HTMLMotionProps } from "framer-motion";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
@@ -174,30 +172,26 @@ const CarouselContent = React.forwardRef<
 });
 CarouselContent.displayName = "CarouselContent";
 
-type CarouselItemProps = HTMLMotionProps<"div"> &
-  React.HTMLAttributes<HTMLDivElement>;
+const CarouselItem = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement>
+>(({ className, ...props }, ref) => {
+  const { orientation } = useCarousel();
 
-const CarouselItem = React.forwardRef<HTMLDivElement, CarouselItemProps>(
-  ({ className, ...props }, ref) => {
-    const { orientation } = useCarousel();
-    const { motion } = useMotion();
-
-    return (
-      <motion.div
-        ref={ref}
-        role="group"
-        aria-roledescription="slide"
-        className={cn(
-          "min-w-0 shrink-0 grow-0 basis-full",
-          orientation === "horizontal" ? "pl-4" : "pt-4",
-          className
-        )}
-        {...props}
-      />
-    );
-  }
-);
-
+  return (
+    <div
+      ref={ref}
+      role="group"
+      aria-roledescription="slide"
+      className={cn(
+        "min-w-0 shrink-0 grow-0 basis-full",
+        orientation === "horizontal" ? "pl-4" : "pt-4",
+        className
+      )}
+      {...props}
+    />
+  );
+});
 CarouselItem.displayName = "CarouselItem";
 
 const CarouselPrevious = React.forwardRef<

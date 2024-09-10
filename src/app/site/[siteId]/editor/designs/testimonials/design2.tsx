@@ -25,12 +25,14 @@ import {
 } from "@/types/sectionsTypes/testimonials";
 import { Star } from "lucide-react";
 import { QuoteIcon } from "@/icons/testimonials";
+import { useMotion } from "@/hooks/useMotion";
 
 interface DesignProps {
   section: any;
   pageId: string;
 }
 function Design1({ section, pageId }: DesignProps) {
+  const { motion, AnimatePresence } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
@@ -182,75 +184,82 @@ function Design1({ section, pageId }: DesignProps) {
           <div className="md:col-span-2">
             {testimonialStyle.designSettings.displayType === "grid" ? (
               <div className={gridClassNames}>
-                {section.content.testimonials.map(
-                  (listItem: any, index: number) => {
-                    return (
-                      <div
-                        key={index}
-                        className={listItemClassNames}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          dispatch(updateSelectedSection(pageId, section.id));
-                          dispatch(updateSelectedItem(listItem));
-                          dispatch(closeChooseIcon());
-                          dispatch(closePageSettings());
-                        }}
-                      >
-                        <div className={starsBoxClassNames}>
-                          <div className="flex gap-1 mb-2">
-                            {testimonialsContent.iconType === "star" ? (
-                              [...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  size={24}
-                                  className={
-                                    i < listItem.rating
-                                      ? "fill-primary stroke-none"
-                                      : "fill-muted-foreground stroke-none"
-                                  }
-                                />
-                              ))
-                            ) : (
-                              <QuoteIcon />
-                            )}
+                <AnimatePresence>
+                  {section.content.testimonials.map(
+                    (review: any, index: number) => {
+                      return (
+                        <motion.div
+                          layout
+                          initial={{ scale: 0.9, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.8, opacity: 0 }}
+                          transition={{ type: "tween" }}
+                          key={review.id || index}
+                          className={listItemClassNames}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch(updateSelectedSection(pageId, section.id));
+                            dispatch(updateSelectedItem(review));
+                            dispatch(closeChooseIcon());
+                            dispatch(closePageSettings());
+                          }}
+                        >
+                          <div className={starsBoxClassNames}>
+                            <div className="flex gap-1 mb-2">
+                              {testimonialsContent.iconType === "star" ? (
+                                [...Array(5)].map((_, i) => (
+                                  <Star
+                                    key={i}
+                                    size={24}
+                                    className={
+                                      i < review.rating
+                                        ? "fill-primary stroke-none"
+                                        : "fill-muted-foreground stroke-none"
+                                    }
+                                  />
+                                ))
+                              ) : (
+                                <QuoteIcon />
+                              )}
+                            </div>
+                            <p>{review.review}</p>
                           </div>
-                          <p>{listItem.review}</p>
-                        </div>
-                        <div className="flex flex-col items-start mt-10 gap-2">
-                          <div className={iconContainerClassNames}>
-                            {listItem.avatar ? (
-                              <div
-                                className={imgContainerClassNames}
-                                style={{
-                                  backgroundImage: `url(${listItem.avatar})`,
-                                  backgroundSize: "cover",
-                                  backgroundPosition: "center",
-                                  backgroundRepeat: "no-repeat",
-                                }}
-                              ></div>
-                            ) : (
-                              <div className={iconContainerClassNames}>
-                                <ImagePlaceHolder
-                                  fillColor={
-                                    bgMuted ? "fill-background" : "fill-muted"
-                                  }
-                                  height={20}
-                                  width={20}
-                                />
-                              </div>
-                            )}
+                          <div className="flex flex-col items-start mt-10 gap-2">
+                            <div className={iconContainerClassNames}>
+                              {review.avatar ? (
+                                <div
+                                  className={imgContainerClassNames}
+                                  style={{
+                                    backgroundImage: `url(${review.avatar})`,
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "center",
+                                    backgroundRepeat: "no-repeat",
+                                  }}
+                                ></div>
+                              ) : (
+                                <div className={iconContainerClassNames}>
+                                  <ImagePlaceHolder
+                                    fillColor={
+                                      bgMuted ? "fill-background" : "fill-muted"
+                                    }
+                                    height={20}
+                                    width={20}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                            <div className={userClassNames}>
+                              <span className="text-xs">{review.name}</span>
+                              <span className="text-xs text-muted-foreground">
+                                {review.bio}
+                              </span>
+                            </div>
                           </div>
-                          <div className={userClassNames}>
-                            <span className="text-xs">{listItem.name}</span>
-                            <span className="text-xs text-muted-foreground">
-                              {listItem.bio}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  }
-                )}
+                        </motion.div>
+                      );
+                    }
+                  )}
+                </AnimatePresence>
               </div>
             ) : (
               <Carousel
@@ -263,11 +272,11 @@ function Design1({ section, pageId }: DesignProps) {
               >
                 <CarouselContent className="items-stretch">
                   {section.content.testimonials.map(
-                    (listItem: any, index: number) => {
+                    (review: any, index: number) => {
                       return (
                         <CarouselItem
                           className="h-full"
-                          key={index}
+                          key={review.id || index}
                           style={{
                             flexBasis: isDesktop
                               ? testimonialStyle.designSettings.carouselSettings
@@ -284,7 +293,7 @@ function Design1({ section, pageId }: DesignProps) {
                               dispatch(
                                 updateSelectedSection(pageId, section.id)
                               );
-                              dispatch(updateSelectedItem(listItem));
+                              dispatch(updateSelectedItem(review));
                               dispatch(closeChooseIcon());
                               dispatch(closePageSettings());
                             }}
@@ -297,7 +306,7 @@ function Design1({ section, pageId }: DesignProps) {
                                       key={i}
                                       size={21}
                                       className={
-                                        i < listItem.rating
+                                        i < review.rating
                                           ? "fill-primary stroke-none"
                                           : "fill-muted-foreground stroke-none"
                                       }
@@ -307,15 +316,15 @@ function Design1({ section, pageId }: DesignProps) {
                                   <QuoteIcon />
                                 )}
                               </div>
-                              <p>{listItem.review}</p>
+                              <p>{review.review}</p>
                             </div>
                             <div className="flex flex-col items-center mt-10 gap-2">
                               <div className={iconContainerClassNames}>
-                                {listItem.avatar ? (
+                                {review.avatar ? (
                                   <div
                                     className={imgContainerClassNames}
                                     style={{
-                                      backgroundImage: `url(${listItem.avatar})`,
+                                      backgroundImage: `url(${review.avatar})`,
                                       backgroundSize: "cover",
                                       backgroundPosition: "center",
                                       backgroundRepeat: "no-repeat",
@@ -336,9 +345,9 @@ function Design1({ section, pageId }: DesignProps) {
                                 )}
                               </div>
                               <div className={userClassNames}>
-                                <span className="text-xs">{listItem.name}</span>
+                                <span className="text-xs">{review.name}</span>
                                 <span className="text-xs text-muted-foreground">
-                                  {listItem.bio}
+                                  {review.bio}
                                 </span>
                               </div>
                             </div>

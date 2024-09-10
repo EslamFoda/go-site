@@ -23,6 +23,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useMotion } from "@/hooks/useMotion";
 
 const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const currentPage = useAppSelector((state) =>
@@ -30,6 +31,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   );
   const dispatch = useAppDispatch();
   const [hoveringIndex, setHoveringIndex] = useState<number | null>(null);
+  const { motion, AnimatePresence } = useMotion();
 
   const sectionsMapper: { [key: string]: React.ComponentType<any> } = {
     Banner,
@@ -53,100 +55,94 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
 
   return (
     <div>
-      {currentPage.sections.map((section, i) => {
-        if (
-          section.sectionName === "Header" &&
-          !currentPage.pageSettings.showHeader
-        ) {
-          return null; // Skip rendering the Header section
-        }
+      <AnimatePresence mode="popLayout">
+        {currentPage.sections.map((section, i) => {
+          if (
+            section.sectionName === "Header" &&
+            !currentPage.pageSettings.showHeader
+          ) {
+            return null; // Skip rendering the Header section
+          }
 
-        const SectionComponent = sectionsMapper[section.sectionName];
+          const SectionComponent = sectionsMapper[section.sectionName];
 
-        return (
-          <HoverCard
-            key={section.id}
-            closeDelay={0}
-            openDelay={0}
-            open={hoveringIndex === i}
-          >
-            <div
-              id={`section-${i}`} // Add id for scrolling
-              onMouseEnter={() => handleMouseEnter(i)}
-              onMouseLeave={handleMouseLeave}
-              onMouseOver={() => handleMouseEnter(i)}
+          return (
+            <motion.div
+              layout
+              initial={{ scale: 1, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              transition={{ type: "tween" }}
+              key={section.id}
             >
-              <HoverCardTrigger>
-                <HoverCardContent
-                  align="end"
-                  side="top"
-                  avoidCollisions={false}
-                  sideOffset={-45}
-                  alignOffset={10}
+              <HoverCard
+                key={section.id}
+                closeDelay={0}
+                openDelay={0}
+                open={hoveringIndex === i}
+              >
+                <div
+                  id={`section-${i}`} // Add id for scrolling
+                  onMouseEnter={() => handleMouseEnter(i)}
+                  onMouseLeave={handleMouseLeave}
+                  onMouseOver={() => handleMouseEnter(i)}
                 >
-                  {section.sectionName !== "Header" && (
-                    <ControlButtons
-                      sectionIndex={i}
-                      sectionId={section.id}
-                      pageId={pageId}
-                    />
-                  )}
-                </HoverCardContent>
-                <div onClick={() => dispatch(closeSectionDesigns())}>
-                  <SectionComponent
-                    key={section.id}
-                    section={section}
-                    pageId={pageId}
-                  />
+                  <HoverCardTrigger>
+                    <HoverCardContent
+                      align="end"
+                      side="top"
+                      avoidCollisions={false}
+                      sideOffset={-45}
+                      alignOffset={10}
+                    >
+                      {section.sectionName !== "Header" && (
+                        <ControlButtons
+                          sectionIndex={i}
+                          sectionId={section.id}
+                          pageId={pageId}
+                        />
+                      )}
+                    </HoverCardContent>
+                    <div onClick={() => dispatch(closeSectionDesigns())}>
+                      <SectionComponent
+                        key={section.id}
+                        section={section}
+                        pageId={pageId}
+                      />
+                    </div>
+                    {section.sectionName !== "Header" && (
+                      <HoverCardContent
+                        className="rounded-full"
+                        align="center"
+                        side="bottom"
+                        avoidCollisions={false}
+                        sideOffset={-14}
+                        alignOffset={0}
+                      >
+                        <TooltipProvider delayDuration={0}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span>
+                                <AddSection sectionIndex={i} pageId={pageId} />
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              Add Section
+                              <TooltipArrow className="fill-muted" />
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </HoverCardContent>
+                    )}
+                  </HoverCardTrigger>
                 </div>
-                {section.sectionName !== "Header" && (
-                  <HoverCardContent
-                    className="rounded-full"
-                    align="center"
-                    side="bottom"
-                    avoidCollisions={false}
-                    sideOffset={-14}
-                    alignOffset={0}
-                  >
-                    <TooltipProvider delayDuration={0}>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <span>
-                            <AddSection sectionIndex={i} pageId={pageId} />
-                          </span>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          Add Section
-                          <TooltipArrow className="fill-muted" />
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
-                  </HoverCardContent>
-                )}
-              </HoverCardTrigger>
-            </div>
-          </HoverCard>
-        );
-      })}
+              </HoverCard>
+            </motion.div>
+          );
+        })}
+      </AnimatePresence>
     </div>
   );
 };
 
 export default Section;
-
-{
-  /* <TooltipProvider delayDuration={0}>
-  <Tooltip>
-    <TooltipTrigger
-      className="flex items-center justify-center h-[30px] w-[30px] hover:bg-muted"
-      onClick={onClick}
-    >
-      {icon}
-    </TooltipTrigger>
-    <TooltipContent>
-      {tooltipContent}
-      <TooltipArrow className="fill-muted" />
-    </TooltipContent>
-  </Tooltip>
-</TooltipProvider>; */
-}

@@ -20,12 +20,14 @@ import {
   AccordionContent as AccordionContentType,
   AccordionStyle,
 } from "@/types/sectionsTypes/accordion";
+import { useMotion } from "@/hooks/useMotion";
 
 interface DesignProps {
   section: any;
   pageId: string;
 }
 function Design1({ section, pageId }: DesignProps) {
+  const { AnimatePresence, motion } = useMotion();
   const dispatch = useAppDispatch();
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
   const { theme } = useTheme();
@@ -93,28 +95,39 @@ function Design1({ section, pageId }: DesignProps) {
           </div>
           <div className="md:col-span-2">
             <Accordion type="multiple" className="w-full space-y-3">
-              {accordionContent.accordions.map((accordion: AccordionType) => (
-                <AccordionItem
-                  className={accordionItemClassNames}
-                  key={accordion.id}
-                  value={accordion.id}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    dispatch(updateSelectedSection(pageId, section.id));
-                    dispatch(updateSelectedItem(accordion));
-                    dispatch(closePageSettings());
-                  }}
-                >
-                  <AccordionTrigger
-                    iconType={accordionStyle.designSettings.icon}
+              <AnimatePresence>
+                {accordionContent.accordions.map((accordion: AccordionType) => (
+                  <motion.div
+                    layout
+                    initial={{ scale: 1, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.8, opacity: 0 }}
+                    transition={{ type: "tween" }}
+                    key={accordion.id}
                   >
-                    {accordion.title}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground">
-                    {accordion.text}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
+                    <AccordionItem
+                      className={accordionItemClassNames}
+                      key={accordion.id}
+                      value={accordion.id}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        dispatch(updateSelectedSection(pageId, section.id));
+                        dispatch(updateSelectedItem(accordion));
+                        dispatch(closePageSettings());
+                      }}
+                    >
+                      <AccordionTrigger
+                        iconType={accordionStyle.designSettings.icon}
+                      >
+                        {accordion.title}
+                      </AccordionTrigger>
+                      <AccordionContent className="text-muted-foreground">
+                        {accordion.text}
+                      </AccordionContent>
+                    </AccordionItem>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </Accordion>
           </div>
         </div>

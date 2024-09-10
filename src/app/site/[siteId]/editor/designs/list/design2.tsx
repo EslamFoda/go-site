@@ -21,12 +21,14 @@ import {
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
+import { useMotion } from "@/hooks/useMotion";
 
 interface DesignProps {
   section: any;
   pageId: string;
 }
 function Design2({ section, pageId }: DesignProps) {
+  const { AnimatePresence, motion } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
@@ -157,49 +159,56 @@ function Design2({ section, pageId }: DesignProps) {
           <div className="md:col-span-2">
             {listStyle.designSettings.displayType === "grid" ? (
               <div className={gridClassNames}>
-                {section.content.list.map((listItem: any, index: number) => {
-                  const ListIcon = PhosphorIcons[
-                    listItem.icon as keyof typeof PhosphorIcons
-                  ] as PhosphorIcons.Icon;
-                  return (
-                    <div
-                      key={index}
-                      className={listItemClassNames}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        dispatch(updateSelectedSection(pageId, section.id));
-                        dispatch(updateSelectedItem(listItem));
-                        dispatch(closeChooseIcon());
-                        dispatch(closePageSettings());
-                      }}
-                    >
-                      <div className={listItemTextClassNames}>
-                        <h5 className={titleClassName}>{listItem.title}</h5>
-                        <p className={texClassName}>{listItem.text}</p>
-                      </div>
-                      <div
-                        className={iconContainerClassNames}
-                        style={{
-                          height: listStyle.designSettings.height,
-                          width: listStyle.designSettings.height,
+                <AnimatePresence>
+                  {section.content.list.map((listItem: any, index: number) => {
+                    const ListIcon = PhosphorIcons[
+                      listItem.icon as keyof typeof PhosphorIcons
+                    ] as PhosphorIcons.Icon;
+                    return (
+                      <motion.div
+                        layout
+                        initial={{ scale: 1, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        transition={{ type: "tween" }}
+                        key={listItem.id || index}
+                        className={listItemClassNames}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(updateSelectedSection(pageId, section.id));
+                          dispatch(updateSelectedItem(listItem));
+                          dispatch(closeChooseIcon());
+                          dispatch(closePageSettings());
                         }}
                       >
-                        {listItem.icon ? (
-                          <ListIcon
-                            size={listStyle.designSettings.height / 2.5}
-                            className={iconClassNames}
-                          />
-                        ) : (
-                          <ImagePlaceHolder
-                            fillColor="fill-muted"
-                            height={listStyle.designSettings.height / 2.5}
-                            width={listStyle.designSettings.height / 2.5}
-                          />
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
+                        <div className={listItemTextClassNames}>
+                          <h5 className={titleClassName}>{listItem.title}</h5>
+                          <p className={texClassName}>{listItem.text}</p>
+                        </div>
+                        <div
+                          className={iconContainerClassNames}
+                          style={{
+                            height: listStyle.designSettings.height,
+                            width: listStyle.designSettings.height,
+                          }}
+                        >
+                          {listItem.icon ? (
+                            <ListIcon
+                              size={listStyle.designSettings.height / 2.5}
+                              className={iconClassNames}
+                            />
+                          ) : (
+                            <ImagePlaceHolder
+                              fillColor="fill-muted"
+                              height={listStyle.designSettings.height / 2.5}
+                              width={listStyle.designSettings.height / 2.5}
+                            />
+                          )}
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
               </div>
             ) : (
               <Carousel

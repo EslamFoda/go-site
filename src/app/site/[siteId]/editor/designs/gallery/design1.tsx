@@ -124,11 +124,11 @@ function Design1({ section, pageId }: DesignProps) {
           <div className="md:col-span-2">
             {galleryStyle.designSettings.displayType === "grid" ? (
               <div className={gridClassNames}>
-                <AnimatePresence mode={"popLayout"}>
+                <AnimatePresence>
                   {galleryContent.photos.map((photo: Photo, index: number) => (
                     <motion.div
-                      layout="preserve-aspect"
-                      initial={{ scale: 0.8, opacity: 0 }}
+                      layout
+                      initial={{ scale: 1, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       exit={{ scale: 0.8, opacity: 0 }}
                       transition={{ type: "tween" }}
@@ -172,59 +172,48 @@ function Design1({ section, pageId }: DesignProps) {
                 className="w-full"
               >
                 <CarouselContent className="items-stretch">
-                  <AnimatePresence mode={"popLayout"}>
-                    {galleryContent.photos.map(
-                      (photo: Photo, index: number) => (
-                        <CarouselItem
-                          className="h-full"
-                          layout="preserve-aspect"
-                          initial={{ scale: 0.8, opacity: 0 }}
-                          animate={{ scale: 1, opacity: 1 }}
-                          exit={{ scale: 0.8, opacity: 0 }}
-                          transition={{ type: "tween" }}
-                          key={photo.id || index} // Ensure this key is unique and stable
-                          style={{
-                            flexBasis: isDesktop
-                              ? galleryStyle.designSettings.carouselSettings
-                                  .desktopWidth
-                              : galleryStyle.designSettings.carouselSettings
-                                  .mobileWidth,
-                          }}
-                        >
-                          <div
-                            style={{
-                              minHeight: isDesktop
-                                ? galleryStyle.designSettings.height.desktop
-                                : galleryStyle.designSettings.height.mobile,
-                              backgroundImage: `url(${photo.url})`,
-                              backgroundPosition: "center",
-                              backgroundSize: "cover",
-                            }}
-                            key={index}
-                            className={cardClassNames}
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              dispatch(
-                                updateSelectedSection(pageId, section.id)
-                              );
-                              dispatch(updateSelectedItem(photo));
-                              dispatch(closePageSettings());
-                            }}
-                          >
-                            {!photo.url && (
-                              <div className={imagePlaceholderClassNames}>
-                                <ImagePlaceHolder
-                                  fillColor={
-                                    bgMuted ? "fill-muted" : "fill-background"
-                                  }
-                                />
-                              </div>
-                            )}
+                  {galleryContent.photos.map((photo: Photo, index: number) => (
+                    <CarouselItem
+                      className="h-full"
+                      key={photo.id || index} // Ensure this key is unique and stable
+                      style={{
+                        flexBasis: isDesktop
+                          ? galleryStyle.designSettings.carouselSettings
+                              .desktopWidth
+                          : galleryStyle.designSettings.carouselSettings
+                              .mobileWidth,
+                      }}
+                    >
+                      <div
+                        style={{
+                          minHeight: isDesktop
+                            ? galleryStyle.designSettings.height.desktop
+                            : galleryStyle.designSettings.height.mobile,
+                          backgroundImage: `url(${photo.url})`,
+                          backgroundPosition: "center",
+                          backgroundSize: "cover",
+                        }}
+                        key={index}
+                        className={cardClassNames}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          dispatch(updateSelectedSection(pageId, section.id));
+                          dispatch(updateSelectedItem(photo));
+                          dispatch(closePageSettings());
+                        }}
+                      >
+                        {!photo.url && (
+                          <div className={imagePlaceholderClassNames}>
+                            <ImagePlaceHolder
+                              fillColor={
+                                bgMuted ? "fill-muted" : "fill-background"
+                              }
+                            />
                           </div>
-                        </CarouselItem>
-                      )
-                    )}
-                  </AnimatePresence>
+                        )}
+                      </div>
+                    </CarouselItem>
+                  ))}
                 </CarouselContent>
                 <CarouselPrevious />
                 <CarouselNext />

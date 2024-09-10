@@ -19,12 +19,14 @@ import {
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
+import { useMotion } from "@/hooks/useMotion";
 
 interface DesignProps {
   section: any;
   pageId: string;
 }
 function Design1({ section, pageId }: DesignProps) {
+  const { motion, AnimatePresence } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
@@ -157,62 +159,69 @@ function Design1({ section, pageId }: DesignProps) {
           <div className="md:col-span-2">
             {cardStyle.designSettings.displayType === "grid" ? (
               <div className={gridClassNames}>
-                {section.content.cards.map((card: any, index: number) => (
-                  <div
-                    key={index}
-                    className={cardClassNames}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      dispatch(updateSelectedSection(pageId, section.id));
-                      dispatch(updateSelectedItem(card));
-                      dispatch(closePageSettings());
-                    }}
-                  >
-                    <h5 className={titleClassName}>{card.title}</h5>
-                    <p className={textOrderClassName}>{card.text}</p>
-                    {cardStyle.designSettings.image && (
-                      <div className={imageOrderClassName}>
-                        {card.image?.length ? (
-                          <div
-                            className="relative w-full rounded-md"
-                            style={{
-                              height: isDesktop
-                                ? cardStyle.designSettings.height.desktop
-                                : cardStyle.designSettings.height.mobile,
-                              // backgroundImage: `url(${card.image})`,
-                            }}
-                          >
-                            <Image
-                              alt={card.image}
-                              src={card.image}
-                              fill
-                              objectFit="cover"
-                            />
-                          </div>
-                        ) : (
-                          <div
-                            style={{
-                              height: isDesktop
-                                ? cardStyle.designSettings.height.desktop
-                                : cardStyle.designSettings.height.mobile,
-                              // backgroundImage: `url(${card.image})`,
-                            }}
-                            className={imagePlaceholderClassNames}
-                          >
-                            <ImagePlaceHolder
-                              fillColor={
-                                cardStyle.designSettings.cardBackground &&
-                                !bgMuted
-                                  ? "fill-muted"
-                                  : "fill-background"
-                              }
-                            />
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                ))}
+                <AnimatePresence>
+                  {section.content.cards.map((card: any, index: number) => (
+                    <motion.div
+                      layout
+                      initial={{ scale: 0.9, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      exit={{ scale: 0.8, opacity: 0 }}
+                      transition={{ type: "tween" }}
+                      key={card.id || index}
+                      className={cardClassNames}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        dispatch(updateSelectedSection(pageId, section.id));
+                        dispatch(updateSelectedItem(card));
+                        dispatch(closePageSettings());
+                      }}
+                    >
+                      <h5 className={titleClassName}>{card.title}</h5>
+                      <p className={textOrderClassName}>{card.text}</p>
+                      {cardStyle.designSettings.image && (
+                        <div className={imageOrderClassName}>
+                          {card.image?.length ? (
+                            <div
+                              className="relative w-full rounded-md"
+                              style={{
+                                height: isDesktop
+                                  ? cardStyle.designSettings.height.desktop
+                                  : cardStyle.designSettings.height.mobile,
+                                // backgroundImage: `url(${card.image})`,
+                              }}
+                            >
+                              <Image
+                                alt={card.image}
+                                src={card.image}
+                                fill
+                                objectFit="cover"
+                              />
+                            </div>
+                          ) : (
+                            <div
+                              style={{
+                                height: isDesktop
+                                  ? cardStyle.designSettings.height.desktop
+                                  : cardStyle.designSettings.height.mobile,
+                                // backgroundImage: `url(${card.image})`,
+                              }}
+                              className={imagePlaceholderClassNames}
+                            >
+                              <ImagePlaceHolder
+                                fillColor={
+                                  cardStyle.designSettings.cardBackground &&
+                                  !bgMuted
+                                    ? "fill-muted"
+                                    : "fill-background"
+                                }
+                              />
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
               </div>
             ) : (
               <Carousel
@@ -226,8 +235,8 @@ function Design1({ section, pageId }: DesignProps) {
                 <CarouselContent className="items-stretch">
                   {section.content.cards.map((card: any, index: number) => (
                     <CarouselItem
+                      key={card.id || index}
                       className="h-full"
-                      key={index}
                       style={{
                         flexBasis: isDesktop
                           ? cardStyle.designSettings.cardSlider.desktopWidth
