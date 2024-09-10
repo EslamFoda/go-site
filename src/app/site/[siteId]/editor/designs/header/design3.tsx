@@ -178,7 +178,7 @@ function Design3({ pageId, section }: Design3Props) {
                         {link.subLinks.map((subLink) => (
                           <span
                             key={subLink.id}
-                            className="cursor-pointer whitespace-nowrap hover:bg-muted py-1 px-2"
+                            className="cursor-pointer rounded-sm whitespace-nowrap hover:bg-muted py-1 px-2"
                           >
                             {subLink.text}
                           </span>
@@ -247,7 +247,7 @@ function Design3({ pageId, section }: Design3Props) {
                     {link.subLinks.map((subLink) => (
                       <span
                         key={subLink.id}
-                        className="cursor-pointer whitespace-nowrap hover:bg-muted py-1 px-2"
+                        className="cursor-pointer rounded-sm whitespace-nowrap hover:bg-muted py-1 px-2"
                       >
                         {subLink.text}
                       </span>
