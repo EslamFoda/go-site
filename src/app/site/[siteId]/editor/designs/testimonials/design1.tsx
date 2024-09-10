@@ -71,6 +71,12 @@ function Design1({ section, pageId }: DesignProps) {
     testimonialStyle.designSettings.align === "end" && "text-end"
   );
 
+  const reviewClassNames = cn({
+    "text-sm": testimonialStyle.designSettings.textSize === "s",
+    "text-sm font-semibold": testimonialStyle.designSettings.textSize === "m",
+    "text-md font-semibold": testimonialStyle.designSettings.textSize === "l",
+  });
+
   const gridClassNames = cn(
     "grid gap-5 items-start",
     testimonialStyle.designSettings.grid.desktop === 3 && "lg:grid-cols-3",
@@ -186,7 +192,7 @@ function Design1({ section, pageId }: DesignProps) {
                                 <QuoteIcon />
                               )}
                             </div>
-                            <p>{review.review}</p>
+                            <p className={reviewClassNames}>{review.review}</p>
                           </div>
                           <div className="flex items-center mt-10 gap-2">
                             {review.avatar ? (
@@ -278,7 +284,9 @@ function Design1({ section, pageId }: DesignProps) {
                                   <QuoteIcon />
                                 )}
                               </div>
-                              <p>{review.review}</p>
+                              <p className={reviewClassNames}>
+                                {review.review}
+                              </p>
                             </div>
                             <div className="flex items-center mt-10 gap-2">
                               {review.avatar ? (

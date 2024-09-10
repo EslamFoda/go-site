@@ -24,6 +24,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useMotion } from "@/hooks/useMotion";
+import Logos from "../designs/logos";
 
 const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const currentPage = useAppSelector((state) =>
@@ -41,6 +42,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
     Testimonials,
     Header,
     Gallery,
+    Logos,
   };
 
   const handleMouseEnter = (index: number) => {
@@ -54,7 +56,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   if (!currentPage) return null;
 
   return (
-    <div>
+    <div className="overflow-y-hidden">
       <AnimatePresence mode="popLayout">
         {currentPage.sections.map((section, i) => {
           if (

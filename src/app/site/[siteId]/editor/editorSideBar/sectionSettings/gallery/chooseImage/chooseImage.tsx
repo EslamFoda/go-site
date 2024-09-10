@@ -4,11 +4,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { closeChooseImage } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import UnsplashTab from "./unsplashTab";
-import { Photo } from "@/types/sectionsTypes/gallery";
+import { UnsplashImage } from "@/types/common";
 interface ChooseImageProps {
-  handleUpdatePhoto: (updates: Partial<Photo>) => void;
+  selectedImgId: string;
+  handleUpdate: (image: UnsplashImage) => void;
 }
-function ChooseImage({ handleUpdatePhoto }: ChooseImageProps) {
+function ChooseImage({ selectedImgId, handleUpdate }: ChooseImageProps) {
   const [tabValue, setTabValue] = React.useState("Uploads");
   const dispatch = useAppDispatch();
 
@@ -27,7 +28,10 @@ function ChooseImage({ handleUpdatePhoto }: ChooseImageProps) {
         </TabsContent>
         <TabsContent className="px-5" value="Unsplash">
           {/* Body font selector */}
-          <UnsplashTab handleUpdatePhoto={handleUpdatePhoto} />
+          <UnsplashTab
+            handleUpdate={handleUpdate}
+            selectedImgId={selectedImgId}
+          />
         </TabsContent>
       </Tabs>
     </>

@@ -4,6 +4,7 @@ import { Card, CardStyle } from "../sectionsTypes/cards";
 import { GalleryStyle, Photo } from "../sectionsTypes/gallery";
 import { HeaderStyle, Link, SubLink } from "../sectionsTypes/header";
 import { ListItem, ListStyle } from "../sectionsTypes/list";
+import { Logo, LogosStyle } from "../sectionsTypes/logos";
 import { Testimonial, TestimonialStyle } from "../sectionsTypes/testimonials";
 
 export type SelectedItemType =
@@ -14,7 +15,18 @@ export type SelectedItemType =
   | Link
   | Photo
   | SubLink
+  | Logo
   | null;
+
+export type DragItems =
+  | Card[]
+  | ListItem[]
+  | Accordion[]
+  | Testimonial[]
+  | Link[]
+  | SubLink[]
+  | Photo[]
+  | Logo[];
 export type SectionsStyleType =
   | BannerStyle
   | CardStyle
@@ -22,7 +34,21 @@ export type SectionsStyleType =
   | AccordionStyle
   | TestimonialStyle
   | HeaderStyle
-  | GalleryStyle;
+  | GalleryStyle
+  | LogosStyle;
+
+export type UnsplashImage = {
+  id: string;
+  urls: {
+    small: string;
+    regular: string;
+  };
+  user: {
+    first_name: string;
+  };
+  alt_description: string | null;
+};
+
 export type TextSizeType = "s" | "m" | "l";
 
 export type AlignType = "start" | "center" | "end";

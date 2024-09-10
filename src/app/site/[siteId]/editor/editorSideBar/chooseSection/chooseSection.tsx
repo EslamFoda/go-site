@@ -9,6 +9,7 @@ import {
 import { GallerySectionDark, GallerySectionLight } from "@/icons/gallery";
 import { HeaderDark, HeaderLight } from "@/icons/header";
 import { ListSectionIcon, ListSectionLightIcon } from "@/icons/list";
+import { LogosDark, LogosLight } from "@/icons/logos";
 import {
   TestimonialSectionIcon,
   TestimonialSectionLightIcon,
@@ -97,6 +98,10 @@ function ChooseSection() {
     Gallery: {
       Icon: theme === "dark" ? GallerySectionDark : GallerySectionLight,
       desc: "Display images in grids and carousel",
+    },
+    Logos: {
+      Icon: theme === "dark" ? LogosDark : LogosLight,
+      desc: "Brands in grids and carousel",
     },
     // Add more mappings as needed
   };

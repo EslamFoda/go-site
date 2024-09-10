@@ -3,25 +3,15 @@ import React from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { ChevronRight, GripVertical, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Card } from "@/types/sectionsTypes/cards";
-import { ListItem } from "@/types/sectionsTypes/list";
 import { useAppDispatch } from "@/reduxStore/hooks";
-import { Accordion } from "@/types/sectionsTypes/accordion";
-import { SelectedItemType } from "@/types/common";
-import { Testimonial } from "@/types/sectionsTypes/testimonials";
-import { Link, SubLink } from "@/types/sectionsTypes/header";
-import { Photo } from "@/types/sectionsTypes/gallery";
+import { DragItems, SelectedItemType } from "@/types/common";
+import { SubLink } from "@/types/sectionsTypes/header";
 import { ImagePlaceHolder } from "@/icons/common";
+import { useTheme } from "next-themes";
+import { Logo } from "@/types/sectionsTypes/logos";
 interface DraggableListProps {
   label: string;
-  items:
-    | Card[]
-    | ListItem[]
-    | Accordion[]
-    | Testimonial[]
-    | Link[]
-    | SubLink[]
-    | Photo[];
+  items: DragItems;
   maxItems?: number; // Add the maxItems prop
   listType?: "testimonial";
   handleDragEnd: (result: any) => void;
@@ -46,6 +36,13 @@ function DraggableList({
     "flex items-center cursor-pointer justify-between h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm"
   );
   const ListItem = ({ item, index }: any) => {
+    const { theme } = useTheme();
+    const logoItem = item as Logo;
+    const logoImg =
+      theme === "dark"
+        ? logoItem.urlDark || logoItem.urlLight
+        : logoItem.urlLight || logoItem.urlDark;
+
     return (
       <Draggable key={item.id} draggableId={item.id} index={index}>
         {(provided) => (
@@ -66,13 +63,15 @@ function DraggableList({
                 <div
                   className="w-20 flex items-center justify-center rounded-sm h-7 bg-muted"
                   style={{
-                    backgroundImage: `url(${item.url})`,
+                    backgroundImage: `url(${item.url || logoImg})`,
                     backgroundPosition: "center",
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat",
                   }}
                 >
-                  {!item.url && <ImagePlaceHolder width={20} height={20} />}
+                  {!item.url && !logoImg && (
+                    <ImagePlaceHolder width={20} height={20} />
+                  )}
                 </div>
               )}
               <span>{item.title || item.name || item.text}</span>

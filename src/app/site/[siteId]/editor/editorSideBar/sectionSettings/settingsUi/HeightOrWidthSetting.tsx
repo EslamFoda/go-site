@@ -11,6 +11,7 @@ interface HeightOrWidthSettingProps {
   handleToggleSetting: () => void; // New prop for the toggle function
   min: number | undefined;
   max: number | undefined;
+  step?: number | undefined;
 }
 
 function HeightOrWidthSetting({
@@ -20,6 +21,7 @@ function HeightOrWidthSetting({
   min,
   max,
   isDesktop,
+  step,
   onValueChange,
   handleToggleSetting,
 }: HeightOrWidthSettingProps) {
@@ -38,6 +40,7 @@ function HeightOrWidthSetting({
           value={value}
           min={min}
           max={max}
+          step={step}
           defaultValue={value}
           onValueChange={onValueChange}
         />

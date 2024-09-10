@@ -6,6 +6,7 @@ import { unsplashClient } from "@/helper/unsplash/unsplashClient";
 import { Photo } from "@/types/sectionsTypes/gallery";
 import PhotoCard from "./photoCard";
 import { useMotion } from "@/hooks/useMotion";
+import { UnsplashImage } from "@/types/common";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -22,23 +23,12 @@ const childVariants = {
   show: { opacity: 1, y: 0 },
 };
 
-interface UnsplashImage {
-  id: string;
-  urls: {
-    small: string;
-    regular: string;
-  };
-  user: {
-    first_name: string;
-  };
-  alt_description: string | null;
-}
-
 interface UnsplashTabProps {
-  handleUpdatePhoto: (updates: Partial<Photo>) => void;
+  selectedImgId: string;
+  handleUpdate: (image: UnsplashImage) => void;
 }
 
-function UnsplashTab({ handleUpdatePhoto }: UnsplashTabProps) {
+function UnsplashTab({ selectedImgId, handleUpdate }: UnsplashTabProps) {
   const [images, setImages] = useState<UnsplashImage[]>([]);
   const [searchResults, setSearchResults] = useState<UnsplashImage[]>([]);
   const [page, setPage] = useState<number>(1);
@@ -151,7 +141,8 @@ function UnsplashTab({ handleUpdatePhoto }: UnsplashTabProps) {
               <motion.div variants={childVariants} key={`${image.id} ${i}`}>
                 <PhotoCard
                   image={image}
-                  handleUpdatePhoto={handleUpdatePhoto}
+                  handleUpdate={handleUpdate}
+                  selectedImgId={selectedImgId}
                 />
               </motion.div>
             ))}
@@ -174,7 +165,8 @@ function UnsplashTab({ handleUpdatePhoto }: UnsplashTabProps) {
                 <motion.div variants={childVariants} key={`${image.id} ${i}`}>
                   <PhotoCard
                     image={image}
-                    handleUpdatePhoto={handleUpdatePhoto}
+                    handleUpdate={handleUpdate}
+                    selectedImgId={selectedImgId}
                   />
                 </motion.div>
               ))}

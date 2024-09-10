@@ -1,5 +1,4 @@
 import { ImagePlaceHolder } from "@/icons/common";
-import Image from "next/image";
 import React from "react";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "react-responsive";
@@ -71,14 +70,12 @@ function Design1({ section, pageId }: DesignProps) {
     testimonialStyle.designSettings.align === "center" && "text-center",
     testimonialStyle.designSettings.align === "end" && "text-end"
   );
+  const reviewClassNames = cn({
+    "text-sm": testimonialStyle.designSettings.textSize === "s",
+    "text-sm font-semibold": testimonialStyle.designSettings.textSize === "m",
+    "text-md font-semibold": testimonialStyle.designSettings.textSize === "l",
+  });
 
-  const titleClassName = cn(
-    testimonialStyle.designSettings.textSize === "s" && "text-sm font-medium",
-    testimonialStyle.designSettings.textSize === "m" &&
-      "text-base font-semibold",
-    testimonialStyle.designSettings.textSize === "l" && "text-lg font-bold"
-  );
-  const texClassName = cn("text-muted-foreground text-sm");
   const gridClassNames = cn(
     "grid gap-5 items-start",
     testimonialStyle.designSettings.grid.desktop === 3 && "lg:grid-cols-3",
@@ -155,14 +152,6 @@ function Design1({ section, pageId }: DesignProps) {
     {
       "rounded-md": testimonialStyle.designSettings.shape === "square",
       "rounded-full": testimonialStyle.designSettings.shape === "rounded",
-
-      // "bg-muted":testimonialStyle.designSettings.sectionBackground.color === "gray"
-      // "bg-background": testimonialStyle.designSettings.iconColor === "none",
-      // "bg-primary": testimonialStyle.designSettings.iconColor === "primary",
-      // hidden: !testimonialStyle.designSettings.icon,
-      // "bg-muted":
-      //   testimonialStyle.designSettings.iconColor === "none" &&
-      //   testimonialStyle.designSettings.border,
     }
   );
 
@@ -222,7 +211,7 @@ function Design1({ section, pageId }: DesignProps) {
                                 <QuoteIcon />
                               )}
                             </div>
-                            <p>{review.review}</p>
+                            <p className={reviewClassNames}>{review.review}</p>
                           </div>
                           <div className="flex flex-col items-start mt-10 gap-2">
                             <div className={iconContainerClassNames}>
@@ -316,7 +305,9 @@ function Design1({ section, pageId }: DesignProps) {
                                   <QuoteIcon />
                                 )}
                               </div>
-                              <p>{review.review}</p>
+                              <p className={reviewClassNames}>
+                                {review.review}
+                              </p>
                             </div>
                             <div className="flex flex-col items-center mt-10 gap-2">
                               <div className={iconContainerClassNames}>

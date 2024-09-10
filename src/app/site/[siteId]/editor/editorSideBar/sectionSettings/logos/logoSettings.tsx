@@ -22,22 +22,24 @@ import {
   updateStyle,
 } from "@/reduxStore/action";
 import BackBtn from "@/components/shared/backBtn";
-import { Photo } from "@/types/sectionsTypes/gallery";
-import GalleryContentTab from "./galleryContentTab";
-import ChooseImage from "./chooseImage";
-import GalleryStyleTab from "./galleryStyleTab";
+import { Logo } from "@/types/sectionsTypes/logos";
+import LogoContentTab from "./logoContentTab";
+import ChooseImage from "../gallery/chooseImage";
 import { UnsplashImage } from "@/types/common";
+import HeightOrWidthSetting from "../settingsUi/HeightOrWidthSetting";
+import LogoStyleTab from "./logoStyleTab";
 
-interface GallerySettingsProps {
+interface LogosSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
     | undefined;
   pageId: string;
 }
-function GallerySettings({ pageId, sections }: GallerySettingsProps) {
+function LogosSettings({ pageId, sections }: LogosSettingsProps) {
   const [tabValue, setTabValue] = useState("content");
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
-
+  const [imageMode, setImageMode] = useState<"light" | "dark">("light");
+  const [isSizeDesktop, setIsSizeDesktop] = useState(true);
   const dispatch = useAppDispatch();
   const selectedSection = useAppSelector(
     (state) => state.editor.selectedSection
@@ -48,32 +50,35 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
 
-  const galleryContent =
-    findSelectedSection?.content as SectionContentTypes["gallery"];
-  const galleryStyle =
-    findSelectedSection?.style as SectionStyleTypes["gallery"];
-  const photoItem = selectedItem as Photo;
+  const logosContent =
+    findSelectedSection?.content as SectionContentTypes["logos"];
+  const logosStyle = findSelectedSection?.style as SectionStyleTypes["logos"];
+  const logoItem = selectedItem as Logo;
 
-  const handleDeletePhoto = () => {
-    const filterPhotos = galleryContent?.photos?.filter(
-      (photo) => photo.id !== photoItem?.id
+  const handleToggleSize = () => {
+    setIsSizeDesktop(!isSizeDesktop);
+  };
+
+  const handleDeleteLogo = () => {
+    const filterLogo = logosContent?.logos?.filter(
+      (logo) => logo.id !== logoItem?.id
     );
     dispatch(
       updateContent(pageId, findSelectedSection.id, {
-        photos: filterPhotos,
+        logos: filterLogo,
       })
     );
     dispatch(updateSelectedItem(null));
   };
 
-  const handleUpdatePhoto = (updates: Partial<Photo>) => {
-    const updatedPhotos = galleryContent.photos.map((photo) =>
-      photo.id === photoItem.id ? { ...photo, ...updates } : photo
+  const handleUpdateLogo = (updates: Partial<Logo>) => {
+    const updatedLogos = logosContent.logos.map((logo) =>
+      logo.id === logoItem.id ? { ...logo, ...updates } : logo
     );
-    dispatch(updateSelectedItem({ ...photoItem, ...updates }));
+    dispatch(updateSelectedItem({ ...logoItem, ...updates }));
     dispatch(
       updateContent(pageId, findSelectedSection.id, {
-        photos: updatedPhotos,
+        logos: updatedLogos,
       })
     );
   };
@@ -81,18 +86,27 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
   if (chooseImage) {
     return (
       <ChooseImage
-        selectedImgId={photoItem?.imgId}
+        selectedImgId={
+          imageMode === "dark" ? logoItem?.darkImgId : logoItem?.lightImgId
+        }
         handleUpdate={(image: UnsplashImage) => {
-          handleUpdatePhoto({
-            imgId: image.id,
-            url: image.urls.regular,
-          });
+          if (imageMode === "dark") {
+            handleUpdateLogo({
+              darkImgId: image.id,
+              urlDark: image.urls.regular,
+            });
+          } else {
+            handleUpdateLogo({
+              lightImgId: image.id,
+              urlLight: image.urls.regular,
+            });
+          }
         }}
       />
     );
   }
 
-  if (photoItem)
+  if (logoItem)
     return (
       <div className="space-y-2">
         <div
@@ -105,23 +119,26 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
             <ChevronLeft size={18} />
             <Label className="cursor-pointer">Media</Label>
           </div>
-          <div className="cursor-pointer" onClick={handleDeletePhoto}>
+          <div className="cursor-pointer" onClick={handleDeleteLogo}>
             <Trash2 size="18px" color="red" />
           </div>
         </div>
         <div className="px-5 pb-1 space-y-2">
           <div
-            onClick={() => dispatch(openChooseImage())}
+            onClick={() => {
+              setImageMode("light");
+              dispatch(openChooseImage());
+            }}
             className="space-y-1 cursor-pointer flex items-center justify-between"
           >
-            <Label htmlFor="title">Image</Label>
+            <Label htmlFor="title">Light</Label>
             <div className="w-4/6 border flex h-10 border-input rounded-md">
-              <div className=" basis-4/5 flex items-center justify-center h-full">
-                {photoItem.url ? (
+              <div className="bg-white basis-4/5 flex items-center justify-center h-full">
+                {logoItem.urlLight ? (
                   <div
                     className="h-5 w-5"
                     style={{
-                      backgroundImage: `url(${photoItem.url})`,
+                      backgroundImage: `url(${logoItem.urlLight})`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                     }}
@@ -134,14 +151,14 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
                   />
                 )}
               </div>
-              {photoItem.url ? (
+              {logoItem.urlLight ? (
                 <div
                   className=" flex items-center border-s justify-center basis-1/5 h-full "
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleUpdatePhoto({
-                      imgId: "",
-                      url: undefined,
+                    handleUpdateLogo({
+                      urlLight: "",
+                      lightImgId: "",
                     });
                   }}
                 >
@@ -154,6 +171,76 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
               )}
             </div>
           </div>
+          <div
+            onClick={() => {
+              setImageMode("dark");
+              dispatch(openChooseImage());
+            }}
+            className="space-y-1 cursor-pointer flex items-center justify-between"
+          >
+            <Label htmlFor="title">Dark</Label>
+            <div className="w-4/6 border flex h-10 border-input rounded-md">
+              <div className="bg-black basis-4/5 flex items-center justify-center h-full">
+                {logoItem.urlDark ? (
+                  <div
+                    className="h-5 w-5"
+                    style={{
+                      backgroundImage: `url(${logoItem.urlDark})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                    }}
+                  ></div>
+                ) : (
+                  <ImagePlaceHolder
+                    fillColor="fill-muted"
+                    width={20}
+                    height={20}
+                  />
+                )}
+              </div>
+              {logoItem.urlDark ? (
+                <div
+                  className=" flex items-center border-s justify-center basis-1/5 h-full "
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleUpdateLogo({
+                      urlDark: "",
+                      darkImgId: "",
+                    });
+                  }}
+                >
+                  <Trash2 className="stroke-destructive" size={16} />
+                </div>
+              ) : (
+                <div className=" flex items-center border-s justify-center basis-1/5 h-full ">
+                  <ArrowUpFromLine size={18} />
+                </div>
+              )}
+            </div>
+          </div>
+          <HeightOrWidthSetting
+            isDesktop={isSizeDesktop}
+            label="Size"
+            min={0.2}
+            max={2}
+            step={0.1}
+            handleToggleSetting={handleToggleSize}
+            customText={
+              isSizeDesktop
+                ? `${logoItem.size.desktop}`
+                : `${logoItem.size.mobile}`
+            }
+            value={
+              isSizeDesktop ? [logoItem.size.desktop] : [logoItem.size.mobile]
+            }
+            onValueChange={(value) => {
+              const newSize = isSizeDesktop
+                ? { desktop: value[0] }
+                : { mobile: value[0] };
+
+              handleUpdateLogo({ size: { ...logoItem.size, ...newSize } });
+            }}
+          />
         </div>
       </div>
     );
@@ -167,15 +254,15 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
         />
         <div className="px-5 space-y-2">
           <ColorSelector
-            selectedColor={galleryStyle.designSettings.sectionBackground.color}
+            selectedColor={logosStyle.designSettings.sectionBackground.color}
             handleChangeColor={(color) => {
               if (color === "none") {
                 dispatch(
                   updateStyle(pageId, findSelectedSection?.id!, {
                     designSettings: {
-                      ...galleryStyle.designSettings!,
+                      ...logosStyle.designSettings!,
                       sectionBackground: {
-                        ...galleryStyle.designSettings.sectionBackground,
+                        ...logosStyle.designSettings.sectionBackground,
                         color,
                       },
                     },
@@ -185,11 +272,11 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
                 dispatch(
                   updateStyle(pageId, findSelectedSection?.id!, {
                     designSettings: {
-                      ...galleryStyle.designSettings!,
+                      ...logosStyle.designSettings!,
                       background: true,
                       border: false,
                       sectionBackground: {
-                        ...galleryStyle.designSettings.sectionBackground,
+                        ...logosStyle.designSettings.sectionBackground,
                         color,
                       },
                     },
@@ -206,9 +293,9 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
                   dispatch(
                     updateStyle(pageId, findSelectedSection?.id!, {
                       designSettings: {
-                        ...galleryStyle.designSettings!,
+                        ...logosStyle.designSettings!,
                         sectionBackground: {
-                          ...galleryStyle.designSettings.sectionBackground,
+                          ...logosStyle.designSettings.sectionBackground,
                           height: "fill",
                           align: "center",
                         },
@@ -217,8 +304,7 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
                   );
                 }}
                 className={`${
-                  galleryStyle.designSettings.sectionBackground.height ===
-                  "fill"
+                  logosStyle.designSettings.sectionBackground.height === "fill"
                     ? "bg-muted-bg"
                     : ""
                 } flex items-center justify-center cursor-pointer w-full`}
@@ -230,9 +316,9 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
                   dispatch(
                     updateStyle(pageId, findSelectedSection?.id!, {
                       designSettings: {
-                        ...galleryStyle.designSettings!,
+                        ...logosStyle.designSettings!,
                         sectionBackground: {
-                          ...galleryStyle.designSettings.sectionBackground,
+                          ...logosStyle.designSettings.sectionBackground,
                           height: "fit",
                           align: "center",
                         },
@@ -241,7 +327,7 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
                   );
                 }}
                 className={`${
-                  galleryStyle.designSettings.sectionBackground.height === "fit"
+                  logosStyle.designSettings.sectionBackground.height === "fit"
                     ? "bg-muted-bg"
                     : ""
                 } flex items-center justify-center cursor-pointer w-full`}
@@ -250,7 +336,7 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
               </div>
             </div>
           </div>
-          {galleryStyle.designSettings.sectionBackground.height === "fill" && (
+          {logosStyle.designSettings.sectionBackground.height === "fill" && (
             <div className="space-y-1 flex items-center justify-between">
               <Label>Align</Label>
               <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
@@ -259,9 +345,9 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
-                          ...galleryStyle.designSettings!,
+                          ...logosStyle.designSettings!,
                           sectionBackground: {
-                            ...galleryStyle.designSettings.sectionBackground,
+                            ...logosStyle.designSettings.sectionBackground,
                             align: "start",
                           },
                         },
@@ -269,7 +355,7 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
                     );
                   }}
                   className={`${
-                    galleryStyle.designSettings.sectionBackground.align ===
+                    logosStyle.designSettings.sectionBackground.align ===
                     "start"
                       ? "bg-muted-bg"
                       : ""
@@ -282,9 +368,9 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
-                          ...galleryStyle.designSettings!,
+                          ...logosStyle.designSettings!,
                           sectionBackground: {
-                            ...galleryStyle.designSettings.sectionBackground,
+                            ...logosStyle.designSettings.sectionBackground,
                             align: "center",
                           },
                         },
@@ -292,7 +378,7 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
                     );
                   }}
                   className={`${
-                    galleryStyle.designSettings.sectionBackground.align ===
+                    logosStyle.designSettings.sectionBackground.align ===
                     "center"
                       ? "bg-muted-bg"
                       : ""
@@ -305,9 +391,9 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
-                          ...galleryStyle.designSettings!,
+                          ...logosStyle.designSettings!,
                           sectionBackground: {
-                            ...galleryStyle.designSettings.sectionBackground,
+                            ...logosStyle.designSettings.sectionBackground,
                             align: "end",
                           },
                         },
@@ -315,8 +401,7 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
                     );
                   }}
                   className={`${
-                    galleryStyle.designSettings.sectionBackground.align ===
-                    "end"
+                    logosStyle.designSettings.sectionBackground.align === "end"
                       ? "bg-muted-bg"
                       : ""
                   } flex items-center justify-center cursor-pointer w-full`}
@@ -337,16 +422,16 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
           <TabsTrigger value="content">content</TabsTrigger>
           <TabsTrigger value="style">style</TabsTrigger>
         </TabsList>
-        <GalleryContentTab
+        <LogoContentTab
           findSelectedSection={findSelectedSection}
-          galleryContent={galleryContent}
-          items={galleryContent?.photos || []}
+          items={logosContent?.logos || []}
+          logosContent={logosContent}
           pageId={pageId}
         />
-        <GalleryStyleTab
+        <LogoStyleTab
           findSelectedSection={findSelectedSection}
-          galleryContent={galleryContent}
-          galleryStyle={galleryStyle}
+          logoStyle={logosStyle}
+          logosContent={logosContent}
           pageId={pageId}
           setSectionBgOpened={setSectionBgOpened}
         />
@@ -355,4 +440,4 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
   );
 }
 
-export default GallerySettings;
+export default LogosSettings;

@@ -1,27 +1,19 @@
 import React from "react";
 import { Check } from "lucide-react";
-import { Photo } from "@/types/sectionsTypes/gallery";
-import { useAppSelector } from "@/reduxStore/hooks";
+import { UnsplashImage } from "@/types/common";
 
 interface PhotoCardProps {
-  image: {
-    id: string;
-    urls: {
-      small: string;
-      regular: string;
-    };
-    user: {
-      first_name: string;
-    };
-  };
-  handleUpdatePhoto: (updates: Partial<Photo>) => void;
+  selectedImgId: string;
+  image: UnsplashImage;
+  handleUpdate: (image: UnsplashImage) => void;
 }
 
-const PhotoCard: React.FC<PhotoCardProps> = ({ image, handleUpdatePhoto }) => {
-  const selectedPhoto = useAppSelector(
-    (state) => state.editor.selectedItem
-  ) as Photo;
-  const isSelected = image.id === selectedPhoto?.imgId;
+const PhotoCard: React.FC<PhotoCardProps> = ({
+  selectedImgId,
+  image,
+  handleUpdate,
+}) => {
+  const isSelected = image.id === selectedImgId;
 
   return (
     <div
@@ -30,17 +22,17 @@ const PhotoCard: React.FC<PhotoCardProps> = ({ image, handleUpdatePhoto }) => {
         isSelected ? "border border-primary" : "border"
       }`}
       onClick={() => {
-        handleUpdatePhoto({
-          imgId: image.id,
-          url: image.urls.regular,
-        });
+        handleUpdate(image);
       }}
     >
-      {isSelected && (
-        <div className="absolute bg-primary h-5 w-5 flex items-center justify-center rounded-full right-1 top-1">
-          <Check size={14} className="stroke-background" />
-        </div>
-      )}
+      <div
+        className={`absolute ${
+          isSelected ? "" : "hidden"
+        } bg-primary h-5 w-5 flex items-center justify-center rounded-full right-1 top-1`}
+      >
+        <Check size={14} className="stroke-background" />
+      </div>
+
       <div
         className="w-full basis-4/5"
         style={{

@@ -445,6 +445,95 @@ export function useSections() {
         },
       },
     },
+    {
+      id: v4(),
+      sectionName: "Logos",
+      content: {
+        label: "",
+        title: "Heading",
+        subtitle: "",
+        logos: [
+          {
+            id: v4(),
+            lightImgId: "",
+            darkImgId: "",
+            urlLight: "",
+            urlDark: "",
+            size: {
+              desktop: 1,
+              mobile: 1,
+            },
+            link: "",
+          },
+          {
+            id: v4(),
+            lightImgId: "",
+            darkImgId: "",
+            urlLight: "",
+            urlDark: "",
+            size: {
+              desktop: 1,
+              mobile: 1,
+            },
+            link: "",
+          },
+          {
+            id: v4(),
+            lightImgId: "",
+            darkImgId: "",
+            urlLight: "",
+            urlDark: "",
+            size: {
+              desktop: 1,
+              mobile: 1,
+            },
+            link: "",
+          },
+          {
+            id: v4(),
+            lightImgId: "",
+            darkImgId: "",
+            urlLight: "",
+            urlDark: "",
+            size: {
+              desktop: 1,
+              mobile: 1,
+            },
+            link: "",
+          },
+        ],
+      },
+      style: {
+        designName: "design1",
+        designSettings: {
+          grid: {
+            desktop: 4,
+            mobile: 3,
+          },
+          height: {
+            desktop: 50,
+            mobile: 100,
+          },
+          align: "start",
+          background: true,
+          border: false,
+          leftTitlePosition: false,
+          displayType: "grid",
+          carouselSettings: {
+            desktopWidth: 300,
+            mobileWidth: 300,
+            autoScroll: false,
+            scrollSpeed: 2,
+          },
+          sectionBackground: {
+            color: "none",
+            media: "",
+            height: "fit",
+            spacing: "l",
+          },
+        },
+      },
+    },
   ];
 
   return { sections };

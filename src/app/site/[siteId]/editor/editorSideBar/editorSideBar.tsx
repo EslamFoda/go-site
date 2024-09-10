@@ -19,6 +19,7 @@ import debounce from "debounce";
 import PageSetting from "./pageSetting";
 import header from "./sectionSettings/header";
 import gallery from "./sectionSettings/gallery";
+import logos from "./sectionSettings/logos";
 
 const EditorSidebar = () => {
   const {
@@ -53,6 +54,7 @@ const EditorSidebar = () => {
     Testimonials: testimonials,
     Header: header,
     Gallery: gallery,
+    Logos: logos,
   };
 
   const SelectedSectionComponent = selectedSection

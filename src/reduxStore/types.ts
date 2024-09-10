@@ -1,26 +1,20 @@
 // Import section-specific content and style types
 import { SelectedItemType } from "@/types/common";
 import {
-  Accordion,
   AccordionContent,
   AccordionStyle,
 } from "@/types/sectionsTypes/accordion";
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
 import { Card, CardStyle, CardsContent } from "@/types/sectionsTypes/cards";
-import {
-  GalleryContent,
-  GalleryStyle,
-  Photo,
-} from "@/types/sectionsTypes/gallery";
+import { GalleryContent, GalleryStyle } from "@/types/sectionsTypes/gallery";
 import {
   HeaderContent,
   HeaderStyle,
-  Link,
   SubLink,
 } from "@/types/sectionsTypes/header";
-import { ListContent, ListItem, ListStyle } from "@/types/sectionsTypes/list";
+import { ListContent, ListStyle } from "@/types/sectionsTypes/list";
+import { LogosContent, LogosStyle } from "@/types/sectionsTypes/logos";
 import {
-  Testimonial,
   TestimonialContent,
   TestimonialStyle,
 } from "@/types/sectionsTypes/testimonials";
@@ -34,6 +28,7 @@ export type SectionContentTypes = {
   testimonial: TestimonialContent;
   header: HeaderContent;
   gallery: GalleryContent;
+  logos: LogosContent;
   // Add more content types here as needed
 };
 
@@ -46,6 +41,7 @@ export type SectionStyleTypes = {
   testimonial: TestimonialStyle;
   header: HeaderStyle;
   gallery: GalleryStyle;
+  logos: LogosStyle;
   // Add more style types here as needed
 };
 
