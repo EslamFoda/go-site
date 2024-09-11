@@ -20,6 +20,7 @@ import PageSetting from "./pageSetting";
 import header from "./sectionSettings/header";
 import gallery from "./sectionSettings/gallery";
 import logos from "./sectionSettings/logos";
+import fluid from "./sectionSettings/fluid";
 
 const EditorSidebar = () => {
   const {
@@ -55,6 +56,7 @@ const EditorSidebar = () => {
     Header: header,
     Gallery: gallery,
     Logos: logos,
+    Fluid: fluid,
   };
 
   const SelectedSectionComponent = selectedSection

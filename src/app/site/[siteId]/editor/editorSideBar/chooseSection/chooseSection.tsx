@@ -103,6 +103,10 @@ function ChooseSection() {
       Icon: theme === "dark" ? LogosDark : LogosLight,
       desc: "Brands in grids and carousel",
     },
+    Fluid: {
+      Icon: theme === "dark" ? LogosDark : LogosLight,
+      desc: "Fluid design",
+    },
     // Add more mappings as needed
   };
 
