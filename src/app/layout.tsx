@@ -7,6 +7,8 @@ import Toaster from "@/components/shared/toaster/";
 import TopBar from "@/components/shared/topBar";
 import { createClient } from "@/utlis/supabase/server";
 import Head from "./site/[siteId]/editor/head";
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
 
 export const metadata: Metadata = {
   title: "Create Next App",

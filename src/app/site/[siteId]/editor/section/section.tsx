@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useMotion } from "@/hooks/useMotion";
 import Logos from "../designs/logos";
+import Fluid from "../designs/fluid";
 
 const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const currentPage = useAppSelector((state) =>
@@ -43,6 +44,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
     Header,
     Gallery,
     Logos,
+    Fluid,
   };
 
   const handleMouseEnter = (index: number) => {
