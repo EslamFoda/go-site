@@ -1,52 +1,89 @@
-import React, { useEffect } from "react";
-import { GridStack } from "gridstack";
-import "gridstack/dist/gridstack.css";
-import { updateSelectedItem, updateSelectedSection } from "@/reduxStore/action";
-import { useAppDispatch } from "@/reduxStore/hooks";
+import React, { useState } from "react";
+import { times, reject } from "lodash";
+import styled from "styled-components";
+import GridLayout from "./gridLayout";
+import "./styles.css";
+import { useAppSelector } from "@/reduxStore/hooks";
 
-interface DesignProps {
-  section: any;
-  pageId: string;
+interface WidgetConfig {
+  w: number;
+  h: number;
+  icon?: unknown;
 }
-function Design1({ pageId, section }: DesignProps) {
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    var grid = GridStack.init({
-      float: true,
-      resizable: { handles: "e, se, s, sw, w" },
-      acceptWidgets: true,
-    });
-  });
-  return (
-    <section onClick={()=>{
-        dispatch(updateSelectedSection(pageId, section.id));
-        dispatch(updateSelectedItem(null));
-    }}>
-      <div className="grid-stack">
-        <div
-          className="grid-stack-item border-dark bg-primary"
-          data-gs-width="4"
-          data-gs-height="4"
-        >
-          <div className="grid-stack-item-content">Item 1</div>
-        </div>
-        <div
-          className="grid-stack-item border-dark bg-muted"
-          data-gs-width="4"
-          data-gs-height="4"
-        >
-          <div className="grid-stack-item-content">Item 2</div>
-        </div>
-        <div
-          className="grid-stack-item border-dark bg-gray-500"
-          data-gs-width="4"
-          data-gs-height="4"
-        >
-          <div className="grid-stack-item-content">Item 3</div>
-        </div>
-      </div>
-    </section>
+
+const Container = styled.div`
+  display: flex;
+`;
+
+const length = 0;
+
+const cols = 24;
+const rowHeight = 40;
+const padding: [number, number] = [16, 16];
+const layoutConfig = {
+  cols,
+  rowHeight,
+  padding,
+};
+
+const Design1 = () => {
+  const [visible, setVisible] = useState<boolean>(false);
+  const [count, setCount] = useState(length);
+
+  const droppingItem = useAppSelector((state) => state.editor.droppingItem);
+
+  const [items, setItems] = useState(
+    times(length).map((i, key, list) => ({
+      i: key.toString(),
+      type: "text",
+      layout: {
+        x: Math.floor(Math.random() * 12),
+        y: Math.floor(Math.random() * 20),
+        w: Math.floor(Math.random() * 4) + 1,
+        h: Math.floor(Math.random() * 4) + 1,
+      },
+      children: <div>text</div>,
+    }))
   );
-}
+
+  const onEdit = (id: string) => {
+    console.log("onEdit: ", id);
+    setVisible(!visible);
+  };
+
+  const onDrop = (layout: any, layoutItem: any) => {
+    console.log("on Drop: ", layout, layoutItem);
+    setItems(
+      items.concat({
+        i: count.toString(),
+        type: "text",
+        layout: layoutItem,
+        children: <span>{count}</span>,
+      })
+    );
+    setCount(count + 1);
+  };
+
+  const onRemoveItem = (id: string) => {
+    console.log("on remove:", id);
+    setItems(reject(items, { i: id }));
+    console.log(items, "removed items");
+  };
+
+  console.log("items: ", items);
+
+  return (
+    <Container className="container max-w-container">
+      <GridLayout
+        droppingItem={droppingItem}
+        items={items}
+        onEdit={onEdit}
+        onDrop={onDrop}
+        onRemove={onRemoveItem}
+        {...layoutConfig}
+      />
+    </Container>
+  );
+};
 
 export default Design1;

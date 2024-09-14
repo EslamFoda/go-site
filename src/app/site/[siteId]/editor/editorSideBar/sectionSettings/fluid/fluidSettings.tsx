@@ -1,38 +1,37 @@
-import React, { useEffect } from "react";
-import { GridStack } from "gridstack";
-import "gridstack/dist/gridstack.css";
+import React from "react";
+import { useAppDispatch } from "@/reduxStore/hooks";
+import { Container, AddItem } from "./styles";
+import { updateDroppingItem } from "@/reduxStore/action";
 
 function FluidSettings() {
-  useEffect(() => {
-    var grid = GridStack.init({
-      float: true,
-      resizable: { handles: "e, se, s, sw, w" },
-      acceptWidgets: true,
-    });
-  });
+  const dispatch = useAppDispatch();
+  const onDragStart = (item: any) => {
+    // setDroppingItem(item);
+    dispatch(updateDroppingItem(item));
+  };
+
   return (
-    <div className="grid-stack">
-      <div
-        className="grid-stack-item border-dark bg-primary"
-        data-gs-width="4"
-        data-gs-height="4"
-      >
-        <div className="grid-stack-item-content">drag me 1</div>
-      </div>
-      <div
-        className="grid-stack-item border-dark bg-muted"
-        data-gs-width="4"
-        data-gs-height="4"
-      >
-        <div className="grid-stack-item-content">drag me 2</div>
-      </div>
-      <div
-        className="grid-stack-item border-dark bg-gray-500"
-        data-gs-width="4"
-        data-gs-height="4"
-      >
-        <div className="grid-stack-item-content">drag me 3</div>
-      </div>
+    <div>
+      <Container style={{ height: "60px" }}>
+        <AddItem
+          draggable={true}
+          onDragStart={() => onDragStart({ i: "dropping", w: 4, h: 3 })}
+        >
+          Add chart
+        </AddItem>
+        <AddItem
+          draggable={true}
+          onDragStart={() => onDragStart({ i: "dropping", w: 3, h: 1 })}
+        >
+          Add filter
+        </AddItem>
+        <AddItem
+          draggable={true}
+          onDragStart={() => onDragStart({ i: "dropping", w: 2, h: 1 })}
+        >
+          Add Text
+        </AddItem>
+      </Container>
     </div>
   );
 }

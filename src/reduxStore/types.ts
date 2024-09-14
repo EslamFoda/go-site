@@ -1,5 +1,5 @@
 // Import section-specific content and style types
-import { SelectedItemType } from "@/types/common";
+import { DroppingItemType, SelectedItemType } from "@/types/common";
 import {
   AccordionContent,
   AccordionStyle,
@@ -78,7 +78,10 @@ export interface EditorStore {
   openPages: boolean;
   settings: SiteSettings;
   openPageSetting: boolean;
+  droppingItem: DroppingItemType;
 }
+
+
 
 // Define the type for an editor page
 export interface EditorPage {

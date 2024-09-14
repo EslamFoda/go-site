@@ -9,7 +9,7 @@ import {
   SectionStyleTypes,
 } from "./types";
 
-import { SelectedItemType } from "@/types/common";
+import { DroppingItemType, SelectedItemType } from "@/types/common";
 
 // Update selected section
 export const updateSelectedSection = (
@@ -173,7 +173,10 @@ export const closeSideBar = () => ({
 
 export const updateSelectedPage = (
   pageId: string | string[],
-  newSections: EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
+  newSections: EditorSection<
+    keyof SectionContentTypes,
+    keyof SectionStyleTypes
+  >[]
 ) => ({
   type: types.UPDATE_SELECTED_PAGE,
   payload: { pageId, newSections },
@@ -185,4 +188,9 @@ export const openChooseImage = () => ({
 
 export const closeChooseImage = () => ({
   type: types.CLOSE_CHOOSE_IMAGE,
-})
+});
+
+export const updateDroppingItem = (droppingItem: DroppingItemType) => ({
+  type: types.UPDATE_DROPPING_ITEM,
+  payload: droppingItem,
+});

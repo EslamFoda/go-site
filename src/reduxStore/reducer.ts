@@ -182,6 +182,10 @@ const initialState: EditorStore = {
     siteId: "",
   },
   openPageSetting: false,
+  droppingItem: {
+    h: 4,
+    w: 3,
+  },
 };
 
 // Helper function to update state at a given path
@@ -326,7 +330,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = true;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
-        draft.chooseImage = false
+        draft.chooseImage = false;
         draft.selectedSection = null;
         draft.openPages = false;
         draft.openPageSetting = false;
@@ -356,7 +360,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
-        draft.chooseImage = false
+        draft.chooseImage = false;
         draft.selectedSection = null;
         draft.openPageSetting = false;
         break;
@@ -367,7 +371,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
-        draft.chooseImage = false
+        draft.chooseImage = false;
         draft.openPageSetting = false;
 
         break;
@@ -395,7 +399,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
-        draft.chooseImage = false
+        draft.chooseImage = false;
         draft.selectedSection = null;
         break;
       }
@@ -406,7 +410,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
-        draft.chooseImage = false
+        draft.chooseImage = false;
         draft.selectedSection = null;
         break;
       }
@@ -447,6 +451,11 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.CLOSE_CHOOSE_IMAGE: {
         draft.chooseImage = false;
+        break;
+      }
+
+      case types.UPDATE_DROPPING_ITEM: {
+        draft.droppingItem = action.payload;
         break;
       }
 
