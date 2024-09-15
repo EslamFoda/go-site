@@ -31,6 +31,7 @@
     "@radix-ui/react-tooltip": "^1.1.2",
     "@redux-devtools/extension": "^3.3.0",
     "@reduxjs/toolkit": "^2.2.6",
+    "@stitches/react": "^1.2.8",
     "@supabase/ssr": "^0.4.0",
     "@supabase/supabase-js": "^2.45.1",
     "@tanstack/react-virtual": "^3.8.4",
