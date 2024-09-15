@@ -9,7 +9,7 @@ import {
   SectionStyleTypes,
 } from "./types";
 
-import { DroppingItemType, SelectedItemType } from "@/types/common";
+import { CardData, DroppingItemType, SelectedItemType } from "@/types/common";
 
 // Update selected section
 export const updateSelectedSection = (
@@ -190,7 +190,11 @@ export const closeChooseImage = () => ({
   type: types.CLOSE_CHOOSE_IMAGE,
 });
 
-export const updateDroppingItem = (droppingItem: DroppingItemType) => ({
-  type: types.UPDATE_DROPPING_ITEM,
-  payload: droppingItem,
+export const updateIsDraggingItem = (item: CardData | null) => ({
+  type: types.UPDATE_IS_DRAGGING_ITEM,
+  payload: item,
+});
+export const updateIsDragging = (isDragging: boolean) => ({
+  type: types.UPDATE_IS_DRAGGING,
+  payload: isDragging,
 });

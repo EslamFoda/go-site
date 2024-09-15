@@ -182,10 +182,14 @@ const initialState: EditorStore = {
     siteId: "",
   },
   openPageSetting: false,
-  droppingItem: {
-    h: 4,
-    w: 3,
+  dragItem: {
+    i: "",
+    content: "",
+    w: 1,
+    h: 1,
+    type: "button",
   },
+  isDragging: false,
 };
 
 // Helper function to update state at a given path
@@ -454,8 +458,13 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         break;
       }
 
-      case types.UPDATE_DROPPING_ITEM: {
-        draft.droppingItem = action.payload;
+      case types.UPDATE_IS_DRAGGING_ITEM: {
+        draft.dragItem = action.payload;
+        break;
+      }
+
+      case types.UPDATE_IS_DRAGGING: {
+        draft.isDragging = action.payload;
         break;
       }
 

@@ -6,36 +6,17 @@ import { times } from "lodash";
 import { styled } from "@stitches/react";
 import { Button } from "@/components/ui/button";
 import { ImagePlaceHolder } from "@/icons/common";
+import { CardData } from "@/types/common";
+import {
+  updateIsDragging,
+  updateIsDraggingItem,
+  updateSelectedItem,
+  updateSelectedSection,
+} from "@/reduxStore/action";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-interface CardData {
-  i: string;
-  content: string;
-  w: number;
-  h: number;
-  type: "button" | "heading" | "image";
-}
-
-const initialCards: CardData[] = [
-  {
-    i: "blue-eyes-dragon",
-    content: "Blue Eyes Dragon",
-    w: 5,
-    h: 1,
-    type: "button",
-  },
-  { i: "dark-magician", content: "Dark Magician", w: 2, h: 1, type: "heading" },
-  { i: "kuriboh", content: "Kuriboh", w: 1, h: 1, type: "button" },
-  { i: "spell-caster", content: "Spell Caster", w: 11, h: 6, type: "image" },
-  {
-    i: "summoned-skull",
-    content: "Summoned Skull",
-    w: 3,
-    h: 2,
-    type: "button",
-  },
-];
 const initialLayout: Layout[] = [];
 
 const getLayouts = (): Layouts => {
@@ -109,18 +90,26 @@ const GridBackground: React.FC<GridBackgroundProps> = ({
   );
 };
 
-const DraggableGridLayout: React.FC = () => {
+interface DraggableGridLayoutProps {
+  section: any;
+  pageId: string;
+}
+
+const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
+  pageId,
+  section,
+}) => {
   const [layouts, setLayouts] = useState<Layouts>(getLayouts());
   const [gridCards, setGridCards] = useState<CardData[]>([]);
-  const [dragItem, setDragItem] = useState<CardData | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>(0);
   const [currentBreakpoint, setCurrentBreakpoint] = useState<string>("lg");
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isDragging, setIsDragging] = useState(false);
   const [isResizing, setIsResizing] = useState(false);
+  const dispatch = useAppDispatch();
+  const { dragItem, isDragging } = useAppSelector((state) => state.editor);
 
-  const breakpoints = { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 };
-  const cols = { lg: 45, md: 40, sm: 35, xs: 30, xxs: 25 };
+  const breakpoints = { lg: 1200, sm: 768, xs: 480 };
+  const cols = { lg: 45, sm: 20, xs: 15 };
   const rowHeight = 40;
   const padding: [number, number] = [10, 10];
 
@@ -140,10 +129,6 @@ const DraggableGridLayout: React.FC = () => {
     switch (card.type) {
       case "button":
         return <Button className="w-full h-full">{card.content}</Button>;
-      case "heading":
-        return (
-          <h1 className="text-2xl font-bold text-gray-800">{card.content}</h1>
-        );
       case "image":
         return (
           <div className="w-full h-full bg-muted flex justify-center items-center rounded-md">
@@ -157,16 +142,12 @@ const DraggableGridLayout: React.FC = () => {
 
   const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
     localStorage.setItem("grid-layout", JSON.stringify(allLayouts));
+    console.log(allLayouts);
     setLayouts(allLayouts);
   };
 
-  const onDragStart = useCallback((e: React.DragEvent, item: CardData) => {
-    setDragItem(item);
-    setIsDragging(true);
-  }, []);
-
   const onDragStop = useCallback(() => {
-    setIsDragging(false);
+    dispatch(updateIsDragging(false));
   }, []);
 
   const onResizeStart = useCallback(() => {
@@ -210,16 +191,23 @@ const DraggableGridLayout: React.FC = () => {
         h: newCard.h || 1,
       };
 
-      setLayouts((prevLayouts) => ({
-        ...prevLayouts,
-        [currentBreakpoint]: [
-          ...(prevLayouts[currentBreakpoint] || []),
-          newLayout,
-        ],
-      }));
+      setLayouts((prevLayouts) => {
+        const updatedLayouts = { ...prevLayouts };
+
+        // Iterate over each breakpoint and add the new layout for each
+        Object.keys(breakpoints).forEach((breakpoint) => {
+          updatedLayouts[breakpoint] = [
+            ...(updatedLayouts[breakpoint] || []),
+            newLayout,
+          ];
+        });
+
+        return updatedLayouts;
+      });
     }
-    setDragItem(null);
-    setIsDragging(false);
+
+    dispatch(updateIsDraggingItem(null));
+    dispatch(updateIsDragging(false));
   };
 
   const onBreakpointChange = (newBreakpoint: string) => {
@@ -229,30 +217,14 @@ const DraggableGridLayout: React.FC = () => {
   const showGridPattern = gridCards.length === 0 || isDragging || isResizing;
 
   return (
-    <div ref={containerRef}>
-      <div>
-        <h3 className="text-lg font-semibold mb-3">
-          Drag these items to the grid:
-        </h3>
-        <div className="flex space-x-4">
-          {initialCards.map((card) => (
-            <div
-              key={card.i}
-              draggable
-              onDragStart={(e) => onDragStart(e, card)}
-              className={`p-4 border rounded-md cursor-move ${
-                card.type === "button"
-                  ? "bg-blue-100 border-blue-300 hover:bg-blue-200"
-                  : "bg-gray-100 border-gray-300 hover:bg-gray-200"
-              }`}
-            >
-              {card.content} ({card.type})
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="relative min-h-[400px] border-2 border-dashed border-gray-400">
+    <div
+      ref={containerRef}
+      onClick={() => {
+        dispatch(updateSelectedSection(pageId, section.id));
+        dispatch(updateSelectedItem(null));
+      }}
+    >
+      <div className="relative min-h-[400px] border-2 border-dashed">
         {showGridPattern && (
           <GridBackground
             containerWidth={containerWidth}
@@ -274,18 +246,14 @@ const DraggableGridLayout: React.FC = () => {
           onLayoutChange={handleLayoutChange}
           onBreakpointChange={onBreakpointChange}
           isDroppable={true}
-          allowOverlap
           onDrop={handleOnDrop}
-          onDragStart={() => setIsDragging(true)}
+          onDragStart={() => dispatch(updateIsDragging(true))}
           onDragStop={onDragStop}
           onResizeStart={onResizeStart}
           onResizeStop={onResizeStop}
         >
           {gridCards.map((card) => (
-            <div
-              key={card.i}
-              className="relative border rounded-md shadow-md bg-background overflow-hidden"
-            >
+            <div key={card.i} className="relative rounded-md overflow-hidden">
               <button
                 onMouseDown={(e) => e.stopPropagation()}
                 onClick={() => handleDelete(card.i)}

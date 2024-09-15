@@ -87,3 +87,11 @@ export interface DroppingItemType {
   h: number;
   icon?: unknown;
 }
+
+export interface CardData {
+  i: string;
+  content: string;
+  w: number;
+  h: number;
+  type: "button" | "image";
+}

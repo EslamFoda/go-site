@@ -15,7 +15,7 @@ const config = {
       padding: {
         DEFAULT: "var(--container-padding, 2rem)",
         sm: "var(--container-padding-sm, 2rem)",
-        lg: "var(--container-padding-lg, 4rem)",
+        // lg: "var(--container-padding-lg, 4rem)",
       },
     },
     extend: {
