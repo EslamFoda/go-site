@@ -9,7 +9,7 @@ import {
   SectionStyleTypes,
 } from "./types";
 
-import { SelectedItemType } from "@/types/common";
+import { CardData, DroppingItemType, SelectedItemType } from "@/types/common";
 
 // Update selected section
 export const updateSelectedSection = (
@@ -173,7 +173,10 @@ export const closeSideBar = () => ({
 
 export const updateSelectedPage = (
   pageId: string | string[],
-  newSections: EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
+  newSections: EditorSection<
+    keyof SectionContentTypes,
+    keyof SectionStyleTypes
+  >[]
 ) => ({
   type: types.UPDATE_SELECTED_PAGE,
   payload: { pageId, newSections },
@@ -185,4 +188,18 @@ export const openChooseImage = () => ({
 
 export const closeChooseImage = () => ({
   type: types.CLOSE_CHOOSE_IMAGE,
-})
+});
+
+export const updateIsDraggingItem = (item: CardData | null) => ({
+  type: types.UPDATE_IS_DRAGGING_ITEM,
+  payload: item,
+});
+export const updateIsDragging = (isDragging: boolean) => ({
+  type: types.UPDATE_IS_DRAGGING,
+  payload: isDragging,
+});
+
+export const updateIsDraggableModal = (isDraggable: boolean) => ({
+  type: types.UPDATE_IS_DRAGGABLE_MODAL,
+  payload: isDraggable,
+});

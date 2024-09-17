@@ -1,5 +1,5 @@
 // Import section-specific content and style types
-import { SelectedItemType } from "@/types/common";
+import { CardData, DroppingItemType, SelectedItemType } from "@/types/common";
 import {
   AccordionContent,
   AccordionStyle,
@@ -78,6 +78,9 @@ export interface EditorStore {
   openPages: boolean;
   settings: SiteSettings;
   openPageSetting: boolean;
+  dragItem: CardData;
+  isDragging: boolean;
+  isDraggableModalActive: boolean;
 }
 
 // Define the type for an editor page

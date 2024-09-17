@@ -81,3 +81,17 @@ export interface VariantOption {
 }
 
 export type PageTypes = "about" | "landing" | "";
+
+export interface DroppingItemType {
+  w: number;
+  h: number;
+  icon?: unknown;
+}
+
+export interface CardData {
+  i: string;
+  content: string;
+  w: number;
+  h: number;
+  type: "button" | "image";
+}

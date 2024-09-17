@@ -182,6 +182,15 @@ const initialState: EditorStore = {
     siteId: "",
   },
   openPageSetting: false,
+  dragItem: {
+    i: "",
+    content: "",
+    w: 1,
+    h: 1,
+    type: "button",
+  },
+  isDragging: false,
+  isDraggableModalActive: false,
 };
 
 // Helper function to update state at a given path
@@ -326,7 +335,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = true;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
-        draft.chooseImage = false
+        draft.chooseImage = false;
         draft.selectedSection = null;
         draft.openPages = false;
         draft.openPageSetting = false;
@@ -356,7 +365,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
-        draft.chooseImage = false
+        draft.chooseImage = false;
         draft.selectedSection = null;
         draft.openPageSetting = false;
         break;
@@ -367,7 +376,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
-        draft.chooseImage = false
+        draft.chooseImage = false;
         draft.openPageSetting = false;
 
         break;
@@ -395,7 +404,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
-        draft.chooseImage = false
+        draft.chooseImage = false;
         draft.selectedSection = null;
         break;
       }
@@ -406,7 +415,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
-        draft.chooseImage = false
+        draft.chooseImage = false;
         draft.selectedSection = null;
         break;
       }
@@ -447,6 +456,21 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.CLOSE_CHOOSE_IMAGE: {
         draft.chooseImage = false;
+        break;
+      }
+
+      case types.UPDATE_IS_DRAGGING_ITEM: {
+        draft.dragItem = action.payload;
+        break;
+      }
+
+      case types.UPDATE_IS_DRAGGING: {
+        draft.isDragging = action.payload;
+        break;
+      }
+
+      case types.UPDATE_IS_DRAGGABLE_MODAL: {
+        draft.isDraggableModalActive = action.payload;
         break;
       }
 

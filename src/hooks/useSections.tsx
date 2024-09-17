@@ -534,6 +534,39 @@ export function useSections() {
         },
       },
     },
+    {
+      id: v4(),
+      sectionName: "Fluid",
+      content: {
+        Logo: {
+          type: "text",
+          text: "logo",
+        },
+        logo: {
+          link: "",
+          openNewTab: false,
+        },
+        announcement: {
+          position: "above", // above, below
+          text: "",
+          link: "",
+        },
+      },
+      style: {
+        designName: "design1",
+        designSettings: {
+          logoColor: "none",
+          mobileMenuIcon: "icon-1", // icon-1, icon-2, icon-3
+          width: "fill", // fill , fit
+          sticky: false,
+          float: false,
+          shadow: false,
+          glass: false,
+          scrollIndicator: false,
+          autoHide: false,
+        },
+      },
+    },
   ];
 
   return { sections };

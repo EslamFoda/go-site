@@ -6,15 +6,20 @@ import { useEffect, useState } from "react";
 import {
   updateActivePage,
   updateEditorState,
+  updateIsDraggableModal,
   updateSelectedPallet,
 } from "@/reduxStore/action";
 import { createClient } from "@/utlis/supabase/client";
+import DraggableModal from "./draggableModal";
 
 export default function Home({ params }: any) {
   const [loading, setLoading] = useState(true);
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
   const homePageId = useAppSelector(
     (state) => state.editor.editor.pages[0].pageId
+  );
+  const isDraggableModalActive = useAppSelector(
+    (state) => state.editor.isDraggableModalActive
   );
   const dispatch = useAppDispatch();
 
@@ -57,6 +62,12 @@ export default function Home({ params }: any) {
 
   return (
     <div className={`${selectedPallet} page-container`}>
+      <DraggableModal
+        isOpen={isDraggableModalActive}
+        closeModal={() => {
+          dispatch(updateIsDraggableModal(false));
+        }}
+      />
       <Section pageId={homePageId} />
     </div>
   );
