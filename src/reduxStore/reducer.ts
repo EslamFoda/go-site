@@ -190,6 +190,7 @@ const initialState: EditorStore = {
     type: "button",
   },
   isDragging: false,
+  isDraggableModalActive: false,
 };
 
 // Helper function to update state at a given path
@@ -465,6 +466,11 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.UPDATE_IS_DRAGGING: {
         draft.isDragging = action.payload;
+        break;
+      }
+
+      case types.UPDATE_IS_DRAGGABLE_MODAL: {
+        draft.isDraggableModalActive = action.payload;
         break;
       }
 

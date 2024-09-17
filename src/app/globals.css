@@ -493,8 +493,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-.react-grid-item:not(.react-grid-placeholder) {
-  background-color: none;
-  border: none;
-}

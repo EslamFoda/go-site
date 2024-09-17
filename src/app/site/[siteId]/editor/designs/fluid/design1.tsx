@@ -2,18 +2,22 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import { Responsive, WidthProvider, Layout, Layouts } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import { times } from "lodash";
-import { styled } from "@stitches/react";
 import { Button } from "@/components/ui/button";
 import { ImagePlaceHolder } from "@/icons/common";
 import { CardData } from "@/types/common";
 import {
+  updateIsDraggableModal,
   updateIsDragging,
   updateIsDraggingItem,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import GridBackground from "./gridBackground";
+import "./styles.css";
+import { HoverCard, HoverCardContent } from "@/components/ui/hover-card";
+import { HoverCardTrigger } from "@radix-ui/react-hover-card";
+import { Trash } from "lucide-react";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -22,72 +26,6 @@ const initialLayout: Layout[] = [];
 const getLayouts = (): Layouts => {
   const savedLayouts = localStorage.getItem("grid-layout");
   return savedLayouts ? JSON.parse(savedLayouts) : { lg: initialLayout };
-};
-
-const BackgroundWrap = styled("div", {
-  position: "absolute",
-  top: 0,
-  left: 0,
-  right: 0,
-  bottom: 0,
-  zIndex: -1,
-});
-
-interface GridBackgroundProps {
-  containerWidth: number;
-  cols: number;
-  rowHeight: number;
-  padding: [number, number];
-}
-
-const GridBackground: React.FC<GridBackgroundProps> = ({
-  containerWidth,
-  cols,
-  rowHeight,
-  padding,
-}) => {
-  const PATTERN_NAME = "grid_layout_pattern";
-
-  const renderPattern = useCallback(() => {
-    const [horizontalPadding, verticalPadding] = padding;
-    const paddingWidth = verticalPadding * (cols - 1);
-    const columnWidth = (containerWidth - paddingWidth) / cols;
-    return (
-      <pattern
-        id={PATTERN_NAME}
-        patternUnits="userSpaceOnUse"
-        width="100%"
-        height={rowHeight + horizontalPadding}
-      >
-        {times(cols).map((_, index) => (
-          <rect
-            className="stroke-muted-foreground fill-muted"
-            strokeWidth={1}
-            key={index}
-            x={(columnWidth + verticalPadding) * index}
-            y={0}
-            width={columnWidth}
-            height={rowHeight}
-          />
-        ))}
-      </pattern>
-    );
-  }, [containerWidth, cols, padding, rowHeight]);
-
-  return (
-    <BackgroundWrap>
-      <svg width="100%" height="100%">
-        <defs>{renderPattern()}</defs>
-        <rect
-          x="0"
-          y="0"
-          width="100%"
-          height="100%"
-          fill={`url(#${PATTERN_NAME})`}
-        />
-      </svg>
-    </BackgroundWrap>
-  );
 };
 
 interface DraggableGridLayoutProps {
@@ -103,6 +41,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   const [gridCards, setGridCards] = useState<CardData[]>([]);
   const [containerWidth, setContainerWidth] = useState<number>(0);
   const [currentBreakpoint, setCurrentBreakpoint] = useState<string>("lg");
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState(false);
   const dispatch = useAppDispatch();
@@ -126,18 +65,37 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   }, []);
 
   const renderCardContent = (card: CardData) => {
-    switch (card.type) {
-      case "button":
-        return <Button className="w-full h-full">{card.content}</Button>;
-      case "image":
-        return (
-          <div className="w-full h-full bg-muted flex justify-center items-center rounded-md">
-            <ImagePlaceHolder fillColor={"fill-background"} />
-          </div>
-        );
-      default:
-        return <div>{card.content}</div>;
-    }
+    const isSelected = card.i === selectedItemId;
+    return (
+      <div
+        className={`relative w-full h-full ${
+          isSelected && "outline outline-1 cursor-move"
+        }`}
+        onClick={(e) => {
+          e.stopPropagation();
+          setSelectedItemId(card.i);
+        }}
+      >
+        <div className="w-full h-full flex items-center justify-center">
+          {(() => {
+            switch (card.type) {
+              case "button":
+                return (
+                  <Button className="w-full h-full">{card.content}</Button>
+                );
+              case "image":
+                return (
+                  <div className="w-full h-full bg-muted flex justify-center items-center rounded-md">
+                    <ImagePlaceHolder fillColor={"fill-background"} />
+                  </div>
+                );
+              default:
+                return <div>{card.content}</div>;
+            }
+          })()}
+        </div>
+      </div>
+    );
   };
 
   const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
@@ -146,17 +104,25 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
     setLayouts(allLayouts);
   };
 
-  const onDragStop = useCallback(() => {
-    dispatch(updateIsDragging(false));
-  }, []);
+  const onDragStop = useCallback(
+    (layout: Layout[], oldItem: Layout, newItem: Layout) => {
+      setSelectedItemId(newItem.i); // Set the dragged item as the selected item
+      dispatch(updateIsDragging(false));
+    },
+    [dispatch]
+  );
 
   const onResizeStart = useCallback(() => {
     setIsResizing(true);
   }, []);
 
-  const onResizeStop = useCallback(() => {
-    setIsResizing(false);
-  }, []);
+  const onResizeStop = useCallback(
+    (layout: Layout[], oldItem: Layout, newItem: Layout) => {
+      setSelectedItemId(newItem.i); // Ensure the resized item becomes selected
+      setIsResizing(false);
+    },
+    []
+  );
 
   const handleDelete = useCallback(
     (id: string) => {
@@ -204,6 +170,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
 
         return updatedLayouts;
       });
+      setSelectedItemId(newCard.i);
     }
 
     dispatch(updateIsDraggingItem(null));
@@ -222,6 +189,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
       onClick={() => {
         dispatch(updateSelectedSection(pageId, section.id));
         dispatch(updateSelectedItem(null));
+        setSelectedItemId(null);
       }}
     >
       <div className="relative min-h-[400px] border-2 border-dashed">
@@ -247,23 +215,49 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
           onBreakpointChange={onBreakpointChange}
           isDroppable={true}
           onDrop={handleOnDrop}
-          onDragStart={() => dispatch(updateIsDragging(true))}
+          onDragStart={() => {
+            setSelectedItemId(null);
+            dispatch(updateIsDragging(true));
+          }}
           onDragStop={onDragStop}
           onResizeStart={onResizeStart}
           onResizeStop={onResizeStop}
+          resizeHandles={["sw", "nw", "se", "ne"]}
         >
           {gridCards.map((card) => (
-            <div key={card.i} className="relative rounded-md overflow-hidden">
-              <button
-                onMouseDown={(e) => e.stopPropagation()}
-                onClick={() => handleDelete(card.i)}
-                className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center cursor-pointer hover:bg-red-600 z-10"
-              >
-                ×
-              </button>
-              <div className="w-full h-full flex items-center justify-center">
-                {renderCardContent(card)}
-              </div>
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              key={card.i}
+              className={`relative rounded-md overflow-hidden ${
+                card.i === selectedItemId && "isActive"
+              }`}
+            >
+              <HoverCard open={selectedItemId === card.i}>
+                <HoverCardContent
+                  onMouseDown={(e) => e.stopPropagation()}
+                  sideOffset={20}
+                  side="top"
+                  className="flex items-center justify-center gap-3 bg-transparent shadow-none border-none"
+                >
+                  <div
+                    onClick={() => {
+                      dispatch(updateIsDraggableModal(true));
+                    }}
+                    className="h-8 px-4 min-w-fit flex items-center shadow-md justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/80 transition-colors cursor-pointer"
+                  >
+                    <span>Edit {card.type}</span>
+                  </div>
+                  <div
+                    onClick={() => handleDelete(card.i)}
+                    className="h-8 w-8 rounded-full flex items-center shadow-md justify-center bg-primary hover:bg-primary/80 transition-colors cursor-pointer"
+                  >
+                    <Trash size={16} className="stroke-primary-foreground" />
+                  </div>
+                </HoverCardContent>
+                <HoverCardTrigger>{renderCardContent(card)}</HoverCardTrigger>
+              </HoverCard>
             </div>
           ))}
         </ResponsiveGridLayout>

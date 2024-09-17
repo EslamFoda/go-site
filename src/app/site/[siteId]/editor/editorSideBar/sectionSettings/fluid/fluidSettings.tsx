@@ -2,7 +2,6 @@ import React, { useCallback } from "react";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { updateIsDragging, updateIsDraggingItem } from "@/reduxStore/action";
 import { CardData } from "@/types/common";
-import { Button } from "@/components/ui/button";
 
 const initialCards: CardData[] = [
   { i: "spell-caster", content: "Spell Caster", w: 11, h: 6, type: "image" },
@@ -24,10 +23,13 @@ const cardElementMap: Record<string, (card: CardData) => JSX.Element> = {
 function FluidSettings() {
   const dispatch = useAppDispatch();
 
-  const onDragStart = useCallback((e: React.DragEvent, item: CardData) => {
-    dispatch(updateIsDraggingItem(item));
-    dispatch(updateIsDragging(true));
-  }, []);
+  const onDragStart = useCallback(
+    (e: React.DragEvent, item: CardData) => {
+      dispatch(updateIsDraggingItem(item));
+      dispatch(updateIsDragging(true));
+    },
+    [dispatch]
+  );
 
   return (
     <div className="flex flex-col items-center justify-center py-4 space-y-4">

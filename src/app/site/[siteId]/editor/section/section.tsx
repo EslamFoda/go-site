@@ -91,22 +91,22 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                   onMouseLeave={handleMouseLeave}
                   onMouseOver={() => handleMouseEnter(i)}
                 >
+                  <HoverCardContent
+                    align="end"
+                    side="top"
+                    avoidCollisions={false}
+                    sideOffset={-45}
+                    alignOffset={10}
+                  >
+                    {section.sectionName !== "Header" && (
+                      <ControlButtons
+                        sectionIndex={i}
+                        sectionId={section.id}
+                        pageId={pageId}
+                      />
+                    )}
+                  </HoverCardContent>
                   <HoverCardTrigger>
-                    <HoverCardContent
-                      align="end"
-                      side="top"
-                      avoidCollisions={false}
-                      sideOffset={-45}
-                      alignOffset={10}
-                    >
-                      {section.sectionName !== "Header" && (
-                        <ControlButtons
-                          sectionIndex={i}
-                          sectionId={section.id}
-                          pageId={pageId}
-                        />
-                      )}
-                    </HoverCardContent>
                     <div onClick={() => dispatch(closeSectionDesigns())}>
                       <SectionComponent
                         key={section.id}
@@ -114,31 +114,31 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                         pageId={pageId}
                       />
                     </div>
-                    {section.sectionName !== "Header" && (
-                      <HoverCardContent
-                        className="rounded-full"
-                        align="center"
-                        side="bottom"
-                        avoidCollisions={false}
-                        sideOffset={-14}
-                        alignOffset={0}
-                      >
-                        <TooltipProvider delayDuration={0}>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <span>
-                                <AddSection sectionIndex={i} pageId={pageId} />
-                              </span>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              Add Section
-                              <TooltipArrow className="fill-muted" />
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      </HoverCardContent>
-                    )}
                   </HoverCardTrigger>
+                  {section.sectionName !== "Header" && (
+                    <HoverCardContent
+                      className="rounded-full"
+                      align="center"
+                      side="bottom"
+                      avoidCollisions={false}
+                      sideOffset={-14}
+                      alignOffset={0}
+                    >
+                      <TooltipProvider delayDuration={0}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span>
+                              <AddSection sectionIndex={i} pageId={pageId} />
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            Add Section
+                            <TooltipArrow className="fill-muted" />
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </HoverCardContent>
+                  )}
                 </div>
               </HoverCard>
             </motion.div>

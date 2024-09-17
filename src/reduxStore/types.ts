@@ -80,6 +80,7 @@ export interface EditorStore {
   openPageSetting: boolean;
   dragItem: CardData;
   isDragging: boolean;
+  isDraggableModalActive: boolean;
 }
 
 // Define the type for an editor page

@@ -198,3 +198,8 @@ export const updateIsDragging = (isDragging: boolean) => ({
   type: types.UPDATE_IS_DRAGGING,
   payload: isDragging,
 });
+
+export const updateIsDraggableModal = (isDraggable: boolean) => ({
+  type: types.UPDATE_IS_DRAGGABLE_MODAL,
+  payload: isDraggable,
+});
