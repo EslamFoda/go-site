@@ -69,7 +69,6 @@ const ColorPicker: React.FC = () => {
     [dispatch, updateColors]
   );
 
-  console.log("test");
   const themeButtons = useMemo(
     () =>
       Object.entries(themeMapping)
