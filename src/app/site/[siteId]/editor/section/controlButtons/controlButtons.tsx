@@ -24,6 +24,7 @@ function ControlButtons({
   const dispatch = useAppDispatch();
 
   const isFirstSection = useMemo(() => sectionIndex === 0, [sectionIndex]);
+  const isSecondSection = useMemo(() => sectionIndex === 1, [sectionIndex]);
   const isLastSection = useMemo(
     () => sections && sectionIndex === sections.length - 1,
     [sectionIndex, sections]
@@ -70,7 +71,7 @@ function ControlButtons({
         icon={<ArrowUp size={16} />}
         tooltipContent="Move Up"
         onClick={moveSectionUp}
-        disabled={isFirstSection}
+        disabled={isFirstSection || isSecondSection}
       />
       <ControlBtn
         icon={<ArrowDown size={16} />}
