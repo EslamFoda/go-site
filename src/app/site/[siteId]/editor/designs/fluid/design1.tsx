@@ -39,6 +39,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
 }) => {
   const [layouts, setLayouts] = useState<Layouts>(getLayouts());
   const [gridCards, setGridCards] = useState<CardData[]>([]);
+  console.log(gridCards, "gridCards");
   const [containerWidth, setContainerWidth] = useState<number>(0);
   const [currentBreakpoint, setCurrentBreakpoint] = useState<string>("lg");
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);

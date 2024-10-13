@@ -127,7 +127,7 @@ export function useSections() {
             text: "card 1 text",
             image: "",
             button: "",
-            buttonColor: "gray" || "primary",
+            buttonColor: "gray",
             link: "",
           },
           {
@@ -136,7 +136,7 @@ export function useSections() {
             text: "card 2 text",
             image: "",
             button: "",
-            buttonColor: "gray" || "primary",
+            buttonColor: "gray",
             link: "",
           },
           {
@@ -145,7 +145,7 @@ export function useSections() {
             text: "card 3 text",
             image: "",
             button: "",
-            buttonColor: "gray" || "primary",
+            buttonColor: "gray",
             link: "",
           },
         ],
@@ -537,21 +537,50 @@ export function useSections() {
     {
       id: v4(),
       sectionName: "Fluid",
-      content: {
-        Logo: {
-          type: "text",
-          text: "logo",
+      content: [
+        {
+          i: "blue-eyes-dragon-1728827363624",
+          content: "Click Me",
+          w: 5,
+          h: 1,
+          type: "button",
         },
-        logo: {
-          link: "",
-          openNewTab: false,
+        {
+          i: "spell-caster-1728828440656",
+          content: "Spell Caster",
+          w: 11,
+          h: 6,
+          type: "image",
         },
-        announcement: {
-          position: "above", // above, below
-          text: "",
-          link: "",
+        {
+          i: "spell-caster-1728828454576",
+          content: "Spell Caster",
+          w: 11,
+          h: 6,
+          type: "image",
         },
-      },
+        {
+          i: "blue-eyes-dragon-1728828457284",
+          content: "Click Me",
+          w: 5,
+          h: 1,
+          type: "button",
+        },
+        {
+          i: "spell-caster-1728828466214",
+          content: "Spell Caster",
+          w: 11,
+          h: 6,
+          type: "image",
+        },
+        {
+          i: "blue-eyes-dragon-1728828469457",
+          content: "Click Me",
+          w: 5,
+          h: 1,
+          type: "button",
+        },
+      ],
       style: {
         designName: "design1",
         designSettings: {

@@ -67,7 +67,9 @@ export default function Home({ params }: any) {
         closeModal={() => {
           dispatch(updateIsDraggableModal(false));
         }}
-      />
+      >
+        <h1 className="text-black">asdasd</h1>
+      </DraggableModal>
       <Section pageId={homePageId} />
     </div>
   );

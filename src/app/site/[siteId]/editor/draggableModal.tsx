@@ -4,11 +4,13 @@ import { X } from "lucide-react";
 import { useMotion } from "@/hooks/useMotion";
 
 interface DraggableModalProps {
+  children: React.ReactNode;
   isOpen: boolean;
   closeModal: () => void;
 }
 
 const DraggableModal: React.FC<DraggableModalProps> = ({
+  children,
   isOpen,
   closeModal,
 }) => {
@@ -92,22 +94,7 @@ const DraggableModal: React.FC<DraggableModalProps> = ({
                   <X size={16} className="stroke-neutral-900" />
                 </button>
               </div>
-              <div className="p-2">
-                <h1 className="text-2xl lg:text-3xl font-bold text-neutral-900 my-4">
-                  Drag the modal
-                </h1>
-                <p className="text-base lg:text-xl text-neutral-500">
-                  Move this window anywhere you want in the page. Click on the
-                  button below to bring it back to its initial position.
-                </p>
-                <button
-                  onClick={resetPosition}
-                  disabled={position.x === 0 && position.y === 0}
-                  className="px-8 py-4 mt-8 rounded-2xl text-neutral-50 bg-violet-800 hover:bg-violet-600 active:bg-violet-900 disabled:bg-neutral-900 disabled:cursor-not-allowed transition-colors"
-                >
-                  Reset the position
-                </button>
-              </div>
+              <div className="p-2">{children}</div>
             </div>
           </Draggable>
         </motion.div>

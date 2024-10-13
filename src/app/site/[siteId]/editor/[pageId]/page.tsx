@@ -62,7 +62,9 @@ function Page({ params }: any) {
         closeModal={() => {
           dispatch(updateIsDraggableModal(false));
         }}
-      />
+      >
+        <h2>asdasd</h2>
+      </DraggableModal>
       <Section pageId={params.pageId} />
     </main>
   );

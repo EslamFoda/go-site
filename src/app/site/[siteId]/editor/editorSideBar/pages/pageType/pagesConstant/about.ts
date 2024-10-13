@@ -60,7 +60,7 @@ export const about = [
               text: "card 1 text",
               image: "",
               button: "",
-              buttonColor: "gray" || "primary",
+              buttonColor: "gray",
               link: "",
             },
             {
@@ -69,7 +69,7 @@ export const about = [
               text: "card 2 text",
               image: "",
               button: "",
-              buttonColor: "gray" || "primary",
+              buttonColor: "gray",
               link: "",
             },
             {
@@ -78,7 +78,7 @@ export const about = [
               text: "card 3 text",
               image: "",
               button: "",
-              buttonColor: "gray" || "primary",
+              buttonColor: "gray",
               link: "",
             },
           ],
@@ -294,7 +294,7 @@ export const about = [
               text: "card 1 text",
               image: "",
               button: "",
-              buttonColor: "gray" || "primary",
+              buttonColor: "gray",
               link: "",
             },
             {
@@ -303,7 +303,7 @@ export const about = [
               text: "card 2 text",
               image: "",
               button: "",
-              buttonColor: "gray" || "primary",
+              buttonColor: "gray",
               link: "",
             },
             {
@@ -312,7 +312,7 @@ export const about = [
               text: "card 3 text",
               image: "",
               button: "",
-              buttonColor: "gray" || "primary",
+              buttonColor: "gray",
               link: "",
             },
           ],
