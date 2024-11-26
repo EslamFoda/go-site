@@ -46,7 +46,7 @@ function CardContentTab({
       text: "Add text here",
       image: "",
       button: "",
-      buttonColor: "gray" || "primary",
+      buttonColor: "gray",
       link: "",
     };
     const newItems = [...items, newItem] as Card[];

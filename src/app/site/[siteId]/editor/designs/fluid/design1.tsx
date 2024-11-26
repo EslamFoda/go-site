@@ -11,6 +11,7 @@ import {
   updateIsDraggingItem,
   updateSelectedItem,
   updateSelectedSection,
+  updateContent,
 } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import GridBackground from "./gridBackground";
@@ -21,13 +22,6 @@ import { Trash } from "lucide-react";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
-const initialLayout: Layout[] = [];
-
-const getLayouts = (): Layouts => {
-  const savedLayouts = localStorage.getItem("grid-layout");
-  return savedLayouts ? JSON.parse(savedLayouts) : { lg: initialLayout };
-};
-
 interface DraggableGridLayoutProps {
   section: any;
   pageId: string;
@@ -37,16 +31,18 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   pageId,
   section,
 }) => {
-  const [layouts, setLayouts] = useState<Layouts>(getLayouts());
-  const [gridCards, setGridCards] = useState<CardData[]>([]);
-  console.log(gridCards, "gridCards");
+  const dispatch = useAppDispatch();
+  const { dragItem, isDragging } = useAppSelector((state) => state.editor);
+
+  const [layouts, setLayouts] = useState<Layouts>(section.content.gridLayout);
+  const [gridCards, setGridCards] = useState<CardData[]>(
+    section.content.gridCards
+  );
   const [containerWidth, setContainerWidth] = useState<number>(0);
   const [currentBreakpoint, setCurrentBreakpoint] = useState<string>("lg");
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState(false);
-  const dispatch = useAppDispatch();
-  const { dragItem, isDragging } = useAppSelector((state) => state.editor);
 
   const breakpoints = { lg: 1200, sm: 768, xs: 480 };
   const cols = { lg: 45, sm: 20, xs: 15 };
@@ -99,10 +95,21 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
     );
   };
 
+  const updateSectionContent = (
+    newGridCards: CardData[],
+    newLayouts: Layouts
+  ) => {
+    dispatch(
+      updateContent(pageId, section.id, {
+        gridCards: newGridCards,
+        gridLayout: newLayouts,
+      })
+    );
+  };
+
   const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
-    localStorage.setItem("grid-layout", JSON.stringify(allLayouts));
-    console.log(allLayouts);
     setLayouts(allLayouts);
+    updateSectionContent(gridCards, allLayouts);
   };
 
   const onDragStop = useCallback(
@@ -127,15 +134,19 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
 
   const handleDelete = useCallback(
     (id: string) => {
-      setGridCards((prevCards) => prevCards.filter((card) => card.i !== id));
-      setLayouts((prevLayouts) => ({
-        ...prevLayouts,
-        [currentBreakpoint]: prevLayouts[currentBreakpoint].filter(
+      const updatedGridCards = gridCards.filter((card) => card.i !== id);
+      const updatedLayouts = {
+        ...layouts,
+        [currentBreakpoint]: layouts[currentBreakpoint].filter(
           (item) => item.i !== id
         ),
-      }));
+      };
+
+      setGridCards(updatedGridCards);
+      setLayouts(updatedLayouts);
+      updateSectionContent(updatedGridCards, updatedLayouts);
     },
-    [currentBreakpoint]
+    [gridCards, layouts, currentBreakpoint]
   );
 
   const handleOnDrop = (
@@ -148,7 +159,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         ...dragItem,
         i: `${dragItem.i}-${Date.now()}`,
       };
-      setGridCards((prevCards) => [...prevCards, newCard]);
+      const newGridCards = [...gridCards, newCard];
 
       const newLayout: Layout = {
         i: newCard.i,
@@ -158,19 +169,17 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         h: newCard.h || 1,
       };
 
-      setLayouts((prevLayouts) => {
-        const updatedLayouts = { ...prevLayouts };
-
-        // Iterate over each breakpoint and add the new layout for each
-        Object.keys(breakpoints).forEach((breakpoint) => {
-          updatedLayouts[breakpoint] = [
-            ...(updatedLayouts[breakpoint] || []),
-            newLayout,
-          ];
-        });
-
-        return updatedLayouts;
+      const updatedLayouts = { ...layouts };
+      Object.keys(breakpoints).forEach((breakpoint) => {
+        updatedLayouts[breakpoint] = [
+          ...(updatedLayouts[breakpoint] || []),
+          newLayout,
+        ];
       });
+
+      setGridCards(newGridCards);
+      setLayouts(updatedLayouts);
+      updateSectionContent(newGridCards, updatedLayouts);
       setSelectedItemId(newCard.i);
     }
 

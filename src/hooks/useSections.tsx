@@ -537,50 +537,53 @@ export function useSections() {
     {
       id: v4(),
       sectionName: "Fluid",
-      content: [
-        {
-          i: "blue-eyes-dragon-1728827363624",
-          content: "Click Me",
-          w: 5,
-          h: 1,
-          type: "button",
-        },
-        {
-          i: "spell-caster-1728828440656",
-          content: "Spell Caster",
-          w: 11,
-          h: 6,
-          type: "image",
-        },
-        {
-          i: "spell-caster-1728828454576",
-          content: "Spell Caster",
-          w: 11,
-          h: 6,
-          type: "image",
-        },
-        {
-          i: "blue-eyes-dragon-1728828457284",
-          content: "Click Me",
-          w: 5,
-          h: 1,
-          type: "button",
-        },
-        {
-          i: "spell-caster-1728828466214",
-          content: "Spell Caster",
-          w: 11,
-          h: 6,
-          type: "image",
-        },
-        {
-          i: "blue-eyes-dragon-1728828469457",
-          content: "Click Me",
-          w: 5,
-          h: 1,
-          type: "button",
-        },
-      ],
+      content: {
+        gridLayout: { lg: [], sm: [], xs: [] },
+        gridCards: [
+          {
+            i: "blue-eyes-dragon-1728827363624",
+            content: "Click Me",
+            w: 5,
+            h: 1,
+            type: "button",
+          },
+          {
+            i: "spell-caster-1728828440656",
+            content: "Spell Caster",
+            w: 11,
+            h: 6,
+            type: "image",
+          },
+          {
+            i: "spell-caster-1728828454576",
+            content: "Spell Caster",
+            w: 11,
+            h: 6,
+            type: "image",
+          },
+          {
+            i: "blue-eyes-dragon-1728828457284",
+            content: "Click Me",
+            w: 5,
+            h: 1,
+            type: "button",
+          },
+          {
+            i: "spell-caster-1728828466214",
+            content: "Spell Caster",
+            w: 11,
+            h: 6,
+            type: "image",
+          },
+          {
+            i: "blue-eyes-dragon-1728828469457",
+            content: "Click Me",
+            w: 5,
+            h: 1,
+            type: "button",
+          },
+        ],
+      },
       style: {
         designName: "design1",
         designSettings: {

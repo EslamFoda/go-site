@@ -6,6 +6,7 @@ import {
 } from "@/types/sectionsTypes/accordion";
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
 import { Card, CardStyle, CardsContent } from "@/types/sectionsTypes/cards";
+import { FluidContent, FluidStyle } from "@/types/sectionsTypes/fluid";
 import { GalleryContent, GalleryStyle } from "@/types/sectionsTypes/gallery";
 import {
   HeaderContent,
@@ -29,6 +30,7 @@ export type SectionContentTypes = {
   header: HeaderContent;
   gallery: GalleryContent;
   logos: LogosContent;
+  fluid: FluidContent;
   // Add more content types here as needed
 };
 
@@ -42,6 +44,7 @@ export type SectionStyleTypes = {
   header: HeaderStyle;
   gallery: GalleryStyle;
   logos: LogosStyle;
+  fluid: FluidStyle;
   // Add more style types here as needed
 };
 
