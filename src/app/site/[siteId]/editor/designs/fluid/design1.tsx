@@ -266,6 +266,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                   <div
                     onClick={() => {
                       dispatch(updateIsDraggableModal(true));
+                      console.log(card)
                       dispatch(setFluidCard(card));
                     }}
                     className="h-8 px-4 min-w-fit flex items-center shadow-md justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/80 transition-colors cursor-pointer"
