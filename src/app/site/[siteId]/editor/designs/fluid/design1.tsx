@@ -12,6 +12,7 @@ import {
   updateSelectedItem,
   updateSelectedSection,
   updateContent,
+  setFluidCard,
 } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import GridBackground from "./gridBackground";
@@ -108,8 +109,14 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   };
 
   const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
-    setLayouts(allLayouts);
-    updateSectionContent(gridCards, allLayouts);
+    // Create new layout copies to avoid mutation
+    const updatedLayouts = Object.keys(allLayouts).reduce((acc, key) => {
+      acc[key] = allLayouts[key].map((layoutItem) => ({ ...layoutItem }));
+      return acc;
+    }, {} as Layouts);
+
+    setLayouts(updatedLayouts);
+    updateSectionContent(gridCards, updatedLayouts);
   };
 
   const onDragStop = useCallback(
@@ -159,7 +166,6 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         ...dragItem,
         i: `${dragItem.i}-${Date.now()}`,
       };
-      const newGridCards = [...gridCards, newCard];
 
       const newLayout: Layout = {
         i: newCard.i,
@@ -167,15 +173,21 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         y: layoutItem.y,
         w: newCard.w || 1,
         h: newCard.h || 1,
+        static: false, // Ensure it's not static
       };
 
-      const updatedLayouts = { ...layouts };
-      Object.keys(breakpoints).forEach((breakpoint) => {
-        updatedLayouts[breakpoint] = [
-          ...(updatedLayouts[breakpoint] || []),
-          newLayout,
-        ];
-      });
+      const newGridCards = [...gridCards, newCard];
+
+      const updatedLayouts = Object.keys(breakpoints).reduce(
+        (acc, breakpoint) => {
+          acc[breakpoint] = [
+            ...(layouts[breakpoint] || []),
+            { ...newLayout }, // Spread to create a new object
+          ];
+          return acc;
+        },
+        {} as Layouts
+      );
 
       setGridCards(newGridCards);
       setLayouts(updatedLayouts);
@@ -254,6 +266,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                   <div
                     onClick={() => {
                       dispatch(updateIsDraggableModal(true));
+                      dispatch(setFluidCard(card));
                     }}
                     className="h-8 px-4 min-w-fit flex items-center shadow-md justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/80 transition-colors cursor-pointer"
                   >

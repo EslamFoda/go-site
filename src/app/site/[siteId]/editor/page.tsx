@@ -14,13 +14,13 @@ import DraggableModal from "./draggableModal";
 
 export default function Home({ params }: any) {
   const [loading, setLoading] = useState(true);
-  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
+  const { selectedPallet, isDraggableModalActive, fluidCard } = useAppSelector(
+    (state) => state.editor
+  );
   const homePageId = useAppSelector(
     (state) => state.editor.editor.pages[0].pageId
   );
-  const isDraggableModalActive = useAppSelector(
-    (state) => state.editor.isDraggableModalActive
-  );
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -68,7 +68,7 @@ export default function Home({ params }: any) {
           dispatch(updateIsDraggableModal(false));
         }}
       >
-        <h1 className="text-black">asdasd</h1>
+        <h1 className="text-black">{fluidCard?.content}</h1>
       </DraggableModal>
       <Section pageId={homePageId} />
     </div>

@@ -203,3 +203,8 @@ export const updateIsDraggableModal = (isDraggable: boolean) => ({
   type: types.UPDATE_IS_DRAGGABLE_MODAL,
   payload: isDraggable,
 });
+
+export const setFluidCard = (card: CardData) => ({
+  type: types.SET_FLUID_CARD,
+  payload: card,
+});

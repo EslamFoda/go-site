@@ -84,6 +84,7 @@ export interface EditorStore {
   dragItem: CardData;
   isDragging: boolean;
   isDraggableModalActive: boolean;
+  fluidCard: CardData | null;
 }
 
 // Define the type for an editor page

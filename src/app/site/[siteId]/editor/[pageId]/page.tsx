@@ -14,9 +14,8 @@ import DraggableModal from "../draggableModal";
 
 function Page({ params }: any) {
   const dispatch = useAppDispatch();
-  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
-  const isDraggableModalActive = useAppSelector(
-    (state) => state.editor.isDraggableModalActive
+  const { selectedPallet, isDraggableModalActive, fluidCard } = useAppSelector(
+    (state) => state.editor
   );
   useEffect(() => {
     const fetchSiteData = async () => {
@@ -63,7 +62,7 @@ function Page({ params }: any) {
           dispatch(updateIsDraggableModal(false));
         }}
       >
-        <h2>asdasd</h2>
+        <h2 className="text-black">{fluidCard?.content}</h2>
       </DraggableModal>
       <Section pageId={params.pageId} />
     </main>
