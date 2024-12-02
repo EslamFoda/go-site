@@ -11,6 +11,8 @@ import {
 } from "@/reduxStore/action";
 import { createClient } from "@/utlis/supabase/client";
 import DraggableModal from "../draggableModal";
+import FluidImage from "../fluidSectionSettings/fluidImage";
+import FluidButton from "../fluidSectionSettings/fluidButton";
 
 function Page({ params }: any) {
   const dispatch = useAppDispatch();
@@ -76,6 +78,3 @@ function Page({ params }: any) {
 }
 
 export default Page;
-
-export const FluidButton = () => <h1 className="text-black">iam button</h1>;
-export const FluidImage = () => <h1 className="text-black">iam image</h1>;
