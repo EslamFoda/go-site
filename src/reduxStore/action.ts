@@ -9,7 +9,7 @@ import {
   SectionStyleTypes,
 } from "./types";
 
-import { CardData, DroppingItemType, SelectedItemType } from "@/types/common";
+import { CardData, SelectedItemType } from "@/types/common";
 
 // Update selected section
 export const updateSelectedSection = (
