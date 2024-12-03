@@ -11,6 +11,8 @@ import {
 } from "@/reduxStore/action";
 import { createClient } from "@/utlis/supabase/client";
 import DraggableModal from "./draggableModal";
+import FluidImage from "./fluidSectionSettings/fluidImage";
+import FluidButton from "./fluidSectionSettings/fluidButton";
 
 export default function Home({ params }: any) {
   const [loading, setLoading] = useState(true);
@@ -58,17 +60,30 @@ export default function Home({ params }: any) {
     fetchSiteData();
   }, [params.siteId, dispatch, homePageId, params.pageId]);
 
+  const fluidCardsMapper = {
+    image: FluidImage,
+    button: FluidButton,
+  };
+  const modalHeadTextMapper = {
+    image: "Image Settings",
+    button: "Button Settings",
+  };
+  const modalHeadText =
+    (fluidCard && modalHeadTextMapper[fluidCard?.type]) || "";
+  const FluidCardSettings = fluidCard ? fluidCardsMapper[fluidCard.type] : null;
+
   if (loading) return null;
 
   return (
     <div className={`${selectedPallet} page-container`}>
       <DraggableModal
+        headText={modalHeadText}
         isOpen={isDraggableModalActive}
         closeModal={() => {
           dispatch(updateIsDraggableModal(false));
         }}
       >
-        <h1 className="text-black">{fluidCard?.content}</h1>
+        {FluidCardSettings && <FluidCardSettings fluidCard={fluidCard} />}
       </DraggableModal>
       <Section pageId={homePageId} />
     </div>

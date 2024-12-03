@@ -1,6 +1,9 @@
+import { CardData } from "@/types/common";
 import React from "react";
-
-function FluidImage() {
+interface FluidImageProps {
+  fluidCard: CardData | null;
+}
+function FluidImage({ fluidCard }: FluidImageProps) {
   return <div>iam FluidImage</div>;
 }
 

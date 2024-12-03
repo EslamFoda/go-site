@@ -53,10 +53,17 @@ function Page({ params }: any) {
 
     fetchSiteData();
   }, [params.siteId, dispatch, params.pageId]);
+
   const fluidCardsMapper = {
     image: FluidImage,
     button: FluidButton,
   };
+  const modalHeadTextMapper = {
+    image: "Image Settings",
+    button: "Button Settings",
+  };
+  const modalHeadText =
+    (fluidCard && modalHeadTextMapper[fluidCard?.type]) || "";
   const FluidCardSettings = fluidCard ? fluidCardsMapper[fluidCard.type] : null;
 
   if (!params.pageId) return null;
@@ -64,13 +71,14 @@ function Page({ params }: any) {
   return (
     <main className={`${selectedPallet} page-container`}>
       <DraggableModal
+        headText={modalHeadText}
         isOpen={isDraggableModalActive}
         closeModal={() => {
           dispatch(updateIsDraggableModal(false));
         }}
       >
         <h2 className="text-black">{fluidCard?.content}</h2>
-        {FluidCardSettings && <FluidCardSettings />}
+        {FluidCardSettings && <FluidCardSettings fluidCard={fluidCard} />}
       </DraggableModal>
       <Section pageId={params.pageId} />
     </main>

@@ -5,12 +5,14 @@ import { useMotion } from "@/hooks/useMotion";
 
 interface DraggableModalProps {
   children: React.ReactNode;
+  headText: string;
   isOpen: boolean;
   closeModal: () => void;
 }
 
 const DraggableModal: React.FC<DraggableModalProps> = ({
   children,
+  headText,
   isOpen,
   closeModal,
 }) => {
@@ -75,7 +77,7 @@ const DraggableModal: React.FC<DraggableModalProps> = ({
           >
             <div
               ref={modalRef}
-              className={`rounded-[4px] w-80 bg-white overflow-hidden antialiased  shadow-2xl shadow-zinc-900 cursor-default transition-all duration-300 ease-out ${
+              className={`rounded-[4px] w-80 bg-background overflow-hidden antialiased  shadow-2xl shadow-zinc-900 cursor-default transition-all duration-300 ease-out ${
                 isDragging ? "" : "transition- transform"
               }`}
               style={{
@@ -84,8 +86,8 @@ const DraggableModal: React.FC<DraggableModalProps> = ({
             >
               <div className="h-1 w-full bg-primary"></div>
               {/* Drag Handle Area */}
-              <div className="drag-handle flex items-center justify-between p-2 w-full cursor-move border-b border-neutral-300 rounded-t-3xl">
-                <span className="text-lg text-neutral-900">Drag Here</span>
+              <div className="drag-handle flex items-center justify-between p-2 w-full cursor-move border-b  rounded-t-3xl">
+                <span className="text-lg">{headText}</span>
                 <button
                   onMouseDown={(e) => e.stopPropagation()}
                   onClick={closeModal}
