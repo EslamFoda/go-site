@@ -91,9 +91,9 @@ const DraggableModal: React.FC<DraggableModalProps> = ({
                 <button
                   onMouseDown={(e) => e.stopPropagation()}
                   onClick={closeModal}
-                  className="p-1 rounded-full hover:bg-gray-200 transition-colors"
+                  className="p-1 rounded-full bg-primary hover:bg-primary/70 transition-colors"
                 >
-                  <X size={16} className="stroke-neutral-900" />
+                  <X size={16} className="stroke-secondary" />
                 </button>
               </div>
               <div className="p-2">{children}</div>
