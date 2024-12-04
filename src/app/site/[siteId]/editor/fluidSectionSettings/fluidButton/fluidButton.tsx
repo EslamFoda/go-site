@@ -15,6 +15,7 @@ function FluidButton({ fluidCard }: FluidButtonProps) {
     "link",
     "destructive",
   ] as ButtonVariantProps["variant"][];
+
   return (
     <div className="space-y-4">
       <div className="space-y-2">
