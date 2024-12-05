@@ -185,6 +185,11 @@ const initialState: EditorStore = {
   dragItem: {
     i: "",
     content: "",
+    settings: {
+      size: "sm",
+      text: "Click Me",
+      variant: "default",
+    },
     w: 1,
     h: 1,
     type: "button",
