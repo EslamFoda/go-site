@@ -1,13 +1,27 @@
 import React, { useCallback } from "react";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { updateIsDragging, updateIsDraggingItem } from "@/reduxStore/action";
-import { CardData } from "@/types/common";
+import { GridCard } from "@/types/sectionsTypes/fluid";
 
-const initialCards: CardData[] = [
-  { i: "spell-caster", content: "Spell Caster", w: 11, h: 6, type: "image" },
+const initialCards: GridCard[] = [
   {
-    i: "blue-eyes-dragon",
+    i: "image",
+    content: "Spell Caster",
+    w: 11,
+    h: 6,
+    type: "image",
+    settings: {
+      src: "",
+    },
+  },
+  {
+    i: "button",
     content: "Click Me",
+    settings: {
+      text: "Click Me",
+      variant: "default",
+      size: "sm",
+    },
     w: 5,
     h: 1,
     type: "button",
@@ -15,7 +29,7 @@ const initialCards: CardData[] = [
 ];
 
 // Map of element renderers based on type
-const cardElementMap: Record<string, (card: CardData) => JSX.Element> = {
+const cardElementMap: Record<string, (card: GridCard) => JSX.Element> = {
   image: (card) => <div>Image</div>,
   button: (card) => <div>Button</div>,
 };
@@ -24,7 +38,7 @@ function FluidSettings() {
   const dispatch = useAppDispatch();
 
   const onDragStart = useCallback(
-    (e: React.DragEvent, item: CardData) => {
+    (e: React.DragEvent, item: GridCard) => {
       dispatch(updateIsDraggingItem(item));
       dispatch(updateIsDragging(true));
     },

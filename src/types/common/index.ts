@@ -1,7 +1,7 @@
 import { Accordion, AccordionStyle } from "../sectionsTypes/accordion";
 import { BannerStyle } from "../sectionsTypes/banner";
 import { Card, CardStyle } from "../sectionsTypes/cards";
-import { FluidStyle } from "../sectionsTypes/fluid";
+import { FluidButtonSettings, FluidStyle } from "../sectionsTypes/fluid";
 import { GalleryStyle, Photo } from "../sectionsTypes/gallery";
 import { HeaderStyle, Link, SubLink } from "../sectionsTypes/header";
 import { ListItem, ListStyle } from "../sectionsTypes/list";
@@ -88,12 +88,4 @@ export interface DroppingItemType {
   w: number;
   h: number;
   icon?: unknown;
-}
-
-export interface CardData {
-  i: string;
-  content: string;
-  w: number;
-  h: number;
-  type: "button" | "image";
 }

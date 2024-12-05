@@ -4,7 +4,6 @@ import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { Button } from "@/components/ui/button";
 import { ImagePlaceHolder } from "@/icons/common";
-import { CardData } from "@/types/common";
 import {
   updateIsDraggableModal,
   updateIsDragging,
@@ -20,6 +19,7 @@ import "./styles.css";
 import { HoverCard, HoverCardContent } from "@/components/ui/hover-card";
 import { HoverCardTrigger } from "@radix-ui/react-hover-card";
 import { Trash } from "lucide-react";
+import { GridCard } from "@/types/sectionsTypes/fluid";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -36,7 +36,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   const { dragItem, isDragging } = useAppSelector((state) => state.editor);
 
   const [layouts, setLayouts] = useState<Layouts>(section.content.gridLayout);
-  const [gridCards, setGridCards] = useState<CardData[]>(
+  const [gridCards, setGridCards] = useState<GridCard[]>(
     section.content.gridCards
   );
   const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -62,7 +62,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
 
-  const renderCardContent = (card: CardData) => {
+  const renderCardContent = (card: GridCard) => {
     const isSelected = card.i === selectedItemId;
     return (
       <div
@@ -97,7 +97,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   };
 
   const updateSectionContent = (
-    newGridCards: CardData[],
+    newGridCards: GridCard[],
     newLayouts: Layouts
   ) => {
     dispatch(
@@ -162,7 +162,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
     _event: DragEvent
   ) => {
     if (dragItem) {
-      const newCard: CardData = {
+      const newCard: GridCard = {
         ...dragItem,
         i: `${dragItem.i}-${Date.now()}`,
       };
@@ -171,8 +171,8 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         i: newCard.i,
         x: layoutItem.x,
         y: layoutItem.y,
-        w: newCard.w || 1,
-        h: newCard.h || 1,
+        w: newCard.w || 3,
+        h: newCard.h || 3,
         static: false, // Ensure it's not static
       };
 
@@ -266,7 +266,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                   <div
                     onClick={() => {
                       dispatch(updateIsDraggableModal(true));
-                      console.log(card)
+                      console.log(card);
                       dispatch(setFluidCard(card));
                     }}
                     className="h-8 px-4 min-w-fit flex items-center shadow-md justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/80 transition-colors cursor-pointer"

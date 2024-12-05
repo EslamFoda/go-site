@@ -1,14 +1,5 @@
+import { ButtonVariantProps } from "@/components/ui/button";
 import { Layouts } from "react-grid-layout";
-
-export interface GridCard {
-  i: string;
-  content: string;
-  w: number;
-  h: number;
-  type: "button" | "image";
-}
-
-
 
 export interface FluidContent {
   gridLayout: Layouts;
@@ -30,4 +21,24 @@ export interface DesignSettings {
 export interface FluidStyle {
   designName: string;
   designSettings: DesignSettings;
+}
+
+export interface GridCard {
+  i: string;
+  content: string;
+  settings: FluidButtonSettings | FluidImageSettings;
+  w: number;
+  h: number;
+  type: "button" | "image";
+}
+
+export interface FluidButtonSettings {
+  text: string;
+  link?: string;
+  size: ButtonVariantProps["size"];
+  variant: ButtonVariantProps["variant"];
+}
+export interface FluidImageSettings {
+  src: string;
+  link?: string;
 }
