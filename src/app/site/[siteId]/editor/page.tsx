@@ -69,7 +69,7 @@ export default function Home({ params }: any) {
     button: "Button Settings",
   };
   const modalHeadText =
-    (fluidCard && modalHeadTextMapper[fluidCard?.type]) || "";
+    (fluidCard && modalHeadTextMapper[fluidCard.type]) || "";
   const FluidCardSettings = fluidCard ? fluidCardsMapper[fluidCard.type] : null;
 
   if (loading) return null;

@@ -9,7 +9,8 @@ import {
   SectionStyleTypes,
 } from "./types";
 
-import { CardData, SelectedItemType } from "@/types/common";
+import { SelectedItemType } from "@/types/common";
+import { GridCard } from "@/types/sectionsTypes/fluid";
 
 // Update selected section
 export const updateSelectedSection = (
@@ -190,7 +191,7 @@ export const closeChooseImage = () => ({
   type: types.CLOSE_CHOOSE_IMAGE,
 });
 
-export const updateIsDraggingItem = (item: CardData | null) => ({
+export const updateIsDraggingItem = (item: GridCard | null) => ({
   type: types.UPDATE_IS_DRAGGING_ITEM,
   payload: item,
 });
@@ -204,7 +205,7 @@ export const updateIsDraggableModal = (isDraggable: boolean) => ({
   payload: isDraggable,
 });
 
-export const setFluidCard = (card: CardData) => ({
+export const setFluidCard = (card: GridCard) => ({
   type: types.SET_FLUID_CARD,
   payload: card,
 });

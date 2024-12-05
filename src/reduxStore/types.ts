@@ -1,12 +1,16 @@
 // Import section-specific content and style types
-import { CardData, DroppingItemType, SelectedItemType } from "@/types/common";
+import { DroppingItemType, SelectedItemType } from "@/types/common";
 import {
   AccordionContent,
   AccordionStyle,
 } from "@/types/sectionsTypes/accordion";
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
 import { Card, CardStyle, CardsContent } from "@/types/sectionsTypes/cards";
-import { FluidContent, FluidStyle } from "@/types/sectionsTypes/fluid";
+import {
+  FluidContent,
+  FluidStyle,
+  GridCard,
+} from "@/types/sectionsTypes/fluid";
 import { GalleryContent, GalleryStyle } from "@/types/sectionsTypes/gallery";
 import {
   HeaderContent,
@@ -81,10 +85,10 @@ export interface EditorStore {
   openPages: boolean;
   settings: SiteSettings;
   openPageSetting: boolean;
-  dragItem: CardData;
+  dragItem: GridCard;
   isDragging: boolean;
   isDraggableModalActive: boolean;
-  fluidCard: CardData | null;
+  fluidCard: GridCard | null;
 }
 
 // Define the type for an editor page

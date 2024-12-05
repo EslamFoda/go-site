@@ -1,7 +1,7 @@
-import { CardData } from "@/types/common";
+import { GridCard } from "@/types/sectionsTypes/fluid";
 import React from "react";
 interface FluidImageProps {
-  fluidCard: CardData | null;
+  fluidCard: GridCard | null;
 }
 function FluidImage({ fluidCard }: FluidImageProps) {
   return <div>iam FluidImage</div>;
