@@ -23,15 +23,6 @@ export interface FluidStyle {
   designSettings: DesignSettings;
 }
 
-export interface GridCard {
-  i: string;
-  content: string;
-  settings: FluidButtonSettings | FluidImageSettings;
-  w: number;
-  h: number;
-  type: "button" | "image";
-}
-
 export interface FluidButtonSettings {
   text: string;
   link?: string;
@@ -42,3 +33,24 @@ export interface FluidImageSettings {
   src: string;
   link?: string;
 }
+
+export interface GridCardButton {
+  i: string;
+  content: string;
+  settings: FluidButtonSettings;
+  w: number;
+  h: number;
+  type: "button"; // Discriminator
+}
+
+export interface GridCardImage {
+  i: string;
+  content: string;
+  settings: FluidImageSettings;
+  w: number;
+  h: number;
+  type: "image"; // Discriminator
+}
+
+// Union of GridCard types
+export type GridCard = GridCardButton | GridCardImage;

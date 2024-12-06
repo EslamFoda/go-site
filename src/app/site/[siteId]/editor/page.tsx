@@ -13,12 +13,28 @@ import { createClient } from "@/utlis/supabase/client";
 import DraggableModal from "./draggableModal";
 import FluidImage from "./fluidSectionSettings/fluidImage";
 import FluidButton from "./fluidSectionSettings/fluidButton";
+import {
+  EditorSection,
+  SectionContentTypes,
+  SectionStyleTypes,
+} from "@/reduxStore/types";
 
 export default function Home({ params }: any) {
   const [loading, setLoading] = useState(true);
-  const { selectedPallet, isDraggableModalActive, fluidCard } = useAppSelector(
-    (state) => state.editor
+  const {
+    selectedPallet,
+    isDraggableModalActive,
+    fluidCard,
+    activePage: activePageId,
+    selectedSection,
+  } = useAppSelector((state) => state.editor);
+  const page = useAppSelector((state) =>
+    state.editor.editor.pages.find((page) => page.pageId === activePageId)
   );
+  const sections = page?.sections;
+  const findSelectedSection = sections?.find(
+    (section) => section.id === selectedSection?.id
+  ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
   const homePageId = useAppSelector(
     (state) => state.editor.editor.pages[0].pageId
   );
@@ -83,7 +99,13 @@ export default function Home({ params }: any) {
           dispatch(updateIsDraggableModal(false));
         }}
       >
-        {FluidCardSettings && <FluidCardSettings fluidCard={fluidCard} />}
+        {FluidCardSettings && (
+          <FluidCardSettings
+            fluidCard={fluidCard}
+            activePageId={activePageId}
+            selectedSection={findSelectedSection}
+          />
+        )}
       </DraggableModal>
       <Section pageId={homePageId} />
     </div>

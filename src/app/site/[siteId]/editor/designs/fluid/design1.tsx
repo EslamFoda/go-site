@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import React, { useCallback, useRef, useEffect, useState } from "react";
 import { Responsive, WidthProvider, Layout, Layouts } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -34,11 +34,6 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { dragItem, isDragging } = useAppSelector((state) => state.editor);
-
-  const [layouts, setLayouts] = useState<Layouts>(section.content.gridLayout);
-  const [gridCards, setGridCards] = useState<GridCard[]>(
-    section.content.gridCards
-  );
   const [containerWidth, setContainerWidth] = useState<number>(0);
   const [currentBreakpoint, setCurrentBreakpoint] = useState<string>("lg");
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
@@ -72,6 +67,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         onClick={(e) => {
           e.stopPropagation();
           setSelectedItemId(card.i);
+          dispatch(updateSelectedSection(pageId, section.id));
         }}
       >
         <div className="w-full h-full flex items-center justify-center">
@@ -79,7 +75,12 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
             switch (card.type) {
               case "button":
                 return (
-                  <Button className="w-full h-full">{card.content}</Button>
+                  <Button
+                    className="w-full h-full"
+                    variant={card.settings.variant}
+                  >
+                    {card.content}
+                  </Button>
                 );
               case "image":
                 return (
@@ -88,7 +89,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                   </div>
                 );
               default:
-                return <div>{card.content}</div>;
+                return <div>default</div>;
             }
           })()}
         </div>
@@ -109,51 +110,29 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   };
 
   const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
-    // Create new layout copies to avoid mutation
     const updatedLayouts = Object.keys(allLayouts).reduce((acc, key) => {
       acc[key] = allLayouts[key].map((layoutItem) => ({ ...layoutItem }));
       return acc;
     }, {} as Layouts);
 
-    setLayouts(updatedLayouts);
-    updateSectionContent(gridCards, updatedLayouts);
+    updateSectionContent(section.content.gridCards, updatedLayouts);
   };
-
-  const onDragStop = useCallback(
-    (layout: Layout[], oldItem: Layout, newItem: Layout) => {
-      setSelectedItemId(newItem.i); // Set the dragged item as the selected item
-      dispatch(updateIsDragging(false));
-    },
-    [dispatch]
-  );
-
-  const onResizeStart = useCallback(() => {
-    setIsResizing(true);
-  }, []);
-
-  const onResizeStop = useCallback(
-    (layout: Layout[], oldItem: Layout, newItem: Layout) => {
-      setSelectedItemId(newItem.i); // Ensure the resized item becomes selected
-      setIsResizing(false);
-    },
-    []
-  );
 
   const handleDelete = useCallback(
     (id: string) => {
-      const updatedGridCards = gridCards.filter((card) => card.i !== id);
+      const updatedGridCards = section.content.gridCards.filter(
+        (card: GridCard) => card.i !== id
+      );
       const updatedLayouts = {
-        ...layouts,
-        [currentBreakpoint]: layouts[currentBreakpoint].filter(
-          (item) => item.i !== id
+        ...section.content.gridLayout,
+        [currentBreakpoint]: section.content.gridLayout[currentBreakpoint].filter(
+          (item: Layout) => item.i !== id
         ),
       };
 
-      setGridCards(updatedGridCards);
-      setLayouts(updatedLayouts);
       updateSectionContent(updatedGridCards, updatedLayouts);
     },
-    [gridCards, layouts, currentBreakpoint]
+    [currentBreakpoint, section.content.gridCards, section.content.gridLayout]
   );
 
   const handleOnDrop = (
@@ -173,24 +152,22 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         y: layoutItem.y,
         w: newCard.w || 3,
         h: newCard.h || 3,
-        static: false, // Ensure it's not static
+        static: false,
       };
 
-      const newGridCards = [...gridCards, newCard];
+      const newGridCards = [...section.content.gridCards, newCard];
 
       const updatedLayouts = Object.keys(breakpoints).reduce(
         (acc, breakpoint) => {
           acc[breakpoint] = [
-            ...(layouts[breakpoint] || []),
-            { ...newLayout }, // Spread to create a new object
+            ...(section.content.gridLayout[breakpoint] || []),
+            { ...newLayout },
           ];
           return acc;
         },
         {} as Layouts
       );
 
-      setGridCards(newGridCards);
-      setLayouts(updatedLayouts);
       updateSectionContent(newGridCards, updatedLayouts);
       setSelectedItemId(newCard.i);
     }
@@ -203,7 +180,8 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
     setCurrentBreakpoint(newBreakpoint);
   };
 
-  const showGridPattern = gridCards.length === 0 || isDragging || isResizing;
+  const showGridPattern =
+    section.content.gridCards.length === 0 || isDragging || isResizing;
 
   return (
     <div
@@ -224,7 +202,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
           />
         )}
         <ResponsiveGridLayout
-          layouts={layouts}
+          layouts={section.content.gridLayout}
           breakpoints={breakpoints}
           cols={cols}
           rowHeight={rowHeight}
@@ -241,16 +219,14 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
             setSelectedItemId(null);
             dispatch(updateIsDragging(true));
           }}
-          onDragStop={onDragStop}
-          onResizeStart={onResizeStart}
-          onResizeStop={onResizeStop}
+          onDragStop={() => dispatch(updateIsDragging(false))}
+          onResizeStart={() => setIsResizing(true)}
+          onResizeStop={() => setIsResizing(false)}
           resizeHandles={["sw", "nw", "se", "ne"]}
         >
-          {gridCards.map((card) => (
+          {section.content.gridCards.map((card: GridCard) => (
             <div
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
+              onClick={(e) => e.stopPropagation()}
               key={card.i}
               className={`relative rounded-md overflow-hidden ${
                 card.i === selectedItemId && "isActive"
@@ -266,7 +242,6 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                   <div
                     onClick={() => {
                       dispatch(updateIsDraggableModal(true));
-                      console.log(card);
                       dispatch(setFluidCard(card));
                     }}
                     className="h-8 px-4 min-w-fit flex items-center shadow-md justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/80 transition-colors cursor-pointer"
