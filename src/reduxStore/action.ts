@@ -1,4 +1,3 @@
-import { SubLink } from "@/types/sectionsTypes/header";
 import * as types from "./actionTypes";
 import {
   DesignSettings,
