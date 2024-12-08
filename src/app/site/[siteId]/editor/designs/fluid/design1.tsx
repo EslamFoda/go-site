@@ -79,7 +79,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                     className="w-full h-full"
                     variant={card.settings.variant}
                   >
-                    {card.content}
+                    {card.settings.text}
                   </Button>
                 );
               case "image":

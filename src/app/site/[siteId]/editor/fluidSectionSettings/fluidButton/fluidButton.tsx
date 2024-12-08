@@ -54,10 +54,16 @@ const FluidButton: React.FC<FluidButtonProps> = ({
   const handleTextChange = (value: string) => {
     if (!fluidCard) return;
     const updatedCards = fluidSection.gridCards.map((card) =>
-      card.i === fluidCard.i ? { ...card, content: value } : card
-    );
+      card.i === fluidCard.i
+        ? { ...card, settings: { ...card.settings, text: value } }
+        : card
+    ) as GridCard[];
     handleUpdateContent(updatedCards);
-    handleSetFluidCard({ ...fluidCard, content: value });
+    const updatedFluidCard = {
+      ...fluidCard,
+      settings: { ...fluidCard.settings, text: value },
+    } as GridCard;
+    handleSetFluidCard(updatedFluidCard);
   };
 
   const handleVariantChange = (variant: ButtonVariantProps["variant"]) => {
@@ -82,7 +88,7 @@ const FluidButton: React.FC<FluidButtonProps> = ({
         <Label htmlFor="text-input">Text</Label>
         <Input
           id="text-input"
-          value={fluidCard?.content || ""}
+          value={fluidCardSettings?.text || ""}
           onChange={(e) => handleTextChange(e.target.value)}
         />
       </div>
