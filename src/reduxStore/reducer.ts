@@ -189,6 +189,7 @@ const initialState: EditorStore = {
       size: "sm",
       text: "Click Me",
       variant: "default",
+      buttonDisplay: "Text only",
     },
     w: 1,
     h: 1,
