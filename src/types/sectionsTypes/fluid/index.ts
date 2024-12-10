@@ -23,11 +23,18 @@ export interface FluidStyle {
   designSettings: DesignSettings;
 }
 
+export type ButtonDisplay =
+  | "Text only"
+  | "Icon only"
+  | "Text and Icon"
+  | "nothing";
+
 export interface FluidButtonSettings {
   text: string;
   link?: string;
   size: ButtonVariantProps["size"];
   variant: ButtonVariantProps["variant"];
+  buttonDisplay: ButtonDisplay;
 }
 export interface FluidImageSettings {
   src: string;

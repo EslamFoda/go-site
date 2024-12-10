@@ -18,7 +18,7 @@ import GridBackground from "./gridBackground";
 import "./styles.css";
 import { HoverCard, HoverCardContent } from "@/components/ui/hover-card";
 import { HoverCardTrigger } from "@radix-ui/react-hover-card";
-import { Trash } from "lucide-react";
+import { Trash, LayoutIcon } from "lucide-react";
 import { GridCard } from "@/types/sectionsTypes/fluid";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -79,7 +79,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                     className="w-full h-full"
                     variant={card.settings.variant}
                   >
-                    {card.settings.text}
+                    <span className="truncate">{card.settings.text}</span>
                   </Button>
                 );
               case "image":
@@ -125,9 +125,9 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
       );
       const updatedLayouts = {
         ...section.content.gridLayout,
-        [currentBreakpoint]: section.content.gridLayout[currentBreakpoint].filter(
-          (item: Layout) => item.i !== id
-        ),
+        [currentBreakpoint]: section.content.gridLayout[
+          currentBreakpoint
+        ].filter((item: Layout) => item.i !== id),
       };
 
       updateSectionContent(updatedGridCards, updatedLayouts);
@@ -247,6 +247,15 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                     className="h-8 px-4 min-w-fit flex items-center shadow-md justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/80 transition-colors cursor-pointer"
                   >
                     <span>Edit {card.type}</span>
+                  </div>
+                  <div
+                    onClick={() => handleDelete(card.i)}
+                    className="h-8 w-8 rounded-full flex items-center shadow-md justify-center bg-primary hover:bg-primary/80 transition-colors cursor-pointer"
+                  >
+                    <LayoutIcon
+                      size={16}
+                      className="stroke-primary-foreground"
+                    />
                   </div>
                   <div
                     onClick={() => handleDelete(card.i)}
