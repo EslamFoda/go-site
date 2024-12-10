@@ -21,6 +21,7 @@ const initialCards: GridCard[] = [
       text: "Click Me",
       variant: "default",
       size: "sm",
+      buttonDisplay: "Text only",
     },
     w: 5,
     h: 1,
