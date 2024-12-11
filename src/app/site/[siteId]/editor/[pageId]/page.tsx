@@ -1,7 +1,7 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import Section from "../section";
 import {
   updateActivePage,
@@ -27,6 +27,7 @@ function Page({ params }: any) {
     fluidCard,
     activePage: activePageId,
     selectedSection,
+    draggableModalName,
   } = useAppSelector((state) => state.editor);
   const page = useAppSelector((state) =>
     state.editor.editor.pages.find((page) => page.pageId === activePageId)
@@ -35,6 +36,7 @@ function Page({ params }: any) {
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
+
   useEffect(() => {
     const fetchSiteData = async () => {
       const supabase = createClient();
@@ -74,13 +76,36 @@ function Page({ params }: any) {
     image: FluidImage,
     button: FluidButton,
   };
+
   const modalHeadTextMapper = {
     image: "Image Settings",
     button: "Button Settings",
   };
+
+  const settingsModalMapper = {
+    SETTINGS: () => {
+      if (!fluidCard || !fluidCardsMapper[fluidCard.type]) return null;
+      const FluidComponent = fluidCardsMapper[fluidCard.type];
+      return (
+        <FluidComponent
+          fluidCard={fluidCard}
+          activePageId={activePageId}
+          selectedSection={findSelectedSection}
+        />
+      );
+    },
+    LAYOUT: () => <div>Layout-specific settings here</div>,
+  };
+
   const modalHeadText =
-    (fluidCard && modalHeadTextMapper[fluidCard?.type]) || "";
-  const FluidCardSettings = fluidCard ? fluidCardsMapper[fluidCard.type] : null;
+    draggableModalName === "SETTINGS" && fluidCard
+      ? modalHeadTextMapper[fluidCard.type]
+      : "";
+
+  const renderModalContent = () => {
+    const renderContent = settingsModalMapper[draggableModalName];
+    return renderContent ? renderContent() : null;
+  };
 
   if (!params.pageId) return null;
 
@@ -93,14 +118,7 @@ function Page({ params }: any) {
           dispatch(updateIsDraggableModal(false));
         }}
       >
-        <h2 className="text-black">{fluidCard?.content}</h2>
-        {FluidCardSettings && (
-          <FluidCardSettings
-            fluidCard={fluidCard}
-            activePageId={activePageId}
-            selectedSection={findSelectedSection}
-          />
-        )}
+        {renderModalContent()}
       </DraggableModal>
       <Section pageId={params.pageId} />
     </main>

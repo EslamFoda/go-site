@@ -12,6 +12,7 @@ import {
   updateSelectedSection,
   updateContent,
   setFluidCard,
+  setDraggableModalName,
 } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import GridBackground from "./gridBackground";
@@ -242,6 +243,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                   <div
                     onClick={() => {
                       dispatch(updateIsDraggableModal(true));
+                      dispatch(setDraggableModalName("SETTINGS"));
                       dispatch(setFluidCard(card));
                     }}
                     className="h-8 px-4 min-w-fit flex items-center shadow-md justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/80 transition-colors cursor-pointer"
@@ -249,7 +251,11 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                     <span>Edit {card.type}</span>
                   </div>
                   <div
-                    onClick={() => handleDelete(card.i)}
+                    onClick={() => {
+                      dispatch(updateIsDraggableModal(true));
+                      dispatch(setDraggableModalName("LAYOUT"));
+                      dispatch(setFluidCard(card));
+                    }}
                     className="h-8 w-8 rounded-full flex items-center shadow-md justify-center bg-primary hover:bg-primary/80 transition-colors cursor-pointer"
                   >
                     <LayoutIcon

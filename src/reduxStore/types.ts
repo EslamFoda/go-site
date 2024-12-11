@@ -89,7 +89,10 @@ export interface EditorStore {
   isDragging: boolean;
   isDraggableModalActive: boolean;
   fluidCard: GridCard | null;
+  draggableModalName: DraggableModalName;
 }
+
+export type DraggableModalName = "SETTINGS" | "LAYOUT";
 
 // Define the type for an editor page
 export interface EditorPage {

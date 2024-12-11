@@ -198,6 +198,7 @@ const initialState: EditorStore = {
   isDragging: false,
   isDraggableModalActive: false,
   fluidCard: null,
+  draggableModalName: "SETTINGS",
 };
 
 // Helper function to update state at a given path
@@ -483,6 +484,11 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.SET_FLUID_CARD: {
         draft.fluidCard = action.payload;
+        break;
+      }
+
+      case types.SET_DRAGGABLE_MODAL_NAME: {
+        draft.draggableModalName = action.payload;
         break;
       }
 

@@ -1,8 +1,8 @@
 "use client";
 
+import React from "react";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import Section from "./section";
-import { useEffect, useState } from "react";
 import {
   updateActivePage,
   updateEditorState,
@@ -20,13 +20,14 @@ import {
 } from "@/reduxStore/types";
 
 export default function Home({ params }: any) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = React.useState(true);
   const {
     selectedPallet,
     isDraggableModalActive,
     fluidCard,
     activePage: activePageId,
     selectedSection,
+    draggableModalName,
   } = useAppSelector((state) => state.editor);
   const page = useAppSelector((state) =>
     state.editor.editor.pages.find((page) => page.pageId === activePageId)
@@ -41,7 +42,7 @@ export default function Home({ params }: any) {
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchSiteData = async () => {
       const supabase = createClient();
 
@@ -80,13 +81,36 @@ export default function Home({ params }: any) {
     image: FluidImage,
     button: FluidButton,
   };
+
   const modalHeadTextMapper = {
     image: "Image Settings",
     button: "Button Settings",
   };
+
+  const settingsModalMapper = {
+    SETTINGS: () => {
+      if (!fluidCard || !fluidCardsMapper[fluidCard.type]) return null;
+      const FluidComponent = fluidCardsMapper[fluidCard.type];
+      return (
+        <FluidComponent
+          fluidCard={fluidCard}
+          activePageId={activePageId}
+          selectedSection={findSelectedSection}
+        />
+      );
+    },
+    LAYOUT: () => <div>Layout-specific settings here</div>,
+  };
+
   const modalHeadText =
-    (fluidCard && modalHeadTextMapper[fluidCard.type]) || "";
-  const FluidCardSettings = fluidCard ? fluidCardsMapper[fluidCard.type] : null;
+    draggableModalName === "SETTINGS" && fluidCard
+      ? modalHeadTextMapper[fluidCard.type]
+      : "";
+
+  const renderModalContent = () => {
+    const renderContent = settingsModalMapper[draggableModalName];
+    return renderContent ? renderContent() : null;
+  };
 
   if (loading) return null;
 
@@ -99,13 +123,7 @@ export default function Home({ params }: any) {
           dispatch(updateIsDraggableModal(false));
         }}
       >
-        {FluidCardSettings && (
-          <FluidCardSettings
-            fluidCard={fluidCard}
-            activePageId={activePageId}
-            selectedSection={findSelectedSection}
-          />
-        )}
+        {renderModalContent()}
       </DraggableModal>
       <Section pageId={homePageId} />
     </div>

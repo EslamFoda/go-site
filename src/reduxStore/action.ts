@@ -1,6 +1,7 @@
 import * as types from "./actionTypes";
 import {
   DesignSettings,
+  DraggableModalName,
   EditorPage,
   EditorSection,
   PageSettings,
@@ -207,4 +208,9 @@ export const updateIsDraggableModal = (isDraggable: boolean) => ({
 export const setFluidCard = (card: GridCard) => ({
   type: types.SET_FLUID_CARD,
   payload: card,
+});
+
+export const setDraggableModalName = (name: DraggableModalName) => ({
+  type: types.SET_DRAGGABLE_MODAL_NAME,
+  payload: name,
 });
