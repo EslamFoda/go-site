@@ -101,7 +101,13 @@ export default function Home({ params }: any) {
       );
     },
     LAYOUT: () => {
-      return <ButtonLayout />;
+      return (
+        <ButtonLayout
+          fluidCard={fluidCard}
+          activePageId={activePageId}
+          selectedSection={findSelectedSection}
+        />
+      );
     },
   };
 

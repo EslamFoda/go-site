@@ -11,6 +11,14 @@ import {
   SectionStyleTypes,
 } from "@/reduxStore/types";
 import { FluidButtonSettings, GridCard } from "@/types/sectionsTypes/fluid";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface FluidButtonProps {
   fluidCard: GridCard | null;
@@ -35,7 +43,7 @@ const FluidButton: React.FC<FluidButtonProps> = ({
     "link",
     "destructive",
   ];
-
+  const buttonTypes = ["Text only", "Text and icon", "Icon only", "Nothing"];
   const fluidCardSettings = fluidCard?.settings as FluidButtonSettings;
   const fluidSection = selectedSection?.content as SectionContentTypes["fluid"];
 
@@ -51,45 +59,53 @@ const FluidButton: React.FC<FluidButtonProps> = ({
     dispatch(setFluidCard(updatedCard));
   };
 
-  const handleTextChange = (value: string) => {
+  const handleSettingChange = (key: keyof FluidButtonSettings, value: any) => {
     if (!fluidCard) return;
     const updatedCards = fluidSection.gridCards.map((card) =>
       card.i === fluidCard.i
-        ? { ...card, settings: { ...card.settings, text: value } }
+        ? { ...card, settings: { ...card.settings, [key]: value } }
         : card
     ) as GridCard[];
     handleUpdateContent(updatedCards);
     const updatedFluidCard = {
       ...fluidCard,
-      settings: { ...fluidCard.settings, text: value },
-    } as GridCard;
-    handleSetFluidCard(updatedFluidCard);
-  };
-
-  const handleVariantChange = (variant: ButtonVariantProps["variant"]) => {
-    if (!fluidCard) return;
-    const updatedCards = fluidSection.gridCards.map((card) =>
-      card.i === fluidCard.i
-        ? { ...card, settings: { ...card.settings, variant } }
-        : card
-    ) as GridCard[];
-    handleUpdateContent(updatedCards);
-    const updatedFluidCard = {
-      ...fluidCard,
-      settings: { ...fluidCard.settings, variant },
+      settings: { ...fluidCard.settings, [key]: value },
     } as GridCard;
     handleSetFluidCard(updatedFluidCard);
   };
 
   return (
     <div className="space-y-4">
+      {/* button type */}
+      <div className="space-y-2">
+        <Label htmlFor="button-display">Choose what displays</Label>
+        <Select
+          defaultValue="Text only"
+          value={fluidCardSettings?.buttonDisplay}
+          onValueChange={(value) => handleSettingChange("buttonDisplay", value)}
+        >
+          <SelectTrigger id="button-display">
+            <SelectValue placeholder="Select button type" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {buttonTypes.map((type) => (
+                <SelectItem key={type} value={type}>
+                  {type}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
+
       {/* Text Input */}
       <div className="space-y-2">
         <Label htmlFor="text-input">Text</Label>
         <Input
           id="text-input"
           value={fluidCardSettings?.text || ""}
-          onChange={(e) => handleTextChange(e.target.value)}
+          onChange={(e) => handleSettingChange("text", e.target.value)}
         />
       </div>
 
@@ -106,7 +122,7 @@ const FluidButton: React.FC<FluidButtonProps> = ({
                 key={variant}
                 size="sm"
                 variant={variant}
-                onClick={() => handleVariantChange(variant)}
+                onClick={() => handleSettingChange("variant", variant)}
                 className="relative"
               >
                 {isSelected && (

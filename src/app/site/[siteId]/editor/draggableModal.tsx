@@ -23,27 +23,20 @@ const DraggableModal: React.FC<DraggableModalProps> = ({
   const backdropRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closeModal();
-      }
-    };
-
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        backdropRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
+      // Check if the click is on the backdrop overlay or the close button
+      const isClickOnOverlay =
+        backdropRef.current && backdropRef.current === event.target;
+
+      // Close the modal only if the click is on the overlay or the close button
+      if (isClickOnOverlay) {
         closeModal();
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [closeModal]);
@@ -55,7 +48,7 @@ const DraggableModal: React.FC<DraggableModalProps> = ({
   const resetPosition = () => {
     setPosition({ x: 0, y: 0 });
   };
-
+  // data-radix-popper-content-wrapper
   return (
     <AnimatePresence>
       {isOpen && (

@@ -27,7 +27,7 @@ export type ButtonDisplay =
   | "Text only"
   | "Icon only"
   | "Text and Icon"
-  | "nothing";
+  | "Nothing";
 
 export interface FluidButtonSettings {
   text: string;
