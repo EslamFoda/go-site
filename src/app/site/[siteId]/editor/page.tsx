@@ -18,6 +18,7 @@ import {
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
+import ButtonLayout from "./fluidLayoutSettings/buttonLayouts";
 
 export default function Home({ params }: any) {
   const [loading, setLoading] = React.useState(true);
@@ -99,7 +100,9 @@ export default function Home({ params }: any) {
         />
       );
     },
-    LAYOUT: () => <div>Layout-specific settings here</div>,
+    LAYOUT: () => {
+      return <ButtonLayout />;
+    },
   };
 
   const modalHeadText =
