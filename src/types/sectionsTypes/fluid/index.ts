@@ -26,8 +26,11 @@ export interface FluidStyle {
 export type ButtonDisplay =
   | "Text only"
   | "Icon only"
-  | "Text and Icon"
+  | "Text and icon"
   | "Nothing";
+
+export type ButtonAlignment = "start" | "center" | "end";
+export type IconPositionTypes = "right" | "left" | "below" | "above";
 
 export interface FluidButtonSettings {
   text: string;
@@ -35,6 +38,10 @@ export interface FluidButtonSettings {
   size: ButtonVariantProps["size"];
   variant: ButtonVariantProps["variant"];
   buttonDisplay: ButtonDisplay;
+  alignment: ButtonAlignment;
+  buttonIcon: string;
+  textIconGap: number;
+  iconPosition: IconPositionTypes;
 }
 export interface FluidImageSettings {
   src: string;

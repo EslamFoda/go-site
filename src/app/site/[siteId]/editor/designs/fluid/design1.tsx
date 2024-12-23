@@ -21,6 +21,7 @@ import { HoverCard, HoverCardContent } from "@/components/ui/hover-card";
 import { HoverCardTrigger } from "@radix-ui/react-hover-card";
 import { Trash, LayoutIcon } from "lucide-react";
 import { GridCard } from "@/types/sectionsTypes/fluid";
+import { getPhosphorIcon } from "@/helper/phosphorIcons";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -75,12 +76,19 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
           {(() => {
             switch (card.type) {
               case "button":
+                const ButtonIcon = getPhosphorIcon(card.settings.buttonIcon);
                 return (
                   <Button
                     className="w-full h-full"
+                    style={{ gap: card.settings.textIconGap }}
                     variant={card.settings.variant}
+                    alignment={card.settings.alignment}
+                    iconPosition={card.settings.iconPosition}
                   >
                     <span className="truncate">{card.settings.text}</span>
+                    {card.settings.buttonDisplay === "Text and icon" && (
+                      <ButtonIcon className="min-w-max" />
+                    )}
                   </Button>
                 );
               case "image":

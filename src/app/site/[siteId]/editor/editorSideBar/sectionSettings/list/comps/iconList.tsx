@@ -1,6 +1,4 @@
 import React, { useState, useMemo } from "react";
-import * as PhosphorIcons from "@phosphor-icons/react";
-import { Icon } from "@phosphor-icons/react";
 import { iconNames } from "@/constant/iconClassNames";
 import { ListItem } from "@/types/sectionsTypes/list";
 import { Input } from "@/components/ui/input";
@@ -8,6 +6,7 @@ import { Search } from "lucide-react";
 import BackBtn from "@/components/shared/backBtn";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { closeChooseIcon } from "@/reduxStore/action";
+import { getPhosphorIcon } from "@/helper/phosphorIcons";
 
 interface IconListProps {
   handlePropertyChange: (
@@ -49,9 +48,7 @@ function IconList({ handlePropertyChange, selectedListItem }: IconListProps) {
       >
         <div className="grid grid-cols-5   gap-y-3">
           {filteredIcons.map((iconName) => {
-            const IconComponent = PhosphorIcons[
-              iconName as keyof typeof PhosphorIcons
-            ] as Icon;
+            const IconComponent = getPhosphorIcon(iconName)
             return (
               <div
                 key={iconName}

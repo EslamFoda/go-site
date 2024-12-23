@@ -2,12 +2,13 @@ import { Label } from "@/components/ui/label";
 import React from "react";
 interface AlignProps {
   alignValue: "start" | "center" | "end";
+  noLabel?: boolean;
   onValueChange: (value: "start" | "center" | "end") => void;
 }
-function Align({ alignValue, onValueChange }: AlignProps) {
+function Align({ alignValue, noLabel, onValueChange }: AlignProps) {
   return (
     <div className="space-y-1 flex items-center justify-between">
-      <Label>Align</Label>
+      {!noLabel && <Label>Align</Label>}
       <div className="border-muted-bg flex border-solid border-[1px] rounded-sm h-10 w-4/6">
         {["start", "center", "end"].map((alignment) => (
           <div

@@ -1,5 +1,4 @@
 import { ImagePlaceHolder } from "@/icons/common";
-import Image from "next/image";
 import React from "react";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "react-responsive";
@@ -13,7 +12,6 @@ import {
 import AutoScroll from "embla-carousel-auto-scroll";
 import { useTheme } from "next-themes";
 import { ListStyle } from "@/types/sectionsTypes/list";
-import * as PhosphorIcons from "@phosphor-icons/react";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
   closeChooseIcon,
@@ -22,6 +20,7 @@ import {
   updateSelectedSection,
 } from "@/reduxStore/action";
 import { useMotion } from "@/hooks/useMotion";
+import { getPhosphorIcon } from "@/helper/phosphorIcons";
 
 interface DesignProps {
   section: any;
@@ -29,6 +28,7 @@ interface DesignProps {
 }
 function Design1({ section, pageId }: DesignProps) {
   const { AnimatePresence, motion } = useMotion();
+
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
   const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
@@ -160,9 +160,7 @@ function Design1({ section, pageId }: DesignProps) {
               <div className={gridClassNames}>
                 <AnimatePresence>
                   {section.content.list.map((listItem: any, index: number) => {
-                    const ListIcon = PhosphorIcons[
-                      listItem.icon as keyof typeof PhosphorIcons
-                    ] as PhosphorIcons.Icon;
+                    const ListIcon = getPhosphorIcon(listItem.icon);
                     return (
                       <motion.div
                         layout
@@ -224,9 +222,7 @@ function Design1({ section, pageId }: DesignProps) {
               >
                 <CarouselContent className="items-stretch">
                   {section.content.list.map((listItem: any, index: number) => {
-                    const ListIcon = PhosphorIcons[
-                      listItem.icon as keyof typeof PhosphorIcons
-                    ] as PhosphorIcons.Icon;
+                    const ListIcon = getPhosphorIcon(listItem.icon);
                     return (
                       <CarouselItem
                         className="h-full"

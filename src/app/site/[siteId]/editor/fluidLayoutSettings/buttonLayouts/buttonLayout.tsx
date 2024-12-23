@@ -17,6 +17,8 @@ import {
 import { FluidButtonSettings, GridCard } from "@/types/sectionsTypes/fluid";
 import React from "react";
 import Align from "../../editorSideBar/sectionSettings/settingsUi/Align";
+import { Slider } from "@/components/ui/slider";
+import IconPosition from "../../editorSideBar/sectionSettings/settingsUi/IconPosition";
 interface ButtonLayoutProps {
   fluidCard: GridCard | null;
   activePageId: string;
@@ -63,7 +65,7 @@ function ButtonLayout({
   };
 
   return (
-    <div>
+    <div className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="text-input">Choose what displays</Label>
         <Select
@@ -85,20 +87,41 @@ function ButtonLayout({
           </SelectContent>
         </Select>
       </div>
-      <div>
-        {/* <Align
-          alignValue={cardStyle.designSettings?.align}
+      {fluidCardSettings.buttonDisplay === "Text and icon" && (
+        <>
+          <div className="space-y-2">
+            <Label>Icon position</Label>
+            <IconPosition
+              positionValue={fluidCardSettings.iconPosition}
+              onValueChange={(value) => {
+                handleSettingChange("iconPosition", value);
+              }}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label>Spacing between text and icon</Label>
+            <Slider
+              className="border-muted-bg flex border-solid border-[1px] rounded-sm"
+              min={0}
+              max={50}
+              customText={`${fluidCardSettings.textIconGap} px`}
+              value={[fluidCardSettings.textIconGap]}
+              onValueChange={(value) => {
+                handleSettingChange("textIconGap", value[0]);
+              }}
+            />
+          </div>
+        </>
+      )}
+      <div className="space-y-2">
+        <Label>Alignment</Label>
+        <Align
+          noLabel
+          alignValue={fluidCardSettings?.alignment}
           onValueChange={(value) => {
-            dispatch(
-              updateStyle(pageId, findSelectedSection?.id!, {
-                designSettings: {
-                  ...cardStyle.designSettings!,
-                  align: value,
-                },
-              })
-            );
+            handleSettingChange("alignment", value);
           }}
-        /> */}
+        />
       </div>
     </div>
   );
