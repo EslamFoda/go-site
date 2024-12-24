@@ -22,6 +22,7 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
+  closeChooseIcon,
   openChooseIcon,
   updateContent,
   updateSelectedItem,
@@ -93,8 +94,11 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
   if (chooseIcon) {
     return (
       <IconList
-        handlePropertyChange={handleUpdateListItem}
-        selectedListItem={selectedListItem}
+        icon={selectedListItem.icon}
+        handleBack={() => dispatch(closeChooseIcon())}
+        handlePropertyChange={(icon: string) => {
+          handleUpdateListItem("icon", icon);
+        }}
       />
     );
   }

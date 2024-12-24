@@ -77,17 +77,35 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
             switch (card.type) {
               case "button":
                 const ButtonIcon = getPhosphorIcon(card.settings.buttonIcon);
+                const isIconOnly = card.settings.buttonDisplay === "Icon only";
+                const isTextAndIcon =
+                  card.settings.buttonDisplay === "Text and icon" ||
+                  card.settings.buttonDisplay === "Icon only";
+                const iconPositionAboveOrBelowText =
+                  card.settings.iconPosition === "above" ||
+                  card.settings.iconPosition === "below";
                 return (
                   <Button
                     className="w-full h-full"
                     style={{ gap: card.settings.textIconGap }}
                     variant={card.settings.variant}
-                    alignment={card.settings.alignment}
+                    justifyItems={
+                      !iconPositionAboveOrBelowText
+                        ? card.settings.alignment
+                        : "center"
+                    }
+                    alignItems={
+                      iconPositionAboveOrBelowText
+                        ? card.settings.alignment
+                        : "center"
+                    }
                     iconPosition={card.settings.iconPosition}
                   >
-                    <span className="truncate">{card.settings.text}</span>
-                    {card.settings.buttonDisplay === "Text and icon" && (
-                      <ButtonIcon className="min-w-max" />
+                    {!isIconOnly && (
+                      <span className="truncate">{card.settings.text}</span>
+                    )}
+                    {isTextAndIcon && (
+                      <ButtonIcon className="min-w-max min-h-max" size={18} />
                     )}
                   </Button>
                 );

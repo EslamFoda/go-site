@@ -23,11 +23,7 @@ export interface FluidStyle {
   designSettings: DesignSettings;
 }
 
-export type ButtonDisplay =
-  | "Text only"
-  | "Icon only"
-  | "Text and icon"
-  | "Nothing";
+export type ButtonDisplay = "Text only" | "Icon only" | "Text and icon";
 
 export type ButtonAlignment = "start" | "center" | "end";
 export type IconPositionTypes = "right" | "left" | "below" | "above";

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, ButtonVariantProps } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import IconList from "../../editorSideBar/sectionSettings/list/comps/iconList";
+import { getPhosphorIcon } from "@/helper/phosphorIcons";
 
 interface FluidButtonProps {
   fluidCard: GridCard | null;
@@ -35,6 +37,7 @@ const FluidButton: React.FC<FluidButtonProps> = ({
   selectedSection,
 }) => {
   const dispatch = useAppDispatch();
+  const [isIconListOpen, setIsIconListOpen] = useState(false); // State to control IconList visibility
   const btnVariants: ButtonVariantProps["variant"][] = [
     "default",
     "outline",
@@ -43,9 +46,14 @@ const FluidButton: React.FC<FluidButtonProps> = ({
     "link",
     "destructive",
   ];
-  const buttonTypes = ["Text only", "Text and icon", "Icon only", "Nothing"];
+  const buttonTypes = ["Text only", "Text and icon", "Icon only"];
   const fluidCardSettings = fluidCard?.settings as FluidButtonSettings;
   const fluidSection = selectedSection?.content as SectionContentTypes["fluid"];
+  const ButtonIcon = getPhosphorIcon(fluidCardSettings.buttonIcon);
+  const isTextAndIcon =
+    fluidCardSettings.buttonDisplay === "Text and icon" ||
+    fluidCardSettings.buttonDisplay === "Icon only";
+  const isIconOnly = fluidCardSettings.buttonDisplay === "Icon only";
 
   const handleUpdateContent = (updatedCards: GridCard[]) => {
     dispatch(
@@ -74,6 +82,20 @@ const FluidButton: React.FC<FluidButtonProps> = ({
     handleSetFluidCard(updatedFluidCard);
   };
 
+  if (isIconListOpen) {
+    // Render only the IconList if it is open
+    return (
+      <IconList
+        backBtnLabel="Back"
+        backBtnClassName="p-2 pb-4"
+        listHeight="350px"
+        icon={fluidCardSettings?.buttonIcon}
+        handleBack={() => setIsIconListOpen(false)} // Close IconList on back
+        handlePropertyChange={(icon) => handleSettingChange("buttonIcon", icon)}
+      />
+    );
+  }
+
   return (
     <div className="space-y-4">
       {/* button type */}
@@ -100,16 +122,36 @@ const FluidButton: React.FC<FluidButtonProps> = ({
       </div>
 
       {/* Text Input */}
-      <div className="space-y-2">
-        <Label htmlFor="text-input">Text</Label>
-        <Input
-          id="text-input"
-          value={fluidCardSettings?.text || ""}
-          onChange={(e) => handleSettingChange("text", e.target.value)}
-        />
-      </div>
+      {!isIconOnly && (
+        <div className="space-y-2">
+          <Label htmlFor="text-input">Text</Label>
+          <Input
+            id="text-input"
+            value={fluidCardSettings?.text || ""}
+            onChange={(e) => handleSettingChange("text", e.target.value)}
+          />
+        </div>
+      )}
 
       <hr />
+
+      {/* Icon */}
+      {isTextAndIcon && (
+        <>
+          <div className="space-y-2">
+            <Label className="block">Icon</Label>
+            <Button
+              className="h-10 w-20"
+              size="icon"
+              variant="outline"
+              onClick={() => setIsIconListOpen(true)}
+            >
+              <ButtonIcon size={20} />
+            </Button>
+          </div>
+          <hr />
+        </>
+      )}
 
       {/* Button Variants */}
       <div className="space-y-2">

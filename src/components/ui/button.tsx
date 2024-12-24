@@ -25,7 +25,7 @@ const buttonVariants = cva(
         lg: "h-11 rounded-md px-8",
         icon: "h-[30px] w-[30px]",
       },
-      alignment: {
+      justifyItems: {
         start: "justify-start",
         center: "justify-center",
         end: "justify-end",
@@ -36,12 +36,20 @@ const buttonVariants = cva(
         above: "flex-col",
         below: "flex-col-reverse",
       },
+      alignItems: {
+        start: "items-start",
+        center: "items-center",
+        end: "items-end",
+        stretch: "items-stretch",
+        baseline: "items-baseline",
+      },
     },
     defaultVariants: {
       variant: "default",
       size: "default",
-      alignment: "center",
+      justifyItems: "center",
       iconPosition: "right",
+      alignItems: "center",
     },
   }
 );
@@ -58,8 +66,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       variant,
       size,
-      alignment,
+      justifyItems,
       iconPosition,
+      alignItems,
       asChild = false,
       ...props
     },
@@ -69,7 +78,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Comp
         className={cn(
-          buttonVariants({ variant, size, alignment, iconPosition, className })
+          buttonVariants({
+            variant,
+            size,
+            justifyItems,
+            iconPosition,
+            alignItems,
+            className,
+          })
         )}
         ref={ref}
         {...props}

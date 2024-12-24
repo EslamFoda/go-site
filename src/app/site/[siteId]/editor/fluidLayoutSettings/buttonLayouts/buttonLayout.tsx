@@ -33,7 +33,7 @@ function ButtonLayout({
   selectedSection,
 }: ButtonLayoutProps) {
   const dispatch = useAppDispatch();
-  const buttonTypes = ["Text only", "Text and icon", "Icon only", "Nothing"];
+  const buttonTypes = ["Text only", "Text and icon", "Icon only"];
   const fluidCardSettings = fluidCard?.settings as FluidButtonSettings;
   const fluidSection = selectedSection?.content as SectionContentTypes["fluid"];
 
@@ -93,9 +93,9 @@ function ButtonLayout({
             <Label>Icon position</Label>
             <IconPosition
               positionValue={fluidCardSettings.iconPosition}
-              onValueChange={(value) => {
-                handleSettingChange("iconPosition", value);
-              }}
+              onValueChange={(value) =>
+                handleSettingChange("iconPosition", value)
+              }
             />
           </div>
           <div className="space-y-2">
@@ -106,9 +106,9 @@ function ButtonLayout({
               max={50}
               customText={`${fluidCardSettings.textIconGap} px`}
               value={[fluidCardSettings.textIconGap]}
-              onValueChange={(value) => {
-                handleSettingChange("textIconGap", value[0]);
-              }}
+              onValueChange={(value) =>
+                handleSettingChange("textIconGap", value[0])
+              }
             />
           </div>
         </>
