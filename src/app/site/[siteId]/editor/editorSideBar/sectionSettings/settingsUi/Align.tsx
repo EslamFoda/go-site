@@ -2,19 +2,18 @@ import { Label } from "@/components/ui/label";
 import React from "react";
 
 interface AlignProps {
-  alignValue: string;
-  alignments?: readonly string[];
+  alignValue: "start" | "center" | "end";
   noLabel?: boolean;
-  onValueChange: (value: string) => void;
+  onValueChange: (value: "start" | "center" | "end") => void;
 }
 
 interface IconProps {
   active: boolean;
 }
 
-const DEFAULT_ALIGNMENTS = ["start", "center", "end"] as const;
+const ALIGNMENTS = ["start", "center", "end"] as const;
 
-const ICONS: Record<string, React.FC<IconProps>> = {
+const ICONS = {
   start: ({ active }: IconProps) => (
     <svg
       width={16}
@@ -64,17 +63,12 @@ const ICONS: Record<string, React.FC<IconProps>> = {
   ),
 };
 
-function Align({
-  alignValue,
-  alignments = DEFAULT_ALIGNMENTS,
-  noLabel,
-  onValueChange,
-}: AlignProps) {
+function Align({ alignValue, noLabel, onValueChange }: AlignProps) {
   return (
     <div className="space-y-1 flex items-center justify-between">
       {!noLabel && <Label>Align</Label>}
       <div className="border-muted-bg flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-        {alignments.map((alignment) => (
+        {ALIGNMENTS.map((alignment) => (
           <div
             key={alignment}
             onClick={() => onValueChange(alignment)}
@@ -82,11 +76,9 @@ function Align({
               alignValue === alignment ? "bg-muted-bg" : ""
             } flex items-center justify-center cursor-pointer w-full`}
           >
-            {ICONS[alignment]
-              ? React.createElement(ICONS[alignment], {
-                  active: alignValue === alignment,
-                })
-              : alignment}
+            {React.createElement(ICONS[alignment], {
+              active: alignValue === alignment,
+            })}
           </div>
         ))}
       </div>
