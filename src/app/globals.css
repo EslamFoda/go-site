@@ -493,7 +493,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-.teasd {
-  flex-direction: column;
-}
