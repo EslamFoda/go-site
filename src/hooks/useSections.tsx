@@ -734,6 +734,7 @@ export function useSections() {
             type: "image",
             settings: {
               src: "",
+              imageId: "",
             },
           },
           {
@@ -744,6 +745,7 @@ export function useSections() {
             type: "image",
             settings: {
               src: "",
+              imageId: "",
             },
           },
           {
@@ -770,6 +772,7 @@ export function useSections() {
             h: 6,
             type: "image",
             settings: {
+              imageId: "",
               src: "",
             },
           },

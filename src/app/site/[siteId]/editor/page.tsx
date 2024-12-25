@@ -18,7 +18,8 @@ import {
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
-import ButtonLayout from "./fluidLayoutSettings/buttonLayouts";
+import ButtonLayout from "./fluidLayoutSettings/buttonLayout";
+import ImageLayout from "./fluidLayoutSettings/imageLayout";
 
 export default function Home({ params }: any) {
   const [loading, setLoading] = React.useState(true);
@@ -83,6 +84,11 @@ export default function Home({ params }: any) {
     button: FluidButton,
   };
 
+  const fluidCardLayoutMapper = {
+    image: ImageLayout,
+    button: ButtonLayout,
+  };
+
   const modalHeadTextMapper = {
     image: "Image Settings",
     button: "Button Settings",
@@ -91,9 +97,9 @@ export default function Home({ params }: any) {
   const settingsModalMapper = {
     SETTINGS: () => {
       if (!fluidCard || !fluidCardsMapper[fluidCard.type]) return null;
-      const FluidComponent = fluidCardsMapper[fluidCard.type];
+      const FluidSettings = fluidCardsMapper[fluidCard.type];
       return (
-        <FluidComponent
+        <FluidSettings
           fluidCard={fluidCard}
           activePageId={activePageId}
           selectedSection={findSelectedSection}
@@ -101,8 +107,10 @@ export default function Home({ params }: any) {
       );
     },
     LAYOUT: () => {
+      if (!fluidCard || !fluidCardLayoutMapper[fluidCard.type]) return null;
+      const FluidLayouts = fluidCardLayoutMapper[fluidCard.type];
       return (
-        <ButtonLayout
+        <FluidLayouts
           fluidCard={fluidCard}
           activePageId={activePageId}
           selectedSection={findSelectedSection}

@@ -22,6 +22,7 @@ import { HoverCardTrigger } from "@radix-ui/react-hover-card";
 import { Trash, LayoutIcon } from "lucide-react";
 import { GridCard } from "@/types/sectionsTypes/fluid";
 import { getPhosphorIcon } from "@/helper/phosphorIcons";
+import Image from "next/image";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -111,9 +112,21 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                 );
               case "image":
                 return (
-                  <div className="w-full h-full bg-muted flex justify-center items-center rounded-md">
-                    <ImagePlaceHolder fillColor={"fill-background"} />
-                  </div>
+                  <>
+                    {card.settings.src ? (
+                      <Image
+                        alt={card.settings.imageId}
+                        src={card.settings.src}
+                        className="w-full h-full object-cover"
+                        fill
+                        objectFit="cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-muted flex justify-center items-center rounded-md">
+                        <ImagePlaceHolder fillColor={"fill-background"} />
+                      </div>
+                    )}
+                  </>
                 );
               default:
                 return <div>default</div>;
@@ -274,7 +287,9 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                     }}
                     className="h-8 px-4 min-w-fit flex items-center shadow-md justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/80 transition-colors cursor-pointer"
                   >
-                    <span>Edit {card.type}</span>
+                    <span>
+                      {card.type === "button" ? "Edit" : "Change"} {card.type}
+                    </span>
                   </div>
                   <div
                     onClick={() => {

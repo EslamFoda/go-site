@@ -1,9 +1,8 @@
 import { Input } from "@/components/ui/input";
-import { Check, Search, X } from "lucide-react";
+import { Search, X } from "lucide-react";
 import React, { useState, useEffect, ChangeEvent, KeyboardEvent } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { unsplashClient } from "@/helper/unsplash/unsplashClient";
-import { Photo } from "@/types/sectionsTypes/gallery";
 import PhotoCard from "./photoCard";
 import { useMotion } from "@/hooks/useMotion";
 import { UnsplashImage } from "@/types/common";

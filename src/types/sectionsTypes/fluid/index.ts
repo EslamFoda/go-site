@@ -40,6 +40,7 @@ export interface FluidButtonSettings {
   iconPosition: IconPositionTypes;
 }
 export interface FluidImageSettings {
+  imageId: string;
   src: string;
   link?: string;
 }

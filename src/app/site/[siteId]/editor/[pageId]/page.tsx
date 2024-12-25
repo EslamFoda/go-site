@@ -18,6 +18,8 @@ import {
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
+import ImageLayout from "../fluidLayoutSettings/imageLayout";
+import ButtonLayout from "../fluidLayoutSettings/buttonLayout";
 
 function Page({ params }: any) {
   const dispatch = useAppDispatch();
@@ -77,6 +79,11 @@ function Page({ params }: any) {
     button: FluidButton,
   };
 
+  const fluidCardLayoutMapper = {
+    image: ImageLayout,
+    button: ButtonLayout,
+  };
+
   const modalHeadTextMapper = {
     image: "Image Settings",
     button: "Button Settings",
@@ -85,18 +92,27 @@ function Page({ params }: any) {
   const settingsModalMapper = {
     SETTINGS: () => {
       if (!fluidCard || !fluidCardsMapper[fluidCard.type]) return null;
-      const FluidComponent = fluidCardsMapper[fluidCard.type];
+      const FluidSettings = fluidCardsMapper[fluidCard.type];
       return (
-        <FluidComponent
+        <FluidSettings
           fluidCard={fluidCard}
           activePageId={activePageId}
           selectedSection={findSelectedSection}
         />
       );
     },
-    LAYOUT: () => <div>Layout-specific settings here</div>,
+    LAYOUT: () => {
+      if (!fluidCard || !fluidCardLayoutMapper[fluidCard.type]) return null;
+      const FluidLayouts = fluidCardLayoutMapper[fluidCard.type];
+      return (
+        <FluidLayouts
+          fluidCard={fluidCard}
+          activePageId={activePageId}
+          selectedSection={findSelectedSection}
+        />
+      );
+    },
   };
-
   const modalHeadText =
     draggableModalName === "SETTINGS" && fluidCard
       ? modalHeadTextMapper[fluidCard.type]

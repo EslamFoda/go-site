@@ -227,11 +227,11 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
             handleToggleSetting={handleToggleSize}
             customText={
               isSizeDesktop
-                ? `${logoItem.size.desktop}`
-                : `${logoItem.size.mobile}`
+                ? `${logoItem.size?.desktop}`
+                : `${logoItem.size?.mobile}`
             }
             value={
-              isSizeDesktop ? [logoItem.size.desktop] : [logoItem.size.mobile]
+              isSizeDesktop ? [logoItem.size?.desktop] : [logoItem.size?.mobile]
             }
             onValueChange={(value) => {
               const newSize = isSizeDesktop
