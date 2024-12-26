@@ -1,10 +1,12 @@
+import { setFluidCard, updateContent } from "@/reduxStore/action";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
 import { FluidImageSettings, GridCard } from "@/types/sectionsTypes/fluid";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import AvatarEditor from "react-avatar-editor";
 
 interface ImageLayoutProps {
@@ -21,110 +23,284 @@ function ImageLayout({
   fluidCard,
   selectedSection,
 }: ImageLayoutProps) {
+  const dispatch = useAppDispatch();
   const fluidCardSettings = fluidCard?.settings as FluidImageSettings;
   const fluidSection = selectedSection?.content as SectionContentTypes["fluid"];
   const editorRef = useRef<AvatarEditor>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const [scale, setScale] = useState(1.2); // Scale (zoom) value
-  const [rotate, setRotate] = useState(0); // Rotation angle
-  const [flipH, setFlipH] = useState(false); // Flip horizontal
-  const [flipV, setFlipV] = useState(false); // Flip vertical
+  const [zoom, setZoom] = useState(fluidCardSettings?.imageFilters?.zoom || 1);
+  const [rotate, setRotate] = useState(
+    fluidCardSettings?.imageFilters?.rotate || 0
+  );
 
-  const handleSave = () => {
-    if (editorRef.current) {
-      const canvas = editorRef.current.getImage();
-      const dataURL = canvas.toDataURL();
-      console.log(dataURL); // This is the edited image data URL
+  // Filter states
+  const [position, setPosition] = useState(
+    fluidCardSettings?.imageFilters?.position || { x: 0.5, y: 0.5 }
+  );
+  const [contrast, setContrast] = useState(
+    fluidCardSettings?.imageFilters?.contrast || 100
+  );
+  const [brightness, setBrightness] = useState(
+    fluidCardSettings?.imageFilters?.brightness || 100
+  );
+  const [blur, setBlur] = useState(fluidCardSettings?.imageFilters?.blur || 0);
+  const [hue, setHue] = useState(fluidCardSettings?.imageFilters?.hue || 0);
+  const [exposure, setExposure] = useState(
+    fluidCardSettings?.imageFilters?.exposure || 1
+  );
+  const [opacity, setOpacity] = useState(
+    fluidCardSettings?.imageFilters?.opacity || 100
+  );
+
+  const handleUpdateContent = (updatedCards: GridCard[]) => {
+    dispatch(
+      updateContent(activePageId, selectedSection.id, {
+        gridCards: updatedCards,
+      })
+    );
+  };
+
+  const handleSetFluidCard = (updatedCard: GridCard) => {
+    dispatch(setFluidCard(updatedCard));
+  };
+
+  const handleMultipleSettingChanges = (
+    settings: Partial<FluidImageSettings>
+  ) => {
+    if (!fluidCard) return;
+    const updatedCards = fluidSection.gridCards.map((card) =>
+      card.i === fluidCard.i
+        ? { ...card, settings: { ...card.settings, ...settings } }
+        : card
+    ) as GridCard[];
+    handleUpdateContent(updatedCards);
+    const updatedFluidCard = {
+      ...fluidCard,
+      settings: { ...fluidCard.settings, ...settings },
+    } as GridCard;
+    handleSetFluidCard(updatedFluidCard);
+  };
+
+  const getFilterStyle = () => {
+    return `
+      contrast(${contrast}%)
+      brightness(${brightness}%)
+      blur(${blur}px)
+      hue-rotate(${hue}deg)
+      saturate(${exposure})
+      opacity(${opacity}%)
+    `;
+  };
+
+  const applyFiltersToCanvas = () => {
+    if (!editorRef.current || !canvasRef.current) return;
+    const editorCanvas = editorRef.current.getImage();  // Get original image instead of scaled
+    const ctx = canvasRef.current.getContext("2d", { 
+      willReadFrequently: true,
+      alpha: true
+    });
+  
+    if (ctx) {
+      // Set canvas size to match original image dimensions
+      const originalWidth = editorCanvas.width;
+      const originalHeight = editorCanvas.height;
+      canvasRef.current.width = originalWidth;
+      canvasRef.current.height = originalHeight;
+  
+      // Enable image smoothing for better quality
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+  
+      ctx.filter = getFilterStyle();
+      ctx.drawImage(editorCanvas, 0, 0, originalWidth, originalHeight);
+  
+      // Use maximum quality in toDataURL
+      return canvasRef.current.toDataURL('image/png', 1.0);
     }
   };
 
-  return (
-    <div className="flex flex-col items-center space-y-4 p-6">
-      {/* AvatarEditor Container */}
-      <div className="relative w-64 h-64 border-4 border-gray-300 rounded-lg overflow-hidden">
-        <AvatarEditor
-          ref={editorRef}
-          image={fluidCardSettings.src}
-          width={250}
-          height={250}
-          border={50}
-          scale={scale}
-          rotate={rotate}
-        />
-      </div>
+  const handleSave = () => {
+    const filteredImageData = applyFiltersToCanvas();
+    if (filteredImageData) {
+      handleMultipleSettingChanges({
+        src: filteredImageData,
+        imageFilters: {
+          zoom,
+          rotate,
+          brightness,
+          contrast,
+          blur,
+          hue,
+          exposure,
+          opacity,
+          position,
+        },
+      });
+    }
+  };
 
-      {/* Controls for adjusting Image Options */}
-      <div className="space-y-4">
-        {/* Zoom (Scale) */}
-        <div className="flex flex-col items-center">
-          <label htmlFor="scale" className="text-sm font-semibold">
-            Zoom
-          </label>
+  const handleReset = () => {
+    handleMultipleSettingChanges({
+      src: fluidCardSettings.originalSrc, // Reset to the original image
+      imageFilters: {
+        zoom: 1,
+        rotate: 0,
+        brightness: 100,
+        contrast: 100,
+        blur: 0,
+        hue: 0,
+        exposure: 1,
+        opacity: 100,
+        position: { x: 0.5, y: 0.5 },
+      },
+    });
+    setPosition({ x: 0.5, y: 0.5 });
+    setZoom(1);
+    setRotate(0);
+    setContrast(100);
+    setBrightness(100);
+    setBlur(0);
+    setHue(0);
+    setExposure(1);
+    setOpacity(100);
+  };
+
+  useEffect(() => {
+    // Synchronize local states with Redux when the component loads
+    setPosition(
+      fluidCardSettings?.imageFilters?.position || { x: 0.5, y: 0.5 }
+    );
+    setZoom(fluidCardSettings?.imageFilters?.zoom || 1);
+    setRotate(fluidCardSettings?.imageFilters?.rotate || 0);
+    setContrast(fluidCardSettings?.imageFilters?.contrast || 100);
+    setBrightness(fluidCardSettings?.imageFilters?.brightness || 100);
+    setBlur(fluidCardSettings?.imageFilters?.blur || 0);
+    setHue(fluidCardSettings?.imageFilters?.hue || 0);
+    setExposure(fluidCardSettings?.imageFilters?.exposure || 1);
+    setOpacity(fluidCardSettings?.imageFilters?.opacity || 100);
+  }, [fluidCardSettings]);
+
+  return (
+    <div className="flex flex-col items-center space-y-4">
+      <AvatarEditor
+        ref={editorRef}
+        image={fluidCardSettings.originalSrc} // Always use the original source
+        width={250}
+        crossOrigin="anonymous" // Allow cross-origin for the image
+        height={250}
+        border={50}
+        borderRadius={125} // Makes it circular
+        color={[255, 255, 255, 0.6]} // RGBA
+        scale={zoom}
+        rotate={rotate}
+        position={position}
+        onPositionChange={setPosition}
+        style={{ filter: getFilterStyle() }} // Apply filters dynamically
+      />
+      <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
+      <div className="flex flex-wrap gap-4">
+        <label>
+          Zoom:
           <input
-            id="scale"
             type="range"
             min="1"
-            max="2"
+            max="3"
             step="0.1"
-            value={scale}
-            onChange={(e) => setScale(parseFloat(e.target.value))}
-            className="mt-2 w-32"
+            value={zoom}
+            onChange={(e) => setZoom(parseFloat(e.target.value))}
           />
-        </div>
-
-        {/* Rotate */}
-        <div className="flex flex-col items-center">
-          <label htmlFor="rotate" className="text-sm font-semibold">
-            Rotate
-          </label>
+        </label>
+        <label>
+          Rotate:
           <input
-            id="rotate"
             type="range"
-            min="-180"
-            max="180"
+            min="0"
+            max="360"
             step="1"
             value={rotate}
-            onChange={(e) => setRotate(parseInt(e.target.value))}
-            className="mt-2 w-32"
+            onChange={(e) => setRotate(parseInt(e.target.value, 10))}
           />
-        </div>
-
-        {/* Flip Horizontal */}
-        <div className="flex flex-col items-center">
-          <label htmlFor="flipH" className="text-sm font-semibold">
-            Flip Horizontal
-          </label>
+        </label>
+        <label>
+          Contrast:
           <input
-            id="flipH"
-            type="checkbox"
-            checked={flipH}
-            onChange={() => setFlipH(!flipH)}
-            className="mt-2"
+            type="range"
+            min="0"
+            max="200"
+            step="1"
+            value={contrast}
+            onChange={(e) => setContrast(parseInt(e.target.value, 10))}
           />
-        </div>
-
-        {/* Flip Vertical */}
-        <div className="flex flex-col items-center">
-          <label htmlFor="flipV" className="text-sm font-semibold">
-            Flip Vertical
-          </label>
+        </label>
+        <label>
+          Brightness:
           <input
-            id="flipV"
-            type="checkbox"
-            checked={flipV}
-            onChange={() => setFlipV(!flipV)}
-            className="mt-2"
+            type="range"
+            min="0"
+            max="200"
+            step="1"
+            value={brightness}
+            onChange={(e) => setBrightness(parseInt(e.target.value, 10))}
           />
-        </div>
+        </label>
+        <label>
+          Blur:
+          <input
+            type="range"
+            min="0"
+            max="10"
+            step="0.1"
+            value={blur}
+            onChange={(e) => setBlur(parseFloat(e.target.value))}
+          />
+        </label>
+        <label>
+          Hue:
+          <input
+            type="range"
+            min="0"
+            max="360"
+            step="1"
+            value={hue}
+            onChange={(e) => setHue(parseInt(e.target.value, 10))}
+          />
+        </label>
+        <label>
+          Exposure:
+          <input
+            type="range"
+            min="0"
+            max="3"
+            step="0.1"
+            value={exposure}
+            onChange={(e) => setExposure(parseFloat(e.target.value))}
+          />
+        </label>
+        <label>
+          Opacity:
+          <input
+            type="range"
+            min="0"
+            max="100"
+            step="1"
+            value={opacity}
+            onChange={(e) => setOpacity(parseInt(e.target.value, 10))}
+          />
+        </label>
       </div>
-
-      {/* Action Buttons */}
       <div className="flex space-x-4">
         <button
+          className="bg-blue-500 text-white px-4 py-2 rounded"
           onClick={handleSave}
-          className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition duration-300"
         >
           Save Image
+        </button>
+        <button
+          className="bg-gray-500 text-white px-4 py-2 rounded"
+          onClick={handleReset}
+        >
+          Reset to Original
         </button>
       </div>
     </div>

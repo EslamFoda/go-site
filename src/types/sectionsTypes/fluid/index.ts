@@ -1,4 +1,5 @@
 import { ButtonVariantProps } from "@/components/ui/button";
+import AvatarEditor from "react-avatar-editor";
 import { Layouts } from "react-grid-layout";
 
 export interface FluidContent {
@@ -42,7 +43,21 @@ export interface FluidButtonSettings {
 export interface FluidImageSettings {
   imageId: string;
   src: string;
+  originalSrc: string;
   link?: string;
+  imageFilters: {
+    brightness?: number;
+    contrast?: number;
+    hue?: number;
+    invert?: boolean;
+    opacity?: number;
+    saturate?: number;
+    blur?: number;
+    exposure?: number;
+    zoom?: number;
+    rotate?: number;
+    position?:AvatarEditor.Position
+  };
 }
 
 export interface GridCardButton {

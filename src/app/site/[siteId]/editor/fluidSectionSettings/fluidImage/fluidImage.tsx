@@ -76,6 +76,7 @@ function FluidImage({
           handleMultipleSettingChanges({
             imageId: image.id,
             src: image.urls.regular,
+            originalSrc: image.urls.regular,
           });
         }}
         selectedImgId={fluidImageSettings.imageId || ""}
