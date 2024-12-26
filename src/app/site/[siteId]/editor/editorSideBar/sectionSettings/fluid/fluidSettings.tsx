@@ -12,6 +12,9 @@ const initialCards: GridCard[] = [
     type: "image",
     settings: {
       src: "",
+      imageId: "",
+      originalSrc: "",
+      imageFilters: {},
     },
   },
   {
