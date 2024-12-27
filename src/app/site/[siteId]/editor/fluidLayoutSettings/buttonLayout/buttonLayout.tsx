@@ -19,6 +19,7 @@ import React from "react";
 import Align from "../../editorSideBar/sectionSettings/settingsUi/Align";
 import { Slider } from "@/components/ui/slider";
 import IconPosition from "../../editorSideBar/sectionSettings/settingsUi/IconPosition";
+import AlignFlexible from "../../editorSideBar/sectionSettings/settingsUi/alignFlexible";
 interface ButtonLayoutProps {
   fluidCard: GridCard | null;
   activePageId: string;
@@ -115,7 +116,20 @@ function ButtonLayout({
       )}
       <div className="space-y-2">
         <Label>Alignment</Label>
-        <Align
+        <AlignFlexible
+          alignments={
+            fluidCardSettings.iconPosition === "left"
+              ? [
+                  { value: "end", icon: "start" },
+                  { value: "center", icon: "center" },
+                  { value: "start", icon: "end" },
+                ]
+              : [
+                  { value: "start", icon: "start" },
+                  { value: "center", icon: "center" },
+                  { value: "end", icon: "end" },
+                ]
+          }
           noLabel
           alignValue={fluidCardSettings?.alignment}
           onValueChange={(value) => {

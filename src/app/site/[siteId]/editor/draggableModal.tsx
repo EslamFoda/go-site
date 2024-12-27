@@ -70,7 +70,7 @@ const DraggableModal: React.FC<DraggableModalProps> = ({
           >
             <div
               ref={modalRef}
-              className={`rounded-[4px] w-80 bg-background overflow-hidden antialiased  shadow-2xl shadow-zinc-900 cursor-default transition-all duration-300 ease-out ${
+              className={`rounded-[4px] w-96 bg-background overflow-hidden antialiased  shadow-2xl shadow-zinc-900 cursor-default transition-all duration-300 ease-out ${
                 isDragging ? "" : "transition- transform"
               }`}
               style={{

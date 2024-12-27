@@ -291,19 +291,33 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                       {card.type === "button" ? "Edit" : "Change"} {card.type}
                     </span>
                   </div>
-                  <div
+                 {card.type === "image" && card.settings.originalSrc && <div
                     onClick={() => {
                       dispatch(updateIsDraggableModal(true));
                       dispatch(setDraggableModalName("LAYOUT"));
                       dispatch(setFluidCard(card));
                     }}
-                    className="h-8 w-8 rounded-full flex items-center shadow-md justify-center bg-primary hover:bg-primary/80 transition-colors cursor-pointer"
+                    className="h-8 px-4 min-w-fit flex items-center shadow-md justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/80 transition-colors cursor-pointer"
                   >
-                    <LayoutIcon
-                      size={16}
-                      className="stroke-primary-foreground"
-                    />
-                  </div>
+                    <span>
+                      Edit image
+                    </span>
+                  </div>}
+                  {card.type === "button" && (
+                    <div
+                      onClick={() => {
+                        dispatch(updateIsDraggableModal(true));
+                        dispatch(setDraggableModalName("LAYOUT"));
+                        dispatch(setFluidCard(card));
+                      }}
+                      className="h-8 w-8 rounded-full flex items-center shadow-md justify-center bg-primary hover:bg-primary/80 transition-colors cursor-pointer"
+                    >
+                      <LayoutIcon
+                        size={16}
+                        className="stroke-primary-foreground"
+                      />
+                    </div>
+                  )}
                   <div
                     onClick={() => handleDelete(card.i)}
                     className="h-8 w-8 rounded-full flex items-center shadow-md justify-center bg-primary hover:bg-primary/80 transition-colors cursor-pointer"

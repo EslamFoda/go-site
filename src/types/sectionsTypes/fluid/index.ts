@@ -49,14 +49,16 @@ export interface FluidImageSettings {
     brightness?: number;
     contrast?: number;
     hue?: number;
-    invert?: boolean;
     opacity?: number;
     saturate?: number;
     blur?: number;
     exposure?: number;
     zoom?: number;
     rotate?: number;
-    position?:AvatarEditor.Position
+    position?: AvatarEditor.Position;
+    vintage?: number;
+    grain?: number;
+    sharpness?: number;
   };
 }
 

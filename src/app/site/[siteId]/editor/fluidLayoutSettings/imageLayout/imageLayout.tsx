@@ -1,13 +1,26 @@
+import React, { useRef, useState, useEffect } from "react";
+import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
 import { setFluidCard, updateContent } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
+import AvatarEditor from "react-avatar-editor";
 import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
 import { FluidImageSettings, GridCard } from "@/types/sectionsTypes/fluid";
-import React, { useRef, useState, useEffect } from "react";
-import AvatarEditor from "react-avatar-editor";
+import { Button } from "@/components/ui/button";
+import {
+  Blur,
+  Brightness,
+  Contrast,
+  Exposure,
+  Hue,
+  Opacity,
+  Rotate,
+  Zoom,
+} from "@/icons/imageFilters";
 
 interface ImageLayoutProps {
   fluidCard: GridCard | null;
@@ -17,6 +30,100 @@ interface ImageLayoutProps {
     keyof SectionStyleTypes
   >;
 }
+
+interface Position {
+  x: number;
+  y: number;
+}
+
+interface ImageFilters {
+  zoom: number;
+  rotate: number;
+  contrast: number;
+  brightness: number;
+  blur: number;
+  hue: number;
+  exposure: number;
+  opacity: number;
+  position: Position;
+}
+
+const DEFAULT_POSITION: Position = { x: 0.5, y: 0.5 };
+
+const imageOptions = [
+  {
+    id: "zoom",
+    label: "Zoom",
+    min: 1,
+    max: 3,
+    step: 0.1,
+    defaultValue: 1,
+    Icon: Zoom,
+  },
+  {
+    id: "rotate",
+    label: "Rotate",
+    min: 0,
+    max: 360,
+    step: 1,
+    defaultValue: 0,
+    Icon: Rotate,
+  },
+  {
+    id: "contrast",
+    label: "Contrast",
+    min: 0,
+    max: 200,
+    step: 1,
+    defaultValue: 100,
+    Icon: Contrast,
+  },
+  {
+    id: "brightness",
+    label: "Brightness",
+    min: 0,
+    max: 200,
+    step: 1,
+    defaultValue: 100,
+    Icon: Brightness,
+  },
+  {
+    id: "blur",
+    label: "Blur",
+    min: 0,
+    max: 10,
+    step: 0.1,
+    defaultValue: 0,
+    Icon: Blur,
+  },
+  {
+    id: "hue",
+    label: "Hue",
+    min: 0,
+    max: 360,
+    step: 1,
+    defaultValue: 0,
+    Icon: Hue,
+  },
+  {
+    id: "exposure",
+    label: "Exposure",
+    min: 0,
+    max: 3,
+    step: 0.1,
+    defaultValue: 1,
+    Icon: Exposure,
+  },
+  {
+    id: "opacity",
+    label: "Opacity",
+    min: 0,
+    max: 100,
+    step: 1,
+    defaultValue: 100,
+    Icon: Opacity,
+  },
+] as const;
 
 function ImageLayout({
   activePageId,
@@ -29,29 +136,17 @@ function ImageLayout({
   const editorRef = useRef<AvatarEditor>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const [zoom, setZoom] = useState(fluidCardSettings?.imageFilters?.zoom || 1);
-  const [rotate, setRotate] = useState(
-    fluidCardSettings?.imageFilters?.rotate || 0
-  );
-
-  // Filter states
-  const [position, setPosition] = useState(
-    fluidCardSettings?.imageFilters?.position || { x: 0.5, y: 0.5 }
-  );
-  const [contrast, setContrast] = useState(
-    fluidCardSettings?.imageFilters?.contrast || 100
-  );
-  const [brightness, setBrightness] = useState(
-    fluidCardSettings?.imageFilters?.brightness || 100
-  );
-  const [blur, setBlur] = useState(fluidCardSettings?.imageFilters?.blur || 0);
-  const [hue, setHue] = useState(fluidCardSettings?.imageFilters?.hue || 0);
-  const [exposure, setExposure] = useState(
-    fluidCardSettings?.imageFilters?.exposure || 1
-  );
-  const [opacity, setOpacity] = useState(
-    fluidCardSettings?.imageFilters?.opacity || 100
-  );
+  const [filters, setFilters] = useState<ImageFilters>({
+    zoom: fluidCardSettings?.imageFilters?.zoom ?? 1,
+    rotate: fluidCardSettings?.imageFilters?.rotate ?? 0,
+    contrast: fluidCardSettings?.imageFilters?.contrast ?? 100,
+    brightness: fluidCardSettings?.imageFilters?.brightness ?? 100,
+    blur: fluidCardSettings?.imageFilters?.blur ?? 0,
+    hue: fluidCardSettings?.imageFilters?.hue ?? 0,
+    exposure: fluidCardSettings?.imageFilters?.exposure ?? 1,
+    opacity: fluidCardSettings?.imageFilters?.opacity ?? 100,
+    position: fluidCardSettings?.imageFilters?.position ?? DEFAULT_POSITION,
+  });
 
   const handleUpdateContent = (updatedCards: GridCard[]) => {
     dispatch(
@@ -65,6 +160,28 @@ function ImageLayout({
     dispatch(setFluidCard(updatedCard));
   };
 
+  const handleFilterChange = (
+    id: keyof Omit<ImageFilters, "position">,
+    value: number
+  ) => {
+    setFilters((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handlePositionChange = (position: Position) => {
+    setFilters((prev) => ({ ...prev, position }));
+  };
+
+  const getFilterStyle = () => {
+    return `
+      contrast(${filters.contrast}%)
+      brightness(${filters.brightness}%)
+      blur(${filters.blur}px)
+      hue-rotate(${filters.hue}deg)
+      saturate(${filters.exposure})
+      opacity(${filters.opacity}%)
+    `;
+  };
+
   const handleMultipleSettingChanges = (
     settings: Partial<FluidImageSettings>
   ) => {
@@ -75,48 +192,30 @@ function ImageLayout({
         : card
     ) as GridCard[];
     handleUpdateContent(updatedCards);
-    const updatedFluidCard = {
+    handleSetFluidCard({
       ...fluidCard,
       settings: { ...fluidCard.settings, ...settings },
-    } as GridCard;
-    handleSetFluidCard(updatedFluidCard);
-  };
-
-  const getFilterStyle = () => {
-    return `
-      contrast(${contrast}%)
-      brightness(${brightness}%)
-      blur(${blur}px)
-      hue-rotate(${hue}deg)
-      saturate(${exposure})
-      opacity(${opacity}%)
-    `;
+    } as GridCard);
   };
 
   const applyFiltersToCanvas = () => {
     if (!editorRef.current || !canvasRef.current) return;
-    const editorCanvas = editorRef.current.getImage();  // Get original image instead of scaled
-    const ctx = canvasRef.current.getContext("2d", { 
+    const editorCanvas = editorRef.current.getImage();
+    const ctx = canvasRef.current.getContext("2d", {
       willReadFrequently: true,
-      alpha: true
+      alpha: true,
     });
-  
+
     if (ctx) {
-      // Set canvas size to match original image dimensions
       const originalWidth = editorCanvas.width;
       const originalHeight = editorCanvas.height;
       canvasRef.current.width = originalWidth;
       canvasRef.current.height = originalHeight;
-  
-      // Enable image smoothing for better quality
       ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
-  
+      ctx.imageSmoothingQuality = "high";
       ctx.filter = getFilterStyle();
       ctx.drawImage(editorCanvas, 0, 0, originalWidth, originalHeight);
-  
-      // Use maximum quality in toDataURL
-      return canvasRef.current.toDataURL('image/png', 1.0);
+      return canvasRef.current.toDataURL("image/png", 1.0);
     }
   };
 
@@ -125,183 +224,87 @@ function ImageLayout({
     if (filteredImageData) {
       handleMultipleSettingChanges({
         src: filteredImageData,
-        imageFilters: {
-          zoom,
-          rotate,
-          brightness,
-          contrast,
-          blur,
-          hue,
-          exposure,
-          opacity,
-          position,
-        },
+        imageFilters: filters,
       });
     }
   };
 
   const handleReset = () => {
+    const defaultFilters: ImageFilters = {
+      zoom: 1,
+      rotate: 0,
+      brightness: 100,
+      contrast: 100,
+      blur: 0,
+      hue: 0,
+      exposure: 1,
+      opacity: 100,
+      position: DEFAULT_POSITION,
+    };
+
+    setFilters(defaultFilters);
     handleMultipleSettingChanges({
-      src: fluidCardSettings.originalSrc, // Reset to the original image
-      imageFilters: {
-        zoom: 1,
-        rotate: 0,
-        brightness: 100,
-        contrast: 100,
-        blur: 0,
-        hue: 0,
-        exposure: 1,
-        opacity: 100,
-        position: { x: 0.5, y: 0.5 },
-      },
+      src: fluidCardSettings.originalSrc,
+      imageFilters: defaultFilters,
     });
-    setPosition({ x: 0.5, y: 0.5 });
-    setZoom(1);
-    setRotate(0);
-    setContrast(100);
-    setBrightness(100);
-    setBlur(0);
-    setHue(0);
-    setExposure(1);
-    setOpacity(100);
   };
 
   useEffect(() => {
-    // Synchronize local states with Redux when the component loads
-    setPosition(
-      fluidCardSettings?.imageFilters?.position || { x: 0.5, y: 0.5 }
-    );
-    setZoom(fluidCardSettings?.imageFilters?.zoom || 1);
-    setRotate(fluidCardSettings?.imageFilters?.rotate || 0);
-    setContrast(fluidCardSettings?.imageFilters?.contrast || 100);
-    setBrightness(fluidCardSettings?.imageFilters?.brightness || 100);
-    setBlur(fluidCardSettings?.imageFilters?.blur || 0);
-    setHue(fluidCardSettings?.imageFilters?.hue || 0);
-    setExposure(fluidCardSettings?.imageFilters?.exposure || 1);
-    setOpacity(fluidCardSettings?.imageFilters?.opacity || 100);
+    if (fluidCardSettings?.imageFilters) {
+      setFilters((prev) => ({
+        ...prev,
+        ...fluidCardSettings.imageFilters,
+      }));
+    }
   }, [fluidCardSettings]);
 
   return (
     <div className="flex flex-col items-center space-y-4">
       <AvatarEditor
         ref={editorRef}
-        image={fluidCardSettings.originalSrc} // Always use the original source
+        image={fluidCardSettings.originalSrc}
         width={250}
-        crossOrigin="anonymous" // Allow cross-origin for the image
         height={250}
         border={50}
-        borderRadius={125} // Makes it circular
-        color={[255, 255, 255, 0.6]} // RGBA
-        scale={zoom}
-        rotate={rotate}
-        position={position}
-        onPositionChange={setPosition}
-        style={{ filter: getFilterStyle() }} // Apply filters dynamically
+        scale={filters.zoom}
+        rotate={filters.rotate}
+        position={filters.position}
+        onPositionChange={handlePositionChange}
+        style={{ filter: getFilterStyle() }}
+        crossOrigin="anonymous"
       />
-      <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
-      <div className="flex flex-wrap gap-4">
-        <label>
-          Zoom:
-          <input
-            type="range"
-            min="1"
-            max="3"
-            step="0.1"
-            value={zoom}
-            onChange={(e) => setZoom(parseFloat(e.target.value))}
-          />
-        </label>
-        <label>
-          Rotate:
-          <input
-            type="range"
-            min="0"
-            max="360"
-            step="1"
-            value={rotate}
-            onChange={(e) => setRotate(parseInt(e.target.value, 10))}
-          />
-        </label>
-        <label>
-          Contrast:
-          <input
-            type="range"
-            min="0"
-            max="200"
-            step="1"
-            value={contrast}
-            onChange={(e) => setContrast(parseInt(e.target.value, 10))}
-          />
-        </label>
-        <label>
-          Brightness:
-          <input
-            type="range"
-            min="0"
-            max="200"
-            step="1"
-            value={brightness}
-            onChange={(e) => setBrightness(parseInt(e.target.value, 10))}
-          />
-        </label>
-        <label>
-          Blur:
-          <input
-            type="range"
-            min="0"
-            max="10"
-            step="0.1"
-            value={blur}
-            onChange={(e) => setBlur(parseFloat(e.target.value))}
-          />
-        </label>
-        <label>
-          Hue:
-          <input
-            type="range"
-            min="0"
-            max="360"
-            step="1"
-            value={hue}
-            onChange={(e) => setHue(parseInt(e.target.value, 10))}
-          />
-        </label>
-        <label>
-          Exposure:
-          <input
-            type="range"
-            min="0"
-            max="3"
-            step="0.1"
-            value={exposure}
-            onChange={(e) => setExposure(parseFloat(e.target.value))}
-          />
-        </label>
-        <label>
-          Opacity:
-          <input
-            type="range"
-            min="0"
-            max="100"
-            step="1"
-            value={opacity}
-            onChange={(e) => setOpacity(parseInt(e.target.value, 10))}
-          />
-        </label>
+      <canvas ref={canvasRef} style={{ display: "none" }} />
+
+      <div className="grid grid-cols-2 gap-4 w-full">
+        {imageOptions.map((option) => (
+          <div key={option.id} className="w-full space-y-2">
+            <div className="flex gap-2 items-center">
+              <option.Icon />
+              <Label>{option.label}</Label>
+            </div>
+            <Slider
+              min={option.min}
+              max={option.max}
+              step={option.step}
+              value={[filters[option.id as keyof typeof filters] as number]}
+              onValueChange={([value]) =>
+                handleFilterChange(
+                  option.id as keyof Omit<ImageFilters, "position">,
+                  value
+                )
+              }
+              className="w-full border-muted-bg flex border-solid border-[1px] rounded-sm h-10"
+            />
+          </div>
+        ))}
       </div>
-      <div className="flex space-x-4">
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded"
-          onClick={handleSave}
-        >
+      <div className="flex w-full space-x-4">
+        <Button className="w-full" onClick={handleSave}>
           Save Image
-        </button>
-        <button
-          className="bg-gray-500 text-white px-4 py-2 rounded"
-          onClick={handleReset}
-        >
+        </Button>
+        <Button className="w-full" variant="secondary" onClick={handleReset}>
           Reset to Original
-        </button>
+        </Button>
       </div>
     </div>
   );
