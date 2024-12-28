@@ -62,6 +62,11 @@ export interface FluidImageSettings {
   };
 }
 
+export interface FluidTextSettings {
+  text: string;
+  color: string;
+}
+
 export interface GridCardButton {
   i: string;
   content: string;
@@ -79,6 +84,14 @@ export interface GridCardImage {
   h: number;
   type: "image"; // Discriminator
 }
+export interface GridCardText {
+  i: string;
+  content: string;
+  settings: FluidTextSettings;
+  w: number;
+  h: number;
+  type: "text"; // Discriminator
+}
 
 // Union of GridCard types
-export type GridCard = GridCardButton | GridCardImage;
+export type GridCard = GridCardButton | GridCardImage | GridCardText;

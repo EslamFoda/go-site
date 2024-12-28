@@ -23,6 +23,7 @@ import { Trash, LayoutIcon } from "lucide-react";
 import { GridCard } from "@/types/sectionsTypes/fluid";
 import { getPhosphorIcon } from "@/helper/phosphorIcons";
 import Image from "next/image";
+import TextComp from "./textComp";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -42,7 +43,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState(false);
-
+  const [cardType, setCardType] = useState<any>(null);
   const breakpoints = { lg: 1200, sm: 768, xs: 480 };
   const cols = { lg: 45, sm: 20, xs: 15 };
   const rowHeight = 40;
@@ -62,6 +63,23 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
 
   const renderCardContent = (card: GridCard) => {
     const isSelected = card.i === selectedItemId;
+    const handleTextChange = (newText: string) => {
+      const updatedGridCards = section.content.gridCards.map((c: GridCard) => {
+        if (c.i === card.i) {
+          return {
+            ...c,
+            settings: {
+              ...c.settings,
+              text: newText,
+            },
+          };
+        }
+        return c;
+      });
+
+      updateSectionContent(updatedGridCards, section.content.gridLayout);
+    };
+
     return (
       <div
         className={`relative w-full h-full ${
@@ -70,6 +88,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         onClick={(e) => {
           e.stopPropagation();
           setSelectedItemId(card.i);
+          setCardType(card.type);
           dispatch(updateSelectedSection(pageId, section.id));
         }}
       >
@@ -127,6 +146,16 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                       </div>
                     )}
                   </>
+                );
+              case "text":
+                return (
+                  <TextComp
+                    isSelected={isSelected}
+                    initialText={
+                      card.settings?.text || "Double click to edit text"
+                    }
+                    onTextChange={handleTextChange}
+                  />
                 );
               default:
                 return <div>default</div>;
@@ -262,7 +291,9 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
           onDragStop={() => dispatch(updateIsDragging(false))}
           onResizeStart={() => setIsResizing(true)}
           onResizeStop={() => setIsResizing(false)}
-          resizeHandles={["sw", "nw", "se", "ne"]}
+          resizeHandles={
+            cardType === "text" ? ["w", "e", "s"] : ["sw", "nw", "se", "ne"]
+          }
         >
           {section.content.gridCards.map((card: GridCard) => (
             <div
@@ -291,18 +322,18 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                       {card.type === "button" ? "Edit" : "Change"} {card.type}
                     </span>
                   </div>
-                 {card.type === "image" && card.settings.originalSrc && <div
-                    onClick={() => {
-                      dispatch(updateIsDraggableModal(true));
-                      dispatch(setDraggableModalName("LAYOUT"));
-                      dispatch(setFluidCard(card));
-                    }}
-                    className="h-8 px-4 min-w-fit flex items-center shadow-md justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/80 transition-colors cursor-pointer"
-                  >
-                    <span>
-                      Edit image
-                    </span>
-                  </div>}
+                  {card.type === "image" && card.settings.originalSrc && (
+                    <div
+                      onClick={() => {
+                        dispatch(updateIsDraggableModal(true));
+                        dispatch(setDraggableModalName("LAYOUT"));
+                        dispatch(setFluidCard(card));
+                      }}
+                      className="h-8 px-4 min-w-fit flex items-center shadow-md justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/80 transition-colors cursor-pointer"
+                    >
+                      <span>Edit image</span>
+                    </div>
+                  )}
                   {card.type === "button" && (
                     <div
                       onClick={() => {

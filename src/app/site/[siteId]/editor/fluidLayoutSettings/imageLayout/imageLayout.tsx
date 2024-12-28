@@ -12,15 +12,15 @@ import {
 import { FluidImageSettings, GridCard } from "@/types/sectionsTypes/fluid";
 import { Button } from "@/components/ui/button";
 import {
-  Blur,
-  Brightness,
-  Contrast,
-  Exposure,
-  Hue,
-  Opacity,
-  Rotate,
-  Zoom,
-} from "@/icons/imageFilters";
+  Aperture,
+  Blend,
+  ContrastIcon,
+  Droplet,
+  Eclipse,
+  RotateCw,
+  Sun,
+  ZoomIn,
+} from "lucide-react";
 
 interface ImageLayoutProps {
   fluidCard: GridCard | null;
@@ -58,7 +58,7 @@ const imageOptions = [
     max: 3,
     step: 0.1,
     defaultValue: 1,
-    Icon: Zoom,
+    Icon: ZoomIn,
   },
   {
     id: "rotate",
@@ -67,7 +67,7 @@ const imageOptions = [
     max: 360,
     step: 1,
     defaultValue: 0,
-    Icon: Rotate,
+    Icon: RotateCw,
   },
   {
     id: "contrast",
@@ -76,7 +76,7 @@ const imageOptions = [
     max: 200,
     step: 1,
     defaultValue: 100,
-    Icon: Contrast,
+    Icon: ContrastIcon,
   },
   {
     id: "brightness",
@@ -85,7 +85,7 @@ const imageOptions = [
     max: 200,
     step: 1,
     defaultValue: 100,
-    Icon: Brightness,
+    Icon: Sun,
   },
   {
     id: "blur",
@@ -94,7 +94,7 @@ const imageOptions = [
     max: 10,
     step: 0.1,
     defaultValue: 0,
-    Icon: Blur,
+    Icon: Droplet,
   },
   {
     id: "hue",
@@ -103,7 +103,7 @@ const imageOptions = [
     max: 360,
     step: 1,
     defaultValue: 0,
-    Icon: Hue,
+    Icon: Blend,
   },
   {
     id: "exposure",
@@ -112,7 +112,7 @@ const imageOptions = [
     max: 3,
     step: 0.1,
     defaultValue: 1,
-    Icon: Exposure,
+    Icon: Aperture,
   },
   {
     id: "opacity",
@@ -121,7 +121,7 @@ const imageOptions = [
     max: 100,
     step: 1,
     defaultValue: 100,
-    Icon: Opacity,
+    Icon: Eclipse,
   },
 ] as const;
 
@@ -135,6 +135,7 @@ function ImageLayout({
   const fluidSection = selectedSection?.content as SectionContentTypes["fluid"];
   const editorRef = useRef<AvatarEditor>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const editorWrapperRef = useRef<HTMLDivElement>(null);
 
   const [filters, setFilters] = useState<ImageFilters>({
     zoom: fluidCardSettings?.imageFilters?.zoom ?? 1,
@@ -170,6 +171,23 @@ function ImageLayout({
   const handlePositionChange = (position: Position) => {
     setFilters((prev) => ({ ...prev, position }));
   };
+
+  const handleWheel = (event: WheelEvent) => {
+    event.preventDefault();
+    const delta = -event.deltaY / 200; // Adjust sensitivity here
+    const newZoom = Math.max(1, Math.min(3, filters.zoom + delta));
+    handleFilterChange("zoom", newZoom);
+  };
+
+  useEffect(() => {
+    const editorWrapper = editorWrapperRef.current;
+    if (editorWrapper) {
+      editorWrapper.addEventListener("wheel", handleWheel, { passive: false });
+      return () => {
+        editorWrapper.removeEventListener("wheel", handleWheel);
+      };
+    }
+  }, [filters.zoom]);
 
   const getFilterStyle = () => {
     return `
@@ -260,26 +278,28 @@ function ImageLayout({
 
   return (
     <div className="flex flex-col items-center space-y-4">
-      <AvatarEditor
-        ref={editorRef}
-        image={fluidCardSettings.originalSrc}
-        width={250}
-        height={250}
-        border={50}
-        scale={filters.zoom}
-        rotate={filters.rotate}
-        position={filters.position}
-        onPositionChange={handlePositionChange}
-        style={{ filter: getFilterStyle() }}
-        crossOrigin="anonymous"
-      />
+      <div ref={editorWrapperRef} className="cursor-zoom-in">
+        <AvatarEditor
+          ref={editorRef}
+          image={fluidCardSettings.originalSrc}
+          width={250}
+          height={250}
+          border={50}
+          scale={filters.zoom}
+          rotate={filters.rotate}
+          position={filters.position}
+          onPositionChange={handlePositionChange}
+          style={{ filter: getFilterStyle() }}
+          crossOrigin="anonymous"
+        />
+      </div>
       <canvas ref={canvasRef} style={{ display: "none" }} />
 
       <div className="grid grid-cols-2 gap-4 w-full">
         {imageOptions.map((option) => (
           <div key={option.id} className="w-full space-y-2">
             <div className="flex gap-2 items-center">
-              <option.Icon />
+              <option.Icon size={18} />
               <Label>{option.label}</Label>
             </div>
             <Slider
