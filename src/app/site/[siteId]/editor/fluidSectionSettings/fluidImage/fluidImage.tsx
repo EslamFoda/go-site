@@ -17,11 +17,11 @@ interface FluidImageProps {
     keyof SectionStyleTypes
   >;
 }
-function FluidImage({
+const FluidImage: React.FC<FluidImageProps> = ({
   fluidCard,
   activePageId,
   selectedSection,
-}: FluidImageProps) {
+}) => {
   const dispatch = useAppDispatch();
   const fluidImageSettings = fluidCard?.settings as FluidImageSettings;
   const fluidSection = selectedSection?.content as SectionContentTypes["fluid"];
@@ -83,6 +83,6 @@ function FluidImage({
       />
     </div>
   );
-}
+};
 
 export default FluidImage;

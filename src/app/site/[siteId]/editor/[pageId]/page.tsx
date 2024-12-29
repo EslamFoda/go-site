@@ -20,6 +20,7 @@ import {
 } from "@/reduxStore/types";
 import ImageLayout from "../fluidLayoutSettings/imageLayout";
 import ButtonLayout from "../fluidLayoutSettings/buttonLayout";
+import FluidText from "../fluidSectionSettings/fluidText";
 
 function Page({ params }: any) {
   const dispatch = useAppDispatch();
@@ -77,6 +78,7 @@ function Page({ params }: any) {
   const fluidCardsMapper = {
     image: FluidImage,
     button: FluidButton,
+    text: FluidText,
   };
 
   const fluidCardLayoutMapper = {
@@ -87,7 +89,9 @@ function Page({ params }: any) {
   const modalHeadTextMapper = {
     image: "Image Settings",
     button: "Button Settings",
+    text: "Text Settings",
   };
+
 
   const settingsModalMapper = {
     SETTINGS: () => {
@@ -102,6 +106,7 @@ function Page({ params }: any) {
       );
     },
     LAYOUT: () => {
+      if (fluidCard?.type === "text") return null;
       if (!fluidCard || !fluidCardLayoutMapper[fluidCard.type]) return null;
       const FluidLayouts = fluidCardLayoutMapper[fluidCard.type];
       return (
