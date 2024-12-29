@@ -38,10 +38,10 @@ const initialCards: GridCard[] = [
   },
   {
     i: "text",
-    content: "Click Me",
+    content: "title text",
     settings: {
-      color: "#000000",
-      text: "Click Me",
+      color: "",
+      html: "<p>Edit me!</p>",
     },
     w: 5,
     h: 1,

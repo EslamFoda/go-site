@@ -63,7 +63,7 @@ export interface FluidImageSettings {
 }
 
 export interface FluidTextSettings {
-  text: string;
+  html: string;
   color: string;
 }
 

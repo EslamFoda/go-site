@@ -37,21 +37,6 @@ const FluidImage: React.FC<FluidImageProps> = ({
     dispatch(setFluidCard(updatedCard));
   };
 
-  const handleSettingChange = (key: keyof FluidImageSettings, value: any) => {
-    if (!fluidCard) return;
-    const updatedCards = fluidSection.gridCards.map((card) =>
-      card.i === fluidCard.i
-        ? { ...card, settings: { ...card.settings, [key]: value } }
-        : card
-    ) as GridCard[];
-    handleUpdateContent(updatedCards);
-    const updatedFluidCard = {
-      ...fluidCard,
-      settings: { ...fluidCard.settings, [key]: value },
-    } as GridCard;
-    handleSetFluidCard(updatedFluidCard);
-  };
-
   const handleMultipleSettingChanges = (
     settings: Partial<FluidImageSettings>
   ) => {

@@ -20,10 +20,11 @@ import "./styles.css";
 import { HoverCard, HoverCardContent } from "@/components/ui/hover-card";
 import { HoverCardTrigger } from "@radix-ui/react-hover-card";
 import { Trash, LayoutIcon } from "lucide-react";
-import { GridCard } from "@/types/sectionsTypes/fluid";
+import { FluidTextSettings, GridCard } from "@/types/sectionsTypes/fluid";
 import { getPhosphorIcon } from "@/helper/phosphorIcons";
 import Image from "next/image";
 import TextComp from "./textComp";
+import { cn } from "@/lib/utils";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -43,11 +44,14 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState(false);
-  const [cardType, setCardType] = useState<any>(null);
   const breakpoints = { lg: 1200, sm: 768, xs: 480 };
   const cols = { lg: 45, sm: 20, xs: 15 };
   const rowHeight = 40;
   const padding: [number, number] = [10, 10];
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleTextEditorFocus = () => setIsEditing(true);
+  const handleTextEditorBlur = () => setIsEditing(false);
 
   useEffect(() => {
     const updateWidth = () => {
@@ -63,14 +67,14 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
 
   const renderCardContent = (card: GridCard) => {
     const isSelected = card.i === selectedItemId;
-    const handleTextChange = (newText: string) => {
+    const handleTextChange = (key: keyof FluidTextSettings, value: any) => {
       const updatedGridCards = section.content.gridCards.map((c: GridCard) => {
         if (c.i === card.i) {
           return {
             ...c,
             settings: {
               ...c.settings,
-              text: newText,
+              [key]: value,
             },
           };
         }
@@ -80,19 +84,21 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
       updateSectionContent(updatedGridCards, section.content.gridLayout);
     };
 
+    const cardClassNames = cn('relative w-full h-full',{
+      'outline outline-1 cursor-move':isSelected,
+      'cursor-default':isEditing
+    })
+
     return (
       <div
-        className={`relative w-full h-full ${
-          isSelected && "outline outline-1 cursor-move"
-        }`}
+        className={cardClassNames}
         onClick={(e) => {
           e.stopPropagation();
           setSelectedItemId(card.i);
-          setCardType(card.type);
           dispatch(updateSelectedSection(pageId, section.id));
         }}
       >
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full">
           {(() => {
             switch (card.type) {
               case "button":
@@ -150,11 +156,12 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
               case "text":
                 return (
                   <TextComp
+                    isEditing={isEditing}
                     isSelected={isSelected}
-                    initialText={
-                      card.settings?.text || "Double click to edit text"
-                    }
+                    textSettings={card.settings}
                     onTextChange={handleTextChange}
+                    onFocus={handleTextEditorFocus} // Set editing state on focus
+                    onBlur={handleTextEditorBlur} // Reset editing state on blur
                   />
                 );
               default:
@@ -291,9 +298,9 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
           onDragStop={() => dispatch(updateIsDragging(false))}
           onResizeStart={() => setIsResizing(true)}
           onResizeStop={() => setIsResizing(false)}
-          resizeHandles={
-            cardType === "text" ? ["w", "e", "s"] : ["sw", "nw", "se", "ne"]
-          }
+          isDraggable={!isEditing} // Disable dragging while editing
+          isResizable={!isEditing} // Optionally disable resizing while editing
+          resizeHandles={["sw", "nw", "se", "ne"]}
         >
           {section.content.gridCards.map((card: GridCard) => (
             <div
@@ -310,18 +317,20 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                   side="top"
                   className="flex items-center justify-center gap-3 bg-transparent shadow-none border-none"
                 >
-                  <div
-                    onClick={() => {
-                      dispatch(updateIsDraggableModal(true));
-                      dispatch(setDraggableModalName("SETTINGS"));
-                      dispatch(setFluidCard(card));
-                    }}
-                    className="h-8 px-4 min-w-fit flex items-center shadow-md justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/80 transition-colors cursor-pointer"
-                  >
-                    <span>
-                      {card.type === "button" ? "Edit" : "Change"} {card.type}
-                    </span>
-                  </div>
+                  {card.type !== "text" && (
+                    <div
+                      onClick={() => {
+                        dispatch(updateIsDraggableModal(true));
+                        dispatch(setDraggableModalName("SETTINGS"));
+                        dispatch(setFluidCard(card));
+                      }}
+                      className="h-8 px-4 min-w-fit flex items-center shadow-md justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/80 transition-colors cursor-pointer"
+                    >
+                      <span>
+                        {card.type === "button" ? "Edit" : "Change"} {card.type}
+                      </span>
+                    </div>
+                  )}
                   {card.type === "image" && card.settings.originalSrc && (
                     <div
                       onClick={() => {
