@@ -84,10 +84,10 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
       updateSectionContent(updatedGridCards, section.content.gridLayout);
     };
 
-    const cardClassNames = cn('relative w-full h-full',{
-      'outline outline-1 cursor-move':isSelected,
-      'cursor-default':isEditing
-    })
+    const cardClassNames = cn("relative w-full h-full", {
+      "outline outline-1 cursor-move": isSelected,
+      "cursor-default": isEditing,
+    });
 
     return (
       <div
@@ -289,7 +289,6 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
           compactType={null}
           onLayoutChange={handleLayoutChange}
           onBreakpointChange={onBreakpointChange}
-          isDroppable={true}
           onDrop={handleOnDrop}
           onDragStart={() => {
             setSelectedItemId(null);
@@ -298,6 +297,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
           onDragStop={() => dispatch(updateIsDragging(false))}
           onResizeStart={() => setIsResizing(true)}
           onResizeStop={() => setIsResizing(false)}
+          isDroppable={!isEditing} // Disable dropping while editing
           isDraggable={!isEditing} // Disable dragging while editing
           isResizable={!isEditing} // Optionally disable resizing while editing
           resizeHandles={["sw", "nw", "se", "ne"]}
@@ -313,8 +313,8 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
               <HoverCard open={selectedItemId === card.i}>
                 <HoverCardContent
                   onMouseDown={(e) => e.stopPropagation()}
-                  sideOffset={20}
-                  side="top"
+                  sideOffset={10}
+                  side={card.type === "text" ? "right" : "top"}
                   className="flex items-center justify-center gap-3 bg-transparent shadow-none border-none"
                 >
                   {card.type !== "text" && (
@@ -353,7 +353,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                       className="h-8 w-8 rounded-full flex items-center shadow-md justify-center bg-primary hover:bg-primary/80 transition-colors cursor-pointer"
                     >
                       <LayoutIcon
-                        size={16}
+                        size={16} 
                         className="stroke-primary-foreground"
                       />
                     </div>
