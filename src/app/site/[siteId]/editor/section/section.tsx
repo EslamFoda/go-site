@@ -54,7 +54,6 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const handleMouseLeave = () => {
     setHoveringIndex(null);
   };
-  console.log(currentPage?.sections, "asjdiasjdoiajds");
 
   if (!currentPage) return null;
 

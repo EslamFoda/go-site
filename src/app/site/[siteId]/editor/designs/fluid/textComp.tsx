@@ -7,13 +7,20 @@ import React, {
 } from "react";
 import { useEditor, EditorContent, BubbleMenu } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import Highlight from "@tiptap/extension-highlight";
 import TextAlign from "@tiptap/extension-text-align";
 import Underline from "@tiptap/extension-underline";
+import Strike from "@tiptap/extension-strike";
 import Color from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import Placeholder from "@tiptap/extension-placeholder";
 import FontSize from "tiptap-extension-font-size";
-
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import {
   Bold,
   Italic,
@@ -22,7 +29,9 @@ import {
   AlignCenter,
   AlignRight,
   Palette,
-  X,
+  RemoveFormatting,
+  Highlighter,
+  Strikethrough,
 } from "lucide-react";
 import { HexColorPicker } from "react-colorful";
 import type { Instance } from "tippy.js";
@@ -71,6 +80,7 @@ const TextComponent: React.FC<TextComponentProps> = ({
 }) => {
   const editorRef = useRef<HTMLDivElement>(null);
   const [colorPickerVisible, setColorPickerVisible] = useState(false);
+  const [highlightPickerVisible, setHighlightPickerVisible] = useState(false);
 
   const fontSizes = [
     "8px",
@@ -97,6 +107,7 @@ const TextComponent: React.FC<TextComponentProps> = ({
       handleDOMEvents: {
         mousedown: (view: any, event: Event) => {
           setColorPickerVisible(false);
+          setHighlightPickerVisible(false);
           if (!isEditing) {
             event.preventDefault();
           }
@@ -118,6 +129,7 @@ const TextComponent: React.FC<TextComponentProps> = ({
         },
         mouseup: (view: any, event: Event) => {
           setColorPickerVisible(false);
+          setHighlightPickerVisible(false);
 
           if (!isEditing) {
             event.preventDefault();
@@ -144,8 +156,10 @@ const TextComponent: React.FC<TextComponentProps> = ({
       StarterKit,
       FontSize,
       Underline,
+      Strike,
       TextStyle,
       Color,
+      Highlight.configure({ multicolor: true }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       Placeholder.configure({
         placeholder: "Write something …",
@@ -174,6 +188,7 @@ const TextComponent: React.FC<TextComponentProps> = ({
       ) {
         editor.commands.blur();
         setColorPickerVisible(false);
+        setHighlightPickerVisible(false);
         onBlur();
       }
     };
@@ -203,6 +218,7 @@ const TextComponent: React.FC<TextComponentProps> = ({
         if (editor.isFocused) {
           editor.commands.blur();
           setColorPickerVisible(false);
+          setHighlightPickerVisible(false);
           onBlur();
         }
       },
@@ -242,6 +258,7 @@ const TextComponent: React.FC<TextComponentProps> = ({
         e.stopPropagation();
         if (!isEditing) {
           setColorPickerVisible(false);
+          setHighlightPickerVisible(false);
           onFocus();
           editor.chain().focus().run();
         }
@@ -263,24 +280,96 @@ const TextComponent: React.FC<TextComponentProps> = ({
           <option value="paragraph">Paragraph</option>
           <option value="1">Header</option>
         </select>
-        <MenuButton
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          isActive={editor.isActive("bold")}
-        >
-          <Bold size={16} />
-        </MenuButton>
-        <MenuButton
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          isActive={editor.isActive("italic")}
-        >
-          <Italic size={16} />
-        </MenuButton>
-        <MenuButton
-          onClick={() => editor.chain().focus().toggleUnderline().run()}
-          isActive={editor.isActive("underline")}
-        >
-          <UnderlineIcon size={16} />
-        </MenuButton>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <MenuButton onClick={clearFormatting}>
+                <RemoveFormatting size={16} />
+              </MenuButton>
+            </TooltipTrigger>
+            <TooltipContent
+              className="bg-primary text-background"
+              sideOffset={8}
+            >
+              Clear formatting
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <MenuButton
+                onClick={() => editor.chain().focus().toggleBold().run()}
+                isActive={editor.isActive("bold")}
+              >
+                <Bold size={16} />
+              </MenuButton>
+            </TooltipTrigger>
+            <TooltipContent
+              className="bg-primary text-background"
+              sideOffset={8}
+            >
+              Bold
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <MenuButton
+                onClick={() => editor.chain().focus().toggleItalic().run()}
+                isActive={editor.isActive("italic")}
+              >
+                <Italic size={16} />
+              </MenuButton>
+            </TooltipTrigger>
+            <TooltipContent
+              className="bg-primary text-background"
+              sideOffset={8}
+            >
+              Italic
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <MenuButton
+                onClick={() => editor.chain().focus().toggleUnderline().run()}
+                isActive={editor.isActive("underline")}
+              >
+                <UnderlineIcon size={16} />
+              </MenuButton>
+            </TooltipTrigger>
+            <TooltipContent
+              className="bg-primary text-background"
+              sideOffset={8}
+            >
+              Underline
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <MenuButton
+                onClick={() => editor.chain().focus().toggleStrike().run()}
+                isActive={editor.isActive("strike")}
+              >
+                <Strikethrough size={16} />
+              </MenuButton>
+            </TooltipTrigger>
+            <TooltipContent
+              className="bg-primary text-background"
+              sideOffset={8}
+            >
+              Strikethrough
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
 
         <select
           onChange={(e) => {
@@ -295,33 +384,126 @@ const TextComponent: React.FC<TextComponentProps> = ({
             </option>
           ))}
         </select>
-        <MenuButton
-          onClick={() => editor.chain().focus().setTextAlign("left").run()}
-          isActive={editor.isActive({ textAlign: "left" })}
-        >
-          <AlignLeft size={16} />
-        </MenuButton>
-        <MenuButton
-          onClick={() => editor.chain().focus().setTextAlign("center").run()}
-          isActive={editor.isActive({ textAlign: "center" })}
-        >
-          <AlignCenter size={16} />
-        </MenuButton>
-        <MenuButton
-          onClick={() => editor.chain().focus().setTextAlign("right").run()}
-          isActive={editor.isActive({ textAlign: "right" })}
-        >
-          <AlignRight size={16} />
-        </MenuButton>
-        <MenuButton
-          onClick={() => setColorPickerVisible((prev) => !prev)}
-          isActive={colorPickerVisible}
-        >
-          <Palette size={16} />
-        </MenuButton>
-        <MenuButton onClick={clearFormatting}>
-          <X size={16} />
-        </MenuButton>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <MenuButton
+                onClick={() =>
+                  editor.chain().focus().setTextAlign("left").run()
+                }
+                isActive={editor.isActive({ textAlign: "left" })}
+              >
+                <AlignLeft size={16} />
+              </MenuButton>
+            </TooltipTrigger>
+            <TooltipContent
+              className="bg-primary text-background"
+              sideOffset={8}
+            >
+              Align left
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <MenuButton
+                onClick={() =>
+                  editor.chain().focus().setTextAlign("center").run()
+                }
+                isActive={editor.isActive({ textAlign: "center" })}
+              >
+                <AlignCenter size={16} />
+              </MenuButton>
+            </TooltipTrigger>
+            <TooltipContent
+              className="bg-primary text-background"
+              sideOffset={8}
+            >
+              Align center
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <MenuButton
+                onClick={() =>
+                  editor.chain().focus().setTextAlign("right").run()
+                }
+                isActive={editor.isActive({ textAlign: "right" })}
+              >
+                <AlignRight size={16} />
+              </MenuButton>
+            </TooltipTrigger>
+            <TooltipContent
+              className="bg-primary text-background"
+              sideOffset={8}
+            >
+              Align right
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <MenuButton
+                onClick={() => {
+                  setHighlightPickerVisible((prev) => !prev);
+                  setColorPickerVisible(false);
+                }}
+                isActive={
+                  editor.isActive("highlight") || highlightPickerVisible
+                }
+              >
+                <Highlighter size={16} />
+              </MenuButton>
+            </TooltipTrigger>
+            <TooltipContent
+              className="bg-primary text-background"
+              sideOffset={8}
+            >
+              Highlight color
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
+        {highlightPickerVisible && (
+          <div className="absolute bottom-full right-12 mt-2">
+            <HexColorPicker
+              color={editor.getAttributes("highlight").color || "#ffeb3b"}
+              onChange={(color) => {
+                editor.chain().focus().toggleHighlight({ color }).run();
+              }}
+            />
+          </div>
+        )}
+
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <MenuButton
+                onClick={() => {
+                  setColorPickerVisible((prev) => !prev);
+                  setHighlightPickerVisible(false);
+                }}
+                isActive={colorPickerVisible}
+              >
+                <Palette size={16} />
+              </MenuButton>
+            </TooltipTrigger>
+            <TooltipContent
+              className="bg-primary text-background"
+              sideOffset={8}
+            >
+              Text color
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+
         {colorPickerVisible && (
           <div className="absolute bottom-full right-0 mt-2">
             <HexColorPicker

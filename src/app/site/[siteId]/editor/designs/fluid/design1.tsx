@@ -25,6 +25,7 @@ import { getPhosphorIcon } from "@/helper/phosphorIcons";
 import Image from "next/image";
 import TextComp from "./textComp";
 import { cn } from "@/lib/utils";
+import debounce from "lodash/debounce";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -49,6 +50,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   const rowHeight = 40;
   const padding: [number, number] = [10, 10];
   const [isEditing, setIsEditing] = useState(false);
+  const [cardType, setCardType] = useState("");
 
   const handleTextEditorFocus = () => setIsEditing(true);
   const handleTextEditorBlur = () => setIsEditing(false);
@@ -95,6 +97,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         onClick={(e) => {
           e.stopPropagation();
           setSelectedItemId(card.i);
+          setCardType(card.type);
           dispatch(updateSelectedSection(pageId, section.id));
         }}
       >
@@ -211,6 +214,60 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
     [currentBreakpoint, section.content.gridCards, section.content.gridLayout]
   );
 
+  const debouncedUpdateLayout = useCallback(
+    debounce((newItem: Layout, updatedLayouts: Layouts) => {
+      updateSectionContent(section.content.gridCards, updatedLayouts);
+    }, 100),
+    [section.content.gridCards]
+  );
+
+  const onResize = (
+    layout: Layout[],
+    oldItem: Layout,
+    newItem: Layout,
+    placeholder: Layout,
+    event: MouseEvent,
+    element: HTMLElement
+  ) => {
+    const selectedCard = section.content.gridCards.find(
+      (card: GridCard) => card.i === selectedItemId
+    );
+
+    if (selectedCard && selectedCard.type === "text") {
+      const updatedLayouts = { ...section.content.gridLayout };
+
+      if (currentBreakpoint === "lg") {
+        Object.keys(breakpoints).forEach((breakpoint) => {
+          updatedLayouts[breakpoint] = updatedLayouts[breakpoint].map(
+            (item: Layout) => {
+              if (item.i === newItem.i) {
+                return { ...item, w: newItem.w, h: newItem.h };
+              }
+              return item;
+            }
+          );
+        });
+      } else {
+        updatedLayouts[currentBreakpoint] = updatedLayouts[
+          currentBreakpoint
+        ].map((item: Layout) => {
+          if (item.i === newItem.i) {
+            return { ...item, w: newItem.w, h: newItem.h };
+          }
+          return item;
+        });
+      }
+
+      debouncedUpdateLayout(newItem, updatedLayouts);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      debouncedUpdateLayout.cancel();
+    };
+  }, [debouncedUpdateLayout]);
+
   const handleOnDrop = (
     layout: Layout[],
     layoutItem: Layout,
@@ -253,6 +310,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   };
 
   const onBreakpointChange = (newBreakpoint: string) => {
+    console.log(newBreakpoint, "string");
     setCurrentBreakpoint(newBreakpoint);
   };
 
@@ -287,9 +345,13 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
           style={{ minHeight: 500, background: "transparent" }}
           preventCollision
           compactType={null}
+          isDroppable={!isEditing} // Disable dropping while editing
+          isDraggable={!isEditing} // Disable dragging while editing
+          isResizable={!isEditing} // Optionally disable resizing while editing
           onLayoutChange={handleLayoutChange}
           onBreakpointChange={onBreakpointChange}
           onDrop={handleOnDrop}
+          onResize={onResize}
           onDragStart={() => {
             setSelectedItemId(null);
             dispatch(updateIsDragging(true));
@@ -297,10 +359,11 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
           onDragStop={() => dispatch(updateIsDragging(false))}
           onResizeStart={() => setIsResizing(true)}
           onResizeStop={() => setIsResizing(false)}
-          isDroppable={!isEditing} // Disable dropping while editing
-          isDraggable={!isEditing} // Disable dragging while editing
-          isResizable={!isEditing} // Optionally disable resizing while editing
-          resizeHandles={["sw", "nw", "se", "ne"]}
+          resizeHandles={
+            cardType === "text"
+              ? ["e", "w", "s"]
+              : ["sw", "nw", "se", "ne", "e", "w", "s", "n"]
+          }
         >
           {section.content.gridCards.map((card: GridCard) => (
             <div
@@ -353,7 +416,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                       className="h-8 w-8 rounded-full flex items-center shadow-md justify-center bg-primary hover:bg-primary/80 transition-colors cursor-pointer"
                     >
                       <LayoutIcon
-                        size={16} 
+                        size={16}
                         className="stroke-primary-foreground"
                       />
                     </div>

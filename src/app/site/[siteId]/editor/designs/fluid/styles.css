@@ -41,10 +41,17 @@
 }
 .react-grid-item > .react-resizable-handle.react-resizable-handle-s {
   bottom: -7px;
+  margin-left: -5px;
+}
+.react-grid-item > .react-resizable-handle.react-resizable-handle-n {
+  top: -7px;
+  margin-left: -5px;
 }
 .react-grid-item > .react-resizable-handle.react-resizable-handle-e {
   right: -7px;
+  margin-top: -5px;
 }
 .react-grid-item > .react-resizable-handle.react-resizable-handle-w {
   left: -7px;
+  margin-top: -5px;
 }

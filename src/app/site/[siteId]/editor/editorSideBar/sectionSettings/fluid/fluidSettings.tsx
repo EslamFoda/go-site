@@ -4,6 +4,7 @@ import { updateIsDragging, updateIsDraggingItem } from "@/reduxStore/action";
 import { GridCard } from "@/types/sectionsTypes/fluid";
 import { Button } from "@/components/ui/button";
 import { ImagePlaceHolder } from "@/icons/common";
+import { Type } from "lucide-react";
 
 const initialCards: GridCard[] = [
   {
@@ -52,12 +53,16 @@ const initialCards: GridCard[] = [
 // Map of element renderers based on type
 const cardElementMap: Record<string, (card: GridCard) => JSX.Element> = {
   image: (card) => (
-    <div className="w-full h-full bg-muted flex justify-center items-center rounded-md">
+    <div className="w-full h-36 bg-muted flex justify-center items-center rounded-md">
       <ImagePlaceHolder fillColor={"fill-background"} />
     </div>
   ),
-  button: (card) => <Button className="w-full">Button</Button>,
-  text: (card) => <div className="w-full h-full">Text</div>,
+  button: (card) => <Button className="w-full ">Button</Button>,
+  text: (card) => (
+    <div className="w-full border p-7 flex items-center justify-center">
+      <Type size={40} />
+    </div>
+  ),
 };
 
 function FluidSettings() {
@@ -72,22 +77,23 @@ function FluidSettings() {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center p-4">
-      <div className="mb-8">
+    <div className="flex flex-col items-center justify-center">
+      <div className="mb-4 w-full border-b py-5 text-center">
         <h1 className="text-2xl font-bold">Elements</h1>
       </div>
-
-      {initialCards.map((card) => (
-        <div
-          key={card.i}
-          draggable
-          onDragStart={(e) => onDragStart(e, card)}
-          className="rounded-md flex items-center justify-center w-4/6 h-36 cursor-move"
-        >
-          {/* Render the element based on card type */}
-          {cardElementMap[card.type](card)}
-        </div>
-      ))}
+      <div className="w-full p-5 flex gap-8 flex-col items-center justify-center">
+        {initialCards.map((card) => (
+          <div
+            key={card.i}
+            draggable
+            onDragStart={(e) => onDragStart(e, card)}
+            className="rounded-md flex items-center justify-center w-4/6 cursor-move"
+          >
+            {/* Render the element based on card type */}
+            {cardElementMap[card.type](card)}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

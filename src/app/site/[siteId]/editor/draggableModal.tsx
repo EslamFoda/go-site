@@ -20,6 +20,11 @@ const DraggableModal: React.FC<DraggableModalProps> = ({
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
+  const positionRef = useRef(position);
+
+  useEffect(() => {
+    positionRef.current = position;
+  }, [position]);
 
   useEffect(() => {
     if (isOpen && modalRef.current) {
@@ -28,16 +33,28 @@ const DraggableModal: React.FC<DraggableModalProps> = ({
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
       
-      setPosition({
+      const newPosition = {
         x: (windowWidth - modalWidth) / 2,
         y: (windowHeight - modalHeight) / 2,
-      });
+      };
+      
+      if (positionRef.current.x === 0 && positionRef.current.y === 0) {
+        setPosition(newPosition);
+      }
     }
-  }, [isOpen]);
+
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && isOpen) {
+        closeModal();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscapeKey);
+    return () => document.removeEventListener("keydown", handleEscapeKey);
+  }, [isOpen, closeModal]);
 
   const handleDrag = (e: any, ui: any) => {
     setPosition({ x: ui.x, y: ui.y });
-    console.log({ x: ui.x, y: ui.y })
   };
 
   return (
@@ -64,10 +81,6 @@ const DraggableModal: React.FC<DraggableModalProps> = ({
               className={`rounded-[4px] w-96 bg-background overflow-hidden antialiased pointer-events-auto shadow-2xl shadow-zinc-900 cursor-default transition-all duration-300 ease-out ${
                 isDragging ? "" : "transition-transform"
               }`}
-              style={{
-                transform: `translate(${position.x}px, ${position.y}px)`,
-                zIndex: 9999
-              }}
             >
               <div className="h-1 w-full bg-primary"></div>
               <div className="drag-handle flex items-center justify-between p-2 w-full cursor-move border-b rounded-t-3xl">

@@ -35,6 +35,7 @@
     "@supabase/ssr": "^0.4.0",
     "@supabase/supabase-js": "^2.45.1",
     "@tiptap/extension-color": "^2.10.4",
+    "@tiptap/extension-highlight": "^2.11.0",
     "@tiptap/extension-placeholder": "^2.10.4",
     "@tiptap/extension-text-align": "^2.10.4",
     "@tiptap/extension-text-style": "^2.10.4",
