@@ -326,7 +326,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         setSelectedItemId(null);
       }}
     >
-      <div className="relative min-h-[400px] border-2 ">
+      <div className="relative min-h-[400px] border-2 border-dashed">
         {showGridPattern && (
           <GridBackground
             containerWidth={containerWidth}
