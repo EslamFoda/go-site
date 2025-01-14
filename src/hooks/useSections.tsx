@@ -797,17 +797,12 @@ export function useSections() {
       },
       style: {
         designName: "design1",
-        designSettings: {
-          logoColor: "none",
-          mobileMenuIcon: "icon-1", // icon-1, icon-2, icon-3
-          width: "fill", // fill , fit
-          sticky: false,
-          float: false,
-          shadow: false,
-          glass: false,
-          scrollIndicator: false,
-          autoHide: false,
+        minHeights: {
+          lg: 395,
+          md: 700,
+          xs: 930,
         },
+        designSettings: {},
       },
     },
   ];

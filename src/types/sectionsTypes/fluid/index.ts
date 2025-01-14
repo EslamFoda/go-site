@@ -7,20 +7,15 @@ export interface FluidContent {
   gridCards: GridCard[];
 }
 
-export interface DesignSettings {
-  logoColor: "none" | string;
-  mobileMenuIcon: "icon-1" | "icon-2" | "icon-3";
-  width: "fill" | "fit";
-  sticky: boolean;
-  float: boolean;
-  shadow: boolean;
-  glass: boolean;
-  scrollIndicator: boolean;
-  autoHide: boolean;
-}
+export interface DesignSettings {}
 
 export interface FluidStyle {
   designName: string;
+  minHeights: {
+    lg: number;
+    md: number;
+    xs: number;
+  };
   designSettings: DesignSettings;
 }
 

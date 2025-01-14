@@ -2,8 +2,6 @@ import React, { useCallback, useRef, useEffect, useState } from "react";
 import { Responsive, WidthProvider, Layout, Layouts } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import { Button } from "@/components/ui/button";
-import { ImagePlaceHolder } from "@/icons/common";
 import {
   updateIsDraggableModal,
   updateIsDragging,
@@ -13,19 +11,18 @@ import {
   updateContent,
   setFluidCard,
   setDraggableModalName,
+  updateStyle,
 } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import GridBackground from "./gridBackground";
 import "./styles.css";
 import { HoverCard, HoverCardContent } from "@/components/ui/hover-card";
 import { HoverCardTrigger } from "@radix-ui/react-hover-card";
-import { Trash, LayoutIcon } from "lucide-react";
-import { FluidTextSettings, GridCard } from "@/types/sectionsTypes/fluid";
-import { getPhosphorIcon } from "@/helper/phosphorIcons";
-import Image from "next/image";
-import TextComp from "./textComp";
-import { cn } from "@/lib/utils";
+import { Trash, LayoutIcon, MoveVertical } from "lucide-react";
+import { FluidStyle, GridCard } from "@/types/sectionsTypes/fluid";
 import debounce from "lodash/debounce";
+import { renderCardContent } from "./cardContent";
+import { useMediaQuery } from "react-responsive";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -38,6 +35,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   pageId,
   section,
 }) => {
+  const fluidSectionStyles = section.style as FluidStyle;
   const dispatch = useAppDispatch();
   const { dragItem, isDragging } = useAppSelector((state) => state.editor);
   const [containerWidth, setContainerWidth] = useState<number>(0);
@@ -52,8 +50,20 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   const [isEditing, setIsEditing] = useState(false);
   const [cardType, setCardType] = useState("");
 
-  const handleTextEditorFocus = () => setIsEditing(true);
-  const handleTextEditorBlur = () => setIsEditing(false);
+  const [minHeight, setMinHeight] = useState({
+    lg: fluidSectionStyles.minHeights.lg,
+    md: fluidSectionStyles.minHeights.md,
+    xs: fluidSectionStyles.minHeights.xs,
+  }); // Initial minHeight
+  const isDraggingRef = useRef(false);
+  const startY = useRef(0);
+  const startHeight = useRef(0);
+  const isDesktop = useMediaQuery({ query: "(min-width: 1640px)" });
+  const isMd = useMediaQuery({
+    query: "(min-width: 1208px) and (max-width: 1639px)",
+  });
+  const isXs = useMediaQuery({ query: "(max-width: 1207px)" });
+  const sectionRef = useRef(null);
 
   useEffect(() => {
     const updateWidth = () => {
@@ -66,115 +76,6 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
     window.addEventListener("resize", updateWidth);
     return () => window.removeEventListener("resize", updateWidth);
   }, []);
-
-  const renderCardContent = (card: GridCard) => {
-    const isSelected = card.i === selectedItemId;
-    const handleTextChange = (key: keyof FluidTextSettings, value: any) => {
-      const updatedGridCards = section.content.gridCards.map((c: GridCard) => {
-        if (c.i === card.i) {
-          return {
-            ...c,
-            settings: {
-              ...c.settings,
-              [key]: value,
-            },
-          };
-        }
-        return c;
-      });
-
-      updateSectionContent(updatedGridCards, section.content.gridLayout);
-    };
-
-    const cardClassNames = cn("relative w-full h-full", {
-      "outline outline-1 cursor-move": isSelected,
-      "cursor-default": isEditing,
-    });
-
-    return (
-      <div
-        className={cardClassNames}
-        onClick={(e) => {
-          e.stopPropagation();
-          setSelectedItemId(card.i);
-          setCardType(card.type);
-          dispatch(updateSelectedSection(pageId, section.id));
-        }}
-      >
-        <div className="w-full h-full">
-          {(() => {
-            switch (card.type) {
-              case "button":
-                const ButtonIcon = getPhosphorIcon(card.settings.buttonIcon);
-                const isIconOnly = card.settings.buttonDisplay === "Icon only";
-                const isTextAndIcon =
-                  card.settings.buttonDisplay === "Text and icon" ||
-                  card.settings.buttonDisplay === "Icon only";
-                const iconPositionAboveOrBelowText =
-                  card.settings.iconPosition === "above" ||
-                  card.settings.iconPosition === "below";
-                return (
-                  <Button
-                    className="w-full h-full"
-                    style={{ gap: card.settings.textIconGap }}
-                    variant={card.settings.variant}
-                    justifyItems={
-                      !iconPositionAboveOrBelowText
-                        ? card.settings.alignment
-                        : "center"
-                    }
-                    alignItems={
-                      iconPositionAboveOrBelowText
-                        ? card.settings.alignment
-                        : "center"
-                    }
-                    iconPosition={card.settings.iconPosition}
-                  >
-                    {!isIconOnly && (
-                      <span className="truncate">{card.settings.text}</span>
-                    )}
-                    {isTextAndIcon && (
-                      <ButtonIcon className="min-w-max min-h-max" size={18} />
-                    )}
-                  </Button>
-                );
-              case "image":
-                return (
-                  <>
-                    {card.settings.src ? (
-                      <Image
-                        alt={card.settings.imageId}
-                        src={card.settings.src}
-                        className="w-full h-full object-cover"
-                        fill
-                        objectFit="cover"
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-muted flex justify-center items-center rounded-md">
-                        <ImagePlaceHolder fillColor={"fill-background"} />
-                      </div>
-                    )}
-                  </>
-                );
-              case "text":
-                return (
-                  <TextComp
-                    isEditing={isEditing}
-                    isSelected={isSelected}
-                    textSettings={card.settings}
-                    onTextChange={handleTextChange}
-                    onFocus={handleTextEditorFocus} // Set editing state on focus
-                    onBlur={handleTextEditorBlur} // Reset editing state on blur
-                  />
-                );
-              default:
-                return <div>default</div>;
-            }
-          })()}
-        </div>
-      </div>
-    );
-  };
 
   const updateSectionContent = (
     newGridCards: GridCard[],
@@ -310,12 +211,107 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   };
 
   const onBreakpointChange = (newBreakpoint: string) => {
-    console.log(newBreakpoint, "string");
     setCurrentBreakpoint(newBreakpoint);
   };
 
   const showGridPattern =
     section.content.gridCards.length === 0 || isDragging || isResizing;
+
+  // Create debounced update function
+  const debouncedUpdateStyle = useCallback(
+    debounce((newHeight: number) => {
+      dispatch(
+        updateStyle(pageId, section.id, {
+          minHeights: {
+            ...fluidSectionStyles.minHeights,
+            ...(isDesktop
+              ? { lg: newHeight }
+              : isMd
+              ? { md: newHeight }
+              : { xs: newHeight }),
+          },
+        })
+      );
+    }, 3000),
+    [
+      dispatch,
+      isDesktop,
+      isMd,
+      pageId,
+      section.id,
+      fluidSectionStyles.minHeights,
+    ]
+  );
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    startY.current = e.clientY;
+    isDraggingRef.current = true;
+
+    // Set initial height based on current breakpoint
+    if (isDesktop) startHeight.current = minHeight.lg;
+    if (isMd) startHeight.current = minHeight.md;
+    if (isXs) startHeight.current = minHeight.xs;
+
+    dispatch(updateIsDragging(true));
+
+    // Add the listeners to window to track mouse movement anywhere
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+
+    // Add a class to the body to prevent text selection while dragging
+    document.body.classList.add("resize-dragging");
+  };
+
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isDraggingRef.current) return;
+
+      const newHeight = Math.max(
+        200,
+        startHeight.current + (e.clientY - startY.current)
+      );
+
+      if (isDesktop) {
+        setMinHeight((prev) => ({ ...prev, lg: newHeight }));
+      } else if (isMd) {
+        setMinHeight((prev) => ({ ...prev, md: newHeight }));
+      } else if (isXs) {
+        setMinHeight((prev) => ({ ...prev, xs: newHeight }));
+      }
+
+      debouncedUpdateStyle(newHeight);
+    },
+    [isDesktop, isMd, isXs, debouncedUpdateStyle]
+  );
+
+  const handleMouseUp = useCallback(() => {
+    isDraggingRef.current = false;
+    dispatch(updateIsDragging(false));
+
+    window.removeEventListener("mousemove", handleMouseMove);
+    window.removeEventListener("mouseup", handleMouseUp);
+
+    // Remove the body class
+    document.body.classList.remove("resize-dragging");
+  }, [dispatch, handleMouseMove]);
+
+  // Cleanup effect
+  useEffect(() => {
+    return () => {
+      if (isDraggingRef.current) {
+        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener("mouseup", handleMouseUp);
+        document.body.classList.remove("resize-dragging");
+        isDraggingRef.current = false;
+        dispatch(updateIsDragging(false));
+      }
+      // Cancel any pending debounced updates
+      debouncedUpdateStyle.cancel();
+    };
+  }, [dispatch, handleMouseMove, handleMouseUp, debouncedUpdateStyle]);
 
   return (
     <div
@@ -326,7 +322,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         setSelectedItemId(null);
       }}
     >
-      <div className="relative min-h-[400px] border-2 border-dashed">
+      <div ref={sectionRef} className="relative border-2 border-dashed">
         {showGridPattern && (
           <GridBackground
             containerWidth={containerWidth}
@@ -342,7 +338,16 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
           rowHeight={rowHeight}
           containerPadding={[0, 0]}
           margin={padding}
-          style={{ minHeight: 500, background: "transparent" }}
+          style={{
+            minHeight: isDesktop
+              ? minHeight.lg
+              : isMd
+              ? minHeight.md
+              : isXs
+              ? minHeight.xs
+              : 100,
+            background: "transparent",
+          }}
           preventCollision
           compactType={null}
           isDroppable={!isEditing} // Disable dropping while editing
@@ -428,11 +433,33 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                     <Trash size={16} className="stroke-primary-foreground" />
                   </div>
                 </HoverCardContent>
-                <HoverCardTrigger>{renderCardContent(card)}</HoverCardTrigger>
+                <HoverCardTrigger>
+                  {renderCardContent({
+                    card,
+                    pageId,
+                    dispatch,
+                    isEditing,
+                    section,
+                    selectedItemId,
+                    setSelectedItemId,
+                    setCardType,
+                    setIsEditing,
+                    updateSectionContent,
+                  })}
+                </HoverCardTrigger>
               </HoverCard>
             </div>
           ))}
         </ResponsiveGridLayout>
+        <div
+          onClick={(e) => e.stopPropagation()}
+          onMouseDown={handleMouseDown}
+          className="absolute -bottom-7 border border-primary-foreground shadow-sm rounded-sm 
+            bg-primary px-3 py-1 right-3/4 transform -translate-x-1/2 -translate-y-1/2 
+            cursor-s-resize select-none "
+        >
+          <MoveVertical size={18} className="text-primary-foreground" />
+        </div>
       </div>
     </div>
   );
