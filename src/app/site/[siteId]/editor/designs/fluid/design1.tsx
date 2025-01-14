@@ -23,6 +23,13 @@ import { FluidStyle, GridCard } from "@/types/sectionsTypes/fluid";
 import debounce from "lodash/debounce";
 import { renderCardContent } from "./cardContent";
 import { useMediaQuery } from "react-responsive";
+import {
+  TooltipArrow,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Tooltip } from "@radix-ui/react-tooltip";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -451,15 +458,26 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
             </div>
           ))}
         </ResponsiveGridLayout>
-        <div
-          onClick={(e) => e.stopPropagation()}
-          onMouseDown={handleMouseDown}
-          className="absolute -bottom-7 border border-primary-foreground shadow-sm rounded-sm 
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <div
+                onClick={(e) => e.stopPropagation()}
+                onMouseDown={handleMouseDown}
+                className="absolute -bottom-7 border border-primary-foreground shadow-sm rounded-sm 
             bg-primary px-3 py-1 right-3/4 transform -translate-x-1/2 -translate-y-1/2 
             cursor-s-resize select-none "
-        >
-          <MoveVertical size={18} className="text-primary-foreground" />
-        </div>
+              >
+                <MoveVertical size={18} className="text-primary-foreground" />
+              </div>
+            </TooltipTrigger>
+
+            <TooltipContent sideOffset={8}>
+              <TooltipArrow />
+              <span>Adjust section height</span>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
     </div>
   );
