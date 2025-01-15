@@ -343,6 +343,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
           breakpoints={breakpoints}
           cols={cols}
           rowHeight={rowHeight}
+          isBounded
           containerPadding={[0, 0]}
           margin={padding}
           style={{
