@@ -15,14 +15,16 @@ interface GridBackgroundProps {
   cols: number;
   rowHeight: number;
   padding: [number, number];
+  sectionId: string;
 }
 const GridBackground: React.FC<GridBackgroundProps> = ({
   containerWidth,
   cols,
   rowHeight,
   padding,
+  sectionId,
 }) => {
-  const PATTERN_NAME = "grid_layout_pattern";
+  const PATTERN_NAME = "grid_layout_pattern" + sectionId;
 
   const renderPattern = useCallback(() => {
     const [horizontalPadding, verticalPadding] = padding;
@@ -48,7 +50,7 @@ const GridBackground: React.FC<GridBackgroundProps> = ({
         ))}
       </pattern>
     );
-  }, [containerWidth, cols, padding, rowHeight]);
+  }, [containerWidth, cols, padding, rowHeight, PATTERN_NAME]);
 
   return (
     <BackgroundWrap>

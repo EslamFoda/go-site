@@ -16,6 +16,11 @@ export interface FluidStyle {
     md: number;
     xs: number;
   };
+  gridSettings: {
+    cols: { lg: number; sm: number; xs: number };
+    padding: [number, number];
+    rowHeight: number;
+  };  
   designSettings: DesignSettings;
 }
 

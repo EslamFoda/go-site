@@ -802,6 +802,11 @@ export function useSections() {
           md: 700,
           xs: 930,
         },
+        gridSettings: {
+          cols: { lg: 45, sm: 20, xs: 15 },
+          rowHeight: 40,
+          padding: [10, 10],
+        },
         designSettings: {},
       },
     },
