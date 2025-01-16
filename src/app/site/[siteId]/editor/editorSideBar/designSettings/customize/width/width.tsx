@@ -20,7 +20,9 @@ const updatePageContainerWidth = (width: number) => {
 };
 
 const Width: React.FC<WidthProps> = ({ setOpenWidth }) => {
-  const designSettings = useAppSelector((state) => state.editor.designSettings);
+  const designSettings = useAppSelector(
+    (state) => state.editor.present.designSettings
+  );
   const dispatch = useAppDispatch();
 
   const handleSliderChange = (value: number[]) => {

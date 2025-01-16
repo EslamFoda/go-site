@@ -24,7 +24,7 @@ interface PageItemProps {
 function PageItem({ page }: PageItemProps) {
   const dispatch = useAppDispatch();
   const { pageId, siteId } = useParams();
-  const { editor, settings } = useAppSelector((state) => state.editor);
+  const { editor, settings } = useAppSelector((state) => state.editor.present);
   const { pages } = editor;
   const router = useRouter();
 

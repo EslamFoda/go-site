@@ -32,7 +32,7 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
   const [tabValue, setTabValue] = useState("content");
   const dispatch = useAppDispatch();
   const { selectedSection, selectedItem, selectedSubLink } = useAppSelector(
-    (state) => state.editor
+    (state) => state.editor.present
   );
 
   const findSelectedSection = sections?.find(

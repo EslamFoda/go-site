@@ -7,7 +7,9 @@ interface LogoColorProps {
   onValueChange: (value: "none" | "primary") => void;
 }
 function LogoColor({ iconColorValue, onValueChange }: LogoColorProps) {
-  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
+  const selectedPallet = useAppSelector(
+    (state) => state.editor.present.selectedPallet
+  );
   const primaryColor = getCSSVariableValueByClassName(
     "page-container",
     "--primary"

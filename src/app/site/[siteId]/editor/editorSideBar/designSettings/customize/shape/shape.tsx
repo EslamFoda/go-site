@@ -26,7 +26,9 @@ const ShapeIcon: React.FC<ShapeIconProps> = ({ active, shape }) => {
 
 const Shape: React.FC = () => {
   const dispatch = useAppDispatch();
-  const designSettings = useAppSelector((state) => state.editor.designSettings);
+  const designSettings = useAppSelector(
+    (state) => state.editor.present.designSettings
+  );
 
   const shapeValue = useCallback((radius: string): ShapeOption => {
     switch (radius) {

@@ -36,11 +36,13 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
 
   const dispatch = useAppDispatch();
-  const editor = useAppSelector((state) => state.editor.editor);
+  const editor = useAppSelector((state) => state.editor.present.editor);
   const selectedSection = useAppSelector(
-    (state) => state.editor.selectedSection
+    (state) => state.editor.present.selectedSection
   );
-  const selectedItem = useAppSelector((state) => state.editor.selectedItem);
+  const selectedItem = useAppSelector(
+    (state) => state.editor.present.selectedItem
+  );
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;

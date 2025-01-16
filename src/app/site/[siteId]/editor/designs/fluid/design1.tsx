@@ -38,16 +38,18 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   section,
 }) => {
   const fluidSectionStyles = section.style as FluidStyle;
+  const { gridSettings } = fluidSectionStyles;
   const dispatch = useAppDispatch();
-  const { dragItem, isDragging } = useAppSelector((state) => state.editor);
+  const { dragItem, isDragging } = useAppSelector(
+    (state) => state.editor.present
+  );
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [isResizing, setIsResizing] = useState(false);
   const breakpoints = { lg: 1200, sm: 768, xs: 480 };
   const [isEditing, setIsEditing] = useState(false);
   const [cardType, setCardType] = useState("");
   const gridContainerRef = useRef<HTMLDivElement>(null);
-  const { gridSettings } = fluidSectionStyles;
-
+  console.log(section.content.gridLayout, "section.content.gridLayout");
   const {
     containerRef,
     containerWidth,

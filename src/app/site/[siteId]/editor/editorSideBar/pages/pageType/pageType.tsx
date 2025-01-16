@@ -34,7 +34,7 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
     Testimonials,
   };
   const { selectedPallet, editor, settings } = useAppSelector(
-    (state) => state.editor
+    (state) => state.editor.present
   );
   const { pages } = editor;
   const siteId = settings.siteId;

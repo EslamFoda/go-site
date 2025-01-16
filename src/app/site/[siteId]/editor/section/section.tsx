@@ -29,7 +29,7 @@ import Fluid from "../designs/fluid";
 
 const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const currentPage = useAppSelector((state) =>
-    state.editor.editor.pages.find((page) => page.pageId === pageId)
+    state.editor.present.editor.pages.find((page) => page.pageId === pageId)
   );
   const dispatch = useAppDispatch();
   const [hoveringIndex, setHoveringIndex] = useState<number | null>(null);

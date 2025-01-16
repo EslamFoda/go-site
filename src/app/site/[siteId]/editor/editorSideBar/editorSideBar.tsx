@@ -32,10 +32,12 @@ const EditorSidebar = () => {
     openPageSetting,
     editor: { pages },
     settings: { siteId },
-  } = useAppSelector((state) => state.editor);
+  } = useAppSelector((state) => state.editor.present);
 
   const page = useAppSelector((state) =>
-    state.editor.editor.pages.find((page) => page.pageId === activePageId)
+    state.editor.present.editor.pages.find(
+      (page) => page.pageId === activePageId
+    )
   );
   const sections = page?.sections;
 

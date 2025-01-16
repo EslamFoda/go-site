@@ -9,7 +9,9 @@ interface Design3Props {
   pageId: string;
 }
 function Design3({ section, pageId }: Design3Props) {
-  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
+  const selectedPallet = useAppSelector(
+    (state) => state.editor.present.selectedPallet
+  );
   const dispatch = useAppDispatch();
 
   const titleSize = section.style.designSettings.titleSize;

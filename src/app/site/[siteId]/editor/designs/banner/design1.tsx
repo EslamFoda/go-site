@@ -10,7 +10,9 @@ interface Design1Props {
 }
 function Design1({ section, pageId }: Design1Props) {
   const dispatch = useAppDispatch();
-  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
+  const selectedPallet = useAppSelector(
+    (state) => state.editor.present.selectedPallet
+  );
   const leftTitlePosition = section.style.designSettings.leftTitlePosition;
   const titleSize = section.style.designSettings.titleSize;
   const align = section.style.designSettings.align;

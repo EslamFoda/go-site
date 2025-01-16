@@ -6,7 +6,9 @@ import Color from "color";
 
 export const useColorManagement = () => {
   const dispatch = useAppDispatch();
-  const designSettings = useAppSelector((state) => state.editor.designSettings);
+  const designSettings = useAppSelector(
+    (state) => state.editor.present.designSettings
+  );
 
   const updateColors = useCallback(
     (bgColor: string) => {

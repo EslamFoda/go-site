@@ -32,9 +32,11 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
 
   const dispatch = useAppDispatch();
   const selectedSection = useAppSelector(
-    (state) => state.editor.selectedSection
+    (state) => state.editor.present.selectedSection
   );
-  const selectedItem = useAppSelector((state) => state.editor.selectedItem);
+  const selectedItem = useAppSelector(
+    (state) => state.editor.present.selectedItem
+  );
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;

@@ -16,7 +16,9 @@ const ColorSelector: React.FC<ColorSelectorProps> = ({
   selectedColor,
   handleChangeColor,
 }) => {
-  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
+  const selectedPallet = useAppSelector(
+    (state) => state.editor.present.selectedPallet
+  );
   const colors: Color[] = ["none", "gray", "primary"];
 
   const colorsHandler = (color: Color) => {

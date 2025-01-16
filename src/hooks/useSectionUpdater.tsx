@@ -9,9 +9,9 @@ function useSectionUpdater(pageId: string) {
   const {
     editor: { pages },
     settings,
-  } = useAppSelector((state) => state.editor);
+  } = useAppSelector((state) => state.editor.present);
   const selectedSection = useAppSelector(
-    (state) => state.editor.selectedSection
+    (state) => state.editor.present.selectedSection
   );
   const supabase = createClient();
 

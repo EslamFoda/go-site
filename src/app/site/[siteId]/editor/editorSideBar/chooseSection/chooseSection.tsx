@@ -53,10 +53,16 @@ const sectionVariants = {
 
 function ChooseSection() {
   const { motion } = useMotion();
-  const sectionIndex = useAppSelector((state) => state.editor.sectionIndex);
-  const activePageId = useAppSelector((state) => state.editor.activePage);
+  const sectionIndex = useAppSelector(
+    (state) => state.editor.present.sectionIndex
+  );
+  const activePageId = useAppSelector(
+    (state) => state.editor.present.activePage
+  );
   const page = useAppSelector((state) =>
-    state.editor.editor.pages.find((page) => page.pageId === activePageId)
+    state.editor.present.editor.pages.find(
+      (page) => page.pageId === activePageId
+    )
   );
   const showHeader = page?.pageSettings.showHeader;
 

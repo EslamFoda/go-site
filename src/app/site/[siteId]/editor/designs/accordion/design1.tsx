@@ -29,7 +29,9 @@ interface DesignProps {
 function Design1({ section, pageId }: DesignProps) {
   const { AnimatePresence, motion } = useMotion();
   const dispatch = useAppDispatch();
-  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
+  const selectedPallet = useAppSelector(
+    (state) => state.editor.present.selectedPallet
+  );
   const { theme } = useTheme();
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";

@@ -41,7 +41,7 @@ function HeaderContentTab({
   const {
     editor: { pages },
     settings: { homePage },
-  } = useAppSelector((state) => state.editor);
+  } = useAppSelector((state) => state.editor.present);
 
   const findActivePage =
     pages.find((page) => page.pageId === pageId) ||

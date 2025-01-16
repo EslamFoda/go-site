@@ -42,10 +42,14 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
   const [isSizeDesktop, setIsSizeDesktop] = useState(true);
   const dispatch = useAppDispatch();
   const selectedSection = useAppSelector(
-    (state) => state.editor.selectedSection
+    (state) => state.editor.present.selectedSection
   );
-  const chooseImage = useAppSelector((state) => state.editor.chooseImage);
-  const selectedItem = useAppSelector((state) => state.editor.selectedItem);
+  const chooseImage = useAppSelector(
+    (state) => state.editor.present.chooseImage
+  );
+  const selectedItem = useAppSelector(
+    (state) => state.editor.present.selectedItem
+  );
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
