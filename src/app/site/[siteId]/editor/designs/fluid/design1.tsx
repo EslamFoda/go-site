@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Responsive, WidthProvider, Layout, Layouts } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -45,6 +45,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   const breakpoints = { lg: 1200, sm: 768, xs: 480 };
   const [isEditing, setIsEditing] = useState(false);
   const [cardType, setCardType] = useState("");
+  const gridContainerRef = useRef<HTMLDivElement>(null);
   const { gridSettings } = fluidSectionStyles;
 
   const {
@@ -93,6 +94,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
     );
 
     updateSectionContent(section.content.gridCards, updatedLayouts);
+    updateGridHeight();
   };
 
   const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
@@ -190,10 +192,37 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
 
     dispatch(updateIsDraggingItem(null));
     dispatch(updateIsDragging(false));
+
+    updateGridHeight();
+  };
+
+  const updateGridHeight = () => {
+    setTimeout(() => {
+      if (!gridContainerRef.current) return;
+
+      const containerHeight = gridContainerRef.current.clientHeight;
+      let updateBreakpoint;
+
+      if (isLg) updateBreakpoint = "lg";
+      else if (isMd) updateBreakpoint = "md";
+      else if (isXs) updateBreakpoint = "xs";
+
+      if (updateBreakpoint) {
+        dispatch(
+          updateStyle(pageId, section.id, {
+            minHeights: {
+              ...fluidSectionStyles.minHeights,
+              [updateBreakpoint]: containerHeight,
+            },
+          })
+        );
+      }
+    }, 500);
   };
 
   const onBreakpointChange = (newBreakpoint: string) => {
     setCurrentBreakpoint(newBreakpoint);
+    updateGridHeight();
   };
 
   const showGridPattern =
@@ -212,7 +241,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         settings={gridSettings}
         onSettingsChange={handleSettingsChange}
       />
-      <div className="relative border-2 border-dashed">
+      <div ref={gridContainerRef} className="relative border-2 border-dashed">
         {showGridPattern && (
           <GridBackground
             containerWidth={containerWidth}
@@ -232,6 +261,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
           cols={gridSettings.cols}
           rowHeight={gridSettings.rowHeight}
           margin={gridSettings.padding}
+          isBounded
           style={{
             minHeight: isLg
               ? minHeight.lg || fluidSectionStyles.minHeights.lg
@@ -256,7 +286,10 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
           }}
           onDragStop={() => dispatch(updateIsDragging(false))}
           onResizeStart={() => setIsResizing(true)}
-          onResizeStop={() => setIsResizing(false)}
+          onResizeStop={() => {
+            setIsResizing(false);
+            updateGridHeight();
+          }}
           resizeHandles={
             cardType === "text"
               ? ["e", "w", "s"]

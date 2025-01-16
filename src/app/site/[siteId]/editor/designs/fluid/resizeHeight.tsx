@@ -44,7 +44,6 @@ function ResizeHeight({
   const isDraggingRef = useRef(false);
   const startY = useRef(0);
   const startHeight = useRef(0);
-
   const dispatch = useAppDispatch();
 
   // Create debounced update function
@@ -108,6 +107,7 @@ function ResizeHeight({
         200,
         startHeight.current + (e.clientY - startY.current)
       );
+      console.log(newHeight, "newHeight");
 
       // Update the state immediately for visual feedback
       setMinHeight((prev) => {
@@ -160,7 +160,7 @@ function ResizeHeight({
           <div
             onClick={(e) => e.stopPropagation()}
             onMouseDown={handleMouseDown}
-            className="absolute -bottom-7 border border-primary-foreground shadow-sm rounded-sm 
+            className="absolute -bottom-7 z-20 border border-primary-foreground shadow-sm rounded-sm 
       bg-primary px-3 py-1 right-3/4 transform -translate-x-1/2 -translate-y-1/2 
       cursor-s-resize select-none "
           >
