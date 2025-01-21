@@ -8,7 +8,7 @@ export const useGridDimensions = (fluidSectionStyles: FluidStyle) => {
   const [minHeight, setMinHeight] = useState({
     lg: fluidSectionStyles.minHeights.lg,
     md: fluidSectionStyles.minHeights.md,
-    xs: fluidSectionStyles.minHeights.xs,
+  xs: fluidSectionStyles.minHeights.xs,
   });
 
   const isLg = useMediaQuery({ query: "(min-width: 1640px)" });
