@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { updateIsDragging } from "@/reduxStore/action";
+import { useAppDispatch } from "@/reduxStore/hooks";
 
 interface GridSettings {
   cols: { lg: number; sm: number; xs: number };
@@ -14,14 +16,13 @@ interface GridSettingsProps {
   onSettingsChange: (settings: GridSettings) => void;
 }
 
-export const GridSettingsPanel: React.FC<GridSettingsProps> = ({
+const GridSettingsPanel: React.FC<GridSettingsProps> = ({
   settings,
   onSettingsChange,
 }) => {
-  const [localSettings, setLocalSettings] = useState(settings);
-
+  const dispatch = useAppDispatch();
   const handleChange = (key: string, value: number | [number, number]) => {
-    let newSettings = { ...localSettings };
+    let newSettings = { ...settings };
 
     if (key === "cols.lg" || key === "cols.sm" || key === "cols.xs") {
       const [scope, size] = key.split(".");
@@ -38,15 +39,12 @@ export const GridSettingsPanel: React.FC<GridSettingsProps> = ({
       newSettings[key as keyof GridSettings] = value as any;
     }
 
-    setLocalSettings(newSettings);
     onSettingsChange(newSettings);
+    dispatch(updateIsDragging(true));
   };
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Grid Settings</CardTitle>
-      </CardHeader>
+    <Card className="w-full py-2">
       <CardContent className="space-y-6">
         <div>
           <Label>Columns (Large Screen)</Label>
@@ -54,12 +52,13 @@ export const GridSettingsPanel: React.FC<GridSettingsProps> = ({
             min={20}
             max={60}
             step={5}
-            value={[localSettings.cols.lg]}
+            value={[settings.cols.lg]}
             onValueChange={(value) => handleChange("cols.lg", value[0])}
+            onValueCommit={() => dispatch(updateIsDragging(false))}
             className="mt-2"
           />
           <div className="text-sm text-muted-foreground mt-1">
-            {localSettings.cols.lg} columns
+            {settings.cols.lg} columns
           </div>
         </div>
 
@@ -69,12 +68,13 @@ export const GridSettingsPanel: React.FC<GridSettingsProps> = ({
             min={10}
             max={30}
             step={5}
-            value={[localSettings.cols.sm]}
+            value={[settings.cols.sm]}
             onValueChange={(value) => handleChange("cols.sm", value[0])}
+            onValueCommit={() => dispatch(updateIsDragging(false))}
             className="mt-2"
           />
           <div className="text-sm text-muted-foreground mt-1">
-            {localSettings.cols.sm} columns
+            {settings.cols.sm} columns
           </div>
         </div>
 
@@ -84,12 +84,13 @@ export const GridSettingsPanel: React.FC<GridSettingsProps> = ({
             min={5}
             max={20}
             step={5}
-            value={[localSettings.cols.xs]}
+            value={[settings.cols.xs]}
             onValueChange={(value) => handleChange("cols.xs", value[0])}
+            onValueCommit={() => dispatch(updateIsDragging(false))}
             className="mt-2"
           />
           <div className="text-sm text-muted-foreground mt-1">
-            {localSettings.cols.xs} columns
+            {settings.cols.xs} columns
           </div>
         </div>
 
@@ -99,12 +100,13 @@ export const GridSettingsPanel: React.FC<GridSettingsProps> = ({
             min={20}
             max={100}
             step={10}
-            value={[localSettings.rowHeight]}
+            value={[settings.rowHeight]}
             onValueChange={(value) => handleChange("rowHeight", value[0])}
+            onValueCommit={() => dispatch(updateIsDragging(false))}
             className="mt-2"
           />
           <div className="text-sm text-muted-foreground mt-1">
-            {localSettings.rowHeight}px
+            {settings.rowHeight}px
           </div>
         </div>
 
@@ -114,15 +116,18 @@ export const GridSettingsPanel: React.FC<GridSettingsProps> = ({
             min={0}
             max={20}
             step={2}
-            value={[localSettings.padding[0]]}
+            value={[settings.padding[0]]}
             onValueChange={(value) => handleChange("padding", value[0])}
+            onValueCommit={() => dispatch(updateIsDragging(false))}
             className="mt-2"
           />
           <div className="text-sm text-muted-foreground mt-1">
-            {localSettings.padding[0]}px
+            {settings.padding[0]}px
           </div>
         </div>
       </CardContent>
     </Card>
   );
 };
+
+export default GridSettingsPanel;

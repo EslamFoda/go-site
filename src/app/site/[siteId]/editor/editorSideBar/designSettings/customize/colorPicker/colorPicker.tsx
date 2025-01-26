@@ -20,9 +20,11 @@ const ColorPicker: React.FC = () => {
   const themeRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const { selectedColor, textColor, updateColors } = useColorManagement();
   const selectedPalette = useAppSelector(
-    (state) => state.editor.selectedPallet
+    (state) => state.editor.present.selectedPallet
   );
-  const designSettings = useAppSelector((state) => state.editor.designSettings);
+  const designSettings = useAppSelector(
+    (state) => state.editor.present.designSettings
+  );
 
   useEffect(() => {
     const pageContainer = document.querySelector(

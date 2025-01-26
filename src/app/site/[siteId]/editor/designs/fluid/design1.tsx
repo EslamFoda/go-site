@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Responsive, WidthProvider, Layout, Layouts } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
@@ -7,7 +7,6 @@ import {
   updateIsDraggingItem,
   updateSelectedItem,
   updateSelectedSection,
-  updateStyle,
 } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import GridBackground from "./gridBackground";
@@ -20,7 +19,7 @@ import ResizeHeight from "./resizeHeight";
 import { useGridDimensions } from "@/hooks/useGridDimensions";
 import HoverCardActions from "./hoverCardActions";
 import { useGridOperations } from "@/hooks/useGridOperations";
-import { GridSettingsPanel } from "./GridSettingsPanel";
+import { useGridHeight } from "@/hooks/useGridHeight";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -28,24 +27,21 @@ interface DraggableGridLayoutProps {
   section: any;
   pageId: string;
 }
-interface GridSettings {
-  cols: { lg: number; sm: number; xs: number };
-  rowHeight: number;
-  padding: [number, number];
-}
+
 const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   pageId,
   section,
 }) => {
   const fluidSectionStyles = section.style as FluidStyle;
   const dispatch = useAppDispatch();
-  const { dragItem, isDragging } = useAppSelector((state) => state.editor);
+  const { dragItem, isDragging } = useAppSelector(
+    (state) => state.editor.present
+  );
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
   const [isResizing, setIsResizing] = useState(false);
   const breakpoints = { lg: 1200, sm: 768, xs: 480 };
   const [isEditing, setIsEditing] = useState(false);
   const [cardType, setCardType] = useState("");
-  const gridContainerRef = useRef<HTMLDivElement>(null);
   const { gridSettings } = fluidSectionStyles;
 
   const {
@@ -58,6 +54,19 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
     isXs,
   } = useGridDimensions(section.style);
 
+  const { updateGridHeight } = useGridHeight({
+    pageId,
+    sectionId: section.id,
+    breakpoints: {
+      lg: isLg,
+      md: isMd,
+      xs: isXs,
+    },
+    currentStyles: {
+      minHeights: fluidSectionStyles.minHeights,
+    },
+  });
+
   const {
     currentBreakpoint,
     setCurrentBreakpoint,
@@ -65,37 +74,6 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
     debouncedUpdateLayout,
     updateSectionContent,
   } = useGridOperations(pageId, section);
-  const handleSettingsChange = (newSettings: GridSettings) => {
-    dispatch(
-      updateStyle(pageId, section.id, {
-        gridSettings: newSettings,
-      })
-    );
-
-    // Update layouts to maintain relative positions with new column counts
-    const updatedLayouts = Object.keys(section.content.gridLayout).reduce(
-      (acc, breakpoint) => {
-        const oldCols =
-          gridSettings.cols[breakpoint as keyof typeof gridSettings.cols];
-        const newCols =
-          newSettings.cols[breakpoint as keyof typeof newSettings.cols];
-        const ratio = newCols / oldCols;
-
-        acc[breakpoint] = section.content.gridLayout[breakpoint].map(
-          (item: any) => ({
-            ...item,
-            x: Math.round(item.x * ratio),
-            w: Math.round(item.w * ratio),
-          })
-        );
-        return acc;
-      },
-      {} as Layouts
-    );
-
-    updateSectionContent(section.content.gridCards, updatedLayouts);
-    updateGridHeight();
-  };
 
   const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
     const updatedLayouts = Object.keys(allLayouts).reduce((acc, key) => {
@@ -196,30 +174,6 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
     updateGridHeight();
   };
 
-  const updateGridHeight = () => {
-    setTimeout(() => {
-      if (!gridContainerRef.current) return;
-
-      const containerHeight = gridContainerRef.current.clientHeight;
-      let updateBreakpoint;
-
-      if (isLg) updateBreakpoint = "lg";
-      else if (isMd) updateBreakpoint = "md";
-      else if (isXs) updateBreakpoint = "xs";
-
-      if (updateBreakpoint) {
-        dispatch(
-          updateStyle(pageId, section.id, {
-            minHeights: {
-              ...fluidSectionStyles.minHeights,
-              [updateBreakpoint]: containerHeight,
-            },
-          })
-        );
-      }
-    }, 500);
-  };
-
   const onBreakpointChange = (newBreakpoint: string) => {
     setCurrentBreakpoint(newBreakpoint);
     updateGridHeight();
@@ -237,11 +191,10 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         setSelectedItemId(null);
       }}
     >
-      <GridSettingsPanel
-        settings={gridSettings}
-        onSettingsChange={handleSettingsChange}
-      />
-      <div ref={gridContainerRef} className="relative border-2 border-dashed">
+      <div
+        id="fluid-grid-container"
+        className="relative border-2 border-dashed"
+      >
         {showGridPattern && (
           <GridBackground
             containerWidth={containerWidth}

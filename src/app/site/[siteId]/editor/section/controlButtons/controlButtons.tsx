@@ -18,7 +18,7 @@ function ControlButtons({
   pageId,
 }: ControlButtonsProps) {
   const currentPage = useAppSelector((state) =>
-    state.editor.editor.pages.find((page) => page.pageId === pageId)
+    state.editor.present.editor.pages.find((page) => page.pageId === pageId)
   );
   const sections = currentPage?.sections;
   const dispatch = useAppDispatch();

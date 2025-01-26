@@ -9,7 +9,9 @@ interface Design6Props {
   pageId: string;
 }
 function Design6({ section, pageId }: Design6Props) {
-  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
+  const selectedPallet = useAppSelector(
+    (state) => state.editor.present.selectedPallet
+  );
   const dispatch = useAppDispatch();
   const dynamicTextColor =
     selectedPallet === "default-theme" &&

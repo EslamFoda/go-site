@@ -40,10 +40,12 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
   const dispatch = useAppDispatch();
   const selectedSection = useAppSelector(
-    (state) => state.editor.selectedSection
+    (state) => state.editor.present.selectedSection
   );
-  const selectedItem = useAppSelector((state) => state.editor.selectedItem);
-  const chooseIcon = useAppSelector((state) => state.editor.chooseIcon);
+  const selectedItem = useAppSelector(
+    (state) => state.editor.present.selectedItem
+  );
+  const chooseIcon = useAppSelector((state) => state.editor.present.chooseIcon);
 
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id

@@ -25,7 +25,7 @@ function LinkItem({
   clearLinkItem,
 }: LinkItemProps) {
   const dispatch = useAppDispatch();
-  const { editor } = useAppSelector((state) => state.editor);
+  const { editor } = useAppSelector((state) => state.editor.present);
   const page = editor.pages.find((page) => page.pageId === pageId);
   const section = page?.sections.find((section) => section.id === sectionId);
   const headerContent = section?.content as HeaderContent;

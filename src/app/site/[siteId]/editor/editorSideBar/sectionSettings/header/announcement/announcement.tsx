@@ -26,7 +26,7 @@ function Announcement({
   setOpenAnnounceTab,
 }: AnnouncementProps) {
   const headerContent = findSelectedSection.content as HeaderContent;
-  const pages = useAppSelector((state) => state.editor.editor.pages);
+  const pages = useAppSelector((state) => state.editor.present.editor.pages);
   const dispatch = useAppDispatch();
   return (
     <div>

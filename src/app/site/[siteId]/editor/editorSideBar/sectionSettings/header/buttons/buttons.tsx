@@ -26,7 +26,7 @@ function Buttons({
   findSelectedSection,
   setOpenButtonsTab,
 }: ButtonsProps) {
-  const pages = useAppSelector((state) => state.editor.editor.pages);
+  const pages = useAppSelector((state) => state.editor.present.editor.pages);
   const headerContent = findSelectedSection.content as HeaderContent;
   const dispatch = useAppDispatch();
 

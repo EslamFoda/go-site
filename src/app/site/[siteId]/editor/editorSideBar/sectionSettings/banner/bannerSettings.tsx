@@ -24,7 +24,7 @@ function BannerSettings({ sections, pageId }: BannerSettingsProps) {
   const [tabValue, setTabValue] = useState("content");
   const dispatch = useAppDispatch();
   const selectedSection = useAppSelector(
-    (state) => state.editor.selectedSection
+    (state) => state.editor.present.selectedSection
   );
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id

@@ -6,12 +6,18 @@ import { PageTypes } from "@/types/common";
 import PageType from "./pageType";
 import ChoosePage from "./choosePage";
 function Pages() {
-  const pages = useAppSelector((state) => state.editor.editor.pages);
+  const pages = useAppSelector((state) => state.editor.present.editor.pages);
   const [addPage, setAddPage] = React.useState(false);
   const [pageType, setPageType] = React.useState<PageTypes>("");
 
   if (pageType)
-    return <PageType pageType={pageType} setPageType={setPageType} setAddPage={setAddPage}/>;
+    return (
+      <PageType
+        pageType={pageType}
+        setPageType={setPageType}
+        setAddPage={setAddPage}
+      />
+    );
 
   if (addPage)
     return <ChoosePage setAddPage={setAddPage} setPageType={setPageType} />;

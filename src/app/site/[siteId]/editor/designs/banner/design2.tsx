@@ -10,7 +10,9 @@ interface Design2Props {
   pageId: string;
 }
 function Design2({ section, pageId }: Design2Props) {
-  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
+  const selectedPallet = useAppSelector(
+    (state) => state.editor.present.selectedPallet
+  );
   const dispatch = useAppDispatch();
 
   const leftTitlePosition = section.style.designSettings.leftTitlePosition;

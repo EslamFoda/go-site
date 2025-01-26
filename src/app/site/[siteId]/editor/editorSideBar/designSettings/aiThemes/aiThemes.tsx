@@ -39,11 +39,15 @@ function AiThemes() {
   const dispatch = useAppDispatch();
   const { motion } = useMotion();
   const themeRefs = useRef<Record<string, HTMLDivElement | null>>({});
-  const designSettings = useAppSelector((state) => state.editor.designSettings);
-  const selectedPallet = useAppSelector((state) => state.editor.selectedPallet);
+  const designSettings = useAppSelector(
+    (state) => state.editor.present.designSettings
+  );
+  const selectedPallet = useAppSelector(
+    (state) => state.editor.present.selectedPallet
+  );
   const {
     settings: { siteId },
-  } = useAppSelector((state) => state.editor);
+  } = useAppSelector((state) => state.editor.present);
   const updateSitePallet = async (
     pallet: string,
     designSettings: DesignSettings

@@ -3,7 +3,7 @@ import { useAppSelector } from "@/reduxStore/hooks";
 import React from "react";
 
 function Head() {
-  const { designSettings } = useAppSelector((state) => state.editor);
+  const { designSettings } = useAppSelector((state) => state.editor.present);
   const { bodyFont, titleFont } = designSettings.fonts;
   return (
     <head>

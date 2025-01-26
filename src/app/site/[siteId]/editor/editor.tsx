@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Settings, Share, Triangle } from "lucide-react";
+import { Redo2, Settings, Triangle, Undo2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import SidebarButtons from "./editorSideBar/sidebarButtons";
@@ -8,10 +8,23 @@ import EditorSidebar from "./editorSideBar";
 import { Toaster } from "@/components/ui/sonner";
 import ThemeToggle from "@/components/themeToggle";
 import Link from "next/link";
-import { useAppDispatch } from "@/reduxStore/hooks";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { closeSideBar } from "@/reduxStore/action";
+import { ActionCreators } from "redux-undo";
 function Editor({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
+  const canUndo = useAppSelector((state) => state.editor.past.length > 1);
+  const canRedo = useAppSelector((state) => state.editor.future.length > 0);
+
+  const handleUndo = () => {
+    dispatch(ActionCreators.undo());
+    console.log(canUndo);
+  };
+
+  const handleRedo = () => {
+    dispatch(ActionCreators.redo());
+  };
+
   return (
     <div className="grid h-screen w-full pl-[46px]">
       <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
@@ -35,7 +48,7 @@ function Editor({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
       <div className="flex flex-col">
-        <header className="sticky top-0 z-10 flex h-[48px] items-center gap-1 border-b bg-background px-4">
+        <header className="sticky top-0 z-10 flex justify-between h-[48px] items-center gap-1 border-b bg-background px-4">
           <h1 className="text-xl font-semibold">Playground</h1>
           <Drawer>
             <DrawerTrigger asChild>
@@ -48,14 +61,29 @@ function Editor({ children }: { children: React.ReactNode }) {
               <EditorSidebar />
             </DrawerContent>
           </Drawer>
-          <Button
-            variant="outline"
-            size="sm"
-            className="ml-auto gap-1.5 text-sm"
-          >
-            <Share className="size-3.5" />
-            Share
-          </Button>
+          <div>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-lg"
+              aria-label="Undo"
+              onClick={handleUndo}
+              disabled={!canUndo}
+            >
+              <Undo2 />
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-lg"
+              aria-label="Redo"
+              onClick={handleRedo}
+              disabled={!canRedo}
+            >
+              <Redo2 />
+            </Button>
+          </div>
           <ThemeToggle />
         </header>
         <main className="grid flex-1 pl-[384px] max-md:pl-0 gap-4 overflow-auto  grid-cols-1">

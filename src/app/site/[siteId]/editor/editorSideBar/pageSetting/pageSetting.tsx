@@ -9,9 +9,9 @@ import { updatePageSetting } from "@/reduxStore/action";
 
 function PageSetting() {
   const { pageId } = useParams();
-  const pages = useAppSelector((state) => state.editor.editor.pages);
+  const pages = useAppSelector((state) => state.editor.present.editor.pages);
   const dispatch = useAppDispatch();
-  const { settings } = useAppSelector((state) => state.editor);
+  const { settings } = useAppSelector((state) => state.editor.present);
   const { homePage } = settings;
   const isHomePage = pageId === homePage;
   const findActivePage =

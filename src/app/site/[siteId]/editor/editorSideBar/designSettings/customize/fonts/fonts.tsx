@@ -27,9 +27,11 @@ const FontSelector = ({
 }: FontSelectorProps) => {
   const dispatch = useAppDispatch();
 
-  const designSettings = useAppSelector((state) => state.editor.designSettings);
+  const designSettings = useAppSelector(
+    (state) => state.editor.present.designSettings
+  );
   const storedFonts = useAppSelector(
-    (state) => state.editor.designSettings.fonts
+    (state) => state.editor.present.designSettings.fonts
   );
 
   const [selectedTitleFont, setSelectedTitleFont] = useState<FontOption | null>(

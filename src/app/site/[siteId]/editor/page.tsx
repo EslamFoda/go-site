@@ -30,16 +30,18 @@ export default function Home({ params }: any) {
     activePage: activePageId,
     selectedSection,
     draggableModalName,
-  } = useAppSelector((state) => state.editor);
+  } = useAppSelector((state) => state.editor.present);
   const page = useAppSelector((state) =>
-    state.editor.editor.pages.find((page) => page.pageId === activePageId)
+    state.editor.present.editor.pages.find(
+      (page) => page.pageId === activePageId
+    )
   );
   const sections = page?.sections;
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
   const homePageId = useAppSelector(
-    (state) => state.editor.editor.pages[0].pageId
+    (state) => state.editor.present.editor.pages[0].pageId
   );
 
   const dispatch = useAppDispatch();
