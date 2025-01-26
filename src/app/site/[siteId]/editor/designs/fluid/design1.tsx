@@ -192,7 +192,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
       }}
     >
       <div
-        id="fluid-grid-container"
+        id={`fluid-grid-container-${section.id}`}
         className="relative border-2 border-dashed"
       >
         {showGridPattern && (

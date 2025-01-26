@@ -11,6 +11,13 @@ import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { closeSideBar } from "@/reduxStore/action";
 import { ActionCreators } from "redux-undo";
+import {
+  Tooltip,
+  TooltipArrow,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 function Editor({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
   const canUndo = useAppSelector((state) => state.editor.past.length > 1);
@@ -48,7 +55,7 @@ function Editor({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
       <div className="flex flex-col">
-        <header className="sticky top-0 z-10 flex justify-between h-[48px] items-center gap-1 border-b bg-background px-4">
+        <header className="sticky top-0 z-10 flex  h-[48px] items-center gap-1 border-b bg-background px-4">
           <h1 className="text-xl font-semibold">Playground</h1>
           <Drawer>
             <DrawerTrigger asChild>
@@ -61,30 +68,58 @@ function Editor({ children }: { children: React.ReactNode }) {
               <EditorSidebar />
             </DrawerContent>
           </Drawer>
-          <div>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-lg"
-              aria-label="Undo"
-              onClick={handleUndo}
-              disabled={!canUndo}
-            >
-              <Undo2 />
-            </Button>
+          <div className="ml-auto h-full flex items-center gap-4 justify-between">
+            <div className="w-[1px] h-full bg-border" />
+            <div>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="cursor-pointer">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="rounded-lg"
+                        aria-label="Undo"
+                        onClick={handleUndo}
+                        disabled={!canUndo}
+                      >
+                        <Undo2 size={20}/>
+                      </Button>
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-primary text-background">
+                    <TooltipArrow />
+                    undo
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
 
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-lg"
-              aria-label="Redo"
-              onClick={handleRedo}
-              disabled={!canRedo}
-            >
-              <Redo2 />
-            </Button>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span className="cursor-pointer">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="rounded-lg"
+                        aria-label="Redo"
+                        onClick={handleRedo}
+                        disabled={!canRedo}
+                      >
+                        <Redo2 size={20}/>
+                      </Button>
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-primary text-background">
+                    <TooltipArrow />
+                    redo
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+            <div className="w-[1px] h-full bg-border" />
+            <ThemeToggle />
           </div>
-          <ThemeToggle />
         </header>
         <main className="grid flex-1 pl-[384px] max-md:pl-0 gap-4 overflow-auto  grid-cols-1">
           {children}

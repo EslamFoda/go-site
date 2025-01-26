@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { updateStyle } from "@/reduxStore/action";
 
@@ -26,14 +26,14 @@ export const useGridHeight = ({
   currentStyles,
 }: UseGridHeightParams) => {
   const dispatch = useAppDispatch();
-  const gridContainerRef = useRef<HTMLDivElement>(null);
 
   const updateGridHeight = useCallback(() => {
     setTimeout(() => {
-      const gridContainer = document.getElementById("fluid-grid-container");
-      if (!gridContainer || !gridContainerRef.current) return;
+      const gridContainer = document.getElementById(`fluid-grid-container-${sectionId}`);
+      if (!gridContainer) return;
 
       const containerHeight = gridContainer.clientHeight;
+      console.log(containerHeight)
       let updateBreakpoint: keyof typeof breakpoints | undefined;
 
       if (breakpoints.lg) updateBreakpoint = "lg";
