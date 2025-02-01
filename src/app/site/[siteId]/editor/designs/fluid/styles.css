@@ -19,7 +19,7 @@
 .react-grid-item > .react-resizable-handle::after {
   display: none;
 }
-
+  
 .react-grid-item > .react-resizable-handle::after {
   display: none;
 }
@@ -54,4 +54,7 @@
 .react-grid-item > .react-resizable-handle.react-resizable-handle-w {
   left: -7px;
   margin-top: -5px;
+}
+.test {
+  display: none;
 }
