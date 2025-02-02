@@ -70,69 +70,6 @@ const initialState: EditorStore = {
           userEditedSlug: false,
         },
       },
-      {
-        pageId: uuidv4(),
-        sections: [
-          {
-            id: uuidv4(),
-            sectionName: "Banner",
-            content: {
-              label: "",
-              title: "test page2",
-              subtitle: "test page2 description for go site editor",
-              mediaType: "image",
-              imageSetting: { imageUrl: "", altText: "" },
-              videoSetting: { videoUrl: "" },
-              actionType: "buttons",
-              buttons: {
-                primaryButton: { text: "start your journey" },
-                secondaryButton: { text: "learn more" },
-              },
-            },
-            style: {
-              designName: "design1",
-              designSettings: {
-                titleSize: "l",
-                align: "center",
-                subtitleWidth: "50%",
-                height: "460px",
-                video: true,
-                leftTitlePosition: false,
-                leftTitleWidth: "50%",
-                showButtons: true,
-                sectionBackground: {
-                  color: "none",
-                  media: "",
-                  height: "fit",
-                  width: "100%",
-                  spacing: "xl",
-                  align: "center",
-                },
-                imageSetting: {
-                  objectFit: "cover",
-                  backgroundColor: "primary",
-                  showImage: true,
-                },
-              },
-            },
-          },
-        ],
-        pageSettings: {
-          coverImage:
-            "https://images.unsplash.com/photo-1674062284636-c7b6b6c7a358?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wzNDk5MjB8MHwxfHNlYXJjaHw4MXx8bW9iaWxlJTIwc2hvcHxlbnwwfHx8fDE3MDYyNjQxMzR8MA&ixlib=rb-4.0.3&q=80&w=1080",
-          description:
-            "Shop for the latest mobile phones, tablets, and accessories at our online mobile shop. We offer a wide selection of products from top brands at competitive prices",
-          isPublished: true,
-          isVisibleInSearch: true,
-          link: "home",
-          pagePasswordButton: "Continue",
-          seoTitle: "Mobile Shop | Buy & Sell New & Used Phones Online",
-          showFooter: true,
-          showHeader: true,
-          title: "about",
-          userEditedSlug: false,
-        },
-      },
     ],
   },
   selectedSection: null,
@@ -203,6 +140,79 @@ const initialState: EditorStore = {
   isDraggableModalActive: false,
   fluidCard: null,
   draggableModalName: "SETTINGS",
+  globalSections: [
+    {
+      id: uuidv4(),
+      sectionName: "Header",
+      content: {
+        Logo: {
+          type: "text",
+          text: "logo",
+        },
+        logo: {
+          link: "",
+          openNewTab: false,
+        },
+        links: [
+          {
+            text: "link 2",
+            link: "",
+            id: uuidv4(),
+            openNewTab: false,
+            subLinks: [],
+            pageId: "",
+          },
+          {
+            text: "link 3",
+            link: "",
+            id: uuidv4(),
+            openNewTab: false,
+            subLinks: [],
+            pageId: "",
+          },
+          {
+            text: "link 4",
+            link: "",
+            id: uuidv4(),
+            openNewTab: false,
+            subLinks: [],
+            pageId: "",
+          },
+        ],
+        buttons: [
+          {
+            text: "button 1",
+            link: "",
+            id: uuidv4(),
+          },
+          {
+            text: "button 2",
+            link: "",
+            id: uuidv4(),
+          },
+        ],
+        announcement: {
+          position: "above", // above, below
+          text: "",
+          link: "",
+        },
+      },
+      style: {
+        designName: "design1",
+        designSettings: {
+          logoColor: "none",
+          mobileMenuIcon: "icon-1", // icon-1, icon-2, icon-3
+          width: "fill", // fill , fit
+          sticky: false,
+          float: false,
+          shadow: false,
+          glass: false,
+          scrollIndicator: false,
+          autoHide: false,
+        },
+      },
+    },
+  ],
 };
 
 // Helper function to update state at a given path
@@ -227,7 +237,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
           draft.selectedSection =
             page.sections.find(
               (section) => section.id === action.payload.sectionId
-            ) || null;
+            ) || state.globalSections.find((section) => section.id === action.payload.sectionId) || null;
         }
         break;
       }
@@ -493,6 +503,28 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.SET_DRAGGABLE_MODAL_NAME: {
         draft.draggableModalName = action.payload;
+        break;
+      }
+
+      case types.UPDATE_GLOBAL_CONTENT: {
+        const sectionToUpdateContent = draft.globalSections.find(
+          (section) => section.id === action.payload.sectionId
+        );
+        if (sectionToUpdateContent) {
+          Object.assign(
+            sectionToUpdateContent.content,
+            action.payload.newContent
+          );
+        }
+        break;
+      }
+      case types.UPDATE_GLOBAL_STYLE: {
+        const sectionToUpdateStyle = draft.globalSections.find(
+          (section) => section.id === action.payload.sectionId
+        );
+        if (sectionToUpdateStyle) {
+          Object.assign(sectionToUpdateStyle.style, action.payload.newStyle);
+        }
         break;
       }
 

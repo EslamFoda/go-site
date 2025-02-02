@@ -10,7 +10,7 @@ import {
   SectionStyleTypes,
 } from "@/reduxStore/types";
 import { HeaderContent } from "@/types/sectionsTypes/header";
-import { updateContent } from "@/reduxStore/action";
+import { updateGlobalContent } from "@/reduxStore/action";
 
 interface ButtonsProps {
   pageId: string;
@@ -36,7 +36,7 @@ function Buttons({
     );
 
     dispatch(
-      updateContent(pageId, findSelectedSection.id, {
+      updateGlobalContent(findSelectedSection.id, {
         ...headerContent,
         buttons: updatedButtons,
       })
@@ -49,7 +49,7 @@ function Buttons({
     );
 
     dispatch(
-      updateContent(pageId, findSelectedSection.id, {
+      updateGlobalContent(findSelectedSection.id, {
         ...headerContent,
         buttons: updatedButtons,
       })

@@ -6,7 +6,10 @@ import EditText from "../../settingsUi/EditText";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import LinkSelector from "../../settingsUi/LinkSelector";
 import DraggableList from "@/components/ui/DraggableList";
-import { updateContent, updateSelectedSubLink } from "@/reduxStore/action";
+import {
+  updateGlobalContent,
+  updateSelectedSubLink,
+} from "@/reduxStore/action";
 import { v4 } from "uuid";
 
 interface LinkItemProps {
@@ -25,9 +28,8 @@ function LinkItem({
   clearLinkItem,
 }: LinkItemProps) {
   const dispatch = useAppDispatch();
-  const { editor } = useAppSelector((state) => state.editor.present);
-  const page = editor.pages.find((page) => page.pageId === pageId);
-  const section = page?.sections.find((section) => section.id === sectionId);
+  const { editor,globalSections } = useAppSelector((state) => state.editor.present);
+  const section = globalSections.find((section) => section.id === sectionId);
   const headerContent = section?.content as HeaderContent;
   const selectedLink = headerContent?.links.find(
     (link) => link.id === selectedLinkId
@@ -35,19 +37,12 @@ function LinkItem({
 
   if (!selectedLink) return null;
 
-  const handleUpdateLinkItem = (field: keyof Link, value: any) => {
-    const updatedLinks = headerContent.links.map((link) =>
-      link.id === selectedLinkId ? { ...link, [field]: value } : link
-    );
-
-    dispatch(updateContent(pageId, sectionId, { links: updatedLinks }));
-  };
-
   const handleAddSubLink = () => {
     const newSubLink: SubLink = {
       id: v4(),
       link: "",
       text: `Sub Link ${(selectedLink.subLinks?.length || 0) + 1}`,
+      pageId: pageId,
     };
 
     const updatedLinks = headerContent.links.map((link) =>
@@ -56,7 +51,7 @@ function LinkItem({
         : link
     );
 
-    dispatch(updateContent(pageId, sectionId, { links: updatedLinks }));
+    dispatch(updateGlobalContent(sectionId, { links: updatedLinks }));
   };
 
   const handleDragEnd = (result: any) => {
@@ -73,7 +68,15 @@ function LinkItem({
       return link;
     });
 
-    dispatch(updateContent(pageId, sectionId, { links: updatedLinks }));
+    dispatch(updateGlobalContent(sectionId, { links: updatedLinks }));
+  };
+
+  const handleUpdateLinkItem = (updates: Partial<Link>) => {
+    const updatedLinks = headerContent.links.map((link) =>
+      link.id === selectedLinkId ? { ...link, ...updates } : link
+    );
+
+    dispatch(updateGlobalContent(sectionId, { links: updatedLinks }));
   };
 
   return (
@@ -96,7 +99,7 @@ function LinkItem({
           id={selectedLink.id}
           value={selectedLink.text}
           handleUpdate={(e: any) =>
-            handleUpdateLinkItem("text", e.target.value)
+            handleUpdateLinkItem({ text: e.target.value })
           }
         />
         <LinkSelector
@@ -106,7 +109,15 @@ function LinkItem({
             link: page.pageSettings.link,
           }))}
           selectedLink={selectedLink.link}
-          onSelect={(link) => handleUpdateLinkItem("link", link)}
+          onSelect={(link) => {
+            const findPageWithLink = editor.pages.find(
+              (page) => page.pageSettings.link === link.slice(1)
+            );
+            handleUpdateLinkItem({
+              link: link,
+              pageId: findPageWithLink?.pageId || "",
+            });
+          }}
         />
 
         <DraggableList

@@ -40,7 +40,7 @@ function CreateSiteModal({
   const [siteName, setSiteName] = React.useState("");
   const [siteDescription, setSiteDescription] = React.useState("");
   const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(false); 
   const [generatedProgress, setGeneratedProgress] = React.useState(0);
   const [generatingText, setGeneratingText] = React.useState({
     title: "",

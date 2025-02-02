@@ -32,6 +32,7 @@ const EditorSidebar = () => {
     openPageSetting,
     editor: { pages },
     settings: { siteId },
+    globalSections,
   } = useAppSelector((state) => state.editor.present);
 
   const page = useAppSelector((state) =>
@@ -50,16 +51,19 @@ const EditorSidebar = () => {
       pageId: string;
     }> | null
   > = {
+    Header: header,
     Banner: banner,
     Cards: cards,
     List: list,
     Accordion: accordion,
     Testimonials: testimonials,
-    Header: header,
     Gallery: gallery,
     Logos: logos,
     Fluid: fluid,
   };
+
+  const sectionsData =
+    selectedSection?.sectionName === "Header" ? globalSections : sections;
 
   const SelectedSectionComponent = selectedSection
     ? sectionComponents[selectedSection.sectionName]
@@ -71,6 +75,7 @@ const EditorSidebar = () => {
       .from("sites")
       .update({
         pages: pages,
+        globalSections: globalSections,
       })
       .eq("siteId", siteId)
       .select();
@@ -78,7 +83,7 @@ const EditorSidebar = () => {
     if (error) {
       console.error("Error updating pages:", error);
     }
-  }, [pages, siteId]);
+  }, [pages, siteId, globalSections]);
 
   const debouncedUpdatePageStyleAndContent = debounce(
     updatePageStyleAndContent,
@@ -92,14 +97,17 @@ const EditorSidebar = () => {
     return () => {
       debouncedUpdatePageStyleAndContent.clear();
     };
-  }, [pages]);
+  }, [pages, globalSections]);
 
   return (
     <div className="overflow-auto">
       {openSectionDesigns ? (
         <ChooseSection />
       ) : SelectedSectionComponent ? (
-        <SelectedSectionComponent sections={sections} pageId={activePageId} />
+        <SelectedSectionComponent
+          sections={sectionsData}
+          pageId={activePageId}
+        />
       ) : null}
 
       {openPallet && <DesignSettings />}

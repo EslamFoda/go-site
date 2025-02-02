@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/hover-card";
 import { ChevronDown } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 
 interface Design1Props {
   section: any;
@@ -20,10 +22,13 @@ interface Design1Props {
 
 function Design1({ pageId, section }: Design1Props) {
   const dispatch = useAppDispatch();
+  const { siteId } = useParams();
   const headerContent = section.content as HeaderContent;
   const headerStyle = section.style as HeaderStyle;
   const { sticky, float, autoHide, width, shadow, glass, scrollIndicator } =
     headerStyle.designSettings;
+
+  console.log(section, "qweqw");
 
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
@@ -149,7 +154,12 @@ function Design1({ pageId, section }: Design1Props) {
                         hoveringIndex === i && "!text-secondary-foreground"
                       }`}
                     >
-                      <span key={link.id}>{link.text}</span>
+                      <Link
+                        key={link.id}
+                        href={`/site/${siteId}/editor/${link.pageId}`}
+                      >
+                        {link.text}
+                      </Link>
                       {link.subLinks.length > 0 && (
                         <span>
                           <ChevronDown
@@ -201,7 +211,9 @@ function Design1({ pageId, section }: Design1Props) {
   return (
     <header
       className={normalHeaderClassName}
-      onClick={() => dispatch(updateSelectedSection(pageId, section.id))}
+      onClick={() => {
+        dispatch(updateSelectedSection(pageId, section.id));
+      }}
     >
       <ScrollIndicator />
       <div className={normalHeaderInnerClassName}>
@@ -218,7 +230,12 @@ function Design1({ pageId, section }: Design1Props) {
                     hoveringIndex === i && "!text-secondary-foreground"
                   }`}
                 >
-                  <span key={link.id}>{link.text}</span>
+                  <Link
+                    key={link.id}
+                    href={`/site/${siteId}/editor/${link.pageId}`}
+                  >
+                    {link.text}
+                  </Link>
                   {link.subLinks.length > 0 && (
                     <span>
                       <ChevronDown

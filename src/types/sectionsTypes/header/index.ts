@@ -2,11 +2,13 @@ export type SubLink = {
   text: string;
   link: string;
   id: string;
+  pageId: string;
 };
 
 export type Link = {
   text: string;
   link: string;
+  pageId: string;
   id: string;
   openNewTab: boolean;
   subLinks: SubLink[];

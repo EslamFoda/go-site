@@ -31,6 +31,11 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const currentPage = useAppSelector((state) =>
     state.editor.present.editor.pages.find((page) => page.pageId === pageId)
   );
+  const { globalSections } = useAppSelector((state) => state.editor.present);
+  const globalHeader = globalSections.find(
+    (section) => section.sectionName === "Header"
+  );
+
   const dispatch = useAppDispatch();
   const [hoveringIndex, setHoveringIndex] = useState<number | null>(null);
   const { motion, AnimatePresence } = useMotion();
@@ -41,11 +46,16 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
     List,
     Accordion,
     Testimonials,
-    Header,
     Gallery,
     Logos,
     Fluid,
   };
+
+  const globalSectionMapper = {
+    Header,
+  };
+
+  const GlobalHeaderSection = globalSectionMapper["Header"];
 
   const handleMouseEnter = (index: number) => {
     setHoveringIndex(index);
@@ -60,6 +70,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   return (
     <div className="overflow-y-hidden">
       <AnimatePresence mode="popLayout">
+        <GlobalHeaderSection pageId={pageId} section={globalHeader} />
         {currentPage.sections.map((section, i) => {
           if (
             section.sectionName === "Header" &&

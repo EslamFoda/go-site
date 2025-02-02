@@ -10,7 +10,7 @@ interface SubLinkProps {
   selectedSubLink: SubLinkType;
   handleDeleteSubLink: () => void;
   clearSubLinkItem: () => void;
-  handleUpdateSubLinkItem: (field: keyof SubLinkType, value: any) => void;
+  handleUpdateSubLinkItem: (updates: Partial<SubLinkType>) => void;
 }
 
 function SubLink({
@@ -43,7 +43,7 @@ function SubLink({
           id={selectedSubLink.id}
           value={selectedSubLink.text}
           handleUpdate={(e: any) =>
-            handleUpdateSubLinkItem("text", e.target.value)
+            handleUpdateSubLinkItem({ text: e.target.value })
           }
         />
         <LinkSelector
@@ -53,7 +53,15 @@ function SubLink({
             link: page.pageSettings.link,
           }))}
           selectedLink={selectedSubLink.link}
-          onSelect={(link) => handleUpdateSubLinkItem("link", link)}
+          onSelect={(link) => {
+            const findPageWithLink = pages.find(
+              (page) => page.pageSettings.link === link.slice(1)
+            );
+            handleUpdateSubLinkItem({
+              link: link,
+              pageId: findPageWithLink?.pageId || "",
+            });
+          }}
         />
       </div>
     </div>

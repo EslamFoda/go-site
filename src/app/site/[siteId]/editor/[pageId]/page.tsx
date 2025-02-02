@@ -59,6 +59,10 @@ function Page({ params }: any) {
           updateEditorState(["designSettings"], siteData.designSettings)
         );
 
+        dispatch(
+          updateEditorState(["globalSections"], siteData.globalSections)
+        );
+
         // Update pages
         dispatch(updateEditorState(["editor", "pages"], siteData.pages));
 

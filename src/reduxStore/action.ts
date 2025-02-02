@@ -214,3 +214,19 @@ export const setDraggableModalName = (name: DraggableModalName) => ({
   type: types.SET_DRAGGABLE_MODAL_NAME,
   payload: name,
 });
+
+export const updateGlobalContent = (
+  sectionId: string,
+  newContent: Partial<SectionContentTypes[keyof SectionContentTypes]>
+) => ({
+  type: types.UPDATE_GLOBAL_CONTENT,
+  payload: { sectionId, newContent },
+});
+
+export const updateGlobalStyle = (
+  sectionId: string,
+  newStyle: Partial<SectionStyleTypes[keyof SectionStyleTypes]>
+) => ({
+  type: types.UPDATE_GLOBAL_STYLE,
+  payload: { sectionId, newStyle },
+});

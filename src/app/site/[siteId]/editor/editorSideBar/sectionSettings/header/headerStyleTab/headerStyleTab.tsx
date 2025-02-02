@@ -13,7 +13,7 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { HeaderStyle } from "@/types/sectionsTypes/header";
-import { updateStyle } from "@/reduxStore/action";
+import { updateGlobalStyle } from "@/reduxStore/action";
 import LogoColor from "../../settingsUi/LogoColor";
 import NavMobMenu from "../../settingsUi/NavMobMenu";
 import FillOrFit from "../../settingsUi/fillOrFit";
@@ -63,7 +63,7 @@ function HeaderStyleTab({
     }
 
     dispatch(
-      updateStyle(pageId, findSelectedSection?.id, {
+      updateGlobalStyle(findSelectedSection?.id, {
         designSettings: newSettings,
       })
     );
@@ -77,7 +77,7 @@ function HeaderStyleTab({
     }
 
     dispatch(
-      updateStyle(pageId, findSelectedSection?.id, {
+      updateGlobalStyle(findSelectedSection?.id, {
         designSettings: newSettings,
       })
     );
@@ -92,7 +92,7 @@ function HeaderStyleTab({
     }
 
     dispatch(
-      updateStyle(pageId, findSelectedSection?.id, {
+      updateGlobalStyle(findSelectedSection?.id, {
         designSettings: newSettings,
       })
     );
@@ -107,7 +107,7 @@ function HeaderStyleTab({
     }
 
     dispatch(
-      updateStyle(pageId, findSelectedSection?.id, {
+      updateGlobalStyle(findSelectedSection?.id, {
         designSettings: newSettings,
       })
     );
@@ -121,7 +121,7 @@ function HeaderStyleTab({
             <div
               onClick={() => {
                 dispatch(
-                  updateStyle(pageId, findSelectedSection?.id, {
+                  updateGlobalStyle(findSelectedSection?.id, {
                     designName: designName,
                   })
                 );
@@ -138,7 +138,7 @@ function HeaderStyleTab({
         iconColorValue={logoColor}
         onValueChange={(value) => {
           dispatch(
-            updateStyle(pageId, findSelectedSection?.id, {
+            updateGlobalStyle(findSelectedSection?.id, {
               designSettings: {
                 ...headerStyle.designSettings,
                 logoColor: value,
@@ -151,7 +151,7 @@ function HeaderStyleTab({
         menuValue={mobileMenuIcon}
         onValueChange={(value) => {
           dispatch(
-            updateStyle(pageId, findSelectedSection?.id, {
+            updateGlobalStyle(findSelectedSection?.id, {
               designSettings: {
                 ...headerStyle.designSettings,
                 mobileMenuIcon: value,
@@ -165,7 +165,7 @@ function HeaderStyleTab({
         widthValue={width}
         onValueChange={(value) => {
           dispatch(
-            updateStyle(pageId, findSelectedSection?.id, {
+            updateGlobalStyle(findSelectedSection?.id, {
               designSettings: {
                 ...headerStyle.designSettings,
                 width: value,
@@ -187,7 +187,7 @@ function HeaderStyleTab({
             defaultChecked={autoHide}
             onCheckedChange={(value) => {
               dispatch(
-                updateStyle(pageId, findSelectedSection?.id, {
+                updateGlobalStyle(findSelectedSection?.id, {
                   designSettings: {
                     ...headerStyle.designSettings,
                     autoHide: value,
@@ -217,7 +217,7 @@ function HeaderStyleTab({
           defaultChecked={scrollIndicator}
           onCheckedChange={(value) => {
             dispatch(
-              updateStyle(pageId, findSelectedSection?.id, {
+              updateGlobalStyle(findSelectedSection?.id, {
                 designSettings: {
                   ...headerStyle.designSettings,
                   scrollIndicator: value,

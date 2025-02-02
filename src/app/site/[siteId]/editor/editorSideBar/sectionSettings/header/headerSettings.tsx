@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import HeaderContentTab from "./headerContentTab";
 import Links from "./links";
 import {
-  updateContent,
+  updateGlobalContent,
   updateSelectedItem,
   updateSelectedSubLink,
 } from "@/reduxStore/action";
@@ -45,6 +45,7 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
   const links = headerContent?.links || [];
   const selectedLink = selectedItem as Link;
   const selectedSubLinkItem = selectedSubLink as SubLinkType;
+  console.log(selectedLink, "selectedLinkselectedLink");
 
   const handleDeleteLink = () => {
     const filterLinks = links.filter(
@@ -52,7 +53,7 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
     );
 
     dispatch(
-      updateContent(pageId, findSelectedSection.id, { links: filterLinks })
+      updateGlobalContent(findSelectedSection.id, { links: filterLinks })
     );
     dispatch(updateSelectedItem(null));
   };
@@ -63,7 +64,7 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
     );
 
     dispatch(
-      updateContent(pageId, findSelectedSection.id, {
+      updateGlobalContent(findSelectedSection.id, {
         links: links.map((link) =>
           link.id === selectedLink?.id
             ? { ...link, subLinks: filterLinks }
@@ -81,7 +82,7 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
     dispatch(updateSelectedSubLink(null));
   };
 
-  const handleUpdateSubLinkItem = (field: keyof SubLinkType, value: any) => {
+  const handleUpdateSubLinkItem = (updates: Partial<SubLinkType>) => {
     // Create a new array of links with updated subLinks
     const updatedLinks = headerContent.links.map((link) => {
       if (link.id === selectedLink.id) {
@@ -89,7 +90,7 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
           ...link,
           subLinks: link.subLinks.map((subLink) =>
             subLink.id === selectedSubLinkItem.id
-              ? { ...subLink, [field]: value } // Return a new object for the updated subLink
+              ? { ...subLink, ...updates } // Return a new object for the updated subLink
               : subLink
           ),
         };
@@ -98,9 +99,9 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
     });
 
     // Update the selected subLink and content immutably
-    dispatch(updateSelectedSubLink({ ...selectedSubLinkItem, [field]: value }));
+    dispatch(updateSelectedSubLink({ ...selectedSubLinkItem, ...updates }));
     dispatch(
-      updateContent(pageId, findSelectedSection.id, {
+      updateGlobalContent(findSelectedSection.id, {
         links: [...updatedLinks],
       }) // Use spread operator to ensure a new array reference
     );

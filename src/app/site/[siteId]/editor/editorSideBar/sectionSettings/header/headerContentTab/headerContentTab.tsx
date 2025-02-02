@@ -1,12 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
-import {
-  updateContent,
-  updateEditorSections,
-  updatePageSetting,
-  updateSelectedSection,
-} from "@/reduxStore/action";
+import { updateGlobalContent, updatePageSetting } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
   EditorPage,
@@ -60,7 +55,7 @@ function HeaderContentTab({
           onChange={(e: any) => {
             // @ts-ignore
             dispatch(
-              updateContent(pageId, findSelectedSection.id, {
+              updateGlobalContent(findSelectedSection.id, {
                 ...headerContent,
                 Logo: {
                   ...headerContent.Logo,

@@ -8,52 +8,10 @@ export const generateSections = (
 ) => [
   {
     id: v4(),
-    sectionName: "Header",
-    content: {
-      Logo: {
-        type: "text",
-        text: "logo",
-      },
-      logo: {
-        link: "",
-        openNewTab: false,
-      },
-      links: [
-        { text: "link 2", link: "", id: v4(), openNewTab: false, subLinks: [] },
-        { text: "link 3", link: "", id: v4(), openNewTab: false, subLinks: [] },
-        { text: "link 4", link: "", id: v4(), openNewTab: false, subLinks: [] },
-      ],
-      buttons: [
-        { text: "button 1", link: "", id: v4() },
-        { text: "button 2", link: "", id: v4() },
-      ],
-      announcement: {
-        position: "above",
-        text: "",
-        link: "",
-      },
-    },
-    style: {
-      designName: "design1",
-      designSettings: {
-        logoColor: "none",
-        mobileMenuIcon: "icon-1",
-        width: "fill",
-        sticky: false,
-        float: false,
-        shadow: false,
-        glass: false,
-        scrollIndicator: false,
-        autoHide: false,
-      },
-    },
-  },
-  {
-    id: v4(),
     sectionName: "Banner",
     content: {
       label: "",
-      title: generatedData.banner?.title || "ana mabdon",
+      title: generatedData.banner?.title || "Banner title",
       subtitle:
         generatedData.banner?.subtitle ||
         "Eslam helps you build the best products for your customers. With our expertise and experience, we can help you take your ideas from concept to reality",
@@ -285,4 +243,77 @@ export const insertSiteData = (
     },
   },
   selectedPallet: "default-theme",
+  globalSections: [
+    {
+      id: v4(),
+      sectionName: "Header",
+      content: {
+        Logo: {
+          type: "text",
+          text: "logo",
+        },
+        logo: {
+          link: "",
+          openNewTab: false,
+        },
+        links: [
+          {
+            text: "link 2",
+            link: "",
+            id: v4(),
+            openNewTab: false,
+            subLinks: [],
+            pageId: "",
+          },
+          {
+            text: "link 3",
+            link: "",
+            id: v4(),
+            openNewTab: false,
+            subLinks: [],
+            pageId: "",
+          },
+          {
+            text: "link 4",
+            link: "",
+            id: v4(),
+            openNewTab: false,
+            subLinks: [],
+            pageId: "",
+          },
+        ],
+        buttons: [
+          {
+            text: "button 1",
+            link: "",
+            id: v4(),
+          },
+          {
+            text: "button 2",
+            link: "",
+            id: v4(),
+          },
+        ],
+        announcement: {
+          position: "above", // above, below
+          text: "",
+          link: "",
+        },
+      },
+      style: {
+        designName: "design1",
+        designSettings: {
+          logoColor: "none",
+          mobileMenuIcon: "icon-1", // icon-1, icon-2, icon-3
+          width: "fill", // fill , fit
+          sticky: false,
+          float: false,
+          shadow: false,
+          glass: false,
+          scrollIndicator: false,
+          autoHide: false,
+        },
+      },
+    },
+  ],
 });

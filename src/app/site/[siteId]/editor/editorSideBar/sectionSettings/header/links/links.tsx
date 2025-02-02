@@ -1,6 +1,6 @@
 import BackBtn from "@/components/shared/backBtn";
 import DraggableList from "@/components/ui/DraggableList";
-import { updateContent, updateSelectedItem } from "@/reduxStore/action";
+import { updateGlobalContent, updateSelectedItem } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
@@ -34,11 +34,12 @@ function Links({
       text: `link ${links.length + 2}`,
       openNewTab: false,
       subLinks: [],
+      pageId: pageId,
     } as Link;
     const newItems = [...links, newItem] as Link[];
     setItems(newItems);
     dispatch(
-      updateContent(pageId, findSelectedSection.id, {
+      updateGlobalContent(findSelectedSection.id, {
         links: newItems,
       })
     );
@@ -50,9 +51,7 @@ function Links({
     const [reorderedItem] = newItems.splice(result.source.index, 1);
     newItems.splice(result.destination.index, 0, reorderedItem);
     setItems(newItems);
-    dispatch(
-      updateContent(pageId, findSelectedSection.id, { links: newItems })
-    );
+    dispatch(updateGlobalContent(findSelectedSection.id, { links: newItems }));
   };
 
   useEffect(() => {

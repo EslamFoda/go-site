@@ -9,7 +9,7 @@ import {
 } from "@/reduxStore/types";
 import { HeaderContent } from "@/types/sectionsTypes/header";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
-import { updateContent } from "@/reduxStore/action";
+import { updateGlobalContent } from "@/reduxStore/action";
 import AnnouncementPos from "../../settingsUi/AnnouncementPos";
 import LinkSelector from "../../settingsUi/LinkSelector";
 interface AnnouncementProps {
@@ -40,7 +40,7 @@ function Announcement({
             positionValue={headerContent.announcement.position}
             onValueChange={(value) =>
               dispatch(
-                updateContent(pageId, findSelectedSection.id, {
+                updateGlobalContent(findSelectedSection.id, {
                   ...headerContent,
                   announcement: {
                     ...headerContent.announcement,
@@ -58,7 +58,7 @@ function Announcement({
             value={headerContent.announcement.text}
             onChange={(e: any) =>
               dispatch(
-                updateContent(pageId, findSelectedSection.id, {
+                updateGlobalContent(findSelectedSection.id, {
                   ...headerContent,
                   announcement: {
                     ...headerContent.announcement,
@@ -79,7 +79,7 @@ function Announcement({
           selectedLink={headerContent.announcement.link}
           onSelect={(link) =>
             dispatch(
-              updateContent(pageId, findSelectedSection.id, {
+              updateGlobalContent(findSelectedSection.id, {
                 ...headerContent,
                 announcement: {
                   ...headerContent.announcement,
