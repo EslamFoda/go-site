@@ -28,8 +28,6 @@ function Design1({ pageId, section }: Design1Props) {
   const { sticky, float, autoHide, width, shadow, glass, scrollIndicator } =
     headerStyle.designSettings;
 
-  console.log(section, "qweqw");
-
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [scrollProgress, setScrollProgress] = useState(0);

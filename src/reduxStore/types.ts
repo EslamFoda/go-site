@@ -153,4 +153,6 @@ export interface SiteSettings {
   name: string;
   link: string;
   siteId: string;
+  published: boolean;
+  owner_id: string;
 }

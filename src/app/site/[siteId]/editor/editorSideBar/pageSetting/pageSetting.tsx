@@ -8,9 +8,9 @@ import { EditorPage } from "@/reduxStore/types";
 import { updatePageSetting } from "@/reduxStore/action";
 
 function PageSetting() {
+  const dispatch = useAppDispatch();
   const { pageId } = useParams();
   const pages = useAppSelector((state) => state.editor.present.editor.pages);
-  const dispatch = useAppDispatch();
   const { settings } = useAppSelector((state) => state.editor.present);
   const { homePage } = settings;
   const isHomePage = pageId === homePage;
@@ -59,7 +59,7 @@ function PageSetting() {
           value={pageSettings?.title}
           onChange={(e: any) => {
             dispatch(
-              updatePageSetting(pageId, {
+              updatePageSetting(pageId || homePage, {
                 ...pageSettings,
                 title: e.target.value,
               })
@@ -87,8 +87,9 @@ function PageSetting() {
           label="Show Header"
           defaultChecked={pageSettings?.showHeader}
           onCheckedChange={(value) => {
+            console.log(homePage, "pageSettings");
             dispatch(
-              updatePageSetting(pageId, {
+              updatePageSetting(pageId || homePage, {
                 ...pageSettings,
                 showHeader: value,
               })
@@ -100,7 +101,7 @@ function PageSetting() {
           defaultChecked={pageSettings?.showFooter}
           onCheckedChange={(value) => {
             dispatch(
-              updatePageSetting(pageId, {
+              updatePageSetting(pageId || homePage, {
                 ...pageSettings,
                 showFooter: value,
               })

@@ -29,11 +29,12 @@ export const useGridHeight = ({
 
   const updateGridHeight = useCallback(() => {
     setTimeout(() => {
-      const gridContainer = document.getElementById(`fluid-grid-container-${sectionId}`);
+      const gridContainer = document.getElementById(
+        `fluid-grid-container-${sectionId}`
+      );
       if (!gridContainer) return;
 
       const containerHeight = gridContainer.clientHeight;
-      console.log(containerHeight)
       let updateBreakpoint: keyof typeof breakpoints | undefined;
 
       if (breakpoints.lg) updateBreakpoint = "lg";
@@ -50,7 +51,7 @@ export const useGridHeight = ({
           })
         );
       }
-    }, 500);
+    }, 300);
   }, [pageId, sectionId, breakpoints, currentStyles, dispatch]);
 
   return { updateGridHeight };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Responsive, WidthProvider, Layout, Layouts } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import "./styles.css";
 import {
   updateIsDragging,
   updateIsDraggingItem,
@@ -10,7 +11,6 @@ import {
 } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import GridBackground from "./gridBackground";
-import "./styles.css";
 import { HoverCard } from "@/components/ui/hover-card";
 import { HoverCardTrigger } from "@radix-ui/react-hover-card";
 import { FluidStyle, GridCard } from "@/types/sectionsTypes/fluid";
@@ -121,7 +121,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         });
       }
 
-      debouncedUpdateLayout(newItem, updatedLayouts);
+      debouncedUpdateLayout(updatedLayouts);
     }
   };
 
@@ -167,16 +167,55 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
       updateSectionContent(newGridCards, updatedLayouts);
       setSelectedItemId(newCard.i);
     }
-
     dispatch(updateIsDraggingItem(null));
     dispatch(updateIsDragging(false));
 
     updateGridHeight();
   };
 
+  const onDragStop = (layout: Layout[], oldItem: Layout, newItem: Layout) => {
+    // Update isDragging state
+    const updatedLayouts = { ...section.content.gridLayout };
+    updatedLayouts[currentBreakpoint] = updatedLayouts[currentBreakpoint].map(
+      (item: Layout) => {
+        if (item.i === newItem.i) {
+          return { ...item, x: newItem.x, y: newItem.y };
+        }
+        return item;
+      }
+    );
+
+    debouncedUpdateLayout(updatedLayouts);
+    dispatch(updateIsDragging(false));
+  };
+
   const onBreakpointChange = (newBreakpoint: string) => {
     setCurrentBreakpoint(newBreakpoint);
     updateGridHeight();
+  };
+
+  const handleZIndexChange = (
+    cardId: string,
+    direction: "forward" | "backward"
+  ) => {
+    // First update the gridCards to maintain the z-index state
+
+    // Then update all breakpoint layouts
+    const updatedLayouts = { ...section.content.gridLayout };
+    updatedLayouts[currentBreakpoint] = updatedLayouts[currentBreakpoint].map(
+      (item: GridCard) => {
+        if (item.i === cardId) {
+          console.log(item, "item.zIndex");
+          return {
+            ...item,
+            zIndex: direction === "forward" ? 6 : 5,
+          };
+        }
+        return item;
+      }
+    );
+
+    debouncedUpdateLayout(updatedLayouts);
   };
 
   const showGridPattern =
@@ -224,8 +263,9 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
             background: "transparent",
           }}
           containerPadding={[0, 0]}
-          preventCollision
           compactType={null}
+          allowOverlap={true}
+          preventCollision={false}
           isDroppable={!isEditing} // Disable dropping while editing
           isDraggable={!isEditing} // Disable dragging while editing
           isResizable={!isEditing} // Optionally disable resizing while editing
@@ -237,7 +277,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
             setSelectedItemId(null);
             dispatch(updateIsDragging(true));
           }}
-          onDragStop={() => dispatch(updateIsDragging(false))}
+          onDragStop={onDragStop}
           onResizeStart={() => setIsResizing(true)}
           onResizeStop={() => {
             setIsResizing(false);
@@ -251,14 +291,21 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         >
           {section.content.gridCards.map((card: GridCard) => (
             <div
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
               key={card.i}
               className={`relative rounded-md overflow-hidden ${
                 card.i === selectedItemId && "isActive"
               }`}
+              style={{ zIndex: card.zIndex }}
             >
               <HoverCard open={selectedItemId === card.i}>
-                <HoverCardActions card={card} onDelete={handleDelete} />
+                <HoverCardActions
+                  card={card}
+                  onDelete={handleDelete}
+                  onZIndexChange={handleZIndexChange}
+                />
                 <HoverCardTrigger>
                   {renderCardContent({
                     card,

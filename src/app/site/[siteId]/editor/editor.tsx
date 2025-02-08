@@ -18,11 +18,11 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import PublishBtn from "./editorSideBar/publishBtn";
 function Editor({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
   const canUndo = useAppSelector((state) => state.editor.past.length > 1);
   const canRedo = useAppSelector((state) => state.editor.future.length > 0);
-
   const handleUndo = () => {
     dispatch(ActionCreators.undo());
     console.log(canUndo);
@@ -83,7 +83,7 @@ function Editor({ children }: { children: React.ReactNode }) {
                         onClick={handleUndo}
                         disabled={!canUndo}
                       >
-                        <Undo2 size={20}/>
+                        <Undo2 size={20} />
                       </Button>
                     </span>
                   </TooltipTrigger>
@@ -106,7 +106,7 @@ function Editor({ children }: { children: React.ReactNode }) {
                         onClick={handleRedo}
                         disabled={!canRedo}
                       >
-                        <Redo2 size={20}/>
+                        <Redo2 size={20} />
                       </Button>
                     </span>
                   </TooltipTrigger>
@@ -119,6 +119,9 @@ function Editor({ children }: { children: React.ReactNode }) {
             </div>
             <div className="w-[1px] h-full bg-border" />
             <ThemeToggle />
+          </div>
+          <div>
+            <PublishBtn />
           </div>
         </header>
         <main className="grid flex-1 pl-[384px] max-md:pl-0 gap-4 overflow-auto  grid-cols-1">

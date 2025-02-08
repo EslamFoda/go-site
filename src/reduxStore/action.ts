@@ -230,3 +230,8 @@ export const updateGlobalStyle = (
   type: types.UPDATE_GLOBAL_STYLE,
   payload: { sectionId, newStyle },
 });
+
+export const updateSiteSettings = (newSettings: any) => ({
+  type: types.UPDATE_SITE_SETTINGS,
+  payload: newSettings,
+});

@@ -548,6 +548,7 @@ export function useSections() {
               i: "1",
               moved: false,
               static: false,
+              zIndex: 5,
             },
             {
               w: 11,
@@ -557,6 +558,7 @@ export function useSections() {
               i: "2",
               moved: false,
               static: false,
+              zIndex: 5,
             },
             {
               w: 12,
@@ -566,6 +568,7 @@ export function useSections() {
               i: "3",
               moved: false,
               static: false,
+              zIndex: 5,
             },
             {
               w: 6,
@@ -575,6 +578,7 @@ export function useSections() {
               i: "4",
               moved: false,
               static: false,
+              zIndex: 5,
             },
             {
               w: 12,
@@ -584,6 +588,7 @@ export function useSections() {
               i: "5",
               moved: false,
               static: false,
+              zIndex: 5,
             },
             {
               w: 7,
@@ -593,6 +598,7 @@ export function useSections() {
               i: "6",
               moved: false,
               static: false,
+              zIndex: 5,
             },
           ],
           sm: [
@@ -604,6 +610,7 @@ export function useSections() {
               i: "1",
               moved: false,
               static: false,
+              zIndex: 5,
             },
             {
               w: 7,
@@ -613,6 +620,7 @@ export function useSections() {
               i: "2",
               moved: false,
               static: false,
+              zIndex: 5,
             },
             {
               w: 7,
@@ -622,6 +630,7 @@ export function useSections() {
               i: "3",
               moved: false,
               static: false,
+              zIndex: 5,
             },
             {
               w: 5,
@@ -631,6 +640,7 @@ export function useSections() {
               i: "4",
               moved: false,
               static: false,
+              zIndex: 5,
             },
             {
               w: 7,
@@ -640,6 +650,7 @@ export function useSections() {
               i: "5",
               moved: false,
               static: false,
+              zIndex: 5,
             },
             {
               w: 5,
@@ -649,6 +660,7 @@ export function useSections() {
               i: "6",
               moved: false,
               static: false,
+              zIndex: 5,
             },
           ],
           xs: [
@@ -660,6 +672,7 @@ export function useSections() {
               i: "1",
               moved: false,
               static: false,
+              zIndex: 5,
             },
             {
               w: 11,
@@ -669,6 +682,7 @@ export function useSections() {
               i: "2",
               moved: false,
               static: false,
+              zIndex: 5,
             },
             {
               w: 11,
@@ -678,6 +692,7 @@ export function useSections() {
               i: "3",
               moved: false,
               static: false,
+              zIndex: 5,
             },
             {
               w: 5,
@@ -687,6 +702,7 @@ export function useSections() {
               i: "4",
               moved: false,
               static: false,
+              zIndex: 5,
             },
             {
               w: 11,
@@ -696,6 +712,7 @@ export function useSections() {
               i: "5",
               moved: false,
               static: false,
+              zIndex: 5,
             },
             {
               w: 5,
@@ -705,6 +722,7 @@ export function useSections() {
               i: "6",
               moved: false,
               static: false,
+              zIndex: 5,
             },
           ],
         },
@@ -715,6 +733,7 @@ export function useSections() {
             w: 5,
             h: 1,
             type: "button",
+            zIndex: 5,
             settings: {
               text: "Click Me",
               variant: "default",
@@ -732,6 +751,7 @@ export function useSections() {
             w: 11,
             h: 6,
             type: "image",
+            zIndex: 5,
             settings: {
               src: "",
               imageId: "",
@@ -743,6 +763,7 @@ export function useSections() {
             w: 11,
             h: 6,
             type: "image",
+            zIndex: 5,
             settings: {
               src: "",
               imageId: "",
@@ -754,6 +775,7 @@ export function useSections() {
             w: 5,
             h: 1,
             type: "button",
+            zIndex: 5,
             settings: {
               text: "Click Me",
               variant: "default",
@@ -771,6 +793,7 @@ export function useSections() {
             w: 11,
             h: 6,
             type: "image",
+            zIndex: 5,
             settings: {
               imageId: "",
               src: "",
@@ -782,6 +805,7 @@ export function useSections() {
             w: 5,
             h: 1,
             type: "button",
+            zIndex: 5,
             settings: {
               text: "Click Me",
               variant: "default",

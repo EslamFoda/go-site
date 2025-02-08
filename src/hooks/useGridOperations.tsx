@@ -40,7 +40,7 @@ export const useGridOperations = (pageId: string, section: any) => {
   );
 
   const debouncedUpdateLayout = useCallback(
-    debounce((newItem: Layout, updatedLayouts: Layouts) => {
+    debounce((updatedLayouts: Layouts) => {
       updateSectionContent(section.content.gridCards, updatedLayouts);
     }, 100),
     [section.content.gridCards]

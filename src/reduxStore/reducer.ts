@@ -114,9 +114,11 @@ const initialState: EditorStore = {
     homePage: "",
     isTemplate: false,
     showMadeBy: true,
+    published: false,
     name: "",
     link: "",
     siteId: "",
+    owner_id: "",
   },
   openPageSetting: false,
   dragItem: {
@@ -135,6 +137,7 @@ const initialState: EditorStore = {
     w: 1,
     h: 1,
     type: "button",
+    zIndex: 1,
   },
   isDragging: false,
   isDraggableModalActive: false,
@@ -237,8 +240,17 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
           draft.selectedSection =
             page.sections.find(
               (section) => section.id === action.payload.sectionId
-            ) || state.globalSections.find((section) => section.id === action.payload.sectionId) || null;
+            ) ||
+            state.globalSections.find(
+              (section) => section.id === action.payload.sectionId
+            ) ||
+            null;
         }
+        break;
+      }
+
+      case types.UPDATE_SITE_SETTINGS: {
+        draft.settings = action.payload;
         break;
       }
 

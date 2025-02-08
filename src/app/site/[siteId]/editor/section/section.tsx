@@ -70,15 +70,10 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   return (
     <div className="overflow-y-hidden">
       <AnimatePresence mode="popLayout">
-        <GlobalHeaderSection pageId={pageId} section={globalHeader} />
+        {currentPage?.pageSettings.showHeader && (
+          <GlobalHeaderSection pageId={pageId} section={globalHeader} />
+        )}
         {currentPage.sections.map((section, i) => {
-          if (
-            section.sectionName === "Header" &&
-            !currentPage.pageSettings.showHeader
-          ) {
-            return null; // Skip rendering the Header section
-          }
-
           const SectionComponent = sectionsMapper[section.sectionName];
 
           return (
@@ -89,6 +84,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
               exit={{ scale: 0.8, opacity: 0 }}
               transition={{ type: "tween" }}
               key={section.id}
+              className="relative"
             >
               <HoverCard
                 key={section.id}
@@ -127,13 +123,10 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                     </div>
                   </HoverCardTrigger>
                   {section.sectionName !== "Header" && (
-                    <HoverCardContent
-                      className="rounded-full"
-                      align="center"
-                      side="bottom"
-                      avoidCollisions={false}
-                      sideOffset={-14}
-                      alignOffset={0}
+                    <div
+                      className="absolute rounded-full z-20 
+                    right-2/4 transform -translate-x-1/2 -translate-y-1/2 
+                    cursor-pointer bg-background"
                     >
                       <TooltipProvider delayDuration={0}>
                         <Tooltip>
@@ -148,7 +141,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                           </TooltipContent>
                         </Tooltip>
                       </TooltipProvider>
-                    </HoverCardContent>
+                    </div>
                   )}
                 </div>
               </HoverCard>

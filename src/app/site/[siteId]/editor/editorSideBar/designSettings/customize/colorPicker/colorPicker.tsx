@@ -100,7 +100,7 @@ const ColorPicker: React.FC = () => {
           <div className="grid grid-cols-4 gap-1 p-1">{themeButtons}</div>
           <div className={selectedPalette}>
             <Popover>
-              <PopoverTrigger>
+              <PopoverTrigger className="w-full">
                 <HexColorInput
                   prefixed
                   className="px-2 w-full focus:outline-none focus-within:outline-none outline-none rounded-b-[4px] h-10"

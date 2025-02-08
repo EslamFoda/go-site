@@ -193,6 +193,7 @@ export const insertSiteData = (
     name: siteName,
     link: "",
     siteId: siteId,
+    owner_id: user?.id,
   },
   owner_id: user?.id,
   deployed: false,
