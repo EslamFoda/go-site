@@ -1,5 +1,5 @@
 import React from "react";
-import { ChevronDown, ChevronUp, LayoutIcon, Trash } from "lucide-react";
+import { LayoutIcon, Trash } from "lucide-react";
 import { HoverCardContent } from "@/components/ui/hover-card";
 import { GridCard } from "@/types/sectionsTypes/fluid";
 import {
@@ -12,14 +12,9 @@ import { useAppDispatch } from "@/reduxStore/hooks";
 interface HoverCardActionsProps {
   card: GridCard;
   onDelete: (id: string) => void;
-  onZIndexChange: (id: string, direction: "forward" | "backward") => void;
 }
 
-const HoverCardActions = ({
-  card,
-  onDelete,
-  onZIndexChange,
-}: HoverCardActionsProps) => {
+const HoverCardActions = ({ card, onDelete }: HoverCardActionsProps) => {
   const dispatch = useAppDispatch();
   const handleSettingsClick = () => {
     dispatch(updateIsDraggableModal(true));
@@ -40,21 +35,6 @@ const HoverCardActions = ({
       side={card.type === "text" ? "right" : "top"}
       className="flex items-center justify-center gap-3 bg-transparent shadow-none border-none"
     >
-      {/* Move Backward Button */}
-      <div
-        onClick={() => onZIndexChange(card.i, "backward")}
-        className="h-8 w-8 rounded-full flex items-center shadow-md justify-center bg-primary hover:bg-primary/80 transition-colors cursor-pointer"
-      >
-        <ChevronDown size={16} className="stroke-primary-foreground" />
-      </div>
-
-      {/* Move Forward Button */}
-      <div
-        onClick={() => onZIndexChange(card.i, "forward")}
-        className="h-8 w-8 rounded-full flex items-center shadow-md justify-center bg-primary hover:bg-primary/80 transition-colors cursor-pointer"
-      >
-        <ChevronUp size={16} className="stroke-primary-foreground" />
-      </div>
       {card.type !== "text" && (
         <div
           onClick={handleSettingsClick}

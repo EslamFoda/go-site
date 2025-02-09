@@ -51,7 +51,7 @@ export const useGridHeight = ({
           })
         );
       }
-    }, 300);
+    }, 0);
   }, [pageId, sectionId, breakpoints, currentStyles, dispatch]);
 
   return { updateGridHeight };
