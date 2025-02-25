@@ -7,31 +7,42 @@ import {
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
+import { LinkGroup } from "@/types/sectionsTypes/footer";
 import { Link } from "@/types/sectionsTypes/header";
 import React, { useEffect, useState } from "react";
 import { v4 } from "uuid";
 interface LinksProps {
-  links: Link[];
+  links: Link[] | LinkGroup[];
+  text: string;
   pageId: string;
   findSelectedSection: EditorSection<
     keyof SectionContentTypes,
     keyof SectionStyleTypes
   >;
   setOpenLinkTab: React.Dispatch<React.SetStateAction<boolean>>;
+  maxLinks: number;
 }
 function Links({
   links,
+  text,
   findSelectedSection,
   pageId,
   setOpenLinkTab,
+  maxLinks,
 }: LinksProps) {
   const dispatch = useAppDispatch();
   const [items, setItems] = useState(links);
+
   const handleAddLink = () => {
+    // Check if we've reached the maximum number of links
+    if (maxLinks && links.length >= maxLinks - 1) {
+      return; // Don't add more if we've reached the limit
+    }
+
     const newItem = {
       id: v4(),
       link: "",
-      text: `link ${links.length + 2}`,
+      text: `${text} ${links.length + 2}`,
       openNewTab: false,
       subLinks: [],
       pageId: pageId,
@@ -57,6 +68,7 @@ function Links({
   useEffect(() => {
     setItems(links || []);
   }, [links]);
+
   return (
     <div>
       <BackBtn
@@ -68,7 +80,7 @@ function Links({
       <div className="px-5 h space-y-2">
         <DraggableList
           label="Link"
-          maxItems={10}
+          maxItems={maxLinks - 1}
           handleDragEnd={handleDragEnd}
           items={links}
           handleAdd={handleAddLink}

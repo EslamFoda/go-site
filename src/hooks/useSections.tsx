@@ -810,6 +810,89 @@ export function useSections() {
         designSettings: {},
       },
     },
+    {
+      id: v4(),
+      sectionName: "Footer",
+      content: {
+        siteLogo: true,
+        text: "Add a short descriptive text",
+        links: [
+          {
+            text: "group",
+            id: v4(),
+            subLinks: [
+              {
+                text: "sub link 1",
+                link: "",
+                id: v4(),
+              },
+              {
+                text: "sub link 2",
+                link: "",
+                id: v4(),
+              },
+            ],
+          },
+          {
+            text: "group 2",
+            id: v4(),
+            subLinks: [
+              {
+                text: "sub link 1",
+                link: "",
+                id: v4(),
+              },
+              {
+                text: "sub link 2",
+                link: "",
+                id: v4(),
+              },
+            ],
+          },
+          {
+            text: "group 3",
+            id: v4(),
+            subLinks: [
+              {
+                text: "sub link 1",
+                link: "",
+                id: v4(),
+              },
+              {
+                text: "sub link 2",
+                link: "",
+                id: v4(),
+              },
+            ],
+          },
+        ],
+        buttons: [
+          {
+            text: "button 1",
+            link: "",
+            id: v4(),
+          },
+          {
+            text: "button 2",
+            link: "",
+            id: v4(),
+          },
+        ],
+        social: [
+          { id: v4(), icon: "linkedin", link: "" },
+          { id: v4(), icon: "twitter", link: "" },
+          { id: v4(), icon: "instagram", link: "" },
+          { id: v4(), icon: "whatsapp", link: "" },
+        ],
+        copyRight: {
+          leftArea: "All rights reserved.",
+          rightArea: "",
+        },
+      },
+      style: {
+        designName: "design1",
+      },
+    },
   ];
 
   return { sections };

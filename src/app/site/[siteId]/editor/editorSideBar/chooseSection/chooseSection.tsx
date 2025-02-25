@@ -6,6 +6,7 @@ import {
   AccordionSectionIcon,
   AccordionSectionLightIcon,
 } from "@/icons/common";
+import { FooterDark, FooterLight } from "@/icons/footer";
 import { GallerySectionDark, GallerySectionLight } from "@/icons/gallery";
 import { HeaderDark, HeaderLight } from "@/icons/header";
 import { ListSectionIcon, ListSectionLightIcon } from "@/icons/list";
@@ -113,31 +114,60 @@ function ChooseSection() {
       Icon: theme === "dark" ? LogosDark : LogosLight,
       desc: "Fluid design",
     },
+    Footer: {
+      Icon: theme === "dark" ? FooterDark : FooterLight,
+      desc: "Logo contact info, links, & legal",
+    },
     // Add more mappings as needed
   };
 
   if (!page) return null;
 
   const handleChooseSection = (section: any) => {
-    let newSections = [...page.sections];
-
-    if (section.sectionName === "Header") {
-      dispatch(closeSectionDesigns());
-      dispatch(
-        updatePageSetting(activePageId, {
-          ...page.pageSettings,
-          showHeader: true,
-        })
-      );
-      dispatch(updateSelectedSection(activePageId, page.sections[0].id));
-    } else {
+    // Early return if section index is invalid (for non-header/footer sections)
+    if (section.sectionName !== "Header" && section.sectionName !== "Footer") {
       if (sectionIndex < 0 || sectionIndex >= page.sections.length) {
-        return newSections;
+        return;
       }
-      newSections.splice(sectionIndex + 1, 0, section);
-      dispatch(closeSectionDesigns());
-      dispatch(updateEditorSections(activePageId, newSections));
-      dispatch(updateSelectedSection(activePageId, section.id));
+    }
+
+    // Common action for all cases
+    dispatch(closeSectionDesigns());
+
+    // Handle each section type
+    switch (section.sectionName) {
+      case "Header":
+        dispatch(
+          updatePageSetting(activePageId, {
+            ...page.pageSettings,
+            showHeader: true,
+          })
+        );
+        dispatch(updateSelectedSection(activePageId, page.sections[0].id));
+        break;
+
+      case "Footer":
+        dispatch(
+          updatePageSetting(activePageId, {
+            ...page.pageSettings,
+            showFooter: true,
+          })
+        );
+        dispatch(
+          updateSelectedSection(
+            activePageId,
+            page.sections[page.sections.length - 1].id
+          )
+        );
+        break;
+
+      default:
+        // Handle regular section insertion
+        let newSections = [...page.sections];
+        newSections.splice(sectionIndex + 1, 0, section);
+        dispatch(updateEditorSections(activePageId, newSections));
+        dispatch(updateSelectedSection(activePageId, section.id));
+        break;
     }
   };
 

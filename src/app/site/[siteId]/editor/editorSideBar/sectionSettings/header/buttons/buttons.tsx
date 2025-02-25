@@ -11,9 +11,10 @@ import {
 } from "@/reduxStore/types";
 import { HeaderContent } from "@/types/sectionsTypes/header";
 import { updateGlobalContent } from "@/reduxStore/action";
+import { FooterContent } from "@/types/sectionsTypes/footer";
 
 interface ButtonsProps {
-  pageId: string;
+  content: HeaderContent | FooterContent;
   setOpenButtonsTab: React.Dispatch<React.SetStateAction<boolean>>;
   findSelectedSection: EditorSection<
     keyof SectionContentTypes,
@@ -22,35 +23,35 @@ interface ButtonsProps {
 }
 
 function Buttons({
-  pageId,
+  content,
   findSelectedSection,
   setOpenButtonsTab,
 }: ButtonsProps) {
   const pages = useAppSelector((state) => state.editor.present.editor.pages);
-  const headerContent = findSelectedSection.content as HeaderContent;
+
   const dispatch = useAppDispatch();
 
   const handleLinkSelect = (index: number, link: string) => {
-    const updatedButtons = headerContent.buttons.map((button, i) =>
+    const updatedButtons = content.buttons.map((button, i) =>
       i === index ? { ...button, link } : button
     );
 
     dispatch(
       updateGlobalContent(findSelectedSection.id, {
-        ...headerContent,
+        ...content,
         buttons: updatedButtons,
       })
     );
   };
 
   const handleTextChange = (index: number, text: string) => {
-    const updatedButtons = headerContent.buttons.map((button, i) =>
+    const updatedButtons = content.buttons.map((button, i) =>
       i === index ? { ...button, text } : button
     );
 
     dispatch(
       updateGlobalContent(findSelectedSection.id, {
-        ...headerContent,
+        ...content,
         buttons: updatedButtons,
       })
     );
@@ -60,7 +61,7 @@ function Buttons({
     <div>
       <BackBtn label="Buttons" handleBack={() => setOpenButtonsTab(false)} />
       <div className="px-5 space-y-6">
-        {headerContent.buttons.map((button, index) => (
+        {content.buttons.map((button, index) => (
           <div
             key={index}
             className="space-y-1 flex items-center justify-between"

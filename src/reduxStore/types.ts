@@ -1,5 +1,5 @@
 // Import section-specific content and style types
-import { DroppingItemType, SelectedItemType } from "@/types/common";
+import { SelectedItemType } from "@/types/common";
 import {
   AccordionContent,
   AccordionStyle,
@@ -11,6 +11,7 @@ import {
   FluidStyle,
   GridCard,
 } from "@/types/sectionsTypes/fluid";
+import { FooterContent, FooterStyle } from "@/types/sectionsTypes/footer";
 import { GalleryContent, GalleryStyle } from "@/types/sectionsTypes/gallery";
 import {
   HeaderContent,
@@ -35,6 +36,7 @@ export type SectionContentTypes = {
   gallery: GalleryContent;
   logos: LogosContent;
   fluid: FluidContent;
+  footer: FooterContent;
   // Add more content types here as needed
 };
 
@@ -49,6 +51,7 @@ export type SectionStyleTypes = {
   gallery: GalleryStyle;
   logos: LogosStyle;
   fluid: FluidStyle;
+  footer: FooterStyle;
   // Add more style types here as needed
 };
 

@@ -214,6 +214,95 @@ const initialState: EditorStore = {
         },
       },
     },
+    {
+      id: uuidv4(),
+      sectionName: "Footer",
+      content: {
+        siteLogo: true,
+        text: "Add a short descriptive text",
+        links: [
+          {
+            text: "group",
+            id: uuidv4(),
+            subLinks: [
+              {
+                text: "sub link 1",
+                link: "",
+                id: uuidv4(),
+                pageId: "",
+              },
+              {
+                text: "sub link 2",
+                link: "",
+                id: uuidv4(),
+                pageId: "",
+              },
+            ],
+          },
+          {
+            text: "group 2",
+            id: uuidv4(),
+            subLinks: [
+              {
+                text: "sub link 1",
+                link: "",
+                id: uuidv4(),
+                pageId: "",
+              },
+              {
+                text: "sub link 2",
+                link: "",
+                id: uuidv4(),
+                pageId: "",
+              },
+            ],
+          },
+          {
+            text: "group 3",
+            id: uuidv4(),
+            subLinks: [
+              {
+                text: "sub link 1",
+                link: "",
+                id: uuidv4(),
+                pageId: "",
+              },
+              {
+                text: "sub link 2",
+                link: "",
+                id: uuidv4(),
+                pageId: "",
+              },
+            ],
+          },
+        ],
+        buttons: [
+          {
+            text: "button 1",
+            link: "",
+            id: uuidv4(),
+          },
+          {
+            text: "button 2",
+            link: "",
+            id: uuidv4(),
+          },
+        ],
+        social: [
+          { id: uuidv4(), icon: "linkedin", link: "" },
+          { id: uuidv4(), icon: "twitter", link: "" },
+          { id: uuidv4(), icon: "instagram", link: "" },
+          { id: uuidv4(), icon: "whatsapp", link: "" },
+        ],
+        copyRight: {
+          leftArea: "All rights reserved.",
+          rightArea: "",
+        },
+      },
+      style: {
+        designName: "design1",
+      },
+    },
   ],
 };
 

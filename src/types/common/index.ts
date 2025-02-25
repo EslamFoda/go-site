@@ -1,7 +1,8 @@
 import { Accordion, AccordionStyle } from "../sectionsTypes/accordion";
 import { BannerStyle } from "../sectionsTypes/banner";
 import { Card, CardStyle } from "../sectionsTypes/cards";
-import { FluidButtonSettings, FluidStyle } from "../sectionsTypes/fluid";
+import { FluidStyle } from "../sectionsTypes/fluid";
+import { FooterStyle, LinkGroup, SocialLink } from "../sectionsTypes/footer";
 import { GalleryStyle, Photo } from "../sectionsTypes/gallery";
 import { HeaderStyle, Link, SubLink } from "../sectionsTypes/header";
 import { ListItem, ListStyle } from "../sectionsTypes/list";
@@ -17,6 +18,8 @@ export type SelectedItemType =
   | Photo
   | SubLink
   | Logo
+  | LinkGroup
+  | SocialLink
   | null;
 
 export type DragItems =
@@ -27,7 +30,9 @@ export type DragItems =
   | Link[]
   | SubLink[]
   | Photo[]
-  | Logo[];
+  | LinkGroup[]
+  | Logo[]
+  | SocialLink[];
 export type SectionsStyleType =
   | BannerStyle
   | CardStyle
@@ -37,7 +42,8 @@ export type SectionsStyleType =
   | HeaderStyle
   | GalleryStyle
   | LogosStyle
-  | FluidStyle;
+  | FluidStyle
+  | FooterStyle;
 
 export type UnsplashImage = {
   id: string;

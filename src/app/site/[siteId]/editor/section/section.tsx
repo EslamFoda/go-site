@@ -6,6 +6,10 @@ import List from "../designs/list";
 import Accordion from "../designs/accordion";
 import Testimonials from "../designs/testimonials";
 import Gallery from "../designs/gallery";
+import Header from "../designs/header";
+import Footer from "../designs/footer";
+import Logos from "../designs/logos";
+import Fluid from "../designs/fluid";
 import AddSection from "./addSection";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { closeSectionDesigns } from "@/reduxStore/action";
@@ -15,7 +19,6 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
-import Header from "../designs/header";
 import {
   Tooltip,
   TooltipArrow,
@@ -24,8 +27,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useMotion } from "@/hooks/useMotion";
-import Logos from "../designs/logos";
-import Fluid from "../designs/fluid";
 
 const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const currentPage = useAppSelector((state) =>
@@ -34,6 +35,9 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const { globalSections } = useAppSelector((state) => state.editor.present);
   const globalHeader = globalSections.find(
     (section) => section.sectionName === "Header"
+  );
+  const globalFooter = globalSections.find(
+    (section) => section.sectionName === "Footer"
   );
 
   const dispatch = useAppDispatch();
@@ -53,9 +57,11 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
 
   const globalSectionMapper = {
     Header,
+    Footer,
   };
 
   const GlobalHeaderSection = globalSectionMapper["Header"];
+  const GlobalFooterSection = globalSectionMapper["Footer"];
 
   const handleMouseEnter = (index: number) => {
     setHoveringIndex(index);
@@ -71,7 +77,9 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
     <div className="overflow-y-hidden">
       <AnimatePresence mode="popLayout">
         {currentPage?.pageSettings.showHeader && (
-          <GlobalHeaderSection pageId={pageId} section={globalHeader} />
+          <motion.div key="global-header" layout>
+            <GlobalHeaderSection pageId={pageId} section={globalHeader} />
+          </motion.div>
         )}
         {currentPage.sections.map((section, i) => {
           const SectionComponent = sectionsMapper[section.sectionName];
@@ -148,6 +156,11 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
             </motion.div>
           );
         })}
+        {currentPage?.pageSettings.showFooter && (
+          <motion.div key="global-footer" layout>
+            <GlobalFooterSection pageId={pageId} section={globalFooter} />
+          </motion.div>
+        )}
       </AnimatePresence>
     </div>
   );

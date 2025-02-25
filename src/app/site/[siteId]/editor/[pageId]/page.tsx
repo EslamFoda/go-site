@@ -54,7 +54,7 @@ function Page({ params }: any) {
       if (error) console.log(error);
       if (siteData) {
         // Update designSettings
-        console.log(siteData, "siteData");
+
         dispatch(
           updateEditorState(["designSettings"], siteData.designSettings)
         );

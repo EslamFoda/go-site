@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useCallback, useEffect } from "react";
 import ChooseSection from "./chooseSection";
 import { useAppSelector } from "@/reduxStore/hooks";
@@ -21,6 +22,7 @@ import header from "./sectionSettings/header";
 import gallery from "./sectionSettings/gallery";
 import logos from "./sectionSettings/logos";
 import fluid from "./sectionSettings/fluid";
+import Footer from "./sectionSettings/footer";
 
 const EditorSidebar = () => {
   const {
@@ -60,10 +62,14 @@ const EditorSidebar = () => {
     Gallery: gallery,
     Logos: logos,
     Fluid: fluid,
+    Footer: Footer,
   };
 
   const sectionsData =
-    selectedSection?.sectionName === "Header" ? globalSections : sections;
+    selectedSection?.sectionName === "Header" ||
+    selectedSection?.sectionName === "Footer"
+      ? globalSections
+      : sections;
 
   const SelectedSectionComponent = selectedSection
     ? sectionComponents[selectedSection.sectionName]

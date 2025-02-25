@@ -6,29 +6,31 @@ import {
   SectionStyleTypes,
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
-import HeaderContentTab from "./headerContentTab";
-import Links from "./links";
 import {
+  updateContent,
   updateGlobalContent,
   updateSelectedItem,
   updateSelectedSubLink,
 } from "@/reduxStore/action";
-import { Link, SubLink as SubLinkType } from "@/types/sectionsTypes/header";
-import LinkItem from "./linkItem";
-import Announcement from "./announcement";
-import Buttons from "./buttons";
-import HeaderStyleTab from "./headerStyleTab";
-import SubLink from "./subLink";
-interface HeaderSettingsProps {
+import { FooterSubLink, LinkGroup } from "@/types/sectionsTypes/footer";
+import FooterContentTab from "./footerContentTab";
+import Links from "../header/links";
+import LinkItem from "../header/linkItem";
+import FooterLinkItem from "./footerLinkItem";
+import SubLink from "../header/subLink";
+import Buttons from "../header/buttons";
+import SocialLinks from "./socialLinks";
+
+interface FooterSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
     | undefined;
   pageId: string;
 }
-function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
+function FooterSettings({ sections, pageId }: FooterSettingsProps) {
   const [openLinkTab, setOpenLinkTab] = useState(false);
-  const [openAnnounceTab, setOpenAnnounceTab] = useState(false);
   const [openButtonTab, setOpenButtonsTab] = useState(false);
+  const [openSocialTab, setOpenSocialTab] = useState(false);
   const [tabValue, setTabValue] = useState("content");
   const dispatch = useAppDispatch();
   const { selectedSection, selectedItem, selectedSubLink } = useAppSelector(
@@ -39,17 +41,17 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
 
-  const headerContent =
-    findSelectedSection?.content as SectionContentTypes["header"];
-  console.log(headerContent, "headerContent");
-  const headerStyle = findSelectedSection?.style as SectionStyleTypes["header"];
-  const links = headerContent?.links || [];
-  const selectedLink = selectedItem as Link;
-  const selectedSubLinkItem = selectedSubLink as SubLinkType;
+  const footerContent =
+    findSelectedSection?.content as SectionContentTypes["footer"];
+  const footerStyle = findSelectedSection?.style as SectionStyleTypes["footer"];
+  const groupLinks = footerContent?.links || [];
+  console.log(footerContent, "groupLinks");
+  const selectedLink = selectedItem as LinkGroup;
+  const selectedSubLinkItem = selectedSubLink as FooterSubLink;
 
   const handleDeleteLink = () => {
-    const filterLinks = links.filter(
-      (link: Link) => link.id !== selectedLink?.id
+    const filterLinks = groupLinks.filter(
+      (link: LinkGroup) => link.id !== selectedLink?.id
     );
 
     dispatch(
@@ -60,17 +62,27 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
 
   const handleDeleteSubLink = () => {
     const filterLinks = selectedLink?.subLinks?.filter(
-      (subLink: SubLinkType) => subLink.id !== selectedSubLinkItem?.id
+      (subLink: FooterSubLink) => subLink.id !== selectedSubLinkItem?.id
     );
 
     dispatch(
       updateGlobalContent(findSelectedSection.id, {
-        links: links.map((link) =>
+        links: groupLinks.map((link) =>
           link.id === selectedLink?.id
             ? { ...link, subLinks: filterLinks }
             : link
         ),
       })
+    );
+  };
+
+  const handleDragEnd = (result: any) => {
+    if (!result.destination) return; // dropped outside the list
+    const newItems = [...footerContent.social];
+    const [reorderedItem] = newItems.splice(result.source.index, 1);
+    newItems.splice(result.destination.index, 0, reorderedItem);
+    dispatch(
+      updateContent(pageId, findSelectedSection.id, { social: newItems })
     );
   };
 
@@ -82,9 +94,9 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
     dispatch(updateSelectedSubLink(null));
   };
 
-  const handleUpdateSubLinkItem = (updates: Partial<SubLinkType>) => {
+  const handleUpdateSubLinkItem = (updates: Partial<FooterSubLink>) => {
     // Create a new array of links with updated subLinks
-    const updatedLinks = headerContent.links.map((link) => {
+    const updatedLinks = footerContent.links.map((link) => {
       if (link.id === selectedLink.id) {
         return {
           ...link,
@@ -107,12 +119,23 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
     );
   };
 
+  if (openSocialTab) {
+    return (
+      <SocialLinks
+        handleDragEnd={handleDragEnd}
+        social={footerContent.social}
+        findSelectedSection={findSelectedSection}
+        pageId={pageId}
+      />
+    );
+  }
+
   if (openButtonTab)
     return (
       <Buttons
         setOpenButtonsTab={setOpenButtonsTab}
         findSelectedSection={findSelectedSection}
-        content={headerContent}
+        content={footerContent}
       />
     );
 
@@ -129,7 +152,7 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
 
   if (selectedLink)
     return (
-      <LinkItem
+      <FooterLinkItem
         selectedLinkId={selectedLink.id}
         handleDeleteLink={handleDeleteLink}
         clearLinkItem={clearLinkItem}
@@ -141,22 +164,12 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
   if (openLinkTab) {
     return (
       <Links
-        text="link"
+        text="group"
         pageId={pageId}
         findSelectedSection={findSelectedSection}
         setOpenLinkTab={setOpenLinkTab}
-        links={links}
-        maxLinks={10}
-      />
-    );
-  }
-
-  if (openAnnounceTab) {
-    return (
-      <Announcement
-        pageId={pageId}
-        setOpenAnnounceTab={setOpenAnnounceTab}
-        findSelectedSection={findSelectedSection}
+        links={groupLinks}
+        maxLinks={6}
       />
     );
   }
@@ -168,22 +181,23 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
           <TabsTrigger value="content">content</TabsTrigger>
           <TabsTrigger value="style">style</TabsTrigger>
         </TabsList>
-        <HeaderContentTab
-          setOpenButtonsTab={setOpenButtonsTab}
-          setOpenLinkTab={setOpenLinkTab}
-          setOpenAnnounceTab={setOpenAnnounceTab}
-          pageId={pageId}
-          headerContent={headerContent}
+        <FooterContentTab
           findSelectedSection={findSelectedSection}
+          footerContent={footerContent}
+          pageId={pageId}
+          setOpenLinkTab={setOpenLinkTab}
+          setOpenButtonsTab={setOpenButtonsTab}
+          setOpenSocialTab={setOpenSocialTab}
         />
-        <HeaderStyleTab
+
+        {/* <HeaderStyleTab
           findSelectedSection={findSelectedSection}
           headerStyle={headerStyle}
           pageId={pageId}
-        />
+        /> */}
       </Tabs>
     </div>
   );
 }
 
-export default HeaderSettings;
+export default FooterSettings;
