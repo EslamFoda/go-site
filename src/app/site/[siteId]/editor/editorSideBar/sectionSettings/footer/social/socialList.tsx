@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { updateGlobalContent, updateSelectedItem } from "@/reduxStore/action";
 import { LinkedinLogo } from "@phosphor-icons/react";
-import { SocialLink } from "@/types/sectionsTypes/footer";
+import { FooterContent, SocialLink } from "@/types/sectionsTypes/footer";
 import {
   EditorSection,
   SectionContentTypes,
@@ -19,29 +19,38 @@ interface SocialListProps {
   >;
   pageId: string;
   items: SocialLink[];
+  footerContent: FooterContent;
   handleDragEnd: (result: any) => void;
 }
 function SocialList({
   pageId,
+  footerContent,
   findSelectedSection,
   items,
   handleDragEnd,
 }: SocialListProps) {
   const dispatch = useAppDispatch();
 
-  const handleUpdateLinkItem = ({
-    updates,
-    selectedLinkId,
-  }: {
-    updates: Partial<SocialLink>;
-    selectedLinkId: string;
-  }) => {
-    const updatedSocial = items.map((social) =>
-      social.id === selectedLinkId ? { ...social, ...updates } : social
+  const handleTextChange = (index: number, link: string) => {
+    const updatedSocials = items.map((social, i) =>
+      i === index ? { ...social, link } : social
     );
 
     dispatch(
-      updateGlobalContent(findSelectedSection.id, { social: updatedSocial })
+      updateGlobalContent(findSelectedSection.id, {
+        ...footerContent,
+        social: updatedSocials,
+      })
+    );
+  };
+
+  const handleDeleteLink = (socialId: string) => {
+    const filterSocials = items.filter(
+      (link: SocialLink) => link.id !== socialId
+    );
+
+    dispatch(
+      updateGlobalContent(findSelectedSection.id, { social: filterSocials })
     );
   };
 
@@ -49,6 +58,8 @@ function SocialList({
     "flex items-center  justify-between h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm"
   );
   const ListItem = ({ item, index }: { item: SocialLink; index: number }) => {
+    const [inputValue, setInputValue] = React.useState(item.link);
+
     return (
       <Draggable key={item.id} draggableId={item.id} index={index}>
         {(provided) => (
@@ -74,15 +85,13 @@ function SocialList({
               onClick={(e) => {
                 e.stopPropagation();
               }}
-              value={item.link}
+              value={inputValue}
               onChange={(e) => {
-                handleUpdateLinkItem({
-                  updates: { link: e.target.value },
-                  selectedLinkId: item.id,
-                });
+                setInputValue(e.target.value);
               }}
+              onBlur={() => handleTextChange(index, inputValue)}
             />
-            <div>
+            <div onClick={() => handleDeleteLink(item.id)}>
               <X size={15} className="cursor-pointer text-destructive" />
             </div>
           </div>

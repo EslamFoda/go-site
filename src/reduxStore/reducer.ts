@@ -2,6 +2,7 @@ import { produce } from "immer";
 import * as types from "./actionTypes";
 import { EditorStore } from "./types"; // Ensure EditorAction is defined in types.ts
 import { v4 as uuidv4 } from "uuid";
+import { SocialLinkIcons } from "@/types/common";
 
 const initialState: EditorStore = {
   editor: {
@@ -289,10 +290,10 @@ const initialState: EditorStore = {
           },
         ],
         social: [
-          { id: uuidv4(), icon: "linkedin", link: "" },
-          { id: uuidv4(), icon: "twitter", link: "" },
-          { id: uuidv4(), icon: "instagram", link: "" },
-          { id: uuidv4(), icon: "whatsapp", link: "" },
+          { id: uuidv4(), icon: SocialLinkIcons.LinkedIn, link: "" },
+          { id: uuidv4(), icon: SocialLinkIcons.Twitter, link: "" },
+          { id: uuidv4(), icon:SocialLinkIcons.instagram, link: "" },
+          { id: uuidv4(), icon: SocialLinkIcons.WhatsApp, link: "" },
         ],
         copyRight: {
           leftArea: "All rights reserved.",

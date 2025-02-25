@@ -1,3 +1,5 @@
+import { SocialLinkIcons } from "@/types/common";
+
 interface FooterSubLink {
   text: string;
   link: string;
@@ -22,7 +24,11 @@ interface FooterButton {
 // Social media link interface
 interface SocialLink {
   id: string;
-  icon: "linkedin" | "twitter" | "instagram" | "whatsapp" | string;
+  icon:
+    | SocialLinkIcons.LinkedIn
+    | SocialLinkIcons.Twitter
+    | SocialLinkIcons.instagram
+    | SocialLinkIcons.WhatsApp;
   link: string;
 }
 

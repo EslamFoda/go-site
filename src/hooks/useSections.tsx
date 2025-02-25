@@ -1,3 +1,4 @@
+import { SocialLinkIcons } from "@/types/common";
 import { v4 } from "uuid";
 
 export function useSections() {
@@ -879,10 +880,10 @@ export function useSections() {
           },
         ],
         social: [
-          { id: v4(), icon: "linkedin", link: "" },
-          { id: v4(), icon: "twitter", link: "" },
-          { id: v4(), icon: "instagram", link: "" },
-          { id: v4(), icon: "whatsapp", link: "" },
+          { id: v4(), icon: SocialLinkIcons.LinkedIn, link: "" },
+          { id: v4(), icon: SocialLinkIcons.Twitter, link: "" },
+          { id: v4(), icon: SocialLinkIcons.instagram, link: "" },
+          { id: v4(), icon: SocialLinkIcons.WhatsApp, link: "" },
         ],
         copyRight: {
           leftArea: "All rights reserved.",

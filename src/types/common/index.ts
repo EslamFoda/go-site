@@ -95,3 +95,24 @@ export interface DroppingItemType {
   h: number;
   icon?: unknown;
 }
+
+export enum SocialLinkIcons {
+  Twitter = "Twitter",
+  Facebook = "Facebook",
+  instagram = "Instagram",
+  Tiktok = "Tiktok",
+  Email = "Email",
+  Medium = "Medium",
+  LinkedIn = "LinkedIn",
+  WhatsApp = "WhatsApp",
+  Github = "Github",
+  Youtube = "Youtube",
+  Vimeo = "Vimeo",
+  Behance = "Behance",
+  Telegram = "Telegram",
+  Spotify = "Spotify",
+  Discord = "Discord",
+  Reddit = "Reddit",
+  SoundCloud = "SoundCloud",
+  Pinterest = "Pinterest",
+}

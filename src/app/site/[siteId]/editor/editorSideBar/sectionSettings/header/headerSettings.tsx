@@ -41,7 +41,7 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
 
   const headerContent =
     findSelectedSection?.content as SectionContentTypes["header"];
-  console.log(headerContent, "headerContent");
+
   const headerStyle = findSelectedSection?.style as SectionStyleTypes["header"];
   const links = headerContent?.links || [];
   const selectedLink = selectedItem as Link;

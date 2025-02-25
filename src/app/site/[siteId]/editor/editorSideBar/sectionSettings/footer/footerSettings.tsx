@@ -15,11 +15,10 @@ import {
 import { FooterSubLink, LinkGroup } from "@/types/sectionsTypes/footer";
 import FooterContentTab from "./footerContentTab";
 import Links from "../header/links";
-import LinkItem from "../header/linkItem";
 import FooterLinkItem from "./footerLinkItem";
 import SubLink from "../header/subLink";
 import Buttons from "../header/buttons";
-import SocialLinks from "./socialLinks";
+import Social from "./social";
 
 interface FooterSettingsProps {
   sections:
@@ -45,7 +44,6 @@ function FooterSettings({ sections, pageId }: FooterSettingsProps) {
     findSelectedSection?.content as SectionContentTypes["footer"];
   const footerStyle = findSelectedSection?.style as SectionStyleTypes["footer"];
   const groupLinks = footerContent?.links || [];
-  console.log(footerContent, "groupLinks");
   const selectedLink = selectedItem as LinkGroup;
   const selectedSubLinkItem = selectedSubLink as FooterSubLink;
 
@@ -81,9 +79,7 @@ function FooterSettings({ sections, pageId }: FooterSettingsProps) {
     const newItems = [...footerContent.social];
     const [reorderedItem] = newItems.splice(result.source.index, 1);
     newItems.splice(result.destination.index, 0, reorderedItem);
-    dispatch(
-      updateContent(pageId, findSelectedSection.id, { social: newItems })
-    );
+    dispatch(updateGlobalContent(findSelectedSection.id, { social: newItems }));
   };
 
   const clearLinkItem = () => {
@@ -121,11 +117,12 @@ function FooterSettings({ sections, pageId }: FooterSettingsProps) {
 
   if (openSocialTab) {
     return (
-      <SocialLinks
+      <Social
         handleDragEnd={handleDragEnd}
-        social={footerContent.social}
         findSelectedSection={findSelectedSection}
         pageId={pageId}
+        footerContent={footerContent}
+        setOpenSocialTab={setOpenSocialTab}
       />
     );
   }
