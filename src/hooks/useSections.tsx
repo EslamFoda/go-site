@@ -882,7 +882,7 @@ export function useSections() {
         social: [
           { id: v4(), icon: SocialLinkIcons.LinkedIn, link: "" },
           { id: v4(), icon: SocialLinkIcons.Twitter, link: "" },
-          { id: v4(), icon: SocialLinkIcons.instagram, link: "" },
+          { id: v4(), icon: SocialLinkIcons.Instagram, link: "" },
           { id: v4(), icon: SocialLinkIcons.WhatsApp, link: "" },
         ],
         copyRight: {

@@ -488,6 +488,11 @@
       background: white;
       border-radius: 100px;
     }
+    ul,
+    ol {
+      list-style: revert;
+      padding-inline-start: 1.5714286em;
+    }
   }
 
   body {
@@ -505,4 +510,13 @@
 
 .tippy-box {
   max-width: fit-content !important;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }

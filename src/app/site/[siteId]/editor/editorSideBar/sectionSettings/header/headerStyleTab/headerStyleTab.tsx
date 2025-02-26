@@ -19,7 +19,7 @@ import NavMobMenu from "../../settingsUi/NavMobMenu";
 import FillOrFit from "../../settingsUi/fillOrFit";
 import SwitchSetting from "../../settingsUi/SwitchSetting";
 
-const BANNER_DESIGNS = [
+const HEADER_DESIGNS = [
   { designName: "design1", Icon: FirstDesign },
   { designName: "design2", Icon: SecDesign },
   { designName: "design3", Icon: ThirdDesign },
@@ -116,7 +116,7 @@ function HeaderStyleTab({
   return (
     <TabsContent className="space-y-2 px-5" value="style">
       <div className="grid grid-cols-2 gap-2">
-        {BANNER_DESIGNS?.map(({ designName, Icon }, i) => {
+        {HEADER_DESIGNS?.map(({ designName, Icon }, i) => {
           return (
             <div
               onClick={() => {

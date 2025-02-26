@@ -1,12 +1,12 @@
 import { updateSelectedSection } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import React from "react";
-interface Design1Props {
+interface Design4Props {
   section: any;
   pageId: string;
 }
 
-function Design1({ pageId, section }: Design1Props) {
+function Design4({ pageId, section }: Design4Props) {
   const dispatch = useAppDispatch();
 
   return (
@@ -14,9 +14,9 @@ function Design1({ pageId, section }: Design1Props) {
       className="h-96"
       onClick={() => dispatch(updateSelectedSection(pageId, section.id))}
     >
-      Design1
+      Design4
     </div>
   );
 }
 
-export default Design1;
+export default Design4;

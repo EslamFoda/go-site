@@ -292,7 +292,7 @@ const initialState: EditorStore = {
         social: [
           { id: uuidv4(), icon: SocialLinkIcons.LinkedIn, link: "" },
           { id: uuidv4(), icon: SocialLinkIcons.Twitter, link: "" },
-          { id: uuidv4(), icon:SocialLinkIcons.instagram, link: "" },
+          { id: uuidv4(), icon:SocialLinkIcons.Instagram, link: "" },
           { id: uuidv4(), icon: SocialLinkIcons.WhatsApp, link: "" },
         ],
         copyRight: {

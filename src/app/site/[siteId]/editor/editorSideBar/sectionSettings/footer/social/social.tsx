@@ -7,6 +7,7 @@ import {
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
+import SocialIconsList from "./socialIconsList";
 interface SocialProps {
   pageId: string;
   footerContent: FooterContent;
@@ -32,13 +33,16 @@ function Social({
           setOpenSocialTab(false);
         }}
       />
-      <SocialList
-        handleDragEnd={handleDragEnd}
-        items={footerContent?.social || []}
-        findSelectedSection={findSelectedSection}
-        pageId={pageId}
-        footerContent={footerContent}
-      />
+      <div className="px-5 space-y-10">
+        <SocialList
+          handleDragEnd={handleDragEnd}
+          socials={footerContent?.social || []}
+          findSelectedSection={findSelectedSection}
+          pageId={pageId}
+          footerContent={footerContent}
+        />
+        <SocialIconsList social={footerContent?.social || []} findSelectedSection={findSelectedSection}/>
+      </div>
     </div>
   );
 }

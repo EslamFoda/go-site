@@ -19,6 +19,9 @@ import FooterLinkItem from "./footerLinkItem";
 import SubLink from "../header/subLink";
 import Buttons from "../header/buttons";
 import Social from "./social";
+import CopyRight from "./copyRight";
+import Text from "./text";
+import FooterStyleTab from "./footerStyleTab";
 
 interface FooterSettingsProps {
   sections:
@@ -30,6 +33,8 @@ function FooterSettings({ sections, pageId }: FooterSettingsProps) {
   const [openLinkTab, setOpenLinkTab] = useState(false);
   const [openButtonTab, setOpenButtonsTab] = useState(false);
   const [openSocialTab, setOpenSocialTab] = useState(false);
+  const [openCopyRightTab, setOpenCopyRightTab] = useState(false);
+  const [openTextTab, setOpenTextTab] = useState(false);
   const [tabValue, setTabValue] = useState("content");
   const dispatch = useAppDispatch();
   const { selectedSection, selectedItem, selectedSubLink } = useAppSelector(
@@ -115,6 +120,26 @@ function FooterSettings({ sections, pageId }: FooterSettingsProps) {
     );
   };
 
+  if (openTextTab) {
+    return (
+      <Text
+        setOpenTextTab={setOpenTextTab}
+        footerContent={footerContent}
+        findSelectedSection={findSelectedSection}
+      />
+    );
+  }
+
+  if (openCopyRightTab) {
+    return (
+      <CopyRight
+        setOpenCopyRightTab={setOpenCopyRightTab}
+        copyRight={footerContent?.copyRight}
+        findSelectedSection={findSelectedSection}
+      />
+    );
+  }
+
   if (openSocialTab) {
     return (
       <Social
@@ -185,13 +210,14 @@ function FooterSettings({ sections, pageId }: FooterSettingsProps) {
           setOpenLinkTab={setOpenLinkTab}
           setOpenButtonsTab={setOpenButtonsTab}
           setOpenSocialTab={setOpenSocialTab}
+          setOpenCopyRightTab={setOpenCopyRightTab}
+          setOpenTextTab={setOpenTextTab}
         />
 
-        {/* <HeaderStyleTab
+        <FooterStyleTab
           findSelectedSection={findSelectedSection}
-          headerStyle={headerStyle}
-          pageId={pageId}
-        /> */}
+          footerStyle={footerStyle}
+        />
       </Tabs>
     </div>
   );

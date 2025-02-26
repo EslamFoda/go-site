@@ -24,6 +24,8 @@ interface FooterContentTabProps {
   setOpenLinkTab: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenButtonsTab: React.Dispatch<React.SetStateAction<boolean>>;
   setOpenSocialTab: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenCopyRightTab: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenTextTab: React.Dispatch<React.SetStateAction<boolean>>;
 }
 function FooterContentTab({
   findSelectedSection,
@@ -32,6 +34,8 @@ function FooterContentTab({
   setOpenLinkTab,
   setOpenButtonsTab,
   setOpenSocialTab,
+  setOpenCopyRightTab,
+  setOpenTextTab,
 }: FooterContentTabProps) {
   const dispatch = useAppDispatch();
   const {
@@ -63,6 +67,15 @@ function FooterContentTab({
         <div
           className="flex items-center cursor-pointer justify-between p-3"
           onClick={() => {
+            setOpenTextTab(true);
+          }}
+        >
+          <Label>Text</Label>
+          <ChevronRightIcon size={18} />
+        </div>
+        <div
+          className="flex items-center cursor-pointer justify-between p-3"
+          onClick={() => {
             setOpenLinkTab(true);
           }}
         >
@@ -85,6 +98,15 @@ function FooterContentTab({
           }}
         >
           <Label>Social</Label>
+          <ChevronRightIcon size={18} />
+        </div>
+        <div
+          className="flex items-center cursor-pointer justify-between p-3"
+          onClick={() => {
+            setOpenCopyRightTab(true);
+          }}
+        >
+          <Label>Copyright</Label>
           <ChevronRightIcon size={18} />
         </div>
         <SwitchSetting

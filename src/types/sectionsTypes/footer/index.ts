@@ -25,10 +25,23 @@ interface FooterButton {
 interface SocialLink {
   id: string;
   icon:
-    | SocialLinkIcons.LinkedIn
     | SocialLinkIcons.Twitter
-    | SocialLinkIcons.instagram
-    | SocialLinkIcons.WhatsApp;
+    | SocialLinkIcons.Facebook
+    | SocialLinkIcons.Instagram
+    | SocialLinkIcons.Tiktok
+    | SocialLinkIcons.Email
+    | SocialLinkIcons.Medium
+    | SocialLinkIcons.LinkedIn
+    | SocialLinkIcons.WhatsApp
+    | SocialLinkIcons.Github
+    | SocialLinkIcons.Youtube
+    | SocialLinkIcons.Behance
+    | SocialLinkIcons.Telegram
+    | SocialLinkIcons.Discord
+    | SocialLinkIcons.Reddit
+    | SocialLinkIcons.SoundCloud
+    | SocialLinkIcons.Pinterest;
+
   link: string;
 }
 

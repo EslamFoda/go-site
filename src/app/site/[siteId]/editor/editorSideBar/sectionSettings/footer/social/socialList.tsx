@@ -4,13 +4,13 @@ import { GripVertical, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { updateGlobalContent, updateSelectedItem } from "@/reduxStore/action";
-import { LinkedinLogo } from "@phosphor-icons/react";
 import { FooterContent, SocialLink } from "@/types/sectionsTypes/footer";
 import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
+import { iconMap } from "./socialIcons";
 
 interface SocialListProps {
   findSelectedSection: EditorSection<
@@ -18,7 +18,7 @@ interface SocialListProps {
     keyof SectionStyleTypes
   >;
   pageId: string;
-  items: SocialLink[];
+  socials: SocialLink[];
   footerContent: FooterContent;
   handleDragEnd: (result: any) => void;
 }
@@ -26,13 +26,13 @@ function SocialList({
   pageId,
   footerContent,
   findSelectedSection,
-  items,
+  socials,
   handleDragEnd,
 }: SocialListProps) {
   const dispatch = useAppDispatch();
 
   const handleTextChange = (index: number, link: string) => {
-    const updatedSocials = items.map((social, i) =>
+    const updatedSocials = socials.map((social, i) =>
       i === index ? { ...social, link } : social
     );
 
@@ -45,7 +45,7 @@ function SocialList({
   };
 
   const handleDeleteLink = (socialId: string) => {
-    const filterSocials = items.filter(
+    const filterSocials = socials.filter(
       (link: SocialLink) => link.id !== socialId
     );
 
@@ -57,14 +57,20 @@ function SocialList({
   const listClassName = cn(
     "flex items-center  justify-between h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm"
   );
-  const ListItem = ({ item, index }: { item: SocialLink; index: number }) => {
-    const [inputValue, setInputValue] = React.useState(item.link);
+  const SocialItem = ({
+    social,
+    index,
+  }: {
+    social: SocialLink;
+    index: number;
+  }) => {
+    const [inputValue, setInputValue] = React.useState(social.link);
 
     return (
-      <Draggable key={item.id} draggableId={item.id} index={index}>
+      <Draggable key={social.id} draggableId={social.id} index={index}>
         {(provided) => (
           <div
-            onClick={() => dispatch(updateSelectedItem(item))}
+            onClick={() => dispatch(updateSelectedItem(social))}
             className={listClassName}
             ref={provided.innerRef}
             {...provided.draggableProps}
@@ -77,7 +83,7 @@ function SocialList({
                 <GripVertical size={14} />
               </div>
 
-              <LinkedinLogo size={14} />
+              {iconMap[social.icon]}
             </div>
             <input
               className="w-full mx-2 border-none bg-transparent outline-none bg-none"
@@ -91,7 +97,7 @@ function SocialList({
               }}
               onBlur={() => handleTextChange(index, inputValue)}
             />
-            <div onClick={() => handleDeleteLink(item.id)}>
+            <div onClick={() => handleDeleteLink(social.id)}>
               <X size={15} className="cursor-pointer text-destructive" />
             </div>
           </div>
@@ -100,7 +106,7 @@ function SocialList({
     );
   };
   return (
-    <div className="pt-4 px-5 space-y-2">
+    <div className="pt-4 space-y-2">
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="droppable">
           {(provided) => (
@@ -109,8 +115,8 @@ function SocialList({
               {...provided.droppableProps}
               ref={provided.innerRef}
             >
-              {items.map((item: any, index: any) => (
-                <ListItem key={item.id} item={item} index={index} />
+              {socials.map((social: SocialLink, index: any) => (
+                <SocialItem key={social.id} social={social} index={index} />
               ))}
               {provided.placeholder}
             </div>
