@@ -52,6 +52,7 @@ function SocialIconsList({
           <div
             key={icon}
             onClick={() => {
+              if(social.length >= 10) return;
               dispatch(
                 updateGlobalContent(findSelectedSection.id, {
                   social: [...social, { id: v4(), icon, link: "" }],

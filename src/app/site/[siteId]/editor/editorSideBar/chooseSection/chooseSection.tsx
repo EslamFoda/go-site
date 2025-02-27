@@ -22,6 +22,7 @@ import {
   updateSelectedSection,
 } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { PageSettings } from "@/reduxStore/types";
 import { ChevronRight } from "lucide-react";
 import { useTheme } from "next-themes";
 import React from "react";
@@ -65,7 +66,7 @@ function ChooseSection() {
       (page) => page.pageId === activePageId
     )
   );
-  const showHeader = page?.pageSettings.showHeader;
+  const { showHeader, showFooter } = page?.pageSettings as PageSettings;
 
   const { theme } = useTheme();
   const dispatch = useAppDispatch();
@@ -179,7 +180,11 @@ function ChooseSection() {
       className="p-5 space-y-3"
     >
       {sections.map((section) => {
-        if (section.sectionName === "Header" && showHeader) return null;
+        if (
+          (section.sectionName === "Header" && showHeader) ||
+          (section.sectionName === "Footer" && showFooter)
+        )
+          return null;
 
         const { Icon, desc } = SectionIcons[section.sectionName];
         return (

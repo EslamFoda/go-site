@@ -191,7 +191,7 @@ function FooterSettings({ sections, pageId }: FooterSettingsProps) {
         findSelectedSection={findSelectedSection}
         setOpenLinkTab={setOpenLinkTab}
         links={groupLinks}
-        maxLinks={6}
+        maxLinks={7}
       />
     );
   }

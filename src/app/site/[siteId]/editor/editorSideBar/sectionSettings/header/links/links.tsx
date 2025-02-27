@@ -42,7 +42,7 @@ function Links({
     const newItem = {
       id: v4(),
       link: "",
-      text: `${text} ${links.length + 2}`,
+      text: `${text} ${links.length + 1}`,
       openNewTab: false,
       subLinks: [],
       pageId: pageId,
