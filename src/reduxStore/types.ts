@@ -3,9 +3,10 @@ import { SelectedItemType } from "@/types/common";
 import {
   AccordionContent,
   AccordionStyle,
-} from "@/types/sectionsTypes/accordion";
+} from "@/types/sectionsTypes/accordion/accordion";
+
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
-import { Card, CardStyle, CardsContent } from "@/types/sectionsTypes/cards";
+import { CardStyle, CardsContent } from "@/types/sectionsTypes/cards";
 import {
   FluidContent,
   FluidStyle,
@@ -20,6 +21,7 @@ import {
 } from "@/types/sectionsTypes/header";
 import { ListContent, ListStyle } from "@/types/sectionsTypes/list";
 import { LogosContent, LogosStyle } from "@/types/sectionsTypes/logos";
+import { PricingContent, PricingStyle } from "@/types/sectionsTypes/pricing";
 import {
   TestimonialContent,
   TestimonialStyle,
@@ -37,6 +39,7 @@ export type SectionContentTypes = {
   logos: LogosContent;
   fluid: FluidContent;
   footer: FooterContent;
+  pricing: PricingContent;
   // Add more content types here as needed
 };
 
@@ -52,6 +55,7 @@ export type SectionStyleTypes = {
   logos: LogosStyle;
   fluid: FluidStyle;
   footer: FooterStyle;
+  pricing: PricingStyle;
   // Add more style types here as needed
 };
 

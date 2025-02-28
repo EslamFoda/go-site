@@ -1,4 +1,5 @@
 import { SocialLinkIcons } from "@/types/common";
+import { text } from "stream/consumers";
 import { v4 } from "uuid";
 
 export function useSections() {
@@ -892,6 +893,356 @@ export function useSections() {
       },
       style: {
         designName: "design1",
+      },
+    },
+    {
+      id: v4(),
+      sectionName: "Pricing",
+      content: {
+        label: "",
+        title: "Heading",
+        subtitle: "",
+        currency: "$",
+        type: "One-Time",
+        subscriptionPlans: {
+          plan1: {
+            billingCycle: "Monthly",
+            cycleDuration: "per month",
+            default: true,
+          },
+          plan2: {
+            billingCycle: "Yearly",
+            cycleDuration: "per month paid yearly",
+            default: false,
+          },
+          plan3: {
+            billingCycle: "",
+            cycleDuration: "",
+            default: false,
+          },
+        },
+        oneTime: [
+          {
+            id: v4(),
+            title: "Free",
+            text: "",
+            Benefits: [
+              {
+                id: v4(),
+                title: "Benefit 1",
+              },
+            ],
+            price: {
+              originalPrice: 0,
+              salePrice: 0,
+              isSale: false,
+            },
+            offer: "",
+            button: {
+              text: "Get Started",
+              link: "",
+            },
+            featured: {
+              isActive: false,
+              text: "Best Deal",
+            },
+          },
+          {
+            id: v4(),
+            title: "Start",
+            text: "",
+            Benefits: [
+              {
+                id: v4(),
+                title: "Benefit 1",
+              },
+              {
+                id: v4(),
+                title: "Benefit 2",
+              },
+              {
+                id: v4(),
+                title: "Benefit 3",
+              },
+            ],
+            price: {
+              originalPrice: 20,
+              salePrice: 15,
+              isSale: false,
+            },
+            offer: "",
+            button: {
+              text: "Get Started",
+              link: "",
+            },
+            featured: {
+              isActive: false,
+              text: "Best Deal",
+            },
+          },
+          {
+            id: v4(),
+            title: "Pro",
+            text: "",
+            Benefits: [
+              {
+                id: v4(),
+                title: "Benefit 1",
+              },
+              {
+                id: v4(),
+                title: "Benefit 2",
+              },
+              {
+                id: v4(),
+                title: "Benefit 3",
+              },
+            ],
+            price: {
+              originalPrice: 30,
+              salePrice: 25,
+              isSale: false,
+            },
+            offer: "",
+            button: {
+              text: "Get Started",
+              link: "",
+            },
+            featured: {
+              isActive: false,
+              text: "Best Deal",
+            },
+          },
+          {
+            id: v4(),
+            title: "Plus",
+            text: "",
+            Benefits: [
+              {
+                id: v4(),
+                title: "Benefit 1",
+              },
+              {
+                id: v4(),
+                title: "Benefit 2",
+              },
+              {
+                id: v4(),
+                title: "Benefit 3",
+              },
+            ],
+            price: {
+              originalPrice: 60,
+              salePrice: 50,
+              isSale: false,
+            },
+            offer: "",
+            button: {
+              text: "Get Started",
+              link: "",
+            },
+            featured: {
+              isActive: false,
+              text: "Best Deal",
+            },
+          },
+        ],
+        subscriptions: [
+          {
+            id: v4(),
+            title: "Free",
+            text: "",
+            Benefits: [
+              {
+                id: v4(),
+                title: "Benefit 1",
+              },
+            ],
+            price: {
+              monthly: {
+                originalPrice: 0,
+                salePrice: 0,
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+              yearly: {
+                originalPrice: 0,
+                salePrice: 0,
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+            },
+            featured: {
+              isActive: false,
+              text: "Best Deal",
+            },
+          },
+          {
+            id: v4(),
+            title: "Start",
+            text: "",
+            Benefits: [
+              {
+                id: v4(),
+                title: "Benefit 1",
+              },
+              {
+                id: v4(),
+                title: "Benefit 2",
+              },
+              {
+                id: v4(),
+                title: "Benefit 3",
+              },
+            ],
+            price: {
+              monthly: {
+                originalPrice: 15,
+                salePrice: 10,
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+              yearly: {
+                originalPrice: 30,
+                salePrice: 25,
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+            },
+            featured: {
+              isActive: false,
+              text: "Best Deal",
+            },
+          },
+          {
+            id: v4(),
+            title: "Pro",
+            text: "",
+            Benefits: [
+              {
+                id: v4(),
+                title: "Benefit 1",
+              },
+              {
+                id: v4(),
+                title: "Benefit 2",
+              },
+              {
+                id: v4(),
+                title: "Benefit 3",
+              },
+            ],
+            price: {
+              monthly: {
+                originalPrice: 30,
+                salePrice: 15,
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+              yearly: {
+                originalPrice: 25,
+                salePrice: 15,
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+            },
+            featured: {
+              isActive: false,
+              text: "Best Deal",
+            },
+          },
+          {
+            id: v4(),
+            title: "Plus",
+            text: "",
+            Benefits: [
+              {
+                id: v4(),
+                title: "Benefit 1",
+              },
+              {
+                id: v4(),
+                title: "Benefit 2",
+              },
+              {
+                id: v4(),
+                title: "Benefit 3",
+              },
+            ],
+            price: {
+              monthly: {
+                originalPrice: 60,
+                salePrice: 50,
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+              yearly: {
+                originalPrice: 50,
+                salePrice: 40,
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+            },
+            featured: {
+              isActive: false,
+              text: "Best Deal",
+            },
+          },
+        ],
+      },
+      style: {
+        designName: "design1",
+        designSettings: {
+          text: "m",
+          background: true,
+
+          sectionBackground: {
+            color: "none",
+            media: "",
+            height: "fit",
+            spacing: "l",
+          },
+        },
       },
     },
   ];

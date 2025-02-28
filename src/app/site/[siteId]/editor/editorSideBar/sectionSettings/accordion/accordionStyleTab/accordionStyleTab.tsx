@@ -14,7 +14,7 @@ import { updateStyle } from "@/reduxStore/action";
 import {
   AccordionContent,
   AccordionStyle,
-} from "@/types/sectionsTypes/accordion";
+} from "@/types/sectionsTypes/accordion/accordion";
 import AccordionIcon from "../../settingsUi/AccordionIcon";
 
 interface AccordionStyleTabProps {

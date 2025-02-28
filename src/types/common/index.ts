@@ -1,4 +1,7 @@
-import { Accordion, AccordionStyle } from "../sectionsTypes/accordion";
+import {
+  Accordion,
+  AccordionStyle,
+} from "../sectionsTypes/accordion/accordion";
 import { BannerStyle } from "../sectionsTypes/banner";
 import { Card, CardStyle } from "../sectionsTypes/cards";
 import { FluidStyle } from "../sectionsTypes/fluid";

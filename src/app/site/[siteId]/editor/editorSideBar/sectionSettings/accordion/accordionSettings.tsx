@@ -16,7 +16,7 @@ import {
   updateSelectedItem,
   updateStyle,
 } from "@/reduxStore/action";
-import { Accordion } from "@/types/sectionsTypes/accordion";
+import { Accordion } from "@/types/sectionsTypes/accordion/accordion";
 import AccordionContentTab from "./accordionContentTab";
 import AccordionStyleTab from "./accordionStyleTab";
 import BackBtn from "@/components/shared/backBtn";

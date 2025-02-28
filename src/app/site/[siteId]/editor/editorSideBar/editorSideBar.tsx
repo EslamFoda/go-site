@@ -22,7 +22,8 @@ import header from "./sectionSettings/header";
 import gallery from "./sectionSettings/gallery";
 import logos from "./sectionSettings/logos";
 import fluid from "./sectionSettings/fluid";
-import Footer from "./sectionSettings/footer";
+import footer from "./sectionSettings/footer";
+import pricing from "./sectionSettings/pricing";
 
 const EditorSidebar = () => {
   const {
@@ -62,7 +63,8 @@ const EditorSidebar = () => {
     Gallery: gallery,
     Logos: logos,
     Fluid: fluid,
-    Footer: Footer,
+    Footer: footer,
+    Pricing: pricing,
   };
 
   const sectionsData =

@@ -1,5 +1,5 @@
 import { Label } from "@/components/ui/label";
-import { AccordionIconType } from "@/types/sectionsTypes/accordion";
+import { AccordionIconType } from "@/types/sectionsTypes/accordion/accordion";
 import { ChevronDown, Plus } from "lucide-react";
 import React from "react";
 interface AccordionIconProps {

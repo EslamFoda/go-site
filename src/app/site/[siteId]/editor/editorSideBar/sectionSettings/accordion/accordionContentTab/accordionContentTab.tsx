@@ -10,7 +10,10 @@ import {
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
-import { Accordion, AccordionContent } from "@/types/sectionsTypes/accordion";
+import {
+  Accordion,
+  AccordionContent,
+} from "@/types/sectionsTypes/accordion/accordion";
 import React from "react";
 import { v4 } from "uuid";
 interface AccordionContentTabProps {

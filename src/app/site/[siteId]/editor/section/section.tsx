@@ -11,6 +11,7 @@ import Footer from "../designs/footer";
 import Logos from "../designs/logos";
 import Fluid from "../designs/fluid";
 import AddSection from "./addSection";
+import Pricing from "../designs/pricing";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { closeSectionDesigns } from "@/reduxStore/action";
 import ControlButtons from "./controlButtons";
@@ -53,6 +54,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
     Gallery,
     Logos,
     Fluid,
+    Pricing,
   };
 
   const globalSectionMapper = {

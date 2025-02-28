@@ -11,6 +11,7 @@ import { GallerySectionDark, GallerySectionLight } from "@/icons/gallery";
 import { HeaderDark, HeaderLight } from "@/icons/header";
 import { ListSectionIcon, ListSectionLightIcon } from "@/icons/list";
 import { LogosDark, LogosLight } from "@/icons/logos";
+import { PricingDark, PricingLight } from "@/icons/pricing";
 import {
   TestimonialSectionIcon,
   TestimonialSectionLightIcon,
@@ -78,6 +79,10 @@ function ChooseSection() {
       desc: string;
     };
   } = {
+    Header: {
+      Icon: theme === "dark" ? HeaderDark : HeaderLight,
+      desc: "Logo, Links and buttons",
+    },
     Banner: {
       Icon: theme === "dark" ? BannerSectionIcon : BannerSectionLightIcon,
       desc: "Image or video, text and forms",
@@ -99,13 +104,14 @@ function ChooseSection() {
         theme === "dark" ? TestimonialSectionIcon : TestimonialSectionLightIcon,
       desc: "Customer praise and trust snippets",
     },
-    Header: {
-      Icon: theme === "dark" ? HeaderDark : HeaderLight,
-      desc: "Logo, Links and buttons",
-    },
+
     Gallery: {
       Icon: theme === "dark" ? GallerySectionDark : GallerySectionLight,
       desc: "Display images in grids and carousel",
+    },
+    Pricing: {
+      Icon: theme === "dark" ? PricingDark : PricingLight,
+      desc: "Display payment plans and features",
     },
     Logos: {
       Icon: theme === "dark" ? LogosDark : LogosLight,

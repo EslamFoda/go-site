@@ -19,7 +19,7 @@ import {
   Accordion as AccordionType,
   AccordionContent as AccordionContentType,
   AccordionStyle,
-} from "@/types/sectionsTypes/accordion";
+} from "@/types/sectionsTypes/accordion/accordion";
 import { useMotion } from "@/hooks/useMotion";
 
 interface DesignProps {
