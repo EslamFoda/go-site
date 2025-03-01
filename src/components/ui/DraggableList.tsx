@@ -57,7 +57,7 @@ function DraggableList({
                 className="drag-handle cursor-grab"
                 {...provided.dragHandleProps}
               >
-                <GripVertical size={15} />
+                <GripVertical size={16} />
               </div>
               {hasImg && (
                 <div
@@ -77,7 +77,7 @@ function DraggableList({
               <span>{item.title || item.name || item.text}</span>
             </div>
             <div>
-              <ChevronRight size={15} />
+              <ChevronRight size={16} />
             </div>
           </div>
         )}
@@ -105,7 +105,7 @@ function DraggableList({
       {(!maxItems || items.length < maxItems) && ( // Conditionally render the "Add" button
         <div className={listClassName} onClick={handleAdd}>
           <span>Add {label}</span>
-          <Plus size={15} />
+          <Plus size={16} />
         </div>
       )}
     </div>

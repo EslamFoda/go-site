@@ -11,7 +11,7 @@ import { useTheme } from "next-themes";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
   closeChooseIcon,
-  closePageSettings,
+  closePagesTab,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -115,7 +115,7 @@ function Design1({ section, pageId }: DesignProps) {
                         e.stopPropagation();
                         dispatch(updateSelectedSection(pageId, section.id));
                         dispatch(updateSelectedItem(accordion));
-                        dispatch(closePageSettings());
+                        dispatch(closePagesTab());
                       }}
                     >
                       <AccordionTrigger

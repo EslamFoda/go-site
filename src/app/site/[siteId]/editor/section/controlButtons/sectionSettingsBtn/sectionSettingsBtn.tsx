@@ -28,6 +28,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
+  openPagesTab,
   updateEditorSections,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -84,6 +85,7 @@ function SectionSettingsBtn({
       (section) => section.id !== sectionId
     );
     dispatch(updateEditorSections(pageId, deleteSection));
+    dispatch(openPagesTab());
     toast(`${deletedSection.sectionName} deleted`, {
       action: {
         label: "Undo",

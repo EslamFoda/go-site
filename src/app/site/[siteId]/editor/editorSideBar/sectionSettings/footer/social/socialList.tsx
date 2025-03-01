@@ -80,7 +80,7 @@ function SocialList({
                 className="drag-handle cursor-grab"
                 {...provided.dragHandleProps}
               >
-                <GripVertical size={14} />
+                <GripVertical size={16} />
               </div>
 
               {iconMap[social.icon]}
@@ -98,7 +98,7 @@ function SocialList({
               onBlur={() => handleTextChange(index, inputValue)}
             />
             <div onClick={() => handleDeleteLink(social.id)}>
-              <X size={15} className="cursor-pointer text-destructive" />
+              <X size={16} className="cursor-pointer text-destructive" />
             </div>
           </div>
         )}

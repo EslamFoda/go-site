@@ -10,6 +10,7 @@ import { GalleryStyle, Photo } from "../sectionsTypes/gallery";
 import { HeaderStyle, Link, SubLink } from "../sectionsTypes/header";
 import { ListItem, ListStyle } from "../sectionsTypes/list";
 import { Logo, LogosStyle } from "../sectionsTypes/logos";
+import { SubscriptionPlan } from "../sectionsTypes/pricing";
 import { Testimonial, TestimonialStyle } from "../sectionsTypes/testimonials";
 
 export type SelectedItemType =
@@ -23,6 +24,7 @@ export type SelectedItemType =
   | Logo
   | LinkGroup
   | SocialLink
+  | SubscriptionPlan
   | null;
 
 export type DragItems =
@@ -35,7 +37,8 @@ export type DragItems =
   | Photo[]
   | LinkGroup[]
   | Logo[]
-  | SocialLink[];
+  | SocialLink[]
+  | SubscriptionPlan[];
 export type SectionsStyleType =
   | BannerStyle
   | CardStyle
@@ -116,4 +119,10 @@ export enum SocialLinkIcons {
   Reddit = "Reddit",
   SoundCloud = "SoundCloud",
   Pinterest = "Pinterest",
+}
+
+export enum PlanType {
+  plan1 = "plan1",
+  plan2 = "plan2",
+  plan3 = "plan3",
 }

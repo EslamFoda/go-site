@@ -65,49 +65,49 @@ function FooterContentTab({
 
       <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
         <div
-          className="flex items-center cursor-pointer justify-between p-3"
+          className="flex items-center cursor-pointer justify-between p-3 hover:bg-muted/50"
           onClick={() => {
             setOpenTextTab(true);
           }}
         >
           <Label>Text</Label>
-          <ChevronRightIcon size={18} />
+          <ChevronRightIcon size={16} />
         </div>
         <div
-          className="flex items-center cursor-pointer justify-between p-3"
+          className="flex items-center cursor-pointer justify-between p-3 hover:bg-muted/50"
           onClick={() => {
             setOpenLinkTab(true);
           }}
         >
           <Label>Links</Label>
-          <ChevronRightIcon size={18} />
+          <ChevronRightIcon size={16} />
         </div>
         <div
-          className="flex items-center cursor-pointer justify-between p-3"
+          className="flex items-center cursor-pointer justify-between p-3 hover:bg-muted/50"
           onClick={() => {
             setOpenButtonsTab(true);
           }}
         >
           <Label>Buttons</Label>
-          <ChevronRightIcon size={18} />
+          <ChevronRightIcon size={16} />
         </div>
         <div
-          className="flex items-center cursor-pointer justify-between p-3"
+          className="flex items-center cursor-pointer justify-between p-3 hover:bg-muted/50"
           onClick={() => {
             setOpenSocialTab(true);
           }}
         >
           <Label>Social</Label>
-          <ChevronRightIcon size={18} />
+          <ChevronRightIcon size={16} />
         </div>
         <div
-          className="flex items-center cursor-pointer justify-between p-3"
+          className="flex items-center cursor-pointer justify-between p-3 hover:bg-muted/50"
           onClick={() => {
             setOpenCopyRightTab(true);
           }}
         >
           <Label>Copyright</Label>
-          <ChevronRightIcon size={18} />
+          <ChevronRightIcon size={16} />
         </div>
         <SwitchSetting
           label="Show Footer"

@@ -79,7 +79,11 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
     <div className="overflow-y-hidden">
       <AnimatePresence mode="popLayout">
         {currentPage?.pageSettings.showHeader && (
-          <motion.div key="global-header" layout>
+          <motion.div
+            key="global-header"
+            layout
+            onClick={() => dispatch(closeSectionDesigns())}
+          >
             <GlobalHeaderSection pageId={pageId} section={globalHeader} />
           </motion.div>
         )}
@@ -159,7 +163,11 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
           );
         })}
         {currentPage?.pageSettings.showFooter && (
-          <motion.div key="global-footer" layout>
+          <motion.div
+            key="global-footer"
+            layout
+            onClick={() => dispatch(closeSectionDesigns())}
+          >
             <GlobalFooterSection pageId={pageId} section={globalFooter} />
           </motion.div>
         )}

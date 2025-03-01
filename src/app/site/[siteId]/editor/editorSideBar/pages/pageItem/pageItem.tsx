@@ -29,9 +29,9 @@ function PageItem({ page }: PageItemProps) {
   const router = useRouter();
 
   const pageButtonClassNames = cn(
-    "w-full flex justify-between items-center rounded-sm px-2 gap-2 cursor-pointer border",
+    "w-full flex justify-between items-center rounded-sm px-2 gap-2 cursor-pointer border hover:bg-muted/80",
     {
-      "bg-secondary":
+      "bg-muted/80":
         pageId === page.pageId ||
         (page.pageId === settings.homePage && !pageId),
     }
@@ -116,8 +116,6 @@ function PageItem({ page }: PageItemProps) {
               <Ellipsis size={16} />
             </MenubarTrigger>
             <MenubarContent align="end">
-              <MenubarItem>New Window</MenubarItem>
-              <MenubarSeparator />
               <MenubarItem
                 onClick={() => {
                   handleDuplicatePage(page);
@@ -125,14 +123,17 @@ function PageItem({ page }: PageItemProps) {
               >
                 Duplicate
               </MenubarItem>
-              <MenubarSeparator />
+
               {pages.length > 1 && (
-                <MenubarItem
-                  className="text-destructive"
-                  onClick={handleDeletePage}
-                >
-                  Delete
-                </MenubarItem>
+                <>
+                  <MenubarSeparator />
+                  <MenubarItem
+                    className="text-destructive"
+                    onClick={handleDeletePage}
+                  >
+                    Delete
+                  </MenubarItem>
+                </>
               )}
             </MenubarContent>
           </MenubarMenu>

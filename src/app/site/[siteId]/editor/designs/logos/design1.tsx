@@ -13,7 +13,7 @@ import AutoScroll from "embla-carousel-auto-scroll";
 import { useTheme } from "next-themes";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
-  closePageSettings,
+  closePagesTab,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -149,7 +149,7 @@ function Design1({ section, pageId }: DesignProps) {
                         e.stopPropagation();
                         dispatch(updateSelectedSection(pageId, section.id));
                         dispatch(updateSelectedItem(logo));
-                        dispatch(closePageSettings());
+                        dispatch(closePagesTab());
                       }}
                     >
                       <div
@@ -224,7 +224,7 @@ function Design1({ section, pageId }: DesignProps) {
                           e.stopPropagation();
                           dispatch(updateSelectedSection(pageId, section.id));
                           dispatch(updateSelectedItem(logo));
-                          dispatch(closePageSettings());
+                          dispatch(closePagesTab());
                         }}
                       >
                         <div

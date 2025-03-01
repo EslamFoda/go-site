@@ -483,7 +483,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         break;
       }
 
-      case types.OPEN_PAGE_SETTINGS: {
+      case types.OPEN_PAGES_TAB: {
         draft.openPages = true;
         draft.openPallet = false;
         draft.openSectionDesigns = false;
@@ -494,7 +494,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         break;
       }
 
-      case types.CLOSE_PAGE_SETTINGS: {
+      case types.CLOSE_PAGES_TAB: {
         draft.openPages = false;
         draft.openPallet = false;
         draft.openSectionDesigns = false;

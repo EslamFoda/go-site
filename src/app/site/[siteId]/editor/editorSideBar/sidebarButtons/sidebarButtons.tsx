@@ -6,7 +6,7 @@ import React from "react";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   openPageSetting,
-  openPageSettings,
+  openPagesTab,
   openPallet,
 } from "@/reduxStore/action";
 
@@ -22,7 +22,7 @@ function SidebarButtons() {
         size="icon"
         className="rounded-lg"
         aria-label="Playground"
-        onClick={() => dispatch(openPageSettings())}
+        onClick={() => dispatch(openPagesTab())}
       >
         <File className="size-5" />
       </Button>

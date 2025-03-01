@@ -60,7 +60,7 @@ function Buttons({
   return (
     <div>
       <BackBtn label="Buttons" handleBack={() => setOpenButtonsTab(false)} />
-      <div className="px-5 space-y-6">
+      <div className="px-5 space-y-3">
         {content.buttons.map((button, index) => (
           <div
             key={index}

@@ -55,7 +55,7 @@ function LogoContentTab({
     );
   };
   return (
-    <TabsContent className="px-5 h space-y-2" value="content">
+    <TabsContent className="px-5 space-y-2" value="content">
       <div className="space-y-1 flex items-center justify-between">
         <Label htmlFor="label">Label</Label>
         <Input

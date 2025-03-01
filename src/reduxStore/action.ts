@@ -129,12 +129,12 @@ export const updateActivePage = (pageId: string) => ({
   payload: pageId,
 });
 
-export const openPageSettings = () => ({
-  type: types.OPEN_PAGE_SETTINGS,
+export const openPagesTab = () => ({
+  type: types.OPEN_PAGES_TAB,
 });
 
-export const closePageSettings = () => ({
-  type: types.CLOSE_PAGE_SETTINGS,
+export const closePagesTab = () => ({
+  type: types.CLOSE_PAGES_TAB,
 });
 
 export const addNewPage = (page: EditorPage) => ({

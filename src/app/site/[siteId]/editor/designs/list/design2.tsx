@@ -15,7 +15,7 @@ import { ListStyle } from "@/types/sectionsTypes/list";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
   closeChooseIcon,
-  closePageSettings,
+  closePagesTab,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -177,7 +177,7 @@ function Design2({ section, pageId }: DesignProps) {
                           dispatch(updateSelectedSection(pageId, section.id));
                           dispatch(updateSelectedItem(listItem));
                           dispatch(closeChooseIcon());
-                          dispatch(closePageSettings());
+                          dispatch(closePagesTab());
                         }}
                       >
                         <div className={listItemTextClassNames}>
@@ -241,7 +241,7 @@ function Design2({ section, pageId }: DesignProps) {
                             dispatch(updateSelectedSection(pageId, section.id));
                             dispatch(updateSelectedItem(listItem));
                             dispatch(closeChooseIcon());
-                            dispatch(closePageSettings());
+                            dispatch(closePagesTab());
                           }}
                         >
                           <div className={listItemTextClassNames}>

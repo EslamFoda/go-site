@@ -15,7 +15,7 @@ import { CardStyle } from "@/types/sectionsTypes/cards";
 import { useTheme } from "next-themes";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
-  closePageSettings,
+  closePagesTab,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -173,7 +173,7 @@ function Design2({ section, pageId }: DesignProps) {
                         e.stopPropagation();
                         dispatch(updateSelectedSection(pageId, section.id));
                         dispatch(updateSelectedItem(card));
-                        dispatch(closePageSettings());
+                        dispatch(closePagesTab());
                       }}
                     >
                       <div className={cardContentClasses}>
@@ -228,7 +228,7 @@ function Design2({ section, pageId }: DesignProps) {
                           e.stopPropagation();
                           dispatch(updateSelectedSection(pageId, section.id));
                           dispatch(updateSelectedItem(card));
-                          dispatch(closePageSettings());
+                          dispatch(closePagesTab());
                         }}
                       >
                         <div className={cardContentClasses}>

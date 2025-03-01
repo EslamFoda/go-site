@@ -1,5 +1,5 @@
 import { SocialLinkIcons } from "@/types/common";
-import { text } from "stream/consumers";
+import { SubscriptionPlanType } from "@/types/sectionsTypes/pricing";
 import { v4 } from "uuid";
 
 export function useSections() {
@@ -902,8 +902,8 @@ export function useSections() {
         label: "",
         title: "Heading",
         subtitle: "",
-        currency: "$",
-        type: "One-Time",
+        currency: { code: "USD", name: "US Dollar", symbol: "$" },
+        planType: SubscriptionPlanType.ONETIME,
         subscriptionPlans: {
           plan1: {
             billingCycle: "Monthly",
@@ -921,143 +921,29 @@ export function useSections() {
             default: false,
           },
         },
-        oneTime: [
-          {
-            id: v4(),
-            title: "Free",
-            text: "",
-            Benefits: [
-              {
-                id: v4(),
-                title: "Benefit 1",
-              },
-            ],
-            price: {
-              originalPrice: 0,
-              salePrice: 0,
-              isSale: false,
-            },
-            offer: "",
-            button: {
-              text: "Get Started",
-              link: "",
-            },
-            featured: {
-              isActive: false,
-              text: "Best Deal",
-            },
-          },
-          {
-            id: v4(),
-            title: "Start",
-            text: "",
-            Benefits: [
-              {
-                id: v4(),
-                title: "Benefit 1",
-              },
-              {
-                id: v4(),
-                title: "Benefit 2",
-              },
-              {
-                id: v4(),
-                title: "Benefit 3",
-              },
-            ],
-            price: {
-              originalPrice: 20,
-              salePrice: 15,
-              isSale: false,
-            },
-            offer: "",
-            button: {
-              text: "Get Started",
-              link: "",
-            },
-            featured: {
-              isActive: false,
-              text: "Best Deal",
-            },
-          },
-          {
-            id: v4(),
-            title: "Pro",
-            text: "",
-            Benefits: [
-              {
-                id: v4(),
-                title: "Benefit 1",
-              },
-              {
-                id: v4(),
-                title: "Benefit 2",
-              },
-              {
-                id: v4(),
-                title: "Benefit 3",
-              },
-            ],
-            price: {
-              originalPrice: 30,
-              salePrice: 25,
-              isSale: false,
-            },
-            offer: "",
-            button: {
-              text: "Get Started",
-              link: "",
-            },
-            featured: {
-              isActive: false,
-              text: "Best Deal",
-            },
-          },
-          {
-            id: v4(),
-            title: "Plus",
-            text: "",
-            Benefits: [
-              {
-                id: v4(),
-                title: "Benefit 1",
-              },
-              {
-                id: v4(),
-                title: "Benefit 2",
-              },
-              {
-                id: v4(),
-                title: "Benefit 3",
-              },
-            ],
-            price: {
-              originalPrice: 60,
-              salePrice: 50,
-              isSale: false,
-            },
-            offer: "",
-            button: {
-              text: "Get Started",
-              link: "",
-            },
-            featured: {
-              isActive: false,
-              text: "Best Deal",
-            },
-          },
-        ],
         subscriptions: [
           {
             id: v4(),
             title: "Free",
             text: "",
-            Benefits: [
+            benefits: [
               {
                 id: v4(),
                 title: "Benefit 1",
               },
             ],
+            oneTimePlan: {
+              id: v4(),
+              originalPrice: 0,
+              salePrice: 0,
+              isSale: false,
+              offer: "",
+              button: {
+                text: "Get Started",
+                link: "",
+                openNewTab: false,
+              },
+            },
             price: {
               monthly: {
                 originalPrice: 0,
@@ -1091,7 +977,7 @@ export function useSections() {
             id: v4(),
             title: "Start",
             text: "",
-            Benefits: [
+            benefits: [
               {
                 id: v4(),
                 title: "Benefit 1",
@@ -1105,6 +991,18 @@ export function useSections() {
                 title: "Benefit 3",
               },
             ],
+            oneTimePlan: {
+              id: v4(),
+              originalPrice: 0,
+              salePrice: 0,
+              isSale: false,
+              offer: "",
+              button: {
+                text: "Get Started",
+                link: "",
+                openNewTab: false,
+              },
+            },
             price: {
               monthly: {
                 originalPrice: 15,
@@ -1138,7 +1036,7 @@ export function useSections() {
             id: v4(),
             title: "Pro",
             text: "",
-            Benefits: [
+            benefits: [
               {
                 id: v4(),
                 title: "Benefit 1",
@@ -1152,6 +1050,18 @@ export function useSections() {
                 title: "Benefit 3",
               },
             ],
+            oneTimePlan: {
+              id: v4(),
+              originalPrice: 0,
+              salePrice: 0,
+              isSale: false,
+              offer: "",
+              button: {
+                text: "Get Started",
+                link: "",
+                openNewTab: false,
+              },
+            },
             price: {
               monthly: {
                 originalPrice: 30,
@@ -1185,7 +1095,7 @@ export function useSections() {
             id: v4(),
             title: "Plus",
             text: "",
-            Benefits: [
+            benefits: [
               {
                 id: v4(),
                 title: "Benefit 1",
@@ -1199,6 +1109,18 @@ export function useSections() {
                 title: "Benefit 3",
               },
             ],
+            oneTimePlan: {
+              id: v4(),
+              originalPrice: 0,
+              salePrice: 0,
+              isSale: false,
+              offer: "",
+              button: {
+                text: "Get Started",
+                link: "",
+                openNewTab: false,
+              },
+            },
             price: {
               monthly: {
                 originalPrice: 60,

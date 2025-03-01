@@ -14,7 +14,7 @@ import { useTheme } from "next-themes";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
   closeChooseIcon,
-  closePageSettings,
+  closePagesTab,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -192,7 +192,7 @@ function Design1({ section, pageId }: DesignProps) {
                             dispatch(updateSelectedSection(pageId, section.id));
                             dispatch(updateSelectedItem(review));
                             dispatch(closeChooseIcon());
-                            dispatch(closePageSettings());
+                            dispatch(closePagesTab());
                           }}
                         >
                           <div className={starsBoxClassNames}>
@@ -286,7 +286,7 @@ function Design1({ section, pageId }: DesignProps) {
                               );
                               dispatch(updateSelectedItem(review));
                               dispatch(closeChooseIcon());
-                              dispatch(closePageSettings());
+                              dispatch(closePagesTab());
                             }}
                           >
                             <div className={starsBoxClassNames}>

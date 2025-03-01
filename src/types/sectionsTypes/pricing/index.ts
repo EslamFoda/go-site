@@ -37,20 +37,19 @@ export interface SubscriptionPrice {
 
 export interface OneTimePlan {
   id: string;
-  title: string;
-  text: string;
-  Benefits: Benefit[];
-  price: OneTimePrice;
+  originalPrice: number;
+  salePrice: number;
+  isSale: boolean;
   offer: string;
   button: PricingButton;
-  featured: Featured;
 }
 
 export interface SubscriptionPlan {
   id: string;
   title: string;
   text: string;
-  Benefits: Benefit[];
+  benefits: Benefit[];
+  oneTimePlan: OneTimePlan;
   price: SubscriptionPrice;
   featured: Featured;
 }
@@ -72,14 +71,19 @@ export enum SubscriptionPlanType {
   SUBSCRIPTION = "Subscription",
 }
 
+export interface PricingCurrency {
+  code: string;
+  name: string;
+  symbol: string;
+}
+
 export interface PricingContent {
   label: string;
   title: string;
   subtitle: string;
-  currency: string;
-  type: SubscriptionPlanType.ONETIME | SubscriptionPlanType.SUBSCRIPTION;
+  currency: PricingCurrency;
+  planType: SubscriptionPlanType.ONETIME | SubscriptionPlanType.SUBSCRIPTION;
   subscriptionPlans: SubscriptionPlans;
-  oneTime: OneTimePlan[];
   subscriptions: SubscriptionPlan[];
 }
 
