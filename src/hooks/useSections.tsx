@@ -820,7 +820,7 @@ export function useSections() {
         text: "Add a short descriptive text",
         links: [
           {
-            text: "group",
+            text: "Group",
             id: v4(),
             subLinks: [
               {
@@ -836,7 +836,7 @@ export function useSections() {
             ],
           },
           {
-            text: "group 2",
+            text: "Group 2",
             id: v4(),
             subLinks: [
               {
@@ -852,7 +852,7 @@ export function useSections() {
             ],
           },
           {
-            text: "group 3",
+            text: "Group 3",
             id: v4(),
             subLinks: [
               {
@@ -993,8 +993,8 @@ export function useSections() {
             ],
             oneTimePlan: {
               id: v4(),
-              originalPrice: 0,
-              salePrice: 0,
+              originalPrice: 20,
+              salePrice: 15,
               isSale: false,
               offer: "",
               button: {
@@ -1052,8 +1052,8 @@ export function useSections() {
             ],
             oneTimePlan: {
               id: v4(),
-              originalPrice: 0,
-              salePrice: 0,
+              originalPrice: 30,
+              salePrice: 25,
               isSale: false,
               offer: "",
               button: {
@@ -1111,8 +1111,8 @@ export function useSections() {
             ],
             oneTimePlan: {
               id: v4(),
-              originalPrice: 0,
-              salePrice: 0,
+              originalPrice: 60,
+              salePrice: 50,
               isSale: false,
               offer: "",
               button: {

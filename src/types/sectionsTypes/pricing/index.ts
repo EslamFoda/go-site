@@ -33,6 +33,7 @@ export interface SubscriptionPriceOption extends BasePrice {
 export interface SubscriptionPrice {
   monthly: SubscriptionPriceOption;
   yearly: SubscriptionPriceOption;
+  [key: string]: SubscriptionPriceOption;
 }
 
 export interface OneTimePlan {

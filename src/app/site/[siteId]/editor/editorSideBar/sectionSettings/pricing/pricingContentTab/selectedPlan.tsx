@@ -1,15 +1,21 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { updateContent } from "@/reduxStore/action";
-import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
-import { SubscriptionPlan } from "@/types/sectionsTypes/pricing";
+import {
+  SubscriptionPlan,
+  SubscriptionPlanType,
+  SubscriptionPriceOption,
+} from "@/types/sectionsTypes/pricing";
 import { ChevronLeft, Trash2 } from "lucide-react";
 import React from "react";
+import Benefits from "./benefits";
+import Price from "./price";
+import Featured from "./featured";
+import SubscriptionPrice from "./subscriptionPrice";
 interface SelectedPlanProps {
   pageId: string;
   selectedSubscriptionPlan: SubscriptionPlan;
@@ -18,6 +24,7 @@ interface SelectedPlanProps {
     keyof SectionStyleTypes
   >;
   handleUpdatePlanItem: (field: keyof SubscriptionPlan, value: any) => void;
+  setPriceOption: React.Dispatch<React.SetStateAction<SubscriptionPriceOption | null>>
   clearSubscriptionItem: () => void;
   handleDeletePlan: () => void;
 }
@@ -26,10 +33,14 @@ function SelectedPlan({
   findSelectedSection,
   selectedSubscriptionPlan,
   handleUpdatePlanItem,
+  setPriceOption,
   clearSubscriptionItem,
   handleDeletePlan,
 }: SelectedPlanProps) {
-  const dispatch = useAppDispatch();
+  const pricingContent =
+    findSelectedSection?.content as SectionContentTypes["pricing"];
+
+  if (!selectedSubscriptionPlan) return null;
 
   return (
     <div className="space-y-2">
@@ -40,7 +51,7 @@ function SelectedPlan({
         <div className="flex gap-4 items-center cursor-pointer">
           <ChevronLeft size={18} />
           <Label className="cursor-pointer">
-            {selectedSubscriptionPlan.title}
+            {selectedSubscriptionPlan?.title}
           </Label>
         </div>
         <div className="cursor-pointer" onClick={handleDeletePlan}>
@@ -48,7 +59,7 @@ function SelectedPlan({
         </div>
       </div>
       <div className="px-5 space-y-2">
-        <div className="space-y-1 flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <Label htmlFor="title">Title</Label>
           <Input
             className="w-4/6"
@@ -60,7 +71,7 @@ function SelectedPlan({
             }}
           />
         </div>
-        <div className="space-y-1 flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <Label htmlFor="title">Text</Label>
           <Input
             className="w-4/6"
@@ -72,6 +83,31 @@ function SelectedPlan({
             }}
           />
         </div>
+        <Benefits
+          benefits={selectedSubscriptionPlan?.benefits}
+          pageId={pageId}
+          findSelectedSection={findSelectedSection}
+          selectedSubscriptionPlan={selectedSubscriptionPlan}
+        />
+        {pricingContent?.planType === SubscriptionPlanType.ONETIME && (
+          <Price
+            handleUpdatePlanItem={handleUpdatePlanItem}
+            selectedSubscriptionPlan={selectedSubscriptionPlan}
+            pricingContent={pricingContent}
+          />
+        )}
+        {pricingContent?.planType === SubscriptionPlanType.SUBSCRIPTION && (
+          <SubscriptionPrice
+            handleUpdatePlanItem={handleUpdatePlanItem}
+            selectedSubscriptionPlan={selectedSubscriptionPlan}
+            pricingContent={pricingContent}
+            // setPriceOption={setPriceOption}
+          />
+        )}
+        <Featured
+          handleUpdatePlanItem={handleUpdatePlanItem}
+          selectedSubscriptionPlan={selectedSubscriptionPlan}
+        />
       </div>
     </div>
   );

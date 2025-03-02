@@ -9,7 +9,6 @@ function SubscriptionType({
   planTypeValue,
   onValueChange,
 }: SubscriptionTypeProps) {
-  console.log(planTypeValue, "planTypeValueplanTypeValueplanTypeValue");
   return (
     <div className="space-y-1 flex items-center justify-between">
       <Label>Plan Type</Label>

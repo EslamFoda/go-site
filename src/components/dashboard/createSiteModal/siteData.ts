@@ -325,7 +325,7 @@ export const insertSiteData = (
         text: "Add a short descriptive text",
         links: [
           {
-            text: "group",
+            text: "Group",
             id: v4(),
             subLinks: [
               {
@@ -341,7 +341,7 @@ export const insertSiteData = (
             ],
           },
           {
-            text: "group 2",
+            text: "Group 2",
             id: v4(),
             subLinks: [
               {
@@ -357,7 +357,7 @@ export const insertSiteData = (
             ],
           },
           {
-            text: "group 3",
+            text: "Group 3",
             id: v4(),
             subLinks: [
               {
