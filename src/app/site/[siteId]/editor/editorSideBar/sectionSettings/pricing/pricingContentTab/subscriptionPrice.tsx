@@ -2,21 +2,24 @@ import { Label } from "@/components/ui/label";
 import {
   PricingContent,
   SubscriptionPlan,
+  SubscriptionPriceOption,
 } from "@/types/sectionsTypes/pricing";
 import { ChevronRightIcon } from "lucide-react";
 import React from "react";
-interface SubscriptionPriceOption {
+interface SubscriptionPriceProps {
   pricingContent: PricingContent;
   selectedSubscriptionPlan: SubscriptionPlan;
   handleUpdatePlanItem: (field: keyof SubscriptionPlan, value: any) => void;
-//   setPriceOption: React.Dispatch<React.SetStateAction<SubscriptionPriceOption | null>>
+  setPriceOption: React.Dispatch<
+    React.SetStateAction<SubscriptionPriceOption | null>
+  >;
 }
 function SubscriptionPrice({
   pricingContent,
   selectedSubscriptionPlan,
   handleUpdatePlanItem,
-//   setPriceOption,
-}: SubscriptionPriceOption) {
+  setPriceOption,
+}: SubscriptionPriceProps) {
   const { plan1, plan2, plan3 } = pricingContent.subscriptionPlans;
 
   return (
@@ -29,7 +32,7 @@ function SubscriptionPrice({
               <div
                 className="w-full px-3 h-10  flex items-center justify-between cursor-pointer hover:bg-muted/50"
                 onClick={() => {
-                //   setPriceOption(selectedSubscriptionPlan.price.monthly);
+                  setPriceOption(selectedSubscriptionPlan.price.monthly);
                 }}
               >
                 <span>{plan1.billingCycle}</span>
@@ -42,7 +45,7 @@ function SubscriptionPrice({
               <div
                 className="w-full px-3 h-10  flex items-center justify-between cursor-pointer hover:bg-muted/50"
                 onClick={() => {
-                  //   setOpenPriceTab(true);
+                  setPriceOption(selectedSubscriptionPlan.price.yearly);
                 }}
               >
                 <span>{plan2.billingCycle}</span>

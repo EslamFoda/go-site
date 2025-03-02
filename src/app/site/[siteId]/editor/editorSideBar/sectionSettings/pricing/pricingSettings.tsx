@@ -9,7 +9,10 @@ import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import PricingContentTab from "./pricingContentTab";
 import PricingStyleTab from "./pricingStyleTab";
 import SubscriptionTab from "./pricingContentTab/subscriptionTab";
-import { SubscriptionPlan, SubscriptionPriceOption } from "@/types/sectionsTypes/pricing";
+import {
+  SubscriptionPlan,
+  SubscriptionPriceOption,
+} from "@/types/sectionsTypes/pricing";
 import SelectedPlan from "./pricingContentTab/selectedPlan";
 import { updateContent, updateSelectedItem } from "@/reduxStore/action";
 
@@ -26,7 +29,8 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
   );
   const [tabValue, setTabValue] = useState("content");
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
-  const [priceOption, setPriceOption] = useState<SubscriptionPriceOption | null>(null);
+  const [priceOption, setPriceOption] =
+    useState<SubscriptionPriceOption | null>(null);
   const [openSubscriptionTab, setOpenSubscriptionTab] = useState(false);
   const selectedSubscriptionPlan = selectedItem as SubscriptionPlan;
 
@@ -73,7 +77,12 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
   };
 
   if (priceOption) {
-    return <div>price tab</div>;
+    return (
+      <div>
+        <div onClick={() => setPriceOption(null)}>back</div>
+        {priceOption.originalPrice}
+      </div>
+    );
   }
 
   if (selectedSubscriptionPlan) {

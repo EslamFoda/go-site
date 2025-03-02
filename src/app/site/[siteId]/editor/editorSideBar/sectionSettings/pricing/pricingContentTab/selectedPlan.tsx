@@ -24,7 +24,9 @@ interface SelectedPlanProps {
     keyof SectionStyleTypes
   >;
   handleUpdatePlanItem: (field: keyof SubscriptionPlan, value: any) => void;
-  setPriceOption: React.Dispatch<React.SetStateAction<SubscriptionPriceOption | null>>
+  setPriceOption: React.Dispatch<
+    React.SetStateAction<SubscriptionPriceOption | null>
+  >;
   clearSubscriptionItem: () => void;
   handleDeletePlan: () => void;
 }
@@ -101,7 +103,7 @@ function SelectedPlan({
             handleUpdatePlanItem={handleUpdatePlanItem}
             selectedSubscriptionPlan={selectedSubscriptionPlan}
             pricingContent={pricingContent}
-            // setPriceOption={setPriceOption}
+            setPriceOption={setPriceOption}
           />
         )}
         <Featured
