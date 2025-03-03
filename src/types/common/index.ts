@@ -10,7 +10,7 @@ import { GalleryStyle, Photo } from "../sectionsTypes/gallery";
 import { HeaderStyle, Link, SubLink } from "../sectionsTypes/header";
 import { ListItem, ListStyle } from "../sectionsTypes/list";
 import { Logo, LogosStyle } from "../sectionsTypes/logos";
-import { SubscriptionPlan } from "../sectionsTypes/pricing";
+import { SubscriptionPlan, SubscriptionPlanItem } from "../sectionsTypes/pricing";
 import { Testimonial, TestimonialStyle } from "../sectionsTypes/testimonials";
 
 export type SelectedItemType =
@@ -25,6 +25,7 @@ export type SelectedItemType =
   | LinkGroup
   | SocialLink
   | SubscriptionPlan
+  | SubscriptionPlanItem
   | null;
 
 export type DragItems =

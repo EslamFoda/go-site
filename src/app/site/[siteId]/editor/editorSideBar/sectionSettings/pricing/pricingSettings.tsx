@@ -15,6 +15,7 @@ import {
 } from "@/types/sectionsTypes/pricing";
 import SelectedPlan from "./pricingContentTab/selectedPlan";
 import { updateContent, updateSelectedItem } from "@/reduxStore/action";
+import PriceOption from "./pricingContentTab/priceOption";
 
 interface PricingSettingsProps {
   sections:
@@ -31,6 +32,7 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
   const [priceOption, setPriceOption] =
     useState<SubscriptionPriceOption | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState(0);
   const [openSubscriptionTab, setOpenSubscriptionTab] = useState(false);
   const selectedSubscriptionPlan = selectedItem as SubscriptionPlan;
 
@@ -62,6 +64,7 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
         ? { ...plan, [field]: value }
         : plan
     );
+
     dispatch(
       updateSelectedItem({ ...selectedSubscriptionPlan, [field]: value })
     );
@@ -78,10 +81,14 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
 
   if (priceOption) {
     return (
-      <div>
-        <div onClick={() => setPriceOption(null)}>back</div>
-        {priceOption.originalPrice}
-      </div>
+      <PriceOption
+        priceOption={priceOption}
+        setPriceOption={setPriceOption}
+        handleUpdatePlanItem={handleUpdatePlanItem}
+        pricingContent={pricingContent}
+        selectedSubscriptionPlan={selectedSubscriptionPlan}
+        selectedPlan={selectedPlan}
+      />
     );
   }
 
@@ -95,6 +102,7 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
         selectedSubscriptionPlan={selectedSubscriptionPlan}
         findSelectedSection={findSelectedSection}
         pageId={pageId}
+        setSelectedPlan={setSelectedPlan}
       />
     );
   }

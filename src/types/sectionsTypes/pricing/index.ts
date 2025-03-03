@@ -15,8 +15,8 @@ export interface Featured {
 }
 
 export interface BasePrice {
-  originalPrice: number;
-  salePrice: number;
+  originalPrice: string;
+  salePrice: string;
   isSale: boolean;
 }
 
@@ -30,16 +30,10 @@ export interface SubscriptionPriceOption extends BasePrice {
   button: PricingButton;
 }
 
-export interface SubscriptionPrice {
-  monthly: SubscriptionPriceOption;
-  yearly: SubscriptionPriceOption;
-  [key: string]: SubscriptionPriceOption;
-}
-
 export interface OneTimePlan {
   id: string;
-  originalPrice: number;
-  salePrice: number;
+  originalPrice: string;
+  salePrice: string;
   isSale: boolean;
   offer: string;
   button: PricingButton;
@@ -51,20 +45,14 @@ export interface SubscriptionPlan {
   text: string;
   benefits: Benefit[];
   oneTimePlan: OneTimePlan;
-  price: SubscriptionPrice;
+  price: SubscriptionPriceOption[];
   featured: Featured;
 }
 
-export interface SubscriptionPlanSettings {
+export interface SubscriptionPlanItem {
   billingCycle: string;
   cycleDuration: string;
   default: boolean;
-}
-
-export interface SubscriptionPlans {
-  plan1: SubscriptionPlanSettings;
-  plan2: SubscriptionPlanSettings;
-  plan3: SubscriptionPlanSettings;
 }
 
 export enum SubscriptionPlanType {
@@ -84,7 +72,7 @@ export interface PricingContent {
   subtitle: string;
   currency: PricingCurrency;
   planType: SubscriptionPlanType.ONETIME | SubscriptionPlanType.SUBSCRIPTION;
-  subscriptionPlans: SubscriptionPlans;
+  subscriptionPlans: SubscriptionPlanItem[];
   subscriptions: SubscriptionPlan[];
 }
 

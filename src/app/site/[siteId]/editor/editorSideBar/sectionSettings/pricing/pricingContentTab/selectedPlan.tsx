@@ -29,6 +29,7 @@ interface SelectedPlanProps {
   >;
   clearSubscriptionItem: () => void;
   handleDeletePlan: () => void;
+  setSelectedPlan: React.Dispatch<React.SetStateAction<number>>;
 }
 function SelectedPlan({
   pageId,
@@ -38,6 +39,7 @@ function SelectedPlan({
   setPriceOption,
   clearSubscriptionItem,
   handleDeletePlan,
+  setSelectedPlan,
 }: SelectedPlanProps) {
   const pricingContent =
     findSelectedSection?.content as SectionContentTypes["pricing"];
@@ -104,6 +106,7 @@ function SelectedPlan({
             selectedSubscriptionPlan={selectedSubscriptionPlan}
             pricingContent={pricingContent}
             setPriceOption={setPriceOption}
+            setSelectedPlan={setSelectedPlan}
           />
         )}
         <Featured

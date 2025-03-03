@@ -3,7 +3,7 @@ import { Label } from "@radix-ui/react-label";
 import { ChevronLeft } from "lucide-react";
 import React from "react";
 interface BackBtnProps {
-  label: string;
+  label?: string;
   backBtnClassName?: string;
   handleBack: () => void;
 }

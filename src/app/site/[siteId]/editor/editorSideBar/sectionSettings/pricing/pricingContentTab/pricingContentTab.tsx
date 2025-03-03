@@ -67,8 +67,8 @@ function PricingContentTab({
       ],
       oneTimePlan: {
         id: v4(),
-        originalPrice: 0,
-        salePrice: 0,
+        originalPrice: "60",
+        salePrice: "50",
         isSale: false,
         offer: "",
         button: {
@@ -77,10 +77,10 @@ function PricingContentTab({
           openNewTab: false,
         },
       },
-      price: {
-        monthly: {
-          originalPrice: 60,
-          salePrice: 50,
+      price: [
+        {
+          originalPrice: "60",
+          salePrice: "50",
           isSale: false,
           offer: "",
           button: {
@@ -89,9 +89,9 @@ function PricingContentTab({
             openNewTab: false,
           },
         },
-        yearly: {
-          originalPrice: 50,
-          salePrice: 40,
+        {
+          originalPrice: "50",
+          salePrice: "40",
           isSale: false,
           offer: "",
           button: {
@@ -100,7 +100,7 @@ function PricingContentTab({
             openNewTab: false,
           },
         },
-      },
+      ],
       featured: {
         isActive: false,
         text: "Best Deal",
@@ -147,7 +147,7 @@ function PricingContentTab({
       </div>
       <div className="space-y-1 flex items-center justify-between">
         <Label htmlFor="subtitle">Subtitle</Label>
-        <Textarea
+        <Textarea 
           className="w-4/6 "
           id={findSelectedSection?.id + "subtitle"}
           value={pricingContent?.subtitle}

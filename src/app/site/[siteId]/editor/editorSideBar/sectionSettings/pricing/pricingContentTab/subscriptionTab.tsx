@@ -7,7 +7,6 @@ import {
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
-import { PlanType } from "@/types/common";
 interface SubscriptionTabProps {
   pricingContent: PricingContent;
   findSelectedSection: EditorSection<
@@ -25,7 +24,7 @@ function SubscriptionTab({
   setOpenSubscriptionTab,
 }: SubscriptionTabProps) {
   const { subscriptionPlans } = pricingContent;
-  const { plan1, plan2, plan3 } = subscriptionPlans;
+  console.log(subscriptionPlans, "subscriptionPlans");
 
   return (
     <div>
@@ -34,36 +33,17 @@ function SubscriptionTab({
         handleBack={() => setOpenSubscriptionTab(false)}
       />
       <div className="space-y-3 px-5">
-        <div>
+        {subscriptionPlans.map((plan, index) => (
           <Plan
-            label="Plan 1"
-            planType={PlanType.plan1}
-            plan={plan1}
+            key={index}
+            label={`Plan ${index + 1}`}
+            planIndex={index}
+            plan={plan}
             subscriptionPlans={subscriptionPlans}
             pageId={pageId}
             findSelectedSection={findSelectedSection}
           />
-        </div>
-        <div>
-          <Plan
-            label="Plan 2"
-            planType={PlanType.plan2}
-            plan={plan2}
-            subscriptionPlans={subscriptionPlans}
-            pageId={pageId}
-            findSelectedSection={findSelectedSection}
-          />
-        </div>
-        <div>
-          <Plan
-            label="Plan 3"
-            planType={PlanType.plan3}
-            plan={plan3}
-            subscriptionPlans={subscriptionPlans}
-            pageId={pageId}
-            findSelectedSection={findSelectedSection}
-          />
-        </div>
+        ))}
       </div>
     </div>
   );

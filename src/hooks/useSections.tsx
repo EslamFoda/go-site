@@ -904,23 +904,23 @@ export function useSections() {
         subtitle: "",
         currency: { code: "USD", name: "US Dollar", symbol: "$" },
         planType: SubscriptionPlanType.ONETIME,
-        subscriptionPlans: {
-          plan1: {
+        subscriptionPlans: [
+          {
             billingCycle: "Monthly",
             cycleDuration: "per month",
             default: true,
           },
-          plan2: {
+          {
             billingCycle: "Yearly",
             cycleDuration: "per month paid yearly",
             default: false,
           },
-          plan3: {
+          {
             billingCycle: "",
             cycleDuration: "",
             default: false,
           },
-        },
+        ],
         subscriptions: [
           {
             id: v4(),
@@ -944,10 +944,10 @@ export function useSections() {
                 openNewTab: false,
               },
             },
-            price: {
-              monthly: {
-                originalPrice: 0,
-                salePrice: 0,
+            price: [
+              {
+                originalPrice: "0",
+                salePrice: "0",
                 isSale: false,
                 offer: "",
                 button: {
@@ -956,9 +956,9 @@ export function useSections() {
                   openNewTab: false,
                 },
               },
-              yearly: {
-                originalPrice: 0,
-                salePrice: 0,
+              {
+                originalPrice: "0",
+                salePrice: "0",
                 isSale: false,
                 offer: "",
                 button: {
@@ -967,7 +967,18 @@ export function useSections() {
                   openNewTab: false,
                 },
               },
-            },
+              {
+                originalPrice: "0",
+                salePrice: "0",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+            ],
             featured: {
               isActive: false,
               text: "Best Deal",
@@ -993,8 +1004,8 @@ export function useSections() {
             ],
             oneTimePlan: {
               id: v4(),
-              originalPrice: 20,
-              salePrice: 15,
+              originalPrice: "20",
+              salePrice: "15",
               isSale: false,
               offer: "",
               button: {
@@ -1003,10 +1014,10 @@ export function useSections() {
                 openNewTab: false,
               },
             },
-            price: {
-              monthly: {
-                originalPrice: 15,
-                salePrice: 10,
+            price: [
+              {
+                originalPrice: "15",
+                salePrice: "10",
                 isSale: false,
                 offer: "",
                 button: {
@@ -1015,9 +1026,9 @@ export function useSections() {
                   openNewTab: false,
                 },
               },
-              yearly: {
-                originalPrice: 30,
-                salePrice: 25,
+              {
+                originalPrice: "30",
+                salePrice: "25",
                 isSale: false,
                 offer: "",
                 button: {
@@ -1026,7 +1037,18 @@ export function useSections() {
                   openNewTab: false,
                 },
               },
-            },
+              {
+                originalPrice: "0",
+                salePrice: "0",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+            ],
             featured: {
               isActive: false,
               text: "Best Deal",
@@ -1052,8 +1074,8 @@ export function useSections() {
             ],
             oneTimePlan: {
               id: v4(),
-              originalPrice: 30,
-              salePrice: 25,
+              originalPrice: "30",
+              salePrice: "25",
               isSale: false,
               offer: "",
               button: {
@@ -1062,10 +1084,10 @@ export function useSections() {
                 openNewTab: false,
               },
             },
-            price: {
-              monthly: {
-                originalPrice: 30,
-                salePrice: 15,
+            price: [
+              {
+                originalPrice: "30",
+                salePrice: "15",
                 isSale: false,
                 offer: "",
                 button: {
@@ -1074,9 +1096,9 @@ export function useSections() {
                   openNewTab: false,
                 },
               },
-              yearly: {
-                originalPrice: 25,
-                salePrice: 15,
+              {
+                originalPrice: "25",
+                salePrice: "15",
                 isSale: false,
                 offer: "",
                 button: {
@@ -1085,7 +1107,18 @@ export function useSections() {
                   openNewTab: false,
                 },
               },
-            },
+              {
+                originalPrice: "0",
+                salePrice: "0",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+            ],
             featured: {
               isActive: false,
               text: "Best Deal",
@@ -1111,8 +1144,8 @@ export function useSections() {
             ],
             oneTimePlan: {
               id: v4(),
-              originalPrice: 60,
-              salePrice: 50,
+              originalPrice: "60",
+              salePrice: "50",
               isSale: false,
               offer: "",
               button: {
@@ -1121,10 +1154,10 @@ export function useSections() {
                 openNewTab: false,
               },
             },
-            price: {
-              monthly: {
-                originalPrice: 60,
-                salePrice: 50,
+            price: [
+              {
+                originalPrice: "60",
+                salePrice: "50",
                 isSale: false,
                 offer: "",
                 button: {
@@ -1133,9 +1166,9 @@ export function useSections() {
                   openNewTab: false,
                 },
               },
-              yearly: {
-                originalPrice: 50,
-                salePrice: 40,
+              {
+                originalPrice: "50",
+                salePrice: "40",
                 isSale: false,
                 offer: "",
                 button: {
@@ -1144,7 +1177,18 @@ export function useSections() {
                   openNewTab: false,
                 },
               },
-            },
+              {
+                originalPrice: "700",
+                salePrice: "0",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+            ],
             featured: {
               isActive: false,
               text: "Best Deal",
