@@ -1,5 +1,4 @@
 import { TabsContent } from "@/components/ui/tabs";
-scrollY;
 import React from "react";
 import {
   EditorSection,

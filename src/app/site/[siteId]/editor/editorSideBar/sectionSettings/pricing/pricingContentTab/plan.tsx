@@ -37,12 +37,15 @@ const Plan: React.FC<PlanProps> = ({
     value: string | boolean
   ) => {
     // Always create a fresh copy of the array with proper typing
-    let updatedSubscriptionPlans: SubscriptionPlanItem[] = subscriptionPlans.map(p => ({...p}));
+    let updatedSubscriptionPlans: SubscriptionPlanItem[] =
+      subscriptionPlans.map((p) => ({ ...p }));
 
     if (key === "billingCycle") {
       // Check if this is the first plan with a billingCycle after all were empty
-      const allPlansEmpty = updatedSubscriptionPlans.every(p => !p.billingCycle);
-      
+      const allPlansEmpty = updatedSubscriptionPlans.every(
+        (p) => !p.billingCycle
+      );
+
       // Update the current plan - ensure we're setting string value for billingCycle
       updatedSubscriptionPlans = updatedSubscriptionPlans.map((p, idx) => {
         if (idx === planIndex) {
@@ -50,35 +53,36 @@ const Plan: React.FC<PlanProps> = ({
         }
         return p;
       });
-      
+
       // If all plans were empty and we're now adding a value, make this the default
       if (allPlansEmpty && value) {
         updatedSubscriptionPlans = updatedSubscriptionPlans.map((p, idx) => ({
           ...p,
-          default: idx === planIndex
+          default: idx === planIndex,
         }));
       } else if (!value) {
         // If we're removing the billingCycle from the current plan
-        const currentPlanIsDefault = updatedSubscriptionPlans[planIndex].default;
-        
+        const currentPlanIsDefault =
+          updatedSubscriptionPlans[planIndex].default;
+
         if (currentPlanIsDefault) {
           // First make this plan not default
-          updatedSubscriptionPlans = updatedSubscriptionPlans.map((p, idx) => 
+          updatedSubscriptionPlans = updatedSubscriptionPlans.map((p, idx) =>
             idx === planIndex ? { ...p, default: false } : p
           );
-          
+
           // Find another plan with a billingCycle to make default
           const plansWithBillingCycle = updatedSubscriptionPlans.filter(
             (p, idx) => idx !== planIndex && p.billingCycle
           );
-          
+
           if (plansWithBillingCycle.length > 0) {
             // Make the first plan with a billingCycle the default
             const indexToMakeDefault = updatedSubscriptionPlans.findIndex(
               (p, idx) => idx !== planIndex && p.billingCycle
             );
-            
-            updatedSubscriptionPlans = updatedSubscriptionPlans.map((p, idx) => 
+
+            updatedSubscriptionPlans = updatedSubscriptionPlans.map((p, idx) =>
               idx === indexToMakeDefault ? { ...p, default: true } : p
             );
           }
@@ -86,46 +90,49 @@ const Plan: React.FC<PlanProps> = ({
       }
     } else if (key === "default") {
       // Count how many plans have billingCycle
-      const plansWithBillingCycle = updatedSubscriptionPlans.filter(p => p.billingCycle);
-      const currentPlanHasBillingCycle = !!updatedSubscriptionPlans[planIndex].billingCycle;
-      
+      const plansWithBillingCycle = updatedSubscriptionPlans.filter(
+        (p) => p.billingCycle
+      );
+      const currentPlanHasBillingCycle =
+        !!updatedSubscriptionPlans[planIndex].billingCycle;
+
       if (value) {
         // If turning on default, make this the only default
         updatedSubscriptionPlans = updatedSubscriptionPlans.map((p, idx) => ({
           ...p,
-          default: idx === planIndex
+          default: idx === planIndex,
         }));
       } else {
         // If turning off default...
-        
+
         // If this is the only plan with billingCycle, prevent turning off
         if (plansWithBillingCycle.length === 1 && currentPlanHasBillingCycle) {
           // Don't make any changes - keep this plan as default
           // Return original plans to prevent toggling off
           return;
         }
-        
+
         // Otherwise, if there are other plans with billingCycle, switch default to another plan
         if (plansWithBillingCycle.length > 1 && currentPlanHasBillingCycle) {
           // Find another plan with billingCycle to make default
           const indexToMakeDefault = updatedSubscriptionPlans.findIndex(
             (p, idx) => idx !== planIndex && p.billingCycle
           );
-          
+
           updatedSubscriptionPlans = updatedSubscriptionPlans.map((p, idx) => ({
             ...p,
-            default: idx === indexToMakeDefault
+            default: idx === indexToMakeDefault,
           }));
         } else {
           // If no other plans with billingCycle, allow turning off
-          updatedSubscriptionPlans = updatedSubscriptionPlans.map((p, idx) => 
+          updatedSubscriptionPlans = updatedSubscriptionPlans.map((p, idx) =>
             idx === planIndex ? { ...p, default: false } : p
           );
         }
       }
     } else if (key === "cycleDuration") {
       // For cycleDuration, ensure we're setting a string value
-      updatedSubscriptionPlans = updatedSubscriptionPlans.map((p, idx) => 
+      updatedSubscriptionPlans = updatedSubscriptionPlans.map((p, idx) =>
         idx === planIndex ? { ...p, cycleDuration: value as string } : p
       );
     } else {
@@ -177,7 +184,11 @@ const Plan: React.FC<PlanProps> = ({
             <Switch
               checked={plan.default}
               onCheckedChange={(value) => handleChange("default", value)}
-              disabled={plan.default && plan.billingCycle !== "" && subscriptionPlans.filter(p => p.billingCycle).length === 1}
+              disabled={
+                plan.default &&
+                plan.billingCycle !== "" &&
+                subscriptionPlans.filter((p) => p.billingCycle).length === 1
+              }
             />
           </div>
         )}
