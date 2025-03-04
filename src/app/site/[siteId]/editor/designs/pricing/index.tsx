@@ -1,5 +1,6 @@
 import React from "react";
 import Design1 from "./design1";
+import Design2 from "./design2";
 
 interface PricingProps {
   section: any;
@@ -8,6 +9,7 @@ interface PricingProps {
 function Pricing({ section, pageId }: PricingProps) {
   const designs = {
     design1: Design1,
+    design2: Design2,
   };
 
   //@ts-ignore

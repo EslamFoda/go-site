@@ -14,8 +14,16 @@ import {
   SubscriptionPriceOption,
 } from "@/types/sectionsTypes/pricing";
 import SelectedPlan from "./pricingContentTab/selectedPlan";
-import { updateContent, updateSelectedItem } from "@/reduxStore/action";
+import {
+  updateContent,
+  updateSelectedItem,
+  updateStyle,
+} from "@/reduxStore/action";
 import PriceOption from "./pricingContentTab/priceOption";
+import BackBtn from "@/components/shared/backBtn";
+import ColorSelector from "../settingsUi/ColorSelector";
+import { Label } from "@/components/ui/label";
+import { JustifyCenter, JustifyEnd, JustifyStart } from "@/icons/common";
 
 interface PricingSettingsProps {
   sections:
@@ -59,25 +67,210 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
   };
 
   const handleUpdatePlanItem = (field: keyof SubscriptionPlan, value: any) => {
-    const updatedPlans = pricingContent.subscriptions.map((plan) =>
-      plan.id === selectedSubscriptionPlan.id
-        ? { ...plan, [field]: value }
-        : plan
-    );
-
+    const updatedPlans = pricingContent.subscriptions.map((plan) => {
+      if (field === "featured") {
+        return {
+          ...plan,
+          featured:
+            plan.id === selectedSubscriptionPlan.id
+              ? { ...plan.featured, ...value } // Merge changes correctly
+              : { ...plan.featured, isActive: false },
+        };
+      }
+  
+      return plan.id === selectedSubscriptionPlan.id ? { ...plan, [field]: value } : plan;
+    });
+  
     dispatch(
-      updateSelectedItem({ ...selectedSubscriptionPlan, [field]: value })
+      updateSelectedItem({
+        ...selectedSubscriptionPlan,
+        [field]: { ...selectedSubscriptionPlan.featured, ...value }, // Ensure deep update
+      })
     );
+  
     dispatch(
       updateContent(pageId, findSelectedSection.id, {
         subscriptions: updatedPlans,
       })
     );
   };
+  
 
   const clearSubscriptionItem = () => {
     dispatch(updateSelectedItem(null));
   };
+
+  if (sectionBgOpened)
+    return (
+      <div className="space-y-2">
+        <BackBtn
+          label="Section Background"
+          handleBack={() => setSectionBgOpened(false)}
+        />
+        <div className="px-5 space-y-2">
+          <ColorSelector
+            selectedColor={pricingStyle.designSettings.sectionBackground.color}
+            handleChangeColor={(color) => {
+              if (color === "none") {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...pricingStyle.designSettings!,
+                      sectionBackground: {
+                        ...pricingStyle.designSettings.sectionBackground,
+                        color,
+                      },
+                    },
+                  })
+                );
+              } else {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...pricingStyle.designSettings!,
+                      background: true,
+                      border: false,
+                      sectionBackground: {
+                        ...pricingStyle.designSettings.sectionBackground,
+                        color,
+                      },
+                    },
+                  })
+                );
+              }
+            }}
+          />
+          <div className="space-y-1 flex items-center justify-between">
+            <Label>Height</Label>
+            <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
+              <div
+                onClick={() => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...pricingStyle.designSettings!,
+                        sectionBackground: {
+                          ...pricingStyle.designSettings.sectionBackground,
+                          height: "fill",
+                          align: "center",
+                        },
+                      },
+                    })
+                  );
+                }}
+                className={`${
+                  pricingStyle.designSettings.sectionBackground.height ===
+                  "fill"
+                    ? "bg-muted-bg"
+                    : ""
+                } flex items-center justify-center cursor-pointer w-full`}
+              >
+                fill
+              </div>
+              <div
+                onClick={() => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...pricingStyle.designSettings!,
+                        sectionBackground: {
+                          ...pricingStyle.designSettings.sectionBackground,
+                          height: "fit",
+                          align: "center",
+                        },
+                      },
+                    })
+                  );
+                }}
+                className={`${
+                  pricingStyle.designSettings.sectionBackground.height === "fit"
+                    ? "bg-muted-bg"
+                    : ""
+                } flex items-center justify-center cursor-pointer w-full`}
+              >
+                fit
+              </div>
+            </div>
+          </div>
+          {pricingStyle.designSettings.sectionBackground.height === "fill" && (
+            <div className="space-y-1 flex items-center justify-between">
+              <Label>Align</Label>
+              <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
+                <div
+                  onClick={() => {
+                    dispatch(
+                      updateStyle(pageId, findSelectedSection?.id!, {
+                        designSettings: {
+                          ...pricingStyle.designSettings!,
+                          sectionBackground: {
+                            ...pricingStyle.designSettings.sectionBackground,
+                            align: "start",
+                          },
+                        },
+                      })
+                    );
+                  }}
+                  className={`${
+                    pricingStyle.designSettings.sectionBackground.align ===
+                    "start"
+                      ? "bg-muted-bg"
+                      : ""
+                  } flex items-center justify-center cursor-pointer w-full`}
+                >
+                  <JustifyStart />
+                </div>
+                <div
+                  onClick={() => {
+                    dispatch(
+                      updateStyle(pageId, findSelectedSection?.id!, {
+                        designSettings: {
+                          ...pricingStyle.designSettings!,
+                          sectionBackground: {
+                            ...pricingStyle.designSettings.sectionBackground,
+                            align: "center",
+                          },
+                        },
+                      })
+                    );
+                  }}
+                  className={`${
+                    pricingStyle.designSettings.sectionBackground.align ===
+                    "center"
+                      ? "bg-muted-bg"
+                      : ""
+                  } flex items-center justify-center cursor-pointer w-full`}
+                >
+                  <JustifyCenter />
+                </div>
+                <div
+                  onClick={() => {
+                    dispatch(
+                      updateStyle(pageId, findSelectedSection?.id!, {
+                        designSettings: {
+                          ...pricingStyle.designSettings!,
+                          sectionBackground: {
+                            ...pricingStyle.designSettings.sectionBackground,
+                            align: "end",
+                          },
+                        },
+                      })
+                    );
+                  }}
+                  className={`${
+                    pricingStyle.designSettings.sectionBackground.align ===
+                    "end"
+                      ? "bg-muted-bg"
+                      : ""
+                  } flex items-center justify-center cursor-pointer w-full`}
+                >
+                  <JustifyEnd />
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
 
   if (priceOption) {
     return (

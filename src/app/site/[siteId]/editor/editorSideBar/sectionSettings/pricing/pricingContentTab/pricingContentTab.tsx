@@ -122,6 +122,7 @@ function PricingContentTab({
         <Input
           id="label"
           className="w-4/6"
+          placeholder="Add label"
           value={pricingContent?.label}
           onChange={(e: any) => {
             updateContent(pageId, findSelectedSection.id, {
@@ -135,6 +136,7 @@ function PricingContentTab({
         <Input
           className="w-4/6"
           id="title"
+          placeholder="Add title"
           value={pricingContent?.title}
           onChange={(e: any) => {
             dispatch(
@@ -149,6 +151,7 @@ function PricingContentTab({
         <Label htmlFor="subtitle">Subtitle</Label>
         <Textarea 
           className="w-4/6 "
+          placeholder="Add subtitle"
           id={findSelectedSection?.id + "subtitle"}
           value={pricingContent?.subtitle}
           onChange={(e: any) => {

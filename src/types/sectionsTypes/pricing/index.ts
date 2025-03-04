@@ -1,3 +1,5 @@
+import { AlignType, SectionBgColorType, TextSizeType } from "@/types/common";
+
 export interface Benefit {
   id: string;
   title: string;
@@ -79,13 +81,16 @@ export interface PricingContent {
 export interface PricingStyle {
   designName: string;
   designSettings: {
-    text: string;
+    text: TextSizeType;
     background: boolean;
+    border: boolean;
     sectionBackground: {
-      color: string;
-      media: string;
-      height: string;
-      spacing: string;
+      color?: SectionBgColorType;
+      media?: string;
+      height?: "fill" | "fit";
+      align?: AlignType;
+      width?: string;
+      spacing?: string;
     };
   };
 }

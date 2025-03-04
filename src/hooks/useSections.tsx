@@ -1201,7 +1201,7 @@ export function useSections() {
         designSettings: {
           text: "m",
           background: true,
-
+          border: false,
           sectionBackground: {
             color: "none",
             media: "",

@@ -174,7 +174,7 @@ function Benefits({
                 }}
               />
               <div
-                className="focus:outline-none group-focus-within:bg-muted/50 pe-3 h-10 w-max flex  text-destructive items-center justify-center"
+                className="focus:outline-none cursor-pointer group-focus-within:bg-muted/50 pe-3 h-10 w-max flex  text-destructive items-center justify-center"
                 onClick={() => handleDeleteBenefit(benefit.id)}
               >
                 <Minus size={16} />

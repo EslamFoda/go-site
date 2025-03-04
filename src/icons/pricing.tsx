@@ -63,3 +63,37 @@ export const PricingLight = () => (
     />
   </svg>
 );
+
+export const FirstDesign = ({ active }: { active: boolean }) => (
+  <svg
+    width="50"
+    height="50"
+    viewBox="0 0 51 41"
+    xmlns="http://www.w3.org/2000/svg"
+    data-v-5b484113=""
+    className={`${active ? "fill-primary" : "fill-muted-foreground/70"}`}
+  >
+    <path d="m50.695 8.6797h-50v1h50v-1z" data-v-5b484113=""></path>
+    <path d="m38.195 0.67969-25 3e-6v1h25v-1z" data-v-5b484113=""></path>
+    <path d="m50.695 16.68h-50v1h50v-1z" data-v-5b484113=""></path>
+    <path d="m50.695 24.68h-50v1h50v-1z" data-v-5b484113=""></path>
+    <path d="m30.695 35.68h-10v5h10v-5z" data-v-5b484113=""></path>
+  </svg>
+);
+
+export const SecDesign = ({ active }: { active: boolean }) => (
+  <svg
+    width="50"
+    height="50"
+    viewBox="0 0 51 41"
+    xmlns="http://www.w3.org/2000/svg"
+    data-v-5b484113=""
+    className={`${active ? "fill-primary" : "fill-muted-foreground/70"}`}
+  >
+    <path d="m37.943 0.67969-25 3e-6v1h25v-1z" data-v-5b484113=""></path>
+    <path d="m50.443 23.68h-50v1h50v-1z" data-v-5b484113=""></path>
+    <path d="m50.443 31.68h-50v1h50v-1z" data-v-5b484113=""></path>
+    <path d="m50.443 39.68h-50v1h50v-1z" data-v-5b484113=""></path>
+    <path d="m30.443 8.6797h-10v5h10v-5z" data-v-5b484113=""></path>
+  </svg>
+);
