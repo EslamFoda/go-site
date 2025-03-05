@@ -58,6 +58,7 @@ function ListContentTab({
         <Label htmlFor="label">Label</Label>
         <Input
           id="label"
+          placeholder="Add label"
           className="w-4/6"
           value={listContent?.label}
           onChange={(e: any) => {
@@ -74,6 +75,7 @@ function ListContentTab({
         <Input
           className="w-4/6"
           id="title"
+          placeholder="Add title"
           value={listContent?.title}
           onChange={(e: any) => {
             dispatch(
@@ -89,6 +91,7 @@ function ListContentTab({
         <Textarea
           className="w-4/6 "
           id={findSelectedSection?.id + "subtitle"}
+          placeholder="Add subtitle"
           value={listContent?.subtitle}
           onChange={(e: any) => {
             dispatch(

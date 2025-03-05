@@ -145,14 +145,14 @@ function Design1({ section, pageId }: DesignProps) {
   );
 
   return (
-    <section className={sectionBgClassName}>
-      <div
-        className={alignClassNames}
-        onClick={() => {
-          dispatch(updateSelectedSection(pageId, section.id));
-          dispatch(updateSelectedItem(null));
-        }}
-      >
+    <section
+      className={sectionBgClassName}
+      onClick={() => {
+        dispatch(updateSelectedSection(pageId, section.id));
+        dispatch(updateSelectedItem(null));
+      }}
+    >
+      <div className={alignClassNames}>
         <div className={containerClassNames}>
           <div className={titleAndSubtitleClassName}>
             <h1 className="text-4xl">{section.content.title}</h1>

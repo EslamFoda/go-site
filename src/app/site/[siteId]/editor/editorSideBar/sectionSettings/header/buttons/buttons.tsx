@@ -28,12 +28,19 @@ function Buttons({
   setOpenButtonsTab,
 }: ButtonsProps) {
   const pages = useAppSelector((state) => state.editor.present.editor.pages);
+  const { editor } = useAppSelector((state) => state.editor.present);
 
   const dispatch = useAppDispatch();
 
   const handleLinkSelect = (index: number, link: string) => {
+    const findPageWithLink = editor.pages.find(
+      (page) => page.pageSettings.link === link.slice(1)
+    );
+
     const updatedButtons = content.buttons.map((button, i) =>
-      i === index ? { ...button, link } : button
+      i === index
+        ? { ...button, link, pageId: findPageWithLink?.pageId || "" }
+        : button
     );
 
     dispatch(
@@ -70,6 +77,7 @@ function Buttons({
             <div className="w-4/6 space-y-2">
               <Input
                 value={button.text}
+                placeholder="Button text"
                 onChange={(e) => handleTextChange(index, e.target.value)}
               />
               <LinkSelector

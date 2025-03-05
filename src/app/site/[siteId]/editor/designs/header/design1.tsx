@@ -2,7 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { MenuIcon1, MenuIcon2, MenuIcon3 } from "@/icons/common";
 import { cn } from "@/lib/utils";
-import { updateSelectedSection } from "@/reduxStore/action";
+import {
+  closeChooseIcon,
+  updateSelectedItem,
+  updateSelectedSection,
+} from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { HeaderContent, HeaderStyle } from "@/types/sectionsTypes/header";
 import {
@@ -12,8 +16,7 @@ import {
 } from "@/components/ui/hover-card";
 import { ChevronDown } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import Link from "next/link";
-import { useParams } from "next/navigation";
+import { HeaderLink } from "./headerLink";
 
 interface Design1Props {
   section: any;
@@ -22,7 +25,6 @@ interface Design1Props {
 
 function Design1({ pageId, section }: Design1Props) {
   const dispatch = useAppDispatch();
-  const { siteId } = useParams();
   const headerContent = section.content as HeaderContent;
   const headerStyle = section.style as HeaderStyle;
   const { sticky, float, autoHide, width, shadow, glass, scrollIndicator } =
@@ -134,7 +136,11 @@ function Design1({ pageId, section }: Design1Props) {
     return (
       <header
         className={floatHeaderClassName}
-        onClick={() => dispatch(updateSelectedSection(pageId, section.id))}
+        onClick={() => {
+          dispatch(updateSelectedSection(pageId, section.id));
+          dispatch(updateSelectedItem(null));
+          dispatch(closeChooseIcon());
+        }}
       >
         <ScrollIndicator />
         <div className={floatHeaderInnerClassName}>
@@ -152,12 +158,7 @@ function Design1({ pageId, section }: Design1Props) {
                         hoveringIndex === i && "!text-secondary-foreground"
                       }`}
                     >
-                      <Link
-                        key={link.id}
-                        href={`/site/${siteId}/editor/${link.pageId}`}
-                      >
-                        {link.text}
-                      </Link>
+                      <HeaderLink link={link} />
                       {link.subLinks.length > 0 && (
                         <span>
                           <ChevronDown
@@ -178,12 +179,12 @@ function Design1({ pageId, section }: Design1Props) {
                         align="start"
                       >
                         {link.subLinks.map((subLink) => (
-                          <span
+                          <div
                             key={subLink.id}
                             className="cursor-pointer whitespace-nowrap rounded-sm hover:bg-muted py-1 px-2"
                           >
-                            {subLink.text}
-                          </span>
+                            <HeaderLink link={subLink} />
+                          </div>
                         ))}
                       </HoverCardContent>
                     ) : null}
@@ -211,6 +212,8 @@ function Design1({ pageId, section }: Design1Props) {
       className={normalHeaderClassName}
       onClick={() => {
         dispatch(updateSelectedSection(pageId, section.id));
+        dispatch(updateSelectedItem(null));
+        dispatch(closeChooseIcon());
       }}
     >
       <ScrollIndicator />
@@ -228,12 +231,7 @@ function Design1({ pageId, section }: Design1Props) {
                     hoveringIndex === i && "!text-secondary-foreground"
                   }`}
                 >
-                  <Link
-                    key={link.id}
-                    href={`/site/${siteId}/editor/${link.pageId}`}
-                  >
-                    {link.text}
-                  </Link>
+                  <HeaderLink link={link} />
                   {link.subLinks.length > 0 && (
                     <span>
                       <ChevronDown
@@ -254,12 +252,12 @@ function Design1({ pageId, section }: Design1Props) {
                     align="start"
                   >
                     {link.subLinks.map((subLink) => (
-                      <span
+                      <div
                         key={subLink.id}
-                        className="cursor-pointer rounded-sm whitespace-nowrap hover:bg-muted py-1 px-2"
+                        className="cursor-pointer whitespace-nowrap rounded-sm hover:bg-muted py-1 px-2"
                       >
-                        {subLink.text}
-                      </span>
+                        <HeaderLink link={subLink} />
+                      </div>
                     ))}
                   </HoverCardContent>
                 ) : null}

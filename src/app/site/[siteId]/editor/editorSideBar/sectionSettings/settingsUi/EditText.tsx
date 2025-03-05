@@ -7,6 +7,7 @@ interface EditTextProps {
   value: string;
   inputType?: "text" | "textArea";
   handleUpdate: (e: any) => void;
+  placeholder?: string;
   id: string;
 }
 function EditText({
@@ -14,6 +15,7 @@ function EditText({
   value,
   inputType = "text",
   id,
+  placeholder,
   handleUpdate,
 }: EditTextProps) {
   return (
@@ -22,7 +24,7 @@ function EditText({
       {inputType === "text" ? (
         <Input
           className="w-4/6"
-          id="title"
+          placeholder={placeholder}
           value={value}
           onChange={handleUpdate}
         />
@@ -30,6 +32,7 @@ function EditText({
         <Textarea
           className="w-4/6"
           id={id}
+          placeholder={placeholder}
           value={value}
           onChange={handleUpdate}
         />

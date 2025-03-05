@@ -62,6 +62,7 @@ function CardContentTab({
         <Input
           id="label"
           className="w-4/6"
+           placeholder="Add label"
           value={cardsContent?.label}
           onChange={(e: any) => {
             // @ts-ignore
@@ -76,6 +77,7 @@ function CardContentTab({
         <Input
           className="w-4/6"
           id="title"
+          placeholder="Add title"
           value={cardsContent?.title}
           onChange={(e: any) => {
             dispatch(
@@ -91,6 +93,7 @@ function CardContentTab({
         <Textarea
           className="w-4/6 "
           id={findSelectedSection?.id + "subtitle"}
+          placeholder="Add subtitle"
           value={cardsContent?.subtitle}
           onChange={(e: any) => {
             dispatch(

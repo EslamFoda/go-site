@@ -118,7 +118,7 @@ function Benefits({
     // Create a new benefit
     const newBenefit: Benefit = {
       id: uuidv4(),
-      title: `Add benefit ${benefits.length + 1}`,
+      title: `Add benefit`,
     };
 
     // Create a new array of updated subscriptions

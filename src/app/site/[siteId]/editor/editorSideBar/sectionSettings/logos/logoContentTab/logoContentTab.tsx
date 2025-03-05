@@ -61,6 +61,7 @@ function LogoContentTab({
         <Input
           id="label"
           className="w-4/6"
+           placeholder="Add label"
           value={logosContent?.label}
           onChange={(e: any) => {
             dispatch(
@@ -76,6 +77,7 @@ function LogoContentTab({
         <Input
           className="w-4/6"
           id="title"
+          placeholder="Add title"
           value={logosContent?.title}
           onChange={(e: any) => {
             dispatch(
@@ -91,6 +93,7 @@ function LogoContentTab({
         <Textarea
           className="w-4/6 "
           id={findSelectedSection?.id + "subtitle"}
+          placeholder="Add subtitle"
           value={logosContent?.subtitle}
           onChange={(e: any) => {
             dispatch(

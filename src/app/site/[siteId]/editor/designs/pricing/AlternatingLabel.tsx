@@ -22,17 +22,17 @@ const AlternatingLabel: React.FC<AlternatingLabelProps> = ({
   );
 
   useEffect(() => {
-    if (!isActive) {
-      setActiveLabel("offer");
+    if (!isActive || !offerText) {
+      setActiveLabel("featured");
       return;
     }
-
+  
     const labelInterval = setInterval(() => {
       setActiveLabel((prev) => (prev === "featured" ? "offer" : "featured"));
     }, interval);
-
+  
     return () => clearInterval(labelInterval);
-  }, [isActive, interval]);
+  }, [isActive, interval, offerText]); // Added `offerText` dependency
 
   return (
     <>

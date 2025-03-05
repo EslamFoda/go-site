@@ -51,6 +51,7 @@ function HeaderContentTab({
         <Input
           id="logo"
           className="w-4/6"
+          placeholder="Your logo"
           value={headerContent?.Logo.text}
           onChange={(e: any) => {
             // @ts-ignore

@@ -51,9 +51,13 @@ const LinkSelector: React.FC<LinkSelectorProps> = ({
         : currentValue.startsWith("/")
         ? currentValue
         : `/${currentValue}`;
-    setValue(formattedValue === value ? "" : formattedValue);
+    
+    // If the selected value is the same as the current value, set it to an empty string
+    const newValue = formattedValue === value ? "" : formattedValue;
+    
+    setValue(newValue);
     setOpen(false);
-    onSelect(formattedValue);
+    onSelect(newValue);
   };
 
   const triggerBtnClassNames = cn("w-4/6 justify-between", {

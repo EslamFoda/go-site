@@ -67,34 +67,67 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
   };
 
   const handleUpdatePlanItem = (field: keyof SubscriptionPlan, value: any) => {
-    const updatedPlans = pricingContent.subscriptions.map((plan) => {
-      if (field === "featured") {
-        return {
-          ...plan,
-          featured:
-            plan.id === selectedSubscriptionPlan.id
-              ? { ...plan.featured, ...value } // Merge changes correctly
-              : { ...plan.featured, isActive: false },
-        };
-      }
-  
-      return plan.id === selectedSubscriptionPlan.id ? { ...plan, [field]: value } : plan;
-    });
-  
-    dispatch(
-      updateSelectedItem({
-        ...selectedSubscriptionPlan,
-        [field]: { ...selectedSubscriptionPlan.featured, ...value }, // Ensure deep update
-      })
-    );
-  
-    dispatch(
-      updateContent(pageId, findSelectedSection.id, {
-        subscriptions: updatedPlans,
-      })
-    );
+    // Special handling for featured toggle
+    if (field === "featured") {
+      const updatedPlans = pricingContent.subscriptions.map((plan) => {
+        if (plan.id === selectedSubscriptionPlan.id) {
+          return {
+            ...plan,
+            featured: {
+              ...plan.featured,
+              ...(typeof value === 'object' ? value : {}),
+              isActive: value.isActive
+            }
+          };
+        } else {
+          // Disable featured for other plans if this one is being activated
+          return value.isActive 
+            ? { 
+                ...plan, 
+                featured: { 
+                  ...plan.featured, 
+                  isActive: false 
+                } 
+              }
+            : plan;
+        }
+      });
+
+      // Dispatch updates
+      dispatch(
+        updateSelectedItem({ 
+          ...selectedSubscriptionPlan, 
+          featured: {
+            ...selectedSubscriptionPlan.featured,
+            ...(typeof value === 'object' ? value : {}),
+            isActive: value.isActive
+          } 
+        })
+      );
+      dispatch(
+        updateContent(pageId, findSelectedSection.id, {
+          subscriptions: updatedPlans,
+        })
+      );
+    } else {
+      // Original handling for other fields
+      const updatedPlans = pricingContent.subscriptions.map((plan) =>
+        plan.id === selectedSubscriptionPlan.id
+          ? { ...plan, [field]: value }
+          : plan
+      );
+
+      dispatch(
+        updateSelectedItem({ ...selectedSubscriptionPlan, [field]: value })
+      );
+      dispatch(
+        updateContent(pageId, findSelectedSection.id, {
+          subscriptions: updatedPlans,
+        })
+      );
+    }
   };
-  
+
 
   const clearSubscriptionItem = () => {
     dispatch(updateSelectedItem(null));

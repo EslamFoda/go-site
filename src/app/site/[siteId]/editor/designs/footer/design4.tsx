@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useMotion } from "@/hooks/useMotion";
+import FooterButtons from "./footerButtons";
 interface Design4Props {
   section: any;
   pageId: string;
@@ -120,12 +121,10 @@ function Design4({ pageId, section }: Design4Props) {
               className="text-muted-foreground max-w-3xl"
               dangerouslySetInnerHTML={{ __html: footerContent.text }}
             />
-            <div className="flex items-center justify-center gap-2">
-              <Button>{footerContent.buttons[1].text}</Button>
-              <Button variant="secondary">
-                {footerContent.buttons[0].text}
-              </Button>
-            </div>
+            <FooterButtons
+              buttons={footerContent.buttons}
+              btnClassNames="justify-center"
+            />
             <h2>{settings.name}</h2>
           </div>
         </div>

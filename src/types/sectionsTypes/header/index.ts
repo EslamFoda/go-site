@@ -18,6 +18,7 @@ type Button = {
   text: string;
   link: string;
   id: string;
+  pageId: string;
 };
 
 export type Announcement = {

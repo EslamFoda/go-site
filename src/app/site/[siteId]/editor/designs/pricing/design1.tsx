@@ -18,15 +18,19 @@ interface DesignProps {
   pageId: string;
 }
 
+enum SubscriptionPlanType {
+  ONETIME = "One-Time",
+  SUBSCRIPTION = "Subscription",
+}
+
 function Design1({ pageId, section }: DesignProps) {
   const dispatch = useAppDispatch();
   const { AnimatePresence, motion } = useMotion();
+  const [activePlan, setActivePlan] = useState<number>(0);
   const pricingStyle = section?.style as PricingStyle;
   const pricingContent = section?.content as PricingContent;
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
-
-  const [activePlan, setActivePlan] = useState<string | null>(null);
 
   const sectionBgClassName = cn(
     "flex flex-col",
@@ -69,11 +73,6 @@ function Design1({ pageId, section }: DesignProps) {
     }
   );
 
-  console.log(
-    pricingStyle.designSettings.border,
-    "pricingStyle.designSettings.background"
-  );
-
   const titleClassName = cn(
     pricingStyle.designSettings.text === "s" && "text-sm",
     pricingStyle.designSettings.text === "m" && "text-base",
@@ -81,28 +80,30 @@ function Design1({ pageId, section }: DesignProps) {
   );
 
   useEffect(() => {
-    const defaultPlan = pricingContent.subscriptionPlans.find(
+    const defaultPlanIndex = pricingContent.subscriptionPlans.findIndex(
       (plan) => plan.default
-    )?.billingCycle;
-    setActivePlan(defaultPlan || null);
+    );
+
+    setActivePlan(defaultPlanIndex !== -1 ? defaultPlanIndex : 0);
   }, [pricingContent]);
 
   return (
-    <section className={sectionBgClassName}>
-      <div
-        className="container max-w-container gap-10 w-full py-12"
-        onClick={() => {
-          dispatch(updateSelectedSection(pageId, section.id));
-          dispatch(updateSelectedItem(null));
-        }}
-      >
+    <section
+      className={sectionBgClassName}
+      onClick={() => {
+        dispatch(updateSelectedSection(pageId, section.id));
+        dispatch(updateSelectedItem(null));
+        dispatch(closeChooseIcon());
+      }}
+    >
+      <div className="container max-w-container gap-10 w-full py-12">
         <div className="space-y-4">
           <div className="flex items-start justify-between">
             <div className={textColor}>
               <h1 className="text-4xl">{pricingContent.title}</h1>
               <p className={subTitleColor}>{pricingContent.subtitle}</p>
             </div>
-            {pricingContent.planType === "Subscription" && (
+            {pricingContent.planType === SubscriptionPlanType.SUBSCRIPTION && (
               <div className="h-10 bg-muted rounded-md flex items-center justify-center min-w-40 p-1">
                 {pricingContent.subscriptionPlans.map((plan, i) => {
                   if (!plan.billingCycle) return null;
@@ -111,11 +112,11 @@ function Design1({ pageId, section }: DesignProps) {
                       key={i}
                       className={cn(
                         "h-full p-1 flex items-center min-w-[70px] justify-center text-xs break-keep cursor-pointer rounded-md transition-colors",
-                        activePlan === plan.billingCycle ? "bg-background" : ""
+                        activePlan === i ? "bg-background" : ""
                       )}
                       onClick={(e) => {
                         e.stopPropagation();
-                        setActivePlan(plan.billingCycle);
+                        setActivePlan(i);
                       }}
                     >
                       {plan.billingCycle}
@@ -129,6 +130,10 @@ function Design1({ pageId, section }: DesignProps) {
             <AnimatePresence>
               {pricingContent.subscriptions.map(
                 (subscription, index: number) => {
+                  const plan =
+                    pricingContent.planType === SubscriptionPlanType.ONETIME
+                      ? subscription.oneTimePlan
+                      : subscription.price[activePlan || 0];
                   return (
                     <motion.div
                       layout
@@ -149,7 +154,7 @@ function Design1({ pageId, section }: DesignProps) {
                       <AlternatingLabel
                         isActive={subscription.featured.isActive}
                         featuredText={subscription.featured.text}
-                        offerText={subscription.oneTimePlan.offer}
+                        offerText={plan.offer}
                       />
                       <div>
                         <h5 className={titleClassName}>{subscription.title}</h5>
@@ -157,22 +162,31 @@ function Design1({ pageId, section }: DesignProps) {
                           {subscription.text}
                         </p>
                         <div className="flex gap-2">
-                          {subscription.oneTimePlan.isSale && (
+                          {plan.isSale && (
                             <h3 className="text-3xl font-bold">
                               {pricingContent.currency.symbol}
-                              {subscription.oneTimePlan.salePrice}
+                              {plan.salePrice}
                             </h3>
                           )}
                           <h3
                             className={cn("text-3xl font-bold", {
                               "line-through text-muted-foreground/50":
-                                subscription.oneTimePlan.isSale,
+                                plan.isSale,
                             })}
                           >
                             {pricingContent.currency.symbol}
-                            {subscription.oneTimePlan.originalPrice}
+                            {plan.originalPrice}
                           </h3>
                         </div>
+                        {pricingContent.planType ===
+                          SubscriptionPlanType.SUBSCRIPTION && (
+                          <span className="text-sm">
+                            {
+                              pricingContent.subscriptionPlans[activePlan]
+                                .cycleDuration
+                            }
+                          </span>
+                        )}
                       </div>
                       <div className="flex flex-col justify-between gap-4 h-full">
                         <div className="space-y-3">
@@ -181,7 +195,13 @@ function Design1({ pageId, section }: DesignProps) {
                               key={benefit.id}
                               className="flex items-center gap-1 text-muted-foreground"
                             >
-                              <CheckIcon size={16} />
+                              <CheckIcon
+                                className={cn({
+                                  "text-primary":
+                                    subscription.featured.isActive,
+                                })}
+                                size={16}
+                              />
                               <span className="text-xs">{benefit.title}</span>
                             </div>
                           ))}
@@ -193,33 +213,32 @@ function Design1({ pageId, section }: DesignProps) {
                               ? "default"
                               : "outline"
                           }
-                          className={cn(
-                            !subscription.featured.isActive &&
-                              "bg-background hover:bg-background",
-                            (pricingStyle.designSettings.sectionBackground
-                              .color === "gray" ||
-                              pricingStyle.designSettings.border) &&
-                              !subscription.featured.isActive &&
-                              "bg-muted hover:bg-muted"
-                          )}
+                          className={cn({
+                            "bg-background hover:bg-background":
+                              !subscription.featured.isActive,
+                            "bg-muted hover:bg-muted":
+                              (pricingStyle.designSettings.sectionBackground
+                                .color === "gray" ||
+                                pricingStyle.designSettings.border) &&
+                              !subscription.featured.isActive,
+                          })}
                           onClick={() => {
-                            if (subscription.oneTimePlan.button.link) {
-                              if (subscription.oneTimePlan.button.openNewTab) {
+                            if (plan.button.link) {
+                              if (plan.button.openNewTab) {
                                 // Open in new tab
                                 window.open(
-                                  subscription.oneTimePlan.button.link,
+                                  plan.button.link,
                                   "_blank",
                                   "noopener,noreferrer"
                                 );
                               } else {
                                 // Open in same tab
-                                window.location.href =
-                                  subscription.oneTimePlan.button.link;
+                                window.location.href = plan.button.link;
                               }
                             }
                           }}
                         >
-                          {subscription.oneTimePlan.button.text}
+                          {plan.button.text}
                         </Button>
                       </div>
                     </motion.div>

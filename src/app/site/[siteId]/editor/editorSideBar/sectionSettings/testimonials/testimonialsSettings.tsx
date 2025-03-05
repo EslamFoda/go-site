@@ -103,6 +103,7 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
           <EditText
             inputType="textArea"
             label="Review"
+            placeholder="Add review"
             id={TestimonialItem.id}
             value={TestimonialItem.review}
             handleUpdate={(e: any) =>
@@ -112,6 +113,7 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
           <EditText
             inputType="textArea"
             label="Name"
+            placeholder="Add name"
             id={TestimonialItem.id}
             value={TestimonialItem.name}
             handleUpdate={(e: any) =>
@@ -121,6 +123,7 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
           <EditText
             inputType="textArea"
             label="Bio"
+            placeholder="Add bio"
             id={TestimonialItem.id}
             value={TestimonialItem.bio}
             handleUpdate={(e: any) =>

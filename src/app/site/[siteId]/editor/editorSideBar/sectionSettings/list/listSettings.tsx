@@ -124,6 +124,7 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
         <div className="px-5 space-y-2">
           <EditText
             label="Title"
+            placeholder="Add list title"
             id={selectedListItem.id}
             value={selectedListItem.title}
             handleUpdate={(e: any) =>
@@ -133,6 +134,7 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
           <EditText
             inputType="textArea"
             label="Text"
+            placeholder="Add list description"
             id={selectedListItem.id}
             value={selectedListItem.text}
             handleUpdate={(e: any) =>

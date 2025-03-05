@@ -34,6 +34,7 @@ function BannerContentTab({
         <Input
           id="label"
           className="w-4/6"
+          placeholder="Add label"
           value={bannerContent?.label}
           onChange={(e: any) => {
             // @ts-ignore
@@ -50,6 +51,7 @@ function BannerContentTab({
         <Input
           className="w-4/6"
           id="title"
+          placeholder="Add title"
           value={bannerContent?.title}
           onChange={(e: any) => {
             dispatch(
@@ -64,6 +66,7 @@ function BannerContentTab({
         <Label htmlFor="subtitle">subtitle</Label>
         <Textarea
           className="w-4/6 h-28"
+          placeholder="Add subtitle"
           id={findSelectedSection?.id + "subtitle"}
           value={bannerContent?.subtitle}
           onChange={(e: any) => {

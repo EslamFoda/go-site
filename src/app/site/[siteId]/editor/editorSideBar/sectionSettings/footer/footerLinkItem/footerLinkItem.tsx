@@ -96,6 +96,7 @@ function FooterLinkItem({
       <div className="px-5 space-y-2">
         <EditText
           label="Text"
+          placeholder="Add Group link text"
           id={selectedLink.id}
           value={selectedLink.text}
           handleUpdate={(e: any) =>

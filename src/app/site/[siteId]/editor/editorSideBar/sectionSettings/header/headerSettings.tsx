@@ -59,19 +59,26 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
   };
 
   const handleDeleteSubLink = () => {
-    const filterLinks = selectedLink?.subLinks?.filter(
-      (subLink: SubLinkType) => subLink.id !== selectedSubLinkItem?.id
+    if (!selectedLink || !selectedSubLinkItem) {
+      console.error("No selected link or sublink to delete");
+      return;
+    }
+
+    const updatedLinks = headerContent.links.map((link) =>
+      link.id === selectedLink.id
+        ? {
+            ...link,
+            subLinks: link.subLinks.filter(
+              (subLink) => subLink.id !== selectedSubLinkItem.id
+            ),
+          }
+        : link
     );
 
     dispatch(
-      updateGlobalContent(findSelectedSection.id, {
-        links: links.map((link) =>
-          link.id === selectedLink?.id
-            ? { ...link, subLinks: filterLinks }
-            : link
-        ),
-      })
+      updateGlobalContent(findSelectedSection.id, { links: updatedLinks })
     );
+    dispatch(updateSelectedSubLink(null)); // Clear selected sublink
   };
 
   const clearLinkItem = () => {

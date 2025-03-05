@@ -28,7 +28,7 @@ function PriceOption({
   handleUpdatePlanItem,
   setPriceOption,
 }: PriceOptionProps) {
-  if (selectedPlan === null) return null;
+  if (selectedPlan === null || !selectedSubscriptionPlan) return null;
 
   const billingCycleText =
     pricingContent.subscriptionPlans[selectedPlan].billingCycle;
@@ -48,7 +48,7 @@ function PriceOption({
               </div>
               <Input
                 value={
-                  selectedSubscriptionPlan.price[selectedPlan].originalPrice
+                  selectedSubscriptionPlan?.price[selectedPlan].originalPrice
                 }
                 className="flex-1 border-none outline-none"
                 placeholder="0"

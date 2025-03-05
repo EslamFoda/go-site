@@ -93,6 +93,7 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
         <div className="px-5 pb-1 space-y-2">
           <EditText
             label="Title"
+            placeholder="Add accordion title"
             id={accordionItem.id}
             value={accordionItem.title}
             handleUpdate={(e: any) =>
@@ -102,6 +103,7 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
           <EditText
             inputType="textArea"
             label="Text"
+            placeholder="Add accordion description"
             id={accordionItem.id}
             value={accordionItem.text}
             handleUpdate={(e: any) =>

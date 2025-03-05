@@ -64,10 +64,10 @@ function TestimonialsContentTab({
         <Label htmlFor="label">Label</Label>
         <Input
           id="label"
+          placeholder="Add label"
           className="w-4/6"
           value={testimonialsContent?.label}
           onChange={(e: any) => {
-            console.log(e.target.value);
             dispatch(
               updateContent(pageId, findSelectedSection.id, {
                 label: e.target.value,
@@ -81,9 +81,9 @@ function TestimonialsContentTab({
         <Input
           className="w-4/6"
           id="title"
+          placeholder="Add title"
           value={testimonialsContent?.title}
           onChange={(e: any) => {
-            console.log(e.target.value);
             dispatch(
               updateContent(pageId, findSelectedSection?.id!, {
                 title: e.target.value,
@@ -97,6 +97,7 @@ function TestimonialsContentTab({
         <Textarea
           className="w-4/6 "
           id={findSelectedSection?.id + "subtitle"}
+          placeholder="Add subtitle"
           value={testimonialsContent?.subtitle}
           onChange={(e: any) => {
             dispatch(

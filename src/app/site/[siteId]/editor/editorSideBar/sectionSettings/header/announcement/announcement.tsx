@@ -55,6 +55,7 @@ function Announcement({
           <Label>Text</Label>
           <Input
             className="w-4/6"
+            placeholder="Announcement text"
             value={headerContent.announcement.text}
             onChange={(e: any) =>
               dispatch(

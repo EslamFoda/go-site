@@ -60,6 +60,7 @@ function AccordionContentTab({
         <Input
           id="label"
           className="w-4/6"
+          placeholder="Add label"
           value={accordionContent?.label}
           onChange={(e: any) => {
             dispatch(
@@ -75,6 +76,7 @@ function AccordionContentTab({
         <Input
           className="w-4/6"
           id="title"
+          placeholder="Add title"
           value={accordionContent?.title}
           onChange={(e: any) => {
             dispatch(
@@ -90,6 +92,7 @@ function AccordionContentTab({
         <Textarea
           className="w-4/6 "
           id={findSelectedSection?.id + "subtitle"}
+          placeholder="Add subtitle"
           value={accordionContent?.subtitle}
           onChange={(e: any) => {
             dispatch(

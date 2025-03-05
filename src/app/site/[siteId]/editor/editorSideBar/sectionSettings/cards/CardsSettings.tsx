@@ -96,6 +96,7 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
         <div className="px-5 space-y-2">
           <EditText
             label="Title"
+            placeholder="Add card title"
             value={cardItem.title}
             id={cardItem.id}
             handleUpdate={(e: any) =>
@@ -105,6 +106,7 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
           <EditText
             id={cardItem.id}
             inputType="textArea"
+            placeholder="Add card description"
             label="Text"
             value={cardItem.text}
             handleUpdate={(e: any) =>

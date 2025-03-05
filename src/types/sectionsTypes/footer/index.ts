@@ -19,6 +19,7 @@ interface FooterButton {
   text: string;
   link: string;
   id: string;
+  pageId: string;
 }
 
 // Social media link interface

@@ -40,6 +40,7 @@ function SubLink({
       <div className="px-5 space-y-2">
         <EditText
           label="Text"
+          placeholder="Add link text"
           id={selectedSubLink.id}
           value={selectedSubLink.text}
           handleUpdate={(e: any) =>

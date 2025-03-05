@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useMotion } from "@/hooks/useMotion";
+import FooterButtons from "./footerButtons";
 interface Design3Props {
   section: any;
   pageId: string;
@@ -25,10 +26,10 @@ function Design3({ pageId, section }: Design3Props) {
   return (
     <section
       className="container max-w-container  w-full py-12"
-     onClick={() => {
-            dispatch(updateSelectedSection(pageId, section.id));
-            dispatch(updateSelectedItem(null));
-          }}
+      onClick={() => {
+        dispatch(updateSelectedSection(pageId, section.id));
+        dispatch(updateSelectedItem(null));
+      }}
     >
       <div className="space-y-6">
         <div className="flex flex-col items-center text-center gap-12 justify-center">
@@ -38,12 +39,11 @@ function Design3({ pageId, section }: Design3Props) {
               className="text-muted-foreground max-w-3xl"
               dangerouslySetInnerHTML={{ __html: footerContent.text }}
             />
-            <div className="flex items-center justify-center gap-4">
-              <Button>{footerContent.buttons[1].text}</Button>
-              <Button variant="secondary">
-                {footerContent.buttons[0].text}
-              </Button>
-            </div>
+
+            <FooterButtons
+              buttons={footerContent.buttons}
+              btnClassNames="justify-center"
+            />
           </div>
           <div className="lg:flex hidden flex-wrap items-center gap-8 justify-center">
             <AnimatePresence>

@@ -57,6 +57,7 @@ function GalleryContentTab({
         <Input
           id="label"
           className="w-4/6"
+          placeholder="Add label"
           value={galleryContent?.label}
           onChange={(e: any) => {
             dispatch(
@@ -72,6 +73,7 @@ function GalleryContentTab({
         <Input
           className="w-4/6"
           id="title"
+          placeholder="Add title"
           value={galleryContent?.title}
           onChange={(e: any) => {
             dispatch(
@@ -87,6 +89,7 @@ function GalleryContentTab({
         <Textarea
           className="w-4/6 "
           id={findSelectedSection?.id + "subtitle"}
+          placeholder="Add subtitle"
           value={galleryContent?.subtitle}
           onChange={(e: any) => {
             dispatch(

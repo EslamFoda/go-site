@@ -28,7 +28,9 @@ function LinkItem({
   clearLinkItem,
 }: LinkItemProps) {
   const dispatch = useAppDispatch();
-  const { editor,globalSections } = useAppSelector((state) => state.editor.present);
+  const { editor, globalSections } = useAppSelector(
+    (state) => state.editor.present
+  );
   const section = globalSections.find((section) => section.id === sectionId);
   const headerContent = section?.content as HeaderContent;
   const selectedLink = headerContent?.links.find(
@@ -42,7 +44,7 @@ function LinkItem({
       id: v4(),
       link: "",
       text: `Sub Link ${(selectedLink.subLinks?.length || 0) + 1}`,
-      pageId: pageId,
+      pageId: "",
     };
 
     const updatedLinks = headerContent.links.map((link) =>
@@ -96,6 +98,7 @@ function LinkItem({
       <div className="px-5 space-y-2">
         <EditText
           label="Text"
+          placeholder="Add menu text"
           id={selectedLink.id}
           value={selectedLink.text}
           handleUpdate={(e: any) =>

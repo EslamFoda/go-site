@@ -11,6 +11,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useMotion } from "@/hooks/useMotion";
+import FooterButtons from "./footerButtons";
 interface Design2Props {
   section: any;
   pageId: string;
@@ -26,9 +27,9 @@ function Design2({ pageId, section }: Design2Props) {
     <section
       className="container max-w-container  w-full py-12"
       onClick={() => {
-             dispatch(updateSelectedSection(pageId, section.id));
-             dispatch(updateSelectedItem(null));
-           }}
+        dispatch(updateSelectedSection(pageId, section.id));
+        dispatch(updateSelectedItem(null));
+      }}
     >
       <div className="space-y-6">
         <div className="flex lg:flex-row flex-col items-start gap-7 md:gap-10 lg:gap-36 justify-between">
@@ -62,12 +63,7 @@ function Design2({ pageId, section }: Design2Props) {
               className="text-muted-foreground"
               dangerouslySetInnerHTML={{ __html: footerContent.text }}
             />
-            <div className="flex items-center gap-4">
-              <Button>{footerContent.buttons[1].text}</Button>
-              <Button variant="secondary">
-                {footerContent.buttons[0].text}
-              </Button>
-            </div>
+            <FooterButtons buttons={footerContent.buttons} reverse/>
           </div>
           <Accordion
             type="multiple"
@@ -135,10 +131,7 @@ function Design2({ pageId, section }: Design2Props) {
             className="text-muted-foreground"
             dangerouslySetInnerHTML={{ __html: footerContent.text }}
           />
-          <div className="flex items-center gap-4">
-            <Button>{footerContent.buttons[1].text}</Button>
-            <Button variant="secondary">{footerContent.buttons[0].text}</Button>
-          </div>
+          <FooterButtons buttons={footerContent.buttons} />
         </div>
         <hr />
         <div className="flex items-start justify-between  gap-7 md:gap-10 lg:gap-36">
