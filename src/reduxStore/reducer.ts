@@ -187,11 +187,13 @@ const initialState: EditorStore = {
             text: "button 1",
             link: "",
             id: uuidv4(),
+            pageId: "",
           },
           {
             text: "button 2",
             link: "",
             id: uuidv4(),
+            pageId: "",
           },
         ],
         announcement: {
@@ -282,17 +284,19 @@ const initialState: EditorStore = {
             text: "button 1",
             link: "",
             id: uuidv4(),
+            pageId: "",
           },
           {
             text: "button 2",
             link: "",
             id: uuidv4(),
+            pageId: "",
           },
         ],
         social: [
           { id: uuidv4(), icon: SocialLinkIcons.LinkedIn, link: "" },
           { id: uuidv4(), icon: SocialLinkIcons.Twitter, link: "" },
-          { id: uuidv4(), icon:SocialLinkIcons.Instagram, link: "" },
+          { id: uuidv4(), icon: SocialLinkIcons.Instagram, link: "" },
           { id: uuidv4(), icon: SocialLinkIcons.WhatsApp, link: "" },
         ],
         copyRight: {
