@@ -13,6 +13,7 @@ import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
+  Storage,
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
@@ -92,6 +93,7 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
             url: image.urls.regular,
           });
         }}
+        handleUpdatePhoto={handleUpdatePhoto}
       />
     );
   }

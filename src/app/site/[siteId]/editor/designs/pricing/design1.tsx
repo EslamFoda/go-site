@@ -51,13 +51,10 @@ function Design1({ pageId, section }: DesignProps) {
       "justify-end"
   );
 
-  const textColor =
-    section.style.designSettings.sectionBackground.color === "primary" &&
-    section.style.designSettings.sectionBackground.color !== "none" &&
-    !bgMuted
-      ? "text-primary-foreground"
-      : "";
-
+  const textColorClassName = cn({
+    "text-primary-foreground":
+      pricingStyle.designSettings.sectionBackground.color === "primary",
+  });
   const subTitleColor =
     section.style.designSettings.sectionBackground.color === "primary"
       ? "text-primary-foreground"
@@ -99,7 +96,7 @@ function Design1({ pageId, section }: DesignProps) {
       <div className="container max-w-container gap-10 w-full py-12">
         <div className="space-y-4">
           <div className="flex items-start justify-between">
-            <div className={textColor}>
+            <div className={textColorClassName}>
               <h1 className="text-4xl">{pricingContent.title}</h1>
               <p className={subTitleColor}>{pricingContent.subtitle}</p>
             </div>
@@ -207,39 +204,41 @@ function Design1({ pageId, section }: DesignProps) {
                           ))}
                         </div>
 
-                        <Button
-                          variant={
-                            subscription.featured.isActive
-                              ? "default"
-                              : "outline"
-                          }
-                          className={cn({
-                            "bg-background hover:bg-background":
-                              !subscription.featured.isActive,
-                            "bg-muted hover:bg-muted":
-                              (pricingStyle.designSettings.sectionBackground
-                                .color === "gray" ||
-                                pricingStyle.designSettings.border) &&
-                              !subscription.featured.isActive,
-                          })}
-                          onClick={() => {
-                            if (plan.button.link) {
-                              if (plan.button.openNewTab) {
-                                // Open in new tab
-                                window.open(
-                                  plan.button.link,
-                                  "_blank",
-                                  "noopener,noreferrer"
-                                );
-                              } else {
-                                // Open in same tab
-                                window.location.href = plan.button.link;
-                              }
+                        {plan.button.text && (
+                          <Button
+                            variant={
+                              subscription.featured.isActive
+                                ? "default"
+                                : "outline"
                             }
-                          }}
-                        >
-                          {plan.button.text}
-                        </Button>
+                            className={cn({
+                              "bg-background hover:bg-background":
+                                !subscription.featured.isActive,
+                              "bg-muted hover:bg-muted":
+                                (pricingStyle.designSettings.sectionBackground
+                                  .color === "gray" ||
+                                  pricingStyle.designSettings.border) &&
+                                !subscription.featured.isActive,
+                            })}
+                            onClick={() => {
+                              if (plan.button.link) {
+                                if (plan.button.openNewTab) {
+                                  // Open in new tab
+                                  window.open(
+                                    plan.button.link,
+                                    "_blank",
+                                    "noopener,noreferrer"
+                                  );
+                                } else {
+                                  // Open in same tab
+                                  window.location.href = plan.button.link;
+                                }
+                              }
+                            }}
+                          >
+                            {plan.button.text}
+                          </Button>
+                        )}
                       </div>
                     </motion.div>
                   );

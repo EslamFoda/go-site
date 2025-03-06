@@ -2,16 +2,13 @@ import { Button } from "@/components/ui/button";
 import { ImagePlaceHolder } from "@/icons/common";
 import { cn } from "@/lib/utils";
 import { updateSelectedSection } from "@/reduxStore/action";
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import React from "react";
 interface Design3Props {
   section: any;
   pageId: string;
 }
 function Design3({ section, pageId }: Design3Props) {
-  const selectedPallet = useAppSelector(
-    (state) => state.editor.present.selectedPallet
-  );
   const dispatch = useAppDispatch();
 
   const titleSize = section.style.designSettings.titleSize;
@@ -21,57 +18,41 @@ function Design3({ section, pageId }: Design3Props) {
   const subTitleWidth = section?.style.designSettings.subtitleWidth;
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
-  const dynamicTextColor =
-    selectedPallet === "default-theme" &&
-    section.style.designSettings.sectionBackground.color === "primary";
-  const sectionBgClassName = cn(
-    " flex flex-col",
-    section.style.designSettings.sectionBackground.color === "primary"
-      ? "bg-primary"
-      : "",
-    section.style.designSettings.sectionBackground.color === "gray"
-      ? "bg-muted"
-      : "",
-    section.style.designSettings.sectionBackground.color === "none"
-      ? "bg-background"
-      : "",
-    section.style.designSettings.sectionBackground.height === "fill"
-      ? "h-screen"
-      : "",
-    section.style.designSettings.sectionBackground.height === "fit"
-      ? "h-auto"
-      : "",
-    section.style.designSettings.sectionBackground.align === "start"
-      ? "justify-start"
-      : "",
-    section.style.designSettings.sectionBackground.align === "center"
-      ? "justify-center"
-      : "",
-    section.style.designSettings.sectionBackground.align === "end"
-      ? "justify-end"
-      : ""
-  );
 
-  const imageClassName = cn(
-    " bg-cover bg-no-repeat bg-center w-full",
-    section.style.designSettings.imageSetting.backgroundColor === "primary"
-      ? "bg-primary"
-      : "",
-    section.style.designSettings.imageSetting.backgroundColor === "gray"
-      ? "bg-muted"
-      : "",
-    section.style.designSettings.imageSetting.backgroundColor === "none"
-      ? "bg-none"
-      : ""
-  );
+  const sectionBgClassName = cn(" flex flex-col", {
+    "bg-primary":
+      section.style.designSettings.sectionBackground.color === "primary",
+    "bg-muted": section.style.designSettings.sectionBackground.color === "gray",
+    "bg-background":
+      section.style.designSettings.sectionBackground.color === "none",
+    "h-screen":
+      section.style.designSettings.sectionBackground.height === "fill",
+    "h-auto": section.style.designSettings.sectionBackground.height === "fit",
+    "justify-start":
+      section.style.designSettings.sectionBackground.align === "start",
+    "justify-center":
+      section.style.designSettings.sectionBackground.align === "center",
+    "justify-end":
+      section.style.designSettings.sectionBackground.align === "end",
+  });
 
-  const titleClassName = cn(
-    dynamicTextColor && "text-textColor",
-    titleSize === "xl" ? "text-7xl" : "",
-    titleSize === "l" ? "text-6xl" : "",
-    titleSize === "m" ? "text-5xl" : "",
-    titleSize === "s" ? "text-4xl" : ""
-  );
+  const imageClassName = cn(" bg-cover bg-no-repeat bg-center w-full", {
+    "bg-primary":
+      section.style.designSettings.imageSetting.backgroundColor === "primary",
+    "bg-muted":
+      section.style.designSettings.imageSetting.backgroundColor === "gray",
+    "bg-none":
+      section.style.designSettings.imageSetting.backgroundColor === "none",
+  });
+
+  const titleClassName = cn({
+    "text-7xl": titleSize === "xl",
+    "text-6xl": titleSize === "l",
+    "text-5xl": titleSize === "m",
+    "text-4xl": titleSize === "s",
+    "text-primary-foreground":
+      section.style.designSettings.sectionBackground.color === "primary",
+  });
 
   const TitleAndSubtitleClassName = cn(
     "w-full flex space-y-7 flex-col",
@@ -90,6 +71,12 @@ function Design3({ section, pageId }: Design3Props) {
     "w-full flex justify-center items-center",
     bgMuted ? "bg-background" : "bg-muted"
   );
+  const subTitleColor = cn("text-lg ", {
+    "text-primary-foreground":
+      section.style.designSettings.sectionBackground.color === "primary",
+    "text-muted-foreground":
+      section.style.designSettings.sectionBackground.color !== "primary",
+  });
 
   return (
     <section
@@ -105,16 +92,34 @@ function Design3({ section, pageId }: Design3Props) {
           </div>
           <div className={subAndButtonClassName}>
             <p
+              className={subTitleColor}
               style={{ width: showImage ? "100%" : subTitleWidth }}
-              className="text-lg text-gray-400"
             >
               {section.content.subtitle}
             </p>
 
             {showButtons && (
               <div className="flex justify-center gap-2">
-                <Button>{section.content.buttons.primaryButton.text}</Button>
-                <Button variant="outline">
+                <Button
+                  className={cn({
+                    "border-primary-foreground border-solid border text-primary-foreground":
+                      section.style.designSettings.sectionBackground.color ===
+                      "primary",
+                  })}
+                >
+                  {section.content.buttons.primaryButton.text}
+                </Button>
+                <Button
+                  variant="outline"
+                  className={cn({
+                    "bg-background hover:bg-background":
+                      section.style.designSettings.sectionBackground.color ===
+                      "gray",
+                    "bg-muted":
+                      section.style.designSettings.sectionBackground.color ===
+                      "none",
+                  })}
+                >
                   {section.content.buttons.secondaryButton.text}
                 </Button>
               </div>

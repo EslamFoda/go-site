@@ -1,3 +1,4 @@
+import { Storage } from "@/reduxStore/types";
 import {
   Accordion,
   AccordionStyle,
@@ -26,6 +27,7 @@ export type SelectedItemType =
   | SocialLink
   | SubscriptionPlan
   | SubscriptionPlanItem
+  | Storage
   | null;
 
 export type DragItems =

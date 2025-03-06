@@ -14,6 +14,9 @@ import { createClient } from "@/utlis/supabase/client";
 import { useRouter } from "next/navigation";
 import { about } from "./pagesConstant/about";
 import { landing } from "./pagesConstant/landing";
+import Pricing from "../../../designs/pricing";
+import Logos from "../../../designs/logos";
+import Gallery from "../../../designs/gallery";
 interface PageTypeProps {
   pageType: PageTypes;
   setPageType: React.Dispatch<React.SetStateAction<PageTypes>>;
@@ -32,6 +35,9 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
     List,
     Accordion,
     Testimonials,
+    Gallery,
+    Logos,
+    Pricing,
   };
   const { selectedPallet, editor, settings } = useAppSelector(
     (state) => state.editor.present

@@ -5,161 +5,378 @@ export const landing = [
     sections: [
       {
         id: v4(),
-        sectionName: "Banner",
-        content: {
-          label: "",
-          title: "developer",
-          subtitle:
-            "Eslam** helps you build the best products for your customers. With our expertise and experience, we can help you take your ideas from concept to reality",
-          mediaType: "image",
-          imageSetting: { imageUrl: "", altText: "" },
-          videoSetting: { videoUrl: "" },
-          actionType: "buttons",
-          buttons: {
-            primaryButton: { text: "start your journey" },
-            secondaryButton: { text: "learn more" },
-          },
-        },
         style: {
-          designName: "design2",
+          designName: "design1",
           designSettings: {
-            titleSize: "xl",
             align: "center",
-            subtitleWidth: "50%",
-            height: "460px",
             video: true,
-            leftTitlePosition: true,
-            leftTitleWidth: "50%",
+            height: "500px",
+            titleSize: "l",
             showButtons: true,
+            imageSetting: {
+              objectFit: "cover",
+              showImage: true,
+              backgroundColor: "primary",
+            },
+            subtitleWidth: "50%",
+            leftTitleWidth: "50%",
+            leftTitlePosition: true,
             sectionBackground: {
               color: "none",
               media: "",
-              height: "fit",
               width: "100%",
+              height: "fit",
               spacing: "xl",
-            },
-            imageSetting: {
-              objectFit: "cover",
-              backgroundColor: "primary",
-              showImage: true,
             },
           },
         },
-      },
-      {
-        id: v4(),
-        sectionName: "Accordion",
         content: {
           label: "",
-          title: "Heading",
+          title: "Main Heading",
+          buttons: {
+            primaryButton: {
+              text: "start your journey",
+            },
+            secondaryButton: {
+              text: "learn more",
+            },
+          },
+          subtitle:
+            "A clear explanation of the problem you are solving and the value of your brand in a way that resonates with your audience and encourages them to take action. Keep it short, interesting and easy to remember.",
+          mediaType: "image",
+          actionType: "buttons",
+          imageSetting: {
+            altText: "",
+            imageUrl: "",
+          },
+          videoSetting: {
+            videoUrl: "",
+          },
+        },
+        sectionName: "Banner",
+      },
+      {
+        id: "81fb8a22-1f42-417d-8b56-bef330bebdfc",
+        style: {
+          designName: "design1",
+          designSettings: {
+            grid: {
+              mobile: 1,
+              desktop: 3,
+            },
+            align: "start",
+            shape: "rounded",
+            avatar: true,
+            border: false,
+            rating: true,
+            textSize: "m",
+            background: true,
+            displayType: "grid",
+            carouselSettings: {
+              autoScroll: false,
+              mobileWidth: 300,
+              scrollSpeed: 2,
+              desktopWidth: 350,
+            },
+            leftTitlePosition: false,
+            sectionBackground: {
+              color: "gray",
+              media: "",
+              height: "fit",
+              spacing: "l",
+            },
+          },
+        },
+        content: {
+          label: "",
+          title: "",
+          iconType: "star",
           subtitle: "",
-          accordions: [
+          testimonials: [
             {
-              id: v4(),
-              title: "Accordion 1",
-              text: "Add text here",
+              id: "58540cfa-5a96-42cd-a218-59cfa0eedd55",
+              bio: "@johnDoe",
+              link: "",
+              name: "John Doe",
+              avatar: "",
+              rating: 4,
+              review:
+                "Add a customer review that describes their experience with your product/service",
             },
             {
-              id: v4(),
-              title: "Accordion 2",
-              text: "Add text here",
+              id: "07559fe6-1879-4a6b-be9d-a4274f390459",
+              bio: "@johnDoe",
+              link: "",
+              name: "John Doe",
+              avatar: "",
+              rating: 4,
+              review:
+                "Add a customer review that describes their experience with your product/service",
             },
             {
-              id: v4(),
-              title: "Accordion 3",
-              text: "Add text here",
+              id: "453170fd-4ab8-4785-9a2b-466b3de6b01d",
+              bio: "@johnDoe",
+              link: "",
+              name: "John Doe",
+              avatar: "",
+              rating: 4,
+              review:
+                "Add a customer review that describes their experience with your product/service",
             },
           ],
         },
+        sectionName: "Testimonials",
+      },
+      {
+        id: "a928aa06-30a4-4003-b6ab-e6028cf06f9c",
+        style: {
+          designName: "design3",
+          designSettings: {
+            align: "start",
+            video: true,
+            height: "390px",
+            titleSize: "s",
+            showButtons: true,
+            imageSetting: {
+              objectFit: "cover",
+              showImage: true,
+              backgroundColor: "primary",
+            },
+            subtitleWidth: "50%",
+            leftTitleWidth: "50%",
+            leftTitlePosition: true,
+            sectionBackground: {
+              color: "none",
+              media: "",
+              width: "100%",
+              height: "fit",
+              spacing: "xl",
+            },
+          },
+        },
+        content: {
+          label: "",
+          title: "#1 benefit of your ",
+          buttons: {
+            primaryButton: {
+              text: "start your journey",
+            },
+            secondaryButton: {
+              text: "learn more",
+            },
+          },
+          subtitle:
+            "Focus on the advantage that a customer will gain. People are often more interested in benefits than features, so highlight the value you provide.",
+          mediaType: "image",
+          actionType: "buttons",
+          imageSetting: {
+            altText: "",
+            imageUrl: "",
+          },
+          videoSetting: {
+            videoUrl: "",
+          },
+        },
+        sectionName: "Banner",
+      },
+      {
+        id: "fdc168ce-f29d-47c8-9416-1030c1d6cf14",
+        style: {
+          designName: "design4",
+          designSettings: {
+            align: "start",
+            video: true,
+            height: "390px",
+            titleSize: "s",
+            showButtons: true,
+            imageSetting: {
+              objectFit: "cover",
+              showImage: true,
+              backgroundColor: "primary",
+            },
+            subtitleWidth: "50%",
+            leftTitleWidth: "50%",
+            leftTitlePosition: true,
+            sectionBackground: {
+              color: "none",
+              media: "",
+              width: "100%",
+              height: "fit",
+              spacing: "xl",
+            },
+          },
+        },
+        content: {
+          label: "",
+          title: "#2 benefit of your  product or service",
+          buttons: {
+            primaryButton: {
+              text: "start your journey",
+            },
+            secondaryButton: {
+              text: "learn more",
+            },
+          },
+          subtitle:
+            "Focus on the advantage that a customer will gain. People are often more interested in benefits than features, so highlight the value you provide.",
+          mediaType: "image",
+          actionType: "buttons",
+          imageSetting: {
+            altText: "",
+            imageUrl: "",
+          },
+          videoSetting: {
+            videoUrl: "",
+          },
+        },
+        sectionName: "Banner",
+      },
+      {
+        id: "83ca371e-daf4-4696-a4b1-1cb44e2bcef1",
+        style: {
+          designName: "design3",
+          designSettings: {
+            align: "start",
+            video: true,
+            height: "390px",
+            titleSize: "s",
+            showButtons: true,
+            imageSetting: {
+              objectFit: "cover",
+              showImage: true,
+              backgroundColor: "primary",
+            },
+            subtitleWidth: "50%",
+            leftTitleWidth: "50%",
+            leftTitlePosition: true,
+            sectionBackground: {
+              color: "none",
+              media: "",
+              width: "100%",
+              height: "fit",
+              spacing: "xl",
+            },
+          },
+        },
+        content: {
+          label: "",
+          title: "#3 benefit of your  product or service",
+          buttons: {
+            primaryButton: {
+              text: "start your journey",
+            },
+            secondaryButton: {
+              text: "learn more",
+            },
+          },
+          subtitle:
+            "Focus on the advantage that a customer will gain. People are often more interested in benefits than features, so highlight the value you provide.",
+          mediaType: "image",
+          actionType: "buttons",
+          imageSetting: {
+            altText: "",
+            imageUrl: "",
+          },
+          videoSetting: {
+            videoUrl: "",
+          },
+        },
+        sectionName: "Banner",
+      },
+      {
+        id: "c3fb94bc-4b60-485a-ba4f-f45e878c8430",
         style: {
           designName: "design1",
           designSettings: {
             icon: "arrow",
             align: "start",
-            background: true,
             border: false,
+            background: true,
             leftTitlePosition: false,
             sectionBackground: {
-              color: "none",
+              color: "gray",
               media: "",
               height: "fit",
               spacing: "l",
             },
           },
         },
-      },
-      {
-        id: v4(),
-        sectionName: "Cards",
         content: {
           label: "",
-          title: "Heading",
+          title: "FAQs",
           subtitle: "",
-          cards: [
+          accordions: [
             {
-              id: v4(),
-              title: "Card 1",
-              text: "card 1 text",
-              image: "",
-              button: "",
-              buttonColor: "gray" || "primary",
-              link: "",
+              id: "1ae4246e-14dc-4ade-8f72-7d3d28343b6b",
+              text: "Add response here",
+              title: "Question #1",
             },
             {
-              id: v4(),
-              title: "Card 2",
-              text: "card 2 text",
-              image: "",
-              button: "",
-              buttonColor: "gray" || "primary",
-              link: "",
+              id: "9679eb54-f8f5-4706-894c-ede5731ab7b2",
+              text: "Add response here",
+              title: "Question #2",
             },
             {
-              id: v4(),
-              title: "Card 3",
-              text: "card 3 text",
-              image: "",
-              button: "",
-              buttonColor: "gray" || "primary",
-              link: "",
+              id: "c0bad8e7-9176-4376-b11e-23e73743bdd0",
+              text: "Add response here",
+              title: "Question #3",
             },
           ],
         },
+        sectionName: "Accordion",
+      },
+      {
+        id: "b815226c-904c-420a-b762-41c39545c53e",
         style: {
-          designName: "design1",
+          designName: "design2",
           designSettings: {
-            layout: "top",
-            layoutV2: "bottom",
-            grid: {
-              desktop: 3,
-              mobile: 1,
+            align: "center",
+            video: true,
+            height: "460px",
+            titleSize: "s",
+            showButtons: true,
+            imageSetting: {
+              objectFit: "cover",
+              showImage: false,
+              backgroundColor: "primary",
             },
-            height: {
-              desktop: 300,
-              mobile: 300,
-            },
-            titleSize: "m",
-            align: "start",
-            image: true,
-            cardBackground: true,
-            cardBorder: false,
+            subtitleWidth: "64%",
+            leftTitleWidth: "50%",
             leftTitlePosition: false,
-            displayType: "grid",
-            cardSlider: {
-              desktopWidth: 300,
-              mobileWidth: 300,
-              autoScroll: false,
-              scrollSpeed: 2,
-            },
-            button: true,
             sectionBackground: {
-              color: "none",
+              color: "primary",
               media: "",
+              width: "100%",
               height: "fit",
-              spacing: "l",
+              spacing: "xl",
+              align: "center",
             },
           },
         },
+        content: {
+          label: "",
+          title: "Headline that excites  the visitor to take action",
+          buttons: {
+            primaryButton: {
+              text: "start your journey",
+            },
+            secondaryButton: {
+              text: "learn more",
+            },
+          },
+          subtitle:
+            "Use strong action verbs and clear language that conveys the benefit or value of completing the action.",
+          mediaType: "image",
+          actionType: "buttons",
+          imageSetting: {
+            altText: "",
+            imageUrl: "",
+          },
+          videoSetting: {
+            videoUrl: "",
+          },
+        },
+        sectionName: "Banner",
       },
     ],
   },
@@ -170,25 +387,34 @@ export const landing = [
         sectionName: "Banner",
         content: {
           label: "",
-          title: "developer",
+          title: "Main Heading",
           subtitle:
-            "Eslam** helps you build the best products for your customers. With our expertise and experience, we can help you take your ideas from concept to reality",
+            "A clear explanation of the problem you are solving and the value of your brand in a way that resonates with your audience and encourages them to take action. Keep it short, interesting and easy to remember.",
           mediaType: "image",
-          imageSetting: { imageUrl: "", altText: "" },
-          videoSetting: { videoUrl: "" },
+          imageSetting: {
+            imageUrl: "",
+            altText: "",
+          },
+          videoSetting: {
+            videoUrl: "",
+          },
           actionType: "buttons",
           buttons: {
-            primaryButton: { text: "start your journey" },
-            secondaryButton: { text: "learn more" },
+            primaryButton: {
+              text: "start your journey",
+            },
+            secondaryButton: {
+              text: "learn more",
+            },
           },
         },
         style: {
-          designName: "design1",
+          designName: "design3",
           designSettings: {
-            titleSize: "xl",
-            align: "center",
+            titleSize: "l",
+            align: "start",
             subtitleWidth: "50%",
-            height: "460px",
+            height: "550px",
             video: true,
             leftTitlePosition: true,
             leftTitleWidth: "50%",
@@ -209,44 +435,44 @@ export const landing = [
         },
       },
       {
-        id: v4(),
+        id: "6e940df9-36b1-4d40-9a7f-430b4cacf30c",
         sectionName: "Cards",
         content: {
           label: "",
-          title: "Heading",
+          title: "",
           subtitle: "",
           cards: [
             {
-              id: v4(),
-              title: "Card 1",
-              text: "card 1 text",
+              id: "a0765b7f-c27d-4ae9-8814-de93c8d03f92",
+              title: "#1 Benefit",
+              text: "Focus on what a customer will gain.",
               image: "",
               button: "",
-              buttonColor: "gray" || "primary",
+              buttonColor: "gray",
               link: "",
             },
             {
-              id: v4(),
-              title: "Card 2",
-              text: "card 2 text",
+              id: "56f7e39c-0751-44b4-8ffe-5bf9e8ee7b95",
+              title: "#2 Benefit",
+              text: "Focus on what a customer will gain.",
               image: "",
               button: "",
-              buttonColor: "gray" || "primary",
+              buttonColor: "gray",
               link: "",
             },
             {
-              id: v4(),
-              title: "Card 3",
-              text: "card 3 text",
+              id: "2209fe00-f4a0-402e-9bf1-b43f7f6161a9",
+              title: "#3 Benefit",
+              text: "Focus on what a customer will gain.",
               image: "",
               button: "",
-              buttonColor: "gray" || "primary",
+              buttonColor: "gray",
               link: "",
             },
           ],
         },
         style: {
-          designName: "design1",
+          designName: "design2",
           designSettings: {
             layout: "top",
             layoutV2: "bottom",
@@ -255,8 +481,8 @@ export const landing = [
               mobile: 1,
             },
             height: {
-              desktop: 300,
-              mobile: 300,
+              desktop: 400,
+              mobile: 250,
             },
             titleSize: "m",
             align: "start",
@@ -282,7 +508,163 @@ export const landing = [
         },
       },
       {
-        id: v4(),
+        id: "1c45a9ea-7f78-40bf-a092-3e46da3a1a4a",
+        sectionName: "Banner",
+        content: {
+          label: "",
+          title: "#1 benefit of your ",
+          subtitle:
+            "Focus on the advantage that a customer will gain. People are often more interested in benefits than features, so highlight the value you provide.",
+          mediaType: "image",
+          imageSetting: {
+            imageUrl: "",
+            altText: "",
+          },
+          videoSetting: {
+            videoUrl: "",
+          },
+          actionType: "buttons",
+          buttons: {
+            primaryButton: {
+              text: "start your journey",
+            },
+            secondaryButton: {
+              text: "learn more",
+            },
+          },
+        },
+        style: {
+          designName: "design1",
+          designSettings: {
+            titleSize: "s",
+            align: "start",
+            subtitleWidth: "60%",
+            height: "390px",
+            video: true,
+            leftTitlePosition: false,
+            leftTitleWidth: "50%",
+            showButtons: true,
+            sectionBackground: {
+              color: "none",
+              media: "",
+              height: "fit",
+              width: "100%",
+              spacing: "xl",
+            },
+            imageSetting: {
+              objectFit: "cover",
+              backgroundColor: "primary",
+              showImage: true,
+            },
+          },
+        },
+      },
+      {
+        id: "9a3cbb9f-f7ea-4256-a211-dd1855b2ea9a",
+        sectionName: "Banner",
+        content: {
+          label: "",
+          title: "#2 benefit of your ",
+          subtitle:
+            "Focus on the advantage that a customer will gain. People are often more interested in benefits than features, so highlight the value you provide.",
+          mediaType: "image",
+          imageSetting: {
+            imageUrl: "",
+            altText: "",
+          },
+          videoSetting: {
+            videoUrl: "",
+          },
+          actionType: "buttons",
+          buttons: {
+            primaryButton: {
+              text: "start your journey",
+            },
+            secondaryButton: {
+              text: "learn more",
+            },
+          },
+        },
+        style: {
+          designName: "design1",
+          designSettings: {
+            titleSize: "s",
+            align: "start",
+            subtitleWidth: "60%",
+            height: "390px",
+            video: true,
+            leftTitlePosition: false,
+            leftTitleWidth: "50%",
+            showButtons: true,
+            sectionBackground: {
+              color: "none",
+              media: "",
+              height: "fit",
+              width: "100%",
+              spacing: "xl",
+            },
+            imageSetting: {
+              objectFit: "cover",
+              backgroundColor: "primary",
+              showImage: true,
+            },
+          },
+        },
+      },
+      {
+        id: "f3dcb82b-62db-43d0-966b-b39ca659ea4e",
+        sectionName: "Banner",
+        content: {
+          label: "",
+          title: "#3 benefit of your ",
+          subtitle:
+            "Focus on the advantage that a customer will gain. People are often more interested in benefits than features, so highlight the value you provide.",
+          mediaType: "image",
+          imageSetting: {
+            imageUrl: "",
+            altText: "",
+          },
+          videoSetting: {
+            videoUrl: "",
+          },
+          actionType: "buttons",
+          buttons: {
+            primaryButton: {
+              text: "start your journey",
+            },
+            secondaryButton: {
+              text: "learn more",
+            },
+          },
+        },
+        style: {
+          designName: "design1",
+          designSettings: {
+            titleSize: "s",
+            align: "start",
+            subtitleWidth: "60%",
+            height: "390px",
+            video: true,
+            leftTitlePosition: false,
+            leftTitleWidth: "50%",
+            showButtons: true,
+            sectionBackground: {
+              color: "none",
+              media: "",
+              height: "fit",
+              width: "100%",
+              spacing: "xl",
+            },
+            imageSetting: {
+              objectFit: "cover",
+              backgroundColor: "primary",
+              showImage: true,
+            },
+          },
+        },
+      },
+      {
+        id: "454d991a-ac03-4b75-9cdc-fe44774b1767",
         sectionName: "Testimonials",
         content: {
           label: "",
@@ -291,32 +673,32 @@ export const landing = [
           iconType: "star",
           testimonials: [
             {
-              id: v4(),
+              id: "8b24a0e2-a445-40ae-8c1c-58c7fb108fa9",
               review:
-                "Add a customer review that describes their experience with your product/service",
-              name: "John Doe",
-              bio: "@johnDoe",
-              rating: 4,
+                "A customer review that describes their experience with the #1 benefit",
+              name: "Name",
+              bio: "Work Bio",
+              rating: 5,
               avatar: "",
               link: "",
             },
             {
-              id: v4(),
+              id: "d35b46c9-9a85-4468-b0c0-c71ecd10c684",
               review:
-                "Add a customer review that describes their experience with your product/service",
-              name: "John Doe",
-              bio: "@johnDoe",
-              rating: 4,
+                "A testimonial that highlights the benefits of switching to your product/service",
+              name: "Name",
+              bio: "Company",
+              rating: 5,
               avatar: "",
               link: "",
             },
             {
-              id: v4(),
+              id: "fc103795-075c-4f83-a25b-8a8481cf003c",
               review:
-                "Add a customer review that describes their experience with your product/service",
-              name: "John Doe",
-              bio: "@johnDoe",
-              rating: 4,
+                "A testimonial that clears customer doubts about your product/service",
+              name: "Name",
+              bio: "@username",
+              rating: 5,
               avatar: "",
               link: "",
             },
@@ -328,7 +710,640 @@ export const landing = [
             textSize: "m",
             displayType: "grid",
             grid: {
+              desktop: 1,
+              mobile: 1,
+            },
+            shape: "rounded",
+            align: "start",
+            background: true,
+            border: false,
+            avatar: true,
+            rating: true,
+            leftTitlePosition: true,
+            carouselSettings: {
+              desktopWidth: 350,
+              mobileWidth: 300,
+              autoScroll: false,
+              scrollSpeed: 2,
+            },
+            sectionBackground: {
+              color: "gray",
+              media: "",
+              height: "fit",
+              spacing: "l",
+            },
+          },
+        },
+      },
+      {
+        id: "4704f993-70d2-42b9-b610-025d4ee60082",
+        sectionName: "Accordion",
+        content: {
+          label: "",
+          title: "Frequently  asked questions",
+          subtitle: "",
+          accordions: [
+            {
+              id: "576fb6fc-6b05-46ea-9448-738566860bdd",
+              title: "Question #1",
+              text: "Add response here",
+            },
+            {
+              id: "f987260d-b581-4227-8a4a-9f0959724c07",
+              title: "Question #2",
+              text: "Add response here",
+            },
+            {
+              id: "5e33726f-b072-474b-a6ba-aac49f57dd93",
+              title: "Question #3",
+              text: "Add response here",
+            },
+          ],
+        },
+        style: {
+          designName: "design1",
+          designSettings: {
+            icon: "arrow",
+            align: "start",
+            background: true,
+            border: false,
+            leftTitlePosition: true,
+            sectionBackground: {
+              color: "none",
+              media: "",
+              height: "fit",
+              spacing: "l",
+              align: "center",
+            },
+          },
+        },
+      },
+      {
+        id: "9f8cb279-fd28-442f-ac0c-bd49a56f1a08",
+        sectionName: "Banner",
+        content: {
+          label: "",
+          title: "Headline that excite  visitors to take action",
+          subtitle:
+            "Use strong action verbs and clear language that conveys the benefit or value of completing the action.",
+          mediaType: "image",
+          imageSetting: {
+            imageUrl: "",
+            altText: "",
+          },
+          videoSetting: {
+            videoUrl: "",
+          },
+          actionType: "buttons",
+          buttons: {
+            primaryButton: {
+              text: "start your journey",
+            },
+            secondaryButton: {
+              text: "learn more",
+            },
+          },
+        },
+        style: {
+          designName: "design1",
+          designSettings: {
+            titleSize: "s",
+            align: "start",
+            subtitleWidth: "50%",
+            height: "460px",
+            video: true,
+            leftTitlePosition: false,
+            leftTitleWidth: "50%",
+            showButtons: true,
+            sectionBackground: {
+              color: "primary",
+              media: "",
+              height: "fit",
+              width: "100%",
+              spacing: "xl",
+            },
+            imageSetting: {
+              objectFit: "cover",
+              backgroundColor: "primary",
+              showImage: false,
+            },
+          },
+        },
+      },
+    ],
+  },
+  {
+    sections: [
+      {
+        id: "292a7c7d-66ed-4909-ada0-5815ae65f2ab",
+        style: {
+          designName: "design5",
+          designSettings: {
+            align: "center",
+            video: true,
+            height: "390px",
+            titleSize: "xl",
+            showButtons: false,
+            imageSetting: {
+              objectFit: "cover",
+              showImage: true,
+              backgroundColor: "primary",
+            },
+            subtitleWidth: "50%",
+            leftTitleWidth: "50%",
+            leftTitlePosition: true,
+            sectionBackground: {
+              color: "primary",
+              media: "",
+              width: "100%",
+              height: "fit",
+              spacing: "xl",
+            },
+          },
+        },
+        content: {
+          label: "",
+          title: "Main Heading",
+          buttons: {
+            primaryButton: {
+              text: "start your journey",
+            },
+            secondaryButton: {
+              text: "learn more",
+            },
+          },
+          subtitle:
+            "A clear explanation of the problem you are solving and the value of your brand in a way that resonates with your audience and encourages them to take action. Keep it short, interesting and easy to remember.",
+          mediaType: "image",
+          actionType: "buttons",
+          imageSetting: {
+            altText: "",
+            imageUrl: "",
+          },
+          videoSetting: {
+            videoUrl: "",
+          },
+        },
+        sectionName: "Banner",
+      },
+      {
+        id: "f25b3043-e4f7-4ee3-84c8-2a2b3128b77b",
+        sectionName: "Banner",
+        content: {
+          label: "",
+          title: "#1 benefit of your  product or service",
+          subtitle:
+            "Focus on the advantage that a customer will gain. People are often more interested in benefits than features, so highlight the value you provide.",
+          mediaType: "image",
+          imageSetting: {
+            imageUrl: "",
+            altText: "",
+          },
+          videoSetting: {
+            videoUrl: "",
+          },
+          actionType: "buttons",
+          buttons: {
+            primaryButton: {
+              text: "start your journey",
+            },
+            secondaryButton: {
+              text: "learn more",
+            },
+          },
+        },
+        style: {
+          designName: "design1",
+          designSettings: {
+            titleSize: "s",
+            align: "center",
+            subtitleWidth: "60%",
+            height: "390px",
+            video: true,
+            leftTitlePosition: false,
+            leftTitleWidth: "50%",
+            showButtons: false,
+            sectionBackground: {
+              color: "none",
+              media: "",
+              height: "fit",
+              width: "100%",
+              spacing: "xl",
+            },
+            imageSetting: {
+              objectFit: "cover",
+              backgroundColor: "primary",
+              showImage: true,
+            },
+          },
+        },
+      },
+      {
+        id: "da99ab14-09c0-45fe-996a-975fea24d8ed",
+        sectionName: "Banner",
+        content: {
+          label: "",
+          title: "#2 benefit of your  product or service",
+          subtitle:
+            "Focus on the advantage that a customer will gain. People are often more interested in benefits than features, so highlight the value you provide.",
+          mediaType: "image",
+          imageSetting: {
+            imageUrl: "",
+            altText: "",
+          },
+          videoSetting: {
+            videoUrl: "",
+          },
+          actionType: "buttons",
+          buttons: {
+            primaryButton: {
+              text: "start your journey",
+            },
+            secondaryButton: {
+              text: "learn more",
+            },
+          },
+        },
+        style: {
+          designName: "design1",
+          designSettings: {
+            titleSize: "s",
+            align: "center",
+            subtitleWidth: "60%",
+            height: "390px",
+            video: true,
+            leftTitlePosition: false,
+            leftTitleWidth: "50%",
+            showButtons: false,
+            sectionBackground: {
+              color: "gray",
+              media: "",
+              height: "fit",
+              width: "100%",
+              spacing: "xl",
+            },
+            imageSetting: {
+              objectFit: "cover",
+              backgroundColor: "primary",
+              showImage: true,
+            },
+          },
+        },
+      },
+      {
+        id: "f4114d06-b749-47d1-8ad4-d36390cce6ba",
+        sectionName: "Banner",
+        content: {
+          label: "",
+          title: "#3 benefit of your  product or service",
+          subtitle:
+            "Focus on the advantage that a customer will gain. People are often more interested in benefits than features, so highlight the value you provide.",
+          mediaType: "image",
+          imageSetting: {
+            imageUrl: "",
+            altText: "",
+          },
+          videoSetting: {
+            videoUrl: "",
+          },
+          actionType: "buttons",
+          buttons: {
+            primaryButton: {
+              text: "start your journey",
+            },
+            secondaryButton: {
+              text: "learn more",
+            },
+          },
+        },
+        style: {
+          designName: "design1",
+          designSettings: {
+            titleSize: "s",
+            align: "center",
+            subtitleWidth: "60%",
+            height: "390px",
+            video: true,
+            leftTitlePosition: false,
+            leftTitleWidth: "50%",
+            showButtons: false,
+            sectionBackground: {
+              color: "none",
+              media: "",
+              height: "fit",
+              width: "100%",
+              spacing: "xl",
+            },
+            imageSetting: {
+              objectFit: "cover",
+              backgroundColor: "primary",
+              showImage: true,
+            },
+          },
+        },
+      },
+      {
+        id: "9d256fba-2d63-4371-884a-53d09b2f2b32",
+        sectionName: "List",
+        content: {
+          label: "",
+          title: "Heading",
+          subtitle: "",
+          type: "icon",
+          list: [
+            {
+              id: "9dce3a6b-8618-46ef-a636-d7af311b6cd8",
+              title: "List 1",
+              text: "List 1 text",
+              icon: "",
+              link: "",
+            },
+            {
+              id: "4c9ab7ab-0557-42ee-968a-e7c06cc29778",
+              title: "List 2",
+              text: "",
+              icon: "",
+              link: "",
+            },
+            {
+              id: "a70b3355-4bc9-4e43-883a-3a9385edb2a0",
+              title: "List 3",
+              text: "",
+              icon: "",
+              link: "",
+            },
+            {
+              id: "5889b544-604e-4a0c-a39d-348ffe0b5fbe",
+              title: "List 4",
+              text: "",
+              icon: "",
+              link: "",
+            },
+            {
+              id: "d2000c12-42d8-49dd-a55c-dacb1bcf09a7",
+              title: "List 5",
+              text: "",
+              icon: "",
+              link: "",
+            },
+            {
+              id: "5f1e539a-9a24-4436-a158-68941f925405",
+              title: "List 6",
+              text: "",
+              icon: "",
+              link: "",
+            },
+          ],
+        },
+        style: {
+          designName: "design1",
+          designSettings: {
+            layout: "row",
+            grid: {
               desktop: 3,
+              mobile: 1,
+            },
+            height: 50,
+            shape: "square",
+            iconColor: "primary",
+            textSize: "m",
+            align: "start",
+            icon: true,
+            background: true,
+            border: false,
+            leftTitlePosition: false,
+            displayType: "grid",
+            carouselSettings: {
+              desktopWidth: 200,
+              mobileWidth: 200,
+              autoScroll: false,
+              scrollSpeed: 2,
+            },
+            sectionBackground: {
+              color: "gray",
+              media: "",
+              height: "fit",
+              spacing: "l",
+            },
+          },
+        },
+      },
+      {
+        id: "a531a1eb-115c-480d-bf64-4d4773277980",
+        sectionName: "Pricing",
+        content: {
+          label: "",
+          title: "Pricing",
+          subtitle: "",
+          currency: {
+            code: "USD",
+            name: "US Dollar",
+            symbol: "$",
+          },
+          planType: "Subscription",
+          subscriptionPlans: [
+            {
+              billingCycle: "Monthly",
+              cycleDuration: "/month",
+              default: true,
+            },
+            {
+              billingCycle: "Yearly",
+              cycleDuration: "/year",
+              default: false,
+            },
+            {
+              billingCycle: "",
+              cycleDuration: "",
+              default: false,
+            },
+          ],
+          subscriptions: [
+            {
+              id: "585016e6-4c38-4ac0-bf8b-756f4367c4a2",
+              title: "Free",
+              text: "",
+              benefits: [
+                {
+                  id: "6381b0f9-6d64-460d-9a71-e2d9b6ac8c70",
+                  title: "Add feature 1",
+                },
+                {
+                  id: "6ee7db3c-0ac4-4ec9-8262-e69fc2d0c48a",
+                  title: "Add feature 2",
+                },
+                {
+                  id: "4a0c8108-6c05-4cb9-a4f3-7bb12e48cfed",
+                  title: "Add feature 3",
+                },
+              ],
+              oneTimePlan: {
+                id: "effbf743-41cf-4d52-abde-fe1cbbb5300b",
+                originalPrice: 0,
+                salePrice: 0,
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+              price: [
+                {
+                  originalPrice: "0",
+                  salePrice: "0",
+                  isSale: false,
+                  offer: "",
+                  button: {
+                    text: "Get Started",
+                    link: "",
+                    openNewTab: false,
+                  },
+                },
+                {
+                  originalPrice: "0",
+                  salePrice: "0",
+                  isSale: false,
+                  offer: "",
+                  button: {
+                    text: "Get Started",
+                    link: "",
+                    openNewTab: false,
+                  },
+                },
+                {
+                  originalPrice: "0",
+                  salePrice: "0",
+                  isSale: false,
+                  offer: "",
+                  button: {
+                    text: "Get Started",
+                    link: "",
+                    openNewTab: false,
+                  },
+                },
+              ],
+              featured: {
+                isActive: false,
+                text: "Best Deal",
+              },
+            },
+            {
+              id: "5c67c059-3969-4893-b648-56796e8713ef",
+              title: "Pro",
+              text: "",
+              benefits: [
+                {
+                  id: "398e008e-7ed4-4e24-8688-4ccd89856921",
+                  title: "Add feature 1",
+                },
+                {
+                  id: "d95fd927-c2a6-4631-a5e4-d4015a8b7b43",
+                  title: "Add feature 2",
+                },
+                {
+                  id: "688c874e-f627-437b-a82c-23a2db115ffa",
+                  title: "Add feature 3",
+                },
+              ],
+              oneTimePlan: {
+                id: "d7727586-838c-491c-970e-4c016629938e",
+                originalPrice: "20",
+                salePrice: "15",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+              price: {
+                "0": {
+                  originalPrice: "10",
+                  salePrice: "10",
+                  isSale: false,
+                  offer: "",
+                  button: {
+                    text: "Get Started",
+                    link: "",
+                    openNewTab: false,
+                  },
+                },
+                "1": {
+                  originalPrice: "100",
+                  salePrice: "25",
+                  isSale: false,
+                  offer: "",
+                  button: {
+                    text: "Get Started",
+                    link: "",
+                    openNewTab: false,
+                  },
+                },
+                "2": {
+                  originalPrice: "0",
+                  salePrice: "0",
+                  isSale: false,
+                  offer: "",
+                  button: {
+                    text: "Get Started",
+                    link: "",
+                    openNewTab: false,
+                  },
+                },
+              },
+              featured: {
+                isActive: true,
+                text: "Best Deal",
+              },
+            },
+          ],
+        },
+        style: {
+          designName: "design1",
+          designSettings: {
+            text: "m",
+            background: true,
+            border: false,
+            sectionBackground: {
+              color: "none",
+              media: "",
+              height: "fit",
+              spacing: "l",
+            },
+          },
+        },
+      },
+      {
+        id: "cf148769-5458-4436-b4dd-166d60525221",
+        sectionName: "Testimonials",
+        content: {
+          label: "",
+          title: "What people say",
+          subtitle: "",
+          iconType: "star",
+          testimonials: [
+            {
+              id: "a004ae49-9f91-463d-a353-071fa448f8b1",
+              review:
+                '"Add a customer testimonial that describes their experience, \nhighlights the benefits, or answers the doubts about your product/service."',
+              name: "Name",
+              bio: "Company",
+              rating: 5,
+              avatar: "",
+              link: "",
+            },
+          ],
+        },
+        style: {
+          designName: "design1",
+          designSettings: {
+            textSize: "m",
+            displayType: "grid",
+            grid: {
+              desktop: 1,
               mobile: 1,
             },
             shape: "square",
@@ -345,10 +1360,104 @@ export const landing = [
               scrollSpeed: 2,
             },
             sectionBackground: {
+              color: "gray",
+              media: "",
+              height: "fit",
+              spacing: "l",
+            },
+          },
+        },
+      },
+      {
+        id: "a562e4c9-3b7a-40a1-a2ac-2be780bb4691",
+        sectionName: "Accordion",
+        content: {
+          label: "",
+          title: "Frequently  asked questions",
+          subtitle: "",
+          accordions: [
+            {
+              id: "76f4a10f-1a0d-47ba-b9c0-9ff1d46ab40f",
+              title: "Question #1",
+              text: "Add response here",
+            },
+            {
+              id: "26c2c547-bc99-482e-b2a2-7f973056c2c8",
+              title: "Question #2",
+              text: "Add response here",
+            },
+            {
+              id: "7a274830-e997-4a90-a52b-7a13e7e0fa85",
+              title: "Question #3",
+              text: "Add response here",
+            },
+          ],
+        },
+        style: {
+          designName: "design1",
+          designSettings: {
+            icon: "arrow",
+            align: "start",
+            background: true,
+            border: false,
+            leftTitlePosition: true,
+            sectionBackground: {
               color: "none",
               media: "",
               height: "fit",
               spacing: "l",
+            },
+          },
+        },
+      },
+      {
+        id: "cb0c7b11-feca-4aa0-b1cb-847b2cecb085",
+        sectionName: "Banner",
+        content: {
+          label: "",
+          title: "Headline that excite  visitors to take action",
+          subtitle:
+            "Use strong action verbs and clear language that conveys the benefit or value of completing the action.",
+          mediaType: "image",
+          imageSetting: {
+            imageUrl: "",
+            altText: "",
+          },
+          videoSetting: {
+            videoUrl: "",
+          },
+          actionType: "buttons",
+          buttons: {
+            primaryButton: {
+              text: "start your journey",
+            },
+            secondaryButton: {
+              text: "learn more",
+            },
+          },
+        },
+        style: {
+          designName: "design1",
+          designSettings: {
+            titleSize: "m",
+            align: "center",
+            subtitleWidth: "50%",
+            height: "460px",
+            video: true,
+            leftTitlePosition: true,
+            leftTitleWidth: "50%",
+            showButtons: true,
+            sectionBackground: {
+              color: "primary",
+              media: "",
+              height: "fit",
+              width: "100%",
+              spacing: "xl",
+            },
+            imageSetting: {
+              objectFit: "cover",
+              backgroundColor: "primary",
+              showImage: false,
             },
           },
         },

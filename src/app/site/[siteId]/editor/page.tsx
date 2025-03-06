@@ -8,6 +8,7 @@ import {
   updateEditorState,
   updateIsDraggableModal,
   updateSelectedPallet,
+  updateStorage,
 } from "@/reduxStore/action";
 import { createClient } from "@/utlis/supabase/client";
 import DraggableModal from "./draggableModal";
@@ -75,6 +76,8 @@ export default function Home({ params }: any) {
 
         // Update selected pallet settings
         dispatch(updateSelectedPallet(siteData.selectedPallet));
+
+        dispatch(updateStorage(siteData.storage));
 
         setLoading(false);
       }

@@ -401,4 +401,5 @@ export const insertSiteData = (
       },
     },
   ],
+  storage: [],
 });

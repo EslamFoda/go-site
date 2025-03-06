@@ -101,6 +101,12 @@ export interface EditorStore {
     keyof SectionContentTypes,
     keyof SectionStyleTypes
   >[];
+  storage: Storage[];
+}
+
+export interface Storage {
+  imgId: string;
+  url: string;
 }
 
 export type DraggableModalName = "SETTINGS" | "LAYOUT";

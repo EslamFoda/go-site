@@ -7,6 +7,7 @@ import {
   PageSettings,
   SectionContentTypes,
   SectionStyleTypes,
+  Storage,
 } from "./types";
 
 import { SelectedItemType } from "@/types/common";
@@ -234,4 +235,9 @@ export const updateGlobalStyle = (
 export const updateSiteSettings = (newSettings: any) => ({
   type: types.UPDATE_SITE_SETTINGS,
   payload: newSettings,
+});
+
+export const updateStorage = (newStorage: Storage[]) => ({
+  type: types.UPDATE_STORAGE,
+  payload: newStorage,
 });

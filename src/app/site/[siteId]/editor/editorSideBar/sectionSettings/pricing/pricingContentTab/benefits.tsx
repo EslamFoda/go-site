@@ -157,7 +157,7 @@ function Benefits({
       <div className="flex items-center justify-between">
         <Label htmlFor="label">Benefits</Label>
         <div className="w-4/6 border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
-          {benefits.map((benefit, index) => (
+          {benefits?.map((benefit, index) => (
             <div
               key={benefit.id}
               className="flex items-center group overflow-hidden"

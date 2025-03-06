@@ -119,6 +119,7 @@ function Design1({ section, pageId }: DesignProps) {
                       }}
                     >
                       <AccordionTrigger
+                        className="text-2xl"
                         iconType={accordionStyle.designSettings.icon}
                       >
                         {accordion.title}

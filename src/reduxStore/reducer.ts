@@ -309,6 +309,12 @@ const initialState: EditorStore = {
       },
     },
   ],
+  storage: [
+    {
+      imgId: "",
+      url: "",
+    },
+  ],
 };
 
 // Helper function to update state at a given path
@@ -630,6 +636,11 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         if (sectionToUpdateStyle) {
           Object.assign(sectionToUpdateStyle.style, action.payload.newStyle);
         }
+        break;
+      }
+
+      case types.UPDATE_STORAGE: {
+        draft.storage = action.payload;
         break;
       }
 

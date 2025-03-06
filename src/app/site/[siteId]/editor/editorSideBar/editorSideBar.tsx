@@ -36,6 +36,7 @@ const EditorSidebar = () => {
     editor: { pages },
     settings: { siteId },
     globalSections,
+    storage,
   } = useAppSelector((state) => state.editor.present);
 
   const page = useAppSelector((state) =>
@@ -84,6 +85,7 @@ const EditorSidebar = () => {
       .update({
         pages: pages,
         globalSections: globalSections,
+        storage: storage,
       })
       .eq("siteId", siteId)
       .select();
@@ -91,7 +93,7 @@ const EditorSidebar = () => {
     if (error) {
       console.error("Error updating pages:", error);
     }
-  }, [pages, siteId, globalSections]);
+  }, [pages, siteId, globalSections, storage]);
 
   const debouncedUpdatePageStyleAndContent = debounce(
     updatePageStyleAndContent,
@@ -105,7 +107,7 @@ const EditorSidebar = () => {
     return () => {
       debouncedUpdatePageStyleAndContent.clear();
     };
-  }, [pages, globalSections]);
+  }, [pages, globalSections, storage]);
 
   return (
     <div className="overflow-auto">
