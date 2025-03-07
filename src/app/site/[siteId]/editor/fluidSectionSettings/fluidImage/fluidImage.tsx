@@ -57,7 +57,7 @@ const FluidImage: React.FC<FluidImageProps> = ({
   return (
     <div>
       <UnsplashTab
-        handleUpdate={(image: UnsplashImage) => {
+        handleUpdateUnsplash={(image: UnsplashImage) => {
           handleMultipleSettingChanges({
             imageId: image.id,
             src: image.urls.regular,
