@@ -105,8 +105,9 @@ export interface EditorStore {
 }
 
 export interface Storage {
-  imgId: string;
+  id: string;
   url: string;
+  publicId: string;
 }
 
 export type DraggableModalName = "SETTINGS" | "LAYOUT";

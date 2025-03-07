@@ -9,10 +9,13 @@ import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
+  Storage,
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
-import { updateStyle } from "@/reduxStore/action";
+import { updateContent, updateStyle } from "@/reduxStore/action";
 import BackBtn from "@/components/shared/backBtn";
+import ChooseImage from "../gallery/chooseImage";
+import { UnsplashImage } from "@/types/common";
 interface BannerSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -23,8 +26,8 @@ function BannerSettings({ sections, pageId }: BannerSettingsProps) {
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
   const [tabValue, setTabValue] = useState("content");
   const dispatch = useAppDispatch();
-  const selectedSection = useAppSelector(
-    (state) => state.editor.present.selectedSection
+  const { chooseImage, selectedSection } = useAppSelector(
+    (state) => state.editor.present
   );
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id
@@ -34,9 +37,38 @@ function BannerSettings({ sections, pageId }: BannerSettingsProps) {
     findSelectedSection?.content as SectionContentTypes["banner"];
   const bannerStyle = findSelectedSection?.style as SectionStyleTypes["banner"];
 
+  if (chooseImage) {
+    return (
+      <ChooseImage
+        selectedImgId={bannerContent?.imageSetting?.id || ""}
+        handleUpdateUnsplash={(image: UnsplashImage) => {
+          dispatch(
+            updateContent(pageId, findSelectedSection.id, {
+              imageSetting: {
+                imageUrl: image.urls.regular,
+                altText: "banner image",
+                id: image.id,
+              },
+            })
+          );
+        }}
+        handleUpdateUploadedImg={(image: Storage) => {
+          dispatch(
+            updateContent(pageId, findSelectedSection.id, {
+              imageSetting: {
+                imageUrl: image.url,
+                altText: "banner image",
+                id: image.id,
+              },
+            })
+          );
+        }}
+      />
+    );
+  }
+
   return (
     <div>
-      {/* <SettingsTab /> */}
       {sectionBgOpened ? (
         <div className="space-y-2">
           <BackBtn

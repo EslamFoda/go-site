@@ -15,6 +15,7 @@ export interface Testimonial {
   bio: string;
   rating: number;
   avatar: string;
+  avatarId: string;
   link: string;
 }
 

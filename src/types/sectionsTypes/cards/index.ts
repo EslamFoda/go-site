@@ -6,6 +6,7 @@ export interface Card {
   title: string;
   text: string;
   image: string;
+  imgId: string;
   button: string;
   buttonColor: "gray" | "primary";
   link: string;

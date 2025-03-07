@@ -28,6 +28,7 @@ import GalleryContentTab from "./galleryContentTab";
 import ChooseImage from "./chooseImage";
 import GalleryStyleTab from "./galleryStyleTab";
 import { UnsplashImage } from "@/types/common";
+import ImageSelector from "@/components/shared/imageSelector";
 
 interface GallerySettingsProps {
   sections:
@@ -87,80 +88,29 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
     return (
       <ChooseImage
         selectedImgId={photoItem?.imgId}
-        handleUpdate={(image: UnsplashImage) => {
+        handleUpdateUnsplash={(image: UnsplashImage) => {
           handleUpdatePhoto({
             imgId: image.id,
             url: image.urls.regular,
           });
         }}
-        handleUpdatePhoto={handleUpdatePhoto}
+        handleUpdateUploadedImg={(image: Storage) => {
+          handleUpdatePhoto({ imgId: image.id, url: image.url });
+        }}
       />
     );
   }
 
   if (photoItem)
     return (
-      <div className="space-y-2">
-        <div
-          className="flex justify-between p-5 items-center gap-4  border-b-[1px] border-b-muted-bg mb-3"
-          onClick={() => {
-            dispatch(updateSelectedItem(null));
-          }}
-        >
-          <div className="flex gap-4 items-center cursor-pointer">
-            <ChevronLeft size={18} />
-            <Label className="cursor-pointer">Media</Label>
-          </div>
-          <div className="cursor-pointer" onClick={handleDeletePhoto}>
-            <Trash2 size="18px" color="red" />
-          </div>
-        </div>
-        <div className="px-5 pb-1 space-y-2">
-          <div
-            onClick={() => dispatch(openChooseImage())}
-            className="space-y-1 cursor-pointer flex items-center justify-between"
-          >
-            <Label htmlFor="title">Image</Label>
-            <div className="w-4/6 border flex h-10 border-input rounded-md">
-              <div className=" basis-4/5 flex items-center justify-center h-full">
-                {photoItem.url ? (
-                  <div
-                    className="h-5 w-5"
-                    style={{
-                      backgroundImage: `url(${photoItem.url})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                  ></div>
-                ) : (
-                  <ImagePlaceHolder
-                    fillColor="fill-muted"
-                    width={20}
-                    height={20}
-                  />
-                )}
-              </div>
-              {photoItem.url ? (
-                <div
-                  className=" flex items-center border-s justify-center basis-1/5 h-full "
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleUpdatePhoto({
-                      imgId: "",
-                      url: undefined,
-                    });
-                  }}
-                >
-                  <Trash2 className="stroke-destructive" size={16} />
-                </div>
-              ) : (
-                <div className=" flex items-center border-s justify-center basis-1/5 h-full ">
-                  <ArrowUpFromLine size={18} />
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
+      <div className="px-5">
+        <ImageSelector
+          imageUrl={photoItem.url}
+          onImageSelect={() => dispatch(openChooseImage())}
+          onImageDelete={handleDeletePhoto}
+          onBack={() => dispatch(updateSelectedItem(null))}
+          showBackButton={true}
+        />
       </div>
     );
 

@@ -20,21 +20,28 @@ export const generateSections = (
       imageSetting: {
         imageUrl: generatedData.banner?.imageUrl,
         altText: generatedData.banner?.imageUrl,
+        id: generatedData.banner?.imgId,
       },
       videoSetting: { videoUrl: "" },
       actionType: "buttons",
-      buttons: {
-        primaryButton: {
+
+      buttons: [
+        {
           text:
-            generatedData.banner?.buttons?.primaryButton?.text ||
-            "start your journey",
+            generatedData.banner?.buttons?.primaryButton?.text || "Get Started",
+          link: "",
+          id: v4(),
+          pageId: "",
         },
-        secondaryButton: {
+        {
           text:
             generatedData.banner?.buttons?.secondaryButton?.text ||
-            "learn more",
+            "Learn More",
+          link: "",
+          id: v4(),
+          pageId: "",
         },
-      },
+      ],
     },
     style: {
       designName: "design1",

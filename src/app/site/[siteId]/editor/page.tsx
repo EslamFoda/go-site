@@ -56,6 +56,7 @@ export default function Home({ params }: any) {
         .select()
         .eq("siteId", params.siteId)
         .single();
+        
 
       if (error) console.log(error);
       if (siteData) {

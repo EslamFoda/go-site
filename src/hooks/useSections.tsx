@@ -81,13 +81,21 @@ export function useSections() {
         subtitle:
           "Eslam** helps you build the best products for your customers. With our expertise and experience, we can help you take your ideas from concept to reality",
         mediaType: "image",
-        imageSetting: { imageUrl: "", altText: "" },
+        imageSetting: { imageUrl: "", altText: "", id: "" },
         videoSetting: { videoUrl: "" },
         actionType: "buttons",
-        buttons: {
-          primaryButton: { text: "start your journey" },
-          secondaryButton: { text: "learn more" },
-        },
+        buttons: [
+          {
+            text: "button 1",
+            link: "",
+            id: v4(),
+          },
+          {
+            text: "button 2",
+            link: "",
+            id: v4(),
+          },
+        ],
       },
       style: {
         designName: "design1",
@@ -128,6 +136,7 @@ export function useSections() {
             title: "Card 1",
             text: "card 1 text",
             image: "",
+            imgId: "",
             button: "",
             buttonColor: "gray",
             link: "",
@@ -137,6 +146,7 @@ export function useSections() {
             title: "Card 2",
             text: "card 2 text",
             image: "",
+            imgId: "",
             button: "",
             buttonColor: "gray",
             link: "",
@@ -146,6 +156,7 @@ export function useSections() {
             title: "Card 3",
             text: "card 3 text",
             image: "",
+            imgId: "",
             button: "",
             buttonColor: "gray",
             link: "",
@@ -333,6 +344,7 @@ export function useSections() {
             bio: "@johnDoe",
             rating: 4,
             avatar: "",
+            avatarId: "",
             link: "",
           },
           {
@@ -343,6 +355,7 @@ export function useSections() {
             bio: "@johnDoe",
             rating: 4,
             avatar: "",
+            avatarId: "",
             link: "",
           },
           {
@@ -353,6 +366,7 @@ export function useSections() {
             bio: "@johnDoe",
             rating: 4,
             avatar: "",
+            avatarId: "",
             link: "",
           },
         ],

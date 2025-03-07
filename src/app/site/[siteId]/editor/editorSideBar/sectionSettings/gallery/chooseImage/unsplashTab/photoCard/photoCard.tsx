@@ -5,13 +5,13 @@ import { UnsplashImage } from "@/types/common";
 interface PhotoCardProps {
   selectedImgId: string;
   image: UnsplashImage;
-  handleUpdate: (image: UnsplashImage) => void;
+  handleUpdateUnsplash: (image: UnsplashImage) => void;
 }
 
 const PhotoCard: React.FC<PhotoCardProps> = ({
   selectedImgId,
   image,
-  handleUpdate,
+  handleUpdateUnsplash,
 }) => {
   const isSelected = image.id === selectedImgId;
 
@@ -22,7 +22,7 @@ const PhotoCard: React.FC<PhotoCardProps> = ({
         isSelected ? "border border-primary" : "border"
       }`}
       onClick={() => {
-        handleUpdate(image);
+        handleUpdateUnsplash(image);
       }}
     >
       <div

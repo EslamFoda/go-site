@@ -12,14 +12,19 @@ import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
+  Storage,
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
+  openChooseImage,
   updateContent,
   updateSelectedItem,
   updateStyle,
 } from "@/reduxStore/action";
 import BackBtn from "@/components/shared/backBtn";
+import ImageSelector from "@/components/shared/imageSelector";
+import ChooseImage from "../gallery/chooseImage";
+import { UnsplashImage } from "@/types/common";
 interface CardsSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -31,11 +36,9 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
 
   const dispatch = useAppDispatch();
-  const selectedSection = useAppSelector(
-    (state) => state.editor.present.selectedSection
-  );
-  const selectedItem = useAppSelector(
-    (state) => state.editor.present.selectedItem
+
+  const { selectedItem, chooseImage, selectedSection } = useAppSelector(
+    (state) => state.editor.present
   );
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id
@@ -66,15 +69,35 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
     }
   };
 
-  const handleUpdateCardItem = (field: keyof Card, value: any) => {
+  const handleUpdateCardItem = (updates: Partial<Card>) => {
     const updatedCards = cardsContent.cards.map((card) =>
-      card.id === cardItem.id ? { ...card, [field]: value } : card
+      card.id === cardItem.id ? { ...card, ...updates } : card
     );
-    dispatch(updateSelectedItem({ ...cardItem, [field]: value }));
+    dispatch(updateSelectedItem({ ...cardItem, ...updates }));
     dispatch(
       updateContent(pageId, findSelectedSection.id, { cards: updatedCards })
     );
   };
+
+  if (chooseImage) {
+    return (
+      <ChooseImage
+        selectedImgId={cardItem?.imgId || ""}
+        handleUpdateUnsplash={(image: UnsplashImage) => {
+          handleUpdateCardItem({
+            image: image.urls.regular,
+            imgId: image.id,
+          });
+        }}
+        handleUpdateUploadedImg={(image: Storage) => {
+          handleUpdateCardItem({
+            image: image.url,
+            imgId: image.id,
+          });
+        }}
+      />
+    );
+  }
 
   if (cardItem)
     return (
@@ -100,7 +123,7 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
             value={cardItem.title}
             id={cardItem.id}
             handleUpdate={(e: any) =>
-              handleUpdateCardItem("title", e.target.value)
+              handleUpdateCardItem({ title: e.target.value })
             }
           />
           <EditText
@@ -110,16 +133,17 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
             label="Text"
             value={cardItem.text}
             handleUpdate={(e: any) =>
-              handleUpdateCardItem("text", e.target.value)
+              handleUpdateCardItem({
+                text: e.target.value,
+              })
             }
           />
-          <EditText
-            id={cardItem.id}
-            label="Image"
-            value={cardItem.image}
-            handleUpdate={(e: any) =>
-              handleUpdateCardItem("image", e.target.value)
-            }
+          <ImageSelector
+            imageUrl={cardItem.image}
+            onImageSelect={() => dispatch(openChooseImage())}
+            onImageDelete={() => handleUpdateCardItem({ image: "" })}
+            onBack={() => dispatch(updateSelectedItem(null))}
+            showBackButton={false}
           />
         </div>
       </div>

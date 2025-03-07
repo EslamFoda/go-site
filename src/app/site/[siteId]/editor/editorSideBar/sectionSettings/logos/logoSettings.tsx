@@ -13,6 +13,7 @@ import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
+  Storage,
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
@@ -93,7 +94,7 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
         selectedImgId={
           imageMode === "dark" ? logoItem?.darkImgId : logoItem?.lightImgId
         }
-        handleUpdate={(image: UnsplashImage) => {
+        handleUpdateUnsplash={(image: UnsplashImage) => {
           if (imageMode === "dark") {
             handleUpdateLogo({
               darkImgId: image.id,
@@ -103,6 +104,19 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
             handleUpdateLogo({
               lightImgId: image.id,
               urlLight: image.urls.regular,
+            });
+          }
+        }}
+        handleUpdateUploadedImg={(image: Storage) => {
+          if (imageMode === "dark") {
+            handleUpdateLogo({
+              darkImgId: image.id,
+              urlDark: image.url,
+            });
+          } else {
+            handleUpdateLogo({
+              lightImgId: image.id,
+              urlLight: image.url,
             });
           }
         }}

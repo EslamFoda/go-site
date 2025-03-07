@@ -1,49 +1,50 @@
-import { Button } from "@/components/ui/button";
 import { ImagePlaceHolder } from "@/icons/common";
 import { cn } from "@/lib/utils";
 import { updateSelectedSection } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import React from "react";
+import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
+import BannerButtons from "./bannerButtons";
 interface Design1Props {
   section: any;
   pageId: string;
 }
 function Design1({ section, pageId }: Design1Props) {
   const dispatch = useAppDispatch();
+  const bannerContent = section?.content as BannerContent;
+  const bannerStyle = section?.style as BannerStyle;
 
-  const leftTitlePosition = section.style.designSettings.leftTitlePosition;
-  const titleSize = section.style.designSettings.titleSize;
-  const align = section.style.designSettings.align;
-  const showImage = section?.style.designSettings.imageSetting.showImage;
-  const leftTitleWidth = section?.style.designSettings.leftTitleWidth;
-  const showButtons = section?.style.designSettings.showButtons;
+  const leftTitlePosition = bannerStyle.designSettings.leftTitlePosition;
+  const titleSize = bannerStyle.designSettings.titleSize;
+  const align = bannerStyle.designSettings.align;
+  const showImage = bannerStyle.designSettings.imageSetting.showImage;
+  const leftTitleWidth = bannerStyle.designSettings.leftTitleWidth;
+  const showButtons = bannerStyle.designSettings.showButtons;
   const bgMuted =
-    section?.style.designSettings.sectionBackground.color === "gray";
+    bannerStyle.designSettings.sectionBackground.color === "gray";
 
   const sectionBgClassName = cn(" flex flex-col", {
     "bg-primary":
-      section.style.designSettings.sectionBackground.color === "primary",
-    "bg-muted": section.style.designSettings.sectionBackground.color === "gray",
+      bannerStyle.designSettings.sectionBackground.color === "primary",
+    "bg-muted": bannerStyle.designSettings.sectionBackground.color === "gray",
     "bg-background":
-      section.style.designSettings.sectionBackground.color === "none",
-    "h-screen":
-      section.style.designSettings.sectionBackground.height === "fill",
-    "h-auto": section.style.designSettings.sectionBackground.height === "fit",
+      bannerStyle.designSettings.sectionBackground.color === "none",
+    "h-screen": bannerStyle.designSettings.sectionBackground.height === "fill",
+    "h-auto": bannerStyle.designSettings.sectionBackground.height === "fit",
     "justify-start":
-      section.style.designSettings.sectionBackground.align === "start",
+      bannerStyle.designSettings.sectionBackground.align === "start",
     "justify-center":
-      section.style.designSettings.sectionBackground.align === "center",
-    "justify-end":
-      section.style.designSettings.sectionBackground.align === "end",
+      bannerStyle.designSettings.sectionBackground.align === "center",
+    "justify-end": bannerStyle.designSettings.sectionBackground.align === "end",
   });
 
   const imageClassName = cn(" bg-cover bg-no-repeat bg-center w-full", {
     "bg-primary":
-      section.style.designSettings.imageSetting.backgroundColor === "primary",
+      bannerStyle.designSettings.imageSetting.backgroundColor === "primary",
     "bg-muted":
-      section.style.designSettings.imageSetting.backgroundColor === "gray",
+      bannerStyle.designSettings.imageSetting.backgroundColor === "gray",
     "bg-none":
-      section.style.designSettings.imageSetting.backgroundColor === "none",
+      bannerStyle.designSettings.imageSetting.backgroundColor === "none",
   });
 
   const titleClassName = cn({
@@ -52,7 +53,7 @@ function Design1({ section, pageId }: Design1Props) {
     "text-5xl": titleSize === "m",
     "text-4xl": titleSize === "s",
     "text-primary-foreground":
-      section.style.designSettings.sectionBackground.color === "primary",
+      bannerStyle.designSettings.sectionBackground.color === "primary",
   });
 
   const TitleAndSubtitleClassName = cn(
@@ -80,9 +81,9 @@ function Design1({ section, pageId }: Design1Props) {
 
   const subTitleColor = cn("text-lg  max-lg:!w-full", {
     "text-primary-foreground":
-      section.style.designSettings.sectionBackground.color === "primary",
+      bannerStyle.designSettings.sectionBackground.color === "primary",
     "text-muted-foreground":
-      section.style.designSettings.sectionBackground.color !== "primary",
+      bannerStyle.designSettings.sectionBackground.color !== "primary",
   });
 
   return (
@@ -100,7 +101,7 @@ function Design1({ section, pageId }: Design1Props) {
               width: leftTitlePosition ? `calc(${leftTitleWidth} - 50px)` : "",
             }}
           >
-            <h1 className={titleClassName}>{section.content.title}</h1>
+            <h1 className={titleClassName}>{bannerContent?.title}</h1>
           </div>
           <div
             style={{
@@ -114,56 +115,38 @@ function Design1({ section, pageId }: Design1Props) {
               style={{
                 width: leftTitlePosition
                   ? ""
-                  : section.style.designSettings.subtitleWidth,
+                  : bannerStyle.designSettings.subtitleWidth,
               }}
               className={subTitleColor}
             >
-              {section.content.subtitle}
+              {bannerContent?.subtitle}
             </p>
 
             {showButtons && (
-              <div className="flex justify-center gap-2">
-                <Button
-                  className={cn({
-                    "border-primary-foreground border-solid border text-primary-foreground":
-                      section.style.designSettings.sectionBackground.color ===
-                      "primary",
-                  })}
-                >
-                  {section.content.buttons.primaryButton.text}
-                </Button>
-                <Button
-                  variant="outline"
-                  className={cn({
-                    "bg-background hover:bg-background":
-                      section.style.designSettings.sectionBackground.color ===
-                      "gray",
-                    "bg-muted":
-                      section.style.designSettings.sectionBackground.color ===
-                      "none",
-                  })}
-                >
-                  {section.content.buttons.secondaryButton.text}
-                </Button>
-              </div>
+              <BannerButtons
+                buttons={bannerContent.buttons}
+                sectionBackground={
+                  bannerStyle.designSettings.sectionBackground.color
+                }
+              />
             )}
           </div>
         </div>
         {showImage && (
           <>
-            {section.content.imageSetting.altText ? (
+            {bannerContent?.imageSetting?.imageUrl ? (
               <div
                 style={{
-                  height: section.style.designSettings.height,
-                  backgroundImage: `url(${section.content.imageSetting.altText})`,
+                  height: bannerStyle.designSettings.height,
+                  backgroundImage: `url(${bannerContent?.imageSetting.imageUrl})`,
                   backgroundSize:
-                    section.style.designSettings.imageSetting.objectFit,
+                    bannerStyle.designSettings.imageSetting.objectFit,
                 }}
                 className={imageClassName}
               ></div>
             ) : (
               <div
-                style={{ height: section.style.designSettings.height }}
+                style={{ height: bannerStyle.designSettings.height }}
                 className={imagePlaceholderClassNames}
               >
                 <ImagePlaceHolder

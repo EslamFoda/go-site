@@ -22,10 +22,20 @@ const initialState: EditorStore = {
               imageSetting: { imageUrl: "", altText: "" },
               videoSetting: { videoUrl: "" },
               actionType: "buttons",
-              buttons: {
-                primaryButton: { text: "start your journey" },
-                secondaryButton: { text: "learn more" },
-              },
+              buttons: [
+                {
+                  text: "button 1",
+                  link: "",
+                  id: uuidv4(),
+                  pageId: "",
+                },
+                {
+                  text: "button 2",
+                  link: "",
+                  id: uuidv4(),
+                  pageId: "",
+                },
+              ],
             },
             style: {
               designName: "design1",
@@ -311,8 +321,9 @@ const initialState: EditorStore = {
   ],
   storage: [
     {
-      imgId: "",
+      id: "",
       url: "",
+      publicId: "",
     },
   ],
 };
@@ -441,8 +452,12 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
       case types.OPEN_SECTION_DESIGNS: {
         draft.openSectionDesigns = true;
         draft.openPallet = false;
+        draft.chooseIcon = false;
+        draft.chooseImage = false;
+        draft.selectedSection = null;
         draft.openPages = false;
         draft.openPageSetting = false;
+        draft.selectedItem = null;
         break;
       }
 

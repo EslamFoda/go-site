@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { debounce } from "lodash";
 import CreateSite from "./createSite";
 import EmptySiteState from "./emptySiteState";
 import { ActiveUserType } from "@/utlis/auth-helper/client";
@@ -18,8 +19,9 @@ function Dashboard({ user }: DashboardProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchUserSites = async () => {
+  // Debounced function to fetch user sites
+  const fetchUserSites = useCallback(() => {
+    const debouncedFetch = debounce(async () => {
       try {
         const supabase = createClient();
         const { data, error } = await supabase
@@ -29,18 +31,28 @@ function Dashboard({ user }: DashboardProps) {
         if (error) {
           throw error;
         }
-        setSites(data);
-        setLoading(false);
+        setTimeout(() => {
+          setSites(data);
+          setLoading(false);
+        }, 600); // Simulating fake loading
       } catch (error) {
         if (error instanceof Error) {
-          setError(error.message);
-          setLoading(false);
+          setTimeout(() => {
+            setError(error.message);
+            setLoading(false);
+          }, 600);
         }
       }
-    };
-
-    fetchUserSites();
+    }, 600);
+    debouncedFetch();
   }, [ownerId]);
+
+  useEffect(() => {
+    if (ownerId) {
+      setLoading(true);
+      fetchUserSites();
+    }
+  }, [ownerId, fetchUserSites]);
 
   return (
     <div className="max-w-4xl m-auto px-5 mt-16">

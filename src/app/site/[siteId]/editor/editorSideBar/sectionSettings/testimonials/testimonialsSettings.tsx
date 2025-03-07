@@ -9,9 +9,11 @@ import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
+  Storage,
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
+  openChooseImage,
   updateContent,
   updateSelectedItem,
   updateStyle,
@@ -25,6 +27,9 @@ import TestimonialsContentTab from "./testimonialsContentTab/testimonialsContent
 import WidthOrHeight from "../settingsUi/WidthOrHeight";
 import TestimonialsStyleTab from "./testimonialsStyleTab";
 import BackBtn from "@/components/shared/backBtn";
+import ImageSelector from "@/components/shared/imageSelector";
+import ChooseImage from "../gallery/chooseImage";
+import { UnsplashImage } from "@/types/common";
 interface TestimonialsSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -36,13 +41,10 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
 
   const dispatch = useAppDispatch();
-  const editor = useAppSelector((state) => state.editor.present.editor);
-  const selectedSection = useAppSelector(
-    (state) => state.editor.present.selectedSection
+  const { selectedItem, chooseImage, selectedSection } = useAppSelector(
+    (state) => state.editor.present
   );
-  const selectedItem = useAppSelector(
-    (state) => state.editor.present.selectedItem
-  );
+
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
@@ -64,23 +66,40 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
     dispatch(updateSelectedItem(null));
   };
 
-  const handleUpdateTestimonialItem = (
-    field: keyof Testimonial,
-    value: any
-  ) => {
+  const handleUpdateTestimonialItem = (updates: Partial<Testimonial>) => {
     const updatedTestimonials = TestimonialsContent.testimonials.map(
       (testimonial) =>
-        TestimonialItem.id === testimonial.id
-          ? { ...testimonial, [field]: value }
+        testimonial.id === TestimonialItem.id
+          ? { ...testimonial, ...updates }
           : testimonial
     );
-    dispatch(updateSelectedItem({ ...TestimonialItem, [field]: value }));
+    dispatch(updateSelectedItem({ ...TestimonialItem, ...updates }));
     dispatch(
       updateContent(pageId, findSelectedSection.id, {
         testimonials: updatedTestimonials,
       })
     );
   };
+
+  if (chooseImage) {
+    return (
+      <ChooseImage
+        selectedImgId={TestimonialItem?.avatarId || ""}
+        handleUpdateUnsplash={(image: UnsplashImage) => {
+          handleUpdateTestimonialItem({
+            avatar: image.urls.regular,
+            avatarId: image.id,
+          });
+        }}
+        handleUpdateUploadedImg={(image: Storage) => {
+          handleUpdateTestimonialItem({
+            avatar: image.url,
+            avatarId: image.id,
+          });
+        }}
+      />
+    );
+  }
 
   if (TestimonialItem)
     return (
@@ -107,7 +126,7 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
             id={TestimonialItem.id}
             value={TestimonialItem.review}
             handleUpdate={(e: any) =>
-              handleUpdateTestimonialItem("review", e.target.value)
+              handleUpdateTestimonialItem({ review: e.target.value })
             }
           />
           <EditText
@@ -117,7 +136,7 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
             id={TestimonialItem.id}
             value={TestimonialItem.name}
             handleUpdate={(e: any) =>
-              handleUpdateTestimonialItem("name", e.target.value)
+              handleUpdateTestimonialItem({ name: e.target.value })
             }
           />
           <EditText
@@ -127,7 +146,7 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
             id={TestimonialItem.id}
             value={TestimonialItem.bio}
             handleUpdate={(e: any) =>
-              handleUpdateTestimonialItem("bio", e.target.value)
+              handleUpdateTestimonialItem({ bio: e.target.value })
             }
           />
           {TestimonialsContent.iconType === "star" && (
@@ -138,18 +157,18 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
               customText={`${TestimonialItem.rating}/5`}
               value={[TestimonialItem.rating]}
               onValueChange={(value) => {
-                handleUpdateTestimonialItem("rating", value[0]);
+                handleUpdateTestimonialItem({ rating: value[0] });
               }}
             />
           )}
 
-          <EditText
-            label="Avatar"
-            id={TestimonialItem.id}
-            value={TestimonialItem.avatar}
-            handleUpdate={(e: any) =>
-              handleUpdateTestimonialItem("avatar", e.target.value)
-            }
+          <ImageSelector
+            title="Avatar"
+            imageUrl={TestimonialItem.avatar}
+            onImageSelect={() => dispatch(openChooseImage())}
+            onImageDelete={() => handleUpdateTestimonialItem({ review: "" })}
+            onBack={() => dispatch(updateSelectedItem(null))}
+            showBackButton={false}
           />
         </div>
       </div>

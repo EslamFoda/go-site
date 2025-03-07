@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { updateContent } from "@/reduxStore/action";
+import { openChooseImage, updateContent } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
@@ -12,6 +12,8 @@ import {
 } from "@/reduxStore/types";
 import { BannerContent } from "@/types/sectionsTypes/banner";
 import React from "react";
+import ToggleGroup from "../../settingsUi/toggleGroup";
+import ImageSelector from "@/components/shared/imageSelector";
 
 interface BannerContentTabProps {
   bannerContent: BannerContent;
@@ -27,6 +29,7 @@ function BannerContentTab({
   pageId,
 }: BannerContentTabProps) {
   const dispatch = useAppDispatch();
+
   return (
     <TabsContent className="px-5 h space-y-2" value="content">
       <div className="space-y-1 flex items-center justify-between">
@@ -78,67 +81,64 @@ function BannerContentTab({
           }}
         />
       </div>
-      <div className="space-y-1 flex items-center justify-between">
-        <Label>Type</Label>
-        <div className="grid  q grid-cols-2 items-center w-4/6">
-          <Button
-            variant={
-              bannerContent?.mediaType === "image" ? "outline" : "secondary"
-            }
-            onClick={() => {
-              dispatch(
-                updateContent(pageId, findSelectedSection?.id!, {
-                  mediaType: "image",
-                })
-              );
-            }}
-            className=" hover:!bg-transparent w-full "
-          >
-            image
-          </Button>
-          <Button
-            variant={
-              bannerContent?.mediaType === "video" ? "outline" : "secondary"
-            }
-            onClick={() => {
-              dispatch(
-                updateContent(pageId, findSelectedSection?.id!, {
-                  mediaType: "video",
-                })
-              );
-            }}
-            className=" hover:!bg-transparent w-full"
-          >
-            video
-          </Button>
-        </div>
-      </div>
+      <ToggleGroup
+        label="Type"
+        options={[
+          { value: "image", label: "image" },
+          { value: "video", label: "video" },
+        ]}
+        value={bannerContent?.mediaType}
+        onValueChange={(value) => {
+          dispatch(
+            updateContent(pageId, findSelectedSection?.id!, {
+              mediaType: value,
+            })
+          );
+        }}
+      />
       <div>
-        {bannerContent?.mediaType === "image" ? (
-          <div className="space-y-1 flex items-center justify-between">
-            <Label>Alt Text</Label>
-            <Input
-              className="w-4/6"
-              id="alt text"
-              value={bannerContent?.imageSetting?.altText}
-              onChange={(e: any) => {
+        {bannerContent?.mediaType === "image" && (
+          <div className="space-y-2">
+            <ImageSelector
+              imageUrl={bannerContent.imageSetting?.imageUrl}
+              onImageSelect={() => dispatch(openChooseImage())}
+              onImageDelete={() =>
                 dispatch(
                   updateContent(pageId, findSelectedSection?.id, {
-                    imageSetting: {
-                      ...bannerContent?.imageSetting,
-                      altText: e.target.value,
-                    },
+                    imageSetting: { imageUrl: "", altText: "", id: "" },
                   })
-                );
-              }}
+                )
+              }
+              onBack={() => {}}
+              showBackButton={false}
             />
+            <div className="space-y-1 flex items-center justify-between">
+              <Label>Alt Text</Label>
+              <Input
+                className="w-4/6"
+                id="alt text"
+                value={bannerContent?.imageSetting?.altText}
+                onChange={(e: any) => {
+                  dispatch(
+                    updateContent(pageId, findSelectedSection?.id, {
+                      imageSetting: {
+                        ...bannerContent?.imageSetting,
+                        altText: e.target.value,
+                      },
+                    })
+                  );
+                }}
+              />
+            </div>
           </div>
-        ) : (
+        )}
+        {bannerContent?.mediaType === "video" && (
           <div className="space-y-1 flex items-center justify-between">
             <Label>Video</Label>
             <Input
               className="w-4/6"
               id="Video"
+              placeholder="Paste video url"
               value={bannerContent?.videoSetting?.videoUrl}
               onChange={(e: any) => {
                 dispatch(

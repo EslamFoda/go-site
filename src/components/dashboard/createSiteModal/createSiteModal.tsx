@@ -82,6 +82,7 @@ function CreateSiteModal({
     return {
       ...bannerData,
       imageUrl: generatedImage,
+      imgId: unsplashResponse.response?.results[0]?.id || "",
     };
   };
 
@@ -119,6 +120,7 @@ function CreateSiteModal({
         ...card,
         id: v4(),
         image: unsplashResponse.response?.results[i + 1]?.urls?.regular || "",
+        imgId: unsplashResponse.response?.results[i + 1]?.id || "",
       })),
     };
   };
@@ -194,6 +196,7 @@ function CreateSiteModal({
           id: v4(),
           avatar:
             unsplashResponseUsers.response?.results[i]?.urls?.regular || "",
+            avatarId: unsplashResponseUsers.response?.results[i]?.id || "",
         })
       ),
     };

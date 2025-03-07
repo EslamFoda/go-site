@@ -24,16 +24,19 @@ const childVariants = {
 
 interface UnsplashTabProps {
   selectedImgId: string;
-  handleUpdate: (image: UnsplashImage) => void;
+  handleUpdateUnsplash: (image: UnsplashImage) => void;
 }
 
-function UnsplashTab({ selectedImgId, handleUpdate }: UnsplashTabProps) {
+function UnsplashTab({
+  selectedImgId,
+  handleUpdateUnsplash,
+}: UnsplashTabProps) {
   const [images, setImages] = useState<UnsplashImage[]>([]);
   const [searchResults, setSearchResults] = useState<UnsplashImage[]>([]);
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const { motion } = useMotion();
+  const { motion,AnimatePresence } = useMotion();
 
   const fetchUnsplashImages = async () => {
     if (page === 20) {
@@ -140,7 +143,7 @@ function UnsplashTab({ selectedImgId, handleUpdate }: UnsplashTabProps) {
               <motion.div variants={childVariants} key={`${image.id} ${i}`}>
                 <PhotoCard
                   image={image}
-                  handleUpdate={handleUpdate}
+                  handleUpdateUnsplash={handleUpdateUnsplash}
                   selectedImgId={selectedImgId}
                 />
               </motion.div>
@@ -161,10 +164,16 @@ function UnsplashTab({ selectedImgId, handleUpdate }: UnsplashTabProps) {
               animate="show"
             >
               {images.map((image, i) => (
-                <motion.div variants={childVariants} key={`${image.id} ${i}`}>
+                <motion.div
+                  layout
+                  variants={childVariants}
+                  exit={{ scale: 0.8, opacity: 0 }}
+                  transition={{ type: "tween" }}
+                  key={`${image.id} ${i}`}
+                >
                   <PhotoCard
                     image={image}
-                    handleUpdate={handleUpdate}
+                    handleUpdateUnsplash={handleUpdateUnsplash}
                     selectedImgId={selectedImgId}
                   />
                 </motion.div>

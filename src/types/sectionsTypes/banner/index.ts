@@ -6,13 +6,17 @@ export interface BannerContent {
   title: string;
   subtitle: string;
   mediaType: "image" | "video";
-  imageSetting?: { imageUrl?: string; altText?: string };
+  imageSetting?: { imageUrl?: string; altText?: string; id?: string };
   videoSetting?: { videoUrl: string };
   actionType: "buttons";
-  buttons: {
-    primaryButton: { text: string };
-    secondaryButton: { text: string };
-  };
+  buttons: BannerButton[];
+}
+
+interface BannerButton {
+  text: string;
+  link: string;
+  id: string;
+  pageId: string;
 }
 
 export interface BannerStyle {
