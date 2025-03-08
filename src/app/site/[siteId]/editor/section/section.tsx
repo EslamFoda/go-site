@@ -28,12 +28,15 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useMotion } from "@/hooks/useMotion";
+import { useParams, useRouter } from "next/navigation";
 
 const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
+  const router = useRouter();
+  const { siteId } = useParams();
   const currentPage = useAppSelector((state) =>
     state.editor.present.editor.pages.find((page) => page.pageId === pageId)
   );
-  console.log(currentPage, "currentPage");
+
   const { globalSections } = useAppSelector((state) => state.editor.present);
   const globalHeader = globalSections.find(
     (section) => section.sectionName === "Header"
@@ -74,7 +77,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
     setHoveringIndex(null);
   };
 
-  if (!currentPage) return null;
+  if (!currentPage) router.push(`/site/${siteId}/editor/`);
 
   return (
     <div className="overflow-y-hidden">
@@ -88,7 +91,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
             <GlobalHeaderSection pageId={pageId} section={globalHeader} />
           </motion.div>
         )}
-        {currentPage.sections.map((section, i) => {
+        {currentPage?.sections.map((section, i) => {
           const SectionComponent = sectionsMapper[section.sectionName];
 
           return (

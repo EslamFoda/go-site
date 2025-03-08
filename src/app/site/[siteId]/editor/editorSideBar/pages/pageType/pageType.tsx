@@ -28,7 +28,7 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
     about: about,
     landing: landing,
   };
-  const testPageData = pageMapper[pageType as keyof typeof pageMapper];
+  const pageData = pageMapper[pageType as keyof typeof pageMapper];
   const sectionsMapper: { [key: string]: React.ComponentType<any> } = {
     Banner,
     Cards,
@@ -81,7 +81,7 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
     <div>
       <BackBtn label={pageType} handleBack={() => setPageType("")} />
       <div className="space-y-7 p-5">
-        {testPageData.map((page, index) => {
+        {pageData.map((page, index) => {
           return (
             <div key={index} className="bg-muted p-2 rounded-sm">
               <div className="w-full h-52 overflow-hidden relative">
@@ -101,8 +101,9 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
                     return (
                       <div
                         key={section.id}
-                        className={`${selectedPallet} page-container`}
+                        className={`${selectedPallet} page-container relative`}
                       >
+                        <div className="absolute inset-0 pointer-events-auto" />
                         <div>
                           <SectionComponent section={section} pageId={""} />
                         </div>

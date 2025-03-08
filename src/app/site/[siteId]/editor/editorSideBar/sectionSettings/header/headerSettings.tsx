@@ -120,6 +120,8 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
         setOpenButtonsTab={setOpenButtonsTab}
         findSelectedSection={findSelectedSection}
         content={headerContent}
+        pageId={pageId}
+        type="header"
       />
     );
 

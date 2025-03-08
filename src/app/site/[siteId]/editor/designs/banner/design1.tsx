@@ -5,6 +5,7 @@ import { useAppDispatch } from "@/reduxStore/hooks";
 import React from "react";
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
 import BannerButtons from "./bannerButtons";
+import { Input } from "@/components/ui/input";
 interface Design1Props {
   section: any;
   pageId: string;
@@ -13,15 +14,18 @@ function Design1({ section, pageId }: Design1Props) {
   const dispatch = useAppDispatch();
   const bannerContent = section?.content as BannerContent;
   const bannerStyle = section?.style as BannerStyle;
+  const {
+    showButtons,
+    showForm,
+    leftTitleWidth,
+    align,
+    titleSize,
+    leftTitlePosition,
+  } = bannerStyle.designSettings;
 
-  const leftTitlePosition = bannerStyle.designSettings.leftTitlePosition;
-  const titleSize = bannerStyle.designSettings.titleSize;
-  const align = bannerStyle.designSettings.align;
   const showImage = bannerStyle.designSettings.imageSetting.showImage;
-  const leftTitleWidth = bannerStyle.designSettings.leftTitleWidth;
-  const showButtons = bannerStyle.designSettings.showButtons;
-  const bgMuted =
-    bannerStyle.designSettings.sectionBackground.color === "gray";
+
+  const bgMuted = bannerStyle.designSettings.sectionBackground.color === "gray";
 
   const sectionBgClassName = cn(" flex flex-col", {
     "bg-primary":
@@ -129,6 +133,20 @@ function Design1({ section, pageId }: Design1Props) {
                   bannerStyle.designSettings.sectionBackground.color
                 }
               />
+            )}
+            {showForm && (
+              <div>
+                {bannerContent?.form.fields.map((field) => {
+                  return (
+                    <div key={field.id}>
+                      <Input
+                        placeholder={field.placeholder}
+                        type={field.type}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             )}
           </div>
         </div>

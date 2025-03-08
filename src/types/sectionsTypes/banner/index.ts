@@ -8,9 +8,40 @@ export interface BannerContent {
   mediaType: "image" | "video";
   imageSetting?: { imageUrl?: string; altText?: string; id?: string };
   videoSetting?: { videoUrl: string };
-  actionType: "buttons";
+  actionType: "buttons" | "form";
   buttons: BannerButton[];
+  form: BannerForm;
 }
+
+export interface BannerForm {
+  fields: FormFields[];
+  button: {
+    text: string;
+    link: string;
+    id: string;
+  };
+  successMessage: string;
+  countryCode: CountryCode;
+}
+
+export interface CountryCode {
+  code: string;
+  name: string;
+  dialCode: string;
+  flag: string;
+}
+
+export interface FormFields {
+  id: string;
+  type: FieldsType;
+  label: string;
+  value: string;
+  placeholder: string;
+  required: boolean;
+  active: boolean;
+}
+
+export type FieldsType = "text" | "email" | "textarea" | "tel";
 
 interface BannerButton {
   text: string;
@@ -30,6 +61,7 @@ export interface BannerStyle {
     leftTitlePosition: boolean;
     leftTitleWidth: string;
     showButtons: boolean;
+    showForm: boolean;
     sectionBackground: {
       color?: SectionBgColorType;
       media?: string;

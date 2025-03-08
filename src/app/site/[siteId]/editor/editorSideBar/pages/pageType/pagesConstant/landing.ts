@@ -13,6 +13,7 @@ export const landing = [
             height: "500px",
             titleSize: "l",
             showButtons: true,
+            showForm: false,
             imageSetting: {
               objectFit: "cover",
               showImage: true,
@@ -33,14 +34,75 @@ export const landing = [
         content: {
           label: "",
           title: "Main Heading",
-          buttons: {
-            primaryButton: {
-              text: "start your journey",
+          form: {
+            fields: [
+              {
+                id: v4(),
+                type: "text",
+                label: "First name",
+                value: "First name",
+                placeholder: "First name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "text",
+                label: "Last name",
+                value: "Last name",
+                placeholder: "Last name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "email",
+                label: "Email",
+                value: "Email",
+                placeholder: "Email",
+                required: true,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "tel",
+                label: "Phone",
+                value: "Phone",
+                placeholder: "Phone",
+                required: false,
+                active: false,
+              },
+              {
+                id: v4(),
+                type: "textarea",
+                label: "Message",
+                value: "Message",
+                placeholder: "Message",
+                required: false,
+                active: false,
+              },
+            ],
+            countryCode: {
+              code: "US",
+              name: "United States",
+              dialCode: "+1",
+              flag: "🇺🇸",
             },
-            secondaryButton: {
-              text: "learn more",
-            },
+            button: { text: "button 1", link: "", id: v4() },
+            successMessage: "Thank you! Your submission has been received",
           },
+          buttons: [
+            {
+              text: "button 1",
+              link: "",
+              id: v4(),
+            },
+            {
+              text: "button 2",
+              link: "",
+              id: v4(),
+            },
+          ],
           subtitle:
             "A clear explanation of the problem you are solving and the value of your brand in a way that resonates with your audience and encourages them to take action. Keep it short, interesting and easy to remember.",
           mediaType: "image",
@@ -137,6 +199,7 @@ export const landing = [
             height: "390px",
             titleSize: "s",
             showButtons: true,
+            showForm: false,
             imageSetting: {
               objectFit: "cover",
               showImage: true,
@@ -157,14 +220,75 @@ export const landing = [
         content: {
           label: "",
           title: "#1 benefit of your ",
-          buttons: {
-            primaryButton: {
-              text: "start your journey",
+          form: {
+            fields: [
+              {
+                id: v4(),
+                type: "text",
+                label: "First name",
+                value: "First name",
+                placeholder: "First name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "text",
+                label: "Last name",
+                value: "Last name",
+                placeholder: "Last name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "email",
+                label: "Email",
+                value: "Email",
+                placeholder: "Email",
+                required: true,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "tel",
+                label: "Phone",
+                value: "Phone",
+                placeholder: "Phone",
+                required: false,
+                active: false,
+              },
+              {
+                id: v4(),
+                type: "textarea",
+                label: "Message",
+                value: "Message",
+                placeholder: "Message",
+                required: false,
+                active: false,
+              },
+            ],
+            countryCode: {
+              code: "US",
+              name: "United States",
+              dialCode: "+1",
+              flag: "🇺🇸",
             },
-            secondaryButton: {
-              text: "learn more",
-            },
+            button: { text: "button 1", link: "", id: v4() },
+            successMessage: "Thank you! Your submission has been received",
           },
+          buttons: [
+            {
+              text: "button 1",
+              link: "",
+              id: v4(),
+            },
+            {
+              text: "button 2",
+              link: "",
+              id: v4(),
+            },
+          ],
           subtitle:
             "Focus on the advantage that a customer will gain. People are often more interested in benefits than features, so highlight the value you provide.",
           mediaType: "image",
@@ -189,6 +313,7 @@ export const landing = [
             height: "390px",
             titleSize: "s",
             showButtons: true,
+            showForm: false,
             imageSetting: {
               objectFit: "cover",
               showImage: true,
@@ -209,14 +334,75 @@ export const landing = [
         content: {
           label: "",
           title: "#2 benefit of your  product or service",
-          buttons: {
-            primaryButton: {
-              text: "start your journey",
+          form: {
+            fields: [
+              {
+                id: v4(),
+                type: "text",
+                label: "First name",
+                value: "First name",
+                placeholder: "First name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "text",
+                label: "Last name",
+                value: "Last name",
+                placeholder: "Last name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "email",
+                label: "Email",
+                value: "Email",
+                placeholder: "Email",
+                required: true,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "tel",
+                label: "Phone",
+                value: "Phone",
+                placeholder: "Phone",
+                required: false,
+                active: false,
+              },
+              {
+                id: v4(),
+                type: "textarea",
+                label: "Message",
+                value: "Message",
+                placeholder: "Message",
+                required: false,
+                active: false,
+              },
+            ],
+            countryCode: {
+              code: "US",
+              name: "United States",
+              dialCode: "+1",
+              flag: "🇺🇸",
             },
-            secondaryButton: {
-              text: "learn more",
-            },
+            button: { text: "button 1", link: "", id: v4() },
+            successMessage: "Thank you! Your submission has been received",
           },
+          buttons: [
+            {
+              text: "button 1",
+              link: "",
+              id: v4(),
+            },
+            {
+              text: "button 2",
+              link: "",
+              id: v4(),
+            },
+          ],
           subtitle:
             "Focus on the advantage that a customer will gain. People are often more interested in benefits than features, so highlight the value you provide.",
           mediaType: "image",
@@ -241,6 +427,7 @@ export const landing = [
             height: "390px",
             titleSize: "s",
             showButtons: true,
+            showForm: false,
             imageSetting: {
               objectFit: "cover",
               showImage: true,
@@ -261,14 +448,75 @@ export const landing = [
         content: {
           label: "",
           title: "#3 benefit of your  product or service",
-          buttons: {
-            primaryButton: {
-              text: "start your journey",
+          form: {
+            fields: [
+              {
+                id: v4(),
+                type: "text",
+                label: "First name",
+                value: "First name",
+                placeholder: "First name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "text",
+                label: "Last name",
+                value: "Last name",
+                placeholder: "Last name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "email",
+                label: "Email",
+                value: "Email",
+                placeholder: "Email",
+                required: true,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "tel",
+                label: "Phone",
+                value: "Phone",
+                placeholder: "Phone",
+                required: false,
+                active: false,
+              },
+              {
+                id: v4(),
+                type: "textarea",
+                label: "Message",
+                value: "Message",
+                placeholder: "Message",
+                required: false,
+                active: false,
+              },
+            ],
+            countryCode: {
+              code: "US",
+              name: "United States",
+              dialCode: "+1",
+              flag: "🇺🇸",
             },
-            secondaryButton: {
-              text: "learn more",
-            },
+            button: { text: "button 1", link: "", id: v4() },
+            successMessage: "Thank you! Your submission has been received",
           },
+          buttons: [
+            {
+              text: "button 1",
+              link: "",
+              id: v4(),
+            },
+            {
+              text: "button 2",
+              link: "",
+              id: v4(),
+            },
+          ],
           subtitle:
             "Focus on the advantage that a customer will gain. People are often more interested in benefits than features, so highlight the value you provide.",
           mediaType: "image",
@@ -335,6 +583,7 @@ export const landing = [
             height: "460px",
             titleSize: "s",
             showButtons: true,
+            showForm: false,
             imageSetting: {
               objectFit: "cover",
               showImage: false,
@@ -356,14 +605,75 @@ export const landing = [
         content: {
           label: "",
           title: "Headline that excites  the visitor to take action",
-          buttons: {
-            primaryButton: {
-              text: "start your journey",
+          form: {
+            fields: [
+              {
+                id: v4(),
+                type: "text",
+                label: "First name",
+                value: "First name",
+                placeholder: "First name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "text",
+                label: "Last name",
+                value: "Last name",
+                placeholder: "Last name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "email",
+                label: "Email",
+                value: "Email",
+                placeholder: "Email",
+                required: true,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "tel",
+                label: "Phone",
+                value: "Phone",
+                placeholder: "Phone",
+                required: false,
+                active: false,
+              },
+              {
+                id: v4(),
+                type: "textarea",
+                label: "Message",
+                value: "Message",
+                placeholder: "Message",
+                required: false,
+                active: false,
+              },
+            ],
+            countryCode: {
+              code: "US",
+              name: "United States",
+              dialCode: "+1",
+              flag: "🇺🇸",
             },
-            secondaryButton: {
-              text: "learn more",
-            },
+            button: { text: "button 1", link: "", id: v4() },
+            successMessage: "Thank you! Your submission has been received",
           },
+          buttons: [
+            {
+              text: "button 1",
+              link: "",
+              id: v4(),
+            },
+            {
+              text: "button 2",
+              link: "",
+              id: v4(),
+            },
+          ],
           subtitle:
             "Use strong action verbs and clear language that conveys the benefit or value of completing the action.",
           mediaType: "image",
@@ -399,14 +709,75 @@ export const landing = [
             videoUrl: "",
           },
           actionType: "buttons",
-          buttons: {
-            primaryButton: {
-              text: "start your journey",
+          form: {
+            fields: [
+              {
+                id: v4(),
+                type: "text",
+                label: "First name",
+                value: "First name",
+                placeholder: "First name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "text",
+                label: "Last name",
+                value: "Last name",
+                placeholder: "Last name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "email",
+                label: "Email",
+                value: "Email",
+                placeholder: "Email",
+                required: true,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "tel",
+                label: "Phone",
+                value: "Phone",
+                placeholder: "Phone",
+                required: false,
+                active: false,
+              },
+              {
+                id: v4(),
+                type: "textarea",
+                label: "Message",
+                value: "Message",
+                placeholder: "Message",
+                required: false,
+                active: false,
+              },
+            ],
+            countryCode: {
+              code: "US",
+              name: "United States",
+              dialCode: "+1",
+              flag: "🇺🇸",
             },
-            secondaryButton: {
-              text: "learn more",
-            },
+            button: { text: "button 1", link: "", id: v4() },
+            successMessage: "Thank you! Your submission has been received",
           },
+          buttons: [
+            {
+              text: "button 1",
+              link: "",
+              id: v4(),
+            },
+            {
+              text: "button 2",
+              link: "",
+              id: v4(),
+            },
+          ],
         },
         style: {
           designName: "design3",
@@ -419,6 +790,7 @@ export const landing = [
             leftTitlePosition: true,
             leftTitleWidth: "50%",
             showButtons: true,
+            showForm: false,
             sectionBackground: {
               color: "gray",
               media: "",
@@ -524,14 +896,75 @@ export const landing = [
             videoUrl: "",
           },
           actionType: "buttons",
-          buttons: {
-            primaryButton: {
-              text: "start your journey",
+          form: {
+            fields: [
+              {
+                id: v4(),
+                type: "text",
+                label: "First name",
+                value: "First name",
+                placeholder: "First name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "text",
+                label: "Last name",
+                value: "Last name",
+                placeholder: "Last name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "email",
+                label: "Email",
+                value: "Email",
+                placeholder: "Email",
+                required: true,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "tel",
+                label: "Phone",
+                value: "Phone",
+                placeholder: "Phone",
+                required: false,
+                active: false,
+              },
+              {
+                id: v4(),
+                type: "textarea",
+                label: "Message",
+                value: "Message",
+                placeholder: "Message",
+                required: false,
+                active: false,
+              },
+            ],
+            countryCode: {
+              code: "US",
+              name: "United States",
+              dialCode: "+1",
+              flag: "🇺🇸",
             },
-            secondaryButton: {
-              text: "learn more",
-            },
+            button: { text: "button 1", link: "", id: v4() },
+            successMessage: "Thank you! Your submission has been received",
           },
+          buttons: [
+            {
+              text: "button 1",
+              link: "",
+              id: v4(),
+            },
+            {
+              text: "button 2",
+              link: "",
+              id: v4(),
+            },
+          ],
         },
         style: {
           designName: "design1",
@@ -544,6 +977,7 @@ export const landing = [
             leftTitlePosition: false,
             leftTitleWidth: "50%",
             showButtons: true,
+            showForm: false,
             sectionBackground: {
               color: "none",
               media: "",
@@ -576,14 +1010,75 @@ export const landing = [
             videoUrl: "",
           },
           actionType: "buttons",
-          buttons: {
-            primaryButton: {
-              text: "start your journey",
+          form: {
+            fields: [
+              {
+                id: v4(),
+                type: "text",
+                label: "First name",
+                value: "First name",
+                placeholder: "First name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "text",
+                label: "Last name",
+                value: "Last name",
+                placeholder: "Last name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "email",
+                label: "Email",
+                value: "Email",
+                placeholder: "Email",
+                required: true,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "tel",
+                label: "Phone",
+                value: "Phone",
+                placeholder: "Phone",
+                required: false,
+                active: false,
+              },
+              {
+                id: v4(),
+                type: "textarea",
+                label: "Message",
+                value: "Message",
+                placeholder: "Message",
+                required: false,
+                active: false,
+              },
+            ],
+            countryCode: {
+              code: "US",
+              name: "United States",
+              dialCode: "+1",
+              flag: "🇺🇸",
             },
-            secondaryButton: {
-              text: "learn more",
-            },
+            button: { text: "button 1", link: "", id: v4() },
+            successMessage: "Thank you! Your submission has been received",
           },
+          buttons: [
+            {
+              text: "button 1",
+              link: "",
+              id: v4(),
+            },
+            {
+              text: "button 2",
+              link: "",
+              id: v4(),
+            },
+          ],
         },
         style: {
           designName: "design1",
@@ -596,6 +1091,7 @@ export const landing = [
             leftTitlePosition: false,
             leftTitleWidth: "50%",
             showButtons: true,
+            showForm: false,
             sectionBackground: {
               color: "none",
               media: "",
@@ -628,14 +1124,75 @@ export const landing = [
             videoUrl: "",
           },
           actionType: "buttons",
-          buttons: {
-            primaryButton: {
-              text: "start your journey",
+          form: {
+            fields: [
+              {
+                id: v4(),
+                type: "text",
+                label: "First name",
+                value: "First name",
+                placeholder: "First name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "text",
+                label: "Last name",
+                value: "Last name",
+                placeholder: "Last name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "email",
+                label: "Email",
+                value: "Email",
+                placeholder: "Email",
+                required: true,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "tel",
+                label: "Phone",
+                value: "Phone",
+                placeholder: "Phone",
+                required: false,
+                active: false,
+              },
+              {
+                id: v4(),
+                type: "textarea",
+                label: "Message",
+                value: "Message",
+                placeholder: "Message",
+                required: false,
+                active: false,
+              },
+            ],
+            countryCode: {
+              code: "US",
+              name: "United States",
+              dialCode: "+1",
+              flag: "🇺🇸",
             },
-            secondaryButton: {
-              text: "learn more",
-            },
+            button: { text: "button 1", link: "", id: v4() },
+            successMessage: "Thank you! Your submission has been received",
           },
+          buttons: [
+            {
+              text: "button 1",
+              link: "",
+              id: v4(),
+            },
+            {
+              text: "button 2",
+              link: "",
+              id: v4(),
+            },
+          ],
         },
         style: {
           designName: "design1",
@@ -648,6 +1205,7 @@ export const landing = [
             leftTitlePosition: false,
             leftTitleWidth: "50%",
             showButtons: true,
+            showForm: false,
             sectionBackground: {
               color: "none",
               media: "",
@@ -795,14 +1353,75 @@ export const landing = [
             videoUrl: "",
           },
           actionType: "buttons",
-          buttons: {
-            primaryButton: {
-              text: "start your journey",
+          form: {
+            fields: [
+              {
+                id: v4(),
+                type: "text",
+                label: "First name",
+                value: "First name",
+                placeholder: "First name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "text",
+                label: "Last name",
+                value: "Last name",
+                placeholder: "Last name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "email",
+                label: "Email",
+                value: "Email",
+                placeholder: "Email",
+                required: true,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "tel",
+                label: "Phone",
+                value: "Phone",
+                placeholder: "Phone",
+                required: false,
+                active: false,
+              },
+              {
+                id: v4(),
+                type: "textarea",
+                label: "Message",
+                value: "Message",
+                placeholder: "Message",
+                required: false,
+                active: false,
+              },
+            ],
+            countryCode: {
+              code: "US",
+              name: "United States",
+              dialCode: "+1",
+              flag: "🇺🇸",
             },
-            secondaryButton: {
-              text: "learn more",
-            },
+            button: { text: "button 1", link: "", id: v4() },
+            successMessage: "Thank you! Your submission has been received",
           },
+          buttons: [
+            {
+              text: "button 1",
+              link: "",
+              id: v4(),
+            },
+            {
+              text: "button 2",
+              link: "",
+              id: v4(),
+            },
+          ],
         },
         style: {
           designName: "design1",
@@ -815,6 +1434,7 @@ export const landing = [
             leftTitlePosition: false,
             leftTitleWidth: "50%",
             showButtons: true,
+            showForm: false,
             sectionBackground: {
               color: "primary",
               media: "",
@@ -844,6 +1464,7 @@ export const landing = [
             height: "390px",
             titleSize: "xl",
             showButtons: false,
+            showForm: false,
             imageSetting: {
               objectFit: "cover",
               showImage: true,
@@ -864,14 +1485,75 @@ export const landing = [
         content: {
           label: "",
           title: "Main Heading",
-          buttons: {
-            primaryButton: {
-              text: "start your journey",
+          form: {
+            fields: [
+              {
+                id: v4(),
+                type: "text",
+                label: "First name",
+                value: "First name",
+                placeholder: "First name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "text",
+                label: "Last name",
+                value: "Last name",
+                placeholder: "Last name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "email",
+                label: "Email",
+                value: "Email",
+                placeholder: "Email",
+                required: true,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "tel",
+                label: "Phone",
+                value: "Phone",
+                placeholder: "Phone",
+                required: false,
+                active: false,
+              },
+              {
+                id: v4(),
+                type: "textarea",
+                label: "Message",
+                value: "Message",
+                placeholder: "Message",
+                required: false,
+                active: false,
+              },
+            ],
+            countryCode: {
+              code: "US",
+              name: "United States",
+              dialCode: "+1",
+              flag: "🇺🇸",
             },
-            secondaryButton: {
-              text: "learn more",
-            },
+            button: { text: "button 1", link: "", id: v4() },
+            successMessage: "Thank you! Your submission has been received",
           },
+          buttons: [
+            {
+              text: "button 1",
+              link: "",
+              id: v4(),
+            },
+            {
+              text: "button 2",
+              link: "",
+              id: v4(),
+            },
+          ],
           subtitle:
             "A clear explanation of the problem you are solving and the value of your brand in a way that resonates with your audience and encourages them to take action. Keep it short, interesting and easy to remember.",
           mediaType: "image",
@@ -903,14 +1585,75 @@ export const landing = [
             videoUrl: "",
           },
           actionType: "buttons",
-          buttons: {
-            primaryButton: {
-              text: "start your journey",
+          form: {
+            fields: [
+              {
+                id: v4(),
+                type: "text",
+                label: "First name",
+                value: "First name",
+                placeholder: "First name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "text",
+                label: "Last name",
+                value: "Last name",
+                placeholder: "Last name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "email",
+                label: "Email",
+                value: "Email",
+                placeholder: "Email",
+                required: true,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "tel",
+                label: "Phone",
+                value: "Phone",
+                placeholder: "Phone",
+                required: false,
+                active: false,
+              },
+              {
+                id: v4(),
+                type: "textarea",
+                label: "Message",
+                value: "Message",
+                placeholder: "Message",
+                required: false,
+                active: false,
+              },
+            ],
+            countryCode: {
+              code: "US",
+              name: "United States",
+              dialCode: "+1",
+              flag: "🇺🇸",
             },
-            secondaryButton: {
-              text: "learn more",
-            },
+            button: { text: "button 1", link: "", id: v4() },
+            successMessage: "Thank you! Your submission has been received",
           },
+          buttons: [
+            {
+              text: "button 1",
+              link: "",
+              id: v4(),
+            },
+            {
+              text: "button 2",
+              link: "",
+              id: v4(),
+            },
+          ],
         },
         style: {
           designName: "design1",
@@ -923,6 +1666,7 @@ export const landing = [
             leftTitlePosition: false,
             leftTitleWidth: "50%",
             showButtons: false,
+            showForm: true,
             sectionBackground: {
               color: "none",
               media: "",
@@ -955,14 +1699,75 @@ export const landing = [
             videoUrl: "",
           },
           actionType: "buttons",
-          buttons: {
-            primaryButton: {
-              text: "start your journey",
+          form: {
+            fields: [
+              {
+                id: v4(),
+                type: "text",
+                label: "First name",
+                value: "First name",
+                placeholder: "First name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "text",
+                label: "Last name",
+                value: "Last name",
+                placeholder: "Last name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "email",
+                label: "Email",
+                value: "Email",
+                placeholder: "Email",
+                required: true,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "tel",
+                label: "Phone",
+                value: "Phone",
+                placeholder: "Phone",
+                required: false,
+                active: false,
+              },
+              {
+                id: v4(),
+                type: "textarea",
+                label: "Message",
+                value: "Message",
+                placeholder: "Message",
+                required: false,
+                active: false,
+              },
+            ],
+            countryCode: {
+              code: "US",
+              name: "United States",
+              dialCode: "+1",
+              flag: "🇺🇸",
             },
-            secondaryButton: {
-              text: "learn more",
-            },
+            button: { text: "button 1", link: "", id: v4() },
+            successMessage: "Thank you! Your submission has been received",
           },
+          buttons: [
+            {
+              text: "button 1",
+              link: "",
+              id: v4(),
+            },
+            {
+              text: "button 2",
+              link: "",
+              id: v4(),
+            },
+          ],
         },
         style: {
           designName: "design1",
@@ -975,6 +1780,7 @@ export const landing = [
             leftTitlePosition: false,
             leftTitleWidth: "50%",
             showButtons: false,
+            showForm: false,
             sectionBackground: {
               color: "gray",
               media: "",
@@ -1007,14 +1813,75 @@ export const landing = [
             videoUrl: "",
           },
           actionType: "buttons",
-          buttons: {
-            primaryButton: {
-              text: "start your journey",
+          form: {
+            fields: [
+              {
+                id: v4(),
+                type: "text",
+                label: "First name",
+                value: "First name",
+                placeholder: "First name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "text",
+                label: "Last name",
+                value: "Last name",
+                placeholder: "Last name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "email",
+                label: "Email",
+                value: "Email",
+                placeholder: "Email",
+                required: true,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "tel",
+                label: "Phone",
+                value: "Phone",
+                placeholder: "Phone",
+                required: false,
+                active: false,
+              },
+              {
+                id: v4(),
+                type: "textarea",
+                label: "Message",
+                value: "Message",
+                placeholder: "Message",
+                required: false,
+                active: false,
+              },
+            ],
+            countryCode: {
+              code: "US",
+              name: "United States",
+              dialCode: "+1",
+              flag: "🇺🇸",
             },
-            secondaryButton: {
-              text: "learn more",
-            },
+            button: { text: "button 1", link: "", id: v4() },
+            successMessage: "Thank you! Your submission has been received",
           },
+          buttons: [
+            {
+              text: "button 1",
+              link: "",
+              id: v4(),
+            },
+            {
+              text: "button 2",
+              link: "",
+              id: v4(),
+            },
+          ],
         },
         style: {
           designName: "design1",
@@ -1027,6 +1894,7 @@ export const landing = [
             leftTitlePosition: false,
             leftTitleWidth: "50%",
             showButtons: false,
+            showForm: false,
             sectionBackground: {
               color: "none",
               media: "",
@@ -1427,14 +2295,75 @@ export const landing = [
             videoUrl: "",
           },
           actionType: "buttons",
-          buttons: {
-            primaryButton: {
-              text: "start your journey",
+          form: {
+            fields: [
+              {
+                id: v4(),
+                type: "text",
+                label: "First name",
+                value: "First name",
+                placeholder: "First name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "text",
+                label: "Last name",
+                value: "Last name",
+                placeholder: "Last name",
+                required: false,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "email",
+                label: "Email",
+                value: "Email",
+                placeholder: "Email",
+                required: true,
+                active: true,
+              },
+              {
+                id: v4(),
+                type: "tel",
+                label: "Phone",
+                value: "Phone",
+                placeholder: "Phone",
+                required: false,
+                active: false,
+              },
+              {
+                id: v4(),
+                type: "textarea",
+                label: "Message",
+                value: "Message",
+                placeholder: "Message",
+                required: false,
+                active: false,
+              },
+            ],
+            countryCode: {
+              code: "US",
+              name: "United States",
+              dialCode: "+1",
+              flag: "🇺🇸",
             },
-            secondaryButton: {
-              text: "learn more",
-            },
+            button: { text: "button 1", link: "", id: v4() },
+            successMessage: "Thank you! Your submission has been received",
           },
+          buttons: [
+            {
+              text: "button 1",
+              link: "",
+              id: v4(),
+            },
+            {
+              text: "button 2",
+              link: "",
+              id: v4(),
+            },
+          ],
         },
         style: {
           designName: "design1",
@@ -1447,6 +2376,7 @@ export const landing = [
             leftTitlePosition: true,
             leftTitleWidth: "50%",
             showButtons: true,
+            showForm: false,
             sectionBackground: {
               color: "primary",
               media: "",

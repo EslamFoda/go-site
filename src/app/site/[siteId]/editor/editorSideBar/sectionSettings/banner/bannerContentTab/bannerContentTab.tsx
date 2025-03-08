@@ -3,30 +3,41 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
-import { openChooseImage, updateContent } from "@/reduxStore/action";
+import {
+  openChooseImage,
+  updateContent,
+  updateStyle,
+} from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
-import { BannerContent } from "@/types/sectionsTypes/banner";
+import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
 import React from "react";
 import ToggleGroup from "../../settingsUi/toggleGroup";
 import ImageSelector from "@/components/shared/imageSelector";
+import NavigationItem from "@/components/shared/navigationItem";
 
 interface BannerContentTabProps {
   bannerContent: BannerContent;
+  bannerStyle: BannerStyle;
   findSelectedSection: EditorSection<
     keyof SectionContentTypes,
     keyof SectionStyleTypes
   >;
   pageId: string;
+  setOpenButtonsTab: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenFormTab: React.Dispatch<React.SetStateAction<boolean>>;
 }
 function BannerContentTab({
   bannerContent,
+  bannerStyle,
   findSelectedSection,
   pageId,
+  setOpenButtonsTab,
+  setOpenFormTab,
 }: BannerContentTabProps) {
   const dispatch = useAppDispatch();
 
@@ -118,6 +129,7 @@ function BannerContentTab({
                 className="w-4/6"
                 id="alt text"
                 value={bannerContent?.imageSetting?.altText}
+                placeholder="Describe the image"
                 onChange={(e: any) => {
                   dispatch(
                     updateContent(pageId, findSelectedSection?.id, {
@@ -154,6 +166,59 @@ function BannerContentTab({
           </div>
         )}
       </div>
+      <ToggleGroup
+        label="Actions"
+        options={[
+          { value: "buttons", label: "buttons" },
+          { value: "form", label: "form" },
+        ]}
+        value={bannerContent?.actionType}
+        onValueChange={(value) => {
+          dispatch(
+            updateContent(pageId, findSelectedSection?.id!, {
+              actionType: value,
+            })
+          );
+
+          if (value === "buttons") {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...bannerStyle.designSettings!,
+                  showButtons: value,
+                },
+              })
+            );
+          }
+
+          if (value === "form") {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...bannerStyle.designSettings!,
+                  showForm: value,
+                },
+              })
+            );
+          }
+        }}
+      />
+      {bannerContent?.actionType === "buttons" && (
+        <NavigationItem
+          label="Buttons"
+          onClick={() => {
+            setOpenButtonsTab(true);
+          }}
+        />
+      )}
+      {bannerContent?.actionType === "form" && (
+        <NavigationItem
+          label="Form"
+          onClick={() => {
+            setOpenFormTab(true);
+          }}
+        />
+      )}
     </TabsContent>
   );
 }

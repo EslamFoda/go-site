@@ -19,12 +19,68 @@ export const generateSections = (
       mediaType: "image",
       imageSetting: {
         imageUrl: generatedData.banner?.imageUrl,
-        altText: generatedData.banner?.imageUrl,
+        altText: "Banner image",
         id: generatedData.banner?.imgId,
       },
       videoSetting: { videoUrl: "" },
       actionType: "buttons",
-
+      form: {
+        fields: [
+          {
+            id: v4(),
+            type: "text",
+            label: "First name",
+            value: "First name",
+            placeholder: "First name",
+            required: false,
+            active: true,
+          },
+          {
+            id: v4(),
+            type: "text",
+            label: "Last name",
+            value: "Last name",
+            placeholder: "Last name",
+            required: false,
+            active: true,
+          },
+          {
+            id: v4(),
+            type: "email",
+            label: "Email",
+            value: "Email",
+            placeholder: "Email",
+            required: true,
+            active: true,
+          },
+          {
+            id: v4(),
+            type: "tel",
+            label: "Phone",
+            value: "Phone",
+            placeholder: "Phone",
+            required: false,
+            active: false,
+          },
+          {
+            id: v4(),
+            type: "textarea",
+            label: "Message",
+            value: "Message",
+            placeholder: "Message",
+            required: false,
+            active: false,
+          },
+        ],
+        button: { text: "button 1", link: "", id: v4() },
+        successMessage: "Thank you! Your submission has been received",
+        countryCode: {
+          code: "US",
+          name: "United States",
+          dialCode: "+1",
+          flag: "🇺🇸",
+        },
+      },
       buttons: [
         {
           text:
@@ -54,6 +110,7 @@ export const generateSections = (
         leftTitlePosition: false,
         leftTitleWidth: "50%",
         showButtons: true,
+        showForm: false,
         sectionBackground: {
           color: "gray",
           media: "",

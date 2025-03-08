@@ -162,9 +162,11 @@ function FooterSettings({ sections, pageId }: FooterSettingsProps) {
   if (openButtonTab)
     return (
       <Buttons
+        pageId={pageId}
         setOpenButtonsTab={setOpenButtonsTab}
         findSelectedSection={findSelectedSection}
         content={footerContent}
+        type="footer"
       />
     );
 

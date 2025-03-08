@@ -349,20 +349,39 @@ function BannerStyleTab({
             />
           )}
 
-        <SwitchSetting
-          label="Button"
-          defaultChecked={bannerStyle.designSettings.showButtons}
-          onCheckedChange={(value) => {
-            dispatch(
-              updateStyle(pageId, findSelectedSection?.id!, {
-                designSettings: {
-                  ...bannerStyle.designSettings!,
-                  showButtons: value,
-                },
-              })
-            );
-          }}
-        />
+        {bannerContent.actionType === "buttons" && (
+          <SwitchSetting
+            label="Button"
+            defaultChecked={bannerStyle.designSettings.showButtons}
+            onCheckedChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...bannerStyle.designSettings!,
+                    showButtons: value,
+                  },
+                })
+              );
+            }}
+          />
+        )}
+        {bannerContent.actionType === "form" && (
+          <SwitchSetting
+            label="Form"
+            defaultChecked={bannerStyle.designSettings.showForm}
+            onCheckedChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...bannerStyle.designSettings!,
+                    showForm: value,
+                  },
+                })
+              );
+            }}
+          />
+        )}
+
         <div
           className="flex items-center cursor-pointer justify-between p-3"
           onClick={() => {

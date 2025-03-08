@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { openPagesTab } from "@/reduxStore/action";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import { SectionBgColorType } from "@/types/common";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
@@ -22,10 +24,11 @@ function BannerButtons({
   buttons,
   btnClassNames,
   reverse = false,
-  sectionBackground = 'none',
+  sectionBackground = "none",
 }: BannerButtonsProps) {
   const { siteId } = useParams();
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const handleButtonClick = (btn: ButtonConfig) => {
     if (!btn.link || !btn.pageId) return;
@@ -33,6 +36,9 @@ function BannerButtons({
   };
 
   const renderButtons = buttons.map((btn, index) => {
+    // Skip rendering buttons without text
+    if (!btn.text) return null;
+
     // Apply styling logic similar to Design2
     const buttonClassName = cn({
       // For primary button (first button)
@@ -52,20 +58,26 @@ function BannerButtons({
         key={index}
         variant={index === 0 ? "default" : "outline"}
         className={index === 0 ? buttonClassName : outlineButtonClassName}
-        onClick={() => handleButtonClick(btn)}
+        onClick={(e) => {
+          e.stopPropagation();
+          dispatch(openPagesTab());
+          handleButtonClick(btn);
+        }}
       >
         {btn.text}
       </Button>
     );
   });
 
+  // Filter out null values (buttons with no text)
+  const filteredButtons = renderButtons.filter(Boolean);
+
   return (
     <div
       className={cn("flex items-center justify-center gap-2", btnClassNames)}
     >
-      {reverse ? renderButtons.reverse() : renderButtons}
+      {reverse ? filteredButtons.reverse() : filteredButtons}
     </div>
   );
 }
-
 export default BannerButtons;

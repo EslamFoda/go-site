@@ -10,21 +10,28 @@ import {
   SectionStyleTypes,
 } from "@/reduxStore/types";
 import { HeaderContent } from "@/types/sectionsTypes/header";
-import { updateGlobalContent } from "@/reduxStore/action";
+import { updateGlobalContent, updateContent } from "@/reduxStore/action";
 import { FooterContent } from "@/types/sectionsTypes/footer";
+import { BannerContent } from "@/types/sectionsTypes/banner";
+
+type SectionType = "header" | "footer" | "banner";
 
 interface ButtonsProps {
-  content: HeaderContent | FooterContent;
+  content: HeaderContent | FooterContent | BannerContent;
   setOpenButtonsTab: React.Dispatch<React.SetStateAction<boolean>>;
   findSelectedSection: EditorSection<
     keyof SectionContentTypes,
     keyof SectionStyleTypes
   >;
+  type: SectionType;
+  pageId: string;
 }
 
 function Buttons({
   content,
   findSelectedSection,
+  type,
+  pageId,
   setOpenButtonsTab,
 }: ButtonsProps) {
   const pages = useAppSelector((state) => state.editor.present.editor.pages);
@@ -43,12 +50,16 @@ function Buttons({
         : button
     );
 
-    dispatch(
-      updateGlobalContent(findSelectedSection.id, {
-        ...content,
-        buttons: updatedButtons,
-      })
-    );
+    const updatedContent = {
+      ...content,
+      buttons: updatedButtons,
+    };
+
+    if (type === "banner") {
+      dispatch(updateContent(pageId, findSelectedSection.id, updatedContent));
+    } else {
+      dispatch(updateGlobalContent(findSelectedSection.id, updatedContent));
+    }
   };
 
   const handleTextChange = (index: number, text: string) => {
@@ -56,12 +67,16 @@ function Buttons({
       i === index ? { ...button, text } : button
     );
 
-    dispatch(
-      updateGlobalContent(findSelectedSection.id, {
-        ...content,
-        buttons: updatedButtons,
-      })
-    );
+    const updatedContent = {
+      ...content,
+      buttons: updatedButtons,
+    };
+
+    if (type === "banner") {
+      dispatch(updateContent(pageId,findSelectedSection.id, updatedContent));
+    } else {
+      dispatch(updateGlobalContent(findSelectedSection.id, updatedContent));
+    }
   };
 
   return (
