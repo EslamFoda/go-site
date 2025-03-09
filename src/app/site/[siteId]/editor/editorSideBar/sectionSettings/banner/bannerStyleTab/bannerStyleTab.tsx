@@ -329,6 +329,22 @@ function BannerStyleTab({
             }}
           />
         )}
+        {bannerContent.mediaType === "video" && (
+          <SwitchSetting
+            label="Video"
+            defaultChecked={bannerStyle.designSettings.showVideo}
+            onCheckedChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...bannerStyle.designSettings!,
+                    showVideo: value,
+                  },
+                })
+              );
+            }}
+          />
+        )}
         {findSelectedSection?.style.designName !== "design3" &&
           findSelectedSection?.style.designName !== "design4" &&
           findSelectedSection?.style.designName !== "design5" &&

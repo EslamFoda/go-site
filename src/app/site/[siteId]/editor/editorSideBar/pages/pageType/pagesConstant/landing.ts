@@ -14,6 +14,7 @@ export const landing = [
             titleSize: "l",
             showButtons: true,
             showForm: false,
+            showVideo: false,
             imageSetting: {
               objectFit: "cover",
               showImage: true,
@@ -200,6 +201,7 @@ export const landing = [
             titleSize: "s",
             showButtons: true,
             showForm: false,
+            showVideo: false,
             imageSetting: {
               objectFit: "cover",
               showImage: true,
@@ -314,6 +316,7 @@ export const landing = [
             titleSize: "s",
             showButtons: true,
             showForm: false,
+            showVideo: false,
             imageSetting: {
               objectFit: "cover",
               showImage: true,
@@ -428,6 +431,7 @@ export const landing = [
             titleSize: "s",
             showButtons: true,
             showForm: false,
+            showVideo: false,
             imageSetting: {
               objectFit: "cover",
               showImage: true,
@@ -584,6 +588,7 @@ export const landing = [
             titleSize: "s",
             showButtons: true,
             showForm: false,
+            showVideo: false,
             imageSetting: {
               objectFit: "cover",
               showImage: false,
@@ -791,6 +796,7 @@ export const landing = [
             leftTitleWidth: "50%",
             showButtons: true,
             showForm: false,
+            showVideo: false,
             sectionBackground: {
               color: "gray",
               media: "",
@@ -978,6 +984,7 @@ export const landing = [
             leftTitleWidth: "50%",
             showButtons: true,
             showForm: false,
+            showVideo: false,
             sectionBackground: {
               color: "none",
               media: "",
@@ -1092,6 +1099,7 @@ export const landing = [
             leftTitleWidth: "50%",
             showButtons: true,
             showForm: false,
+            showVideo: false,
             sectionBackground: {
               color: "none",
               media: "",
@@ -1206,6 +1214,7 @@ export const landing = [
             leftTitleWidth: "50%",
             showButtons: true,
             showForm: false,
+            showVideo: false,
             sectionBackground: {
               color: "none",
               media: "",
@@ -1435,6 +1444,7 @@ export const landing = [
             leftTitleWidth: "50%",
             showButtons: true,
             showForm: false,
+            showVideo: false,
             sectionBackground: {
               color: "primary",
               media: "",
@@ -1465,6 +1475,7 @@ export const landing = [
             titleSize: "xl",
             showButtons: false,
             showForm: false,
+            showVideo: false,
             imageSetting: {
               objectFit: "cover",
               showImage: true,
@@ -1781,6 +1792,7 @@ export const landing = [
             leftTitleWidth: "50%",
             showButtons: false,
             showForm: false,
+            showVideo: false,
             sectionBackground: {
               color: "gray",
               media: "",
@@ -1895,6 +1907,7 @@ export const landing = [
             leftTitleWidth: "50%",
             showButtons: false,
             showForm: false,
+            showVideo: false,
             sectionBackground: {
               color: "none",
               media: "",
@@ -2377,6 +2390,7 @@ export const landing = [
             leftTitleWidth: "50%",
             showButtons: true,
             showForm: false,
+            showVideo: false,
             sectionBackground: {
               color: "primary",
               media: "",

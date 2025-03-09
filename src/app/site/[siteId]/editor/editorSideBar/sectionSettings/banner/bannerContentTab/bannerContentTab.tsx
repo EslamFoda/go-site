@@ -105,6 +105,34 @@ function BannerContentTab({
               mediaType: value,
             })
           );
+          if (value === "image") {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...bannerStyle.designSettings,
+                  showVideo: false,
+                  imageSetting: {
+                    ...bannerStyle.designSettings.imageSetting,
+                    showImage: true,
+                  },
+                },
+              })
+            );
+          }
+          if (value === "video") {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...bannerStyle.designSettings,
+                  showVideo: true,
+                  imageSetting: {
+                    ...bannerStyle.designSettings.imageSetting,
+                    showImage: false,
+                  },
+                },
+              })
+            );
+          }
         }}
       />
       <div>
@@ -185,7 +213,8 @@ function BannerContentTab({
               updateStyle(pageId, findSelectedSection?.id!, {
                 designSettings: {
                   ...bannerStyle.designSettings!,
-                  showButtons: value,
+                  showButtons: true,
+                  showForm: false,
                 },
               })
             );
@@ -196,7 +225,8 @@ function BannerContentTab({
               updateStyle(pageId, findSelectedSection?.id!, {
                 designSettings: {
                   ...bannerStyle.designSettings!,
-                  showForm: value,
+                  showForm: true,
+                  showButtons: false,
                 },
               })
             );

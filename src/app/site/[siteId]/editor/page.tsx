@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import Section from "./section";
 import {
@@ -24,6 +24,8 @@ import ImageLayout from "./fluidLayoutSettings/imageLayout";
 
 export default function Home({ params }: any) {
   const [loading, setLoading] = React.useState(true);
+  const pageContainerRef = useRef<HTMLDivElement>(null);
+
   const {
     selectedPallet,
     isDraggableModalActive,
@@ -31,6 +33,7 @@ export default function Home({ params }: any) {
     activePage: activePageId,
     selectedSection,
     draggableModalName,
+    designSettings: { borderRadius },
   } = useAppSelector((state) => state.editor.present);
   const page = useAppSelector((state) =>
     state.editor.present.editor.pages.find(
@@ -56,7 +59,6 @@ export default function Home({ params }: any) {
         .select()
         .eq("siteId", params.siteId)
         .single();
-        
 
       if (error) console.log(error);
       if (siteData) {
@@ -86,6 +88,12 @@ export default function Home({ params }: any) {
 
     fetchSiteData();
   }, [params.siteId, dispatch, homePageId, params.pageId]);
+
+  useEffect(() => {
+    if (pageContainerRef.current) {
+      pageContainerRef.current.style.setProperty("--radius", borderRadius);
+    }
+  }, [borderRadius]);
 
   const fluidCardsMapper = {
     image: FluidImage,
@@ -143,7 +151,7 @@ export default function Home({ params }: any) {
   if (loading) return null;
 
   return (
-    <div className={`${selectedPallet} page-container`}>
+    <div className={`${selectedPallet} page-container`} ref={pageContainerRef}>
       <DraggableModal
         headText={modalHeadText}
         isOpen={isDraggableModalActive}

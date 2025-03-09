@@ -106,6 +106,7 @@ const initialState: EditorStore = {
                 leftTitleWidth: "50%",
                 showButtons: true,
                 showForm: false,
+                showVideo: false,
                 sectionBackground: {
                   color: "none",
                   media: "",

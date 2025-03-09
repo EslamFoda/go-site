@@ -211,7 +211,7 @@ function Design1({ pageId, section }: DesignProps) {
                                 ? "default"
                                 : "outline"
                             }
-                            className={cn({
+                            className={cn("whitespace-normal", {
                               "bg-background hover:bg-background":
                                 !subscription.featured.isActive,
                               "bg-muted hover:bg-muted":

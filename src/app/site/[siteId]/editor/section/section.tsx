@@ -37,7 +37,11 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
     state.editor.present.editor.pages.find((page) => page.pageId === pageId)
   );
 
-  const { globalSections } = useAppSelector((state) => state.editor.present);
+  const {
+    globalSections,
+    designSettings: { borderRadius },
+  } = useAppSelector((state) => state.editor.present);
+  console.log(borderRadius, "borderRadius");
   const globalHeader = globalSections.find(
     (section) => section.sectionName === "Header"
   );

@@ -166,6 +166,7 @@ export function useSections() {
           leftTitleWidth: "50%",
           showButtons: true,
           showForm: false,
+          showVideo: false,
           sectionBackground: {
             color: "none",
             media: "",

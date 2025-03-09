@@ -3,6 +3,8 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { updateDesignSettings } from "@/reduxStore/action";
+import { createClient } from "@/utlis/supabase/client";
+import { useParams } from "next/navigation";
 
 type ShapeOption = "square" | "rounded-sm" | "rounded-full";
 
@@ -25,6 +27,7 @@ const ShapeIcon: React.FC<ShapeIconProps> = ({ active, shape }) => {
 };
 
 const Shape: React.FC = () => {
+  const { siteId } = useParams();
   const dispatch = useAppDispatch();
   const designSettings = useAppSelector(
     (state) => state.editor.present.designSettings
@@ -59,7 +62,7 @@ const Shape: React.FC = () => {
     }
   }, []);
 
-  const handleShapeChange = (shape: ShapeOption) => {
+  const handleShapeChange = async (shape: ShapeOption) => {
     let radiusValue = "0";
     switch (shape) {
       case "rounded-sm":
@@ -72,6 +75,15 @@ const Shape: React.FC = () => {
     dispatch(
       updateDesignSettings({ ...designSettings, borderRadius: radiusValue })
     );
+    const supabase = createClient();
+    const { data, error } = await supabase
+      .from("sites")
+      .update({
+        designSettings: { ...designSettings, borderRadius: radiusValue },
+      })
+      .eq("siteId", siteId)
+      .select();
+
     updateCSSVariable(shape);
   };
 

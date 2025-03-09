@@ -40,14 +40,14 @@ function BannerButtons({
     if (!btn.text) return null;
 
     // Apply styling logic similar to Design2
-    const buttonClassName = cn({
+    const buttonClassName = cn("whitespace-normal", {
       // For primary button (first button)
       "border-primary-foreground border-solid border text-primary-foreground":
         index === 0 && sectionBackground === "primary",
     });
 
     // For secondary/outline button (second button)
-    const outlineButtonClassName = cn({
+    const outlineButtonClassName = cn("whitespace-normal", {
       "bg-background hover:bg-background":
         index === 1 && sectionBackground === "gray",
       "bg-muted": index === 1 && sectionBackground === "none",

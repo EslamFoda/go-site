@@ -62,6 +62,7 @@ export interface BannerStyle {
     leftTitleWidth: string;
     showButtons: boolean;
     showForm: boolean;
+    showVideo: boolean;
     sectionBackground: {
       color?: SectionBgColorType;
       media?: string;

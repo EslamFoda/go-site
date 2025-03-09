@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import Section from "../section";
 import {
@@ -24,6 +24,8 @@ import ButtonLayout from "../fluidLayoutSettings/buttonLayout";
 
 function Page({ params }: any) {
   const dispatch = useAppDispatch();
+  const pageContainerRef = useRef<HTMLDivElement>(null);
+
   const {
     selectedPallet,
     isDraggableModalActive,
@@ -31,6 +33,7 @@ function Page({ params }: any) {
     activePage: activePageId,
     selectedSection,
     draggableModalName,
+    designSettings: { borderRadius },
   } = useAppSelector((state) => state.editor.present);
   const page = useAppSelector((state) =>
     state.editor.present.editor.pages.find(
@@ -82,6 +85,12 @@ function Page({ params }: any) {
 
     fetchSiteData();
   }, [params.siteId, dispatch, params.pageId]);
+
+  useEffect(() => {
+    if (pageContainerRef.current) {
+      pageContainerRef.current.style.setProperty("--radius", borderRadius);
+    }
+  }, [borderRadius]);
 
   const fluidCardsMapper = {
     image: FluidImage,
@@ -138,7 +147,7 @@ function Page({ params }: any) {
   if (!params.pageId) return null;
 
   return (
-    <main className={`${selectedPallet} page-container`}>
+    <main className={`${selectedPallet} page-container`} ref={pageContainerRef}>
       <DraggableModal
         headText={modalHeadText}
         isOpen={isDraggableModalActive}
