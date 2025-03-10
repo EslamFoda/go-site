@@ -11,9 +11,10 @@ import {
 } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { useTheme } from "next-themes";
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   closePagesTab,
+  updateSectionIndex,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -23,20 +24,17 @@ import { Logo, LogosContent, LogosStyle } from "@/types/sectionsTypes/logos";
 interface DesignProps {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
-function Design1({ section, pageId }: DesignProps) {
+function Design1({ section, pageId, sectionIndex }: DesignProps) {
   const { motion, AnimatePresence } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
-  const selectedPallet = useAppSelector(
-    (state) => state.editor.present.selectedPallet
-  );
+
   const { theme } = useTheme();
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
-  const dynamicTextColor =
-    selectedPallet === "default-theme" &&
-    section.style.designSettings.sectionBackground.color === "primary";
+
   const logoStyle = section?.style as LogosStyle;
   const logoContent = section?.content as LogosContent;
   const autoScroll = logoStyle?.designSettings?.carouselSettings?.autoScroll;
@@ -53,11 +51,6 @@ function Design1({ section, pageId }: DesignProps) {
       ]
     : [];
   const titleAndSubtitleClassName = cn(
-    dynamicTextColor && "text-textColor",
-    theme === "light" &&
-      selectedPallet === "default-theme" &&
-      section.style.designSettings.sectionBackground.color === "primary" &&
-      "text-white",
     logoStyle.designSettings.align === "start" && "text-start",
     logoStyle.designSettings.align === "center" && "text-center",
     logoStyle.designSettings.align === "end" && "text-end"
@@ -113,6 +106,17 @@ function Design1({ section, pageId }: DesignProps) {
     logoStyle.designSettings.sectionBackground.align === "end" && "justify-end"
   );
 
+  const sectionTitleClassNames = cn("text-4xl", {
+    "text-primary-foreground":
+      section.style.designSettings.sectionBackground.color === "primary",
+  });
+  const sectionSubTitleClassNames = cn({
+    "text-primary-foreground":
+      logoStyle.designSettings.sectionBackground.color === "primary",
+    "text-muted-foreground":
+      logoStyle.designSettings.sectionBackground.color !== "primary",
+  });
+
   return (
     <section
       className={sectionBgClassName}
@@ -124,8 +128,8 @@ function Design1({ section, pageId }: DesignProps) {
       <div className="container max-w-container gap-10 w-full py-12">
         <div className={containerClassNames}>
           <div className={titleAndSubtitleClassName}>
-            <h1 className="text-4xl">{logoContent.title}</h1>
-            <p>{logoContent.subtitle}</p>
+            <h1 className={sectionTitleClassNames}>{logoContent.title}</h1>
+            <p className={sectionSubTitleClassNames}>{logoContent.subtitle}</p>
           </div>
           <div className="md:col-span-2">
             {logoStyle.designSettings.displayType === "grid" ? (
@@ -149,6 +153,7 @@ function Design1({ section, pageId }: DesignProps) {
                         e.stopPropagation();
                         dispatch(updateSelectedSection(pageId, section.id));
                         dispatch(updateSelectedItem(logo));
+                        dispatch(updateSectionIndex(sectionIndex));
                         dispatch(closePagesTab());
                       }}
                     >
@@ -224,6 +229,7 @@ function Design1({ section, pageId }: DesignProps) {
                           e.stopPropagation();
                           dispatch(updateSelectedSection(pageId, section.id));
                           dispatch(updateSelectedItem(logo));
+                          dispatch(updateSectionIndex(sectionIndex));
                           dispatch(closePagesTab());
                         }}
                       >

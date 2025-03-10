@@ -10,12 +10,12 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
-import { useTheme } from "next-themes";
 import { ListStyle } from "@/types/sectionsTypes/list";
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   closeChooseIcon,
   closePagesTab,
+  updateSectionIndex,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -25,21 +25,15 @@ import { getPhosphorIcon } from "@/helper/phosphorIcons";
 interface DesignProps {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
-function Design1({ section, pageId }: DesignProps) {
+function Design1({ section, pageId, sectionIndex }: DesignProps) {
   const { AnimatePresence, motion } = useMotion();
-
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
-  const selectedPallet = useAppSelector(
-    (state) => state.editor.present.selectedPallet
-  );
-  const { theme } = useTheme();
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
-  const dynamicTextColor =
-    selectedPallet === "default-theme" &&
-    section.style.designSettings.sectionBackground.color === "primary";
+
   const listStyle = section?.style as ListStyle;
   const autoScroll = listStyle?.designSettings?.carouselSettings?.autoScroll;
   const scrollSpeed = listStyle?.designSettings?.carouselSettings?.scrollSpeed;
@@ -56,11 +50,6 @@ function Design1({ section, pageId }: DesignProps) {
     : [];
 
   const titleAndSubtitleClassName = cn(
-    dynamicTextColor && "text-textColor",
-    theme === "light" &&
-      selectedPallet === "default-theme" &&
-      section.style.designSettings.sectionBackground.color === "primary" &&
-      "text-white",
     listStyle.designSettings.align === "start" && "text-start",
     listStyle.designSettings.align === "center" && "text-center",
     listStyle.designSettings.align === "end" && "text-end"
@@ -108,12 +97,6 @@ function Design1({ section, pageId }: DesignProps) {
     }
   );
 
-  const imagePlaceholderClassNames = cn(
-    "w-full flex justify-center items-center rounded-md",
-    listStyle.designSettings.background ? "bg-background" : "bg-muted",
-    bgMuted && "bg-muted"
-  );
-
   const containerClassNames = cn(" grid grid-cols-1 space-y-4", {
     "md:grid-cols-3 grid-cols-1 gap-4 md:space-y-0 space-y-4":
       listStyle.designSettings.leftTitlePosition,
@@ -136,10 +119,15 @@ function Design1({ section, pageId }: DesignProps) {
       section.style.designSettings.sectionBackground.align === "end",
   });
 
-  const iconClassNames = cn("", {
-    "text-textColor": listStyle.designSettings.iconColor === "primary",
-    "text-white":
-      theme === "light" && listStyle.designSettings.iconColor === "primary",
+  const sectionTitleClassNames = cn("text-4xl", {
+    "text-primary-foreground":
+      section.style.designSettings.sectionBackground.color === "primary",
+  });
+  const sectionSubTitleClassNames = cn({
+    "text-primary-foreground":
+      listStyle.designSettings.sectionBackground.color === "primary",
+    "text-muted-foreground":
+      listStyle.designSettings.sectionBackground.color !== "primary",
   });
 
   return (
@@ -154,8 +142,10 @@ function Design1({ section, pageId }: DesignProps) {
       <div className="container max-w-container gap-10 w-full py-12">
         <div className={containerClassNames}>
           <div className={titleAndSubtitleClassName}>
-            <h1 className="text-4xl">{section.content.title}</h1>
-            <p>{section.content.subtitle}</p>
+            <h1 className={sectionTitleClassNames}>{section.content.title}</h1>
+            <p className={sectionSubTitleClassNames}>
+              {section.content.subtitle}
+            </p>
           </div>
           <div className="md:col-span-2">
             {listStyle.designSettings.displayType === "grid" ? (
@@ -176,6 +166,7 @@ function Design1({ section, pageId }: DesignProps) {
                           e.stopPropagation();
                           dispatch(updateSelectedSection(pageId, section.id));
                           dispatch(updateSelectedItem(listItem));
+                          dispatch(updateSectionIndex(sectionIndex));
                           dispatch(closeChooseIcon());
                           dispatch(closePagesTab());
                         }}
@@ -190,7 +181,7 @@ function Design1({ section, pageId }: DesignProps) {
                           {listItem.icon ? (
                             <ListIcon
                               size={listStyle.designSettings.height / 2.5}
-                              className={iconClassNames}
+                              className="text-primary-foreground"
                             />
                           ) : (
                             <ImagePlaceHolder
@@ -244,6 +235,7 @@ function Design1({ section, pageId }: DesignProps) {
                             e.stopPropagation();
                             dispatch(updateSelectedSection(pageId, section.id));
                             dispatch(updateSelectedItem(listItem));
+                            dispatch(updateSectionIndex(sectionIndex));
                             dispatch(closeChooseIcon());
                             dispatch(closePagesTab());
                           }}
@@ -258,7 +250,7 @@ function Design1({ section, pageId }: DesignProps) {
                             {listItem.icon ? (
                               <ListIcon
                                 size={listStyle.designSettings.height / 2.5}
-                                className={iconClassNames}
+                                className="text-primary-foreground"
                               />
                             ) : (
                               <ImagePlaceHolder

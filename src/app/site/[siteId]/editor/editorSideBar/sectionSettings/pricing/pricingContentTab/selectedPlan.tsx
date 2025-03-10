@@ -16,6 +16,7 @@ import Benefits from "./benefits";
 import Price from "./price";
 import Featured from "./featured";
 import SubscriptionPrice from "./subscriptionPrice";
+import EditText from "../../settingsUi/EditText";
 interface SelectedPlanProps {
   pageId: string;
   selectedSubscriptionPlan: SubscriptionPlan;
@@ -63,30 +64,25 @@ function SelectedPlan({
         </div>
       </div>
       <div className="px-5 space-y-2">
-        <div className="flex items-center justify-between">
-          <Label htmlFor="title">Title</Label>
-          <Input
-            className="w-4/6"
-            placeholder="Add plan name"
-            id="title"
-            value={selectedSubscriptionPlan?.title}
-            onChange={(e: any) => {
-              handleUpdatePlanItem("title", e.target.value);
-            }}
-          />
-        </div>
-        <div className="flex items-center justify-between">
-          <Label htmlFor="title">Text</Label>
-          <Input
-            className="w-4/6"
-            placeholder="Add text here"
-            id="text"
-            value={selectedSubscriptionPlan?.text}
-            onChange={(e: any) => {
-              handleUpdatePlanItem("text", e.target.value);
-            }}
-          />
-        </div>
+        <EditText
+          label="Title"
+          placeholder="Add plan name"
+          id="title"
+          value={selectedSubscriptionPlan?.title}
+          handleUpdate={(e: any) =>
+            handleUpdatePlanItem("title", e.target.value)
+          }
+        />
+        <EditText
+          label="Text"
+          placeholder="Add text here"
+          id="Text"
+          value={selectedSubscriptionPlan?.text}
+          handleUpdate={(e: any) =>
+            handleUpdatePlanItem("text", e.target.value)
+          }
+        />
+
         <Benefits
           benefits={selectedSubscriptionPlan?.benefits}
           pageId={pageId}

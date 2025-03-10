@@ -27,7 +27,7 @@ import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { PageSettings } from "@/reduxStore/types";
 import { ChevronRight } from "lucide-react";
 import { useTheme } from "next-themes";
-import { scroller } from "react-scroll";
+import { useScrollTo } from "@/hooks/useScrollTo";
 
 const variants = {
   open: {
@@ -57,6 +57,10 @@ const sectionVariants = {
 
 function ChooseSection() {
   const { motion } = useMotion();
+  const { theme } = useTheme();
+  const dispatch = useAppDispatch();
+  const { sections } = useSections();
+  const { scrollToElement } = useScrollTo();
   const sectionIndex = useAppSelector(
     (state) => state.editor.present.sectionIndex
   );
@@ -69,10 +73,6 @@ function ChooseSection() {
     )
   );
   const { showHeader, showFooter } = page?.pageSettings as PageSettings;
-
-  const { theme } = useTheme();
-  const dispatch = useAppDispatch();
-  const { sections } = useSections();
 
   const SectionIcons: {
     [key: string]: {
@@ -179,15 +179,6 @@ function ChooseSection() {
     }
   };
 
-  const scrollToSection = (index: number) => {
-    scroller.scrollTo(`section-${index}`, {
-      duration: 500,
-      delay: 0,
-      smooth: "easeInOutQuart",
-      offset: -50,
-    });
-  };
-
   return (
     <motion.div
       variants={variants}
@@ -212,9 +203,7 @@ function ChooseSection() {
             key={section.id}
             onClick={() => {
               handleChooseSection(section);
-              setTimeout(() => {
-                scrollToSection(sectionIndex + 1);
-              }, 0);
+              scrollToElement(`section-${sectionIndex + 1}`);
             }}
           >
             <div className="flex items-center gap-3">

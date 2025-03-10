@@ -2,9 +2,9 @@ import { updateEditorSections } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import React, { useMemo } from "react";
-import { scroller } from "react-scroll";
 import ControlBtn from "./controlBtn";
 import SectionSettingsBtn from "./sectionSettingsBtn";
+import { useScrollTo } from "@/hooks/useScrollTo";
 
 interface ControlButtonsProps {
   sectionIndex: number;
@@ -17,11 +17,12 @@ function ControlButtons({
   sectionId,
   pageId,
 }: ControlButtonsProps) {
+  const dispatch = useAppDispatch();
+  const { scrollToElement } = useScrollTo();
   const currentPage = useAppSelector((state) =>
     state.editor.present.editor.pages.find((page) => page.pageId === pageId)
   );
   const sections = currentPage?.sections;
-  const dispatch = useAppDispatch();
 
   const isFirstSection = useMemo(() => sectionIndex === 0, [sectionIndex]);
   const isSecondSection = useMemo(() => sectionIndex === 1, [sectionIndex]);
@@ -38,7 +39,7 @@ function ControlButtons({
         newSections[sectionIndex - 1],
       ];
       dispatch(updateEditorSections(pageId, newSections));
-      scrollToSection(sectionIndex - 1);
+      scrollToElement(`section-${sectionIndex - 1}`);
     }
   };
 
@@ -51,18 +52,9 @@ function ControlButtons({
       ];
       dispatch(updateEditorSections(pageId, newSections));
       setTimeout(() => {
-        scrollToSection(sectionIndex + 1);
+        scrollToElement(`section-${sectionIndex + 1}`);
       }, 0);
     }
-  };
-
-  const scrollToSection = (index: number) => {
-    scroller.scrollTo(`section-${index}`, {
-      duration: 500,
-      delay: 0,
-      smooth: "easeInOutQuart",
-      offset: -50,
-    });
   };
 
   return (

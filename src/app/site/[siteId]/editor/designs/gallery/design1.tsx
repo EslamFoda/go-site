@@ -10,10 +10,10 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
-import { useTheme } from "next-themes";
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   closePagesTab,
+  updateSectionIndex,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -27,20 +27,14 @@ import { useMotion } from "@/hooks/useMotion";
 interface DesignProps {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
-function Design1({ section, pageId }: DesignProps) {
+function Design1({ section, pageId, sectionIndex }: DesignProps) {
   const { motion, AnimatePresence } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
-  const selectedPallet = useAppSelector(
-    (state) => state.editor.present.selectedPallet
-  );
-  const { theme } = useTheme();
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
-  const dynamicTextColor =
-    selectedPallet === "default-theme" &&
-    section.style.designSettings.sectionBackground.color === "primary";
   const galleryStyle = section?.style as GalleryStyle;
   const galleryContent = section?.content as GalleryContent;
   const autoScroll = galleryStyle?.designSettings?.carouselSettings?.autoScroll;
@@ -57,13 +51,6 @@ function Design1({ section, pageId }: DesignProps) {
         }),
       ]
     : [];
-  const titleAndSubtitleClassName = cn(
-    dynamicTextColor && "text-textColor",
-    theme === "light" &&
-      selectedPallet === "default-theme" &&
-      section.style.designSettings.sectionBackground.color === "primary" &&
-      "text-white"
-  );
 
   const gridClassNames = cn(
     "grid gap-5",
@@ -109,6 +96,17 @@ function Design1({ section, pageId }: DesignProps) {
       "justify-end"
   );
 
+  const sectionTitleClassNames = cn("text-4xl", {
+    "text-primary-foreground":
+      section.style.designSettings.sectionBackground.color === "primary",
+  });
+  const sectionSubTitleClassNames = cn({
+    "text-primary-foreground":
+      galleryStyle.designSettings.sectionBackground.color === "primary",
+    "text-muted-foreground":
+      galleryStyle.designSettings.sectionBackground.color !== "primary",
+  });
+
   return (
     <section
       className={sectionBgClassName}
@@ -119,9 +117,11 @@ function Design1({ section, pageId }: DesignProps) {
     >
       <div className="container max-w-container gap-10 w-full py-12">
         <div className={containerClassNames}>
-          <div className={titleAndSubtitleClassName}>
-            <h1 className="text-4xl">{galleryContent.title}</h1>
-            <p>{galleryContent.subtitle}</p>
+          <div>
+            <h1 className={sectionTitleClassNames}>{galleryContent.title}</h1>
+            <p className={sectionSubTitleClassNames}>
+              {galleryContent.subtitle}
+            </p>
           </div>
           <div className="md:col-span-2">
             {galleryStyle.designSettings.displayType === "grid" ? (
@@ -148,6 +148,7 @@ function Design1({ section, pageId }: DesignProps) {
                         e.stopPropagation();
                         dispatch(updateSelectedSection(pageId, section.id));
                         dispatch(updateSelectedItem(photo));
+                        dispatch(updateSectionIndex(sectionIndex));
                         dispatch(closePagesTab());
                       }}
                     >
@@ -201,6 +202,7 @@ function Design1({ section, pageId }: DesignProps) {
                           e.stopPropagation();
                           dispatch(updateSelectedSection(pageId, section.id));
                           dispatch(updateSelectedItem(photo));
+                          dispatch(updateSectionIndex(sectionIndex));
                           dispatch(closePagesTab());
                         }}
                       >

@@ -8,6 +8,7 @@ import Design5 from "./design5";
 interface BannerProps {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
 function Banner({ section, pageId }: BannerProps) {
   const designs = {

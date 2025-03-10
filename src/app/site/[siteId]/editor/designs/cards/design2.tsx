@@ -1,5 +1,4 @@
 import { ImagePlaceHolder } from "@/icons/common";
-import Image from "next/image";
 import React from "react";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "react-responsive";
@@ -12,10 +11,10 @@ import {
 } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { CardStyle } from "@/types/sectionsTypes/cards";
-import { useTheme } from "next-themes";
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   closePagesTab,
+  updateSectionIndex,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -24,20 +23,14 @@ import { useMotion } from "@/hooks/useMotion";
 interface DesignProps {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
-function Design2({ section, pageId }: DesignProps) {
+function Design2({ section, pageId, sectionIndex }: DesignProps) {
   const { motion, AnimatePresence } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
-  const selectedPallet = useAppSelector(
-    (state) => state.editor.present.selectedPallet
-  );
-  const { theme } = useTheme();
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
-  const dynamicTextColor =
-    selectedPallet === "default-theme" &&
-    section.style.designSettings.sectionBackground.color === "primary";
   const cardStyle = section?.style as CardStyle;
   const autoScroll = cardStyle?.designSettings?.cardSlider?.autoScroll;
   const scrollSpeed = cardStyle?.designSettings?.cardSlider?.scrollSpeed;
@@ -52,13 +45,6 @@ function Design2({ section, pageId }: DesignProps) {
         }),
       ]
     : [];
-  const titleAndSubtitleClassName = cn(
-    dynamicTextColor && "text-textColor",
-    theme === "light" &&
-      selectedPallet === "default-theme" &&
-      section.style.designSettings.sectionBackground.color === "primary" &&
-      "text-white"
-  );
 
   const titleClassName = cn(
     cardStyle.designSettings.titleSize === "s" && "text-sm font-medium",
@@ -134,6 +120,16 @@ function Design2({ section, pageId }: DesignProps) {
     !cardStyle.designSettings.glassEffect && !bgMuted && "bg-background"
   );
 
+  const sectionTitleClassNames = cn("text-4xl", {
+    "text-primary-foreground":
+      section.style.designSettings.sectionBackground.color === "primary",
+  });
+  const sectionSubTitleClassNames = cn({
+    "text-primary-foreground":
+      cardStyle.designSettings.sectionBackground.color === "primary",
+    "text-muted-foreground":
+      cardStyle.designSettings.sectionBackground.color !== "primary",
+  });
   return (
     <section
       className={sectionBgClassName}
@@ -144,9 +140,11 @@ function Design2({ section, pageId }: DesignProps) {
     >
       <div className={alignClassNames}>
         <div className={containerClassNames}>
-          <div className={titleAndSubtitleClassName}>
-            <h1 className="text-4xl">{section.content.title}</h1>
-            <p>{section.content.subtitle}</p>
+          <div>
+            <h1 className={sectionTitleClassNames}>{section.content.title}</h1>
+            <p className={sectionSubTitleClassNames}>
+              {section.content.subtitle}
+            </p>
           </div>
           <div className="md:col-span-2">
             {cardStyle.designSettings.displayType === "grid" ? (
@@ -173,6 +171,7 @@ function Design2({ section, pageId }: DesignProps) {
                         e.stopPropagation();
                         dispatch(updateSelectedSection(pageId, section.id));
                         dispatch(updateSelectedItem(card));
+                        dispatch(updateSectionIndex(sectionIndex));
                         dispatch(closePagesTab());
                       }}
                     >
@@ -228,6 +227,7 @@ function Design2({ section, pageId }: DesignProps) {
                           e.stopPropagation();
                           dispatch(updateSelectedSection(pageId, section.id));
                           dispatch(updateSelectedItem(card));
+                          dispatch(updateSectionIndex(sectionIndex));
                           dispatch(closePagesTab());
                         }}
                       >

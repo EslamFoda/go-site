@@ -4,8 +4,9 @@ import Design1 from "./design1";
 interface AccordionProps {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
-function Accordion({ section, pageId }: AccordionProps) {
+function Accordion({ section, pageId, sectionIndex }: AccordionProps) {
   const designs = {
     design1: Design1,
   };
@@ -14,7 +15,11 @@ function Accordion({ section, pageId }: AccordionProps) {
   const AccordionSection = designs[section.style.designName];
   return (
     <>
-      <AccordionSection section={section} pageId={pageId} />
+      <AccordionSection
+        section={section}
+        pageId={pageId}
+        sectionIndex={sectionIndex}
+      />
     </>
   );
 }

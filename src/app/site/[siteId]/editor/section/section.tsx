@@ -13,7 +13,7 @@ import Fluid from "../designs/fluid";
 import AddSection from "./addSection";
 import Pricing from "../designs/pricing";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
-import { closeSectionDesigns } from "@/reduxStore/action";
+import { closeSectionDesigns, updateSectionIndex } from "@/reduxStore/action";
 import ControlButtons from "./controlButtons";
 import {
   HoverCard,
@@ -117,6 +117,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                   onMouseEnter={() => handleMouseEnter(i)}
                   onMouseLeave={handleMouseLeave}
                   onMouseOver={() => handleMouseEnter(i)}
+                  onClick={() =>  dispatch(updateSectionIndex(i))}
                 >
                   <HoverCardContent
                     align="end"
@@ -139,6 +140,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                         key={section.id}
                         section={section}
                         pageId={pageId}
+                        sectionIndex={i}
                       />
                     </div>
                   </HoverCardTrigger>

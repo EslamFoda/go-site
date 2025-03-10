@@ -64,7 +64,7 @@ function Design2({ section, pageId }: Design2Props) {
   };
 
   // Extract class name generation logic into separate functions
-  const getSectionClassName = cn({
+  const getSectionClassName = cn("flex flex-col", {
     "bg-primary": sectionBackground.color === "primary",
     "bg-muted": sectionBackground.color === "gray",
     "bg-background": sectionBackground.color === "none",

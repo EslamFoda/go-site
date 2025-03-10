@@ -6,11 +6,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { useTheme } from "next-themes";
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   closeChooseIcon,
   closePagesTab,
+  updateSectionIndex,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -24,28 +24,17 @@ import { useMotion } from "@/hooks/useMotion";
 interface DesignProps {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
-function Design1({ section, pageId }: DesignProps) {
+function Design1({ section, pageId, sectionIndex }: DesignProps) {
   const { AnimatePresence, motion } = useMotion();
   const dispatch = useAppDispatch();
-  const selectedPallet = useAppSelector(
-    (state) => state.editor.present.selectedPallet
-  );
-  const { theme } = useTheme();
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
-  const dynamicTextColor =
-    selectedPallet === "default-theme" &&
-    section.style.designSettings.sectionBackground.color === "primary";
   const accordionStyle = section?.style as AccordionStyle;
   const accordionContent = section?.content as AccordionContentType;
 
   const titleAndSubtitleClassName = cn(
-    dynamicTextColor && "text-textColor",
-    theme === "light" &&
-      selectedPallet === "default-theme" &&
-      section.style.designSettings.sectionBackground.color === "primary" &&
-      "text-white",
     accordionStyle.designSettings.align === "start" && "text-start",
     accordionStyle.designSettings.align === "center" && "text-center",
     accordionStyle.designSettings.align === "end" && "text-end"
@@ -78,7 +67,16 @@ function Design1({ section, pageId }: DesignProps) {
     "outline outline-[1px] outline-muted": accordionStyle.designSettings.border,
     "bg-background": bgMuted,
   });
-
+  const sectionTitleClassNames = cn("text-4xl", {
+    "text-primary-foreground":
+      section.style.designSettings.sectionBackground.color === "primary",
+  });
+  const sectionSubTitleClassNames = cn({
+    "text-primary-foreground":
+      accordionStyle.designSettings.sectionBackground.color === "primary",
+    "text-muted-foreground":
+      accordionStyle.designSettings.sectionBackground.color !== "primary",
+  });
   return (
     <section
       className={sectionBgClassName}
@@ -91,8 +89,10 @@ function Design1({ section, pageId }: DesignProps) {
       <div className="container max-w-container gap-10 w-full py-12">
         <div className={containerClassNames}>
           <div className={titleAndSubtitleClassName}>
-            <h1 className="text-4xl">{section.content.title}</h1>
-            <p>{section.content.subtitle}</p>
+            <h1 className={sectionTitleClassNames}>{section.content.title}</h1>
+            <p className={sectionSubTitleClassNames}>
+              {section.content.subtitle}
+            </p>
           </div>
           <div className="md:col-span-2">
             <Accordion type="multiple" className="w-full space-y-3">
@@ -114,6 +114,7 @@ function Design1({ section, pageId }: DesignProps) {
                         e.stopPropagation();
                         dispatch(updateSelectedSection(pageId, section.id));
                         dispatch(updateSelectedItem(accordion));
+                        dispatch(updateSectionIndex(sectionIndex));
                         dispatch(closePagesTab());
                       }}
                     >

@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { updateContent, updateSelectedItem } from "@/reduxStore/action";
-import { useAppDispatch } from "@/reduxStore/hooks";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
   EditorSection,
   SectionContentTypes,
@@ -20,6 +20,8 @@ import SubscriptionType from "../../settingsUi/subscriptionType";
 import DraggableList from "@/components/ui/DraggableList";
 import { v4 } from "uuid";
 import { ChevronRightIcon } from "lucide-react";
+import { useScrollTo } from "@/hooks/useScrollTo";
+import { useScrollToSection } from "@/hooks/useScrollToSection";
 interface PricingContentTabProps {
   findSelectedSection: EditorSection<
     keyof SectionContentTypes,
@@ -35,6 +37,8 @@ function PricingContentTab({
   pageId,
   setOpenSubscriptionTab,
 }: PricingContentTabProps) {
+  const { scrollToCurrentSection } = useScrollToSection();
+
   const dispatch = useAppDispatch();
   const handleDragEnd = (result: any) => {
     if (!result.destination) return; // dropped outside the list
@@ -124,6 +128,7 @@ function PricingContentTab({
           className="w-4/6"
           placeholder="Add label"
           value={pricingContent?.label}
+          onFocus={() => scrollToCurrentSection()}
           onChange={(e: any) => {
             updateContent(pageId, findSelectedSection.id, {
               label: e.target.value,
@@ -138,6 +143,7 @@ function PricingContentTab({
           id="title"
           placeholder="Add title"
           value={pricingContent?.title}
+          onFocus={() => scrollToCurrentSection()}
           onChange={(e: any) => {
             dispatch(
               updateContent(pageId, findSelectedSection?.id!, {
@@ -149,11 +155,12 @@ function PricingContentTab({
       </div>
       <div className="space-y-1 flex items-center justify-between">
         <Label htmlFor="subtitle">Subtitle</Label>
-        <Textarea 
+        <Textarea
           className="w-4/6 "
           placeholder="Add subtitle"
           id={findSelectedSection?.id + "subtitle"}
           value={pricingContent?.subtitle}
+          onFocus={() => scrollToCurrentSection()}
           onChange={(e: any) => {
             dispatch(
               updateContent(pageId, findSelectedSection?.id!, {
@@ -168,29 +175,34 @@ function PricingContentTab({
         <div className="w-4/6 ">
           <SelectCurrency
             value={pricingContent?.currency.code}
-            onChange={(currency) =>
+            onChange={(currency) => {
+              scrollToCurrentSection();
               dispatch(
                 updateContent(pageId, findSelectedSection?.id!, {
                   currency: currency,
                 })
-              )
-            }
+              );
+            }}
           />
         </div>
       </div>
       <SubscriptionType
         planTypeValue={pricingContent?.planType}
-        onValueChange={(value) =>
+        onValueChange={(value) => {
+          scrollToCurrentSection();
           dispatch(
             updateContent(pageId, findSelectedSection?.id!, { planType: value })
-          )
-        }
+          );
+        }}
       />
       {pricingContent?.planType === SubscriptionPlanType.SUBSCRIPTION && (
         <div className="flex items-center justify-end">
           <div
             className="w-4/6 px-3 h-10 border flex items-center justify-between cursor-pointer hover:bg-muted/50"
-            onClick={() => setOpenSubscriptionTab(true)}
+            onClick={() => {
+              scrollToCurrentSection();
+              setOpenSubscriptionTab(true);
+            }}
           >
             <span>Subscription</span>
             <ChevronRightIcon size={16} />
