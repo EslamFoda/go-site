@@ -10,7 +10,10 @@ export const landing = [
           designSettings: {
             align: "center",
             video: true,
-            height: "500px",
+            height: {
+              desktop: 500,
+              mobile: 350,
+            },
             titleSize: "l",
             showButtons: true,
             showForm: false,
@@ -197,7 +200,10 @@ export const landing = [
           designSettings: {
             align: "start",
             video: true,
-            height: "390px",
+            height: {
+              desktop: 390,
+              mobile: 350,
+            },
             titleSize: "s",
             showButtons: true,
             showForm: false,
@@ -312,7 +318,10 @@ export const landing = [
           designSettings: {
             align: "start",
             video: true,
-            height: "390px",
+            height: {
+              desktop: 390,
+              mobile: 350,
+            },
             titleSize: "s",
             showButtons: true,
             showForm: false,
@@ -427,7 +436,10 @@ export const landing = [
           designSettings: {
             align: "start",
             video: true,
-            height: "390px",
+            height: {
+              desktop: 390,
+              mobile: 350,
+            },
             titleSize: "s",
             showButtons: true,
             showForm: false,
@@ -584,7 +596,10 @@ export const landing = [
           designSettings: {
             align: "center",
             video: true,
-            height: "460px",
+            height: {
+              desktop: 460,
+              mobile: 350,
+            },
             titleSize: "s",
             showButtons: true,
             showForm: false,
@@ -790,7 +805,10 @@ export const landing = [
             titleSize: "l",
             align: "start",
             subtitleWidth: "50%",
-            height: "550px",
+            height: {
+              desktop: 550,
+              mobile: 350,
+            },
             video: true,
             leftTitlePosition: true,
             leftTitleWidth: "50%",
@@ -978,7 +996,10 @@ export const landing = [
             titleSize: "s",
             align: "start",
             subtitleWidth: "60%",
-            height: "390px",
+            height: {
+              desktop: 390,
+              mobile: 350,
+            },
             video: true,
             leftTitlePosition: false,
             leftTitleWidth: "50%",
@@ -1093,7 +1114,10 @@ export const landing = [
             titleSize: "s",
             align: "start",
             subtitleWidth: "60%",
-            height: "390px",
+            height: {
+              desktop: 390,
+              mobile: 350,
+            },
             video: true,
             leftTitlePosition: false,
             leftTitleWidth: "50%",
@@ -1208,7 +1232,10 @@ export const landing = [
             titleSize: "s",
             align: "start",
             subtitleWidth: "60%",
-            height: "390px",
+            height: {
+              desktop: 390,
+              mobile: 350,
+            },
             video: true,
             leftTitlePosition: false,
             leftTitleWidth: "50%",
@@ -1438,7 +1465,10 @@ export const landing = [
             titleSize: "s",
             align: "start",
             subtitleWidth: "50%",
-            height: "460px",
+            height: {
+              desktop: 460,
+              mobile: 350,
+            },
             video: true,
             leftTitlePosition: false,
             leftTitleWidth: "50%",
@@ -1471,7 +1501,10 @@ export const landing = [
           designSettings: {
             align: "center",
             video: true,
-            height: "390px",
+            height: {
+              desktop: 390,
+              mobile: 350,
+            },
             titleSize: "xl",
             showButtons: false,
             showForm: false,
@@ -1672,7 +1705,10 @@ export const landing = [
             titleSize: "s",
             align: "center",
             subtitleWidth: "60%",
-            height: "390px",
+            height: {
+              desktop: 390,
+              mobile: 350,
+            },
             video: true,
             leftTitlePosition: false,
             leftTitleWidth: "50%",
@@ -1786,7 +1822,10 @@ export const landing = [
             titleSize: "s",
             align: "center",
             subtitleWidth: "60%",
-            height: "390px",
+            height: {
+              desktop: 390,
+              mobile: 350,
+            },
             video: true,
             leftTitlePosition: false,
             leftTitleWidth: "50%",
@@ -1901,7 +1940,10 @@ export const landing = [
             titleSize: "s",
             align: "center",
             subtitleWidth: "60%",
-            height: "390px",
+            height: {
+              desktop: 390,
+              mobile: 350,
+            },
             video: true,
             leftTitlePosition: false,
             leftTitleWidth: "50%",
@@ -2384,7 +2426,10 @@ export const landing = [
             titleSize: "m",
             align: "center",
             subtitleWidth: "50%",
-            height: "460px",
+            height: {
+              desktop: 460,
+              mobile: 350,
+            },
             video: true,
             leftTitlePosition: true,
             leftTitleWidth: "50%",

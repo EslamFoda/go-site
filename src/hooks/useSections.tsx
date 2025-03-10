@@ -160,7 +160,10 @@ export function useSections() {
           titleSize: "xl",
           align: "center",
           subtitleWidth: "50%",
-          height: "460px",
+          height: {
+            desktop: 460,
+            mobile: 350,
+          },
           video: true,
           leftTitlePosition: true,
           leftTitleWidth: "50%",
@@ -270,7 +273,7 @@ export function useSections() {
           {
             id: v4(),
             title: "List 1",
-            text: "List 1 text",
+            text: "",
             icon: "",
             link: "",
           },

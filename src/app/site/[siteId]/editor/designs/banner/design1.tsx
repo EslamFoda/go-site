@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import ReactPlayer from "react-player";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useMediaQuery } from "react-responsive";
 
 interface Design1Props {
   section: any;
@@ -17,6 +18,7 @@ interface Design1Props {
 
 function Design1({ section, pageId }: Design1Props) {
   const dispatch = useAppDispatch();
+  const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const bannerContent = section?.content as BannerContent;
   const bannerStyle = section?.style as BannerStyle;
 
@@ -98,7 +100,7 @@ function Design1({ section, pageId }: Design1Props) {
       "items-end text-end": align === "end",
     },
     leftTitlePosition
-      ? "flex-row text-start items-start gap-4 lg:flex md:block block"
+      ? "flex-row text-start items-start gap-4 lg:flex md:block block justify-between"
       : "flex-col"
   );
 
@@ -198,7 +200,9 @@ function Design1({ section, pageId }: Design1Props) {
       return (
         <div
           style={{
-            height: height,
+            height: isDesktop
+              ? bannerStyle.designSettings.height.desktop
+              : bannerStyle.designSettings.height.mobile,
             backgroundImage: `url(${bannerContent?.imageSetting.imageUrl})`,
             backgroundSize: imageSetting.objectFit,
           }}
@@ -208,7 +212,14 @@ function Design1({ section, pageId }: Design1Props) {
     }
 
     return (
-      <div style={{ height: height }} className={placeholderClassName}>
+      <div
+        style={{
+          height: isDesktop
+            ? bannerStyle.designSettings.height.desktop
+            : bannerStyle.designSettings.height.mobile,
+        }}
+        className={placeholderClassName}
+      >
         <ImagePlaceHolder
           fillColor={bgMuted ? "fill-muted" : "fill-background"}
         />
@@ -269,7 +280,14 @@ function Design1({ section, pageId }: Design1Props) {
     }
 
     return (
-      <div style={{ height: height }} className={placeholderClassName}>
+      <div
+        style={{
+          height: isDesktop
+            ? bannerStyle.designSettings.height.desktop
+            : bannerStyle.designSettings.height.mobile,
+        }}
+        className={placeholderClassName}
+      >
         <VideoPlaceHolder
           fillColor={bgMuted ? "fill-muted" : "fill-background"}
         />
@@ -324,7 +342,7 @@ function Design1({ section, pageId }: Design1Props) {
         <div
           className="space-y-3"
           style={{
-            width: leftTitlePosition ? "100%" : subtitleWidth,
+            width: leftTitlePosition || !isDesktop ? "100%" : subtitleWidth,
           }}
         >
           <p

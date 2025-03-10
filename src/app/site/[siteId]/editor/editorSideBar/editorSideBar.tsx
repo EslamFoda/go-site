@@ -109,7 +109,7 @@ const EditorSidebar = () => {
     return () => {
       debouncedUpdatePageStyleAndContent.clear();
     };
-  }, [pages, globalSections, storage]);
+  }, [pages, globalSections, storage, designSettings]);
 
   return (
     <div className="overflow-auto">

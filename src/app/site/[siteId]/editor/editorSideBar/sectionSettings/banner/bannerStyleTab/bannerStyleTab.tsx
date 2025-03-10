@@ -8,7 +8,7 @@ import {
   SixthDesign,
   ThirdDesign,
 } from "@/icons/banner";
-import React from "react";
+import React, { useState } from "react";
 import ColorSelector from "../../settingsUi/ColorSelector";
 import TitleSize from "../../settingsUi/TitleSizes";
 import WidthOrHeight from "../../settingsUi/WidthOrHeight";
@@ -23,6 +23,7 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { updateStyle } from "@/reduxStore/action";
+import HeightOrWidthSetting from "../../settingsUi/HeightOrWidthSetting";
 
 const BANNER_DESIGNS = [
   { designName: "design1", Icon: FirstDesign },
@@ -52,8 +53,12 @@ function BannerStyleTab({
   setSectionBgOpened,
 }: BannerStyleTabProps) {
   const dispatch = useAppDispatch();
+  const [isHeightDesktop, setIsHeightDesktop] = useState(true);
   const selectedSectionStyle =
     findSelectedSection?.style as SectionStyleTypes["banner"];
+  const handleToggleHeightSetting = () => {
+    setIsHeightDesktop(!isHeightDesktop);
+  };
   if (!bannerStyle) return null;
   return (
     <TabsContent className="space-y-2 px-5" value="style">
@@ -269,11 +274,12 @@ function BannerStyleTab({
         bannerStyle?.designName === "design4" ||
         bannerStyle?.designName === "design5" ||
         bannerStyle?.designName === "design6") &&
-        !bannerStyle?.designSettings.imageSetting.showImage && (
+        !bannerStyle?.designSettings.imageSetting.showImage &&
+        !bannerStyle?.designSettings.showVideo && (
           <WidthOrHeight
             label="width"
             min={50}
-            max={100}
+            max={75}
             customText={`${bannerStyle.designSettings.subtitleWidth}`}
             value={[parseInt(bannerStyle.designSettings.subtitleWidth!)]}
             onValueChange={(value) => {
@@ -290,25 +296,41 @@ function BannerStyleTab({
         )}
 
       {bannerStyle?.designSettings.imageSetting.showImage && (
-        <WidthOrHeight
-          customText={`${bannerStyle.designSettings.height}`}
+        <HeightOrWidthSetting
           label="height"
           min={200}
-          max={700}
-          value={[parseInt(bannerStyle.designSettings.height!)]}
+          max={isHeightDesktop ? 700 : 500}
+          isDesktop={isHeightDesktop}
+          handleToggleSetting={handleToggleHeightSetting}
+          customText={
+            isHeightDesktop
+              ? `${bannerStyle.designSettings.height.desktop}px`
+              : `${bannerStyle.designSettings.height.mobile}px`
+          }
+          value={
+            isHeightDesktop
+              ? [bannerStyle.designSettings.height.desktop]
+              : [bannerStyle.designSettings.height.mobile]
+          }
           onValueChange={(value) => {
-            const height = value[0];
+            const newHeightSetting = isHeightDesktop
+              ? { desktop: value[0] }
+              : { mobile: value[0] };
             dispatch(
               updateStyle(pageId, findSelectedSection?.id!, {
                 designSettings: {
                   ...bannerStyle.designSettings!,
-                  height: `${height}px`,
+                  height: {
+                    ...bannerStyle.designSettings.height,
+                    ...newHeightSetting,
+                  },
                 },
               })
             );
           }}
         />
       )}
+
       <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
         {bannerContent.mediaType === "image" && (
           <SwitchSetting
@@ -319,6 +341,7 @@ function BannerStyleTab({
                 updateStyle(pageId, findSelectedSection?.id!, {
                   designSettings: {
                     ...bannerStyle.designSettings!,
+                    subtitleWidth: "50%",
                     imageSetting: {
                       ...bannerStyle.designSettings.imageSetting,
                       showImage: value,
@@ -339,31 +362,30 @@ function BannerStyleTab({
                   designSettings: {
                     ...bannerStyle.designSettings!,
                     showVideo: value,
+                    subtitleWidth: "50%",
                   },
                 })
               );
             }}
           />
         )}
-        {findSelectedSection?.style.designName !== "design3" &&
-          findSelectedSection?.style.designName !== "design4" &&
-          findSelectedSection?.style.designName !== "design5" &&
-          findSelectedSection?.style.designName !== "design6" && (
-            <SwitchSetting
-              label="Left Title"
-              defaultChecked={bannerStyle.designSettings.leftTitlePosition}
-              onCheckedChange={(value) => {
-                dispatch(
-                  updateStyle(pageId, findSelectedSection?.id!, {
-                    designSettings: {
-                      ...bannerStyle.designSettings!,
-                      leftTitlePosition: value,
-                    },
-                  })
-                );
-              }}
-            />
-          )}
+        {(findSelectedSection?.style.designName === "design1" ||
+          findSelectedSection?.style.designName === "design2") && (
+          <SwitchSetting
+            label="Left Title"
+            defaultChecked={bannerStyle.designSettings.leftTitlePosition}
+            onCheckedChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...bannerStyle.designSettings!,
+                    leftTitlePosition: value,
+                  },
+                })
+              );
+            }}
+          />
+        )}
 
         {bannerContent.actionType === "buttons" && (
           <SwitchSetting

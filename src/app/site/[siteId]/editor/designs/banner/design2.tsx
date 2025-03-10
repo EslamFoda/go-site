@@ -1,159 +1,379 @@
-import { ImagePlaceHolder } from "@/icons/common";
+import { ImagePlaceHolder, VideoPlaceHolder } from "@/icons/common";
 import { cn } from "@/lib/utils";
 import { updateSelectedSection } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
-
-import React from "react";
-import BannerButtons from "./bannerButtons";
+import React, { useState, useRef } from "react";
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
+import BannerButtons from "./bannerButtons";
+import { Input } from "@/components/ui/input";
+import ReactPlayer from "react-player";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import { useMediaQuery } from "react-responsive";
+
 interface Design2Props {
   section: any;
   pageId: string;
 }
+
 function Design2({ section, pageId }: Design2Props) {
   const dispatch = useAppDispatch();
+  const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const bannerContent = section?.content as BannerContent;
   const bannerStyle = section?.style as BannerStyle;
 
-  const leftTitlePosition = bannerStyle.designSettings.leftTitlePosition;
-  const titleSize = bannerStyle.designSettings.titleSize;
-  const align = bannerStyle.designSettings.align;
-  const showImage = bannerStyle.designSettings.imageSetting.showImage;
-  const leftTitleWidth = bannerStyle.designSettings.leftTitleWidth;
-  const showButtons = bannerStyle.designSettings.showButtons;
-  const bgMuted =
-    bannerStyle.designSettings.sectionBackground.color === "gray";
+  // State for video player
+  const [playing, setPlaying] = useState(true);
+  const [showControls, setShowControls] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const [showPlayButton, setShowPlayButton] = useState(true);
+  const playerRef = useRef<ReactPlayer>(null);
 
-  const sectionBgClassName = cn(" flex flex-col", {
-    "bg-primary":
-      bannerStyle.designSettings.sectionBackground.color === "primary",
-    "bg-muted": bannerStyle.designSettings.sectionBackground.color === "gray",
-    "bg-background":
-      bannerStyle.designSettings.sectionBackground.color === "none",
-    "h-screen": bannerStyle.designSettings.sectionBackground.height === "fill",
-    "h-auto": bannerStyle.designSettings.sectionBackground.height === "fit",
-    "justify-start":
-      bannerStyle.designSettings.sectionBackground.align === "start",
-    "justify-center":
-      bannerStyle.designSettings.sectionBackground.align === "center",
-    "justify-end": bannerStyle.designSettings.sectionBackground.align === "end",
+  // Destructure design settings for easier access
+  const {
+    showButtons,
+    showForm,
+    leftTitleWidth,
+    align,
+    titleSize,
+    leftTitlePosition,
+    imageSetting,
+    sectionBackground,
+    height,
+    subtitleWidth,
+    showVideo,
+  } = bannerStyle.designSettings;
+
+  const showImage = imageSetting.showImage;
+  const bgMuted = sectionBackground.color === "gray";
+
+  // Handle play button click
+  const handlePlayButtonClick = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent section click
+    setPlaying(true);
+    setMuted(false);
+    setShowPlayButton(false);
+    setShowControls(true);
+  };
+
+  // Handle video end
+  const handleVideoEnd = () => {
+    setPlaying(false);
+    setMuted(true);
+    setShowPlayButton(true);
+  };
+
+  // Extract class name generation logic into separate functions
+  const getSectionClassName = cn({
+    "bg-primary": sectionBackground.color === "primary",
+    "bg-muted": sectionBackground.color === "gray",
+    "bg-background": sectionBackground.color === "none",
+    "h-screen": sectionBackground.height === "fill",
+    "h-auto": sectionBackground.height === "fit",
+    "justify-start": sectionBackground.align === "start",
+    "justify-center": sectionBackground.align === "center",
+    "justify-end": sectionBackground.align === "end",
   });
 
-  const imageClassName = cn(" bg-cover bg-no-repeat bg-center w-full", {
-    "bg-primary":
-      bannerStyle.designSettings.imageSetting.backgroundColor === "primary",
-    "bg-muted":
-      bannerStyle.designSettings.imageSetting.backgroundColor === "gray",
-    "bg-none":
-      bannerStyle.designSettings.imageSetting.backgroundColor === "none",
-  });
+  const getImageClassName = cn(
+    "bg-cover bg-no-repeat bg-center rounded-md w-full",
+    {
+      "bg-primary": imageSetting.backgroundColor === "primary",
+      "bg-muted": imageSetting.backgroundColor === "gray",
+      "bg-none": imageSetting.backgroundColor === "none",
+    }
+  );
 
-  const titleClassName = cn({
+  const getTitleClassName = cn({
     "text-7xl": titleSize === "xl",
     "text-6xl": titleSize === "l",
     "text-5xl": titleSize === "m",
     "text-4xl": titleSize === "s",
-    "text-primary-foreground":
-      bannerStyle.designSettings.sectionBackground.color === "primary",
+    "text-primary-foreground": sectionBackground.color === "primary",
   });
 
-  const TitleAndSubtitleClassName = cn(
-    "w-full flex space-y-7",
-    align === "start" ? "items-start text-start" : "",
-    align === "center" ? "items-center text-center" : "",
-    align === "end" ? "items-end text-end" : "",
+  const getTitleAndSubtitleClassName = cn(
+    "w-full flex space-y-3",
+    {
+      "items-start text-start": align === "start",
+      "items-center text-center": align === "center",
+      "items-end text-end": align === "end",
+    },
     leftTitlePosition
-      ? "flex-row text-start items-start gap-4 lg:flex md:block  block"
+      ? "flex-row text-start items-start gap-4 lg:flex md:block block justify-between"
       : "flex-col"
   );
 
-  const subAndButtonClassName = cn("flex space-y-7 flex-col  max-lg:!w-full ", {
-    "text-start items-start": leftTitlePosition,
-    "items-start": align === "start",
-    "items-center": align === "center",
-    "items-end": align === "end",
+  const getSubAndButtonClassName = cn(
+    "flex space-y-2 flex-col max-lg:!w-full",
+    {
+      "items-start": align === "start",
+      "items-center": align === "center",
+      "items-end": align === "end",
+      "text-start items-start": leftTitlePosition,
+    }
+  );
+
+  const getBtnClassName = cn({
+    "justify-start": align === "start",
+    "justify-center": align === "center",
+    "justify-end": align === "end",
   });
 
-  const imagePlaceholderClassNames = cn(
-    "w-full flex justify-center items-center",
+  const placeholderClassName = cn(
+    "w-full flex justify-center items-center rounded-md",
     bgMuted ? "bg-background" : "bg-muted"
   );
-  const subTitleColor = cn("text-lg  max-lg:!w-full", {
-    "text-primary-foreground":
-      bannerStyle.designSettings.sectionBackground.color === "primary",
-    "text-muted-foreground":
-      bannerStyle.designSettings.sectionBackground.color !== "primary",
+
+  const getSubTitleClassName = cn("text-lg max-lg:!w-full", {
+    "text-primary-foreground": sectionBackground.color === "primary",
+    "text-muted-foreground": sectionBackground.color !== "primary",
   });
-  return (
-    <section
-      className={sectionBgClassName}
-      onClick={() => {
-        dispatch(updateSelectedSection(pageId, section.id));
-      }}
-    >
-      <div className=" flex container max-w-container w-full gap-10 py-12 flex-col text-center justify-center items-center">
-        {showImage && (
-          <>
-            {bannerContent?.imageSetting?.imageUrl ? (
-              <div
-                style={{
-                  height: bannerStyle.designSettings.height,
-                  backgroundImage: `url(${bannerContent.imageSetting.imageUrl})`,
-                  backgroundSize:
-                    bannerStyle.designSettings.imageSetting.objectFit,
-                }}
-                className={imageClassName}
-              ></div>
-            ) : (
-              <div
-                style={{ height: bannerStyle.designSettings.height }}
-                className={imagePlaceholderClassNames}
-              >
-                <ImagePlaceHolder
-                  fillColor={bgMuted ? "fill-muted" : "fill-background"}
+
+  const playBtnClassName = cn(
+    "absolute w-16 h-16 rounded-md bg-background flex items-center justify-center focus:outline-none transition-transform hover:scale-110",
+    align === "start" || leftTitlePosition ? "bottom-4 left-4" : "",
+    align === "end" ? "bottom-4 right-4" : "",
+    align === "center" && !leftTitlePosition
+      ? "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      : ""
+  );
+
+  const formBtnClassName = cn("whitespace-normal", {
+    "border-primary-foreground border-solid border text-primary-foreground":
+      bannerStyle.designSettings.sectionBackground.color === "primary",
+  });
+
+  // Handle click to select this section
+  const handleSectionClick = () => {
+    dispatch(updateSelectedSection(pageId, section.id));
+  };
+
+  // Render form fields
+  const renderFormFields = () => {
+    if (!showForm) return null;
+
+    return (
+      <div className="space-y-3 w-full">
+        {bannerContent?.form.fields.map((field) => {
+          if (field.type === "textarea") {
+            return (
+              <div key={field.id} className="w-full">
+                <Textarea
+                  id={field.id}
+                  className={cn(
+                    "w-full !h-52 !max-h-52 !min-h-52 resize-none",
+                    bgMuted ? "bg-background" : "bg-muted"
+                  )}
+                  placeholder={field.value || field.placeholder}
                 />
               </div>
-            )}
-          </>
-        )}
-        <div className={TitleAndSubtitleClassName}>
-          <div
-            className="max-lg:!w-full"
-            style={{
-              width: leftTitlePosition ? `calc(${leftTitleWidth} - 50px)` : "",
-            }}
-          >
-            <h1 className={titleClassName}>{bannerContent.title}</h1>
-          </div>
-          <div
-            style={{
-              width: leftTitlePosition
-                ? `${100 - parseInt(leftTitleWidth)}%`
-                : "",
-            }}
-            className={subAndButtonClassName}
-          >
-            <p
-              style={{
-                width: leftTitlePosition
-                  ? ""
-                  : bannerStyle.designSettings.subtitleWidth,
-              }}
-              className={subTitleColor}
-            >
-              {bannerContent.subtitle}
-            </p>
-
-            {showButtons && (
-              <BannerButtons
-                buttons={bannerContent.buttons}
-                sectionBackground={
-                  bannerStyle.designSettings.sectionBackground.color
-                }
+            );
+          }
+          return (
+            <div key={field.id} className="w-full">
+              <Input
+                className={cn(
+                  "w-full h-12",
+                  bgMuted ? "bg-background" : "bg-muted"
+                )}
+                placeholder={field.value || field.placeholder}
+                type={field.type}
               />
-            )}
+            </div>
+          );
+        })}
+        {bannerContent?.form.button.text && (
+          <Button className={formBtnClassName}>
+            {bannerContent?.form.button.text}
+          </Button>
+        )}
+      </div>
+    );
+  };
+
+  // Render image or placeholder
+  const renderImage = () => {
+    if (!showImage) return null;
+
+    if (bannerContent?.imageSetting?.imageUrl) {
+      return (
+        <div
+          style={{
+            height: isDesktop
+              ? bannerStyle.designSettings.height.desktop
+              : bannerStyle.designSettings.height.mobile,
+            backgroundImage: `url(${bannerContent?.imageSetting.imageUrl})`,
+            backgroundSize: imageSetting.objectFit,
+          }}
+          className={getImageClassName}
+        />
+      );
+    }
+
+    return (
+      <div
+        style={{
+          height: isDesktop
+            ? bannerStyle.designSettings.height.desktop
+            : bannerStyle.designSettings.height.mobile,
+        }}
+        className={placeholderClassName}
+      >
+        <ImagePlaceHolder
+          fillColor={bgMuted ? "fill-muted" : "fill-background"}
+        />
+      </div>
+    );
+  };
+
+  // Updated video renderer using ReactPlayer with custom play button
+  const renderVideo = () => {
+    if (!showVideo) return null;
+
+    if (bannerContent?.videoSetting?.videoUrl) {
+      return (
+        <div
+          className="relative rounded-md overflow-hidden w-full"
+          style={{ maxWidth: "100%" }}
+        >
+          {/* Aspect ratio box (16:9) */}
+          <div
+            className={cn("relative", {
+              "pointer-events-auto": showControls,
+              "pointer-events-none": showPlayButton,
+            })}
+            style={{ paddingTop: "56.25%" }}
+          >
+            <ReactPlayer
+              key={showControls ? "controls-on" : "controls-off"}
+              ref={playerRef}
+              url={bannerContent?.videoSetting.videoUrl}
+              width="100%"
+              height="100%"
+              playing={playing}
+              muted={muted}
+              loop={false}
+              controls={showControls}
+              onEnded={handleVideoEnd}
+              className="absolute top-0 left-0 w-full h-full"
+            />
           </div>
+
+          {/* Play Button */}
+          {showPlayButton && (
+            <button
+              className={playBtnClassName}
+              onClick={handlePlayButtonClick}
+              aria-label="Play video"
+            >
+              <svg
+                className="w-6 h-6 text-primary fill-current"
+                viewBox="0 0 24 24"
+              >
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </button>
+          )}
         </div>
+      );
+    }
+
+    return (
+      <div
+        style={{
+          height: isDesktop
+            ? bannerStyle.designSettings.height.desktop
+            : bannerStyle.designSettings.height.mobile,
+        }}
+        className={placeholderClassName}
+      >
+        <VideoPlaceHolder
+          fillColor={bgMuted ? "fill-muted" : "fill-background"}
+        />
+      </div>
+    );
+  };
+
+  // Render content with left title layout
+  const renderLeftTitleLayout = () => (
+    <div className={getTitleAndSubtitleClassName}>
+      <div
+        className="max-lg:!w-full"
+        style={{
+          width: leftTitlePosition ? `calc(${leftTitleWidth} - 50px)` : "",
+        }}
+      >
+        <h1 className={getTitleClassName}>{bannerContent?.title}</h1>
+      </div>
+      <div
+        style={{
+          width: leftTitlePosition ? `${100 - parseInt(leftTitleWidth)}%` : "",
+        }}
+        className={getSubAndButtonClassName}
+      >
+        {leftTitlePosition && (
+          <p
+            style={{
+              width: leftTitlePosition ? "" : subtitleWidth,
+            }}
+            className={getSubTitleClassName}
+          >
+            {bannerContent?.subtitle}
+          </p>
+        )}
+
+        {showButtons && (
+          <BannerButtons
+            buttons={bannerContent.buttons}
+            sectionBackground={sectionBackground.color}
+          />
+        )}
+        {renderFormFields()}
+      </div>
+    </div>
+  );
+
+  // Render content with centered title layout
+  const renderCenteredTitleLayout = () => (
+    <div className="flex gap-3 w-full flex-col text-center justify-center items-center">
+      <div className={getTitleAndSubtitleClassName}>
+        <h1 className={getTitleClassName}>{bannerContent?.title}</h1>
+        <div
+          className="space-y-3"
+          style={{
+            width: leftTitlePosition || !isDesktop ? "100%" : subtitleWidth,
+          }}
+        >
+          <p
+            style={{
+              width: "100%",
+            }}
+            className={getSubTitleClassName}
+          >
+            {bannerContent?.subtitle}
+          </p>
+          {renderFormFields()}
+          {showButtons && (
+            <BannerButtons
+              buttons={bannerContent.buttons}
+              btnClassNames={getBtnClassName}
+              sectionBackground={sectionBackground.color}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+
+  return (
+    <section className={getSectionClassName} onClick={handleSectionClick}>
+      <div className="flex container max-w-container gap-10 w-full py-12 flex-col text-center justify-center items-center">
+        {renderImage()}
+        {renderVideo()}
+        {leftTitlePosition
+          ? renderLeftTitleLayout()
+          : renderCenteredTitleLayout()}
       </div>
     </section>
   );

@@ -105,7 +105,10 @@ export const generateSections = (
         titleSize: "l",
         align: "center",
         subtitleWidth: "80%",
-        height: "460px",
+        height: {
+          desktop: 460,
+          mobile: 350,
+        },
         video: true,
         leftTitlePosition: false,
         leftTitleWidth: "50%",

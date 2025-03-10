@@ -56,7 +56,10 @@ export interface BannerStyle {
     titleSize: "s" | "m" | "l" | "xl";
     align: AlignType;
     subtitleWidth: string;
-    height: string;
+    height: {
+      desktop: number;
+      mobile: number;
+    };
     video: boolean;
     leftTitlePosition: boolean;
     leftTitleWidth: string;

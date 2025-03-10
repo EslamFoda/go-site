@@ -91,7 +91,10 @@ export const about = [
             titleSize: "xl",
             align: "center",
             subtitleWidth: "50%",
-            height: "460px",
+            height: {
+              desktop: 390,
+              mobile: 350,
+            },
             video: true,
             leftTitlePosition: true,
             leftTitleWidth: "50%",
@@ -349,7 +352,10 @@ export const about = [
             titleSize: "xl",
             align: "center",
             subtitleWidth: "50%",
-            height: "460px",
+            height: {
+              desktop: 390,
+              mobile: 350,
+            },
             video: true,
             leftTitlePosition: true,
             leftTitleWidth: "50%",

@@ -33,7 +33,7 @@ function Page({ params }: any) {
     activePage: activePageId,
     selectedSection,
     draggableModalName,
-    designSettings: { borderRadius },
+    designSettings: { borderRadius, colors, width },
   } = useAppSelector((state) => state.editor.present);
   const page = useAppSelector((state) =>
     state.editor.present.editor.pages.find(
@@ -89,8 +89,17 @@ function Page({ params }: any) {
   useEffect(() => {
     if (pageContainerRef.current) {
       pageContainerRef.current.style.setProperty("--radius", borderRadius);
+      pageContainerRef.current.style.setProperty("--primary", colors.primary);
+      pageContainerRef.current.style.setProperty(
+        "--primary-foreground",
+        colors.primaryForGround
+      );
+      pageContainerRef.current.style.setProperty(
+        "--container-max-width",
+        width.fullWidthPage ? "100%" : `${width.pages}px`
+      );
     }
-  }, [borderRadius]);
+  }, [borderRadius, colors, , width, pageContainerRef]);
 
   const fluidCardsMapper = {
     image: FluidImage,

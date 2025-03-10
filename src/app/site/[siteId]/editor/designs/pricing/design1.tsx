@@ -123,7 +123,7 @@ function Design1({ pageId, section }: DesignProps) {
               </div>
             )}
           </div>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-5">
             <AnimatePresence>
               {pricingContent.subscriptions.map(
                 (subscription, index: number) => {
