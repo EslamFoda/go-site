@@ -1,3 +1,4 @@
+import React from "react";
 import { useMotion } from "@/hooks/useMotion";
 import { useSections } from "@/hooks/useSections";
 import { BannerSectionIcon, BannerSectionLightIcon } from "@/icons/banner";
@@ -26,7 +27,7 @@ import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { PageSettings } from "@/reduxStore/types";
 import { ChevronRight } from "lucide-react";
 import { useTheme } from "next-themes";
-import React from "react";
+import { scroller } from "react-scroll";
 
 const variants = {
   open: {
@@ -178,6 +179,15 @@ function ChooseSection() {
     }
   };
 
+  const scrollToSection = (index: number) => {
+    scroller.scrollTo(`section-${index}`, {
+      duration: 500,
+      delay: 0,
+      smooth: "easeInOutQuart",
+      offset: -50,
+    });
+  };
+
   return (
     <motion.div
       variants={variants}
@@ -200,10 +210,15 @@ function ChooseSection() {
             whileTap={{ scale: 0.95 }}
             className="flex justify-between items-center bg-muted p-[10px] cursor-pointer rounded-sm hover:bg-muted-foreground/65 group"
             key={section.id}
-            onClick={() => handleChooseSection(section)}
+            onClick={() => {
+              handleChooseSection(section);
+              setTimeout(() => {
+                scrollToSection(sectionIndex + 1);
+              }, 0);
+            }}
           >
             <div className="flex items-center gap-3">
-              <div className="p-1 bg-background">
+              <div className="p-1 bg-background rounded-sm">
                 <Icon />
               </div>
               <div className="flex flex-col">
