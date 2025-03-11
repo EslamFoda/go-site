@@ -37,6 +37,7 @@ function Design1({ section, pageId }: DesignProps) {
     section?.style.designSettings.sectionBackground.color === "gray";
   const testimonialStyle = section?.style as TestimonialStyle;
   const testimonialsContent = section?.content as TestimonialContent;
+  const { avatar, rating } = testimonialStyle.designSettings;
 
   const autoScroll =
     testimonialStyle?.designSettings?.carouselSettings?.autoScroll;
@@ -179,46 +180,54 @@ function Design1({ section, pageId }: DesignProps) {
                           }}
                         >
                           <div>
-                            <div className="flex gap-1 mb-2">
-                              {testimonialsContent.iconType === "star" ? (
-                                [...Array(5)].map((_, i) => (
-                                  <Star
-                                    key={i}
-                                    size={24}
-                                    className={
-                                      i < review.rating
-                                        ? "fill-primary stroke-none"
-                                        : "fill-muted-foreground stroke-none"
-                                    }
-                                  />
-                                ))
-                              ) : (
-                                <QuoteIcon />
-                              )}
-                            </div>
+                            {rating && (
+                              <div className="flex gap-1 mb-2">
+                                {testimonialsContent.iconType === "star" ? (
+                                  [...Array(5)].map((_, i) => (
+                                    <Star
+                                      key={i}
+                                      size={24}
+                                      className={
+                                        i < review.rating
+                                          ? "fill-primary stroke-none"
+                                          : "fill-muted-foreground stroke-none"
+                                      }
+                                    />
+                                  ))
+                                ) : (
+                                  <QuoteIcon />
+                                )}
+                              </div>
+                            )}
                             <p className={reviewClassNames}>{review.review}</p>
                           </div>
                           <div className="flex items-center mt-10 gap-2">
-                            {review.avatar ? (
-                              <div
-                                className={imgContainerClassNames}
-                                style={{
-                                  backgroundImage: `url(${review.avatar})`,
-                                  backgroundSize: "cover",
-                                  backgroundPosition: "center",
-                                  backgroundRepeat: "no-repeat",
-                                }}
-                              ></div>
-                            ) : (
-                              <div className={iconContainerClassNames}>
-                                <ImagePlaceHolder
-                                  fillColor={
-                                    bgMuted ? "fill-background" : "fill-muted"
-                                  }
-                                  height={20}
-                                  width={20}
-                                />
-                              </div>
+                            {avatar && (
+                              <>
+                                {review.avatar ? (
+                                  <div
+                                    className={imgContainerClassNames}
+                                    style={{
+                                      backgroundImage: `url(${review.avatar})`,
+                                      backgroundSize: "cover",
+                                      backgroundPosition: "center",
+                                      backgroundRepeat: "no-repeat",
+                                    }}
+                                  ></div>
+                                ) : (
+                                  <div className={iconContainerClassNames}>
+                                    <ImagePlaceHolder
+                                      fillColor={
+                                        bgMuted
+                                          ? "fill-background"
+                                          : "fill-muted"
+                                      }
+                                      height={20}
+                                      width={20}
+                                    />
+                                  </div>
+                                )}
+                              </>
                             )}
                             <div className="flex flex-col gap-1">
                               <span className="text-xs">{review.name}</span>
@@ -271,48 +280,56 @@ function Design1({ section, pageId }: DesignProps) {
                             }}
                           >
                             <div>
-                              <div className="flex gap-1 mb-2">
-                                {testimonialsContent.iconType === "star" ? (
-                                  [...Array(5)].map((_, i) => (
-                                    <Star
-                                      key={i}
-                                      size={21}
-                                      className={
-                                        i < review.rating
-                                          ? "fill-primary stroke-none"
-                                          : "fill-muted-foreground stroke-none"
-                                      }
-                                    />
-                                  ))
-                                ) : (
-                                  <QuoteIcon />
-                                )}
-                              </div>
+                              {rating && (
+                                <div className="flex gap-1 mb-2">
+                                  {testimonialsContent.iconType === "star" ? (
+                                    [...Array(5)].map((_, i) => (
+                                      <Star
+                                        key={i}
+                                        size={21}
+                                        className={
+                                          i < review.rating
+                                            ? "fill-primary stroke-none"
+                                            : "fill-muted-foreground stroke-none"
+                                        }
+                                      />
+                                    ))
+                                  ) : (
+                                    <QuoteIcon />
+                                  )}
+                                </div>
+                              )}
                               <p className={reviewClassNames}>
                                 {review.review}
                               </p>
                             </div>
                             <div className="flex items-center mt-10 gap-2">
-                              {review.avatar ? (
-                                <div
-                                  className={imgContainerClassNames}
-                                  style={{
-                                    backgroundImage: `url(${review.avatar})`,
-                                    backgroundSize: "cover",
-                                    backgroundPosition: "center",
-                                    backgroundRepeat: "no-repeat",
-                                  }}
-                                ></div>
-                              ) : (
-                                <div className={iconContainerClassNames}>
-                                  <ImagePlaceHolder
-                                    fillColor={
-                                      bgMuted ? "fill-background" : "fill-muted"
-                                    }
-                                    height={20}
-                                    width={20}
-                                  />
-                                </div>
+                              {avatar && (
+                                <>
+                                  {review.avatar ? (
+                                    <div
+                                      className={imgContainerClassNames}
+                                      style={{
+                                        backgroundImage: `url(${review.avatar})`,
+                                        backgroundSize: "cover",
+                                        backgroundPosition: "center",
+                                        backgroundRepeat: "no-repeat",
+                                      }}
+                                    ></div>
+                                  ) : (
+                                    <div className={iconContainerClassNames}>
+                                      <ImagePlaceHolder
+                                        fillColor={
+                                          bgMuted
+                                            ? "fill-background"
+                                            : "fill-muted"
+                                        }
+                                        height={20}
+                                        width={20}
+                                      />
+                                    </div>
+                                  )}
+                                </>
                               )}
                               <div className="flex flex-col gap-1">
                                 <span className="text-xs">{review.name}</span>

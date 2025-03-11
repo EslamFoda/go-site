@@ -37,6 +37,7 @@ function Design1({ section, pageId }: DesignProps) {
     section?.style.designSettings.sectionBackground.color === "gray";
   const testimonialStyle = section?.style as TestimonialStyle;
   const testimonialsContent = section?.content as TestimonialContent;
+  const { avatar, rating } = testimonialStyle.designSettings;
 
   const autoScroll =
     testimonialStyle?.designSettings?.carouselSettings?.autoScroll;
@@ -87,7 +88,7 @@ function Design1({ section, pageId }: DesignProps) {
     }
   );
 
-  const iconContainerClassNames = cn(
+  const avatarClassNames = cn(
     "flex items-center h-10 w-10 bg-background self-baseline  justify-center shrink-0",
     {
       "rounded-md": testimonialStyle.designSettings.shape === "square",
@@ -198,49 +199,55 @@ function Design1({ section, pageId }: DesignProps) {
                           }}
                         >
                           <div className={starsBoxClassNames}>
-                            <div className="flex gap-1 mb-2">
-                              {testimonialsContent.iconType === "star" ? (
-                                [...Array(5)].map((_, i) => (
-                                  <Star
-                                    key={i}
-                                    size={24}
-                                    className={
-                                      i < review.rating
-                                        ? "fill-primary stroke-none"
-                                        : "fill-muted-foreground stroke-none"
-                                    }
-                                  />
-                                ))
-                              ) : (
-                                <QuoteIcon />
-                              )}
-                            </div>
+                            {rating && (
+                              <div className="flex gap-1 mb-2">
+                                {testimonialsContent.iconType === "star" ? (
+                                  [...Array(5)].map((_, i) => (
+                                    <Star
+                                      key={i}
+                                      size={24}
+                                      className={
+                                        i < review.rating
+                                          ? "fill-primary stroke-none"
+                                          : "fill-muted-foreground stroke-none"
+                                      }
+                                    />
+                                  ))
+                                ) : (
+                                  <QuoteIcon />
+                                )}
+                              </div>
+                            )}
                             <p className={reviewClassNames}>{review.review}</p>
                           </div>
                           <div className="flex flex-col items-start mt-10 gap-2">
-                            <div className={iconContainerClassNames}>
-                              {review.avatar ? (
-                                <div
-                                  className={imgContainerClassNames}
-                                  style={{
-                                    backgroundImage: `url(${review.avatar})`,
-                                    backgroundSize: "cover",
-                                    backgroundPosition: "center",
-                                    backgroundRepeat: "no-repeat",
-                                  }}
-                                ></div>
-                              ) : (
-                                <div className={iconContainerClassNames}>
-                                  <ImagePlaceHolder
-                                    fillColor={
-                                      bgMuted ? "fill-background" : "fill-muted"
-                                    }
-                                    height={20}
-                                    width={20}
-                                  />
-                                </div>
-                              )}
-                            </div>
+                            {avatar && (
+                              <div className={avatarClassNames}>
+                                {review.avatar ? (
+                                  <div
+                                    className={imgContainerClassNames}
+                                    style={{
+                                      backgroundImage: `url(${review.avatar})`,
+                                      backgroundSize: "cover",
+                                      backgroundPosition: "center",
+                                      backgroundRepeat: "no-repeat",
+                                    }}
+                                  ></div>
+                                ) : (
+                                  <div className={avatarClassNames}>
+                                    <ImagePlaceHolder
+                                      fillColor={
+                                        bgMuted
+                                          ? "fill-background"
+                                          : "fill-muted"
+                                      }
+                                      height={20}
+                                      width={20}
+                                    />
+                                  </div>
+                                )}
+                              </div>
+                            )}
                             <div className={userClassNames}>
                               <span className="text-xs">{review.name}</span>
                               <span className="text-xs text-muted-foreground">
@@ -314,7 +321,7 @@ function Design1({ section, pageId }: DesignProps) {
                               </p>
                             </div>
                             <div className="flex flex-col items-center mt-10 gap-2">
-                              <div className={iconContainerClassNames}>
+                              <div className={avatarClassNames}>
                                 {review.avatar ? (
                                   <div
                                     className={imgContainerClassNames}
@@ -326,7 +333,7 @@ function Design1({ section, pageId }: DesignProps) {
                                     }}
                                   ></div>
                                 ) : (
-                                  <div className={iconContainerClassNames}>
+                                  <div className={avatarClassNames}>
                                     <ImagePlaceHolder
                                       fillColor={
                                         bgMuted
