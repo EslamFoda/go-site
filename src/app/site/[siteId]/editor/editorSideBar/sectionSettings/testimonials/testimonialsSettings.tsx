@@ -166,7 +166,9 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
             title="Avatar"
             imageUrl={TestimonialItem.avatar}
             onImageSelect={() => dispatch(openChooseImage())}
-            onImageDelete={() => handleUpdateTestimonialItem({ review: "" })}
+            onImageDelete={() =>
+              handleUpdateTestimonialItem({ avatar: "", avatarId: "" })
+            }
             onBack={() => dispatch(updateSelectedItem(null))}
             showBackButton={false}
           />

@@ -1,6 +1,6 @@
 import { Label } from "@/components/ui/label";
 import { updateContent, updateSelectedItem } from "@/reduxStore/action";
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
   SectionContentTypes,
@@ -11,7 +11,6 @@ import React from "react";
 import { Minus, PlusIcon } from "lucide-react";
 import { v4 as uuidv4 } from "uuid";
 import { Input } from "@/components/ui/input";
-import { useScrollToSection } from "@/hooks/useScrollToSection";
 
 interface BenefitsProps {
   benefits: Benefit[];
@@ -30,7 +29,6 @@ function Benefits({
   selectedSubscriptionPlan,
 }: BenefitsProps) {
   const dispatch = useAppDispatch();
-  const { scrollToCurrentSection } = useScrollToSection();
 
   const handleUpdateBenefit = (benefitId: string, title: string) => {
     // First, find the current subscription content
@@ -110,7 +108,6 @@ function Benefits({
         subscriptions: updatedSubscriptions,
       })
     );
-    scrollToCurrentSection();
   };
 
   const handleAddBenefit = () => {
@@ -153,7 +150,6 @@ function Benefits({
         subscriptions: updatedSubscriptions,
       })
     );
-    scrollToCurrentSection();
   };
 
   return (

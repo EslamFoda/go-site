@@ -262,19 +262,21 @@ function ListStyleTab({
           );
         }}
       />
-      <Align
-        alignValue={listStyle.designSettings.align}
-        onValueChange={(value) => {
-          dispatch(
-            updateStyle(pageId, findSelectedSection?.id!, {
-              designSettings: {
-                ...listStyle.designSettings!,
-                align: value,
-              },
-            })
-          );
-        }}
-      />
+      {!listStyle.designSettings.leftTitlePosition && (
+        <Align
+          alignValue={listStyle.designSettings.align}
+          onValueChange={(value) => {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...listStyle.designSettings!,
+                  align: value,
+                },
+              })
+            );
+          }}
+        />
+      )}
       <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
         <SwitchSetting
           label="Left Title"

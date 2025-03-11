@@ -3,14 +3,12 @@ import React from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { ChevronRight, GripVertical, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import { DragItems, SelectedItemType } from "@/types/common";
 import { SubLink } from "@/types/sectionsTypes/header";
 import { ImagePlaceHolder } from "@/icons/common";
 import { useTheme } from "next-themes";
 import { Logo } from "@/types/sectionsTypes/logos";
-import { useScrollTo } from "@/hooks/useScrollTo";
-import { useScrollToSection } from "@/hooks/useScrollToSection";
 interface DraggableListProps {
   label: string;
   items: DragItems;
@@ -34,7 +32,6 @@ function DraggableList({
   handleAdd,
 }: DraggableListProps) {
   const dispatch = useAppDispatch();
-  const { scrollToCurrentSection } = useScrollToSection();
 
   const listClassName = cn(
     "flex items-center cursor-pointer justify-between h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm"
@@ -52,7 +49,6 @@ function DraggableList({
         {(provided) => (
           <div
             onClick={() => {
-              scrollToCurrentSection();
               dispatch(updateSelectedItem(item));
             }}
             className={listClassName}
@@ -95,7 +91,6 @@ function DraggableList({
     <div className="pt-4 space-y-2">
       <DragDropContext
         onDragEnd={(dropResult) => {
-          scrollToCurrentSection();
           handleDragEnd(dropResult);
         }}
       >
@@ -118,7 +113,6 @@ function DraggableList({
         <div
           className={listClassName}
           onClick={() => {
-            scrollToCurrentSection();
             handleAdd();
           }}
         >

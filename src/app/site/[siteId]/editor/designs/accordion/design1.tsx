@@ -10,7 +10,6 @@ import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   closeChooseIcon,
   closePagesTab,
-  updateSectionIndex,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -24,9 +23,8 @@ import { useMotion } from "@/hooks/useMotion";
 interface DesignProps {
   section: any;
   pageId: string;
-  sectionIndex: number;
 }
-function Design1({ section, pageId, sectionIndex }: DesignProps) {
+function Design1({ section, pageId }: DesignProps) {
   const { AnimatePresence, motion } = useMotion();
   const dispatch = useAppDispatch();
   const bgMuted =
@@ -114,7 +112,6 @@ function Design1({ section, pageId, sectionIndex }: DesignProps) {
                         e.stopPropagation();
                         dispatch(updateSelectedSection(pageId, section.id));
                         dispatch(updateSelectedItem(accordion));
-                        dispatch(updateSectionIndex(sectionIndex));
                         dispatch(closePagesTab());
                       }}
                     >

@@ -14,7 +14,7 @@ export interface Card {
 
 // Define types for Cards content
 export interface CardsContent {
-  label?: string;
+  label: string;
   title: string;
   subtitle: string;
   cards: Card[];

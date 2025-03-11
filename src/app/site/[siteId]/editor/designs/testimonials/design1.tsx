@@ -14,7 +14,6 @@ import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   closeChooseIcon,
   closePagesTab,
-  updateSectionIndex,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -29,9 +28,8 @@ import { useMotion } from "@/hooks/useMotion";
 interface DesignProps {
   section: any;
   pageId: string;
-  sectionIndex: number;
 }
-function Design1({ section, pageId, sectionIndex }: DesignProps) {
+function Design1({ section, pageId }: DesignProps) {
   const { motion, AnimatePresence } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
@@ -130,12 +128,14 @@ function Design1({ section, pageId, sectionIndex }: DesignProps) {
   const sectionTitleClassNames = cn("text-4xl", {
     "text-primary-foreground":
       testimonialStyle.designSettings.sectionBackground.color === "primary",
+    "text-start": testimonialStyle.designSettings.leftTitlePosition,
   });
   const sectionSubTitleClassNames = cn({
     "text-primary-foreground":
       testimonialStyle.designSettings.sectionBackground.color === "primary",
     "text-muted-foreground":
       testimonialStyle.designSettings.sectionBackground.color !== "primary",
+    "text-start": testimonialStyle.designSettings.leftTitlePosition,
   });
 
   return (
@@ -174,7 +174,6 @@ function Design1({ section, pageId, sectionIndex }: DesignProps) {
                             e.stopPropagation();
                             dispatch(updateSelectedSection(pageId, section.id));
                             dispatch(updateSelectedItem(review));
-                            dispatch(updateSectionIndex(sectionIndex));
                             dispatch(closeChooseIcon());
                             dispatch(closePagesTab());
                           }}
@@ -267,7 +266,6 @@ function Design1({ section, pageId, sectionIndex }: DesignProps) {
                                 updateSelectedSection(pageId, section.id)
                               );
                               dispatch(updateSelectedItem(review));
-                              dispatch(updateSectionIndex(sectionIndex));
                               dispatch(closeChooseIcon());
                               dispatch(closePagesTab());
                             }}

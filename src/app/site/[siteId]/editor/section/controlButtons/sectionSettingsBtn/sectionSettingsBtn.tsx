@@ -139,7 +139,10 @@ function SectionSettingsBtn({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={deleteSection}>
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={deleteSection}
+            >
               delete
             </AlertDialogAction>
           </AlertDialogFooter>

@@ -9,7 +9,6 @@ import {
   SectionStyleTypes,
 } from "@/reduxStore/types";
 import { SubscriptionPlanItem } from "@/types/sectionsTypes/pricing";
-import { useScrollToSection } from "@/hooks/useScrollToSection";
 
 interface PlanProps {
   plan: SubscriptionPlanItem;
@@ -32,7 +31,6 @@ const Plan: React.FC<PlanProps> = ({
   planIndex,
 }) => {
   const dispatch = useAppDispatch();
-  const { scrollToCurrentSection } = useScrollToSection();
 
   const handleChange = (
     key: keyof SubscriptionPlanItem,
@@ -159,8 +157,6 @@ const Plan: React.FC<PlanProps> = ({
         subscriptionPlans: updatedSubscriptionPlans,
       })
     );
-
-    scrollToCurrentSection();
   };
 
   return (
@@ -173,7 +169,6 @@ const Plan: React.FC<PlanProps> = ({
               className="w-full h-10 border-none bg-transparent outline-none focus:bg-muted/50 px-3 py-2 placeholder:text-muted-foreground/50"
               placeholder={field.replace(/([A-Z])/g, " $1").trim()}
               value={plan[field as keyof SubscriptionPlanItem] as string}
-              onFocus={() => scrollToCurrentSection()}
               onChange={(e) =>
                 handleChange(
                   field as keyof SubscriptionPlanItem,

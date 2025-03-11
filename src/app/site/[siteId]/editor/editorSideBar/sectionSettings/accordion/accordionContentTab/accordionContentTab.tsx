@@ -1,8 +1,5 @@
 import DraggableList from "@/components/ui/DraggableList";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
 import { updateContent, updateSelectedItem } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
@@ -16,6 +13,7 @@ import {
 } from "@/types/sectionsTypes/accordion/accordion";
 import React from "react";
 import { v4 } from "uuid";
+import EditText from "../../settingsUi/EditText";
 interface AccordionContentTabProps {
   findSelectedSection: EditorSection<
     keyof SectionContentTypes,
@@ -55,54 +53,46 @@ function AccordionContentTab({
   };
   return (
     <TabsContent className="px-5 h space-y-2" value="content">
-      <div className="space-y-1 flex items-center justify-between">
-        <Label htmlFor="label">Label</Label>
-        <Input
-          id="label"
-          className="w-4/6"
-          placeholder="Add label"
-          value={accordionContent?.label}
-          onChange={(e: any) => {
-            dispatch(
-              updateContent(pageId, findSelectedSection.id, {
-                label: e.target.value,
-              })
-            );
-          }}
-        />
-      </div>
-      <div className="space-y-1 flex items-center justify-between">
-        <Label htmlFor="title">Title</Label>
-        <Input
-          className="w-4/6"
-          id="title"
-          placeholder="Add title"
-          value={accordionContent?.title}
-          onChange={(e: any) => {
-            dispatch(
-              updateContent(pageId, findSelectedSection?.id!, {
-                title: e.target.value,
-              })
-            );
-          }}
-        />
-      </div>
-      <div className="space-y-1 flex items-center justify-between">
-        <Label htmlFor="subtitle">Subtitle</Label>
-        <Textarea
-          className="w-4/6 "
-          id={findSelectedSection?.id + "subtitle"}
-          placeholder="Add subtitle"
-          value={accordionContent?.subtitle}
-          onChange={(e: any) => {
-            dispatch(
-              updateContent(pageId, findSelectedSection?.id!, {
-                subtitle: e.target.value,
-              })
-            );
-          }}
-        />
-      </div>
+      <EditText
+        label="Label"
+        placeholder="Add label"
+        id="label"
+        value={accordionContent.label}
+        handleUpdate={(e: any) =>
+          dispatch(
+            updateContent(pageId, findSelectedSection.id, {
+              label: e.target.value,
+            })
+          )
+        }
+      />
+      <EditText
+        label="Title"
+        placeholder="Add title"
+        id="title"
+        value={accordionContent.title}
+        handleUpdate={(e: any) =>
+          dispatch(
+            updateContent(pageId, findSelectedSection.id, {
+              title: e.target.value,
+            })
+          )
+        }
+      />
+      <EditText
+        label="Subtitle"
+        placeholder="Add subtitle"
+        inputType="textArea"
+        id={findSelectedSection?.id + "subtitle"}
+        value={accordionContent.subtitle}
+        handleUpdate={(e: any) =>
+          dispatch(
+            updateContent(pageId, findSelectedSection.id, {
+              subtitle: e.target.value,
+            })
+          )
+        }
+      />
       <DraggableList
         label="Accordion"
         handleDragEnd={handleDragEnd}

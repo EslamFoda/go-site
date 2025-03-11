@@ -14,7 +14,6 @@ import { CardStyle } from "@/types/sectionsTypes/cards";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   closePagesTab,
-  updateSectionIndex,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -23,9 +22,8 @@ import { useMotion } from "@/hooks/useMotion";
 interface DesignProps {
   section: any;
   pageId: string;
-  sectionIndex: number;
 }
-function Design2({ section, pageId, sectionIndex }: DesignProps) {
+function Design2({ section, pageId }: DesignProps) {
   const { motion, AnimatePresence } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
@@ -123,12 +121,14 @@ function Design2({ section, pageId, sectionIndex }: DesignProps) {
   const sectionTitleClassNames = cn("text-4xl", {
     "text-primary-foreground":
       section.style.designSettings.sectionBackground.color === "primary",
+    "text-start": cardStyle.designSettings.leftTitlePosition,
   });
   const sectionSubTitleClassNames = cn({
     "text-primary-foreground":
       cardStyle.designSettings.sectionBackground.color === "primary",
     "text-muted-foreground":
       cardStyle.designSettings.sectionBackground.color !== "primary",
+    "text-start": cardStyle.designSettings.leftTitlePosition,
   });
   return (
     <section
@@ -171,7 +171,6 @@ function Design2({ section, pageId, sectionIndex }: DesignProps) {
                         e.stopPropagation();
                         dispatch(updateSelectedSection(pageId, section.id));
                         dispatch(updateSelectedItem(card));
-                        dispatch(updateSectionIndex(sectionIndex));
                         dispatch(closePagesTab());
                       }}
                     >
@@ -227,7 +226,6 @@ function Design2({ section, pageId, sectionIndex }: DesignProps) {
                           e.stopPropagation();
                           dispatch(updateSelectedSection(pageId, section.id));
                           dispatch(updateSelectedItem(card));
-                          dispatch(updateSectionIndex(sectionIndex));
                           dispatch(closePagesTab());
                         }}
                       >

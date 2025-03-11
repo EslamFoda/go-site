@@ -5,9 +5,8 @@ import Design2 from "./design2";
 interface PricingProps {
   section: any;
   pageId: string;
-  sectionIndex: number;
 }
-function Pricing({ section, pageId, sectionIndex }: PricingProps) {
+function Pricing({ section, pageId }: PricingProps) {
   const designs = {
     design1: Design1,
     design2: Design2,
@@ -17,11 +16,7 @@ function Pricing({ section, pageId, sectionIndex }: PricingProps) {
   const PricingSection = designs[section.style.designName];
   return (
     <>
-      <PricingSection
-        section={section}
-        pageId={pageId}
-        sectionIndex={sectionIndex}
-      />
+      <PricingSection section={section} pageId={pageId} />
     </>
   );
 }

@@ -9,7 +9,7 @@ export interface Photo {
 
 // Define types for Cards content
 export interface GalleryContent {
-  label?: string;
+  label: string;
   title: string;
   subtitle: string;
   photos: Photo[];

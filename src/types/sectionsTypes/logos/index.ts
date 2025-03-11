@@ -16,7 +16,7 @@ export interface Logo {
 
 // Define types for Cards content
 export interface LogosContent {
-  label?: string;
+  label: string;
   title: string;
   subtitle: string;
   logos: Logo[];

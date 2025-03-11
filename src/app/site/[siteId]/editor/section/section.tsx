@@ -37,9 +37,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
     state.editor.present.editor.pages.find((page) => page.pageId === pageId)
   );
 
-  const { globalSections } = useAppSelector(
-    (state) => state.editor.present
-  );
+  const { globalSections } = useAppSelector((state) => state.editor.present);
   const globalHeader = globalSections.find(
     (section) => section.sectionName === "Header"
   );
@@ -117,7 +115,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                   onMouseEnter={() => handleMouseEnter(i)}
                   onMouseLeave={handleMouseLeave}
                   onMouseOver={() => handleMouseEnter(i)}
-                  onClick={() =>  dispatch(updateSectionIndex(i))}
+                  onClick={() => dispatch(updateSectionIndex(i))}
                 >
                   <HoverCardContent
                     align="end"
@@ -140,7 +138,6 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                         key={section.id}
                         section={section}
                         pageId={pageId}
-                        sectionIndex={i}
                       />
                     </div>
                   </HoverCardTrigger>

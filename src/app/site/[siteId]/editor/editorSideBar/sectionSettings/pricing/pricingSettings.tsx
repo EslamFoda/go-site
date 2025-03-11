@@ -24,6 +24,7 @@ import BackBtn from "@/components/shared/backBtn";
 import ColorSelector from "../settingsUi/ColorSelector";
 import { Label } from "@/components/ui/label";
 import { JustifyCenter, JustifyEnd, JustifyStart } from "@/icons/common";
+import { useScrollToSection } from "@/hooks/useScrollToSection";
 
 interface PricingSettingsProps {
   sections:
@@ -33,6 +34,7 @@ interface PricingSettingsProps {
 }
 function PricingSettings({ pageId, sections }: PricingSettingsProps) {
   const dispatch = useAppDispatch();
+  const { scrollToCurrentSection } = useScrollToSection();
   const { selectedSection, selectedItem } = useAppSelector(
     (state) => state.editor.present
   );
@@ -75,19 +77,19 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
             ...plan,
             featured: {
               ...plan.featured,
-              ...(typeof value === 'object' ? value : {}),
-              isActive: value.isActive
-            }
+              ...(typeof value === "object" ? value : {}),
+              isActive: value.isActive,
+            },
           };
         } else {
           // Disable featured for other plans if this one is being activated
-          return value.isActive 
-            ? { 
-                ...plan, 
-                featured: { 
-                  ...plan.featured, 
-                  isActive: false 
-                } 
+          return value.isActive
+            ? {
+                ...plan,
+                featured: {
+                  ...plan.featured,
+                  isActive: false,
+                },
               }
             : plan;
         }
@@ -95,13 +97,13 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
 
       // Dispatch updates
       dispatch(
-        updateSelectedItem({ 
-          ...selectedSubscriptionPlan, 
+        updateSelectedItem({
+          ...selectedSubscriptionPlan,
           featured: {
             ...selectedSubscriptionPlan.featured,
-            ...(typeof value === 'object' ? value : {}),
-            isActive: value.isActive
-          } 
+            ...(typeof value === "object" ? value : {}),
+            isActive: value.isActive,
+          },
         })
       );
       dispatch(
@@ -127,7 +129,6 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
       );
     }
   };
-
 
   const clearSubscriptionItem = () => {
     dispatch(updateSelectedItem(null));
@@ -345,26 +346,31 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
   }
 
   return (
-    <div>
-      <Tabs onValueChange={setTabValue} value={tabValue} className="w-full">
-        <TabsList className="grid m-5 grid-cols-2">
-          <TabsTrigger value="content">content</TabsTrigger>
-          <TabsTrigger value="style">style</TabsTrigger>
-        </TabsList>
-        <PricingContentTab
-          findSelectedSection={findSelectedSection}
-          pageId={pageId}
-          pricingContent={pricingContent}
-          setOpenSubscriptionTab={setOpenSubscriptionTab}
-        />
-        <PricingStyleTab
-          findSelectedSection={findSelectedSection}
-          pageId={pageId}
-          pricingStyle={pricingStyle}
-          setSectionBgOpened={setSectionBgOpened}
-        />
-      </Tabs>
-    </div>
+    <Tabs
+      onValueChange={(value) => {
+        setTabValue(value);
+        scrollToCurrentSection();
+      }}
+      value={tabValue}
+      className="w-full"
+    >
+      <TabsList className="grid m-5 grid-cols-2">
+        <TabsTrigger value="content">Content</TabsTrigger>
+        <TabsTrigger value="style">Style</TabsTrigger>
+      </TabsList>
+      <PricingContentTab
+        findSelectedSection={findSelectedSection}
+        pageId={pageId}
+        pricingContent={pricingContent}
+        setOpenSubscriptionTab={setOpenSubscriptionTab}
+      />
+      <PricingStyleTab
+        findSelectedSection={findSelectedSection}
+        pageId={pageId}
+        pricingStyle={pricingStyle}
+        setSectionBgOpened={setSectionBgOpened}
+      />
+    </Tabs>
   );
 }
 

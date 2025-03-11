@@ -20,8 +20,7 @@ import SubscriptionType from "../../settingsUi/subscriptionType";
 import DraggableList from "@/components/ui/DraggableList";
 import { v4 } from "uuid";
 import { ChevronRightIcon } from "lucide-react";
-import { useScrollTo } from "@/hooks/useScrollTo";
-import { useScrollToSection } from "@/hooks/useScrollToSection";
+import EditText from "../../settingsUi/EditText";
 interface PricingContentTabProps {
   findSelectedSection: EditorSection<
     keyof SectionContentTypes,
@@ -37,8 +36,6 @@ function PricingContentTab({
   pageId,
   setOpenSubscriptionTab,
 }: PricingContentTabProps) {
-  const { scrollToCurrentSection } = useScrollToSection();
-
   const dispatch = useAppDispatch();
   const handleDragEnd = (result: any) => {
     if (!result.destination) return; // dropped outside the list
@@ -121,62 +118,52 @@ function PricingContentTab({
 
   return (
     <TabsContent className="px-5 h space-y-2" value="content">
-      <div className="space-y-1 flex items-center justify-between">
-        <Label htmlFor="label">Label</Label>
-        <Input
-          id="label"
-          className="w-4/6"
-          placeholder="Add label"
-          value={pricingContent?.label}
-          onFocus={() => scrollToCurrentSection()}
-          onChange={(e: any) => {
+      <EditText
+        label="Label"
+        placeholder="Add label"
+        id="label"
+        value={pricingContent.label}
+        handleUpdate={(e: any) =>
+          dispatch(
             updateContent(pageId, findSelectedSection.id, {
               label: e.target.value,
-            });
-          }}
-        />
-      </div>
-      <div className="space-y-1 flex items-center justify-between">
-        <Label htmlFor="title">Title</Label>
-        <Input
-          className="w-4/6"
-          id="title"
-          placeholder="Add title"
-          value={pricingContent?.title}
-          onFocus={() => scrollToCurrentSection()}
-          onChange={(e: any) => {
-            dispatch(
-              updateContent(pageId, findSelectedSection?.id!, {
-                title: e.target.value,
-              })
-            );
-          }}
-        />
-      </div>
-      <div className="space-y-1 flex items-center justify-between">
-        <Label htmlFor="subtitle">Subtitle</Label>
-        <Textarea
-          className="w-4/6 "
-          placeholder="Add subtitle"
-          id={findSelectedSection?.id + "subtitle"}
-          value={pricingContent?.subtitle}
-          onFocus={() => scrollToCurrentSection()}
-          onChange={(e: any) => {
-            dispatch(
-              updateContent(pageId, findSelectedSection?.id!, {
-                subtitle: e.target.value,
-              })
-            );
-          }}
-        />
-      </div>
+            })
+          )
+        }
+      />
+      <EditText
+        label="Title"
+        placeholder="Add title"
+        id="title"
+        value={pricingContent.title}
+        handleUpdate={(e: any) =>
+          dispatch(
+            updateContent(pageId, findSelectedSection.id, {
+              title: e.target.value,
+            })
+          )
+        }
+      />
+      <EditText
+        label="Subtitle"
+        placeholder="Add subtitle"
+        inputType="textArea"
+        id={findSelectedSection?.id + "subtitle"}
+        value={pricingContent.subtitle}
+        handleUpdate={(e: any) =>
+          dispatch(
+            updateContent(pageId, findSelectedSection.id, {
+              subtitle: e.target.value,
+            })
+          )
+        }
+      />
       <div className="space-y-1 flex items-center justify-between">
         <Label htmlFor="Currency">Currency</Label>
         <div className="w-4/6 ">
           <SelectCurrency
             value={pricingContent?.currency.code}
             onChange={(currency) => {
-              scrollToCurrentSection();
               dispatch(
                 updateContent(pageId, findSelectedSection?.id!, {
                   currency: currency,
@@ -189,7 +176,6 @@ function PricingContentTab({
       <SubscriptionType
         planTypeValue={pricingContent?.planType}
         onValueChange={(value) => {
-          scrollToCurrentSection();
           dispatch(
             updateContent(pageId, findSelectedSection?.id!, { planType: value })
           );
@@ -200,7 +186,6 @@ function PricingContentTab({
           <div
             className="w-4/6 px-3 h-10 border flex items-center justify-between cursor-pointer hover:bg-muted/50"
             onClick={() => {
-              scrollToCurrentSection();
               setOpenSubscriptionTab(true);
             }}
           >

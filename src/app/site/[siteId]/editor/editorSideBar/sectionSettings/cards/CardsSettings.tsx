@@ -141,7 +141,7 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
           <ImageSelector
             imageUrl={cardItem.image}
             onImageSelect={() => dispatch(openChooseImage())}
-            onImageDelete={() => handleUpdateCardItem({ image: "" })}
+            onImageDelete={() => handleUpdateCardItem({ image: "", imgId: "" })}
             onBack={() => dispatch(updateSelectedItem(null))}
             showBackButton={false}
           />

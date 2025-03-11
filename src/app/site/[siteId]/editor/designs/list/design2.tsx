@@ -15,7 +15,6 @@ import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   closeChooseIcon,
   closePagesTab,
-  updateSectionIndex,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -25,9 +24,8 @@ import { getPhosphorIcon } from "@/helper/phosphorIcons";
 interface DesignProps {
   section: any;
   pageId: string;
-  sectionIndex: number;
 }
-function Design2({ section, pageId, sectionIndex }: DesignProps) {
+function Design2({ section, pageId }: DesignProps) {
   const { AnimatePresence, motion } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
@@ -121,12 +119,14 @@ function Design2({ section, pageId, sectionIndex }: DesignProps) {
   const sectionTitleClassNames = cn("text-4xl", {
     "text-primary-foreground":
       section.style.designSettings.sectionBackground.color === "primary",
+    "text-start": listStyle.designSettings.leftTitlePosition,
   });
   const sectionSubTitleClassNames = cn({
     "text-primary-foreground":
       listStyle.designSettings.sectionBackground.color === "primary",
     "text-muted-foreground":
       listStyle.designSettings.sectionBackground.color !== "primary",
+    "text-start": listStyle.designSettings.leftTitlePosition,
   });
   return (
     <section
@@ -164,7 +164,6 @@ function Design2({ section, pageId, sectionIndex }: DesignProps) {
                           e.stopPropagation();
                           dispatch(updateSelectedSection(pageId, section.id));
                           dispatch(updateSelectedItem(listItem));
-                          dispatch(updateSectionIndex(sectionIndex));
                           dispatch(closeChooseIcon());
                           dispatch(closePagesTab());
                         }}
@@ -229,7 +228,6 @@ function Design2({ section, pageId, sectionIndex }: DesignProps) {
                             e.stopPropagation();
                             dispatch(updateSelectedSection(pageId, section.id));
                             dispatch(updateSelectedItem(listItem));
-                            dispatch(updateSectionIndex(sectionIndex));
                             dispatch(closeChooseIcon());
                             dispatch(closePagesTab());
                           }}

@@ -1,8 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
 import {
   openChooseImage,
   updateContent,
@@ -19,6 +17,7 @@ import React from "react";
 import ToggleGroup from "../../settingsUi/toggleGroup";
 import ImageSelector from "@/components/shared/imageSelector";
 import NavigationItem from "@/components/shared/navigationItem";
+import EditText from "../../settingsUi/EditText";
 
 interface BannerContentTabProps {
   bannerContent: BannerContent;
@@ -41,57 +40,50 @@ function BannerContentTab({
 }: BannerContentTabProps) {
   const dispatch = useAppDispatch();
 
+  if (!bannerContent) return null;
+
   return (
     <TabsContent className="px-5 h space-y-2" value="content">
-      <div className="space-y-1 flex items-center justify-between">
-        <Label htmlFor="label">label</Label>
-        <Input
-          id="label"
-          className="w-4/6"
-          placeholder="Add label"
-          value={bannerContent?.label}
-          onChange={(e: any) => {
-            // @ts-ignore
-            dispatch(
-              updateContent(pageId, findSelectedSection.id, {
-                label: e.target.value,
-              })
-            );
-          }}
-        />
-      </div>
-      <div className="space-y-1 flex items-center justify-between">
-        <Label htmlFor="title">title</Label>
-        <Input
-          className="w-4/6"
-          id="title"
-          placeholder="Add title"
-          value={bannerContent?.title}
-          onChange={(e: any) => {
-            dispatch(
-              updateContent(pageId, findSelectedSection?.id!, {
-                title: e.target.value,
-              })
-            );
-          }}
-        />
-      </div>
-      <div className="space-y-1 flex items-center justify-between">
-        <Label htmlFor="subtitle">subtitle</Label>
-        <Textarea
-          className="w-4/6 h-28"
-          placeholder="Add subtitle"
-          id={findSelectedSection?.id + "subtitle"}
-          value={bannerContent?.subtitle}
-          onChange={(e: any) => {
-            dispatch(
-              updateContent(pageId, findSelectedSection?.id!, {
-                subtitle: e.target.value,
-              })
-            );
-          }}
-        />
-      </div>
+      <EditText
+        label="Label"
+        placeholder="Add label"
+        id="label"
+        value={bannerContent.label}
+        handleUpdate={(e: any) =>
+          dispatch(
+            updateContent(pageId, findSelectedSection.id, {
+              label: e.target.value,
+            })
+          )
+        }
+      />
+      <EditText
+        label="Title"
+        placeholder="Add title"
+        id="title"
+        value={bannerContent.title}
+        handleUpdate={(e: any) =>
+          dispatch(
+            updateContent(pageId, findSelectedSection.id, {
+              title: e.target.value,
+            })
+          )
+        }
+      />
+      <EditText
+        label="Subtitle"
+        placeholder="Add subtitle"
+        inputType="textArea"
+        id={findSelectedSection?.id + "subtitle"}
+        value={bannerContent.subtitle}
+        handleUpdate={(e: any) =>
+          dispatch(
+            updateContent(pageId, findSelectedSection.id, {
+              subtitle: e.target.value,
+            })
+          )
+        }
+      />
       <ToggleGroup
         label="Type"
         options={[

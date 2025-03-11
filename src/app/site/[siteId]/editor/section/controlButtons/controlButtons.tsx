@@ -58,7 +58,10 @@ function ControlButtons({
   };
 
   return (
-    <div className="flex bg-background border rounded-[4px] border-muted divide-x">
+    <div
+      className="flex bg-background border rounded-[4px] border-muted divide-x"
+      onClick={(e) => e.stopPropagation()}
+    >
       <ControlBtn
         icon={<ArrowUp size={16} />}
         tooltipContent="Move Up"

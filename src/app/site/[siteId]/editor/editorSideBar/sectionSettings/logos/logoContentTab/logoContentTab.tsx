@@ -1,8 +1,5 @@
 import DraggableList from "@/components/ui/DraggableList";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
 import { updateContent, updateSelectedItem } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
@@ -13,6 +10,7 @@ import {
 import { Logo, LogosContent } from "@/types/sectionsTypes/logos";
 import React from "react";
 import { v4 } from "uuid";
+import EditText from "../../settingsUi/EditText";
 interface LogoContentTabProps {
   findSelectedSection: EditorSection<
     keyof SectionContentTypes,
@@ -56,54 +54,46 @@ function LogoContentTab({
   };
   return (
     <TabsContent className="px-5 space-y-2" value="content">
-      <div className="space-y-1 flex items-center justify-between">
-        <Label htmlFor="label">Label</Label>
-        <Input
-          id="label"
-          className="w-4/6"
-           placeholder="Add label"
-          value={logosContent?.label}
-          onChange={(e: any) => {
-            dispatch(
-              updateContent(pageId, findSelectedSection.id, {
-                label: e.target.value,
-              })
-            );
-          }}
-        />
-      </div>
-      <div className="space-y-1 flex items-center justify-between">
-        <Label htmlFor="title">Title</Label>
-        <Input
-          className="w-4/6"
-          id="title"
-          placeholder="Add title"
-          value={logosContent?.title}
-          onChange={(e: any) => {
-            dispatch(
-              updateContent(pageId, findSelectedSection?.id!, {
-                title: e.target.value,
-              })
-            );
-          }}
-        />
-      </div>
-      <div className="space-y-1 flex items-center justify-between">
-        <Label htmlFor="subtitle">Subtitle</Label>
-        <Textarea
-          className="w-4/6 "
-          id={findSelectedSection?.id + "subtitle"}
-          placeholder="Add subtitle"
-          value={logosContent?.subtitle}
-          onChange={(e: any) => {
-            dispatch(
-              updateContent(pageId, findSelectedSection?.id!, {
-                subtitle: e.target.value,
-              })
-            );
-          }}
-        />
-      </div>
+      <EditText
+        label="Label"
+        placeholder="Add label"
+        id="label"
+        value={logosContent.label}
+        handleUpdate={(e: any) =>
+          dispatch(
+            updateContent(pageId, findSelectedSection.id, {
+              label: e.target.value,
+            })
+          )
+        }
+      />
+      <EditText
+        label="Title"
+        placeholder="Add title"
+        id="title"
+        value={logosContent.title}
+        handleUpdate={(e: any) =>
+          dispatch(
+            updateContent(pageId, findSelectedSection.id, {
+              title: e.target.value,
+            })
+          )
+        }
+      />
+      <EditText
+        label="Subtitle"
+        placeholder="Add subtitle"
+        inputType="textArea"
+        id={findSelectedSection?.id + "subtitle"}
+        value={logosContent.subtitle}
+        handleUpdate={(e: any) =>
+          dispatch(
+            updateContent(pageId, findSelectedSection.id, {
+              subtitle: e.target.value,
+            })
+          )
+        }
+      />
       <DraggableList
         label="Logo"
         hasImg

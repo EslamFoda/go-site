@@ -14,7 +14,6 @@ import { useTheme } from "next-themes";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   closePagesTab,
-  updateSectionIndex,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -24,9 +23,8 @@ import { Logo, LogosContent, LogosStyle } from "@/types/sectionsTypes/logos";
 interface DesignProps {
   section: any;
   pageId: string;
-  sectionIndex: number;
 }
-function Design1({ section, pageId, sectionIndex }: DesignProps) {
+function Design1({ section, pageId }: DesignProps) {
   const { motion, AnimatePresence } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
@@ -153,7 +151,6 @@ function Design1({ section, pageId, sectionIndex }: DesignProps) {
                         e.stopPropagation();
                         dispatch(updateSelectedSection(pageId, section.id));
                         dispatch(updateSelectedItem(logo));
-                        dispatch(updateSectionIndex(sectionIndex));
                         dispatch(closePagesTab());
                       }}
                     >
@@ -229,7 +226,6 @@ function Design1({ section, pageId, sectionIndex }: DesignProps) {
                           e.stopPropagation();
                           dispatch(updateSelectedSection(pageId, section.id));
                           dispatch(updateSelectedItem(logo));
-                          dispatch(updateSectionIndex(sectionIndex));
                           dispatch(closePagesTab());
                         }}
                       >

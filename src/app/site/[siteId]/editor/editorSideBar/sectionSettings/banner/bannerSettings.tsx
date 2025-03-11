@@ -253,8 +253,8 @@ function BannerSettings({ sections, pageId }: BannerSettingsProps) {
     <div>
       <Tabs onValueChange={setTabValue} value={tabValue} className="w-full">
         <TabsList className="grid m-5 grid-cols-2">
-          <TabsTrigger value="content">content</TabsTrigger>
-          <TabsTrigger value="style">style</TabsTrigger>
+          <TabsTrigger value="content">Content</TabsTrigger>
+          <TabsTrigger value="style">Style</TabsTrigger>
         </TabsList>
         <BannerContentTab
           pageId={pageId}

@@ -2,7 +2,7 @@ import { AlignType, SectionBgColorType } from "@/types/common";
 
 // Define types for Banner content
 export interface BannerContent {
-  label?: string;
+  label: string;
   title: string;
   subtitle: string;
   mediaType: "image" | "video";

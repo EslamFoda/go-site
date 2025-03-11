@@ -5,22 +5,15 @@ import Design2 from "./design2";
 interface TestimonialProps {
   section: any;
   pageId: string;
-  sectionIndex: number;
 }
-function Testimonials({ section, pageId, sectionIndex }: TestimonialProps) {
+function Testimonials({ section, pageId }: TestimonialProps) {
   const designs = {
     design1: Design1,
     design2: Design2,
   };
   //@ts-ignore
   const TestimonialSection = designs[section.style.designName];
-  return (
-    <TestimonialSection
-      section={section}
-      pageId={pageId}
-      sectionIndex={sectionIndex}
-    />
-  );
+  return <TestimonialSection section={section} pageId={pageId} />;
 }
 
 export default Testimonials;

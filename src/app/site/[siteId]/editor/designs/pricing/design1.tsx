@@ -4,7 +4,6 @@ import { cn } from "@/lib/utils";
 import {
   closeChooseIcon,
   closePagesTab,
-  updateSectionIndex,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
@@ -17,7 +16,6 @@ import AlternatingLabel from "./AlternatingLabel";
 interface DesignProps {
   section: any;
   pageId: string;
-  sectionIndex: number;
 }
 
 enum SubscriptionPlanType {
@@ -25,7 +23,7 @@ enum SubscriptionPlanType {
   SUBSCRIPTION = "Subscription",
 }
 
-function Design1({ pageId, section, sectionIndex }: DesignProps) {
+function Design1({ pageId, section }: DesignProps) {
   const dispatch = useAppDispatch();
   const { AnimatePresence, motion } = useMotion();
   const [activePlan, setActivePlan] = useState<number>(0);
@@ -146,7 +144,6 @@ function Design1({ pageId, section, sectionIndex }: DesignProps) {
                         e.stopPropagation();
                         dispatch(updateSelectedSection(pageId, section.id));
                         dispatch(updateSelectedItem(subscription));
-                        dispatch(updateSectionIndex(sectionIndex));
                         dispatch(closeChooseIcon());
                         dispatch(closePagesTab());
                       }}
