@@ -115,6 +115,24 @@ export const generateSections = (
         showButtons: true,
         showForm: false,
         showVideo: false,
+        spacing: {
+          top: {
+            desktop: 50,
+            mobile: 15,
+          },
+          bottom: {
+            desktop: 50,
+            mobile: 15,
+          },
+          gap: {
+            desktop: 20,
+            mobile: 10,
+          },
+          padding: {
+            desktop: 20,
+            mobile: 10,
+          },
+        },
         sectionBackground: {
           color: "gray",
           media: "",
@@ -167,6 +185,24 @@ export const generateSections = (
           scrollSpeed: 2,
         },
         button: true,
+        spacing: {
+          top: {
+            desktop: 50,
+            mobile: 15,
+          },
+          bottom: {
+            desktop: 50,
+            mobile: 15,
+          },
+          gap: {
+            desktop: 20,
+            mobile: 10,
+          },
+          padding: {
+            desktop: 20,
+            mobile: 10,
+          },
+        },
         sectionBackground: {
           color: "primary",
           media: "",

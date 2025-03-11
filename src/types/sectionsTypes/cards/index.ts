@@ -1,4 +1,10 @@
-import { AlignType, displayType, SectionBgColorType, TextSizeType } from "@/types/common";
+import {
+  AlignType,
+  displayType,
+  SectionBgColorType,
+  Spacing,
+  TextSizeType,
+} from "@/types/common";
 
 // Define types for Card content
 export interface Card {
@@ -49,6 +55,7 @@ export interface CardStyle {
       autoScroll: boolean;
       scrollSpeed: number;
     };
+    spacing: Spacing;
     sectionBackground: {
       color?: SectionBgColorType;
       media?: string;

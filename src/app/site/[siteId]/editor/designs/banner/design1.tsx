@@ -42,6 +42,7 @@ function Design1({ section, pageId }: Design1Props) {
     height,
     subtitleWidth,
     showVideo,
+    spacing,
   } = bannerStyle.designSettings;
 
   const showImage = imageSetting.showImage;
@@ -368,7 +369,16 @@ function Design1({ section, pageId }: Design1Props) {
 
   return (
     <section className={getSectionClassName} onClick={handleSectionClick}>
-      <div className="flex container max-w-container gap-10 w-full py-12 flex-col text-center justify-center items-center">
+      <div
+        style={{
+          gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
+          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+          paddingBottom: isDesktop
+            ? spacing.bottom.desktop
+            : spacing.bottom.mobile,
+        }}
+        className="flex container max-w-container  w-full flex-col text-center justify-center items-center"
+      >
         {leftTitlePosition
           ? renderLeftTitleLayout()
           : renderCenteredTitleLayout()}

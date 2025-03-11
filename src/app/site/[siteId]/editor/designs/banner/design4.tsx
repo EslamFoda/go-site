@@ -37,6 +37,7 @@ function Design4({ section, pageId }: Design4Props) {
     height,
     subtitleWidth,
     showVideo,
+    spacing,
   } = bannerStyle.designSettings;
   const showImage = imageSetting.showImage;
   const bgMuted = bannerStyle.designSettings.sectionBackground.color === "gray";
@@ -277,7 +278,16 @@ function Design4({ section, pageId }: Design4Props) {
         dispatch(updateSelectedSection(pageId, section.id));
       }}
     >
-      <div className="flex max-lg:flex-col container max-w-container gap-10 w-full py-12 text-center justify-center items-center">
+      <div
+        className="flex max-lg:flex-col container max-w-container  w-full  text-center justify-center items-center"
+        style={{
+          gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
+          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+          paddingBottom: isDesktop
+            ? spacing.bottom.desktop
+            : spacing.bottom.mobile,
+        }}
+      >
         {renderImage()}
         {renderVideo()}
         <div className={TitleAndSubtitleClassName}>

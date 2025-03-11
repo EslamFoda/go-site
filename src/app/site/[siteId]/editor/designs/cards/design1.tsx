@@ -32,6 +32,7 @@ function Design1({ section, pageId }: DesignProps) {
     section?.style.designSettings.sectionBackground.color === "gray";
 
   const cardStyle = section?.style as CardStyle;
+  const { spacing } = cardStyle.designSettings;
   const autoScroll = cardStyle?.designSettings?.cardSlider?.autoScroll;
   const scrollSpeed = cardStyle?.designSettings?.cardSlider?.scrollSpeed;
   const autoScrollPlugin = autoScroll
@@ -66,7 +67,7 @@ function Design1({ section, pageId }: DesignProps) {
     cardStyle.designSettings.layout === "bottom" && "order-2"
   );
   const gridClassNames = cn(
-    "grid gap-5",
+    "grid",
     cardStyle.designSettings.grid.desktop === 3 && "lg:grid-cols-3",
     cardStyle.designSettings.grid.desktop === 2 && "lg:grid-cols-2",
     cardStyle.designSettings.grid.desktop === 1 && "lg:grid-cols-1",
@@ -75,7 +76,7 @@ function Design1({ section, pageId }: DesignProps) {
   );
 
   const alignClassNames = cn(
-    "container max-w-container gap-10 w-full py-12",
+    "container max-w-container gap-10 w-full",
     cardStyle.designSettings.align === "start" && "text-start",
     cardStyle.designSettings.align === "center" && "text-center",
     cardStyle.designSettings.align === "end" && "text-end"
@@ -137,7 +138,15 @@ function Design1({ section, pageId }: DesignProps) {
         dispatch(updateSelectedItem(null));
       }}
     >
-      <div className={alignClassNames}>
+      <div
+        className={alignClassNames}
+        style={{
+          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+          paddingBottom: isDesktop
+            ? spacing.bottom.desktop
+            : spacing.bottom.mobile,
+        }}
+      >
         <div className={containerClassNames}>
           <div>
             <h1 className={sectionTitleClassNames}>{section.content.title}</h1>
@@ -147,7 +156,12 @@ function Design1({ section, pageId }: DesignProps) {
           </div>
           <div className="md:col-span-2">
             {cardStyle.designSettings.displayType === "grid" ? (
-              <div className={gridClassNames}>
+              <div
+                className={gridClassNames}
+                style={{
+                  gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
+                }}
+              >
                 <AnimatePresence>
                   {section.content.cards.map((card: any, index: number) => (
                     <motion.div

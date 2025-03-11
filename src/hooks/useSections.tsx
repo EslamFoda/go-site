@@ -170,6 +170,24 @@ export function useSections() {
           showButtons: true,
           showForm: false,
           showVideo: false,
+          spacing: {
+            top: {
+              desktop: 50,
+              mobile: 15,
+            },
+            bottom: {
+              desktop: 50,
+              mobile: 15,
+            },
+            gap: {
+              desktop: 20,
+              mobile: 10,
+            },
+            padding: {
+              desktop: 20,
+              mobile: 10,
+            },
+          },
           sectionBackground: {
             color: "none",
             media: "",
@@ -252,6 +270,24 @@ export function useSections() {
             scrollSpeed: 2,
           },
           button: true,
+          spacing: {
+            top: {
+              desktop: 50,
+              mobile: 15,
+            },
+            bottom: {
+              desktop: 50,
+              mobile: 15,
+            },
+            gap: {
+              desktop: 20,
+              mobile: 10,
+            },
+            padding: {
+              desktop: 20,
+              mobile: 10,
+            },
+          },
           sectionBackground: {
             color: "none",
             media: "",

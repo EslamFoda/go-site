@@ -18,6 +18,7 @@ import ChooseImage from "../gallery/chooseImage";
 import { UnsplashImage } from "@/types/common";
 import Buttons from "../header/buttons";
 import FormTab from "./bannerContentTab/formTab";
+import SpacingTab from "@/components/shared/spacingTab";
 interface BannerSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -26,6 +27,7 @@ interface BannerSettingsProps {
 }
 function BannerSettings({ sections, pageId }: BannerSettingsProps) {
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
+  const [openSpacingTab, setOpenSpacingTab] = useState(false);
   const [tabValue, setTabValue] = useState("content");
   const [openButtonsTab, setOpenButtonsTab] = useState(false);
   const [openFormTab, setOpenFormTab] = useState(false);
@@ -40,6 +42,18 @@ function BannerSettings({ sections, pageId }: BannerSettingsProps) {
   const bannerContent =
     findSelectedSection?.content as SectionContentTypes["banner"];
   const bannerStyle = findSelectedSection?.style as SectionStyleTypes["banner"];
+
+  if (openSpacingTab) {
+    return (
+      <SpacingTab
+        sectionType="banner"
+        pageId={pageId}
+        findSelectedSection={findSelectedSection}
+        sectionStyle={bannerStyle}
+        setOpenSpacingTab={setOpenSpacingTab}
+      />
+    );
+  }
 
   if (openFormTab) {
     return (
@@ -270,6 +284,7 @@ function BannerSettings({ sections, pageId }: BannerSettingsProps) {
           bannerStyle={bannerStyle}
           findSelectedSection={findSelectedSection}
           setSectionBgOpened={setSectionBgOpened}
+          setOpenSpacingTab={setOpenSpacingTab}
         />
       </Tabs>
     </div>

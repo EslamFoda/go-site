@@ -25,6 +25,7 @@ import BackBtn from "@/components/shared/backBtn";
 import ImageSelector from "@/components/shared/imageSelector";
 import ChooseImage from "../gallery/chooseImage";
 import { UnsplashImage } from "@/types/common";
+import SpacingTab from "@/components/shared/spacingTab";
 interface CardsSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -34,6 +35,7 @@ interface CardsSettingsProps {
 function CardsSettings({ pageId, sections }: CardsSettingsProps) {
   const [tabValue, setTabValue] = useState("content");
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
+  const [openSpacingTab, setOpenSpacingTab] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -78,6 +80,18 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
       updateContent(pageId, findSelectedSection.id, { cards: updatedCards })
     );
   };
+
+  if (openSpacingTab) {
+    return (
+      <SpacingTab
+        sectionType="cards"
+        pageId={pageId}
+        findSelectedSection={findSelectedSection}
+        sectionStyle={cardStyle}
+        setOpenSpacingTab={setOpenSpacingTab}
+      />
+    );
+  }
 
   if (chooseImage) {
     return (
@@ -337,6 +351,7 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
           cardsContent={cardsContent}
           findSelectedSection={findSelectedSection}
           setSectionBgOpened={setSectionBgOpened}
+          setOpenSpacingTab={setOpenSpacingTab}
         />
       </Tabs>
     </div>

@@ -42,6 +42,7 @@ interface BannerStyleTabProps {
   bannerStyle: BannerStyle;
   bannerContent: BannerContent;
   setSectionBgOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenSpacingTab: React.Dispatch<React.SetStateAction<boolean>>;
   pageId: string;
 }
 
@@ -51,6 +52,7 @@ function BannerStyleTab({
   bannerContent,
   pageId,
   setSectionBgOpened,
+  setOpenSpacingTab,
 }: BannerStyleTabProps) {
   const dispatch = useAppDispatch();
   const [isHeightDesktop, setIsHeightDesktop] = useState(true);
@@ -420,6 +422,15 @@ function BannerStyleTab({
           />
         )}
 
+        <div
+          className="flex items-center cursor-pointer justify-between p-3"
+          onClick={() => {
+            setOpenSpacingTab(true);
+          }}
+        >
+          <Label>Spacing</Label>
+          <ChevronRightIcon size={18} />
+        </div>
         <div
           className="flex items-center cursor-pointer justify-between p-3"
           onClick={() => {

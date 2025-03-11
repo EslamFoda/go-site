@@ -29,6 +29,7 @@ function Design6({ section, pageId }: Design6Props) {
     height,
     subtitleWidth,
     showVideo,
+    spacing,
   } = bannerStyle.designSettings;
   const showImage = imageSetting.showImage;
   const bgMuted = bannerStyle.designSettings.sectionBackground.color === "gray";
@@ -271,11 +272,22 @@ function Design6({ section, pageId }: Design6Props) {
         dispatch(updateSelectedSection(pageId, section.id));
       }}
     >
-      <div className="container max-w-container space-y-3 py-12">
+      <div
+        className="container max-w-container space-y-3"
+        style={{
+          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+          paddingBottom: isDesktop
+            ? spacing.bottom.desktop
+            : spacing.bottom.mobile,
+        }}
+      >
         <div>
           <h1 className={titleClassName}>{bannerContent?.title}</h1>
         </div>
-        <div className="flex max-lg:flex-col gap-10 w-full text-center justify-center">
+        <div
+          className="flex max-lg:flex-col w-full text-center justify-center"
+          style={{ gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile }}
+        >
           <div className={TitleAndSubtitleClassName}>
             <div className={subAndButtonClassName}>
               <p

@@ -11,7 +11,10 @@ import { GalleryStyle, Photo } from "../sectionsTypes/gallery";
 import { HeaderStyle, Link, SubLink } from "../sectionsTypes/header";
 import { ListItem, ListStyle } from "../sectionsTypes/list";
 import { Logo, LogosStyle } from "../sectionsTypes/logos";
-import { SubscriptionPlan, SubscriptionPlanItem } from "../sectionsTypes/pricing";
+import {
+  SubscriptionPlan,
+  SubscriptionPlanItem,
+} from "../sectionsTypes/pricing";
 import { Testimonial, TestimonialStyle } from "../sectionsTypes/testimonials";
 
 export type SelectedItemType =
@@ -128,4 +131,23 @@ export enum PlanType {
   plan1 = "plan1",
   plan2 = "plan2",
   plan3 = "plan3",
+}
+
+export interface Spacing {
+  top: {
+    desktop: number;
+    mobile: number;
+  };
+  bottom: {
+    desktop: number;
+    mobile: number;
+  };
+  gap: {
+    desktop: number;
+    mobile: number;
+  };
+  padding: {
+    desktop: number;
+    mobile: number;
+  };
 }

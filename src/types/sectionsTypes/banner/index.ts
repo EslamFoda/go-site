@@ -1,4 +1,4 @@
-import { AlignType, SectionBgColorType } from "@/types/common";
+import { AlignType, SectionBgColorType, Spacing } from "@/types/common";
 
 // Define types for Banner content
 export interface BannerContent {
@@ -66,6 +66,7 @@ export interface BannerStyle {
     showButtons: boolean;
     showForm: boolean;
     showVideo: boolean;
+    spacing: Spacing;
     sectionBackground: {
       color?: SectionBgColorType;
       media?: string;
