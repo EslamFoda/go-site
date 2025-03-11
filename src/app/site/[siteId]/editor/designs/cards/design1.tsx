@@ -183,7 +183,8 @@ function Design1({ section, pageId }: DesignProps) {
                                 alt={card.image}
                                 src={card.image}
                                 fill
-                                objectFit="cover"
+                                sizes="100%"
+                                className="object-cover"
                               />
                             </div>
                           ) : (
@@ -260,7 +261,8 @@ function Design1({ section, pageId }: DesignProps) {
                                   alt={card.image}
                                   src={card.image}
                                   fill
-                                  objectFit="cover"
+                                  sizes="100%"
+                                  className="object-cover"
                                 />
                               </div>
                             ) : (

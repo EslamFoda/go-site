@@ -253,20 +253,34 @@ function TestimonialsStyleTab({
           }
         />
 
-        {/* <SwitchSetting
-            label="Image"
-            defaultChecked={testimonialStyle.designSettings?.image}
-            onCheckedChange={(value) => {
-              dispatch(
-                updateStyle(pageId,findSelectedSection?.id!, {
-                  designSettings: {
-                    ...testimonialStyle.designSettings!,
-                    image: value,
-                  },
-                })
-              );
-            }}
-          /> */}
+        <SwitchSetting
+          label="Avatar"
+          defaultChecked={testimonialStyle.designSettings?.avatar}
+          onCheckedChange={(value) => {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...testimonialStyle.designSettings!,
+                  avatar: value,
+                },
+              })
+            );
+          }}
+        />
+        <SwitchSetting
+          label="Rating"
+          defaultChecked={testimonialStyle.designSettings?.rating}
+          onCheckedChange={(value) => {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...testimonialStyle.designSettings!,
+                  rating: value,
+                },
+              })
+            );
+          }}
+        />
         {testimonialStyle.designSettings.sectionBackground.color === "none" && (
           <>
             <SwitchSetting

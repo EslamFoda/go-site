@@ -6,7 +6,7 @@ import { Suspense } from "react";
 import Toaster from "@/components/shared/toaster/";
 import TopBar from "@/components/shared/topBar";
 import { createClient } from "@/utlis/supabase/server";
-import Head from "./site/[siteId]/editor/head";
+import FontLoader from "./site/[siteId]/editor/fontLoader";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,8 +26,8 @@ export default async function RootLayout({
   return (
     <Providers>
       <html lang="en" style={{ colorScheme: "dark" }} className="dark">
-        <Head />
         <body>
+          <FontLoader />
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
             <TopBar user={user} />
             <main>{children}</main>

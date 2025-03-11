@@ -121,7 +121,7 @@ function Editor({ children }: { children: React.ReactNode }) {
             <ThemeToggle />
           </div>
           <div>
-            <PublishBtn />
+            {/* <PublishBtn /> */}
           </div>
         </header>
         <main className="grid flex-1 pl-[384px] max-md:pl-0 gap-4 overflow-auto  grid-cols-1">
