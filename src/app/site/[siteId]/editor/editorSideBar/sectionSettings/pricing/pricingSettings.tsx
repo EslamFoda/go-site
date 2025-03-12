@@ -142,6 +142,7 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
         findSelectedSection={findSelectedSection}
         sectionStyle={pricingStyle}
         setOpenSpacingTab={setOpenSpacingTab}
+        showPadding
       />
     );
   }

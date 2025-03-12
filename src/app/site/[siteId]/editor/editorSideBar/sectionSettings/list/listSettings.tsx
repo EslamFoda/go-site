@@ -103,6 +103,7 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
         findSelectedSection={findSelectedSection}
         sectionStyle={listStyle}
         setOpenSpacingTab={setOpenSpacingTab}
+        showPadding
       />
     );
   }

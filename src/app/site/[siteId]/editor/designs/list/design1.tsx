@@ -71,8 +71,8 @@ function Design1({ section, pageId }: DesignProps) {
   );
 
   const listItemClassNames = cn("flex gap-5 gap-y-3  rounded-md", {
-    "bg-muted p-5": listStyle.designSettings.background,
-    "outline outline-[1px] outline-muted p-5": listStyle.designSettings.border,
+    "bg-muted": listStyle.designSettings.background,
+    "outline outline-[1px] outline-muted": listStyle.designSettings.border,
     "bg-background": bgMuted,
     "flex-row items-start": listStyle.designSettings.layout === "row",
     "flex-col": listStyle.designSettings.layout === "col",
@@ -177,6 +177,11 @@ function Design1({ section, pageId }: DesignProps) {
                         transition={{ type: "tween" }}
                         key={listItem.id || index}
                         className={listItemClassNames}
+                        style={{
+                          padding: isDesktop
+                            ? spacing.padding.desktop
+                            : spacing.padding.mobile,
+                        }}
                         onClick={(e) => {
                           e.stopPropagation();
                           dispatch(updateSelectedSection(pageId, section.id));
@@ -249,6 +254,11 @@ function Design1({ section, pageId }: DesignProps) {
                         <div
                           key={index}
                           className={listItemClassNames}
+                          style={{
+                            padding: isDesktop
+                              ? spacing.padding.desktop
+                              : spacing.padding.mobile,
+                          }}
                           onClick={(e) => {
                             e.stopPropagation();
                             dispatch(updateSelectedSection(pageId, section.id));

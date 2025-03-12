@@ -86,9 +86,9 @@ function Design1({ section, pageId }: DesignProps) {
 
   const cardClassNames = cn(
     "flex flex-col  gap-2 rounded-md",
-    cardStyle.designSettings.cardBackground && "bg-muted p-5",
+    cardStyle.designSettings.cardBackground && "bg-muted",
     cardStyle.designSettings.cardBorder &&
-      "outline outline-[1px] outline-muted p-5",
+      "outline outline-[1px] outline-muted",
     bgMuted && "bg-background"
   );
 
@@ -174,6 +174,11 @@ function Design1({ section, pageId }: DesignProps) {
                       transition={{ type: "tween" }}
                       key={card.id || index}
                       className={cardClassNames}
+                      style={{
+                        padding: isDesktop
+                          ? spacing.padding.desktop
+                          : spacing.padding.mobile,
+                      }}
                       onClick={(e) => {
                         e.stopPropagation();
                         dispatch(updateSelectedSection(pageId, section.id));
@@ -255,6 +260,11 @@ function Design1({ section, pageId }: DesignProps) {
                       <div
                         key={index}
                         className={cardClassNames + " h-full"}
+                        style={{
+                          padding: isDesktop
+                            ? spacing.padding.desktop
+                            : spacing.padding.mobile,
+                        }}
                         onClick={(e) => {
                           e.stopPropagation();
                           dispatch(updateSelectedSection(pageId, section.id));

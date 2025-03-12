@@ -68,7 +68,7 @@ function Design2({ section, pageId }: DesignProps) {
   );
 
   const cardClassNames = cn(
-    "flex flex-col  gap-2 rounded-md relative p-5 bg-muted p-5",
+    "flex flex-col  gap-2 rounded-md relative bg-muted",
     bgMuted && "bg-background",
     cardStyle.designSettings.layoutV2 === "top" && "justify-start",
     cardStyle.designSettings.layoutV2 === "center" && "justify-center",
@@ -179,6 +179,9 @@ function Design2({ section, pageId }: DesignProps) {
                         backgroundImage: `url(${card.image})`,
                         backgroundPosition: "center",
                         backgroundSize: "cover",
+                        padding: isDesktop
+                          ? spacing.padding.desktop
+                          : spacing.padding.mobile,
                       }}
                       className={cardClassNames}
                       onClick={(e) => {
@@ -237,6 +240,9 @@ function Design2({ section, pageId }: DesignProps) {
                           backgroundImage: `url(${card.image})`,
                           backgroundPosition: "center",
                           backgroundSize: "cover",
+                          padding: isDesktop
+                            ? spacing.padding.desktop
+                            : spacing.padding.mobile,
                         }}
                         key={index}
                         className={cardClassNames}

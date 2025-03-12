@@ -67,9 +67,8 @@ function Design1({ pageId, section }: DesignProps) {
   const subItemClassNames = cn(
     "flex flex-col gap-5 gap-y-3 relative rounded-md overflow-hidden",
     {
-      "bg-muted p-5": pricingStyle.designSettings.background,
-      "outline outline-[1px] outline-muted p-5":
-        pricingStyle.designSettings.border,
+      "bg-muted": pricingStyle.designSettings.background,
+      "outline outline-[1px] outline-muted": pricingStyle.designSettings.border,
       "bg-background": bgMuted,
     }
   );
@@ -157,6 +156,11 @@ function Design1({ pageId, section }: DesignProps) {
                       transition={{ type: "tween" }}
                       key={subscription.id || index}
                       className={subItemClassNames}
+                      style={{
+                        padding: isDesktop
+                          ? spacing.padding.desktop
+                          : spacing.padding.mobile,
+                      }}
                       onClick={(e) => {
                         e.stopPropagation();
                         dispatch(updateSelectedSection(pageId, section.id));

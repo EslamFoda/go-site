@@ -89,6 +89,7 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
         findSelectedSection={findSelectedSection}
         sectionStyle={cardStyle}
         setOpenSpacingTab={setOpenSpacingTab}
+        showPadding
       />
     );
   }

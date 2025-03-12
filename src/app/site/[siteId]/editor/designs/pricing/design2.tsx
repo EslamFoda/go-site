@@ -157,6 +157,11 @@ function Design2({ pageId, section }: DesignProps) {
                       transition={{ type: "tween" }}
                       key={subscription.id || index}
                       className={subItemClassNames}
+                      style={{
+                        padding: isDesktop
+                          ? spacing.padding.desktop
+                          : spacing.padding.mobile,
+                      }}
                       onClick={(e) => {
                         e.stopPropagation();
                         dispatch(updateSelectedSection(pageId, section.id));
