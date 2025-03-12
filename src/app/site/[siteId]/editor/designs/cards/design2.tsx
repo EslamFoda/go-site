@@ -18,6 +18,7 @@ import {
   updateSelectedSection,
 } from "@/reduxStore/action";
 import { useMotion } from "@/hooks/useMotion";
+import { Button } from "@/components/ui/button";
 
 interface DesignProps {
   section: any;
@@ -108,7 +109,7 @@ function Design2({ section, pageId }: DesignProps) {
   );
 
   const cardContentClasses = cn(
-    "z-10 rounded-md p-5",
+    "z-10 rounded-md space-y-3 p-5",
     cardStyle.designSettings.glassEffect &&
       bgMuted &&
       "bg-muted/30  backdrop-blur-lg",
@@ -194,6 +195,11 @@ function Design2({ section, pageId }: DesignProps) {
                       <div className={cardContentClasses}>
                         <h5 className={titleClassName}>{card.title}</h5>
                         <p className={textOrderClassName}>{card.text}</p>
+                        {card.button && (
+                          <Button className="order-4 w-full">
+                            {card.button}
+                          </Button>
+                        )}
                       </div>
                       {!card.image && (
                         <div className={imagePlaceholderClassNames}>
@@ -217,7 +223,7 @@ function Design2({ section, pageId }: DesignProps) {
                 }}
                 className="w-full items-stretch"
               >
-                <CarouselContent className="items-stretch">
+                <CarouselContent className="items-stretch py-1">
                   {section.content.cards.map((card: any, index: number) => (
                     <CarouselItem
                       className="h-full"
@@ -256,6 +262,11 @@ function Design2({ section, pageId }: DesignProps) {
                         <div className={cardContentClasses}>
                           <h5 className={titleClassName}>{card.title}</h5>
                           <p className={textOrderClassName}>{card.text}</p>
+                          {card.button && (
+                            <Button className="order-4 w-full">
+                              {card.button}
+                            </Button>
+                          )}
                         </div>
                         {!card.image && (
                           <div className={imagePlaceholderClassNames}>

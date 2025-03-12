@@ -19,6 +19,7 @@ import {
   updateSelectedSection,
 } from "@/reduxStore/action";
 import { useMotion } from "@/hooks/useMotion";
+import { Button } from "@/components/ui/button";
 
 interface DesignProps {
   section: any;
@@ -230,6 +231,9 @@ function Design1({ section, pageId }: DesignProps) {
                           )}
                         </div>
                       )}
+                      {card.button && (
+                        <Button className="order-4 mt-2">{card.button}</Button>
+                      )}
                     </motion.div>
                   ))}
                 </AnimatePresence>
@@ -243,7 +247,7 @@ function Design1({ section, pageId }: DesignProps) {
                 }}
                 className="w-full items-stretch"
               >
-                <CarouselContent>
+                <CarouselContent className="py-1">
                   {cards.map((card, index) => (
                     <CarouselItem
                       key={card.id || index}
@@ -315,6 +319,11 @@ function Design1({ section, pageId }: DesignProps) {
                               </div>
                             )}
                           </div>
+                        )}
+                        {card.button && (
+                          <Button className="order-4 mt-2">
+                            {card.button}
+                          </Button>
                         )}
                       </div>
                     </CarouselItem>

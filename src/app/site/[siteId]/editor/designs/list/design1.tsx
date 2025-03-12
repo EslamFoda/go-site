@@ -232,7 +232,7 @@ function Design1({ section, pageId }: DesignProps) {
                 }}
                 className="w-full"
               >
-                <CarouselContent className="items-stretch">
+                <CarouselContent className="items-stretch py-1">
                   {section.content.list.map((listItem: any, index: number) => {
                     const ListIcon = getPhosphorIcon(listItem.icon);
                     return (

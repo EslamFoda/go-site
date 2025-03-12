@@ -91,9 +91,9 @@ function Design1({ section, pageId }: DesignProps) {
     {
       "rounded-md": testimonialStyle.designSettings.shape === "square",
       "rounded-full": testimonialStyle.designSettings.shape === "rounded",
-      "bg-muted":
-        testimonialStyle.designSettings.sectionBackground.color === "gray",
-    }
+    },
+    testimonialStyle.designSettings.background ? "bg-background" : "bg-muted",
+    bgMuted && "bg-muted"
   );
 
   const imgContainerClassNames = cn(
@@ -231,9 +231,10 @@ function Design1({ section, pageId }: DesignProps) {
                                   <div className={iconContainerClassNames}>
                                     <ImagePlaceHolder
                                       fillColor={
-                                        bgMuted
-                                          ? "fill-background"
-                                          : "fill-muted"
+                                        testimonialStyle.designSettings
+                                          .background && !bgMuted
+                                          ? "fill-muted"
+                                          : "fill-background"
                                       }
                                       height={20}
                                       width={20}
@@ -264,7 +265,7 @@ function Design1({ section, pageId }: DesignProps) {
                 }}
                 className="w-full"
               >
-                <CarouselContent>
+                <CarouselContent className="py-1">
                   {section.content.testimonials.map(
                     (review: any, index: number) => {
                       return (
@@ -336,9 +337,10 @@ function Design1({ section, pageId }: DesignProps) {
                                     <div className={iconContainerClassNames}>
                                       <ImagePlaceHolder
                                         fillColor={
-                                          bgMuted
-                                            ? "fill-background"
-                                            : "fill-muted"
+                                          testimonialStyle.designSettings
+                                            .background && !bgMuted
+                                            ? "fill-muted"
+                                            : "fill-background"
                                         }
                                         height={20}
                                         width={20}

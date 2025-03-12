@@ -160,6 +160,18 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
             onBack={() => dispatch(updateSelectedItem(null))}
             showBackButton={false}
           />
+          <EditText
+            id={cardItem.id}
+            inputType="text"
+            placeholder="Button text"
+            label="Button"
+            value={cardItem.button}
+            handleUpdate={(e: any) =>
+              handleUpdateCardItem({
+                button: e.target.value,
+              })
+            }
+          />
         </div>
       </div>
     );

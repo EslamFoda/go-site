@@ -92,6 +92,10 @@ function Design2({ section, pageId }: DesignProps) {
       "bg-primary": listStyle.designSettings.iconColor === "primary",
       hidden: !listStyle.designSettings.icon,
       "self-end": listStyle.designSettings.layout === "col",
+      "bg-muted":
+        (listStyle.designSettings.iconColor === "none" &&
+          listStyle.designSettings.border) ||
+        bgMuted,
     }
   );
 
@@ -204,7 +208,11 @@ function Design2({ section, pageId }: DesignProps) {
                             />
                           ) : (
                             <ImagePlaceHolder
-                              fillColor="fill-muted"
+                              fillColor={
+                                listStyle.designSettings.border || bgMuted
+                                  ? "fill-background"
+                                  : "fill-muted"
+                              }
                               height={listStyle.designSettings.height / 2.5}
                               width={listStyle.designSettings.height / 2.5}
                             />
@@ -224,7 +232,7 @@ function Design2({ section, pageId }: DesignProps) {
                 }}
                 className="w-full"
               >
-                <CarouselContent className="items-stretch">
+                <CarouselContent className="items-stretch py-1">
                   {section.content.list.map((listItem: any, index: number) => {
                     const ListIcon = getPhosphorIcon(listItem.icon);
                     return (
@@ -277,7 +285,11 @@ function Design2({ section, pageId }: DesignProps) {
                               />
                             ) : (
                               <ImagePlaceHolder
-                                fillColor="fill-muted"
+                                fillColor={
+                                  listStyle.designSettings.border || bgMuted
+                                    ? "fill-background"
+                                    : "fill-muted"
+                                }
                                 height={listStyle.designSettings.height / 2.5}
                                 width={listStyle.designSettings.height / 2.5}
                               />
