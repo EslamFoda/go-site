@@ -11,7 +11,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
-import { CardStyle } from "@/types/sectionsTypes/cards";
+import { CardsContent, CardStyle } from "@/types/sectionsTypes/cards";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   closePagesTab,
@@ -32,6 +32,8 @@ function Design1({ section, pageId }: DesignProps) {
     section?.style.designSettings.sectionBackground.color === "gray";
 
   const cardStyle = section?.style as CardStyle;
+  const cardContent = section?.content as CardsContent;
+  const { cards } = cardContent;
   const { spacing } = cardStyle.designSettings;
   const autoScroll = cardStyle?.designSettings?.cardSlider?.autoScroll;
   const scrollSpeed = cardStyle?.designSettings?.cardSlider?.scrollSpeed;
@@ -234,17 +236,20 @@ function Design1({ section, pageId }: DesignProps) {
                   skipSnaps: true,
                   loop: autoScroll ? true : false,
                 }}
-                className="w-full"
+                className="w-full items-stretch"
               >
-                <CarouselContent className="items-stretch">
-                  {section.content.cards.map((card: any, index: number) => (
+                <CarouselContent>
+                  {cards.map((card, index) => (
                     <CarouselItem
                       key={card.id || index}
-                      className="h-full"
                       style={{
                         flexBasis: isDesktop
                           ? cardStyle.designSettings.cardSlider.desktopWidth
                           : cardStyle.designSettings.cardSlider.mobileWidth,
+                        marginInlineEnd: isDesktop
+                          ? spacing.gap.desktop
+                          : spacing.gap.mobile,
+                        paddingInlineStart: index !== 0 ? 0 : "",
                       }}
                     >
                       <div

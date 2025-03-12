@@ -1,4 +1,4 @@
-import { AlignType, SectionBgColorType, TextSizeType } from "@/types/common";
+import { AlignType, SectionBgColorType, Spacing, TextSizeType } from "@/types/common";
 
 export interface Benefit {
   id: string;
@@ -84,6 +84,7 @@ export interface PricingStyle {
     text: TextSizeType;
     background: boolean;
     border: boolean;
+    spacing: Spacing;
     sectionBackground: {
       color?: SectionBgColorType;
       media?: string;

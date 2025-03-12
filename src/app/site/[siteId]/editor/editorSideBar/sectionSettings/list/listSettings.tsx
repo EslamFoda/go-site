@@ -29,6 +29,7 @@ import {
   updateStyle,
 } from "@/reduxStore/action";
 import BackBtn from "@/components/shared/backBtn";
+import SpacingTab from "@/components/shared/spacingTab";
 interface ListSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -37,6 +38,7 @@ interface ListSettingsProps {
 }
 function ListSettings({ pageId, sections }: ListSettingsProps) {
   const [tabValue, setTabValue] = useState("content");
+  const [openSpacingTab, setOpenSpacingTab] = useState(false);
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
   const dispatch = useAppDispatch();
   const selectedSection = useAppSelector(
@@ -92,6 +94,18 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
       updateContent(pageId, findSelectedSection.id, { list: updatedList })
     );
   };
+
+  if (openSpacingTab) {
+    return (
+      <SpacingTab
+        sectionType="cards"
+        pageId={pageId}
+        findSelectedSection={findSelectedSection}
+        sectionStyle={listStyle}
+        setOpenSpacingTab={setOpenSpacingTab}
+      />
+    );
+  }
 
   if (chooseIcon) {
     return (
@@ -353,6 +367,7 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
           listContent={listContent}
           findSelectedSection={findSelectedSection}
           setSectionBgOpened={setSectionBgOpened}
+          setOpenSpacingTab={setOpenSpacingTab}
         />
       </Tabs>
     </div>

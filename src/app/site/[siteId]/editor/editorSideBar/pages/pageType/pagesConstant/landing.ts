@@ -26,6 +26,24 @@ export const landing = [
             subtitleWidth: "50%",
             leftTitleWidth: "50%",
             leftTitlePosition: true,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -145,6 +163,24 @@ export const landing = [
               desktopWidth: 350,
             },
             leftTitlePosition: false,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "gray",
               media: "",
@@ -216,6 +252,24 @@ export const landing = [
             subtitleWidth: "50%",
             leftTitleWidth: "50%",
             leftTitlePosition: true,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -334,6 +388,24 @@ export const landing = [
             subtitleWidth: "50%",
             leftTitleWidth: "50%",
             leftTitlePosition: true,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -452,6 +524,24 @@ export const landing = [
             subtitleWidth: "50%",
             leftTitleWidth: "50%",
             leftTitlePosition: true,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -557,6 +647,24 @@ export const landing = [
             border: false,
             background: true,
             leftTitlePosition: false,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "gray",
               media: "",
@@ -612,6 +720,24 @@ export const landing = [
             subtitleWidth: "64%",
             leftTitleWidth: "50%",
             leftTitlePosition: false,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "primary",
               media: "",
@@ -815,6 +941,24 @@ export const landing = [
             showButtons: true,
             showForm: false,
             showVideo: false,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "gray",
               media: "",
@@ -894,6 +1038,24 @@ export const landing = [
               scrollSpeed: 2,
             },
             button: true,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -1006,6 +1168,24 @@ export const landing = [
             showButtons: true,
             showForm: false,
             showVideo: false,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -1124,6 +1304,24 @@ export const landing = [
             showButtons: true,
             showForm: false,
             showVideo: false,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -1242,6 +1440,24 @@ export const landing = [
             showButtons: true,
             showForm: false,
             showVideo: false,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -1320,6 +1536,24 @@ export const landing = [
               autoScroll: false,
               scrollSpeed: 2,
             },
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "gray",
               media: "",
@@ -1362,6 +1596,24 @@ export const landing = [
             background: true,
             border: false,
             leftTitlePosition: true,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -1475,6 +1727,24 @@ export const landing = [
             showButtons: true,
             showForm: false,
             showVideo: false,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "primary",
               media: "",
@@ -1517,6 +1787,24 @@ export const landing = [
             subtitleWidth: "50%",
             leftTitleWidth: "50%",
             leftTitlePosition: true,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "primary",
               media: "",
@@ -1714,6 +2002,24 @@ export const landing = [
             leftTitleWidth: "50%",
             showButtons: false,
             showForm: true,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -1832,6 +2138,24 @@ export const landing = [
             showButtons: false,
             showForm: false,
             showVideo: false,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "gray",
               media: "",
@@ -1950,6 +2274,24 @@ export const landing = [
             showButtons: false,
             showForm: false,
             showVideo: false,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -2041,6 +2383,24 @@ export const landing = [
               mobileWidth: 200,
               autoScroll: false,
               scrollSpeed: 2,
+            },
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
             },
             sectionBackground: {
               color: "gray",
@@ -2230,6 +2590,24 @@ export const landing = [
             text: "m",
             background: true,
             border: false,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -2282,6 +2660,24 @@ export const landing = [
               autoScroll: false,
               scrollSpeed: 2,
             },
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "gray",
               media: "",
@@ -2324,6 +2720,24 @@ export const landing = [
             background: true,
             border: false,
             leftTitlePosition: true,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -2436,6 +2850,24 @@ export const landing = [
             showButtons: true,
             showForm: false,
             showVideo: false,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "primary",
               media: "",

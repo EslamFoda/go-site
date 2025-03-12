@@ -37,7 +37,7 @@ function Design1({ section, pageId }: DesignProps) {
     section?.style.designSettings.sectionBackground.color === "gray";
   const testimonialStyle = section?.style as TestimonialStyle;
   const testimonialsContent = section?.content as TestimonialContent;
-  const { avatar, rating } = testimonialStyle.designSettings;
+  const { avatar, rating, spacing } = testimonialStyle.designSettings;
 
   const autoScroll =
     testimonialStyle?.designSettings?.carouselSettings?.autoScroll;
@@ -68,7 +68,7 @@ function Design1({ section, pageId }: DesignProps) {
   });
 
   const gridClassNames = cn(
-    "grid gap-5 items-start",
+    "grid items-start",
     testimonialStyle.designSettings.grid.desktop === 3 && "lg:grid-cols-3",
     testimonialStyle.designSettings.grid.desktop === 2 && "lg:grid-cols-2",
     testimonialStyle.designSettings.grid.desktop === 1 && "lg:grid-cols-1",
@@ -148,7 +148,15 @@ function Design1({ section, pageId }: DesignProps) {
         dispatch(closeChooseIcon());
       }}
     >
-      <div className="container max-w-container gap-10 w-full py-12">
+      <div
+        className="container max-w-container gap-10 w-full"
+        style={{
+          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+          paddingBottom: isDesktop
+            ? spacing.bottom.desktop
+            : spacing.bottom.mobile,
+        }}
+      >
         <div className={containerClassNames}>
           <div className={titleAndSubtitleClassName}>
             <h1 className={sectionTitleClassNames}>{section.content.title}</h1>
@@ -158,7 +166,12 @@ function Design1({ section, pageId }: DesignProps) {
           </div>
           <div className="md:col-span-2">
             {testimonialStyle.designSettings.displayType === "grid" ? (
-              <div className={gridClassNames}>
+              <div
+                className={gridClassNames}
+                style={{
+                  gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
+                }}
+              >
                 <AnimatePresence>
                   {section.content.testimonials.map(
                     (review: any, index: number) => {
@@ -251,19 +264,22 @@ function Design1({ section, pageId }: DesignProps) {
                 }}
                 className="w-full"
               >
-                <CarouselContent className="items-stretch">
+                <CarouselContent>
                   {section.content.testimonials.map(
                     (review: any, index: number) => {
                       return (
                         <CarouselItem
                           key={review.id || index}
-                          className="h-full"
                           style={{
                             flexBasis: isDesktop
                               ? testimonialStyle.designSettings.carouselSettings
                                   .desktopWidth
                               : testimonialStyle.designSettings.carouselSettings
                                   .mobileWidth,
+                            marginInlineEnd: isDesktop
+                              ? spacing.gap.desktop
+                              : spacing.gap.mobile,
+                            paddingInlineStart: index !== 0 ? 0 : "",
                           }}
                         >
                           <div

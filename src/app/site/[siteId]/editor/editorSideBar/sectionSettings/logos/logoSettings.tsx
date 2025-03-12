@@ -29,6 +29,7 @@ import ChooseImage from "../gallery/chooseImage";
 import { UnsplashImage } from "@/types/common";
 import HeightOrWidthSetting from "../settingsUi/HeightOrWidthSetting";
 import LogoStyleTab from "./logoStyleTab";
+import SpacingTab from "@/components/shared/spacingTab";
 
 interface LogosSettingsProps {
   sections:
@@ -38,6 +39,7 @@ interface LogosSettingsProps {
 }
 function LogosSettings({ pageId, sections }: LogosSettingsProps) {
   const [tabValue, setTabValue] = useState("content");
+  const [openSpacingTab, setOpenSpacingTab] = useState(false);
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
   const [imageMode, setImageMode] = useState<"light" | "dark">("light");
   const [isSizeDesktop, setIsSizeDesktop] = useState(true);
@@ -87,6 +89,18 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
       })
     );
   };
+
+  if (openSpacingTab) {
+    return (
+      <SpacingTab
+        sectionType="cards"
+        pageId={pageId}
+        findSelectedSection={findSelectedSection}
+        sectionStyle={logosStyle}
+        setOpenSpacingTab={setOpenSpacingTab}
+      />
+    );
+  }
 
   if (chooseImage) {
     return (
@@ -452,6 +466,7 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
           logosContent={logosContent}
           pageId={pageId}
           setSectionBgOpened={setSectionBgOpened}
+          setOpenSpacingTab={setOpenSpacingTab}
         />
       </Tabs>
     </div>

@@ -12,6 +12,7 @@ import { PricingContent, PricingStyle } from "@/types/sectionsTypes/pricing";
 import { CheckIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import AlternatingLabel from "./AlternatingLabel";
+import { useMediaQuery } from "react-responsive";
 
 interface DesignProps {
   section: any;
@@ -25,10 +26,13 @@ enum SubscriptionPlanType {
 
 function Design1({ pageId, section }: DesignProps) {
   const dispatch = useAppDispatch();
+  const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const { AnimatePresence, motion } = useMotion();
   const [activePlan, setActivePlan] = useState<number>(0);
   const pricingStyle = section?.style as PricingStyle;
   const pricingContent = section?.content as PricingContent;
+  const { spacing } = pricingStyle.designSettings;
+
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
 
@@ -93,7 +97,15 @@ function Design1({ pageId, section }: DesignProps) {
         dispatch(closeChooseIcon());
       }}
     >
-      <div className="container max-w-container gap-10 w-full py-12">
+      <div
+        className="container max-w-container gap-10 w-full"
+        style={{
+          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+          paddingBottom: isDesktop
+            ? spacing.bottom.desktop
+            : spacing.bottom.mobile,
+        }}
+      >
         <div className="space-y-4">
           <div className="flex items-start justify-between">
             <div className={textColorClassName}>
@@ -123,7 +135,12 @@ function Design1({ pageId, section }: DesignProps) {
               </div>
             )}
           </div>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-5">
+          <div
+            className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))]"
+            style={{
+              gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
+            }}
+          >
             <AnimatePresence>
               {pricingContent.subscriptions.map(
                 (subscription, index: number) => {

@@ -4,6 +4,7 @@ import {
   displayType,
   SectionBgColorType,
   ShapeType,
+  Spacing,
   TextSizeType,
 } from "@/types/common";
 
@@ -28,8 +29,6 @@ interface GridSettings {
   mobile: number;
 }
 
-
-
 interface SectionBackground {
   color?: SectionBgColorType;
   media: string;
@@ -51,6 +50,7 @@ interface DesignSettings {
   border: boolean;
   leftTitlePosition: boolean;
   displayType: displayType;
+  spacing: Spacing;
   carouselSettings: CarouselSettings;
   sectionBackground: SectionBackground;
 }

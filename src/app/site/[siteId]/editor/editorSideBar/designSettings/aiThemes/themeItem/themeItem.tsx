@@ -25,91 +25,107 @@ const gloock = Gloock({
   weight: ["400"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 
 const notoSerifSC = Noto_Serif_SC({
   weight: ["400"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 
 const unbounded = Unbounded({
   weight: ["400"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 
 const aboreto = Aboreto({
   weight: ["400"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 
 const poppins = Poppins({
   weight: ["400"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 
 const arimo = Arimo({
   weight: ["400"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 
 const questrial = Questrial({
   weight: ["400"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 
 const jetBrainsMono = JetBrains_Mono({
   weight: ["400"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 
 const andadaPro = Andada_Pro({
   weight: ["400"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 
 const aDLaM_Display = ADLaM_Display({
   weight: ["400"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 const space_Grotesk = Space_Grotesk({
   weight: ["400", "500"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 const fredericka_the_Great = Fredericka_the_Great({
   weight: ["400"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 const merriweather = Merriweather({
   weight: ["400"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 const luckiest_Guy = Luckiest_Guy({
   weight: ["400"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 
 const manrope = Manrope({
   weight: ["400"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 const fira_Sans = Fira_Sans({
   weight: ["400", "700"],
   style: ["normal"],
   subsets: ["latin"],
+  adjustFontFallback: true,
 });
 
 const fontMap = {

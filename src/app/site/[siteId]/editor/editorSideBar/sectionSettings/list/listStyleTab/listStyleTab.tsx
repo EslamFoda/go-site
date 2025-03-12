@@ -35,6 +35,7 @@ interface ListStyleTabProps {
   listStyle: ListStyle;
   pageId: string;
   setSectionBgOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenSpacingTab: React.Dispatch<React.SetStateAction<boolean>>;
 }
 function ListStyleTab({
   findSelectedSection,
@@ -42,6 +43,7 @@ function ListStyleTab({
   listStyle,
   pageId,
   setSectionBgOpened,
+  setOpenSpacingTab,
 }: ListStyleTabProps) {
   const dispatch = useAppDispatch();
   const [isDesktop, setIsDesktop] = useState(true);
@@ -292,7 +294,6 @@ function ListStyleTab({
             )
           }
         />
-
         <SwitchSetting
           label="Icon"
           defaultChecked={listStyle.designSettings?.icon}
@@ -341,7 +342,6 @@ function ListStyleTab({
             />
           </>
         )}
-
         {listStyle.designSettings.displayType === "carousel" && (
           <SwitchSetting
             label="Auto scroll"
@@ -362,7 +362,16 @@ function ListStyleTab({
               )
             }
           />
-        )}
+        )}{" "}
+        <div
+          className="flex items-center cursor-pointer justify-between p-3"
+          onClick={() => {
+            setOpenSpacingTab(true);
+          }}
+        >
+          <Label>Spacing</Label>
+          <ChevronRightIcon size={18} />
+        </div>
         <div
           className="flex items-center cursor-pointer justify-between p-3"
           onClick={() => {

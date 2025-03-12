@@ -4,6 +4,7 @@ import {
   displayType,
   SectionBgColorType,
   ShapeType,
+  Spacing,
   TextSizeType,
 } from "@/types/common";
 
@@ -55,6 +56,7 @@ interface DesignSettings {
   avatar: boolean;
   rating: boolean;
   leftTitlePosition: boolean;
+  spacing: Spacing;
   sectionBackground: SectionBackground;
   carouselSettings: CarouselSettings;
 }

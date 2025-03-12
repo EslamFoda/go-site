@@ -1,4 +1,4 @@
-import { SectionBgColorType } from "@/types/common";
+import { SectionBgColorType, Spacing } from "@/types/common";
 
 interface SectionBackground {
   color: SectionBgColorType;
@@ -18,6 +18,7 @@ interface DesignSettings {
   align: "start" | "center" | "end";
   background: boolean;
   border: boolean;
+  spacing: Spacing;
   sectionBackground: SectionBackground;
 }
 

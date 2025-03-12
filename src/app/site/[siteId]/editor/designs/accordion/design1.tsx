@@ -19,6 +19,7 @@ import {
   AccordionStyle,
 } from "@/types/sectionsTypes/accordion/accordion";
 import { useMotion } from "@/hooks/useMotion";
+import { useMediaQuery } from "react-responsive";
 
 interface DesignProps {
   section: any;
@@ -26,12 +27,14 @@ interface DesignProps {
 }
 function Design1({ section, pageId }: DesignProps) {
   const { AnimatePresence, motion } = useMotion();
+  const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
+
   const dispatch = useAppDispatch();
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
   const accordionStyle = section?.style as AccordionStyle;
   const accordionContent = section?.content as AccordionContentType;
-
+  const { spacing } = accordionStyle.designSettings;
   const titleAndSubtitleClassName = cn(
     accordionStyle.designSettings.align === "start" && "text-start",
     accordionStyle.designSettings.align === "center" && "text-center",
@@ -84,7 +87,15 @@ function Design1({ section, pageId }: DesignProps) {
         dispatch(closeChooseIcon());
       }}
     >
-      <div className="container max-w-container gap-10 w-full py-12">
+      <div
+        className="container max-w-container gap-10 w-full"
+        style={{
+          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+          paddingBottom: isDesktop
+            ? spacing.bottom.desktop
+            : spacing.bottom.mobile,
+        }}
+      >
         <div className={containerClassNames}>
           <div className={titleAndSubtitleClassName}>
             <h1 className={sectionTitleClassNames}>{section.content.title}</h1>
@@ -93,7 +104,13 @@ function Design1({ section, pageId }: DesignProps) {
             </p>
           </div>
           <div className="md:col-span-2">
-            <Accordion type="multiple" className="w-full space-y-3">
+            <Accordion
+              type="multiple"
+              className="w-full flex flex-col"
+              style={{
+                gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
+              }}
+            >
               <AnimatePresence>
                 {accordionContent.accordions.map((accordion: AccordionType) => (
                   <motion.div

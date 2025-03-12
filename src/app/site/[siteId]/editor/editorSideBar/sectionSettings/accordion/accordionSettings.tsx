@@ -20,6 +20,7 @@ import { Accordion } from "@/types/sectionsTypes/accordion/accordion";
 import AccordionContentTab from "./accordionContentTab";
 import AccordionStyleTab from "./accordionStyleTab";
 import BackBtn from "@/components/shared/backBtn";
+import SpacingTab from "@/components/shared/spacingTab";
 interface AccordionSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -29,7 +30,7 @@ interface AccordionSettingsProps {
 function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
   const [tabValue, setTabValue] = useState("content");
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
-
+  const [openSpacingTab, setOpenSpacingTab] = useState(false);
   const dispatch = useAppDispatch();
   const selectedSection = useAppSelector(
     (state) => state.editor.present.selectedSection
@@ -72,6 +73,18 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
       })
     );
   };
+
+  if (openSpacingTab) {
+    return (
+      <SpacingTab
+        sectionType="cards"
+        pageId={pageId}
+        findSelectedSection={findSelectedSection}
+        sectionStyle={accordionStyle}
+        setOpenSpacingTab={setOpenSpacingTab}
+      />
+    );
+  }
 
   if (accordionItem)
     return (
@@ -309,6 +322,7 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
           accordionStyle={accordionStyle}
           findSelectedSection={findSelectedSection}
           setSectionBgOpened={setSectionBgOpened}
+          setOpenSpacingTab={setOpenSpacingTab}
         />
       </Tabs>
     </div>

@@ -25,6 +25,7 @@ interface LogoStyleTabProps {
   logosContent: LogosContent;
   logoStyle: LogosStyle;
   setSectionBgOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenSpacingTab: React.Dispatch<React.SetStateAction<boolean>>;
   pageId: string;
 }
 function LogoStyleTab({
@@ -33,6 +34,7 @@ function LogoStyleTab({
   logoStyle,
   pageId,
   setSectionBgOpened,
+  setOpenSpacingTab,
 }: LogoStyleTabProps) {
   const dispatch = useAppDispatch();
   const [isDesktop, setIsDesktop] = useState(true);
@@ -278,6 +280,15 @@ function LogoStyleTab({
             }
           />
         )}
+        <div
+          className="flex items-center cursor-pointer justify-between p-3"
+          onClick={() => {
+            setOpenSpacingTab(true);
+          }}
+        >
+          <Label>Spacing</Label>
+          <ChevronRightIcon size={18} />
+        </div>
         <div
           className="flex items-center cursor-pointer justify-between p-3"
           onClick={() => {

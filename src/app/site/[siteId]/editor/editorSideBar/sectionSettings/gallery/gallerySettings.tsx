@@ -29,6 +29,7 @@ import ChooseImage from "./chooseImage";
 import GalleryStyleTab from "./galleryStyleTab";
 import { UnsplashImage } from "@/types/common";
 import ImageSelector from "@/components/shared/imageSelector";
+import SpacingTab from "@/components/shared/spacingTab";
 
 interface GallerySettingsProps {
   sections:
@@ -39,6 +40,7 @@ interface GallerySettingsProps {
 function GallerySettings({ pageId, sections }: GallerySettingsProps) {
   const [tabValue, setTabValue] = useState("content");
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
+  const [openSpacingTab, setOpenSpacingTab] = useState(false);
 
   const dispatch = useAppDispatch();
   const selectedSection = useAppSelector(
@@ -83,6 +85,18 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
       })
     );
   };
+
+  if (openSpacingTab) {
+    return (
+      <SpacingTab
+        sectionType="cards"
+        pageId={pageId}
+        findSelectedSection={findSelectedSection}
+        sectionStyle={galleryStyle}
+        setOpenSpacingTab={setOpenSpacingTab}
+      />
+    );
+  }
 
   if (chooseImage) {
     return (
@@ -305,6 +319,7 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
           galleryStyle={galleryStyle}
           pageId={pageId}
           setSectionBgOpened={setSectionBgOpened}
+          setOpenSpacingTab={setOpenSpacingTab}
         />
       </Tabs>
     </div>

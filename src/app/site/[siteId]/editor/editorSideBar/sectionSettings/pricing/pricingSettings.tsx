@@ -24,7 +24,7 @@ import BackBtn from "@/components/shared/backBtn";
 import ColorSelector from "../settingsUi/ColorSelector";
 import { Label } from "@/components/ui/label";
 import { JustifyCenter, JustifyEnd, JustifyStart } from "@/icons/common";
-import { useScrollToSection } from "@/hooks/useScrollToSection";
+import SpacingTab from "@/components/shared/spacingTab";
 
 interface PricingSettingsProps {
   sections:
@@ -34,11 +34,11 @@ interface PricingSettingsProps {
 }
 function PricingSettings({ pageId, sections }: PricingSettingsProps) {
   const dispatch = useAppDispatch();
-  const { scrollToCurrentSection } = useScrollToSection();
   const { selectedSection, selectedItem } = useAppSelector(
     (state) => state.editor.present
   );
   const [tabValue, setTabValue] = useState("content");
+  const [openSpacingTab, setOpenSpacingTab] = useState(false);
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
   const [priceOption, setPriceOption] =
     useState<SubscriptionPriceOption | null>(null);
@@ -133,6 +133,18 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
   const clearSubscriptionItem = () => {
     dispatch(updateSelectedItem(null));
   };
+
+  if (openSpacingTab) {
+    return (
+      <SpacingTab
+        sectionType="cards"
+        pageId={pageId}
+        findSelectedSection={findSelectedSection}
+        sectionStyle={pricingStyle}
+        setOpenSpacingTab={setOpenSpacingTab}
+      />
+    );
+  }
 
   if (sectionBgOpened)
     return (
@@ -347,10 +359,7 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
 
   return (
     <Tabs
-      onValueChange={(value) => {
-        setTabValue(value);
-        scrollToCurrentSection();
-      }}
+      onValueChange={setTabValue}
       value={tabValue}
       className="w-full"
     >
@@ -369,6 +378,7 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
         pageId={pageId}
         pricingStyle={pricingStyle}
         setSectionBgOpened={setSectionBgOpened}
+        setOpenSpacingTab={setOpenSpacingTab}
       />
     </Tabs>
   );

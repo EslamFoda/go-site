@@ -100,6 +100,24 @@ export const about = [
             leftTitleWidth: "50%",
             showButtons: true,
             showForm: false,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "gray",
               media: "",
@@ -179,6 +197,24 @@ export const about = [
               scrollSpeed: 2,
             },
             button: true,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -250,6 +286,24 @@ export const about = [
               mobileWidth: 300,
               autoScroll: false,
               scrollSpeed: 2,
+            },
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
             },
             sectionBackground: {
               color: "none",
@@ -361,6 +415,24 @@ export const about = [
             leftTitleWidth: "50%",
             showButtons: true,
             showForm: false,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -409,6 +481,24 @@ export const about = [
             background: true,
             border: false,
             leftTitlePosition: false,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",
@@ -482,6 +572,24 @@ export const about = [
               scrollSpeed: 2,
             },
             button: true,
+            spacing: {
+              top: {
+                desktop: 50,
+                mobile: 15,
+              },
+              bottom: {
+                desktop: 50,
+                mobile: 15,
+              },
+              gap: {
+                desktop: 20,
+                mobile: 10,
+              },
+              padding: {
+                desktop: 20,
+                mobile: 10,
+              },
+            },
             sectionBackground: {
               color: "none",
               media: "",

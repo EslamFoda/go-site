@@ -10,9 +10,21 @@ import HeightOrWidthSetting from "@/app/site/[siteId]/editor/editorSideBar/secti
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { updateStyle } from "@/reduxStore/action";
 import { CardStyle } from "@/types/sectionsTypes/cards";
+import { GalleryStyle } from "@/types/sectionsTypes/gallery";
+import { TestimonialStyle } from "@/types/sectionsTypes/testimonials";
+import { ListStyle } from "@/types/sectionsTypes/list";
+import { PricingStyle } from "@/types/sectionsTypes/pricing";
+import { AccordionStyle } from "@/types/sectionsTypes/accordion/accordion";
 interface SpacingTabProps {
   pageId: string;
-  sectionStyle: BannerStyle | CardStyle;
+  sectionStyle:
+    | BannerStyle
+    | CardStyle
+    | GalleryStyle
+    | TestimonialStyle
+    | ListStyle
+    | PricingStyle
+    | AccordionStyle;
   findSelectedSection: EditorSection<
     keyof SectionContentTypes,
     keyof SectionStyleTypes

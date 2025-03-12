@@ -25,6 +25,7 @@ interface AccordionStyleTabProps {
   accordionContent: AccordionContent;
   accordionStyle: AccordionStyle;
   setSectionBgOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenSpacingTab: React.Dispatch<React.SetStateAction<boolean>>;
   pageId: string;
 }
 function AccordionStyleTab({
@@ -32,6 +33,7 @@ function AccordionStyleTab({
   accordionStyle,
   pageId,
   setSectionBgOpened,
+  setOpenSpacingTab,
 }: AccordionStyleTabProps) {
   const dispatch = useAppDispatch();
 
@@ -114,7 +116,15 @@ function AccordionStyleTab({
             />
           </>
         )}
-
+        <div
+          className="flex items-center cursor-pointer justify-between p-3"
+          onClick={() => {
+            setOpenSpacingTab(true);
+          }}
+        >
+          <Label>Spacing</Label>
+          <ChevronRightIcon size={18} />
+        </div>
         <div
           className="flex items-center cursor-pointer justify-between p-3"
           onClick={() => {

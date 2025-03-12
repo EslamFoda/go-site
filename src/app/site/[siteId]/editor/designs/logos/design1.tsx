@@ -35,6 +35,8 @@ function Design1({ section, pageId }: DesignProps) {
 
   const logoStyle = section?.style as LogosStyle;
   const logoContent = section?.content as LogosContent;
+  const { spacing } = logoStyle.designSettings;
+
   const autoScroll = logoStyle?.designSettings?.carouselSettings?.autoScroll;
   const scrollSpeed = logoStyle?.designSettings?.carouselSettings?.scrollSpeed;
   const autoScrollPlugin = autoScroll
@@ -55,7 +57,7 @@ function Design1({ section, pageId }: DesignProps) {
   );
 
   const gridClassNames = cn(
-    "grid gap-5",
+    "grid",
     logoStyle.designSettings.grid.desktop === 4 && "lg:grid-cols-4",
     logoStyle.designSettings.grid.desktop === 3 && "lg:grid-cols-3",
     logoStyle.designSettings.grid.desktop === 2 && "lg:grid-cols-2",
@@ -123,7 +125,15 @@ function Design1({ section, pageId }: DesignProps) {
         dispatch(updateSelectedItem(null));
       }}
     >
-      <div className="container max-w-container gap-10 w-full py-12">
+      <div
+        className="container max-w-container gap-10 w-full"
+        style={{
+          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+          paddingBottom: isDesktop
+            ? spacing.bottom.desktop
+            : spacing.bottom.mobile,
+        }}
+      >
         <div className={containerClassNames}>
           <div className={titleAndSubtitleClassName}>
             <h1 className={sectionTitleClassNames}>{logoContent.title}</h1>
@@ -131,7 +141,12 @@ function Design1({ section, pageId }: DesignProps) {
           </div>
           <div className="md:col-span-2">
             {logoStyle.designSettings.displayType === "grid" ? (
-              <div className={gridClassNames}>
+              <div
+                className={gridClassNames}
+                style={{
+                  gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
+                }}
+              >
                 <AnimatePresence>
                   {logoContent.logos.map((logo: Logo, index: number) => (
                     <motion.div
@@ -212,6 +227,10 @@ function Design1({ section, pageId }: DesignProps) {
                               .desktopWidth
                           : logoStyle.designSettings.carouselSettings
                               .mobileWidth,
+                        marginInlineEnd: isDesktop
+                          ? spacing.gap.desktop
+                          : spacing.gap.mobile,
+                        paddingInlineStart: index !== 0 ? 0 : "",
                       }}
                     >
                       <div

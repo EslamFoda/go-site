@@ -34,6 +34,7 @@ function Design1({ section, pageId }: DesignProps) {
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
   const galleryStyle = section?.style as GalleryStyle;
+  const { spacing } = galleryStyle.designSettings;
   const galleryContent = section?.content as GalleryContent;
   const autoScroll = galleryStyle?.designSettings?.carouselSettings?.autoScroll;
   const scrollSpeed =
@@ -51,7 +52,7 @@ function Design1({ section, pageId }: DesignProps) {
     : [];
 
   const gridClassNames = cn(
-    "grid gap-5",
+    "grid",
     galleryStyle.designSettings.grid.desktop === 4 && "lg:grid-cols-4",
     galleryStyle.designSettings.grid.desktop === 3 && "lg:grid-cols-3",
     galleryStyle.designSettings.grid.desktop === 2 && "lg:grid-cols-2",
@@ -113,7 +114,15 @@ function Design1({ section, pageId }: DesignProps) {
         dispatch(updateSelectedItem(null));
       }}
     >
-      <div className="container max-w-container gap-10 w-full py-12">
+      <div
+        className="container max-w-container gap-10 w-full"
+        style={{
+          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+          paddingBottom: isDesktop
+            ? spacing.bottom.desktop
+            : spacing.bottom.mobile,
+        }}
+      >
         <div className={containerClassNames}>
           <div>
             <h1 className={sectionTitleClassNames}>{galleryContent.title}</h1>
@@ -123,7 +132,12 @@ function Design1({ section, pageId }: DesignProps) {
           </div>
           <div className="md:col-span-2">
             {galleryStyle.designSettings.displayType === "grid" ? (
-              <div className={gridClassNames}>
+              <div
+                className={gridClassNames}
+                style={{
+                  gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
+                }}
+              >
                 <AnimatePresence>
                   {galleryContent.photos.map((photo: Photo, index: number) => (
                     <motion.div
@@ -182,6 +196,10 @@ function Design1({ section, pageId }: DesignProps) {
                               .desktopWidth
                           : galleryStyle.designSettings.carouselSettings
                               .mobileWidth,
+                        marginInlineEnd: isDesktop
+                          ? spacing.gap.desktop
+                          : spacing.gap.mobile,
+                        paddingInlineStart: index !== 0 ? 0 : "",
                       }}
                     >
                       <div

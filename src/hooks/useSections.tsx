@@ -374,6 +374,24 @@ export function useSections() {
             autoScroll: false,
             scrollSpeed: 2,
           },
+          spacing: {
+            top: {
+              desktop: 50,
+              mobile: 15,
+            },
+            bottom: {
+              desktop: 50,
+              mobile: 15,
+            },
+            gap: {
+              desktop: 20,
+              mobile: 10,
+            },
+            padding: {
+              desktop: 20,
+              mobile: 10,
+            },
+          },
           sectionBackground: {
             color: "none",
             media: "",
@@ -416,6 +434,24 @@ export function useSections() {
           background: true,
           border: false,
           leftTitlePosition: false,
+          spacing: {
+            top: {
+              desktop: 50,
+              mobile: 15,
+            },
+            bottom: {
+              desktop: 50,
+              mobile: 15,
+            },
+            gap: {
+              desktop: 20,
+              mobile: 10,
+            },
+            padding: {
+              desktop: 20,
+              mobile: 10,
+            },
+          },
           sectionBackground: {
             color: "none",
             media: "",
@@ -491,6 +527,24 @@ export function useSections() {
             autoScroll: false,
             scrollSpeed: 2,
           },
+          spacing: {
+            top: {
+              desktop: 50,
+              mobile: 15,
+            },
+            bottom: {
+              desktop: 50,
+              mobile: 15,
+            },
+            gap: {
+              desktop: 20,
+              mobile: 10,
+            },
+            padding: {
+              desktop: 20,
+              mobile: 10,
+            },
+          },
           sectionBackground: {
             color: "none",
             media: "",
@@ -549,6 +603,24 @@ export function useSections() {
             mobileWidth: 300,
             autoScroll: false,
             scrollSpeed: 2,
+          },
+          spacing: {
+            top: {
+              desktop: 50,
+              mobile: 15,
+            },
+            bottom: {
+              desktop: 50,
+              mobile: 15,
+            },
+            gap: {
+              desktop: 20,
+              mobile: 10,
+            },
+            padding: {
+              desktop: 20,
+              mobile: 10,
+            },
           },
           sectionBackground: {
             color: "none",
@@ -638,6 +710,24 @@ export function useSections() {
             mobileWidth: 300,
             autoScroll: false,
             scrollSpeed: 2,
+          },
+          spacing: {
+            top: {
+              desktop: 50,
+              mobile: 15,
+            },
+            bottom: {
+              desktop: 50,
+              mobile: 15,
+            },
+            gap: {
+              desktop: 20,
+              mobile: 10,
+            },
+            padding: {
+              desktop: 20,
+              mobile: 10,
+            },
           },
           sectionBackground: {
             color: "none",
@@ -1314,6 +1404,24 @@ export function useSections() {
           text: "m",
           background: true,
           border: false,
+          spacing: {
+            top: {
+              desktop: 50,
+              mobile: 15,
+            },
+            bottom: {
+              desktop: 50,
+              mobile: 15,
+            },
+            gap: {
+              desktop: 20,
+              mobile: 10,
+            },
+            padding: {
+              desktop: 20,
+              mobile: 10,
+            },
+          },
           sectionBackground: {
             color: "none",
             media: "",

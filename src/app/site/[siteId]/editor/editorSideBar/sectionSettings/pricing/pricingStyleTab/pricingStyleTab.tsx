@@ -1,5 +1,5 @@
 import { TabsContent } from "@/components/ui/tabs";
-import React, { useState } from "react";
+import React from "react";
 import {
   EditorSection,
   SectionContentTypes,
@@ -26,6 +26,7 @@ interface PricingStyleTabProps {
   >;
   pricingStyle: PricingStyle;
   setSectionBgOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenSpacingTab: React.Dispatch<React.SetStateAction<boolean>>;
   pageId: string;
 }
 function PricingStyleTab({
@@ -33,6 +34,7 @@ function PricingStyleTab({
   pricingStyle,
   pageId,
   setSectionBgOpened,
+  setOpenSpacingTab,
 }: PricingStyleTabProps) {
   const dispatch = useAppDispatch();
 
@@ -110,7 +112,15 @@ function PricingStyleTab({
             />
           </>
         )}
-
+        <div
+          className="flex items-center cursor-pointer justify-between p-3"
+          onClick={() => {
+            setOpenSpacingTab(true);
+          }}
+        >
+          <Label>Spacing</Label>
+          <ChevronRightIcon size={18} />
+        </div>
         <div
           className="flex items-center cursor-pointer justify-between p-3"
           onClick={() => {

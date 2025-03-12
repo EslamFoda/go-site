@@ -30,6 +30,7 @@ import BackBtn from "@/components/shared/backBtn";
 import ImageSelector from "@/components/shared/imageSelector";
 import ChooseImage from "../gallery/chooseImage";
 import { UnsplashImage } from "@/types/common";
+import SpacingTab from "@/components/shared/spacingTab";
 interface TestimonialsSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -39,6 +40,7 @@ interface TestimonialsSettingsProps {
 function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
   const [tabValue, setTabValue] = useState("content");
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
+  const [openSpacingTab, setOpenSpacingTab] = useState(false);
 
   const dispatch = useAppDispatch();
   const { selectedItem, chooseImage, selectedSection } = useAppSelector(
@@ -81,6 +83,17 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
     );
   };
 
+  if (openSpacingTab) {
+    return (
+      <SpacingTab
+        sectionType="cards"
+        pageId={pageId}
+        findSelectedSection={findSelectedSection}
+        sectionStyle={TestimonialsStyle}
+        setOpenSpacingTab={setOpenSpacingTab}
+      />
+    );
+  }
   if (chooseImage) {
     return (
       <ChooseImage
@@ -374,6 +387,7 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
           setSectionBgOpened={setSectionBgOpened}
           testimonialContent={TestimonialsContent}
           testimonialStyle={TestimonialsStyle}
+          setOpenSpacingTab={setOpenSpacingTab}
         />
       </Tabs>
     </div>
