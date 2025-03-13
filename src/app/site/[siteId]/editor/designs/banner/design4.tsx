@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import ReactPlayer from "react-player";
 import { useMediaQuery } from "react-responsive";
+import BackgroundImage from "@/components/shared/backgroundImage";
 interface Design4Props {
   section: any;
   pageId: string;
@@ -58,7 +59,7 @@ function Design4({ section, pageId }: Design4Props) {
     setShowPlayButton(true);
   };
 
-  const sectionBgClassName = cn("flex flex-col", {
+  const sectionBgClassName = cn("flex flex-col relative overflow-hidden", {
     "bg-primary": sectionBackground.color === "primary",
     "bg-muted": sectionBackground.color === "gray",
     "bg-background": sectionBackground.color === "none",
@@ -76,6 +77,12 @@ function Design4({ section, pageId }: Design4Props) {
     "text-4xl": titleSize === "s",
     "text-primary-foreground":
       bannerStyle.designSettings.sectionBackground.color === "primary",
+    "text-white":
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
+    "text-black":
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
 
   const TitleAndSubtitleClassName = cn("w-full flex space-y-3 flex-col", {
@@ -95,6 +102,12 @@ function Design4({ section, pageId }: Design4Props) {
       bannerStyle.designSettings.sectionBackground.color === "primary",
     "text-muted-foreground":
       bannerStyle.designSettings.sectionBackground.color !== "primary",
+    "text-white":
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
+    "text-black":
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
 
   const formBtnClassName = cn("whitespace-normal", {
@@ -278,8 +291,20 @@ function Design4({ section, pageId }: Design4Props) {
         dispatch(updateSelectedSection(pageId, section.id));
       }}
     >
+      <BackgroundImage
+        imageUrl={bannerStyle.designSettings.sectionBackground.media.imageUrl}
+        parallax={bannerStyle.designSettings.sectionBackground.parallax}
+        blur={bannerStyle.designSettings.sectionBackground.blur}
+        blurEffect={bannerStyle.designSettings.sectionBackground.blurEffect}
+        greyScale={bannerStyle.designSettings.sectionBackground.greyScale}
+        overlay={bannerStyle.designSettings.sectionBackground.overlay}
+        overlayEffect={
+          bannerStyle.designSettings.sectionBackground.overlayEffect
+        }
+        backgroundColor={bannerStyle.designSettings.sectionBackground.color}
+      />
       <div
-        className="flex max-lg:flex-col container max-w-container  w-full  text-center justify-center items-center"
+        className="flex max-lg:flex-col container max-w-container  w-full z-0  text-center justify-center items-center"
         style={{
           gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
           paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,

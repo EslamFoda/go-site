@@ -16,6 +16,7 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
+  openChooseBgImage,
   openChooseImage,
   updateContent,
   updateSelectedItem,
@@ -26,6 +27,8 @@ import ImageSelector from "@/components/shared/imageSelector";
 import ChooseImage from "../gallery/chooseImage";
 import { UnsplashImage } from "@/types/common";
 import SpacingTab from "@/components/shared/spacingTab";
+import ToggleGroup from "../settingsUi/toggleGroup";
+import SwitchSetting from "../settingsUi/SwitchSetting";
 interface CardsSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -39,9 +42,8 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
 
   const dispatch = useAppDispatch();
 
-  const { selectedItem, chooseImage, selectedSection } = useAppSelector(
-    (state) => state.editor.present
-  );
+  const { selectedItem, chooseImage, selectedSection, chooseBgImage } =
+    useAppSelector((state) => state.editor.present);
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
@@ -94,9 +96,53 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
     );
   }
 
+  if (chooseBgImage) {
+    return (
+      <ChooseImage
+        mediaType="background-image"
+        selectedImgId={
+          cardStyle?.designSettings.sectionBackground.media.imageId || ""
+        }
+        handleUpdateUnsplash={(image: UnsplashImage) => {
+          dispatch(
+            updateStyle(pageId, findSelectedSection.id, {
+              designSettings: {
+                ...cardStyle.designSettings,
+                sectionBackground: {
+                  ...cardStyle.designSettings.sectionBackground,
+                  media: {
+                    imageUrl: image.urls.regular,
+                    imageId: image.id,
+                  },
+                },
+              },
+            })
+          );
+        }}
+        handleUpdateUploadedImg={(image: Storage) => {
+          dispatch(
+            updateStyle(pageId, findSelectedSection.id, {
+              designSettings: {
+                ...cardStyle.designSettings,
+                sectionBackground: {
+                  ...cardStyle.designSettings.sectionBackground,
+                  media: {
+                    imageUrl: image.url,
+                    imageId: image.id,
+                  },
+                },
+              },
+            })
+          );
+        }}
+      />
+    );
+  }
+
   if (chooseImage) {
     return (
       <ChooseImage
+        mediaType="image"
         selectedImgId={cardItem?.imgId || ""}
         handleUpdateUnsplash={(image: UnsplashImage) => {
           handleUpdateCardItem({
@@ -204,8 +250,8 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
                   updateStyle(pageId, findSelectedSection?.id!, {
                     designSettings: {
                       ...cardStyle.designSettings!,
-                      cardBackground: true,
-                      cardBorder: false,
+                      background: true,
+                      border: false,
                       sectionBackground: {
                         ...cardStyle.designSettings.sectionBackground,
                         color,
@@ -216,135 +262,236 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
               }
             }}
           />
-          <div className="space-y-1 flex items-center justify-between">
-            <Label>Height</Label>
-            <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...cardStyle.designSettings!,
-                        sectionBackground: {
-                          ...cardStyle.designSettings.sectionBackground,
-                          height: "fill",
-                          align: "center",
-                        },
+          <ImageSelector
+            imageUrl={cardStyle.designSettings.sectionBackground.media.imageUrl}
+            onImageSelect={() => dispatch(openChooseBgImage())}
+            onImageDelete={() =>
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id, {
+                  designSettings: {
+                    ...cardStyle.designSettings,
+                    sectionBackground: {
+                      ...cardStyle.designSettings.sectionBackground,
+                      media: {
+                        imageUrl: "",
+                        imageId: "",
                       },
-                    })
-                  );
-                }}
-                className={`${
-                  cardStyle.designSettings.sectionBackground.height === "fill"
-                    ? "bg-muted-bg"
-                    : ""
-                } flex items-center justify-center cursor-pointer w-full`}
-              >
-                fill
-              </div>
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...cardStyle.designSettings!,
-                        sectionBackground: {
-                          ...cardStyle.designSettings.sectionBackground,
-                          height: "fit",
-                          align: "center",
-                        },
+                      textColor: "light",
+                    },
+                  },
+                })
+              )
+            }
+            onBack={() => {}}
+            showBackButton={false}
+          />
+          {cardStyle?.designSettings.sectionBackground.media.imageUrl && (
+            <ToggleGroup
+              label="Text"
+              options={[
+                { value: "light", label: "Light" },
+                { value: "dark", label: "Dark" },
+              ]}
+              value={cardStyle?.designSettings.sectionBackground.textColor}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...cardStyle.designSettings!,
+                      sectionBackground: {
+                        ...cardStyle.designSettings.sectionBackground,
+                        textColor: value,
                       },
-                    })
-                  );
-                }}
-                className={`${
-                  cardStyle.designSettings.sectionBackground.height === "fit"
-                    ? "bg-muted-bg"
-                    : ""
-                } flex items-center justify-center cursor-pointer w-full`}
-              >
-                fit
-              </div>
-            </div>
-          </div>
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+
+          <ToggleGroup
+            label="Height"
+            options={[
+              { value: "fill", label: "Fill" },
+              { value: "fit", label: "Fit" },
+            ]}
+            value={cardStyle.designSettings.sectionBackground.height}
+            onValueChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...cardStyle.designSettings!,
+                    sectionBackground: {
+                      ...cardStyle.designSettings.sectionBackground,
+                      height: value,
+                      align: "center",
+                    },
+                  },
+                })
+              );
+            }}
+          />
+          {cardStyle.designSettings.sectionBackground.overlay && (
+            <ToggleGroup
+              label="Overlay"
+              options={[
+                { value: "s", label: "S" },
+                { value: "m", label: "M" },
+                { value: "l", label: "L" },
+              ]}
+              value={cardStyle.designSettings.sectionBackground.overlayEffect}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...cardStyle.designSettings!,
+                      sectionBackground: {
+                        ...cardStyle.designSettings.sectionBackground,
+                        overlayEffect: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+          {cardStyle.designSettings.sectionBackground.blur && (
+            <ToggleGroup
+              label="Blur"
+              options={[
+                { value: "s", label: "S" },
+                { value: "m", label: "M" },
+                { value: "l", label: "L" },
+              ]}
+              value={cardStyle.designSettings.sectionBackground.blurEffect}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...cardStyle.designSettings!,
+                      sectionBackground: {
+                        ...cardStyle.designSettings.sectionBackground,
+                        blurEffect: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
           {cardStyle.designSettings.sectionBackground.height === "fill" && (
-            <div className="space-y-1 flex items-center justify-between">
-              <Label>Align</Label>
-              <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-                <div
-                  onClick={() => {
+            <ToggleGroup
+              label="Align"
+              options={[
+                { value: "start", label: <JustifyStart /> },
+                { value: "center", label: <JustifyCenter /> },
+                { value: "end", label: <JustifyEnd /> },
+              ]}
+              value={cardStyle.designSettings.sectionBackground.align}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...cardStyle.designSettings!,
+                      sectionBackground: {
+                        ...cardStyle.designSettings.sectionBackground,
+                        align: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+          {cardStyle.designSettings.sectionBackground.media.imageUrl && (
+            <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
+              {cardStyle.designSettings.sectionBackground.color !== "none" && (
+                <SwitchSetting
+                  label="Overlay"
+                  defaultChecked={
+                    cardStyle.designSettings.sectionBackground.overlay
+                  }
+                  onCheckedChange={(value) => {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
                           ...cardStyle.designSettings!,
                           sectionBackground: {
                             ...cardStyle.designSettings.sectionBackground,
-                            align: "start",
+                            overlay: value,
                           },
                         },
                       })
                     );
                   }}
-                  className={`${
-                    cardStyle.designSettings.sectionBackground.align === "start"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyStart />
-                </div>
-                <div
-                  onClick={() => {
+                />
+              )}
+              {!cardStyle.designSettings.sectionBackground.parallax && (
+                <SwitchSetting
+                  label="Blur"
+                  defaultChecked={
+                    cardStyle.designSettings.sectionBackground.blur
+                  }
+                  onCheckedChange={(value) => {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
                           ...cardStyle.designSettings!,
                           sectionBackground: {
                             ...cardStyle.designSettings.sectionBackground,
-                            align: "center",
+                            blur: value,
                           },
                         },
                       })
                     );
                   }}
-                  className={`${
-                    cardStyle.designSettings.sectionBackground.align ===
-                    "center"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyCenter />
-                </div>
-                <div
-                  onClick={() => {
-                    dispatch(
-                      updateStyle(pageId, findSelectedSection?.id!, {
-                        designSettings: {
-                          ...cardStyle.designSettings!,
-                          sectionBackground: {
-                            ...cardStyle.designSettings.sectionBackground,
-                            align: "end",
-                          },
+                />
+              )}
+              <SwitchSetting
+                label="Greyscale"
+                defaultChecked={
+                  cardStyle.designSettings.sectionBackground.greyScale
+                }
+                onCheckedChange={(value) => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...cardStyle.designSettings!,
+                        sectionBackground: {
+                          ...cardStyle.designSettings.sectionBackground,
+                          greyScale: value,
                         },
-                      })
-                    );
-                  }}
-                  className={`${
-                    cardStyle.designSettings.sectionBackground.align === "end"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyEnd />
-                </div>
-              </div>
+                      },
+                    })
+                  );
+                }}
+              />
+              <SwitchSetting
+                label="Parallax"
+                defaultChecked={
+                  cardStyle.designSettings.sectionBackground.parallax
+                }
+                onCheckedChange={(value) => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...cardStyle.designSettings!,
+                        sectionBackground: {
+                          ...cardStyle.designSettings.sectionBackground,
+                          parallax: value,
+                          blur: false,
+                          blurEffect: "s",
+                        },
+                      },
+                    })
+                  );
+                }}
+              />
             </div>
           )}
         </div>
       </div>
     );
-
   return (
     <div>
       <Tabs onValueChange={setTabValue} value={tabValue} className="w-full">

@@ -19,6 +19,7 @@ import {
 } from "@/reduxStore/action";
 import { useMotion } from "@/hooks/useMotion";
 import { Button } from "@/components/ui/button";
+import BackgroundImage from "@/components/shared/backgroundImage";
 
 interface DesignProps {
   section: any;
@@ -62,7 +63,7 @@ function Design2({ section, pageId }: DesignProps) {
   );
 
   const alignClassNames = cn(
-    "container max-w-container gap-10 w-full py-12",
+    "container max-w-container gap-10 w-full z-0",
     cardStyle.designSettings.align === "start" && "text-start",
     cardStyle.designSettings.align === "center" && "text-center",
     cardStyle.designSettings.align === "end" && "text-end"
@@ -90,7 +91,7 @@ function Design2({ section, pageId }: DesignProps) {
   );
 
   const sectionBgClassName = cn(
-    " flex flex-col",
+    " flex flex-col relative overflow-hidden",
     section.style.designSettings.sectionBackground.color === "primary" &&
       "bg-primary",
     section.style.designSettings.sectionBackground.color === "gray" &&
@@ -124,6 +125,12 @@ function Design2({ section, pageId }: DesignProps) {
     "text-primary-foreground":
       section.style.designSettings.sectionBackground.color === "primary",
     "text-start": cardStyle.designSettings.leftTitlePosition,
+    "text-white":
+      cardStyle.designSettings.sectionBackground.textColor === "light" &&
+      cardStyle.designSettings.sectionBackground.media.imageUrl,
+    "text-black":
+      cardStyle.designSettings.sectionBackground.textColor === "dark" &&
+      cardStyle.designSettings.sectionBackground.media.imageUrl,
   });
   const sectionSubTitleClassNames = cn({
     "text-primary-foreground":
@@ -131,6 +138,12 @@ function Design2({ section, pageId }: DesignProps) {
     "text-muted-foreground":
       cardStyle.designSettings.sectionBackground.color !== "primary",
     "text-start": cardStyle.designSettings.leftTitlePosition,
+    "text-white":
+      cardStyle.designSettings.sectionBackground.textColor === "light" &&
+      cardStyle.designSettings.sectionBackground.media.imageUrl,
+    "text-black":
+      cardStyle.designSettings.sectionBackground.textColor === "dark" &&
+      cardStyle.designSettings.sectionBackground.media.imageUrl,
   });
   return (
     <section
@@ -140,6 +153,16 @@ function Design2({ section, pageId }: DesignProps) {
         dispatch(updateSelectedItem(null));
       }}
     >
+      <BackgroundImage
+        imageUrl={cardStyle.designSettings.sectionBackground.media.imageUrl}
+        parallax={cardStyle.designSettings.sectionBackground.parallax}
+        blur={cardStyle.designSettings.sectionBackground.blur}
+        blurEffect={cardStyle.designSettings.sectionBackground.blurEffect}
+        greyScale={cardStyle.designSettings.sectionBackground.greyScale}
+        overlay={cardStyle.designSettings.sectionBackground.overlay}
+        overlayEffect={cardStyle.designSettings.sectionBackground.overlayEffect}
+        backgroundColor={cardStyle.designSettings.sectionBackground.color}
+      />
       <div
         className={alignClassNames}
         style={{

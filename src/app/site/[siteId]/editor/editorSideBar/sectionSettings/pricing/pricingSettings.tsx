@@ -4,6 +4,7 @@ import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
+  Storage,
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import PricingContentTab from "./pricingContentTab";
@@ -15,6 +16,7 @@ import {
 } from "@/types/sectionsTypes/pricing";
 import SelectedPlan from "./pricingContentTab/selectedPlan";
 import {
+  openChooseImage,
   updateContent,
   updateSelectedItem,
   updateStyle,
@@ -25,6 +27,11 @@ import ColorSelector from "../settingsUi/ColorSelector";
 import { Label } from "@/components/ui/label";
 import { JustifyCenter, JustifyEnd, JustifyStart } from "@/icons/common";
 import SpacingTab from "@/components/shared/spacingTab";
+import ImageSelector from "@/components/shared/imageSelector";
+import ChooseImage from "../gallery/chooseImage";
+import { UnsplashImage } from "@/types/common";
+import ToggleGroup from "../settingsUi/toggleGroup";
+import SwitchSetting from "../settingsUi/SwitchSetting";
 
 interface PricingSettingsProps {
   sections:
@@ -34,7 +41,7 @@ interface PricingSettingsProps {
 }
 function PricingSettings({ pageId, sections }: PricingSettingsProps) {
   const dispatch = useAppDispatch();
-  const { selectedSection, selectedItem } = useAppSelector(
+  const { selectedSection, selectedItem, chooseImage } = useAppSelector(
     (state) => state.editor.present
   );
   const [tabValue, setTabValue] = useState("content");
@@ -134,6 +141,49 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
     dispatch(updateSelectedItem(null));
   };
 
+  if (chooseImage) {
+    return (
+      <ChooseImage
+        mediaType="image"
+        selectedImgId={
+          pricingStyle?.designSettings.sectionBackground.media.imageId || ""
+        }
+        handleUpdateUnsplash={(image: UnsplashImage) => {
+          dispatch(
+            updateStyle(pageId, findSelectedSection.id, {
+              designSettings: {
+                ...pricingStyle.designSettings,
+                sectionBackground: {
+                  ...pricingStyle.designSettings.sectionBackground,
+                  media: {
+                    imageUrl: image.urls.regular,
+                    imageId: image.id,
+                  },
+                },
+              },
+            })
+          );
+        }}
+        handleUpdateUploadedImg={(image: Storage) => {
+          dispatch(
+            updateStyle(pageId, findSelectedSection.id, {
+              designSettings: {
+                ...pricingStyle.designSettings,
+                sectionBackground: {
+                  ...pricingStyle.designSettings.sectionBackground,
+                  media: {
+                    imageUrl: image.url,
+                    imageId: image.id,
+                  },
+                },
+              },
+            })
+          );
+        }}
+      />
+    );
+  }
+
   if (openSpacingTab) {
     return (
       <SpacingTab
@@ -187,132 +237,236 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
               }
             }}
           />
-          <div className="space-y-1 flex items-center justify-between">
-            <Label>Height</Label>
-            <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...pricingStyle.designSettings!,
-                        sectionBackground: {
-                          ...pricingStyle.designSettings.sectionBackground,
-                          height: "fill",
-                          align: "center",
-                        },
+          <ImageSelector
+            imageUrl={
+              pricingStyle.designSettings.sectionBackground.media.imageUrl
+            }
+            onImageSelect={() => dispatch(openChooseImage())}
+            onImageDelete={() =>
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id, {
+                  designSettings: {
+                    ...pricingStyle.designSettings,
+                    sectionBackground: {
+                      ...pricingStyle.designSettings.sectionBackground,
+                      media: {
+                        imageUrl: "",
+                        imageId: "",
                       },
-                    })
-                  );
-                }}
-                className={`${
-                  pricingStyle.designSettings.sectionBackground.height ===
-                  "fill"
-                    ? "bg-muted-bg"
-                    : ""
-                } flex items-center justify-center cursor-pointer w-full`}
-              >
-                fill
-              </div>
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...pricingStyle.designSettings!,
-                        sectionBackground: {
-                          ...pricingStyle.designSettings.sectionBackground,
-                          height: "fit",
-                          align: "center",
-                        },
+                      textColor: "light",
+                    },
+                  },
+                })
+              )
+            }
+            onBack={() => {}}
+            showBackButton={false}
+          />
+          {pricingStyle?.designSettings.sectionBackground.media.imageUrl && (
+            <ToggleGroup
+              label="Text"
+              options={[
+                { value: "light", label: "Light" },
+                { value: "dark", label: "Dark" },
+              ]}
+              value={pricingStyle?.designSettings.sectionBackground.textColor}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...pricingStyle.designSettings!,
+                      sectionBackground: {
+                        ...pricingStyle.designSettings.sectionBackground,
+                        textColor: value,
                       },
-                    })
-                  );
-                }}
-                className={`${
-                  pricingStyle.designSettings.sectionBackground.height === "fit"
-                    ? "bg-muted-bg"
-                    : ""
-                } flex items-center justify-center cursor-pointer w-full`}
-              >
-                fit
-              </div>
-            </div>
-          </div>
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+
+          <ToggleGroup
+            label="Height"
+            options={[
+              { value: "fill", label: "Fill" },
+              { value: "fit", label: "Fit" },
+            ]}
+            value={pricingStyle.designSettings.sectionBackground.height}
+            onValueChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...pricingStyle.designSettings!,
+                    sectionBackground: {
+                      ...pricingStyle.designSettings.sectionBackground,
+                      height: value,
+                      align: "center",
+                    },
+                  },
+                })
+              );
+            }}
+          />
+          {pricingStyle.designSettings.sectionBackground.overlay && (
+            <ToggleGroup
+              label="Overlay"
+              options={[
+                { value: "s", label: "S" },
+                { value: "m", label: "M" },
+                { value: "l", label: "L" },
+              ]}
+              value={
+                pricingStyle.designSettings.sectionBackground.overlayEffect
+              }
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...pricingStyle.designSettings!,
+                      sectionBackground: {
+                        ...pricingStyle.designSettings.sectionBackground,
+                        overlayEffect: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+          {pricingStyle.designSettings.sectionBackground.blur && (
+            <ToggleGroup
+              label="Blur"
+              options={[
+                { value: "s", label: "S" },
+                { value: "m", label: "M" },
+                { value: "l", label: "L" },
+              ]}
+              value={pricingStyle.designSettings.sectionBackground.blurEffect}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...pricingStyle.designSettings!,
+                      sectionBackground: {
+                        ...pricingStyle.designSettings.sectionBackground,
+                        blurEffect: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
           {pricingStyle.designSettings.sectionBackground.height === "fill" && (
-            <div className="space-y-1 flex items-center justify-between">
-              <Label>Align</Label>
-              <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-                <div
-                  onClick={() => {
+            <ToggleGroup
+              label="Align"
+              options={[
+                { value: "start", label: <JustifyStart /> },
+                { value: "center", label: <JustifyCenter /> },
+                { value: "end", label: <JustifyEnd /> },
+              ]}
+              value={pricingStyle.designSettings.sectionBackground.align}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...pricingStyle.designSettings!,
+                      sectionBackground: {
+                        ...pricingStyle.designSettings.sectionBackground,
+                        align: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+          {pricingStyle.designSettings.sectionBackground.media.imageUrl && (
+            <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
+              {pricingStyle.designSettings.sectionBackground.color !==
+                "none" && (
+                <SwitchSetting
+                  label="Overlay"
+                  defaultChecked={
+                    pricingStyle.designSettings.sectionBackground.overlay
+                  }
+                  onCheckedChange={(value) => {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
                           ...pricingStyle.designSettings!,
                           sectionBackground: {
                             ...pricingStyle.designSettings.sectionBackground,
-                            align: "start",
+                            overlay: value,
                           },
                         },
                       })
                     );
                   }}
-                  className={`${
-                    pricingStyle.designSettings.sectionBackground.align ===
-                    "start"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyStart />
-                </div>
-                <div
-                  onClick={() => {
+                />
+              )}
+              {!pricingStyle.designSettings.sectionBackground.parallax && (
+                <SwitchSetting
+                  label="Blur"
+                  defaultChecked={
+                    pricingStyle.designSettings.sectionBackground.blur
+                  }
+                  onCheckedChange={(value) => {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
                           ...pricingStyle.designSettings!,
                           sectionBackground: {
                             ...pricingStyle.designSettings.sectionBackground,
-                            align: "center",
+                            blur: value,
                           },
                         },
                       })
                     );
                   }}
-                  className={`${
-                    pricingStyle.designSettings.sectionBackground.align ===
-                    "center"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyCenter />
-                </div>
-                <div
-                  onClick={() => {
-                    dispatch(
-                      updateStyle(pageId, findSelectedSection?.id!, {
-                        designSettings: {
-                          ...pricingStyle.designSettings!,
-                          sectionBackground: {
-                            ...pricingStyle.designSettings.sectionBackground,
-                            align: "end",
-                          },
+                />
+              )}
+              <SwitchSetting
+                label="Greyscale"
+                defaultChecked={
+                  pricingStyle.designSettings.sectionBackground.greyScale
+                }
+                onCheckedChange={(value) => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...pricingStyle.designSettings!,
+                        sectionBackground: {
+                          ...pricingStyle.designSettings.sectionBackground,
+                          greyScale: value,
                         },
-                      })
-                    );
-                  }}
-                  className={`${
-                    pricingStyle.designSettings.sectionBackground.align ===
-                    "end"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyEnd />
-                </div>
-              </div>
+                      },
+                    })
+                  );
+                }}
+              />
+              <SwitchSetting
+                label="Parallax"
+                defaultChecked={
+                  pricingStyle.designSettings.sectionBackground.parallax
+                }
+                onCheckedChange={(value) => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...pricingStyle.designSettings!,
+                        sectionBackground: {
+                          ...pricingStyle.designSettings.sectionBackground,
+                          parallax: value,
+                          blur: false,
+                          blurEffect: "s",
+                        },
+                      },
+                    })
+                  );
+                }}
+              />
             </div>
           )}
         </div>
@@ -359,11 +513,7 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
   }
 
   return (
-    <Tabs
-      onValueChange={setTabValue}
-      value={tabValue}
-      className="w-full"
-    >
+    <Tabs onValueChange={setTabValue} value={tabValue} className="w-full">
       <TabsList className="grid m-5 grid-cols-2">
         <TabsTrigger value="content">Content</TabsTrigger>
         <TabsTrigger value="style">Style</TabsTrigger>

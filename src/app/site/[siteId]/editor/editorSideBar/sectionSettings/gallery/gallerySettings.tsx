@@ -17,6 +17,7 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
+  openChooseBgImage,
   openChooseImage,
   updateContent,
   updateSelectedItem,
@@ -30,6 +31,8 @@ import GalleryStyleTab from "./galleryStyleTab";
 import { UnsplashImage } from "@/types/common";
 import ImageSelector from "@/components/shared/imageSelector";
 import SpacingTab from "@/components/shared/spacingTab";
+import ToggleGroup from "../settingsUi/toggleGroup";
+import SwitchSetting from "../settingsUi/SwitchSetting";
 
 interface GallerySettingsProps {
   sections:
@@ -46,8 +49,8 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
   const selectedSection = useAppSelector(
     (state) => state.editor.present.selectedSection
   );
-  const chooseImage = useAppSelector(
-    (state) => state.editor.present.chooseImage
+  const { chooseImage, chooseBgImage } = useAppSelector(
+    (state) => state.editor.present
   );
   const selectedItem = useAppSelector(
     (state) => state.editor.present.selectedItem
@@ -98,9 +101,53 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
     );
   }
 
+  if (chooseBgImage) {
+    return (
+      <ChooseImage
+        mediaType="background-image"
+        selectedImgId={
+          galleryStyle?.designSettings.sectionBackground.media.imageId || ""
+        }
+        handleUpdateUnsplash={(image: UnsplashImage) => {
+          dispatch(
+            updateStyle(pageId, findSelectedSection.id, {
+              designSettings: {
+                ...galleryStyle.designSettings,
+                sectionBackground: {
+                  ...galleryStyle.designSettings.sectionBackground,
+                  media: {
+                    imageUrl: image.urls.regular,
+                    imageId: image.id,
+                  },
+                },
+              },
+            })
+          );
+        }}
+        handleUpdateUploadedImg={(image: Storage) => {
+          dispatch(
+            updateStyle(pageId, findSelectedSection.id, {
+              designSettings: {
+                ...galleryStyle.designSettings,
+                sectionBackground: {
+                  ...galleryStyle.designSettings.sectionBackground,
+                  media: {
+                    imageUrl: image.url,
+                    imageId: image.id,
+                  },
+                },
+              },
+            })
+          );
+        }}
+      />
+    );
+  }
+
   if (chooseImage) {
     return (
       <ChooseImage
+        mediaType="image"
         selectedImgId={photoItem?.imgId}
         handleUpdateUnsplash={(image: UnsplashImage) => {
           handleUpdatePhoto({
@@ -168,132 +215,236 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
               }
             }}
           />
-          <div className="space-y-1 flex items-center justify-between">
-            <Label>Height</Label>
-            <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...galleryStyle.designSettings!,
-                        sectionBackground: {
-                          ...galleryStyle.designSettings.sectionBackground,
-                          height: "fill",
-                          align: "center",
-                        },
+          <ImageSelector
+            imageUrl={
+              galleryStyle.designSettings.sectionBackground.media.imageUrl
+            }
+            onImageSelect={() => dispatch(openChooseBgImage())}
+            onImageDelete={() =>
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id, {
+                  designSettings: {
+                    ...galleryStyle.designSettings,
+                    sectionBackground: {
+                      ...galleryStyle.designSettings.sectionBackground,
+                      media: {
+                        imageUrl: "",
+                        imageId: "",
                       },
-                    })
-                  );
-                }}
-                className={`${
-                  galleryStyle.designSettings.sectionBackground.height ===
-                  "fill"
-                    ? "bg-muted-bg"
-                    : ""
-                } flex items-center justify-center cursor-pointer w-full`}
-              >
-                fill
-              </div>
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...galleryStyle.designSettings!,
-                        sectionBackground: {
-                          ...galleryStyle.designSettings.sectionBackground,
-                          height: "fit",
-                          align: "center",
-                        },
+                      textColor: "light",
+                    },
+                  },
+                })
+              )
+            }
+            onBack={() => {}}
+            showBackButton={false}
+          />
+          {galleryStyle?.designSettings.sectionBackground.media.imageUrl && (
+            <ToggleGroup
+              label="Text"
+              options={[
+                { value: "light", label: "Light" },
+                { value: "dark", label: "Dark" },
+              ]}
+              value={galleryStyle?.designSettings.sectionBackground.textColor}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...galleryStyle.designSettings!,
+                      sectionBackground: {
+                        ...galleryStyle.designSettings.sectionBackground,
+                        textColor: value,
                       },
-                    })
-                  );
-                }}
-                className={`${
-                  galleryStyle.designSettings.sectionBackground.height === "fit"
-                    ? "bg-muted-bg"
-                    : ""
-                } flex items-center justify-center cursor-pointer w-full`}
-              >
-                fit
-              </div>
-            </div>
-          </div>
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+
+          <ToggleGroup
+            label="Height"
+            options={[
+              { value: "fill", label: "Fill" },
+              { value: "fit", label: "Fit" },
+            ]}
+            value={galleryStyle.designSettings.sectionBackground.height}
+            onValueChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...galleryStyle.designSettings!,
+                    sectionBackground: {
+                      ...galleryStyle.designSettings.sectionBackground,
+                      height: value,
+                      align: "center",
+                    },
+                  },
+                })
+              );
+            }}
+          />
+          {galleryStyle.designSettings.sectionBackground.overlay && (
+            <ToggleGroup
+              label="Overlay"
+              options={[
+                { value: "s", label: "S" },
+                { value: "m", label: "M" },
+                { value: "l", label: "L" },
+              ]}
+              value={
+                galleryStyle.designSettings.sectionBackground.overlayEffect
+              }
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...galleryStyle.designSettings!,
+                      sectionBackground: {
+                        ...galleryStyle.designSettings.sectionBackground,
+                        overlayEffect: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+          {galleryStyle.designSettings.sectionBackground.blur && (
+            <ToggleGroup
+              label="Blur"
+              options={[
+                { value: "s", label: "S" },
+                { value: "m", label: "M" },
+                { value: "l", label: "L" },
+              ]}
+              value={galleryStyle.designSettings.sectionBackground.blurEffect}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...galleryStyle.designSettings!,
+                      sectionBackground: {
+                        ...galleryStyle.designSettings.sectionBackground,
+                        blurEffect: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
           {galleryStyle.designSettings.sectionBackground.height === "fill" && (
-            <div className="space-y-1 flex items-center justify-between">
-              <Label>Align</Label>
-              <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-                <div
-                  onClick={() => {
+            <ToggleGroup
+              label="Align"
+              options={[
+                { value: "start", label: <JustifyStart /> },
+                { value: "center", label: <JustifyCenter /> },
+                { value: "end", label: <JustifyEnd /> },
+              ]}
+              value={galleryStyle.designSettings.sectionBackground.align}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...galleryStyle.designSettings!,
+                      sectionBackground: {
+                        ...galleryStyle.designSettings.sectionBackground,
+                        align: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+          {galleryStyle.designSettings.sectionBackground.media.imageUrl && (
+            <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
+              {galleryStyle.designSettings.sectionBackground.color !==
+                "none" && (
+                <SwitchSetting
+                  label="Overlay"
+                  defaultChecked={
+                    galleryStyle.designSettings.sectionBackground.overlay
+                  }
+                  onCheckedChange={(value) => {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
                           ...galleryStyle.designSettings!,
                           sectionBackground: {
                             ...galleryStyle.designSettings.sectionBackground,
-                            align: "start",
+                            overlay: value,
                           },
                         },
                       })
                     );
                   }}
-                  className={`${
-                    galleryStyle.designSettings.sectionBackground.align ===
-                    "start"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyStart />
-                </div>
-                <div
-                  onClick={() => {
+                />
+              )}
+              {!galleryStyle.designSettings.sectionBackground.parallax && (
+                <SwitchSetting
+                  label="Blur"
+                  defaultChecked={
+                    galleryStyle.designSettings.sectionBackground.blur
+                  }
+                  onCheckedChange={(value) => {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
                           ...galleryStyle.designSettings!,
                           sectionBackground: {
                             ...galleryStyle.designSettings.sectionBackground,
-                            align: "center",
+                            blur: value,
                           },
                         },
                       })
                     );
                   }}
-                  className={`${
-                    galleryStyle.designSettings.sectionBackground.align ===
-                    "center"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyCenter />
-                </div>
-                <div
-                  onClick={() => {
-                    dispatch(
-                      updateStyle(pageId, findSelectedSection?.id!, {
-                        designSettings: {
-                          ...galleryStyle.designSettings!,
-                          sectionBackground: {
-                            ...galleryStyle.designSettings.sectionBackground,
-                            align: "end",
-                          },
+                />
+              )}
+              <SwitchSetting
+                label="Greyscale"
+                defaultChecked={
+                  galleryStyle.designSettings.sectionBackground.greyScale
+                }
+                onCheckedChange={(value) => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...galleryStyle.designSettings!,
+                        sectionBackground: {
+                          ...galleryStyle.designSettings.sectionBackground,
+                          greyScale: value,
                         },
-                      })
-                    );
-                  }}
-                  className={`${
-                    galleryStyle.designSettings.sectionBackground.align ===
-                    "end"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyEnd />
-                </div>
-              </div>
+                      },
+                    })
+                  );
+                }}
+              />
+              <SwitchSetting
+                label="Parallax"
+                defaultChecked={
+                  galleryStyle.designSettings.sectionBackground.parallax
+                }
+                onCheckedChange={(value) => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...galleryStyle.designSettings!,
+                        sectionBackground: {
+                          ...galleryStyle.designSettings.sectionBackground,
+                          parallax: value,
+                          blur: false,
+                          blurEffect: "s",
+                        },
+                      },
+                    })
+                  );
+                }}
+              />
             </div>
           )}
         </div>

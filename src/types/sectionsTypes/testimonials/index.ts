@@ -2,7 +2,7 @@ import {
   AlignType,
   CarouselSettings,
   displayType,
-  SectionBgColorType,
+  SectionBackground,
   ShapeType,
   Spacing,
   TextSizeType,
@@ -33,15 +33,6 @@ export interface TestimonialContent {
 interface GridSettings {
   desktop: number;
   mobile: number;
-}
-
-// Define the interface for the section background settings
-interface SectionBackground {
-  color: SectionBgColorType;
-  media: string;
-  height: string;
-  spacing: string;
-  align?: AlignType;
 }
 
 // Define the interface for the design settings

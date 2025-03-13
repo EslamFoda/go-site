@@ -188,8 +188,16 @@ export const openChooseImage = () => ({
   type: types.OPEN_CHOOSE_IMAGE,
 });
 
+export const openChooseBgImage = () => ({
+  type: types.OPEN_CHOOSE_BG_IMAGE,
+});
+
 export const closeChooseImage = () => ({
   type: types.CLOSE_CHOOSE_IMAGE,
+});
+
+export const closeChooseBgImage = () => ({
+  type: types.CLOSE_CHOOSE_BG_IMAGE,
 });
 
 export const updateIsDraggingItem = (item: GridCard | null) => ({

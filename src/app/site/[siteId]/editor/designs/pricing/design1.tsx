@@ -13,7 +13,7 @@ import { CheckIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import AlternatingLabel from "./AlternatingLabel";
 import { useMediaQuery } from "react-responsive";
-
+import BackgroundImage from "@/components/shared/backgroundImage";
 interface DesignProps {
   section: any;
   pageId: string;
@@ -37,7 +37,7 @@ function Design1({ pageId, section }: DesignProps) {
     section?.style.designSettings.sectionBackground.color === "gray";
 
   const sectionBgClassName = cn(
-    "flex flex-col",
+    "flex flex-col relative overflow-hidden",
     pricingStyle.designSettings.sectionBackground.color === "primary" &&
       "bg-primary",
     pricingStyle.designSettings.sectionBackground.color === "gray" &&
@@ -58,11 +58,26 @@ function Design1({ pageId, section }: DesignProps) {
   const textColorClassName = cn({
     "text-primary-foreground":
       pricingStyle.designSettings.sectionBackground.color === "primary",
+    "text-white":
+      pricingStyle.designSettings.sectionBackground.textColor === "light" &&
+      pricingStyle.designSettings.sectionBackground.media.imageUrl,
+    "text-black":
+      pricingStyle.designSettings.sectionBackground.textColor === "dark" &&
+      pricingStyle.designSettings.sectionBackground.media.imageUrl,
   });
-  const subTitleColor =
-    section.style.designSettings.sectionBackground.color === "primary"
-      ? "text-primary-foreground"
-      : "text-muted-foreground";
+
+  const subTitleClassName = cn({
+    "text-primary-foreground":
+      section.style.designSettings.sectionBackground.color === "primary",
+    "text-muted-foreground":
+      section.style.designSettings.sectionBackground.color !== "primary",
+    "text-white":
+      pricingStyle.designSettings.sectionBackground.textColor === "light" &&
+      pricingStyle.designSettings.sectionBackground.media.imageUrl,
+    "text-black":
+      pricingStyle.designSettings.sectionBackground.textColor === "dark" &&
+      pricingStyle.designSettings.sectionBackground.media.imageUrl,
+  });
 
   const subItemClassNames = cn(
     "flex flex-col gap-5 gap-y-3 relative rounded-md overflow-hidden",
@@ -96,8 +111,21 @@ function Design1({ pageId, section }: DesignProps) {
         dispatch(closeChooseIcon());
       }}
     >
+      <BackgroundImage
+        imageUrl={pricingStyle.designSettings.sectionBackground.media.imageUrl}
+        parallax={pricingStyle.designSettings.sectionBackground.parallax}
+        blur={pricingStyle.designSettings.sectionBackground.blur}
+        blurEffect={pricingStyle.designSettings.sectionBackground.blurEffect}
+        greyScale={pricingStyle.designSettings.sectionBackground.greyScale}
+        overlay={pricingStyle.designSettings.sectionBackground.overlay}
+        overlayEffect={
+          pricingStyle.designSettings.sectionBackground.overlayEffect
+        }
+        backgroundColor={pricingStyle.designSettings.sectionBackground.color}
+      />
+
       <div
-        className="container max-w-container gap-10 w-full"
+        className="container max-w-container gap-10 z-0 w-full"
         style={{
           paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
           paddingBottom: isDesktop
@@ -109,7 +137,7 @@ function Design1({ pageId, section }: DesignProps) {
           <div className="flex items-start justify-between">
             <div className={textColorClassName}>
               <h1 className="text-4xl">{pricingContent.title}</h1>
-              <p className={subTitleColor}>{pricingContent.subtitle}</p>
+              <p className={subTitleClassName}>{pricingContent.subtitle}</p>
             </div>
             {pricingContent.planType === SubscriptionPlanType.SUBSCRIPTION && (
               <div className="h-10 bg-muted rounded-md flex items-center justify-center min-w-40 p-1">

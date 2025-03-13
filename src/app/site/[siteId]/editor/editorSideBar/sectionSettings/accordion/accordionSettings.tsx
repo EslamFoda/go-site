@@ -9,9 +9,11 @@ import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
+  Storage,
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
+  openChooseImage,
   updateContent,
   updateSelectedItem,
   updateStyle,
@@ -21,6 +23,11 @@ import AccordionContentTab from "./accordionContentTab";
 import AccordionStyleTab from "./accordionStyleTab";
 import BackBtn from "@/components/shared/backBtn";
 import SpacingTab from "@/components/shared/spacingTab";
+import ChooseImage from "../gallery/chooseImage";
+import { UnsplashImage } from "@/types/common";
+import SwitchSetting from "../settingsUi/SwitchSetting";
+import ToggleGroup from "../settingsUi/toggleGroup";
+import ImageSelector from "@/components/shared/imageSelector";
 interface AccordionSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -32,8 +39,8 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
   const [openSpacingTab, setOpenSpacingTab] = useState(false);
   const dispatch = useAppDispatch();
-  const selectedSection = useAppSelector(
-    (state) => state.editor.present.selectedSection
+  const { selectedSection, chooseImage } = useAppSelector(
+    (state) => state.editor.present
   );
   const selectedItem = useAppSelector(
     (state) => state.editor.present.selectedItem
@@ -73,6 +80,49 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
       })
     );
   };
+
+  if (chooseImage) {
+    return (
+      <ChooseImage
+        mediaType="image"
+        selectedImgId={
+          accordionStyle?.designSettings.sectionBackground.media.imageId || ""
+        }
+        handleUpdateUnsplash={(image: UnsplashImage) => {
+          dispatch(
+            updateStyle(pageId, findSelectedSection.id, {
+              designSettings: {
+                ...accordionStyle.designSettings,
+                sectionBackground: {
+                  ...accordionStyle.designSettings.sectionBackground,
+                  media: {
+                    imageUrl: image.urls.regular,
+                    imageId: image.id,
+                  },
+                },
+              },
+            })
+          );
+        }}
+        handleUpdateUploadedImg={(image: Storage) => {
+          dispatch(
+            updateStyle(pageId, findSelectedSection.id, {
+              designSettings: {
+                ...accordionStyle.designSettings,
+                sectionBackground: {
+                  ...accordionStyle.designSettings.sectionBackground,
+                  media: {
+                    imageUrl: image.url,
+                    imageId: image.id,
+                  },
+                },
+              },
+            })
+          );
+        }}
+      />
+    );
+  }
 
   if (openSpacingTab) {
     return (
@@ -169,134 +219,237 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
               }
             }}
           />
-          <div className="space-y-1 flex items-center justify-between">
-            <Label>Height</Label>
-            <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...accordionStyle.designSettings!,
-                        sectionBackground: {
-                          ...accordionStyle.designSettings.sectionBackground,
-                          height: "fill",
-                          align: "center",
-                        },
+          <ImageSelector
+            imageUrl={
+              accordionStyle.designSettings.sectionBackground.media.imageUrl
+            }
+            onImageSelect={() => dispatch(openChooseImage())}
+            onImageDelete={() =>
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id, {
+                  designSettings: {
+                    ...accordionStyle.designSettings,
+                    sectionBackground: {
+                      ...accordionStyle.designSettings.sectionBackground,
+                      media: {
+                        imageUrl: "",
+                        imageId: "",
                       },
-                    })
-                  );
-                }}
-                className={`${
-                  accordionStyle.designSettings.sectionBackground.height ===
-                  "fill"
-                    ? "bg-muted-bg"
-                    : ""
-                } flex items-center justify-center cursor-pointer w-full`}
-              >
-                fill
-              </div>
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...accordionStyle.designSettings!,
-                        sectionBackground: {
-                          ...accordionStyle.designSettings.sectionBackground,
-                          height: "fit",
-                          align: "center",
-                        },
+                      textColor: "light",
+                    },
+                  },
+                })
+              )
+            }
+            onBack={() => {}}
+            showBackButton={false}
+          />
+          {accordionStyle?.designSettings.sectionBackground.media.imageUrl && (
+            <ToggleGroup
+              label="Text"
+              options={[
+                { value: "light", label: "Light" },
+                { value: "dark", label: "Dark" },
+              ]}
+              value={accordionStyle?.designSettings.sectionBackground.textColor}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...accordionStyle.designSettings!,
+                      sectionBackground: {
+                        ...accordionStyle.designSettings.sectionBackground,
+                        textColor: value,
                       },
-                    })
-                  );
-                }}
-                className={`${
-                  accordionStyle.designSettings.sectionBackground.height ===
-                  "fit"
-                    ? "bg-muted-bg"
-                    : ""
-                } flex items-center justify-center cursor-pointer w-full`}
-              >
-                fit
-              </div>
-            </div>
-          </div>
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+
+          <ToggleGroup
+            label="Height"
+            options={[
+              { value: "fill", label: "Fill" },
+              { value: "fit", label: "Fit" },
+            ]}
+            value={accordionStyle.designSettings.sectionBackground.height}
+            onValueChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...accordionStyle.designSettings!,
+                    sectionBackground: {
+                      ...accordionStyle.designSettings.sectionBackground,
+                      height: value,
+                      align: "center",
+                    },
+                  },
+                })
+              );
+            }}
+          />
+          {accordionStyle.designSettings.sectionBackground.overlay && (
+            <ToggleGroup
+              label="Overlay"
+              options={[
+                { value: "s", label: "S" },
+                { value: "m", label: "M" },
+                { value: "l", label: "L" },
+              ]}
+              value={
+                accordionStyle.designSettings.sectionBackground.overlayEffect
+              }
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...accordionStyle.designSettings!,
+                      sectionBackground: {
+                        ...accordionStyle.designSettings.sectionBackground,
+                        overlayEffect: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+          {accordionStyle.designSettings.sectionBackground.blur && (
+            <ToggleGroup
+              label="Blur"
+              options={[
+                { value: "s", label: "S" },
+                { value: "m", label: "M" },
+                { value: "l", label: "L" },
+              ]}
+              value={accordionStyle.designSettings.sectionBackground.blurEffect}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...accordionStyle.designSettings!,
+                      sectionBackground: {
+                        ...accordionStyle.designSettings.sectionBackground,
+                        blurEffect: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
           {accordionStyle.designSettings.sectionBackground.height ===
             "fill" && (
-            <div className="space-y-1 flex items-center justify-between">
-              <Label>Align</Label>
-              <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-                <div
-                  onClick={() => {
+            <ToggleGroup
+              label="Align"
+              options={[
+                { value: "start", label: <JustifyStart /> },
+                { value: "center", label: <JustifyCenter /> },
+                { value: "end", label: <JustifyEnd /> },
+              ]}
+              value={accordionStyle.designSettings.sectionBackground.align}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...accordionStyle.designSettings!,
+                      sectionBackground: {
+                        ...accordionStyle.designSettings.sectionBackground,
+                        align: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+          {accordionStyle.designSettings.sectionBackground.media.imageUrl && (
+            <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
+              {accordionStyle.designSettings.sectionBackground.color !==
+                "none" && (
+                <SwitchSetting
+                  label="Overlay"
+                  defaultChecked={
+                    accordionStyle.designSettings.sectionBackground.overlay
+                  }
+                  onCheckedChange={(value) => {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
                           ...accordionStyle.designSettings!,
                           sectionBackground: {
                             ...accordionStyle.designSettings.sectionBackground,
-                            align: "start",
+                            overlay: value,
                           },
                         },
                       })
                     );
                   }}
-                  className={`${
-                    accordionStyle.designSettings.sectionBackground.align ===
-                    "start"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyStart />
-                </div>
-                <div
-                  onClick={() => {
+                />
+              )}
+              {!accordionStyle.designSettings.sectionBackground.parallax && (
+                <SwitchSetting
+                  label="Blur"
+                  defaultChecked={
+                    accordionStyle.designSettings.sectionBackground.blur
+                  }
+                  onCheckedChange={(value) => {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
                           ...accordionStyle.designSettings!,
                           sectionBackground: {
                             ...accordionStyle.designSettings.sectionBackground,
-                            align: "center",
+                            blur: value,
                           },
                         },
                       })
                     );
                   }}
-                  className={`${
-                    accordionStyle.designSettings.sectionBackground.align ===
-                    "center"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyCenter />
-                </div>
-                <div
-                  onClick={() => {
-                    dispatch(
-                      updateStyle(pageId, findSelectedSection?.id!, {
-                        designSettings: {
-                          ...accordionStyle.designSettings!,
-                          sectionBackground: {
-                            ...accordionStyle.designSettings.sectionBackground,
-                            align: "end",
-                          },
+                />
+              )}
+              <SwitchSetting
+                label="Greyscale"
+                defaultChecked={
+                  accordionStyle.designSettings.sectionBackground.greyScale
+                }
+                onCheckedChange={(value) => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...accordionStyle.designSettings!,
+                        sectionBackground: {
+                          ...accordionStyle.designSettings.sectionBackground,
+                          greyScale: value,
                         },
-                      })
-                    );
-                  }}
-                  className={`${
-                    accordionStyle.designSettings.sectionBackground.align ===
-                    "end"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyEnd />
-                </div>
-              </div>
+                      },
+                    })
+                  );
+                }}
+              />
+              <SwitchSetting
+                label="Parallax"
+                defaultChecked={
+                  accordionStyle.designSettings.sectionBackground.parallax
+                }
+                onCheckedChange={(value) => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...accordionStyle.designSettings!,
+                        sectionBackground: {
+                          ...accordionStyle.designSettings.sectionBackground,
+                          parallax: value,
+                          blur: false,
+                          blurEffect: "s",
+                        },
+                      },
+                    })
+                  );
+                }}
+              />
             </div>
           )}
         </div>

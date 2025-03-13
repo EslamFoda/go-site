@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "react-responsive";
+import BackgroundImage from "@/components/shared/backgroundImage";
 interface Design5Props {
   section: any;
   pageId: string;
@@ -57,7 +58,7 @@ function Design5({ section, pageId }: Design5Props) {
     setShowPlayButton(true);
   };
 
-  const sectionBgClassName = cn("flex flex-col", {
+  const sectionBgClassName = cn("flex flex-col relative overflow-hidden", {
     "bg-primary": sectionBackground.color === "primary",
     "bg-muted": sectionBackground.color === "gray",
     "bg-background": sectionBackground.color === "none",
@@ -75,6 +76,12 @@ function Design5({ section, pageId }: Design5Props) {
     "text-4xl": titleSize === "s",
     "text-primary-foreground":
       bannerStyle.designSettings.sectionBackground.color === "primary",
+    "text-white":
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
+    "text-black":
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
 
   const TitleAndSubtitleClassName = cn(
@@ -90,6 +97,12 @@ function Design5({ section, pageId }: Design5Props) {
       bannerStyle.designSettings.sectionBackground.color === "primary",
     "text-muted-foreground":
       bannerStyle.designSettings.sectionBackground.color !== "primary",
+    "text-white":
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
+    "text-black":
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
 
   const getImageClassName = cn(
@@ -272,8 +285,20 @@ function Design5({ section, pageId }: Design5Props) {
         dispatch(updateSelectedSection(pageId, section.id));
       }}
     >
+      <BackgroundImage
+        imageUrl={bannerStyle.designSettings.sectionBackground.media.imageUrl}
+        parallax={bannerStyle.designSettings.sectionBackground.parallax}
+        blur={bannerStyle.designSettings.sectionBackground.blur}
+        blurEffect={bannerStyle.designSettings.sectionBackground.blurEffect}
+        greyScale={bannerStyle.designSettings.sectionBackground.greyScale}
+        overlay={bannerStyle.designSettings.sectionBackground.overlay}
+        overlayEffect={
+          bannerStyle.designSettings.sectionBackground.overlayEffect
+        }
+        backgroundColor={bannerStyle.designSettings.sectionBackground.color}
+      />
       <div
-        className="container max-w-container space-y-3"
+        className="container max-w-container z-0 space-y-3"
         style={{
           paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
           paddingBottom: isDesktop

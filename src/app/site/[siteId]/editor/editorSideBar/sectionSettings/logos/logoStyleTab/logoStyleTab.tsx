@@ -200,19 +200,21 @@ function LogoStyleTab({
         }}
       />
 
-      <Align
-        alignValue={logoStyle.designSettings?.align}
-        onValueChange={(value) => {
-          dispatch(
-            updateStyle(pageId, findSelectedSection?.id!, {
-              designSettings: {
-                ...logoStyle.designSettings!,
-                align: value,
-              },
-            })
-          );
-        }}
-      />
+      {!logoStyle.designSettings.leftTitlePosition && (
+        <Align
+          alignValue={logoStyle.designSettings?.align}
+          onValueChange={(value) => {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...logoStyle.designSettings!,
+                  align: value,
+                },
+              })
+            );
+          }}
+        />
+      )}
       <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
         <SwitchSetting
           label="Left Title"

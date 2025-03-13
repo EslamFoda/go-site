@@ -151,3 +151,21 @@ export interface Spacing {
     mobile: number;
   };
 }
+
+export interface SectionBackground {
+  color: SectionBgColorType;
+  media: {
+    imageUrl: string;
+    imageId: string;
+  };
+  textColor: "light" | "dark";
+  height: "fill" | "fit";
+  spacing?: string;
+  overlay: boolean;
+  blur: boolean;
+  greyScale: boolean;
+  parallax: boolean;
+  overlayEffect: "s" | "m" | "l";
+  blurEffect: "s" | "m" | "l";
+  align: AlignType;
+}

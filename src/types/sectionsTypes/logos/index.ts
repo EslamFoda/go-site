@@ -1,7 +1,7 @@
 import {
   AlignType,
   displayType,
-  SectionBgColorType,
+  SectionBackground,
   Spacing,
 } from "@/types/common";
 
@@ -51,13 +51,6 @@ export interface LogosStyle {
       scrollSpeed: number;
     };
     spacing: Spacing;
-    sectionBackground: {
-      color?: SectionBgColorType;
-      media?: string;
-      height?: "fill" | "fit";
-      align?: AlignType;
-      width?: string;
-      spacing?: string;
-    };
+    sectionBackground: SectionBackground;
   };
 }

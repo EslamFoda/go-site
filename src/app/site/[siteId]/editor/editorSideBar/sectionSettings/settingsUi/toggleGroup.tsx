@@ -3,7 +3,7 @@ import React from "react";
 
 interface ToggleOptionProps<T extends string> {
   value: T;
-  label: string;
+  label: string | React.ReactNode;
 }
 
 interface ToggleGroupProps<T extends string> {

@@ -1,9 +1,4 @@
-import {
-  AlignType,
-  displayType,
-  SectionBgColorType,
-  Spacing,
-} from "@/types/common";
+import { displayType, SectionBackground, Spacing } from "@/types/common";
 
 // Define types for Card content
 export interface Photo {
@@ -41,13 +36,6 @@ export interface GalleryStyle {
       scrollSpeed: number;
     };
     spacing: Spacing;
-    sectionBackground: {
-      color?: SectionBgColorType;
-      media?: string;
-      height?: "fill" | "fit";
-      align?: AlignType;
-      width?: string;
-      spacing?: string;
-    };
+    sectionBackground: SectionBackground;
   };
 }

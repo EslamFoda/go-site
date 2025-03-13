@@ -86,6 +86,7 @@ export interface EditorStore {
   openPallet: boolean;
   chooseIcon: boolean;
   chooseImage: boolean;
+  chooseBgImage: boolean;
   selectedPallet: string;
   designSettings: DesignSettings;
   activePage: string;

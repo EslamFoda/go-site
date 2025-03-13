@@ -1,7 +1,7 @@
 import {
   AlignType,
   displayType,
-  SectionBgColorType,
+  SectionBackground,
   Spacing,
   TextSizeType,
 } from "@/types/common";
@@ -56,13 +56,6 @@ export interface CardStyle {
       scrollSpeed: number;
     };
     spacing: Spacing;
-    sectionBackground: {
-      color?: SectionBgColorType;
-      media?: string;
-      height?: "fill" | "fit";
-      align?: AlignType;
-      width?: string;
-      spacing?: string;
-    };
+    sectionBackground: SectionBackground;
   };
 }

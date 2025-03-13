@@ -29,9 +29,11 @@ import {
 } from "@/components/ui/tooltip";
 import { useMotion } from "@/hooks/useMotion";
 import { useParams, useRouter } from "next/navigation";
+import useScrollParallax from "@/hooks/useScrollParallax";
 
 const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const router = useRouter();
+  const { ParallaxProvider } = useScrollParallax();
   const { siteId } = useParams();
   const currentPage = useAppSelector((state) =>
     state.editor.present.editor.pages.find((page) => page.pageId === pageId)
@@ -133,13 +135,15 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                     )}
                   </HoverCardContent>
                   <HoverCardTrigger>
-                    <div onClick={() => dispatch(closeSectionDesigns())}>
-                      <SectionComponent
-                        key={section.id}
-                        section={section}
-                        pageId={pageId}
-                      />
-                    </div>
+                    <ParallaxProvider>
+                      <div onClick={() => dispatch(closeSectionDesigns())}>
+                        <SectionComponent
+                          key={section.id}
+                          section={section}
+                          pageId={pageId}
+                        />
+                      </div>
+                    </ParallaxProvider>
                   </HoverCardTrigger>
                   {section.sectionName !== "Header" && (
                     <div

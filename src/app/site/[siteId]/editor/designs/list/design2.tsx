@@ -20,6 +20,7 @@ import {
 } from "@/reduxStore/action";
 import { useMotion } from "@/hooks/useMotion";
 import { getPhosphorIcon } from "@/helper/phosphorIcons";
+import BackgroundImage from "@/components/shared/backgroundImage";
 
 interface DesignProps {
   section: any;
@@ -104,7 +105,7 @@ function Design2({ section, pageId }: DesignProps) {
       listStyle.designSettings.leftTitlePosition,
   });
 
-  const sectionBgClassName = cn(" flex flex-col", {
+  const sectionBgClassName = cn(" flex flex-col relative overflow-hidden", {
     "bg-primary":
       section.style.designSettings.sectionBackground.color === "primary",
     "bg-muted": section.style.designSettings.sectionBackground.color === "gray",
@@ -124,6 +125,12 @@ function Design2({ section, pageId }: DesignProps) {
     "text-primary-foreground":
       section.style.designSettings.sectionBackground.color === "primary",
     "text-start": listStyle.designSettings.leftTitlePosition,
+    "text-white":
+      listStyle.designSettings.sectionBackground.textColor === "light" &&
+      listStyle.designSettings.sectionBackground.media.imageUrl,
+    "text-black":
+      listStyle.designSettings.sectionBackground.textColor === "dark" &&
+      listStyle.designSettings.sectionBackground.media.imageUrl,
   });
   const sectionSubTitleClassNames = cn({
     "text-primary-foreground":
@@ -131,7 +138,14 @@ function Design2({ section, pageId }: DesignProps) {
     "text-muted-foreground":
       listStyle.designSettings.sectionBackground.color !== "primary",
     "text-start": listStyle.designSettings.leftTitlePosition,
+    "text-white":
+      listStyle.designSettings.sectionBackground.textColor === "light" &&
+      listStyle.designSettings.sectionBackground.media.imageUrl,
+    "text-black":
+      listStyle.designSettings.sectionBackground.textColor === "dark" &&
+      listStyle.designSettings.sectionBackground.media.imageUrl,
   });
+
   return (
     <section
       className={sectionBgClassName}
@@ -141,8 +155,18 @@ function Design2({ section, pageId }: DesignProps) {
         dispatch(closeChooseIcon());
       }}
     >
+      <BackgroundImage
+        imageUrl={listStyle.designSettings.sectionBackground.media.imageUrl}
+        parallax={listStyle.designSettings.sectionBackground.parallax}
+        blur={listStyle.designSettings.sectionBackground.blur}
+        blurEffect={listStyle.designSettings.sectionBackground.blurEffect}
+        greyScale={listStyle.designSettings.sectionBackground.greyScale}
+        overlay={listStyle.designSettings.sectionBackground.overlay}
+        overlayEffect={listStyle.designSettings.sectionBackground.overlayEffect}
+        backgroundColor={listStyle.designSettings.sectionBackground.color}
+      />
       <div
-        className="container max-w-container gap-10 w-full"
+        className="container max-w-container gap-10 z-0 w-full"
         style={{
           paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
           paddingBottom: isDesktop

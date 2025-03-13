@@ -10,6 +10,7 @@ import ReactPlayer from "react-player";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "react-responsive";
+import BackgroundImage from "@/components/shared/backgroundImage";
 
 interface Design1Props {
   section: any;
@@ -65,7 +66,7 @@ function Design1({ section, pageId }: Design1Props) {
   };
 
   // Extract class name generation logic into separate functions
-  const getSectionClassName = cn("flex flex-col", {
+  const getSectionClassName = cn("flex flex-col relative overflow-hidden", {
     "bg-primary": sectionBackground.color === "primary",
     "bg-muted": sectionBackground.color === "gray",
     "bg-background": sectionBackground.color === "none",
@@ -91,6 +92,12 @@ function Design1({ section, pageId }: Design1Props) {
     "text-5xl": titleSize === "m",
     "text-4xl": titleSize === "s",
     "text-primary-foreground": sectionBackground.color === "primary",
+    "text-white":
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
+    "text-black":
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
 
   const getTitleAndSubtitleClassName = cn(
@@ -129,6 +136,12 @@ function Design1({ section, pageId }: Design1Props) {
   const getSubTitleClassName = cn("text-lg max-lg:!w-full", {
     "text-primary-foreground": sectionBackground.color === "primary",
     "text-muted-foreground": sectionBackground.color !== "primary",
+    "text-white":
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
+    "text-black":
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
 
   const playBtnClassName = cn(
@@ -369,6 +382,18 @@ function Design1({ section, pageId }: Design1Props) {
 
   return (
     <section className={getSectionClassName} onClick={handleSectionClick}>
+      <BackgroundImage
+        imageUrl={bannerStyle.designSettings.sectionBackground.media.imageUrl}
+        parallax={bannerStyle.designSettings.sectionBackground.parallax}
+        blur={bannerStyle.designSettings.sectionBackground.blur}
+        blurEffect={bannerStyle.designSettings.sectionBackground.blurEffect}
+        greyScale={bannerStyle.designSettings.sectionBackground.greyScale}
+        overlay={bannerStyle.designSettings.sectionBackground.overlay}
+        overlayEffect={
+          bannerStyle.designSettings.sectionBackground.overlayEffect
+        }
+        backgroundColor={bannerStyle.designSettings.sectionBackground.color}
+      />
       <div
         style={{
           gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
@@ -377,7 +402,7 @@ function Design1({ section, pageId }: Design1Props) {
             ? spacing.bottom.desktop
             : spacing.bottom.mobile,
         }}
-        className="flex container max-w-container  w-full flex-col text-center justify-center items-center"
+        className="flex container max-w-container  w-full flex-col z-0 text-center justify-center items-center"
       >
         {leftTitlePosition
           ? renderLeftTitleLayout()

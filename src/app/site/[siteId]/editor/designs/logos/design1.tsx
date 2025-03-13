@@ -19,6 +19,7 @@ import {
 } from "@/reduxStore/action";
 import { useMotion } from "@/hooks/useMotion";
 import { Logo, LogosContent, LogosStyle } from "@/types/sectionsTypes/logos";
+import BackgroundImage from "@/components/shared/backgroundImage";
 
 interface DesignProps {
   section: any;
@@ -91,7 +92,7 @@ function Design1({ section, pageId }: DesignProps) {
   );
 
   const sectionBgClassName = cn(
-    " flex flex-col",
+    " flex flex-col relative overflow-hidden",
     logoStyle.designSettings.sectionBackground.color === "primary" &&
       "bg-primary",
     logoStyle.designSettings.sectionBackground.color === "gray" && "bg-muted",
@@ -109,12 +110,26 @@ function Design1({ section, pageId }: DesignProps) {
   const sectionTitleClassNames = cn("text-4xl", {
     "text-primary-foreground":
       section.style.designSettings.sectionBackground.color === "primary",
+    "text-start": logoStyle.designSettings.leftTitlePosition,
+    "text-white":
+      logoStyle.designSettings.sectionBackground.textColor === "light" &&
+      logoStyle.designSettings.sectionBackground.media.imageUrl,
+    "text-black":
+      logoStyle.designSettings.sectionBackground.textColor === "dark" &&
+      logoStyle.designSettings.sectionBackground.media.imageUrl,
   });
   const sectionSubTitleClassNames = cn({
     "text-primary-foreground":
       logoStyle.designSettings.sectionBackground.color === "primary",
+    "text-start": logoStyle.designSettings.leftTitlePosition,
     "text-muted-foreground":
       logoStyle.designSettings.sectionBackground.color !== "primary",
+    "text-white":
+      logoStyle.designSettings.sectionBackground.textColor === "light" &&
+      logoStyle.designSettings.sectionBackground.media.imageUrl,
+    "text-black":
+      logoStyle.designSettings.sectionBackground.textColor === "dark" &&
+      logoStyle.designSettings.sectionBackground.media.imageUrl,
   });
 
   return (
@@ -125,8 +140,18 @@ function Design1({ section, pageId }: DesignProps) {
         dispatch(updateSelectedItem(null));
       }}
     >
+      <BackgroundImage
+        imageUrl={logoStyle.designSettings.sectionBackground.media.imageUrl}
+        parallax={logoStyle.designSettings.sectionBackground.parallax}
+        blur={logoStyle.designSettings.sectionBackground.blur}
+        blurEffect={logoStyle.designSettings.sectionBackground.blurEffect}
+        greyScale={logoStyle.designSettings.sectionBackground.greyScale}
+        overlay={logoStyle.designSettings.sectionBackground.overlay}
+        overlayEffect={logoStyle.designSettings.sectionBackground.overlayEffect}
+        backgroundColor={logoStyle.designSettings.sectionBackground.color}
+      />
       <div
-        className="container max-w-container gap-10 w-full"
+        className="container max-w-container z-0 gap-10 w-full"
         style={{
           paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
           paddingBottom: isDesktop

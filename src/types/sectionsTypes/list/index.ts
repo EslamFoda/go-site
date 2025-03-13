@@ -2,7 +2,7 @@ import {
   AlignType,
   CarouselSettings,
   displayType,
-  SectionBgColorType,
+  SectionBackground,
   ShapeType,
   Spacing,
   TextSizeType,
@@ -27,14 +27,6 @@ export interface ListContent {
 interface GridSettings {
   desktop: number;
   mobile: number;
-}
-
-interface SectionBackground {
-  color?: SectionBgColorType;
-  media: string;
-  height: "fill" | "fit";
-  spacing: string;
-  align?: AlignType;
 }
 
 interface DesignSettings {

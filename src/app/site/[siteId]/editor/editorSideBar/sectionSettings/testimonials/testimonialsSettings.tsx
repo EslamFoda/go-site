@@ -13,6 +13,7 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
+  openChooseBgImage,
   openChooseImage,
   updateContent,
   updateSelectedItem,
@@ -31,6 +32,8 @@ import ImageSelector from "@/components/shared/imageSelector";
 import ChooseImage from "../gallery/chooseImage";
 import { UnsplashImage } from "@/types/common";
 import SpacingTab from "@/components/shared/spacingTab";
+import SwitchSetting from "../settingsUi/SwitchSetting";
+import ToggleGroup from "../settingsUi/toggleGroup";
 interface TestimonialsSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -43,9 +46,8 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
   const [openSpacingTab, setOpenSpacingTab] = useState(false);
 
   const dispatch = useAppDispatch();
-  const { selectedItem, chooseImage, selectedSection } = useAppSelector(
-    (state) => state.editor.present
-  );
+  const { selectedItem, chooseImage, selectedSection, chooseBgImage } =
+    useAppSelector((state) => state.editor.present);
 
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id
@@ -94,9 +96,54 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
       />
     );
   }
+  if (chooseBgImage) {
+    return (
+      <ChooseImage
+        mediaType="background-image"
+        selectedImgId={
+          TestimonialsStyle?.designSettings.sectionBackground.media.imageId ||
+          ""
+        }
+        handleUpdateUnsplash={(image: UnsplashImage) => {
+          dispatch(
+            updateStyle(pageId, findSelectedSection.id, {
+              designSettings: {
+                ...TestimonialsStyle.designSettings,
+                sectionBackground: {
+                  ...TestimonialsStyle.designSettings.sectionBackground,
+                  media: {
+                    imageUrl: image.urls.regular,
+                    imageId: image.id,
+                  },
+                },
+              },
+            })
+          );
+        }}
+        handleUpdateUploadedImg={(image: Storage) => {
+          dispatch(
+            updateStyle(pageId, findSelectedSection.id, {
+              designSettings: {
+                ...TestimonialsStyle.designSettings,
+                sectionBackground: {
+                  ...TestimonialsStyle.designSettings.sectionBackground,
+                  media: {
+                    imageUrl: image.url,
+                    imageId: image.id,
+                  },
+                },
+              },
+            })
+          );
+        }}
+      />
+    );
+  }
+
   if (chooseImage) {
     return (
       <ChooseImage
+        mediaType="image"
         selectedImgId={TestimonialItem?.avatarId || ""}
         handleUpdateUnsplash={(image: UnsplashImage) => {
           handleUpdateTestimonialItem({
@@ -231,66 +278,168 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
               }
             }}
           />
-          <div className="space-y-1 flex items-center justify-between">
-            <Label>Height</Label>
-            <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...TestimonialsStyle.designSettings!,
-                        sectionBackground: {
-                          ...TestimonialsStyle.designSettings.sectionBackground,
-                          height: "fill",
-                          align: "center",
-                        },
+          <ImageSelector
+            imageUrl={
+              TestimonialsStyle.designSettings.sectionBackground.media.imageUrl
+            }
+            onImageSelect={() => dispatch(openChooseBgImage())}
+            onImageDelete={() =>
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id, {
+                  designSettings: {
+                    ...TestimonialsStyle.designSettings,
+                    sectionBackground: {
+                      ...TestimonialsStyle.designSettings.sectionBackground,
+                      media: {
+                        imageUrl: "",
+                        imageId: "",
                       },
-                    })
-                  );
-                }}
-                className={`${
-                  TestimonialsStyle.designSettings.sectionBackground.height ===
-                  "fill"
-                    ? "bg-muted-bg"
-                    : ""
-                } flex items-center justify-center cursor-pointer w-full`}
-              >
-                fill
-              </div>
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...TestimonialsStyle.designSettings!,
-                        sectionBackground: {
-                          ...TestimonialsStyle.designSettings.sectionBackground,
-                          height: "fit",
-                          align: "center",
-                        },
+                      textColor: "light",
+                    },
+                  },
+                })
+              )
+            }
+            onBack={() => {}}
+            showBackButton={false}
+          />
+          {TestimonialsStyle?.designSettings.sectionBackground.media
+            .imageUrl && (
+            <ToggleGroup
+              label="Text"
+              options={[
+                { value: "light", label: "Light" },
+                { value: "dark", label: "Dark" },
+              ]}
+              value={
+                TestimonialsStyle?.designSettings.sectionBackground.textColor
+              }
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...TestimonialsStyle.designSettings!,
+                      sectionBackground: {
+                        ...TestimonialsStyle.designSettings.sectionBackground,
+                        textColor: value,
                       },
-                    })
-                  );
-                }}
-                className={`${
-                  TestimonialsStyle.designSettings.sectionBackground.height ===
-                  "fit"
-                    ? "bg-muted-bg"
-                    : ""
-                } flex items-center justify-center cursor-pointer w-full`}
-              >
-                fit
-              </div>
-            </div>
-          </div>
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+
+          <ToggleGroup
+            label="Height"
+            options={[
+              { value: "fill", label: "Fill" },
+              { value: "fit", label: "Fit" },
+            ]}
+            value={TestimonialsStyle.designSettings.sectionBackground.height}
+            onValueChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...TestimonialsStyle.designSettings!,
+                    sectionBackground: {
+                      ...TestimonialsStyle.designSettings.sectionBackground,
+                      height: value,
+                      align: "center",
+                    },
+                  },
+                })
+              );
+            }}
+          />
+          {TestimonialsStyle.designSettings.sectionBackground.overlay && (
+            <ToggleGroup
+              label="Overlay"
+              options={[
+                { value: "s", label: "S" },
+                { value: "m", label: "M" },
+                { value: "l", label: "L" },
+              ]}
+              value={
+                TestimonialsStyle.designSettings.sectionBackground.overlayEffect
+              }
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...TestimonialsStyle.designSettings!,
+                      sectionBackground: {
+                        ...TestimonialsStyle.designSettings.sectionBackground,
+                        overlayEffect: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+          {TestimonialsStyle.designSettings.sectionBackground.blur && (
+            <ToggleGroup
+              label="Blur"
+              options={[
+                { value: "s", label: "S" },
+                { value: "m", label: "M" },
+                { value: "l", label: "L" },
+              ]}
+              value={
+                TestimonialsStyle.designSettings.sectionBackground.blurEffect
+              }
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...TestimonialsStyle.designSettings!,
+                      sectionBackground: {
+                        ...TestimonialsStyle.designSettings.sectionBackground,
+                        blurEffect: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
           {TestimonialsStyle.designSettings.sectionBackground.height ===
             "fill" && (
-            <div className="space-y-1 flex items-center justify-between">
-              <Label>Align</Label>
-              <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-                <div
-                  onClick={() => {
+            <ToggleGroup
+              label="Align"
+              options={[
+                { value: "start", label: <JustifyStart /> },
+                { value: "center", label: <JustifyCenter /> },
+                { value: "end", label: <JustifyEnd /> },
+              ]}
+              value={TestimonialsStyle.designSettings.sectionBackground.align}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...TestimonialsStyle.designSettings!,
+                      sectionBackground: {
+                        ...TestimonialsStyle.designSettings.sectionBackground,
+                        align: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+          {TestimonialsStyle.designSettings.sectionBackground.media
+            .imageUrl && (
+            <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
+              {TestimonialsStyle.designSettings.sectionBackground.color !==
+                "none" && (
+                <SwitchSetting
+                  label="Overlay"
+                  defaultChecked={
+                    TestimonialsStyle.designSettings.sectionBackground.overlay
+                  }
+                  onCheckedChange={(value) => {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
@@ -298,23 +447,21 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
                           sectionBackground: {
                             ...TestimonialsStyle.designSettings
                               .sectionBackground,
-                            align: "start",
+                            overlay: value,
                           },
                         },
                       })
                     );
                   }}
-                  className={`${
-                    TestimonialsStyle.designSettings.sectionBackground.align ===
-                    "start"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyStart />
-                </div>
-                <div
-                  onClick={() => {
+                />
+              )}
+              {!TestimonialsStyle.designSettings.sectionBackground.parallax && (
+                <SwitchSetting
+                  label="Blur"
+                  defaultChecked={
+                    TestimonialsStyle.designSettings.sectionBackground.blur
+                  }
+                  onCheckedChange={(value) => {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
@@ -322,46 +469,54 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
                           sectionBackground: {
                             ...TestimonialsStyle.designSettings
                               .sectionBackground,
-                            align: "center",
+                            blur: value,
                           },
                         },
                       })
                     );
                   }}
-                  className={`${
-                    TestimonialsStyle.designSettings.sectionBackground.align ===
-                    "center"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyCenter />
-                </div>
-                <div
-                  onClick={() => {
-                    dispatch(
-                      updateStyle(pageId, findSelectedSection?.id!, {
-                        designSettings: {
-                          ...TestimonialsStyle.designSettings!,
-                          sectionBackground: {
-                            ...TestimonialsStyle.designSettings
-                              .sectionBackground,
-                            align: "end",
-                          },
+                />
+              )}
+              <SwitchSetting
+                label="Greyscale"
+                defaultChecked={
+                  TestimonialsStyle.designSettings.sectionBackground.greyScale
+                }
+                onCheckedChange={(value) => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...TestimonialsStyle.designSettings!,
+                        sectionBackground: {
+                          ...TestimonialsStyle.designSettings.sectionBackground,
+                          greyScale: value,
                         },
-                      })
-                    );
-                  }}
-                  className={`${
-                    TestimonialsStyle.designSettings.sectionBackground.align ===
-                    "end"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyEnd />
-                </div>
-              </div>
+                      },
+                    })
+                  );
+                }}
+              />
+              <SwitchSetting
+                label="Parallax"
+                defaultChecked={
+                  TestimonialsStyle.designSettings.sectionBackground.parallax
+                }
+                onCheckedChange={(value) => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...TestimonialsStyle.designSettings!,
+                        sectionBackground: {
+                          ...TestimonialsStyle.designSettings.sectionBackground,
+                          parallax: value,
+                          blur: false,
+                          blurEffect: "s",
+                        },
+                      },
+                    })
+                  );
+                }}
+              />
             </div>
           )}
         </div>

@@ -130,11 +130,19 @@ const initialState: EditorStore = {
                 },
                 sectionBackground: {
                   color: "none",
-                  media: "",
+                  media: {
+                    imageUrl: "",
+                    imageId: "",
+                  },
+                  textColor: "light",
                   height: "fit",
-                  width: "100%",
-                  spacing: "xl",
-                  align: "center",
+                  spacing: "l",
+                  overlay: false,
+                  blur: false,
+                  greyScale: false,
+                  parallax: false,
+                  overlayEffect: "s",
+                  blurEffect: "s",
                 },
                 imageSetting: {
                   objectFit: "cover",
@@ -170,6 +178,7 @@ const initialState: EditorStore = {
   sectionIndex: 0,
   chooseIcon: false,
   chooseImage: false,
+  chooseBgImage: false,
   selectedPallet: "default-theme",
   openSectionDesigns: false,
   openPallet: false,
@@ -534,6 +543,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.chooseIcon = false;
         draft.chooseImage = false;
+        draft.chooseBgImage = false;
         draft.selectedSection = null;
         draft.openPages = false;
         draft.openPageSetting = false;
@@ -564,6 +574,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
         draft.chooseImage = false;
+        draft.chooseBgImage = false;
         draft.selectedSection = null;
         draft.openPages = false;
         draft.openPageSetting = false;
@@ -594,6 +605,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
         draft.chooseImage = false;
+        draft.chooseBgImage = false;
         draft.selectedSection = null;
         draft.openPageSetting = false;
         break;
@@ -605,6 +617,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
         draft.chooseImage = false;
+        draft.chooseBgImage = false;
         draft.openPageSetting = false;
 
         break;
@@ -633,6 +646,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
         draft.chooseImage = false;
+        draft.chooseBgImage = false;
         draft.selectedSection = null;
         break;
       }
@@ -644,6 +658,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
         draft.chooseImage = false;
+        draft.chooseBgImage = false;
         draft.selectedSection = null;
         break;
       }
@@ -671,6 +686,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openSectionDesigns = false;
         draft.chooseIcon = false;
         draft.chooseImage = false;
+        draft.chooseBgImage = false;
         draft.selectedSection = null;
         draft.openPageSetting = false;
         draft.openPages = true;
@@ -679,11 +695,22 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.OPEN_CHOOSE_IMAGE: {
         draft.chooseImage = true;
+        draft.chooseBgImage = false;
+        break;
+      }
+      case types.OPEN_CHOOSE_BG_IMAGE: {
+        draft.chooseBgImage = true;
+        draft.chooseImage = false;
         break;
       }
 
       case types.CLOSE_CHOOSE_IMAGE: {
         draft.chooseImage = false;
+        break;
+      }
+
+      case types.CLOSE_CHOOSE_BG_IMAGE: {
+        draft.chooseBgImage = false;
         break;
       }
 

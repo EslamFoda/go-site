@@ -17,6 +17,7 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
+  openChooseBgImage,
   openChooseImage,
   updateContent,
   updateSelectedItem,
@@ -30,6 +31,9 @@ import { UnsplashImage } from "@/types/common";
 import HeightOrWidthSetting from "../settingsUi/HeightOrWidthSetting";
 import LogoStyleTab from "./logoStyleTab";
 import SpacingTab from "@/components/shared/spacingTab";
+import SwitchSetting from "../settingsUi/SwitchSetting";
+import ToggleGroup from "../settingsUi/toggleGroup";
+import ImageSelector from "@/components/shared/imageSelector";
 
 interface LogosSettingsProps {
   sections:
@@ -47,8 +51,8 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
   const selectedSection = useAppSelector(
     (state) => state.editor.present.selectedSection
   );
-  const chooseImage = useAppSelector(
-    (state) => state.editor.present.chooseImage
+  const { chooseImage, chooseBgImage } = useAppSelector(
+    (state) => state.editor.present
   );
   const selectedItem = useAppSelector(
     (state) => state.editor.present.selectedItem
@@ -102,9 +106,53 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
     );
   }
 
+  if (chooseBgImage) {
+    return (
+      <ChooseImage
+        mediaType="background-image"
+        selectedImgId={
+          logosStyle?.designSettings.sectionBackground.media.imageId || ""
+        }
+        handleUpdateUnsplash={(image: UnsplashImage) => {
+          dispatch(
+            updateStyle(pageId, findSelectedSection.id, {
+              designSettings: {
+                ...logosStyle.designSettings,
+                sectionBackground: {
+                  ...logosStyle.designSettings.sectionBackground,
+                  media: {
+                    imageUrl: image.urls.regular,
+                    imageId: image.id,
+                  },
+                },
+              },
+            })
+          );
+        }}
+        handleUpdateUploadedImg={(image: Storage) => {
+          dispatch(
+            updateStyle(pageId, findSelectedSection.id, {
+              designSettings: {
+                ...logosStyle.designSettings,
+                sectionBackground: {
+                  ...logosStyle.designSettings.sectionBackground,
+                  media: {
+                    imageUrl: image.url,
+                    imageId: image.id,
+                  },
+                },
+              },
+            })
+          );
+        }}
+      />
+    );
+  }
+
   if (chooseImage) {
     return (
       <ChooseImage
+        mediaType="image"
         selectedImgId={
           imageMode === "dark" ? logoItem?.darkImgId : logoItem?.lightImgId
         }
@@ -317,130 +365,233 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
               }
             }}
           />
-          <div className="space-y-1 flex items-center justify-between">
-            <Label>Height</Label>
-            <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...logosStyle.designSettings!,
-                        sectionBackground: {
-                          ...logosStyle.designSettings.sectionBackground,
-                          height: "fill",
-                          align: "center",
-                        },
+          <ImageSelector
+            imageUrl={
+              logosStyle.designSettings.sectionBackground.media.imageUrl
+            }
+            onImageSelect={() => dispatch(openChooseBgImage())}
+            onImageDelete={() =>
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id, {
+                  designSettings: {
+                    ...logosStyle.designSettings,
+                    sectionBackground: {
+                      ...logosStyle.designSettings.sectionBackground,
+                      media: {
+                        imageUrl: "",
+                        imageId: "",
                       },
-                    })
-                  );
-                }}
-                className={`${
-                  logosStyle.designSettings.sectionBackground.height === "fill"
-                    ? "bg-muted-bg"
-                    : ""
-                } flex items-center justify-center cursor-pointer w-full`}
-              >
-                fill
-              </div>
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...logosStyle.designSettings!,
-                        sectionBackground: {
-                          ...logosStyle.designSettings.sectionBackground,
-                          height: "fit",
-                          align: "center",
-                        },
+                      textColor: "light",
+                    },
+                  },
+                })
+              )
+            }
+            onBack={() => {}}
+            showBackButton={false}
+          />
+          {logosStyle?.designSettings.sectionBackground.media.imageUrl && (
+            <ToggleGroup
+              label="Text"
+              options={[
+                { value: "light", label: "Light" },
+                { value: "dark", label: "Dark" },
+              ]}
+              value={logosStyle?.designSettings.sectionBackground.textColor}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...logosStyle.designSettings!,
+                      sectionBackground: {
+                        ...logosStyle.designSettings.sectionBackground,
+                        textColor: value,
                       },
-                    })
-                  );
-                }}
-                className={`${
-                  logosStyle.designSettings.sectionBackground.height === "fit"
-                    ? "bg-muted-bg"
-                    : ""
-                } flex items-center justify-center cursor-pointer w-full`}
-              >
-                fit
-              </div>
-            </div>
-          </div>
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+
+          <ToggleGroup
+            label="Height"
+            options={[
+              { value: "fill", label: "Fill" },
+              { value: "fit", label: "Fit" },
+            ]}
+            value={logosStyle.designSettings.sectionBackground.height}
+            onValueChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...logosStyle.designSettings!,
+                    sectionBackground: {
+                      ...logosStyle.designSettings.sectionBackground,
+                      height: value,
+                      align: "center",
+                    },
+                  },
+                })
+              );
+            }}
+          />
+          {logosStyle.designSettings.sectionBackground.overlay && (
+            <ToggleGroup
+              label="Overlay"
+              options={[
+                { value: "s", label: "S" },
+                { value: "m", label: "M" },
+                { value: "l", label: "L" },
+              ]}
+              value={logosStyle.designSettings.sectionBackground.overlayEffect}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...logosStyle.designSettings!,
+                      sectionBackground: {
+                        ...logosStyle.designSettings.sectionBackground,
+                        overlayEffect: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+          {logosStyle.designSettings.sectionBackground.blur && (
+            <ToggleGroup
+              label="Blur"
+              options={[
+                { value: "s", label: "S" },
+                { value: "m", label: "M" },
+                { value: "l", label: "L" },
+              ]}
+              value={logosStyle.designSettings.sectionBackground.blurEffect}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...logosStyle.designSettings!,
+                      sectionBackground: {
+                        ...logosStyle.designSettings.sectionBackground,
+                        blurEffect: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
           {logosStyle.designSettings.sectionBackground.height === "fill" && (
-            <div className="space-y-1 flex items-center justify-between">
-              <Label>Align</Label>
-              <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-                <div
-                  onClick={() => {
+            <ToggleGroup
+              label="Align"
+              options={[
+                { value: "start", label: <JustifyStart /> },
+                { value: "center", label: <JustifyCenter /> },
+                { value: "end", label: <JustifyEnd /> },
+              ]}
+              value={logosStyle.designSettings.sectionBackground.align}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...logosStyle.designSettings!,
+                      sectionBackground: {
+                        ...logosStyle.designSettings.sectionBackground,
+                        align: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+          {logosStyle.designSettings.sectionBackground.media.imageUrl && (
+            <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
+              {logosStyle.designSettings.sectionBackground.color !== "none" && (
+                <SwitchSetting
+                  label="Overlay"
+                  defaultChecked={
+                    logosStyle.designSettings.sectionBackground.overlay
+                  }
+                  onCheckedChange={(value) => {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
                           ...logosStyle.designSettings!,
                           sectionBackground: {
                             ...logosStyle.designSettings.sectionBackground,
-                            align: "start",
+                            overlay: value,
                           },
                         },
                       })
                     );
                   }}
-                  className={`${
-                    logosStyle.designSettings.sectionBackground.align ===
-                    "start"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyStart />
-                </div>
-                <div
-                  onClick={() => {
+                />
+              )}
+              {!logosStyle.designSettings.sectionBackground.parallax && (
+                <SwitchSetting
+                  label="Blur"
+                  defaultChecked={
+                    logosStyle.designSettings.sectionBackground.blur
+                  }
+                  onCheckedChange={(value) => {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
                           ...logosStyle.designSettings!,
                           sectionBackground: {
                             ...logosStyle.designSettings.sectionBackground,
-                            align: "center",
+                            blur: value,
                           },
                         },
                       })
                     );
                   }}
-                  className={`${
-                    logosStyle.designSettings.sectionBackground.align ===
-                    "center"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyCenter />
-                </div>
-                <div
-                  onClick={() => {
-                    dispatch(
-                      updateStyle(pageId, findSelectedSection?.id!, {
-                        designSettings: {
-                          ...logosStyle.designSettings!,
-                          sectionBackground: {
-                            ...logosStyle.designSettings.sectionBackground,
-                            align: "end",
-                          },
+                />
+              )}
+              <SwitchSetting
+                label="Greyscale"
+                defaultChecked={
+                  logosStyle.designSettings.sectionBackground.greyScale
+                }
+                onCheckedChange={(value) => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...logosStyle.designSettings!,
+                        sectionBackground: {
+                          ...logosStyle.designSettings.sectionBackground,
+                          greyScale: value,
                         },
-                      })
-                    );
-                  }}
-                  className={`${
-                    logosStyle.designSettings.sectionBackground.align === "end"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyEnd />
-                </div>
-              </div>
+                      },
+                    })
+                  );
+                }}
+              />
+              <SwitchSetting
+                label="Parallax"
+                defaultChecked={
+                  logosStyle.designSettings.sectionBackground.parallax
+                }
+                onCheckedChange={(value) => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...logosStyle.designSettings!,
+                        sectionBackground: {
+                          ...logosStyle.designSettings.sectionBackground,
+                          parallax: value,
+                          blur: false,
+                          blurEffect: "s",
+                        },
+                      },
+                    })
+                  );
+                }}
+              />
             </div>
           )}
         </div>

@@ -12,13 +12,20 @@ import {
   Storage,
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
-import { updateContent, updateStyle } from "@/reduxStore/action";
+import {
+  openChooseBgImage,
+  updateContent,
+  updateStyle,
+} from "@/reduxStore/action";
 import BackBtn from "@/components/shared/backBtn";
 import ChooseImage from "../gallery/chooseImage";
 import { UnsplashImage } from "@/types/common";
 import Buttons from "../header/buttons";
 import FormTab from "./bannerContentTab/formTab";
 import SpacingTab from "@/components/shared/spacingTab";
+import SwitchSetting from "../settingsUi/SwitchSetting";
+import ToggleGroup from "../settingsUi/toggleGroup";
+import ImageSelector from "@/components/shared/imageSelector";
 interface BannerSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -32,7 +39,7 @@ function BannerSettings({ sections, pageId }: BannerSettingsProps) {
   const [openButtonsTab, setOpenButtonsTab] = useState(false);
   const [openFormTab, setOpenFormTab] = useState(false);
   const dispatch = useAppDispatch();
-  const { chooseImage, selectedSection } = useAppSelector(
+  const { chooseImage, selectedSection, chooseBgImage } = useAppSelector(
     (state) => state.editor.present
   );
   const findSelectedSection = sections?.find(
@@ -78,9 +85,53 @@ function BannerSettings({ sections, pageId }: BannerSettingsProps) {
     );
   }
 
+  if (chooseBgImage) {
+    return (
+      <ChooseImage
+        mediaType="background-image"
+        selectedImgId={
+          bannerStyle?.designSettings.sectionBackground.media.imageId || ""
+        }
+        handleUpdateUnsplash={(image: UnsplashImage) => {
+          dispatch(
+            updateStyle(pageId, findSelectedSection.id, {
+              designSettings: {
+                ...bannerStyle.designSettings,
+                sectionBackground: {
+                  ...bannerStyle.designSettings.sectionBackground,
+                  media: {
+                    imageUrl: image.urls.regular,
+                    imageId: image.id,
+                  },
+                },
+              },
+            })
+          );
+        }}
+        handleUpdateUploadedImg={(image: Storage) => {
+          dispatch(
+            updateStyle(pageId, findSelectedSection.id, {
+              designSettings: {
+                ...bannerStyle.designSettings,
+                sectionBackground: {
+                  ...bannerStyle.designSettings.sectionBackground,
+                  media: {
+                    imageUrl: image.url,
+                    imageId: image.id,
+                  },
+                },
+              },
+            })
+          );
+        }}
+      />
+    );
+  }
+
   if (chooseImage) {
     return (
       <ChooseImage
+        mediaType="image"
         selectedImgId={bannerContent?.imageSetting?.id || ""}
         handleUpdateUnsplash={(image: UnsplashImage) => {
           dispatch(
@@ -107,7 +158,7 @@ function BannerSettings({ sections, pageId }: BannerSettingsProps) {
       />
     );
   }
-  if (sectionBgOpened) {
+  if (sectionBgOpened)
     return (
       <div className="space-y-2">
         <BackBtn
@@ -118,150 +169,268 @@ function BannerSettings({ sections, pageId }: BannerSettingsProps) {
           <ColorSelector
             selectedColor={bannerStyle.designSettings.sectionBackground.color}
             handleChangeColor={(color) => {
+              if (color === "none") {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...bannerStyle.designSettings!,
+                      sectionBackground: {
+                        ...bannerStyle.designSettings.sectionBackground,
+                        color,
+                      },
+                    },
+                  })
+                );
+              } else {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...bannerStyle.designSettings!,
+                      background: true,
+                      border: false,
+                      sectionBackground: {
+                        ...bannerStyle.designSettings.sectionBackground,
+                        color,
+                      },
+                    },
+                  })
+                );
+              }
+            }}
+          />
+          <ImageSelector
+            imageUrl={
+              bannerStyle.designSettings.sectionBackground.media.imageUrl
+            }
+            onImageSelect={() => dispatch(openChooseBgImage())}
+            onImageDelete={() =>
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id, {
+                  designSettings: {
+                    ...bannerStyle.designSettings,
+                    sectionBackground: {
+                      ...bannerStyle.designSettings.sectionBackground,
+                      media: {
+                        imageUrl: "",
+                        imageId: "",
+                      },
+                      textColor: "light",
+                    },
+                  },
+                })
+              )
+            }
+            onBack={() => {}}
+            showBackButton={false}
+          />
+          {bannerStyle?.designSettings.sectionBackground.media.imageUrl && (
+            <ToggleGroup
+              label="Text"
+              options={[
+                { value: "light", label: "Light" },
+                { value: "dark", label: "Dark" },
+              ]}
+              value={bannerStyle?.designSettings.sectionBackground.textColor}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...bannerStyle.designSettings!,
+                      sectionBackground: {
+                        ...bannerStyle.designSettings.sectionBackground,
+                        textColor: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+
+          <ToggleGroup
+            label="Height"
+            options={[
+              { value: "fill", label: "Fill" },
+              { value: "fit", label: "Fit" },
+            ]}
+            value={bannerStyle.designSettings.sectionBackground.height}
+            onValueChange={(value) => {
               dispatch(
                 updateStyle(pageId, findSelectedSection?.id!, {
                   designSettings: {
                     ...bannerStyle.designSettings!,
                     sectionBackground: {
                       ...bannerStyle.designSettings.sectionBackground,
-                      color,
+                      height: value,
+                      align: "center",
                     },
                   },
                 })
               );
             }}
           />
-
-          <div className="space-y-1 flex items-center justify-between">
-            <Label>Height</Label>
-            <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...bannerStyle.designSettings!,
-                        sectionBackground: {
-                          ...bannerStyle.designSettings.sectionBackground,
-                          height: "fill",
-                          align: "center",
-                        },
+          {bannerStyle.designSettings.sectionBackground.overlay && (
+            <ToggleGroup
+              label="Overlay"
+              options={[
+                { value: "s", label: "S" },
+                { value: "m", label: "M" },
+                { value: "l", label: "L" },
+              ]}
+              value={bannerStyle.designSettings.sectionBackground.overlayEffect}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...bannerStyle.designSettings!,
+                      sectionBackground: {
+                        ...bannerStyle.designSettings.sectionBackground,
+                        overlayEffect: value,
                       },
-                    })
-                  );
-                }}
-                className={`${
-                  bannerStyle.designSettings.sectionBackground.height === "fill"
-                    ? "bg-muted-bg"
-                    : ""
-                } flex items-center justify-center cursor-pointer w-full`}
-              >
-                fill
-              </div>
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...bannerStyle.designSettings!,
-                        sectionBackground: {
-                          ...bannerStyle.designSettings.sectionBackground,
-                          height: "fit",
-                          align: "center",
-                        },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+          {bannerStyle.designSettings.sectionBackground.blur && (
+            <ToggleGroup
+              label="Blur"
+              options={[
+                { value: "s", label: "S" },
+                { value: "m", label: "M" },
+                { value: "l", label: "L" },
+              ]}
+              value={bannerStyle.designSettings.sectionBackground.blurEffect}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...bannerStyle.designSettings!,
+                      sectionBackground: {
+                        ...bannerStyle.designSettings.sectionBackground,
+                        blurEffect: value,
                       },
-                    })
-                  );
-                }}
-                className={`${
-                  bannerStyle.designSettings.sectionBackground.height === "fit"
-                    ? "bg-muted-bg"
-                    : ""
-                } flex items-center justify-center cursor-pointer w-full`}
-              >
-                fit
-              </div>
-            </div>
-          </div>
+                    },
+                  })
+                );
+              }}
+            />
+          )}
           {bannerStyle.designSettings.sectionBackground.height === "fill" && (
-            <div className="space-y-1 flex items-center justify-between">
-              <Label>Align</Label>
-              <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-                <div
-                  onClick={() => {
+            <ToggleGroup
+              label="Align"
+              options={[
+                { value: "start", label: <JustifyStart /> },
+                { value: "center", label: <JustifyCenter /> },
+                { value: "end", label: <JustifyEnd /> },
+              ]}
+              value={bannerStyle.designSettings.sectionBackground.align}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...bannerStyle.designSettings!,
+                      sectionBackground: {
+                        ...bannerStyle.designSettings.sectionBackground,
+                        align: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+          {bannerStyle.designSettings.sectionBackground.media.imageUrl && (
+            <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
+              {bannerStyle.designSettings.sectionBackground.color !==
+                "none" && (
+                <SwitchSetting
+                  label="Overlay"
+                  defaultChecked={
+                    bannerStyle.designSettings.sectionBackground.overlay
+                  }
+                  onCheckedChange={(value) => {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
                           ...bannerStyle.designSettings!,
                           sectionBackground: {
                             ...bannerStyle.designSettings.sectionBackground,
-                            align: "start",
+                            overlay: value,
                           },
                         },
                       })
                     );
                   }}
-                  className={`${
-                    bannerStyle.designSettings.sectionBackground.align ===
-                    "start"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyStart />
-                </div>
-                <div
-                  onClick={() => {
+                />
+              )}
+              {!bannerStyle.designSettings.sectionBackground.parallax && (
+                <SwitchSetting
+                  label="Blur"
+                  defaultChecked={
+                    bannerStyle.designSettings.sectionBackground.blur
+                  }
+                  onCheckedChange={(value) => {
                     dispatch(
                       updateStyle(pageId, findSelectedSection?.id!, {
                         designSettings: {
                           ...bannerStyle.designSettings!,
                           sectionBackground: {
                             ...bannerStyle.designSettings.sectionBackground,
-                            align: "center",
+                            blur: value,
                           },
                         },
                       })
                     );
                   }}
-                  className={`${
-                    bannerStyle.designSettings.sectionBackground.align ===
-                    "center"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyCenter />
-                </div>
-                <div
-                  onClick={() => {
-                    dispatch(
-                      updateStyle(pageId, findSelectedSection?.id!, {
-                        designSettings: {
-                          ...bannerStyle.designSettings!,
-                          sectionBackground: {
-                            ...bannerStyle.designSettings.sectionBackground,
-                            align: "end",
-                          },
+                />
+              )}
+              <SwitchSetting
+                label="Greyscale"
+                defaultChecked={
+                  bannerStyle.designSettings.sectionBackground.greyScale
+                }
+                onCheckedChange={(value) => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...bannerStyle.designSettings!,
+                        sectionBackground: {
+                          ...bannerStyle.designSettings.sectionBackground,
+                          greyScale: value,
                         },
-                      })
-                    );
-                  }}
-                  className={`${
-                    bannerStyle.designSettings.sectionBackground.align === "end"
-                      ? "bg-muted-bg"
-                      : ""
-                  } flex items-center justify-center cursor-pointer w-full`}
-                >
-                  <JustifyEnd />
-                </div>
-              </div>
+                      },
+                    })
+                  );
+                }}
+              />
+              <SwitchSetting
+                label="Parallax"
+                defaultChecked={
+                  bannerStyle.designSettings.sectionBackground.parallax
+                }
+                onCheckedChange={(value) => {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designSettings: {
+                        ...bannerStyle.designSettings!,
+                        sectionBackground: {
+                          ...bannerStyle.designSettings.sectionBackground,
+                          parallax: value,
+                          blur: false,
+                          blurEffect: "s",
+                        },
+                      },
+                    })
+                  );
+                }}
+              />
             </div>
           )}
         </div>
       </div>
     );
-  }
 
   return (
     <div>

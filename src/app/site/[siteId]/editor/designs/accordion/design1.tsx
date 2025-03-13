@@ -20,6 +20,7 @@ import {
 } from "@/types/sectionsTypes/accordion/accordion";
 import { useMotion } from "@/hooks/useMotion";
 import { useMediaQuery } from "react-responsive";
+import BackgroundImage from "@/components/shared/backgroundImage";
 
 interface DesignProps {
   section: any;
@@ -46,7 +47,7 @@ function Design1({ section, pageId }: DesignProps) {
       accordionStyle.designSettings.leftTitlePosition,
   });
 
-  const sectionBgClassName = cn(" flex flex-col", {
+  const sectionBgClassName = cn(" flex flex-col relative overflow-hidden", {
     "bg-primary":
       section.style.designSettings.sectionBackground.color === "primary",
     "bg-muted": section.style.designSettings.sectionBackground.color === "gray",
@@ -71,12 +72,26 @@ function Design1({ section, pageId }: DesignProps) {
   const sectionTitleClassNames = cn("text-4xl", {
     "text-primary-foreground":
       section.style.designSettings.sectionBackground.color === "primary",
+    "text-start": accordionStyle.designSettings.leftTitlePosition,
+    "text-white":
+      accordionStyle.designSettings.sectionBackground.textColor === "light" &&
+      accordionStyle.designSettings.sectionBackground.media.imageUrl,
+    "text-black":
+      accordionStyle.designSettings.sectionBackground.textColor === "dark" &&
+      accordionStyle.designSettings.sectionBackground.media.imageUrl,
   });
   const sectionSubTitleClassNames = cn({
     "text-primary-foreground":
       accordionStyle.designSettings.sectionBackground.color === "primary",
     "text-muted-foreground":
       accordionStyle.designSettings.sectionBackground.color !== "primary",
+    "text-start": accordionStyle.designSettings.leftTitlePosition,
+    "text-white":
+      accordionStyle.designSettings.sectionBackground.textColor === "light" &&
+      accordionStyle.designSettings.sectionBackground.media.imageUrl,
+    "text-black":
+      accordionStyle.designSettings.sectionBackground.textColor === "dark" &&
+      accordionStyle.designSettings.sectionBackground.media.imageUrl,
   });
   return (
     <section
@@ -87,8 +102,22 @@ function Design1({ section, pageId }: DesignProps) {
         dispatch(closeChooseIcon());
       }}
     >
+      <BackgroundImage
+        imageUrl={
+          accordionStyle.designSettings.sectionBackground.media.imageUrl
+        }
+        parallax={accordionStyle.designSettings.sectionBackground.parallax}
+        blur={accordionStyle.designSettings.sectionBackground.blur}
+        blurEffect={accordionStyle.designSettings.sectionBackground.blurEffect}
+        greyScale={accordionStyle.designSettings.sectionBackground.greyScale}
+        overlay={accordionStyle.designSettings.sectionBackground.overlay}
+        overlayEffect={
+          accordionStyle.designSettings.sectionBackground.overlayEffect
+        }
+        backgroundColor={accordionStyle.designSettings.sectionBackground.color}
+      />
       <div
-        className="container max-w-container gap-10 w-full"
+        className="container max-w-container gap-10 z-0 w-full"
         style={{
           paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
           paddingBottom: isDesktop

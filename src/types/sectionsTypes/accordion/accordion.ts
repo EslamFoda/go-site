@@ -1,12 +1,4 @@
-import { SectionBgColorType, Spacing } from "@/types/common";
-
-interface SectionBackground {
-  color: SectionBgColorType;
-  media: string;
-  height: "fill" | "fit";
-  spacing: string;
-  align?: "start" | "center" | "end";
-}
+import { SectionBackground, Spacing } from "@/types/common";
 
 export enum AccordionIconType {
   "ARROW" = "arrow",

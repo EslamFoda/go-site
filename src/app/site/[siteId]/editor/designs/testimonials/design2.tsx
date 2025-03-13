@@ -24,6 +24,7 @@ import {
 import { Star } from "lucide-react";
 import { QuoteIcon } from "@/icons/testimonials";
 import { useMotion } from "@/hooks/useMotion";
+import BackgroundImage from "@/components/shared/backgroundImage";
 
 interface DesignProps {
   section: any;
@@ -106,7 +107,7 @@ function Design1({ section, pageId }: DesignProps) {
       testimonialStyle.designSettings.leftTitlePosition,
   });
 
-  const sectionBgClassName = cn(" flex flex-col", {
+  const sectionBgClassName = cn(" flex flex-col relative overflow-hidden", {
     "bg-primary":
       section.style.designSettings.sectionBackground.color === "primary",
     "bg-muted": section.style.designSettings.sectionBackground.color === "gray",
@@ -149,6 +150,12 @@ function Design1({ section, pageId }: DesignProps) {
     "text-primary-foreground":
       testimonialStyle.designSettings.sectionBackground.color === "primary",
     "text-start": testimonialStyle.designSettings.leftTitlePosition,
+    "text-white":
+      testimonialStyle.designSettings.sectionBackground.textColor === "light" &&
+      testimonialStyle.designSettings.sectionBackground.media.imageUrl,
+    "text-black":
+      testimonialStyle.designSettings.sectionBackground.textColor === "dark" &&
+      testimonialStyle.designSettings.sectionBackground.media.imageUrl,
   });
   const sectionSubTitleClassNames = cn({
     "text-primary-foreground":
@@ -156,6 +163,12 @@ function Design1({ section, pageId }: DesignProps) {
     "text-muted-foreground":
       testimonialStyle.designSettings.sectionBackground.color !== "primary",
     "text-start": testimonialStyle.designSettings.leftTitlePosition,
+    "text-white":
+      testimonialStyle.designSettings.sectionBackground.textColor === "light" &&
+      testimonialStyle.designSettings.sectionBackground.media.imageUrl,
+    "text-black":
+      testimonialStyle.designSettings.sectionBackground.textColor === "dark" &&
+      testimonialStyle.designSettings.sectionBackground.media.imageUrl,
   });
 
   return (
@@ -167,8 +180,26 @@ function Design1({ section, pageId }: DesignProps) {
         dispatch(closeChooseIcon());
       }}
     >
+      <BackgroundImage
+        imageUrl={
+          testimonialStyle.designSettings.sectionBackground.media.imageUrl
+        }
+        parallax={testimonialStyle.designSettings.sectionBackground.parallax}
+        blur={testimonialStyle.designSettings.sectionBackground.blur}
+        blurEffect={
+          testimonialStyle.designSettings.sectionBackground.blurEffect
+        }
+        greyScale={testimonialStyle.designSettings.sectionBackground.greyScale}
+        overlay={testimonialStyle.designSettings.sectionBackground.overlay}
+        overlayEffect={
+          testimonialStyle.designSettings.sectionBackground.overlayEffect
+        }
+        backgroundColor={
+          testimonialStyle.designSettings.sectionBackground.color
+        }
+      />
       <div
-        className="container max-w-container gap-10 w-full"
+        className="container max-w-container gap-10 z-0 w-full"
         style={{
           paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
           paddingBottom: isDesktop

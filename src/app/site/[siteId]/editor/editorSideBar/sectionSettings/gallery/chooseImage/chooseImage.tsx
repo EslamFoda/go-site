@@ -1,7 +1,7 @@
 import React from "react";
 import BackBtn from "@/components/shared/backBtn";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { closeChooseImage } from "@/reduxStore/action";
+import { closeChooseBgImage, closeChooseImage } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import UnsplashTab from "./unsplashTab";
 import { UnsplashImage } from "@/types/common";
@@ -9,11 +9,13 @@ import UploadImgTab from "./uploadImgTab";
 import { Storage } from "@/reduxStore/types";
 interface ChooseImageProps {
   selectedImgId: string;
+  mediaType: "image" | "background-image";
   handleUpdateUnsplash: (image: UnsplashImage) => void;
   handleUpdateUploadedImg: (image: Storage) => void;
 }
 function ChooseImage({
   selectedImgId,
+  mediaType = "image",
   handleUpdateUnsplash,
   handleUpdateUploadedImg,
 }: ChooseImageProps) {
@@ -22,7 +24,14 @@ function ChooseImage({
 
   return (
     <>
-      <BackBtn label="Media" handleBack={() => dispatch(closeChooseImage())} />
+      <BackBtn
+        label="Media"
+        handleBack={() => {
+          mediaType === "background-image"
+            ? dispatch(closeChooseBgImage())
+            : dispatch(closeChooseImage());
+        }}
+      />
 
       <Tabs onValueChange={setTabValue} value={tabValue} className="w-full">
         <TabsList className="grid m-5 grid-cols-2">

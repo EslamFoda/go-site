@@ -1,4 +1,9 @@
-import { AlignType, SectionBgColorType, Spacing } from "@/types/common";
+import {
+  AlignType,
+  SectionBackground,
+  SectionBgColorType,
+  Spacing,
+} from "@/types/common";
 
 // Define types for Banner content
 export interface BannerContent {
@@ -67,14 +72,7 @@ export interface BannerStyle {
     showForm: boolean;
     showVideo: boolean;
     spacing: Spacing;
-    sectionBackground: {
-      color?: SectionBgColorType;
-      media?: string;
-      height?: "fill" | "fit";
-      align?: AlignType;
-      width?: string;
-      spacing?: string;
-    };
+    sectionBackground: SectionBackground;
     imageSetting: {
       objectFit: "cover" | "contain";
       backgroundColor: SectionBgColorType;

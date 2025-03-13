@@ -22,6 +22,7 @@ import {
   Photo,
 } from "@/types/sectionsTypes/gallery";
 import { useMotion } from "@/hooks/useMotion";
+import BackgroundImage from "@/components/shared/backgroundImage";
 
 interface DesignProps {
   section: any;
@@ -77,7 +78,7 @@ function Design1({ section, pageId }: DesignProps) {
   );
 
   const sectionBgClassName = cn(
-    " flex flex-col",
+    " flex flex-col relative overflow-hidden",
     galleryStyle.designSettings.sectionBackground.color === "primary" &&
       "bg-primary",
     galleryStyle.designSettings.sectionBackground.color === "gray" &&
@@ -98,12 +99,24 @@ function Design1({ section, pageId }: DesignProps) {
   const sectionTitleClassNames = cn("text-4xl", {
     "text-primary-foreground":
       section.style.designSettings.sectionBackground.color === "primary",
+    "text-white":
+      galleryStyle.designSettings.sectionBackground.textColor === "light" &&
+      galleryStyle.designSettings.sectionBackground.media.imageUrl,
+    "text-black":
+      galleryStyle.designSettings.sectionBackground.textColor === "dark" &&
+      galleryStyle.designSettings.sectionBackground.media.imageUrl,
   });
   const sectionSubTitleClassNames = cn({
     "text-primary-foreground":
       galleryStyle.designSettings.sectionBackground.color === "primary",
     "text-muted-foreground":
       galleryStyle.designSettings.sectionBackground.color !== "primary",
+    "text-white":
+      galleryStyle.designSettings.sectionBackground.textColor === "light" &&
+      galleryStyle.designSettings.sectionBackground.media.imageUrl,
+    "text-black":
+      galleryStyle.designSettings.sectionBackground.textColor === "dark" &&
+      galleryStyle.designSettings.sectionBackground.media.imageUrl,
   });
 
   return (
@@ -114,8 +127,20 @@ function Design1({ section, pageId }: DesignProps) {
         dispatch(updateSelectedItem(null));
       }}
     >
+      <BackgroundImage
+        imageUrl={galleryStyle.designSettings.sectionBackground.media.imageUrl}
+        parallax={galleryStyle.designSettings.sectionBackground.parallax}
+        blur={galleryStyle.designSettings.sectionBackground.blur}
+        blurEffect={galleryStyle.designSettings.sectionBackground.blurEffect}
+        greyScale={galleryStyle.designSettings.sectionBackground.greyScale}
+        overlay={galleryStyle.designSettings.sectionBackground.overlay}
+        overlayEffect={
+          galleryStyle.designSettings.sectionBackground.overlayEffect
+        }
+        backgroundColor={galleryStyle.designSettings.sectionBackground.color}
+      />
       <div
-        className="container max-w-container gap-10 w-full"
+        className="container max-w-container z-0 gap-10 w-full"
         style={{
           paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
           paddingBottom: isDesktop
