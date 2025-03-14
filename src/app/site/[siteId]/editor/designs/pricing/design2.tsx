@@ -252,16 +252,23 @@ function Design2({ pageId, section }: DesignProps) {
                           })}
                           onClick={() => {
                             if (plan.button.link) {
+                              // Ensure the link has http/https prefix
+                              let finalLink = plan.button.link;
+                              if (
+                                !finalLink.startsWith("http://") &&
+                                !finalLink.startsWith("https://")
+                              ) {
+                                finalLink = "https://" + finalLink;
+                              }
+
                               if (plan.button.openNewTab) {
-                                // Open in new tab
                                 window.open(
-                                  plan.button.link,
+                                  finalLink,
                                   "_blank",
                                   "noopener,noreferrer"
                                 );
                               } else {
-                                // Open in same tab
-                                window.location.href = plan.button.link;
+                                window.location.href = finalLink;
                               }
                             }
                           }}

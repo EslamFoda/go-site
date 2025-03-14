@@ -170,7 +170,7 @@ function FooterSettings({ sections, pageId }: FooterSettingsProps) {
       />
     );
 
-  if (selectedSubLink) {
+  if (selectedSubLink && selectedLink) {
     return (
       <SubLink
         selectedSubLink={selectedSubLink}

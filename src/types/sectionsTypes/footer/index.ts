@@ -1,10 +1,13 @@
-import { SocialLinkIcons } from "@/types/common";
+import { ButtonTypes, SocialLinkIcons } from "@/types/common";
 
 interface FooterSubLink {
   text: string;
   link: string;
   id: string;
   pageId: string;
+  linkType: "internal" | "external";
+  externalLink: string;
+  openNewTab: boolean;
 }
 
 // Link group interface
@@ -12,14 +15,6 @@ interface LinkGroup {
   text: string;
   id: string;
   subLinks: FooterSubLink[];
-}
-
-// Button interface
-interface FooterButton {
-  text: string;
-  link: string;
-  id: string;
-  pageId: string;
 }
 
 // Social media link interface
@@ -57,7 +52,7 @@ interface FooterContent {
   siteLogo: boolean;
   text: string;
   links: LinkGroup[];
-  buttons: FooterButton[];
+  buttons: ButtonTypes[];
   social: SocialLink[];
   copyRight: CopyRight;
 }
@@ -72,7 +67,7 @@ export type {
   FooterStyle,
   FooterSubLink,
   LinkGroup,
-  FooterButton,
+  ButtonTypes,
   SocialLink,
   CopyRight,
 };

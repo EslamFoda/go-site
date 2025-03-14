@@ -5,6 +5,10 @@ import React from "react";
 import EditText from "../../settingsUi/EditText";
 import { useAppSelector } from "@/reduxStore/hooks";
 import LinkSelector from "../../settingsUi/LinkSelector";
+import ToggleGroup from "../../settingsUi/toggleGroup";
+import { Switch } from "@/components/ui/switch";
+import validator from "validator";
+import { Input } from "@/components/ui/input";
 
 interface SubLinkProps {
   selectedSubLink: SubLinkType;
@@ -22,6 +26,7 @@ function SubLink({
   const {
     editor: { pages },
   } = useAppSelector((state) => state.editor.present);
+  console.log("selectedSubLink:", selectedSubLink);
 
   return (
     <div className="space-y-2">
@@ -47,23 +52,67 @@ function SubLink({
             handleUpdateSubLinkItem({ text: e.target.value })
           }
         />
-        <LinkSelector
-          label="Link"
-          links={pages.map((page) => ({
-            id: page.pageId,
-            link: page.pageSettings.link,
-          }))}
-          selectedLink={selectedSubLink.link}
-          onSelect={(link) => {
-            const findPageWithLink = pages.find(
-              (page) => page.pageSettings.link === link.slice(1)
-            );
-            handleUpdateSubLinkItem({
-              link: link,
-              pageId: findPageWithLink?.pageId || "",
-            });
+        <ToggleGroup
+          label="Link Type"
+          options={[
+            { value: "internal", label: "Internal" },
+            { value: "external", label: "External" },
+          ]}
+          value={selectedSubLink.linkType}
+          onValueChange={(value) => {
+            handleUpdateSubLinkItem({ linkType: value });
           }}
         />
+        {selectedSubLink.linkType === "internal" && (
+          <LinkSelector
+            label="Link"
+            links={pages.map((page) => ({
+              id: page.pageId,
+              link: page.pageSettings.link,
+            }))}
+            selectedLink={selectedSubLink.link}
+            onSelect={(link) => {
+              const findPageWithLink = pages.find(
+                (page) => page.pageSettings.link === link.slice(1)
+              );
+              handleUpdateSubLinkItem({
+                link: link,
+                pageId: findPageWithLink?.pageId || "",
+              });
+            }}
+          />
+        )}
+
+        {selectedSubLink.linkType === "external" && (
+          <div className="flex items-center justify-between">
+            <Label htmlFor="Link">Link</Label>
+            <div className="w-4/6 border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
+              <div className="flex items-center">
+                <Input
+                  value={selectedSubLink.externalLink}
+                  className="flex-1 border-none outline-none"
+                  placeholder="Paste link"
+                  onChange={(e) => {
+                    handleUpdateSubLinkItem({ externalLink: e.target.value });
+                  }}
+                />
+              </div>
+
+              {validator.isURL(selectedSubLink.externalLink) && (
+                <div className="flex h-10 items-center justify-between px-3 py-2">
+                  <span>Open in new tab</span>
+                  <Switch
+                    defaultChecked={selectedSubLink.openNewTab}
+                    checked={selectedSubLink.openNewTab}
+                    onCheckedChange={(value) => {
+                      handleUpdateSubLinkItem({ openNewTab: value });
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

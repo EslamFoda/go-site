@@ -169,3 +169,13 @@ export interface SectionBackground {
   blurEffect: "s" | "m" | "l";
   align: AlignType;
 }
+
+export interface ButtonTypes {
+  text: string;
+  link: string;
+  id: string;
+  pageId: string;
+  linkType: "internal" | "external";
+  externalLink: string;
+  openNewTab: boolean;
+}

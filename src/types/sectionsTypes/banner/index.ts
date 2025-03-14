@@ -1,5 +1,6 @@
 import {
   AlignType,
+  ButtonTypes,
   SectionBackground,
   SectionBgColorType,
   Spacing,
@@ -14,7 +15,7 @@ export interface BannerContent {
   imageSetting?: { imageUrl?: string; altText?: string; id?: string };
   videoSetting?: { videoUrl: string };
   actionType: "buttons" | "form";
-  buttons: BannerButton[];
+  buttons: ButtonTypes[];
   form: BannerForm;
 }
 
@@ -47,13 +48,6 @@ export interface FormFields {
 }
 
 export type FieldsType = "text" | "email" | "textarea" | "tel";
-
-interface BannerButton {
-  text: string;
-  link: string;
-  id: string;
-  pageId: string;
-}
 
 export interface BannerStyle {
   designName: string;

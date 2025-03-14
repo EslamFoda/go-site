@@ -1,17 +1,13 @@
-import { Button } from "@/components/ui/button";
 import { updateSelectedItem, updateSelectedSection } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { FooterContent } from "@/types/sectionsTypes/footer";
 import React from "react";
 import { iconMap } from "../../editorSideBar/sectionSettings/footer/social/socialIcons";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { useMotion } from "@/hooks/useMotion";
 import FooterButtons from "./footerButtons";
+import { FooterLink } from "./footerLink";
+import { cn } from "@/lib/utils";
+import { FooterMobileLinks } from "./footerMobileLinks";
 interface Design1Props {
   section: any;
   pageId: string;
@@ -23,16 +19,40 @@ function Design1({ pageId, section }: Design1Props) {
   const { settings } = useAppSelector((state) => state.editor.present);
   const footerContent = section?.content as FooterContent;
 
+  // Function to handle social link clicks
+  const handleSocialLinkClick = (link: string) => {
+    if (!link) return;
+
+    let finalLink = link;
+
+    // Ensure the link has http/https prefix
+    if (!finalLink.startsWith("http://") && !finalLink.startsWith("https://")) {
+      finalLink = "https://" + finalLink;
+    }
+
+    // Open in new tab
+    window.open(finalLink, "_blank", "noopener,noreferrer");
+  };
+
+  const groupTextClassName = cn("text-muted-foreground", {
+    hidden: footerContent.links.length === 1,
+  });
+
+  const linkContainerClassName = cn({
+    "flex flex-col gap-3": footerContent.links.length > 1,
+    "flex flex-row gap-6 flex-wrap": footerContent.links.length === 1,
+  });
+
   return (
     <section
-      className="container max-w-container  w-full py-12"
+      className="container max-w-container w-full py-12"
       onClick={() => {
         dispatch(updateSelectedSection(pageId, section.id));
         dispatch(updateSelectedItem(null));
       }}
     >
       <div className="space-y-6">
-        <div className="flex lg:flex-row flex-col  items-start gap-7 md:gap-10 lg:gap-36 justify-between">
+        <div className="flex lg:flex-row flex-col items-start gap-7 md:gap-10 lg:gap-36 justify-between">
           <div className="space-y-4 basis-2/5">
             <h2>{settings.name}</h2>
             <div
@@ -41,7 +61,7 @@ function Design1({ pageId, section }: Design1Props) {
             />
             <FooterButtons buttons={footerContent.buttons} />
           </div>
-          <div className="lg:flex hidden basis-3/5  flex-wrap items-start gap-8 justify-end">
+          <div className="lg:flex hidden basis-3/5 flex-wrap items-start gap-8 justify-end">
             <AnimatePresence>
               {footerContent.links.map((link) => {
                 return (
@@ -54,57 +74,18 @@ function Design1({ pageId, section }: Design1Props) {
                     exit={{ scale: 0.8, opacity: 0 }}
                     transition={{ type: "tween" }}
                   >
-                    <span className="text-muted-foreground">{link.text}</span>
-                    <div className="flex flex-col gap-3">
-                      {link.subLinks.map((subLink) => {
-                        return <span key={subLink.id}>{subLink.text}</span>;
-                      })}
+                    <span className={groupTextClassName}>{link.text}</span>
+                    <div className={linkContainerClassName}>
+                      {link.subLinks.map((subLink) => (
+                        <FooterLink key={subLink.id} subLink={subLink} />
+                      ))}
                     </div>
                   </motion.div>
                 );
               })}
             </AnimatePresence>
           </div>
-          <Accordion
-            type="multiple"
-            className="w-full lg:hidden block space-y-3"
-          >
-            <AnimatePresence>
-              {footerContent.links.map((link) => (
-                <motion.div
-                  key={link.id}
-                  layout
-                  initial={{ scale: 1, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.8, opacity: 0 }}
-                  transition={{ type: "tween" }}
-                >
-                  <AccordionItem key={link.id} value={link.id}>
-                    <AccordionTrigger
-                      className="hover:bg-muted/50 px-2"
-                      iconType="plus"
-                    >
-                      {link.text}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground">
-                      <div className="flex px-2 flex-col gap-3">
-                        {link.subLinks.map((subLink) => {
-                          return (
-                            <div
-                              className="cursor-pointer flex items-center h-12 hover:bg-muted/50"
-                              key={subLink.id}
-                            >
-                              <span>{subLink.text}</span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </Accordion>
+          <FooterMobileLinks footerContent={footerContent} />
         </div>
         <div className="w-full flex gap-2 flex-wrap lg:justify-end justify-start">
           <AnimatePresence>
@@ -117,7 +98,8 @@ function Design1({ pageId, section }: Design1Props) {
                   exit={{ scale: 0.8, opacity: 0 }}
                   transition={{ type: "tween" }}
                   key={social.id}
-                  className="h-10 w-10 bg-muted rounded-sm flex items-center justify-center"
+                  className="h-10 w-10 bg-muted rounded-sm flex items-center justify-center cursor-pointer"
+                  onClick={() => handleSocialLinkClick(social.link)}
                 >
                   {iconMap[social.icon]}
                 </motion.div>
@@ -126,7 +108,7 @@ function Design1({ pageId, section }: Design1Props) {
           </AnimatePresence>
         </div>
         <hr />
-        <div className="flex items-start justify-between  gap-7 md:gap-10 lg:gap-36">
+        <div className="flex items-start justify-between gap-7 md:gap-10 lg:gap-36">
           <div
             className="text-muted-foreground"
             dangerouslySetInnerHTML={{

@@ -40,7 +40,7 @@ function CreateSiteModal({
   const [siteName, setSiteName] = React.useState("");
   const [siteDescription, setSiteDescription] = React.useState("");
   const [open, setOpen] = React.useState(false);
-  const [loading, setLoading] = React.useState(false); 
+  const [loading, setLoading] = React.useState(false);
   const [generatedProgress, setGeneratedProgress] = React.useState(0);
   const [generatingText, setGeneratingText] = React.useState({
     title: "",
@@ -121,6 +121,9 @@ function CreateSiteModal({
         id: v4(),
         image: unsplashResponse.response?.results[i + 1]?.urls?.regular || "",
         imgId: unsplashResponse.response?.results[i + 1]?.id || "",
+        button: "",
+        buttonColor: "gray",
+        link: "",
       })),
     };
   };
@@ -196,7 +199,7 @@ function CreateSiteModal({
           id: v4(),
           avatar:
             unsplashResponseUsers.response?.results[i]?.urls?.regular || "",
-            avatarId: unsplashResponseUsers.response?.results[i]?.id || "",
+          avatarId: unsplashResponseUsers.response?.results[i]?.id || "",
         })
       ),
     };

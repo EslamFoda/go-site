@@ -1,8 +1,13 @@
+import { ButtonTypes } from "../footer";
+
 export type SubLink = {
   text: string;
   link: string;
   id: string;
   pageId: string;
+  linkType: "internal" | "external";
+  externalLink: string;
+  openNewTab: boolean;
 };
 
 export type Link = {
@@ -12,13 +17,6 @@ export type Link = {
   id: string;
   openNewTab: boolean;
   subLinks: SubLink[];
-};
-
-type Button = {
-  text: string;
-  link: string;
-  id: string;
-  pageId: string;
 };
 
 export type Announcement = {
@@ -37,7 +35,7 @@ export type HeaderContent = {
     openNewTab: boolean;
   };
   links: Link[];
-  buttons: Button[];
+  buttons: ButtonTypes[];
   announcement: Announcement;
 };
 
