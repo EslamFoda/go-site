@@ -99,7 +99,7 @@ function Design2({ section, pageId }: DesignProps) {
     section.style.designSettings.sectionBackground.color === "none" &&
       "bg-background",
     section.style.designSettings.sectionBackground.height === "fill" &&
-      "h-screen",
+      "min-h-screen",
     section.style.designSettings.sectionBackground.height === "fit" && "h-auto",
     section.style.designSettings.sectionBackground.align === "start" &&
       "justify-start",

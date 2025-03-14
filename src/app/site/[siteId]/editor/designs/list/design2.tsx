@@ -111,7 +111,7 @@ function Design2({ section, pageId }: DesignProps) {
     "bg-muted": section.style.designSettings.sectionBackground.color === "gray",
     "bg-background":
       section.style.designSettings.sectionBackground.color === "none",
-    "h-screen":
+    "min-h-screen":
       section.style.designSettings.sectionBackground.height === "fill",
     "h-auto": section.style.designSettings.sectionBackground.height === "fit",
     "justify-start":

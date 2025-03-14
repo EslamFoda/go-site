@@ -62,7 +62,7 @@ function Design6({ section, pageId }: Design6Props) {
     "bg-primary": sectionBackground.color === "primary",
     "bg-muted": sectionBackground.color === "gray",
     "bg-background": sectionBackground.color === "none",
-    "h-screen": sectionBackground.height === "fill",
+    "min-h-screen": sectionBackground.height === "fill",
     "h-auto": sectionBackground.height === "fit",
     "justify-start": sectionBackground.align === "start",
     "justify-center": sectionBackground.align === "center",

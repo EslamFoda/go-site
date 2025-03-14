@@ -86,7 +86,7 @@ function Design1({ section, pageId }: DesignProps) {
     galleryStyle.designSettings.sectionBackground.color === "none" &&
       "bg-background",
     galleryStyle.designSettings.sectionBackground.height === "fill" &&
-      "h-screen",
+      "min-h-screen",
     galleryStyle.designSettings.sectionBackground.height === "fit" && "h-auto",
     galleryStyle.designSettings.sectionBackground.align === "start" &&
       "justify-start",

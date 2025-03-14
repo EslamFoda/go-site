@@ -45,7 +45,7 @@ function Design1({ pageId, section }: DesignProps) {
     pricingStyle.designSettings.sectionBackground.color === "none" &&
       "bg-background",
     pricingStyle.designSettings.sectionBackground.height === "fill" &&
-      "h-screen",
+      "min-h-screen",
     pricingStyle.designSettings.sectionBackground.height === "fit" && "h-auto",
     pricingStyle.designSettings.sectionBackground.align === "start" &&
       "justify-start",

@@ -112,7 +112,7 @@ function Design1({ section, pageId }: DesignProps) {
     "bg-muted": cardStyle.designSettings.sectionBackground.color === "gray",
     "bg-background":
       cardStyle.designSettings.sectionBackground.color === "none",
-    "h-screen": cardStyle.designSettings.sectionBackground.height === "fill",
+    "min-h-screen": cardStyle.designSettings.sectionBackground.height === "fill",
     "h-auto": cardStyle.designSettings.sectionBackground.height === "fit",
     "justify-start":
       cardStyle.designSettings.sectionBackground.align === "start",

@@ -98,7 +98,7 @@ function Design1({ section, pageId }: DesignProps) {
     logoStyle.designSettings.sectionBackground.color === "gray" && "bg-muted",
     logoStyle.designSettings.sectionBackground.color === "none" &&
       "bg-background",
-    logoStyle.designSettings.sectionBackground.height === "fill" && "h-screen",
+    logoStyle.designSettings.sectionBackground.height === "fill" && "min-h-screen",
     logoStyle.designSettings.sectionBackground.height === "fit" && "h-auto",
     logoStyle.designSettings.sectionBackground.align === "start" &&
       "justify-start",
