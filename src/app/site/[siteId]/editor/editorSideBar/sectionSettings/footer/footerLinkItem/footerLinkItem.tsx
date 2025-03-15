@@ -43,6 +43,9 @@ function FooterLinkItem({
       link: "",
       text: `Sub Link ${(selectedLink.subLinks?.length || 0) + 1}`,
       pageId: pageId,
+      externalLink: "",
+      linkType: "internal",
+      openNewTab: false,
     };
 
     const updatedLinks = footerContent.links.map((link) =>
