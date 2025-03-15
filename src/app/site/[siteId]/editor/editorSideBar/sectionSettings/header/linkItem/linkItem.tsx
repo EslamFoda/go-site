@@ -45,6 +45,9 @@ function LinkItem({
       link: "",
       text: `Sub Link ${(selectedLink.subLinks?.length || 0) + 1}`,
       pageId: "",
+      externalLink: "",
+      linkType: "internal",
+      openNewTab: false,
     };
 
     const updatedLinks = headerContent.links.map((link) =>
