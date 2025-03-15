@@ -2,19 +2,12 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { openPagesTab } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
-import { SectionBgColorType } from "@/types/common";
+import { ButtonTypes, SectionBgColorType } from "@/types/common";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 
-interface ButtonConfig {
-  text: string;
-  link?: string;
-  pageId?: string;
-  variant?: "default" | "outline" | "ghost";
-}
-
 interface BannerButtonsProps {
-  buttons: ButtonConfig[];
+  buttons: ButtonTypes[];
   btnClassNames?: string;
   reverse?: boolean;
   sectionBackground?: SectionBgColorType;
@@ -30,11 +23,32 @@ function BannerButtons({
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const handleButtonClick = (btn: ButtonConfig) => {
-    if (!btn.link || !btn.pageId) return;
-    router.push(`/site/${siteId}/editor/${btn.pageId}`);
-  };
+  const handleButtonClick = (button: ButtonTypes) => {
+    if (button.linkType === "internal" && button.pageId) {
+      // Use router.push for internal Next.js navigation
+      router.push(`/site/${siteId}/editor/${button.pageId}`);
+      return;
+    }
 
+    if (button.linkType === "external" && button.externalLink) {
+      let finalLink = button.externalLink;
+
+      // Ensure the link has http/https prefix
+      if (
+        !finalLink.startsWith("http://") &&
+        !finalLink.startsWith("https://")
+      ) {
+        finalLink = "https://" + finalLink;
+      }
+
+      // Open in new tab or same tab based on openNewTab prop
+      if (button.openNewTab) {
+        window.open(finalLink, "_blank", "noopener,noreferrer");
+      } else {
+        window.location.href = finalLink;
+      }
+    }
+  };
   const renderButtons = buttons.map((btn, index) => {
     // Skip rendering buttons without text
     if (!btn.text) return null;

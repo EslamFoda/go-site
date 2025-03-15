@@ -4,10 +4,10 @@ import { FooterContent } from "@/types/sectionsTypes/footer";
 import React from "react";
 import { iconMap } from "../../editorSideBar/sectionSettings/footer/social/socialIcons";
 import { useMotion } from "@/hooks/useMotion";
-import FooterButtons from "./footerButtons";
 import { FooterLink } from "./footerLink";
 import { cn } from "@/lib/utils";
 import { FooterMobileLinks } from "./footerMobileLinks";
+import DesignButtons from "../../../../../../components/shared/designButtons/designButtons";
 interface Design4Props {
   section: any;
   pageId: string;
@@ -105,7 +105,7 @@ function Design4({ pageId, section }: Design4Props) {
               className="text-muted-foreground max-w-3xl"
               dangerouslySetInnerHTML={{ __html: footerContent.text }}
             />
-            <FooterButtons
+            <DesignButtons
               buttons={footerContent.buttons}
               btnClassNames="justify-center"
             />

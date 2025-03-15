@@ -124,6 +124,10 @@ function CreateSiteModal({
         button: "",
         buttonColor: "gray",
         link: "",
+        pageId: "",
+        linkType: "internal",
+        externalLink: "",
+        openNewTab: false,
       })),
     };
   };

@@ -11,6 +11,10 @@ import {
   updateSelectedSubLink,
 } from "@/reduxStore/action";
 import { v4 } from "uuid";
+import ToggleGroup from "../../settingsUi/toggleGroup";
+import { Input } from "@/components/ui/input";
+import validator from "validator";
+import { Switch } from "@/components/ui/switch";
 
 interface LinkItemProps {
   selectedLinkId: string;
@@ -108,23 +112,68 @@ function LinkItem({
             handleUpdateLinkItem({ text: e.target.value })
           }
         />
-        <LinkSelector
-          label="Link"
-          links={editor.pages.map((page) => ({
-            id: page.pageId,
-            link: page.pageSettings.link,
-          }))}
-          selectedLink={selectedLink.link}
-          onSelect={(link) => {
-            const findPageWithLink = editor.pages.find(
-              (page) => page.pageSettings.link === link.slice(1)
-            );
-            handleUpdateLinkItem({
-              link: link,
-              pageId: findPageWithLink?.pageId || "",
-            });
+
+        <ToggleGroup
+          label="Link Type"
+          options={[
+            { value: "internal", label: "Internal" },
+            { value: "external", label: "External" },
+          ]}
+          value={selectedLink.linkType}
+          onValueChange={(value) => {
+            handleUpdateLinkItem({ linkType: value });
           }}
         />
+        {selectedLink.linkType === "internal" && (
+          <LinkSelector
+            label="Link"
+            links={editor.pages.map((page) => ({
+              id: page.pageId,
+              link: page.pageSettings.link,
+            }))}
+            selectedLink={selectedLink.link}
+            onSelect={(link) => {
+              const findPageWithLink = editor.pages.find(
+                (page) => page.pageSettings.link === link.slice(1)
+              );
+              handleUpdateLinkItem({
+                link: link,
+                pageId: findPageWithLink?.pageId || "",
+              });
+            }}
+          />
+        )}
+
+        {selectedLink.linkType === "external" && (
+          <div className="flex items-center space-y-1 justify-between">
+            <Label htmlFor="Link">Link</Label>
+            <div className="w-4/6 border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
+              <div className="flex items-center">
+                <Input
+                  value={selectedLink.externalLink}
+                  className="flex-1 border-none outline-none"
+                  placeholder="Paste link"
+                  onChange={(e) => {
+                    handleUpdateLinkItem({ externalLink: e.target.value });
+                  }}
+                />
+              </div>
+
+              {validator.isURL(selectedLink.externalLink) && (
+                <div className="flex h-10 items-center justify-between px-3 py-2">
+                  <span>Open in new tab</span>
+                  <Switch
+                    defaultChecked={selectedLink.openNewTab}
+                    checked={selectedLink.openNewTab}
+                    onCheckedChange={(value) => {
+                      handleUpdateLinkItem({ openNewTab: value });
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         <DraggableList
           label="Dropdown Link"

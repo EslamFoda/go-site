@@ -29,6 +29,11 @@ import { UnsplashImage } from "@/types/common";
 import SpacingTab from "@/components/shared/spacingTab";
 import ToggleGroup from "../settingsUi/toggleGroup";
 import SwitchSetting from "../settingsUi/SwitchSetting";
+import { Input } from "@/components/ui/input";
+import validator from "validator";
+import { Switch } from "@/components/ui/switch";
+import LinkSelector from "../settingsUi/LinkSelector";
+
 interface CardsSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -42,8 +47,9 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
 
   const dispatch = useAppDispatch();
 
-  const { selectedItem, chooseImage, selectedSection, chooseBgImage } =
+  const { selectedItem, chooseImage, selectedSection, chooseBgImage, editor } =
     useAppSelector((state) => state.editor.present);
+  const { pages } = editor;
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
@@ -206,6 +212,7 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
             onBack={() => dispatch(updateSelectedItem(null))}
             showBackButton={false}
           />
+
           <EditText
             id={cardItem.id}
             inputType="text"
@@ -218,6 +225,68 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
               })
             }
           />
+
+          <ToggleGroup
+            label="Link Type"
+            options={[
+              { value: "internal", label: "Internal" },
+              { value: "external", label: "External" },
+            ]}
+            value={cardItem.linkType}
+            onValueChange={(value) => {
+              handleUpdateCardItem({ linkType: value });
+            }}
+          />
+          {cardItem.linkType === "internal" && (
+            <LinkSelector
+              label="Link"
+              links={pages.map((page) => ({
+                id: page.pageId,
+                link: page.pageSettings.link,
+              }))}
+              selectedLink={cardItem.link}
+              onSelect={(link) => {
+                const findPageWithLink = pages.find(
+                  (page) => page.pageSettings.link === link.slice(1)
+                );
+                handleUpdateCardItem({
+                  link: link,
+                  pageId: findPageWithLink?.pageId || "",
+                });
+              }}
+            />
+          )}
+
+          {cardItem.linkType === "external" && (
+            <div className="flex items-center justify-between space-y-1">
+              <Label htmlFor="Link">Link</Label>
+              <div className="w-4/6 border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
+                <div className="flex items-center">
+                  <Input
+                    value={cardItem.externalLink}
+                    className="flex-1 border-none outline-none"
+                    placeholder="Paste link"
+                    onChange={(e) => {
+                      handleUpdateCardItem({ externalLink: e.target.value });
+                    }}
+                  />
+                </div>
+
+                {validator.isURL(cardItem.externalLink) && (
+                  <div className="flex h-10 items-center justify-between px-3 py-2">
+                    <span>Open in new tab</span>
+                    <Switch
+                      defaultChecked={cardItem.openNewTab}
+                      checked={cardItem.openNewTab}
+                      onCheckedChange={(value) => {
+                        handleUpdateCardItem({ openNewTab: value });
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );

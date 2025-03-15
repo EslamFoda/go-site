@@ -16,6 +16,10 @@ export interface Card {
   button: string;
   buttonColor: "gray" | "primary";
   link: string;
+  pageId: string;
+  linkType: "internal" | "external";
+  externalLink: string;
+  openNewTab: boolean;
 }
 
 // Define types for Cards content

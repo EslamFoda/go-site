@@ -88,6 +88,9 @@ export const generateSections = (
           link: "",
           id: v4(),
           pageId: "",
+          linkType: "internal",
+          externalLink: "",
+          openNewTab: false,
         },
         {
           text:
@@ -96,6 +99,9 @@ export const generateSections = (
           link: "",
           id: v4(),
           pageId: "",
+          linkType: "internal",
+          externalLink: "",
+          openNewTab: false,
         },
       ],
     },
@@ -437,6 +443,7 @@ export const insertSiteData = (
             id: v4(),
             linkType: "internal",
             externalLink: "",
+            pageId: "",
           },
           {
             text: "button 2",
@@ -444,6 +451,7 @@ export const insertSiteData = (
             id: v4(),
             linkType: "internal",
             externalLink: "",
+            pageId: "",
           },
         ],
         announcement: {
@@ -484,6 +492,7 @@ export const insertSiteData = (
                 id: v4(),
                 linkType: "internal",
                 externalLink: "",
+                pageId: "",
               },
               {
                 text: "sub link 2",
@@ -491,6 +500,7 @@ export const insertSiteData = (
                 id: v4(),
                 linkType: "internal",
                 externalLink: "",
+                pageId: "",
               },
             ],
           },
@@ -504,6 +514,7 @@ export const insertSiteData = (
                 id: v4(),
                 linkType: "internal",
                 externalLink: "",
+                pageId: "",
               },
               {
                 text: "sub link 2",
@@ -511,6 +522,7 @@ export const insertSiteData = (
                 id: v4(),
                 linkType: "internal",
                 externalLink: "",
+                pageId: "",
               },
             ],
           },
@@ -524,6 +536,7 @@ export const insertSiteData = (
                 id: v4(),
                 linkType: "internal",
                 externalLink: "",
+                pageId: "",
               },
               {
                 text: "sub link 2",
@@ -531,6 +544,7 @@ export const insertSiteData = (
                 id: v4(),
                 linkType: "internal",
                 externalLink: "",
+                pageId: "",
               },
             ],
           },
@@ -542,6 +556,7 @@ export const insertSiteData = (
             id: v4(),
             linkType: "internal",
             externalLink: "",
+            pageId: "",
           },
           {
             text: "button 2",
@@ -549,6 +564,7 @@ export const insertSiteData = (
             id: v4(),
             linkType: "internal",
             externalLink: "",
+            pageId: "",
           },
         ],
         social: [

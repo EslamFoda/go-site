@@ -15,6 +15,8 @@ export type Link = {
   link: string;
   pageId: string;
   id: string;
+  linkType: "internal" | "external";
+  externalLink: string;
   openNewTab: boolean;
   subLinks: SubLink[];
 };

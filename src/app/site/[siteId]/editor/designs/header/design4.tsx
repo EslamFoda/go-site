@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { MenuIcon1, MenuIcon2, MenuIcon3 } from "@/icons/common";
 import { cn } from "@/lib/utils";
 import {
@@ -17,6 +16,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { HeaderLink } from "./headerLink";
+import DesignButtons from "@/components/shared/designButtons";
 
 interface Design4Props {
   section: any;
@@ -55,7 +55,7 @@ function Design4({ pageId, section }: Design4Props) {
   const normalHeaderClassName = cn(
     "bg-background transition-transform ease-linear",
     {
-      "fixed right-0  w-[calc(100vw_-450px)] top-0 z-50 mt-12": sticky,
+      "fixed right-0  w-[calc(100vw_-_435px)] top-0 z-50 mt-12": sticky,
       "-translate-y-48": !isVisible && autoHide && sticky, // hide navbar when not visible
       "translate-y-0": isVisible && autoHide && sticky, // show navbar when visible
       "bg-background/50 backdrop-blur-lg": glass,
@@ -99,11 +99,6 @@ function Design4({ pageId, section }: Design4Props) {
     }
   );
 
-  const scrollIndicatorClassName = cn(
-    "h-1  transition-width duration-300 ease-in-out",
-    { "bg-primary": scrollIndicator }
-  );
-
   useEffect(() => {
     const handleScroll = () => {
       if (typeof window !== "undefined") {
@@ -131,12 +126,16 @@ function Design4({ pageId, section }: Design4Props) {
     }
   }, [lastScrollY]);
 
-  const ScrollIndicator = () => (
-    <Progress
-      className="h-1 transition-width duration-300 ease-in-out bg-background"
-      value={scrollProgress}
-    />
-  );
+  const ScrollIndicator = () => {
+    if (!scrollIndicator) return null;
+
+    return (
+      <Progress
+        className="h-1 transition-width duration-300 ease-in-out bg-background"
+        value={scrollProgress}
+      />
+    );
+  };
 
   if (float) {
     return (
@@ -197,10 +196,7 @@ function Design4({ pageId, section }: Design4Props) {
               ))}
             </nav>
             <div className="hidden lg:flex items-center gap-4 justify-self-end">
-              <Button variant="secondary">
-                {headerContent.buttons[0].text}
-              </Button>
-              <Button>{headerContent.buttons[1].text}</Button>
+              <DesignButtons buttons={headerContent.buttons} reverse />
             </div>
             <div className="block lg:hidden cursor-pointer justify-self-end">
               {NavIcon[headerStyle.designSettings.mobileMenuIcon]}
@@ -268,8 +264,7 @@ function Design4({ pageId, section }: Design4Props) {
         </nav>
         <h2 className={logoClassNames}>{headerContent.Logo.text}</h2>
         <div className="hidden lg:flex items-center gap-4 justify-self-end">
-          <Button variant="secondary">{headerContent.buttons[0].text}</Button>
-          <Button>{headerContent.buttons[1].text}</Button>
+          <DesignButtons buttons={headerContent.buttons} reverse />
         </div>
         <div className="block lg:hidden cursor-pointer justify-self-end">
           {NavIcon[headerStyle.designSettings.mobileMenuIcon]}

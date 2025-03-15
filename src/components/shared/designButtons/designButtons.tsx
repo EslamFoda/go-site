@@ -1,4 +1,4 @@
-// components/FooterButtons.tsx
+// components/DesignButtons.tsx
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useParams, useRouter } from "next/navigation";
@@ -15,17 +15,17 @@ interface ButtonConfig {
   id: string;
 }
 
-interface FooterButtonsProps {
+interface DesignButtonsProps {
   buttons: ButtonConfig[];
   btnClassNames?: string;
   reverse?: boolean;
 }
 
-function FooterButtons({
+function DesignButtons({
   buttons,
   btnClassNames,
   reverse = false,
-}: FooterButtonsProps) {
+}: DesignButtonsProps) {
   const { siteId } = useParams();
   const router = useRouter();
   const variants = ["default", "secondary", "outline", "ghost"] as const;
@@ -85,4 +85,4 @@ function FooterButtons({
   );
 }
 
-export default FooterButtons;
+export default DesignButtons;

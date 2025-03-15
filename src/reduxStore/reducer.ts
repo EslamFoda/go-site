@@ -269,6 +269,8 @@ const initialState: EditorStore = {
             openNewTab: false,
             subLinks: [],
             pageId: "",
+            externalLink: "",
+            linkType: "internal",
           },
           {
             text: "link 3",
@@ -277,6 +279,8 @@ const initialState: EditorStore = {
             openNewTab: false,
             subLinks: [],
             pageId: "",
+            externalLink: "",
+            linkType: "internal",
           },
           {
             text: "link 4",
@@ -285,6 +289,8 @@ const initialState: EditorStore = {
             openNewTab: false,
             subLinks: [],
             pageId: "",
+            externalLink: "",
+            linkType: "internal",
           },
         ],
         buttons: [

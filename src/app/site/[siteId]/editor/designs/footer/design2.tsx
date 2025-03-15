@@ -4,10 +4,10 @@ import { FooterContent } from "@/types/sectionsTypes/footer";
 import React from "react";
 import { iconMap } from "../../editorSideBar/sectionSettings/footer/social/socialIcons";
 import { useMotion } from "@/hooks/useMotion";
-import FooterButtons from "./footerButtons";
 import { FooterLink } from "./footerLink";
 import { cn } from "@/lib/utils";
 import { FooterMobileLinks } from "./footerMobileLinks";
+import DesignButtons from "../../../../../../components/shared/designButtons/designButtons";
 interface Design2Props {
   section: any;
   pageId: string;
@@ -83,7 +83,7 @@ function Design2({ pageId, section }: Design2Props) {
               className="text-muted-foreground"
               dangerouslySetInnerHTML={{ __html: footerContent.text }}
             />
-            <FooterButtons buttons={footerContent.buttons} reverse />
+            <DesignButtons buttons={footerContent.buttons} reverse />
           </div>
           <FooterMobileLinks footerContent={footerContent} />
         </div>
@@ -113,7 +113,7 @@ function Design2({ pageId, section }: Design2Props) {
             className="text-muted-foreground"
             dangerouslySetInnerHTML={{ __html: footerContent.text }}
           />
-          <FooterButtons buttons={footerContent.buttons} />
+          <DesignButtons buttons={footerContent.buttons} />
         </div>
         <hr />
         <div className="flex items-start justify-between  gap-7 md:gap-10 lg:gap-36">

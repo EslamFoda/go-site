@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { MenuIcon1, MenuIcon2, MenuIcon3 } from "@/icons/common";
 import { cn } from "@/lib/utils";
 import {
@@ -17,6 +16,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { HeaderLink } from "./headerLink";
+import DesignButtons from "@/components/shared/designButtons";
 
 interface Design1Props {
   section: any;
@@ -37,6 +37,7 @@ function Design1({ pageId, section }: Design1Props) {
   const handleMouseEnter = (index: number) => {
     setHoveringIndex(index);
   };
+
 
   const handleMouseLeave = () => {
     setHoveringIndex(null);
@@ -125,12 +126,16 @@ function Design1({ pageId, section }: Design1Props) {
     }
   }, [lastScrollY]);
 
-  const ScrollIndicator = () => (
-    <Progress
-      className="h-1 transition-width duration-300 ease-in-out bg-background"
-      value={scrollProgress}
-    />
-  );
+  const ScrollIndicator = () => {
+    if (!scrollIndicator) return null;
+
+    return (
+      <Progress
+        className="h-1 transition-width duration-300 ease-in-out bg-background"
+        value={scrollProgress}
+      />
+    );
+  };
 
   if (float) {
     return (
@@ -192,11 +197,8 @@ function Design1({ pageId, section }: Design1Props) {
                 ))}
               </nav>
             </div>
-            <div className="hidden lg:flex items-center gap-4">
-              <Button variant="secondary">
-                {headerContent.buttons[0].text}
-              </Button>
-              <Button>{headerContent.buttons[1].text}</Button>
+            <div className="hidden lg:block">
+              <DesignButtons buttons={headerContent.buttons} reverse />
             </div>
             <div className="block lg:hidden cursor-pointer">
               {NavIcon[headerStyle.designSettings.mobileMenuIcon]}
@@ -265,9 +267,8 @@ function Design1({ pageId, section }: Design1Props) {
             ))}
           </nav>
         </div>
-        <div className="hidden lg:flex items-center gap-4">
-          <Button variant="secondary">{headerContent.buttons[0].text}</Button>
-          <Button>{headerContent.buttons[1].text}</Button>
+        <div className="hidden lg:block">
+          <DesignButtons buttons={headerContent.buttons} reverse />
         </div>
         <div className="block lg:hidden cursor-pointer">
           {NavIcon[headerStyle.designSettings.mobileMenuIcon]}

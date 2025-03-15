@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 import { MenuIcon1, MenuIcon2, MenuIcon3 } from "@/icons/common";
 import { cn } from "@/lib/utils";
-import { closeChooseIcon, updateSelectedItem, updateSelectedSection } from "@/reduxStore/action";
+import {
+  closeChooseIcon,
+  updateSelectedItem,
+  updateSelectedSection,
+} from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { HeaderContent, HeaderStyle } from "@/types/sectionsTypes/header";
 import {
@@ -13,6 +16,7 @@ import {
 import { ChevronDown } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { HeaderLink } from "./headerLink";
+import DesignButtons from "@/components/shared/designButtons";
 
 interface Design3Props {
   section: any;
@@ -95,11 +99,6 @@ function Design3({ pageId, section }: Design3Props) {
     }
   );
 
-  const scrollIndicatorClassName = cn(
-    "h-1  transition-width duration-300 ease-in-out",
-    { "bg-primary": scrollIndicator }
-  );
-
   useEffect(() => {
     const handleScroll = () => {
       if (typeof window !== "undefined") {
@@ -127,12 +126,16 @@ function Design3({ pageId, section }: Design3Props) {
     }
   }, [lastScrollY]);
 
-  const ScrollIndicator = () => (
-    <Progress
-      className="h-1 transition-width duration-300 ease-in-out bg-background"
-      value={scrollProgress}
-    />
-  );
+  const ScrollIndicator = () => {
+    if (!scrollIndicator) return null;
+
+    return (
+      <Progress
+        className="h-1 transition-width duration-300 ease-in-out bg-background"
+        value={scrollProgress}
+      />
+    );
+  };
 
   if (float) {
     return (
@@ -193,11 +196,8 @@ function Design3({ pageId, section }: Design3Props) {
                   </HoverCard>
                 ))}
               </nav>
-              <div className="hidden lg:flex items-center gap-4">
-                <Button variant="secondary">
-                  {headerContent.buttons[0].text}
-                </Button>
-                <Button>{headerContent.buttons[1].text}</Button>
+              <div className="hidden lg:block">
+                <DesignButtons buttons={headerContent.buttons} reverse />
               </div>
               <div className="block lg:hidden cursor-pointer">
                 {NavIcon[headerStyle.designSettings.mobileMenuIcon]}
@@ -266,9 +266,8 @@ function Design3({ pageId, section }: Design3Props) {
               </HoverCard>
             ))}
           </nav>
-          <div className="hidden lg:flex items-center gap-4">
-            <Button variant="secondary">{headerContent.buttons[0].text}</Button>
-            <Button>{headerContent.buttons[1].text}</Button>
+          <div className="hidden lg:block">
+            <DesignButtons buttons={headerContent.buttons} reverse />
           </div>
           <div className="block lg:hidden cursor-pointer">
             {NavIcon[headerStyle.designSettings.mobileMenuIcon]}

@@ -7,7 +7,6 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
-  updateContent,
   updateGlobalContent,
   updateSelectedItem,
   updateSelectedSubLink,
