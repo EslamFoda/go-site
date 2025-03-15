@@ -7,7 +7,7 @@ import { useMotion } from "@/hooks/useMotion";
 import { FooterLink } from "./footerLink";
 import { cn } from "@/lib/utils";
 import { FooterMobileLinks } from "./footerMobileLinks";
-import DesignButtons from "../../../../../../components/shared/designButtons/designButtons";
+import DesignButtons from "@/components/shared/designButtons";
 interface Design1Props {
   section: any;
   pageId: string;

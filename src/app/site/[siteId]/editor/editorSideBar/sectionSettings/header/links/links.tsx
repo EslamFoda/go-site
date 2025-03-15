@@ -46,6 +46,8 @@ function Links({
       openNewTab: false,
       subLinks: [],
       pageId: pageId,
+      externalLink: "",
+      linkType: "internal",
     } as Link;
     const newItems = [...links, newItem] as Link[];
     setItems(newItems);
