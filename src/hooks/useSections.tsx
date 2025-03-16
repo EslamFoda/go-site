@@ -11,10 +11,27 @@ export function useSections() {
         Logo: {
           type: "text",
           text: "logo",
+          logoImage: {
+            lightImgId: "",
+            darkImgId: "",
+            urlLight: "",
+            urlDark: "",
+          },
         },
         logo: {
+          linkType: "internal",
           link: "",
+          externalLink: "",
+          pageId: "",
           openNewTab: false,
+          logoType: "text",
+          text: "logo",
+          logoImage: {
+            lightImgId: "",
+            darkImgId: "",
+            urlLight: "",
+            urlDark: "",
+          },
         },
         links: [
           {
@@ -73,11 +90,21 @@ export function useSections() {
           text: "",
           link: "",
         },
+        options: {
+          iconType: "icon",
+          menuIcon: "icon-1",
+          openMenuText: "Open",
+          closeMenuText: "Close",
+        },
       },
       style: {
         designName: "design1",
         designSettings: {
           logoColor: "none",
+          logoSize: {
+            desktop: 20,
+            mobile: 20,
+          },
           mobileMenuIcon: "icon-1", // icon-1, icon-2, icon-3
           width: "fill", // fill , fit
           sticky: false,

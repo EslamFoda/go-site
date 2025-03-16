@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Banner from "../designs/banner";
 import Cards from "../designs/cards";
 import List from "../designs/list";
@@ -13,7 +13,11 @@ import Fluid from "../designs/fluid";
 import AddSection from "./addSection";
 import Pricing from "../designs/pricing";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
-import { closeSectionDesigns, updateSectionIndex } from "@/reduxStore/action";
+import {
+  closeHeaderOptions,
+  closeSectionDesigns,
+  updateSectionIndex,
+} from "@/reduxStore/action";
 import ControlButtons from "./controlButtons";
 import {
   HoverCard,
@@ -30,16 +34,28 @@ import {
 import { useMotion } from "@/hooks/useMotion";
 import { useParams, useRouter } from "next/navigation";
 import useScrollParallax from "@/hooks/useScrollParallax";
+import { cn } from "@/lib/utils"; // Import cn utility for className merging
+import Sidebar from "@/components/shared/sideBar";
+import HeaderMobMenu from "./headerMobMenu";
+import { HeaderContent } from "@/types/sectionsTypes/header";
+import { X } from "lucide-react";
 
 const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
+  const dispatch = useAppDispatch();
+  const { globalSections, openHeaderOptions } = useAppSelector(
+    (state) => state.editor.present
+  );
+  const [hoveringIndex, setHoveringIndex] = useState<number | null>(null);
+  const { motion, AnimatePresence } = useMotion();
   const router = useRouter();
   const { ParallaxProvider } = useScrollParallax();
   const { siteId } = useParams();
+  const headerRef = useRef<HTMLDivElement>(null);
+
   const currentPage = useAppSelector((state) =>
     state.editor.present.editor.pages.find((page) => page.pageId === pageId)
   );
 
-  const { globalSections } = useAppSelector((state) => state.editor.present);
   const globalHeader = globalSections.find(
     (section) => section.sectionName === "Header"
   );
@@ -47,9 +63,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
     (section) => section.sectionName === "Footer"
   );
 
-  const dispatch = useAppDispatch();
-  const [hoveringIndex, setHoveringIndex] = useState<number | null>(null);
-  const { motion, AnimatePresence } = useMotion();
+  const headerContent = globalHeader?.content as HeaderContent;
 
   const sectionsMapper: { [key: string]: React.ComponentType<any> } = {
     Banner,
@@ -82,105 +96,132 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   if (!currentPage) router.push(`/site/${siteId}/editor/`);
 
   return (
-    <div className="overflow-y-hidden">
-      <AnimatePresence mode="popLayout">
-        {currentPage?.pageSettings.showHeader && (
-          <motion.div
-            key="global-header"
-            layout
-            onClick={() => dispatch(closeSectionDesigns())}
-          >
-            <GlobalHeaderSection pageId={pageId} section={globalHeader} />
-          </motion.div>
+    <div className="relative">
+      {/* Parent container with conditional blur */}
+      <div
+        className={cn(
+          "overflow-y-hidden transition-all duration-300",
+          openHeaderOptions && "blur-md" // Tailwind blur effect when sidebar is open
         )}
-        {currentPage?.sections.map((section, i) => {
-          const SectionComponent = sectionsMapper[section.sectionName];
-
-          return (
+        ref={headerRef}
+      >
+        <AnimatePresence mode="popLayout">
+          {currentPage?.pageSettings.showHeader && (
             <motion.div
+              key="global-header"
               layout
-              initial={{ scale: 1, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ type: "tween" }}
-              key={section.id}
-              className="relative"
+              onClick={() => dispatch(closeSectionDesigns())}
             >
-              <HoverCard
+              <GlobalHeaderSection pageId={pageId} section={globalHeader} />
+            </motion.div>
+          )}
+          {currentPage?.sections.map((section, i) => {
+            const SectionComponent = sectionsMapper[section.sectionName];
+
+            return (
+              <motion.div
+                layout
+                initial={{ scale: 1, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.8, opacity: 0 }}
+                transition={{ type: "tween" }}
                 key={section.id}
-                closeDelay={0}
-                openDelay={0}
-                open={hoveringIndex === i}
+                className="relative"
               >
-                <div
-                  id={`section-${i}`} // Add id for scrolling
-                  onMouseEnter={() => handleMouseEnter(i)}
-                  onMouseLeave={handleMouseLeave}
-                  onMouseOver={() => handleMouseEnter(i)}
-                  onClick={() => dispatch(updateSectionIndex(i))}
+                <HoverCard
+                  key={section.id}
+                  closeDelay={0}
+                  openDelay={0}
+                  open={hoveringIndex === i}
                 >
-                  <HoverCardContent
-                    align="end"
-                    side="top"
-                    avoidCollisions={false}
-                    sideOffset={-45}
-                    alignOffset={10}
+                  <div
+                    id={`section-${i}`} // Fixed template literal syntax
+                    onMouseEnter={() => handleMouseEnter(i)}
+                    onMouseLeave={handleMouseLeave}
+                    onMouseOver={() => handleMouseEnter(i)}
+                    onClick={() => dispatch(updateSectionIndex(i))}
                   >
-                    {section.sectionName !== "Header" && (
-                      <ControlButtons
-                        sectionIndex={i}
-                        sectionId={section.id}
-                        pageId={pageId}
-                      />
-                    )}
-                  </HoverCardContent>
-                  <HoverCardTrigger>
-                    <ParallaxProvider>
-                      <div onClick={() => dispatch(closeSectionDesigns())}>
-                        <SectionComponent
-                          key={section.id}
-                          section={section}
+                    <HoverCardContent
+                      align="end"
+                      side="top"
+                      avoidCollisions={false}
+                      sideOffset={-45}
+                      alignOffset={10}
+                    >
+                      {section.sectionName !== "Header" && (
+                        <ControlButtons
+                          sectionIndex={i}
+                          sectionId={section.id}
                           pageId={pageId}
                         />
+                      )}
+                    </HoverCardContent>
+                    <HoverCardTrigger>
+                      <ParallaxProvider>
+                        <div onClick={() => dispatch(closeSectionDesigns())}>
+                          <SectionComponent
+                            key={section.id}
+                            section={section}
+                            pageId={pageId}
+                          />
+                        </div>
+                      </ParallaxProvider>
+                    </HoverCardTrigger>
+                    {section.sectionName !== "Header" && (
+                      <div className="absolute rounded-full z-20 left-2/4 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer bg-background">
+                        <TooltipProvider delayDuration={0}>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span>
+                                <AddSection sectionIndex={i} pageId={pageId} />
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              Add Section
+                              <TooltipArrow className="fill-muted" />
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
                       </div>
-                    </ParallaxProvider>
-                  </HoverCardTrigger>
-                  {section.sectionName !== "Header" && (
-                    <div
-                      className="absolute rounded-full z-20 
-                    right-2/4 transform -translate-x-1/2 -translate-y-1/2 
-                    cursor-pointer bg-background"
-                    >
-                      <TooltipProvider delayDuration={0}>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <span>
-                              <AddSection sectionIndex={i} pageId={pageId} />
-                            </span>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            Add Section
-                            <TooltipArrow className="fill-muted" />
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    </div>
-                  )}
-                </div>
-              </HoverCard>
+                    )}
+                  </div>
+                </HoverCard>
+              </motion.div>
+            );
+          })}
+          {currentPage?.pageSettings.showFooter && (
+            <motion.div
+              key="global-footer"
+              layout
+              onClick={() => dispatch(closeSectionDesigns())}
+            >
+              <GlobalFooterSection pageId={pageId} section={globalFooter} />
             </motion.div>
-          );
-        })}
-        {currentPage?.pageSettings.showFooter && (
-          <motion.div
-            key="global-footer"
-            layout
-            onClick={() => dispatch(closeSectionDesigns())}
-          >
-            <GlobalFooterSection pageId={pageId} section={globalFooter} />
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/*header sidebar for the mobile screen */}
+      {openHeaderOptions && (
+        <div className="fixed inset-0 z-50 pointer-events-none">
+          <div className="pointer-events-auto">
+            <Sidebar
+              open={openHeaderOptions}
+              onClose={() => dispatch(closeHeaderOptions())}
+              parentRef={headerRef}
+              closeButton={
+                headerContent.options.iconType === "text" ? (
+                  headerContent.options.closeMenuText
+                ) : (
+                  <X size={18} />
+                )
+              }
+            >
+              <HeaderMobMenu headerContent={headerContent} />
+            </Sidebar>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

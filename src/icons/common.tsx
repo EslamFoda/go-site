@@ -194,10 +194,10 @@ export const AccordionSectionLightIcon = () => (
 );
 
 export const MenuIcon1 = ({
-  active,
+  // active,
   className,
 }: {
-  active: boolean;
+  // active: boolean;
   className?: string;
 }) => {
   return (
@@ -214,7 +214,8 @@ export const MenuIcon1 = ({
         data-v-90cc7c96=""
         d="m2 4.5h20v2h-20v-2zm0 7h20v2h-20v-2zm0 7h20v2h-20v-2z"
         clipRule="evenodd"
-        className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
+        fill="currentColor"
+        // className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
         fillRule="evenodd"
       ></path>
     </svg>
@@ -222,10 +223,10 @@ export const MenuIcon1 = ({
 };
 
 export const MenuIcon2 = ({
-  active,
+  // active,
   className,
 }: {
-  active: boolean;
+  // active: boolean;
   className?: string;
 }) => {
   return (
@@ -242,7 +243,8 @@ export const MenuIcon2 = ({
         data-v-90cc7c96=""
         d="m2 4.5h20v2h-20v-2zm0 7h12v2h-12v-2zm0 7h20v2h-20v-2z"
         clipRule="evenodd"
-        className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
+        fill="currentColor"
+        // className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
         fillRule="evenodd"
       ></path>
     </svg>
@@ -250,10 +252,10 @@ export const MenuIcon2 = ({
 };
 
 export const MenuIcon3 = ({
-  active,
+  // active,
   className,
 }: {
-  active: boolean;
+  // active: boolean;
   className?: string;
 }) => {
   return (
@@ -270,9 +272,67 @@ export const MenuIcon3 = ({
         data-v-90cc7c96=""
         d="m2 4.5h20v2h-20v-2zm0 14h20v2h-20v-2z"
         clipRule="evenodd"
-        className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
+        fill="currentColor"
+        // className={`${active ? "fill-foreground" : "fill-muted-foreground"}`}
         fillRule="evenodd"
       ></path>
     </svg>
   );
 };
+
+export const MenuIcon4 = ({
+  // active,
+  className,
+}: {
+  // active: boolean;
+  className?: string;
+}) => (
+  <svg
+    data-v-6f66631d=""
+    className={className}
+    width={16}
+    height={16}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      data-v-6f66631d=""
+      d="M10.75 13.25V22H13.25V13.25H22V10.75H13.25V2H10.75V10.75H2V13.25H10.75Z"
+      fill="currentColor"
+    ></path>
+  </svg>
+);
+export const MenuIcon5 = ({
+  // active,
+  className,
+}: {
+  // active: boolean;
+  className?: string;
+}) => (
+  <svg
+    data-v-6f66631d=""
+    className={className}
+    width="17"
+    height="16"
+    viewBox="0 0 17 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      data-v-6f66631d=""
+      d="M4.60026 7.99996C4.60026 8.73634 4.00331 9.33329 3.26693 9.33329C2.53055 9.33329 1.93359 8.73634 1.93359 7.99996C1.93359 7.26358 2.53055 6.66663 3.26693 6.66663C4.00331 6.66663 4.60026 7.26358 4.60026 7.99996Z"
+      fill="currentColor"
+    ></path>
+    <path
+      data-v-6f66631d=""
+      d="M9.93359 7.99996C9.93359 8.73634 9.33664 9.33329 8.60026 9.33329C7.86388 9.33329 7.26693 8.73634 7.26693 7.99996C7.26693 7.26358 7.86388 6.66663 8.60026 6.66663C9.33664 6.66663 9.93359 7.26358 9.93359 7.99996Z"
+      fill="currentColor"
+    ></path>
+    <path
+      data-v-6f66631d=""
+      d="M13.9336 9.33329C14.67 9.33329 15.2669 8.73634 15.2669 7.99996C15.2669 7.26358 14.67 6.66663 13.9336 6.66663C13.1972 6.66663 12.6003 7.26358 12.6003 7.99996C12.6003 8.73634 13.1972 9.33329 13.9336 9.33329Z"
+      fill="currentColor"
+    ></path>
+  </svg>
+);

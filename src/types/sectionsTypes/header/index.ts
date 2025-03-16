@@ -32,16 +32,42 @@ export type HeaderContent = {
     type: string;
     text: string;
   };
-  logo: {
-    link: string;
-    openNewTab: boolean;
-  };
+  logo: HeaderLogo;
   links: Link[];
   buttons: ButtonTypes[];
   announcement: Announcement;
+  options: HeaderOptions;
 };
 
-export type MobileMenuIconType = "icon-1" | "icon-2" | "icon-3";
+export interface HeaderLogo {
+  linkType: "internal" | "external";
+  link: string;
+  externalLink: string;
+  pageId: string;
+  openNewTab: boolean;
+  logoType: "text" | "image";
+  text: string;
+  logoImage: {
+    lightImgId: string;
+    darkImgId: string;
+    urlLight: string;
+    urlDark: string;
+  };
+}
+
+export interface HeaderOptions {
+  iconType: "icon" | "text";
+  menuIcon: MobileMenuIconType;
+  openMenuText: string;
+  closeMenuText: string;
+}
+
+export type MobileMenuIconType =
+  | "icon-1"
+  | "icon-2"
+  | "icon-3"
+  | "icon-4"
+  | "icon-5";
 type DesignSettings = {
   logoColor: "none" | "primary";
   mobileMenuIcon: MobileMenuIconType;
@@ -52,6 +78,10 @@ type DesignSettings = {
   glass: boolean;
   scrollIndicator: boolean;
   autoHide: boolean;
+  logoSize: {
+    desktop: number;
+    mobile: number;
+  };
 };
 
 export type HeaderStyle = {

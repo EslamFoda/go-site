@@ -15,7 +15,7 @@ function AddSection({ sectionIndex }: AddSectionProps) {
   return (
     <div
       onClick={handleToggleSectionDesigns}
-      className="w-full flex items-center justify-center m-auto"
+      className="w-full flex items-center justify-center "
     >
       <PlusCircle cursor="pointer" />
     </div>

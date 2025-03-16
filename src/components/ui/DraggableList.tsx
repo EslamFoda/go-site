@@ -1,4 +1,3 @@
-// DraggableList.js
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { ChevronRight, GripVertical, Plus } from "lucide-react";
@@ -9,10 +8,11 @@ import { SubLink } from "@/types/sectionsTypes/header";
 import { ImagePlaceHolder } from "@/icons/common";
 import { useTheme } from "next-themes";
 import { Logo } from "@/types/sectionsTypes/logos";
+
 interface DraggableListProps {
   label: string;
   items: DragItems;
-  maxItems?: number; // Add the maxItems prop
+  maxItems?: number;
   listType?: "testimonial";
   handleDragEnd: (result: any) => void;
   handleAdd: () => void;
@@ -22,6 +22,7 @@ interface DraggableListProps {
   };
   hasImg?: boolean;
 }
+
 function DraggableList({
   hasImg = false,
   label,
@@ -36,6 +37,7 @@ function DraggableList({
   const listClassName = cn(
     "flex items-center cursor-pointer justify-between h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm"
   );
+
   const ListItem = ({ item, index }: any) => {
     const { theme } = useTheme();
     const logoItem = item as Logo;
@@ -55,38 +57,43 @@ function DraggableList({
             ref={provided.innerRef}
             {...provided.draggableProps}
           >
-            <div className="flex items-center justify-center gap-2">
-              <div
-                className="drag-handle cursor-grab"
-                {...provided.dragHandleProps}
-              >
-                <GripVertical size={16} />
-              </div>
-              {hasImg && (
+            <div className="flex items-center justify-between w-full gap-2">
+              <div className="flex items-center gap-2">
                 <div
-                  className="w-20 flex items-center justify-center rounded-sm h-7 bg-muted"
-                  style={{
-                    backgroundImage: `url(${item.url || logoImg})`,
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                    backgroundRepeat: "no-repeat",
-                  }}
+                  className="drag-handle cursor-grab"
+                  {...provided.dragHandleProps}
                 >
-                  {!item.url && !logoImg && (
-                    <ImagePlaceHolder width={20} height={20} />
-                  )}
+                  <GripVertical size={16} />
                 </div>
-              )}
-              <span>{item.title || item.name || item.text}</span>
-            </div>
-            <div>
-              <ChevronRight size={16} />
+                {hasImg && (
+                  <div
+                    className="w-20 flex items-center justify-center rounded-sm h-7 bg-muted"
+                    style={{
+                      backgroundImage: `url(${item.url || logoImg})`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  >
+                    {!item.url && !logoImg && (
+                      <ImagePlaceHolder width={20} height={20} />
+                    )}
+                  </div>
+                )}
+              </div>
+              <span className="flex-1 truncate min-w-0">
+                {item.title || item.name || item.text}
+              </span>
+              <div>
+                <ChevronRight size={16} />
+              </div>
             </div>
           </div>
         )}
       </Draggable>
     );
   };
+
   return (
     <div className="pt-4 space-y-2">
       <DragDropContext
@@ -109,7 +116,7 @@ function DraggableList({
           )}
         </Droppable>
       </DragDropContext>
-      {(!maxItems || items.length < maxItems) && ( // Conditionally render the "Add" button
+      {(!maxItems || items.length < maxItems) && (
         <div
           className={listClassName}
           onClick={() => {

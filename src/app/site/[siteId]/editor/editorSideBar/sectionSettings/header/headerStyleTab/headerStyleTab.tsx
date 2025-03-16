@@ -5,19 +5,19 @@ import {
   SecDesign,
   ThirdDesign,
 } from "@/icons/header";
-import React from "react";
+import React, { useState } from "react";
 import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
 import { useAppDispatch } from "@/reduxStore/hooks";
-import { HeaderStyle } from "@/types/sectionsTypes/header";
+import { HeaderContent, HeaderStyle } from "@/types/sectionsTypes/header";
 import { updateGlobalStyle } from "@/reduxStore/action";
 import LogoColor from "../../settingsUi/LogoColor";
-import NavMobMenu from "../../settingsUi/NavMobMenu";
 import FillOrFit from "../../settingsUi/fillOrFit";
 import SwitchSetting from "../../settingsUi/SwitchSetting";
+import HeightOrWidthSetting from "../../settingsUi/HeightOrWidthSetting";
 
 const HEADER_DESIGNS = [
   { designName: "design1", Icon: FirstDesign },
@@ -32,15 +32,17 @@ interface HeaderStyleTabProps {
     keyof SectionStyleTypes
   >;
   headerStyle: HeaderStyle;
-  pageId: string;
+  headerContent: HeaderContent;
 }
 
 function HeaderStyleTab({
   findSelectedSection,
   headerStyle,
-  pageId,
+  headerContent,
 }: HeaderStyleTabProps) {
   const dispatch = useAppDispatch();
+  const [isSizeDesktop, setIsSizeDesktop] = useState(true);
+
   if (!headerStyle) return null;
 
   const {
@@ -48,12 +50,16 @@ function HeaderStyleTab({
     float,
     glass,
     logoColor,
-    mobileMenuIcon,
     scrollIndicator,
     shadow,
     sticky,
     width,
+    logoSize,
   } = headerStyle.designSettings;
+
+  const handleToggleSize = () => {
+    setIsSizeDesktop(!isSizeDesktop);
+  };
 
   const handleStickyChange = (value: boolean) => {
     let newSettings = { ...headerStyle.designSettings, sticky: value };
@@ -134,32 +140,53 @@ function HeaderStyleTab({
           );
         })}
       </div>
-      <LogoColor
-        iconColorValue={logoColor}
-        onValueChange={(value) => {
-          dispatch(
-            updateGlobalStyle(findSelectedSection?.id, {
-              designSettings: {
-                ...headerStyle.designSettings,
-                logoColor: value,
-              },
-            })
-          );
-        }}
-      />
-      <NavMobMenu
-        menuValue={mobileMenuIcon}
-        onValueChange={(value) => {
-          dispatch(
-            updateGlobalStyle(findSelectedSection?.id, {
-              designSettings: {
-                ...headerStyle.designSettings,
-                mobileMenuIcon: value,
-              },
-            })
-          );
-        }}
-      />
+      {headerContent.logo.logoType === "text" && (
+        <LogoColor
+          iconColorValue={logoColor}
+          onValueChange={(value) => {
+            dispatch(
+              updateGlobalStyle(findSelectedSection?.id, {
+                designSettings: {
+                  ...headerStyle.designSettings,
+                  logoColor: value,
+                },
+              })
+            );
+          }}
+        />
+      )}
+      {headerContent.logo.logoType === "image" &&
+        (headerContent.logo.logoImage.urlDark ||
+          headerContent.logo.logoImage.urlLight) && (
+          <HeightOrWidthSetting
+            isDesktop={isSizeDesktop}
+            label="Size"
+            min={10}
+            max={100}
+            handleToggleSetting={handleToggleSize}
+            customText={
+              isSizeDesktop ? `${logoSize?.desktop}px` : `${logoSize?.mobile}px`
+            }
+            value={isSizeDesktop ? [logoSize?.desktop] : [logoSize?.mobile]}
+            onValueChange={(value) => {
+              const newSize = isSizeDesktop
+                ? { desktop: value[0] }
+                : { mobile: value[0] };
+
+              dispatch(
+                updateGlobalStyle(findSelectedSection?.id, {
+                  designSettings: {
+                    ...headerStyle.designSettings,
+                    logoSize: {
+                      ...headerStyle.designSettings.logoSize,
+                      ...newSize,
+                    },
+                  },
+                })
+              );
+            }}
+          />
+        )}
       <FillOrFit
         label="Width"
         widthValue={width}

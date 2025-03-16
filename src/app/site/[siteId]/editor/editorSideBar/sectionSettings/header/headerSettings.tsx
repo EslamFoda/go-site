@@ -4,6 +4,7 @@ import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
+  Storage,
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import HeaderContentTab from "./headerContentTab";
@@ -19,6 +20,9 @@ import Announcement from "./announcement";
 import Buttons from "./buttons";
 import HeaderStyleTab from "./headerStyleTab";
 import SubLink from "./subLink";
+import Options from "./options";
+import ChooseImage from "../gallery/chooseImage";
+import { UnsplashImage } from "@/types/common";
 interface HeaderSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -30,10 +34,15 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
   const [openAnnounceTab, setOpenAnnounceTab] = useState(false);
   const [openButtonTab, setOpenButtonsTab] = useState(false);
   const [tabValue, setTabValue] = useState("content");
+  const [imageMode, setImageMode] = useState<"light" | "dark">("light");
   const dispatch = useAppDispatch();
-  const { selectedSection, selectedItem, selectedSubLink } = useAppSelector(
-    (state) => state.editor.present
-  );
+  const {
+    selectedSection,
+    selectedItem,
+    selectedSubLink,
+    openHeaderOptions,
+    chooseImage,
+  } = useAppSelector((state) => state.editor.present);
 
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id
@@ -114,6 +123,86 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
     );
   };
 
+  if (chooseImage) {
+    return (
+      <ChooseImage
+        mediaType="image"
+        selectedImgId={
+          imageMode === "dark"
+            ? headerContent.logo?.logoImage?.darkImgId
+            : headerContent.logo?.logoImage?.lightImgId
+        }
+        handleUpdateUnsplash={(image: UnsplashImage) => {
+          if (imageMode === "dark") {
+            dispatch(
+              updateGlobalContent(findSelectedSection.id, {
+                logo: {
+                  ...headerContent.logo,
+                  logoImage: {
+                    ...headerContent.logo?.logoImage,
+                    darkImgId: image.id,
+                    urlDark: image.urls.regular,
+                  },
+                },
+              })
+            );
+          } else {
+            dispatch(
+              updateGlobalContent(findSelectedSection.id, {
+                logo: {
+                  ...headerContent.logo,
+                  logoImage: {
+                    ...headerContent.logo?.logoImage,
+                    lightImgId: image.id,
+                    urlLight: image.urls.regular,
+                  },
+                },
+              })
+            );
+          }
+        }}
+        handleUpdateUploadedImg={(image: Storage) => {
+          if (imageMode === "dark") {
+            dispatch(
+              updateGlobalContent(findSelectedSection.id, {
+                logo: {
+                  ...headerContent.logo,
+                  logoImage: {
+                    ...headerContent.logo?.logoImage,
+                    darkImgId: image.id,
+                    urlDark: image.url,
+                  },
+                },
+              })
+            );
+          } else {
+            dispatch(
+              updateGlobalContent(findSelectedSection.id, {
+                logo: {
+                  ...headerContent.logo,
+                  logoImage: {
+                    ...headerContent.logo?.logoImage,
+                    lightImgId: image.id,
+                    urlLight: image.url,
+                  },
+                },
+              })
+            );
+          }
+        }}
+      />
+    );
+  }
+
+  if (openHeaderOptions) {
+    return (
+      <Options
+        headerContent={headerContent}
+        findSelectedSection={findSelectedSection}
+      />
+    );
+  }
+
   if (openButtonTab)
     return (
       <Buttons
@@ -163,7 +252,6 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
   if (openAnnounceTab) {
     return (
       <Announcement
-        pageId={pageId}
         setOpenAnnounceTab={setOpenAnnounceTab}
         findSelectedSection={findSelectedSection}
       />
@@ -178,17 +266,18 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
           <TabsTrigger value="style">style</TabsTrigger>
         </TabsList>
         <HeaderContentTab
-          setOpenButtonsTab={setOpenButtonsTab}
-          setOpenLinkTab={setOpenLinkTab}
-          setOpenAnnounceTab={setOpenAnnounceTab}
           pageId={pageId}
           headerContent={headerContent}
           findSelectedSection={findSelectedSection}
+          setOpenButtonsTab={setOpenButtonsTab}
+          setOpenLinkTab={setOpenLinkTab}
+          setOpenAnnounceTab={setOpenAnnounceTab}
+          setImageMode={setImageMode}
         />
         <HeaderStyleTab
           findSelectedSection={findSelectedSection}
           headerStyle={headerStyle}
-          pageId={pageId}
+          headerContent={headerContent}
         />
       </Tabs>
     </div>

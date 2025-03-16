@@ -23,7 +23,7 @@ function ToggleGroup<T extends string>({
   onValueChange,
   className = "space-y-1 flex items-center justify-between",
   toggleClassName = "border-muted-bg flex border-solid border-[1px] rounded-sm h-10 w-4/6",
-  activeClassName = "bg-muted-bg",
+  activeClassName = "bg-muted-bg text-foreground",
 }: ToggleGroupProps<T>) {
   return (
     <div className={className}>
@@ -34,7 +34,7 @@ function ToggleGroup<T extends string>({
             key={option.value}
             onClick={() => onValueChange(option.value)}
             className={`${
-              value === option.value ? activeClassName : ""
+              value === option.value ? activeClassName : "text-muted-foreground/70"
             } flex items-center justify-center cursor-pointer w-full`}
           >
             <span>{option.label}</span>

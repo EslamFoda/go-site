@@ -249,3 +249,11 @@ export const updateStorage = (newStorage: Storage[]) => ({
   type: types.UPDATE_STORAGE,
   payload: newStorage,
 });
+
+export const openHeaderOptions = () => ({
+  type: types.OPEN_HEADER_OPTIONS,
+});
+
+export const closeHeaderOptions = () => ({
+  type: types.CLOSE_HEADER_OPTIONS,
+});

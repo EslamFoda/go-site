@@ -401,8 +401,19 @@ export const insertSiteData = (
           text: "logo",
         },
         logo: {
+          linkType: "internal",
           link: "",
+          externalLink: "",
+          pageId: "",
           openNewTab: false,
+          logoType: "text",
+          text: "logo",
+          logoImage: {
+            lightImgId: "",
+            darkImgId: "",
+            urlLight: "",
+            urlDark: "",
+          },
         },
         links: [
           {
@@ -459,6 +470,12 @@ export const insertSiteData = (
           text: "",
           link: "",
         },
+        options: {
+          iconType: "icon",
+          menuIcon: "icon-1",
+          openMenuText: "Open",
+          closeMenuText: "Close",
+        },
       },
       style: {
         designName: "design1",
@@ -472,6 +489,10 @@ export const insertSiteData = (
           glass: false,
           scrollIndicator: false,
           autoHide: false,
+          logoSize: {
+            desktop: 20,
+            mobile: 20,
+          },
         },
       },
     },

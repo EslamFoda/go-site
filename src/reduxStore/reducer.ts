@@ -189,6 +189,7 @@ const initialState: EditorStore = {
   openSectionDesigns: false,
   openPallet: false,
   openPages: true,
+  openHeaderOptions: false,
   designSettings: {
     fonts: {
       titleFont: {
@@ -258,8 +259,19 @@ const initialState: EditorStore = {
           text: "logo",
         },
         logo: {
+          linkType: "internal",
           link: "",
+          externalLink: "",
+          pageId: "",
           openNewTab: false,
+          logoType: "text",
+          text: "logo",
+          logoImage: {
+            lightImgId: "",
+            darkImgId: "",
+            urlLight: "",
+            urlDark: "",
+          },
         },
         links: [
           {
@@ -318,6 +330,12 @@ const initialState: EditorStore = {
           text: "",
           link: "",
         },
+        options: {
+          iconType: "icon",
+          menuIcon: "icon-1",
+          openMenuText: "Open",
+          closeMenuText: "Close",
+        },
       },
       style: {
         designName: "design1",
@@ -331,6 +349,10 @@ const initialState: EditorStore = {
           glass: false,
           scrollIndicator: false,
           autoHide: false,
+          logoSize: {
+            desktop: 20,
+            mobile: 20,
+          }
         },
       },
     },
@@ -549,6 +571,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.selectedSection = null;
         draft.openPages = false;
         draft.openPageSetting = false;
+        draft.openHeaderOptions = false;
         break;
       }
 
@@ -557,6 +580,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openPages = false;
         draft.openPageSetting = false;
+        draft.openHeaderOptions = false;
         break;
       }
 
@@ -590,6 +614,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPages = false;
         draft.openPageSetting = false;
         draft.selectedItem = null;
+        draft.openHeaderOptions = false;
         break;
       }
 
@@ -598,6 +623,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPallet = false;
         draft.openPages = false;
         draft.openPageSetting = false;
+        draft.openHeaderOptions = false;
         break;
       }
 
@@ -620,6 +646,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.selectedSection = null;
         draft.openPages = false;
         draft.openPageSetting = false;
+        draft.openHeaderOptions = false;
         break;
       }
 
@@ -650,6 +677,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.chooseBgImage = false;
         draft.selectedSection = null;
         draft.openPageSetting = false;
+        draft.openHeaderOptions = false;
         break;
       }
 
@@ -661,6 +689,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.chooseImage = false;
         draft.chooseBgImage = false;
         draft.openPageSetting = false;
+        draft.openHeaderOptions = false;
 
         break;
       }
@@ -690,6 +719,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.chooseImage = false;
         draft.chooseBgImage = false;
         draft.selectedSection = null;
+        draft.openHeaderOptions = false;
         break;
       }
 
@@ -702,6 +732,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.chooseImage = false;
         draft.chooseBgImage = false;
         draft.selectedSection = null;
+        draft.openHeaderOptions = false;
         break;
       }
 
@@ -732,6 +763,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.selectedSection = null;
         draft.openPageSetting = false;
         draft.openPages = true;
+        draft.openHeaderOptions = false;
         break;
       }
 
@@ -805,6 +837,16 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.UPDATE_STORAGE: {
         draft.storage = action.payload;
+        break;
+      }
+
+      case types.OPEN_HEADER_OPTIONS: {
+        draft.openHeaderOptions = true;
+        break;
+      }
+
+      case types.CLOSE_HEADER_OPTIONS: {
+        draft.openHeaderOptions = false;
         break;
       }
 

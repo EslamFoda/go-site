@@ -13,7 +13,6 @@ import { updateGlobalContent } from "@/reduxStore/action";
 import AnnouncementPos from "../../settingsUi/AnnouncementPos";
 import LinkSelector from "../../settingsUi/LinkSelector";
 interface AnnouncementProps {
-  pageId: string;
   setOpenAnnounceTab: React.Dispatch<React.SetStateAction<boolean>>;
   findSelectedSection: EditorSection<
     keyof SectionContentTypes,
@@ -21,7 +20,6 @@ interface AnnouncementProps {
   >;
 }
 function Announcement({
-  pageId,
   findSelectedSection,
   setOpenAnnounceTab,
 }: AnnouncementProps) {
