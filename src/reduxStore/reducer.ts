@@ -190,6 +190,7 @@ const initialState: EditorStore = {
   openPallet: false,
   openPages: true,
   openHeaderOptions: false,
+  openLogoSettings: false,
   designSettings: {
     fonts: {
       titleFont: {
@@ -352,7 +353,7 @@ const initialState: EditorStore = {
           logoSize: {
             desktop: 20,
             mobile: 20,
-          }
+          },
         },
       },
     },
@@ -572,6 +573,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPages = false;
         draft.openPageSetting = false;
         draft.openHeaderOptions = false;
+        draft.openLogoSettings = false;
         break;
       }
 
@@ -581,6 +583,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPages = false;
         draft.openPageSetting = false;
         draft.openHeaderOptions = false;
+        draft.openLogoSettings = false;
         break;
       }
 
@@ -615,6 +618,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPageSetting = false;
         draft.selectedItem = null;
         draft.openHeaderOptions = false;
+        draft.openLogoSettings = false;
         break;
       }
 
@@ -624,6 +628,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPages = false;
         draft.openPageSetting = false;
         draft.openHeaderOptions = false;
+        draft.openLogoSettings = false;
         break;
       }
 
@@ -647,6 +652,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPages = false;
         draft.openPageSetting = false;
         draft.openHeaderOptions = false;
+        draft.openLogoSettings = false;
         break;
       }
 
@@ -678,6 +684,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.selectedSection = null;
         draft.openPageSetting = false;
         draft.openHeaderOptions = false;
+        draft.openLogoSettings = false;
         break;
       }
 
@@ -690,6 +697,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.chooseBgImage = false;
         draft.openPageSetting = false;
         draft.openHeaderOptions = false;
+        draft.openLogoSettings = false;
 
         break;
       }
@@ -720,6 +728,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.chooseBgImage = false;
         draft.selectedSection = null;
         draft.openHeaderOptions = false;
+        draft.openLogoSettings = false;
         break;
       }
 
@@ -733,6 +742,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.chooseBgImage = false;
         draft.selectedSection = null;
         draft.openHeaderOptions = false;
+        draft.openLogoSettings = false;
         break;
       }
 
@@ -764,6 +774,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPageSetting = false;
         draft.openPages = true;
         draft.openHeaderOptions = false;
+        draft.openLogoSettings = false;
         break;
       }
 
@@ -847,6 +858,17 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.CLOSE_HEADER_OPTIONS: {
         draft.openHeaderOptions = false;
+        draft.openLogoSettings = false;
+        break;
+      }
+
+      case types.OPEN_LOGO_SETTINGS: {
+        draft.openLogoSettings = true;
+        break;
+      }
+
+      case types.CLOSE_LOGO_SETTINGS: {
+        draft.openLogoSettings = false;
         break;
       }
 

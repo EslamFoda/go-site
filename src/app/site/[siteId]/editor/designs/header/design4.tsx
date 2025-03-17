@@ -25,6 +25,7 @@ import { Progress } from "@/components/ui/progress";
 import { HeaderLink } from "./headerLink";
 import DesignButtons from "@/components/shared/designButtons";
 import Logo from "./logo";
+import { LogoText } from "./logoText";
 
 interface Design4Props {
   section: any;
@@ -60,7 +61,6 @@ function Design4({ pageId, section }: Design4Props) {
   };
   const logoClassNames = cn("text-xl", {
     "text-primary": headerStyle.designSettings.logoColor === "primary",
-    hidden: headerContent.logo.logoType === "image",
   });
 
   const normalHeaderClassName = cn(
@@ -161,11 +161,14 @@ function Design4({ pageId, section }: Design4Props) {
         <ScrollIndicator />
         <div className={floatHeaderInnerClassName}>
           <div className={innerHeaderClassName}>
-            <h2 className={logoClassNames}>{headerContent.logo.text}</h2>
+            <LogoText
+              logo={headerContent.logo}
+              logoClassNames={logoClassNames}
+            />
             <Logo
               logoType={headerContent.logo.logoType}
-              logoImage={logo.logoImage}
               logoSize={headerStyle.designSettings.logoSize}
+              logo={logo}
             />
             <nav className="hidden lg:flex gap-7 group">
               {headerContent.links.map((link, i) => (
@@ -290,11 +293,11 @@ function Design4({ pageId, section }: Design4Props) {
             </HoverCard>
           ))}
         </nav>
-        <h2 className={logoClassNames}>{headerContent.logo.text}</h2>
+        <LogoText logo={headerContent.logo} logoClassNames={logoClassNames} />
         <Logo
           logoType={headerContent.logo.logoType}
-          logoImage={logo.logoImage}
           logoSize={headerStyle.designSettings.logoSize}
+          logo={logo}
         />
         <div className="hidden lg:flex items-center gap-3 justify-self-end">
           <DesignButtons buttons={headerContent.buttons} reverse />

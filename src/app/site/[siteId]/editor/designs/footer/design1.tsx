@@ -98,7 +98,10 @@ function Design1({ pageId, section }: Design1Props) {
                   exit={{ scale: 0.8, opacity: 0 }}
                   transition={{ type: "tween" }}
                   key={social.id}
-                  className="h-10 w-10 bg-muted rounded-sm flex items-center justify-center cursor-pointer"
+                  className={cn(
+                    "h-10 w-10 bg-muted rounded-sm flex items-center justify-center",
+                    { "cursor-pointer": social.link }
+                  )}
                   onClick={() => handleSocialLinkClick(social.link)}
                 >
                   {iconMap[social.icon]}

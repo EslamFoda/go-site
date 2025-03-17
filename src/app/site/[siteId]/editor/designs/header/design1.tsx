@@ -25,6 +25,7 @@ import { Progress } from "@/components/ui/progress";
 import { HeaderLink } from "./headerLink";
 import DesignButtons from "@/components/shared/designButtons";
 import Logo from "./logo";
+import { LogoText } from "./logoText";
 
 interface Design1Props {
   section: any;
@@ -61,7 +62,6 @@ function Design1({ pageId, section }: Design1Props) {
 
   const logoClassNames = cn("text-xl", {
     "text-primary": headerStyle.designSettings.logoColor === "primary",
-    hidden: headerContent.logo.logoType === "image",
   });
 
   const normalHeaderClassName = cn(
@@ -163,11 +163,14 @@ function Design1({ pageId, section }: Design1Props) {
         <div className={floatHeaderInnerClassName}>
           <div className={innerHeaderClassName}>
             <div className="flex items-center gap-5">
-              <h2 className={logoClassNames}>{headerContent.logo.text}</h2>
+              <LogoText
+                logo={headerContent.logo}
+                logoClassNames={logoClassNames}
+              />
               <Logo
                 logoType={headerContent.logo.logoType}
-                logoImage={logo.logoImage}
                 logoSize={headerStyle.designSettings.logoSize}
+                logo={logo}
               />
               <nav className="hidden lg:flex gap-7 group">
                 {headerContent.links.map((link, i) => (
@@ -250,11 +253,11 @@ function Design1({ pageId, section }: Design1Props) {
       <ScrollIndicator />
       <div className={normalHeaderInnerClassName}>
         <div className="flex items-center gap-5">
-          <h2 className={logoClassNames}>{headerContent.logo.text}</h2>
+          <LogoText logo={headerContent.logo} logoClassNames={logoClassNames} />
           <Logo
             logoType={headerContent.logo.logoType}
-            logoImage={logo.logoImage}
             logoSize={headerStyle.designSettings.logoSize}
+            logo={logo}
           />
           <nav className="hidden lg:flex gap-7 group">
             {headerContent.links.map((link, i) => (

@@ -55,7 +55,10 @@ function Editor({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
       <div className="flex flex-col">
-        <header className="sticky top-0 z-10 flex  h-[48px] items-center gap-1 border-b bg-background px-4">
+        <header
+          className="sticky top-0 flex  h-[48px] items-center gap-1 border-b bg-background px-4"
+          style={{ zIndex: 100 }}
+        >
           <h1 className="text-xl font-semibold">Playground</h1>
           <Drawer>
             <DrawerTrigger asChild>
@@ -120,9 +123,7 @@ function Editor({ children }: { children: React.ReactNode }) {
             <div className="w-[1px] h-full bg-border" />
             <ThemeToggle />
           </div>
-          <div>
-            {/* <PublishBtn /> */}
-          </div>
+          <div>{/* <PublishBtn /> */}</div>
         </header>
         <main className="grid flex-1 pl-[384px] max-md:pl-0 gap-4 overflow-auto  grid-cols-1">
           {children}

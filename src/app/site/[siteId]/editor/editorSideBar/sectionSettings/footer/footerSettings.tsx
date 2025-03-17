@@ -194,6 +194,7 @@ function FooterSettings({ sections, pageId }: FooterSettingsProps) {
   if (openLinkTab) {
     return (
       <Links
+        linksType="footer"
         text="group"
         pageId={pageId}
         findSelectedSection={findSelectedSection}

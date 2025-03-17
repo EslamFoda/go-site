@@ -1,6 +1,10 @@
 import BackBtn from "@/components/shared/backBtn";
 import DraggableList from "@/components/ui/DraggableList";
-import { updateGlobalContent, updateSelectedItem } from "@/reduxStore/action";
+import {
+  openLogoSettings,
+  updateGlobalContent,
+  updateSelectedItem,
+} from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
@@ -9,6 +13,7 @@ import {
 } from "@/reduxStore/types";
 import { LinkGroup } from "@/types/sectionsTypes/footer";
 import { Link } from "@/types/sectionsTypes/header";
+import { ChevronRight } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { v4 } from "uuid";
 interface LinksProps {
@@ -19,16 +24,18 @@ interface LinksProps {
     keyof SectionContentTypes,
     keyof SectionStyleTypes
   >;
-  setOpenLinkTab: React.Dispatch<React.SetStateAction<boolean>>;
   maxLinks: number;
+  linksType: "header" | "footer";
+  setOpenLinkTab: React.Dispatch<React.SetStateAction<boolean>>;
 }
 function Links({
   links,
   text,
   findSelectedSection,
   pageId,
-  setOpenLinkTab,
   maxLinks,
+  linksType,
+  setOpenLinkTab,
 }: LinksProps) {
   const dispatch = useAppDispatch();
   const [items, setItems] = useState(links);
@@ -80,7 +87,21 @@ function Links({
         }}
       />
       <div className="px-5 h space-y-2">
+        {linksType === "header" && (
+          <div
+            className="flex items-center cursor-pointer justify-between hover:bg-muted/50 h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm"
+            onClick={() => {
+              dispatch(openLogoSettings());
+            }}
+          >
+            <span className="flex-1 truncate min-w-0">Logo</span>
+            <div>
+              <ChevronRight size={16} />
+            </div>
+          </div>
+        )}
         <DraggableList
+          draggableContainerClassName="pt-0"
           label="Link"
           maxItems={maxLinks - 1}
           handleDragEnd={handleDragEnd}

@@ -92,6 +92,7 @@ export interface EditorStore {
   activePage: string;
   openPages: boolean;
   openHeaderOptions: boolean;
+  openLogoSettings: boolean;
   settings: SiteSettings;
   openPageSetting: boolean;
   dragItem: GridCard;

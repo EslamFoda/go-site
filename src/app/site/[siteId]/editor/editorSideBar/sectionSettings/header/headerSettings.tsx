@@ -23,6 +23,7 @@ import SubLink from "./subLink";
 import Options from "./options";
 import ChooseImage from "../gallery/chooseImage";
 import { UnsplashImage } from "@/types/common";
+import LogoSettings from "./logoSettings";
 interface HeaderSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -42,6 +43,7 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
     selectedSubLink,
     openHeaderOptions,
     chooseImage,
+    openLogoSettings,
   } = useAppSelector((state) => state.editor.present);
 
   const findSelectedSection = sections?.find(
@@ -236,9 +238,19 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
       />
     );
 
+  if (openLogoSettings) {
+    return (
+      <LogoSettings
+        headerContent={headerContent}
+        findSelectedSection={findSelectedSection}
+      />
+    );
+  }
+
   if (openLinkTab) {
     return (
       <Links
+        linksType="header"
         text="link"
         pageId={pageId}
         findSelectedSection={findSelectedSection}

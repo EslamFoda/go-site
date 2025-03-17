@@ -25,6 +25,7 @@ import { Progress } from "@/components/ui/progress";
 import { HeaderLink } from "./headerLink";
 import DesignButtons from "@/components/shared/designButtons";
 import Logo from "./logo";
+import { LogoText } from "./logoText";
 
 interface Design2Props {
   section: any;
@@ -61,7 +62,6 @@ function Design2({ pageId, section }: Design2Props) {
 
   const logoClassNames = cn("text-xl", {
     "text-primary": headerStyle.designSettings.logoColor === "primary",
-    hidden: headerContent.logo.logoType === "image",
   });
 
   const normalHeaderClassName = cn(
@@ -162,11 +162,14 @@ function Design2({ pageId, section }: Design2Props) {
         <ScrollIndicator />
         <div className={floatHeaderInnerClassName}>
           <div className={innerHeaderClassName}>
-            <h2 className={logoClassNames}>{headerContent.logo.text}</h2>
+            <LogoText
+              logo={headerContent.logo}
+              logoClassNames={logoClassNames}
+            />
             <Logo
               logoType={headerContent.logo.logoType}
-              logoImage={logo.logoImage}
               logoSize={headerStyle.designSettings.logoSize}
+              logo={logo}
             />
             <nav className="hidden lg:flex gap-7 group">
               {headerContent.links.map((link, i) => (
@@ -247,11 +250,11 @@ function Design2({ pageId, section }: Design2Props) {
     >
       <ScrollIndicator />
       <div className={normalHeaderInnerClassName}>
-        <h2 className={logoClassNames}>{headerContent.logo.text}</h2>
+        <LogoText logo={headerContent.logo} logoClassNames={logoClassNames} />
         <Logo
           logoType={headerContent.logo.logoType}
-          logoImage={logo.logoImage}
           logoSize={headerStyle.designSettings.logoSize}
+          logo={logo}
         />
         <nav className="hidden lg:flex gap-7 group">
           {headerContent.links.map((link, i) => (

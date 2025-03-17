@@ -257,3 +257,11 @@ export const openHeaderOptions = () => ({
 export const closeHeaderOptions = () => ({
   type: types.CLOSE_HEADER_OPTIONS,
 });
+
+export const openLogoSettings = () => ({
+  type: types.OPEN_LOGO_SETTINGS,
+});
+
+export const closeLogoSettings = () => ({
+  type: types.CLOSE_LOGO_SETTINGS,
+});

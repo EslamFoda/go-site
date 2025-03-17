@@ -13,6 +13,7 @@ interface DraggableListProps {
   label: string;
   items: DragItems;
   maxItems?: number;
+  draggableContainerClassName?: string;
   listType?: "testimonial";
   handleDragEnd: (result: any) => void;
   handleAdd: () => void;
@@ -28,6 +29,7 @@ function DraggableList({
   label,
   items,
   maxItems,
+  draggableContainerClassName,
   updateSelectedItem,
   handleDragEnd,
   handleAdd,
@@ -95,7 +97,7 @@ function DraggableList({
   };
 
   return (
-    <div className="pt-4 space-y-2">
+    <div className={cn("pt-4 space-y-2", draggableContainerClassName)}>
       <DragDropContext
         onDragEnd={(dropResult) => {
           handleDragEnd(dropResult);
