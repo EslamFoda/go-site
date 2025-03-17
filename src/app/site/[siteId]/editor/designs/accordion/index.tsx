@@ -4,6 +4,7 @@ import Design1 from "./design1";
 interface AccordionProps {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
 function Accordion({ section, pageId }: AccordionProps) {
   const designs = {

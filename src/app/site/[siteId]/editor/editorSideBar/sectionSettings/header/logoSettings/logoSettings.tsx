@@ -37,7 +37,7 @@ function LogoSettings({
           dispatch(closeLogoSettings());
         }}
       />
-      <div className="px-5 h space-y-2">
+      <div className="px-5 space-y-2">
         <ToggleGroup
           label="Link Type"
           options={[

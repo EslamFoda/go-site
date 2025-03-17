@@ -8,8 +8,9 @@ import Design5 from "./design5";
 interface BannerProps {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
-function Banner({ section, pageId }: BannerProps) {
+function Banner({ section, pageId, sectionIndex }: BannerProps) {
   const designs = {
     design1: Design1,
     design2: Design2,
@@ -23,7 +24,7 @@ function Banner({ section, pageId }: BannerProps) {
   const BannerSection = designs[section.style.designName];
   return (
     <>
-      <BannerSection section={section} pageId={pageId} />
+      <BannerSection section={section} pageId={pageId} sectionIndex={sectionIndex}/>
     </>
   );
 }

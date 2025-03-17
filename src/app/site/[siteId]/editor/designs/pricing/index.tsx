@@ -5,6 +5,7 @@ import Design2 from "./design2";
 interface PricingProps {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
 function Pricing({ section, pageId }: PricingProps) {
   const designs = {

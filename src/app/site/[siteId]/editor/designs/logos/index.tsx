@@ -4,6 +4,7 @@ import Design1 from "./design1";
 interface LogosProps {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
 function Logos({ section, pageId }: LogosProps) {
   const designs = {

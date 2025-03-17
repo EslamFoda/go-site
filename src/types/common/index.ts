@@ -175,7 +175,9 @@ export interface ButtonTypes {
   link: string;
   id: string;
   pageId: string;
-  linkType: "internal" | "external";
+  linkType: LinkTypes;
   externalLink: string;
   openNewTab: boolean;
 }
+
+export type LinkTypes = "internal" | "external";

@@ -1,3 +1,4 @@
+import { LinkTypes } from "@/types/common";
 import { ButtonTypes } from "../footer";
 
 export type SubLink = {
@@ -5,7 +6,7 @@ export type SubLink = {
   link: string;
   id: string;
   pageId: string;
-  linkType: "internal" | "external";
+  linkType: LinkTypes;
   externalLink: string;
   openNewTab: boolean;
 };
@@ -15,7 +16,7 @@ export type Link = {
   link: string;
   pageId: string;
   id: string;
-  linkType: "internal" | "external";
+  linkType: LinkTypes;
   externalLink: string;
   openNewTab: boolean;
   subLinks: SubLink[];
@@ -25,6 +26,10 @@ export type Announcement = {
   position: "above" | "below";
   text: string;
   link: string;
+  linkType: LinkTypes;
+  externalLink: string;
+  pageId: string;
+  openNewTab: boolean;
 };
 
 export type HeaderContent = {
@@ -40,7 +45,7 @@ export type HeaderContent = {
 };
 
 export interface HeaderLogo {
-  linkType: "internal" | "external";
+  linkType: LinkTypes;
   link: string;
   externalLink: string;
   pageId: string;

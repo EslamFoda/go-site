@@ -468,7 +468,11 @@ export const insertSiteData = (
         announcement: {
           position: "above", // above, below
           text: "",
+          linkType: "internal",
           link: "",
+          externalLink: "",
+          pageId: "",
+          openNewTab: false,
         },
         options: {
           iconType: "icon",

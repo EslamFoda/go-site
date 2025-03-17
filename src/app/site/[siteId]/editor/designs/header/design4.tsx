@@ -21,11 +21,11 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { ChevronDown } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
 import { HeaderLink } from "./headerLink";
 import DesignButtons from "@/components/shared/designButtons";
 import Logo from "./logo";
 import { LogoText } from "./logoText";
+import Announcement from "./announcement";
 
 interface Design4Props {
   section: any;
@@ -36,13 +36,12 @@ function Design4({ pageId, section }: Design4Props) {
   const dispatch = useAppDispatch();
   const headerContent = section.content as HeaderContent;
   const headerStyle = section.style as HeaderStyle;
-  const { sticky, float, autoHide, width, shadow, glass, scrollIndicator } =
+  const { sticky, float, autoHide, width, shadow, glass } =
     headerStyle.designSettings;
   const { logo } = headerContent;
 
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [hoveringIndex, setHoveringIndex] = useState<number | null>(null);
   const handleMouseEnter = (index: number) => {
     setHoveringIndex(index);
@@ -71,6 +70,8 @@ function Design4({ pageId, section }: Design4Props) {
       "translate-y-0": isVisible && autoHide && sticky, // show navbar when visible
       "bg-background/50 backdrop-blur-lg": glass,
       "shadow-lg": shadow,
+      "absolute bg-background/50 backdrop-blur-lg top-0 right-0 w-[calc(100vw_-_435px)] z-50":
+        glass && !sticky,
     }
   );
 
@@ -83,11 +84,11 @@ function Design4({ pageId, section }: Design4Props) {
   );
 
   const floatHeaderClassName = cn(
-    "bg-background transition-transform ease-linear rounded-sm",
+    "bg-background transition-transform ease-linear",
     {
-      "mx-auto inset-x-0 mt-14 ms-[440px] fixed right-0 top-0 z-50 mt-14":
+      "mx-auto inset-x-0 mt-14 ms-[440px] rounded-md fixed right-0 top-0 z-50 mt-14":
         float,
-      "px-5 w-[calc(99vw_-_435px)]": width === "fill",
+      "w-[calc(99vw_-_435px)]": width === "fill",
       "-translate-y-48": !isVisible && autoHide && sticky, // hide navbar when not visible
       "translate-y-0": isVisible && autoHide && sticky, // show navbar when visible
       "bg-transparent ms-[430px]": width === "fit",
@@ -102,11 +103,17 @@ function Design4({ pageId, section }: Design4Props) {
   });
 
   const innerHeaderClassName = cn(
-    "grid grid-cols-2 rounded-sm lg:grid-cols-[1fr_auto_1fr] items-center gap-7 w-full bg-background px-3 py-3 min-h-20",
+    "grid grid-cols-2 rounded-md lg:grid-cols-[1fr_auto_1fr] items-center gap-7 w-full bg-background px-3 py-3 min-h-20",
     {
       "shadow-lg": shadow && width === "fit",
       "bg-transparent": glass && width === "fill",
       "bg-background/50 backdrop-blur-lg": glass && width === "fit",
+      "rounded-t-none":
+        headerContent.announcement.position === "above" &&
+        headerContent.announcement.text,
+      "rounded-b-none":
+        headerContent.announcement.position === "below" &&
+        headerContent.announcement.text,
     }
   );
 
@@ -114,9 +121,6 @@ function Design4({ pageId, section }: Design4Props) {
     const handleScroll = () => {
       if (typeof window !== "undefined") {
         const scrollY = window.scrollY;
-        const totalHeight = document.body.scrollHeight - window.innerHeight;
-        const progress = (scrollY / totalHeight) * 100;
-        setScrollProgress(progress);
 
         if (scrollY > lastScrollY) {
           setIsVisible(false); // hide the navbar when scrolling down
@@ -137,17 +141,6 @@ function Design4({ pageId, section }: Design4Props) {
     }
   }, [lastScrollY]);
 
-  const ScrollIndicator = () => {
-    if (!scrollIndicator) return null;
-
-    return (
-      <Progress
-        className="h-1 transition-width duration-300 ease-in-out bg-background"
-        value={scrollProgress}
-      />
-    );
-  };
-
   if (float) {
     return (
       <header
@@ -158,18 +151,17 @@ function Design4({ pageId, section }: Design4Props) {
           dispatch(closeChooseIcon());
         }}
       >
-        <ScrollIndicator />
         <div className={floatHeaderInnerClassName}>
+          {headerContent.announcement.text &&
+            headerContent.announcement.position === "above" && (
+              <Announcement
+                announcement={headerContent.announcement}
+                headerFloat={float}
+                glassEffect={glass}
+                headerWidth={width}
+              />
+            )}
           <div className={innerHeaderClassName}>
-            <LogoText
-              logo={headerContent.logo}
-              logoClassNames={logoClassNames}
-            />
-            <Logo
-              logoType={headerContent.logo.logoType}
-              logoSize={headerStyle.designSettings.logoSize}
-              logo={logo}
-            />
             <nav className="hidden lg:flex gap-7 group">
               {headerContent.links.map((link, i) => (
                 <HoverCard key={link.id} closeDelay={100} openDelay={100}>
@@ -214,6 +206,15 @@ function Design4({ pageId, section }: Design4Props) {
                 </HoverCard>
               ))}
             </nav>
+            <LogoText
+              logo={headerContent.logo}
+              logoClassNames={logoClassNames}
+            />
+            <Logo
+              logoType={headerContent.logo.logoType}
+              logoSize={headerStyle.designSettings.logoSize}
+              logo={logo}
+            />
             <div className="hidden lg:flex items-center gap-3 justify-self-end">
               <DesignButtons buttons={headerContent.buttons} reverse />
               <div
@@ -233,6 +234,15 @@ function Design4({ pageId, section }: Design4Props) {
               {NavIcon[headerContent.options.menuIcon]}
             </div>
           </div>
+          {headerContent.announcement.text &&
+            headerContent.announcement.position === "below" && (
+              <Announcement
+                announcement={headerContent.announcement}
+                headerFloat={float}
+                glassEffect={glass}
+                headerWidth={width}
+              />
+            )}
         </div>
       </header>
     );
@@ -247,7 +257,15 @@ function Design4({ pageId, section }: Design4Props) {
         dispatch(closeChooseIcon());
       }}
     >
-      <ScrollIndicator />
+      {headerContent.announcement.text &&
+        headerContent.announcement.position === "above" && (
+          <Announcement
+            announcement={headerContent.announcement}
+            headerFloat={float}
+            glassEffect={glass}
+            headerWidth={width}
+          />
+        )}
       <div className={normalHeaderInnerClassName}>
         <nav className="hidden lg:flex gap-7 group">
           {headerContent.links.map((link, i) => (
@@ -318,6 +336,15 @@ function Design4({ pageId, section }: Design4Props) {
           {NavIcon[headerContent.options.menuIcon]}
         </div>
       </div>
+      {headerContent.announcement.text &&
+        headerContent.announcement.position === "below" && (
+          <Announcement
+            announcement={headerContent.announcement}
+            headerFloat={float}
+            glassEffect={glass}
+            headerWidth={width}
+          />
+        )}
     </header>
   );
 }

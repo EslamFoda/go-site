@@ -10,8 +10,11 @@ import {
 import { HeaderContent } from "@/types/sectionsTypes/header";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { updateGlobalContent } from "@/reduxStore/action";
-import AnnouncementPos from "../../settingsUi/AnnouncementPos";
 import LinkSelector from "../../settingsUi/LinkSelector";
+import ToggleGroup from "../../settingsUi/toggleGroup";
+import validator from "validator";
+import { Switch } from "@/components/ui/switch";
+
 interface AnnouncementProps {
   setOpenAnnounceTab: React.Dispatch<React.SetStateAction<boolean>>;
   findSelectedSection: EditorSection<
@@ -24,7 +27,8 @@ function Announcement({
   setOpenAnnounceTab,
 }: AnnouncementProps) {
   const headerContent = findSelectedSection.content as HeaderContent;
-  const pages = useAppSelector((state) => state.editor.present.editor.pages);
+  const { editor } = useAppSelector((state) => state.editor.present);
+
   const dispatch = useAppDispatch();
   return (
     <div>
@@ -34,9 +38,14 @@ function Announcement({
       />
       <div className="px-5 h space-y-2">
         {headerContent.announcement.text.length ? (
-          <AnnouncementPos
-            positionValue={headerContent.announcement.position}
-            onValueChange={(value) =>
+          <ToggleGroup
+            label="Position"
+            options={[
+              { value: "above", label: "Above" },
+              { value: "below", label: "Below" },
+            ]}
+            value={headerContent.announcement.position}
+            onValueChange={(value) => {
               dispatch(
                 updateGlobalContent(findSelectedSection.id, {
                   ...headerContent,
@@ -45,8 +54,8 @@ function Announcement({
                     position: value,
                   },
                 })
-              )
-            }
+              );
+            }}
           />
         ) : null}
         <div className="space-y-1 flex items-center justify-between">
@@ -69,25 +78,96 @@ function Announcement({
           />
         </div>
 
-        <LinkSelector
-          label="Link"
-          links={pages.map((page) => ({
-            id: page.pageId,
-            link: page.pageSettings.link,
-          }))}
-          selectedLink={headerContent.announcement.link}
-          onSelect={(link) =>
-            dispatch(
-              updateGlobalContent(findSelectedSection.id, {
-                ...headerContent,
-                announcement: {
-                  ...headerContent.announcement,
-                  link,
-                },
-              })
-            )
-          }
-        />
+        <div className="space-y-2">
+          <ToggleGroup
+            label="Link Type"
+            options={[
+              { value: "internal", label: "Internal" },
+              { value: "external", label: "External" },
+            ]}
+            value={headerContent.announcement.linkType}
+            onValueChange={(value) => {
+              dispatch(
+                updateGlobalContent(findSelectedSection.id, {
+                  announcement: {
+                    ...headerContent.announcement,
+                    linkType: value,
+                  },
+                })
+              );
+            }}
+          />
+
+          {headerContent.announcement.linkType === "internal" && (
+            <LinkSelector
+              label="Link"
+              links={editor.pages.map((page) => ({
+                id: page.pageId,
+                link: page.pageSettings.link,
+              }))}
+              selectedLink={headerContent.announcement.link}
+              onSelect={(link) => {
+                const findPageWithLink = editor.pages.find(
+                  (page) => page.pageSettings.link === link.slice(1)
+                );
+                dispatch(
+                  updateGlobalContent(findSelectedSection.id, {
+                    announcement: {
+                      ...headerContent.announcement,
+                      link: link,
+                      pageId: findPageWithLink?.pageId || "",
+                    },
+                  })
+                );
+              }}
+            />
+          )}
+
+          {headerContent.announcement.linkType === "external" && (
+            <div className="flex items-center space-y-1 justify-between">
+              <Label htmlFor="Link">Link</Label>
+              <div className="w-4/6 border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
+                <div className="flex items-center">
+                  <Input
+                    value={headerContent.announcement.externalLink}
+                    className="flex-1 border-none outline-none"
+                    placeholder="Paste link"
+                    onChange={(e) => {
+                      dispatch(
+                        updateGlobalContent(findSelectedSection.id, {
+                          announcement: {
+                            ...headerContent.announcement,
+                            externalLink: e.target.value,
+                          },
+                        })
+                      );
+                    }}
+                  />
+                </div>
+
+                {validator.isURL(headerContent.announcement.externalLink) && (
+                  <div className="flex h-10 items-center justify-between px-3 py-2">
+                    <span>Open in new tab</span>
+                    <Switch
+                      defaultChecked={headerContent.announcement.openNewTab}
+                      checked={headerContent.announcement.openNewTab}
+                      onCheckedChange={(value) => {
+                        dispatch(
+                          updateGlobalContent(findSelectedSection.id, {
+                            announcement: {
+                              ...headerContent.announcement,
+                              openNewTab: value,
+                            },
+                          })
+                        );
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

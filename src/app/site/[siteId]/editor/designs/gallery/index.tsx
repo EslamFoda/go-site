@@ -4,6 +4,7 @@ import Design1 from "./design1";
 interface GalleryProps {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
 function Gallery({ section, pageId }: GalleryProps) {
   const designs = {

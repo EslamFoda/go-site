@@ -9,9 +9,9 @@ import Gallery from "../designs/gallery";
 import Header from "../designs/header";
 import Footer from "../designs/footer";
 import Logos from "../designs/logos";
+import Pricing from "../designs/pricing";
 import Fluid from "../designs/fluid";
 import AddSection from "./addSection";
-import Pricing from "../designs/pricing";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
   closeHeaderOptions,
@@ -37,8 +37,9 @@ import useScrollParallax from "@/hooks/useScrollParallax";
 import { cn } from "@/lib/utils"; // Import cn utility for className merging
 import Sidebar from "@/components/shared/sideBar";
 import HeaderMobMenu from "./headerMobMenu";
-import { HeaderContent } from "@/types/sectionsTypes/header";
+import { HeaderContent, HeaderStyle } from "@/types/sectionsTypes/header";
 import { X } from "lucide-react";
+import ProgressBar from "@/components/shared/progressBar";
 
 const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const dispatch = useAppDispatch();
@@ -64,6 +65,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   );
 
   const headerContent = globalHeader?.content as HeaderContent;
+  const headerStyle = globalHeader?.style as HeaderStyle;
 
   const sectionsMapper: { [key: string]: React.ComponentType<any> } = {
     Banner,
@@ -98,10 +100,21 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   return (
     <div className="relative">
       {/* Parent container with conditional blur */}
+      {headerStyle.designSettings.scrollIndicator &&
+        currentPage?.pageSettings.showHeader && <ProgressBar />}
+      {openHeaderOptions && (
+        <div
+          className="fixed inset-0 z-40 bg-transparent"
+          onClick={() => dispatch(closeHeaderOptions())}
+        />
+      )}
       <div
+        onClick={(e) => {
+          dispatch(closeHeaderOptions());
+        }}
         className={cn(
           "overflow-y-hidden transition-all duration-300",
-          openHeaderOptions && "blur-md" // Tailwind blur effect when sidebar is open
+          openHeaderOptions && "opacity-20 "
         )}
         ref={headerRef}
       >
@@ -147,8 +160,9 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                       avoidCollisions={false}
                       sideOffset={-45}
                       alignOffset={10}
+                      className="rounded-none"
                     >
-                      {section.sectionName !== "Header" && (
+                      {i !== 0 && (
                         <ControlButtons
                           sectionIndex={i}
                           sectionId={section.id}
@@ -163,27 +177,27 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                             key={section.id}
                             section={section}
                             pageId={pageId}
+                            sectionIndex={i}
                           />
                         </div>
                       </ParallaxProvider>
                     </HoverCardTrigger>
-                    {section.sectionName !== "Header" && (
-                      <div className="absolute rounded-full z-20 left-2/4 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer bg-background">
-                        <TooltipProvider delayDuration={0}>
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <span>
-                                <AddSection sectionIndex={i} pageId={pageId} />
-                              </span>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              Add Section
-                              <TooltipArrow className="fill-muted" />
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
-                      </div>
-                    )}
+
+                    <div className="absolute rounded-full z-20 left-2/4 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer bg-background">
+                      <TooltipProvider delayDuration={0}>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span>
+                              <AddSection sectionIndex={i} pageId={pageId} />
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            Add Section
+                            <TooltipArrow className="fill-muted" />
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
                   </div>
                 </HoverCard>
               </motion.div>

@@ -5,6 +5,7 @@ import Design2 from "./design2";
 interface ListProps {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
 function List({ section, pageId }: ListProps) {
   const designs = {

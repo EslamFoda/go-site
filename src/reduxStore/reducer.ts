@@ -329,7 +329,11 @@ const initialState: EditorStore = {
         announcement: {
           position: "above", // above, below
           text: "",
+          linkType: "internal",
           link: "",
+          externalLink: "",
+          pageId: "",
+          openNewTab: false,
         },
         options: {
           iconType: "icon",
@@ -853,6 +857,8 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.OPEN_HEADER_OPTIONS: {
         draft.openHeaderOptions = true;
+        draft.openPageSetting = false;
+        draft.openPages = false;
         break;
       }
 

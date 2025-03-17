@@ -5,6 +5,7 @@ import Design2 from "./design2";
 interface TestimonialProps {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
 function Testimonials({ section, pageId }: TestimonialProps) {
   const designs = {

@@ -26,6 +26,7 @@ import { HeaderLink } from "./headerLink";
 import DesignButtons from "@/components/shared/designButtons";
 import Logo from "./logo";
 import { LogoText } from "./logoText";
+import Announcement from "./announcement";
 
 interface Design2Props {
   section: any;
@@ -72,11 +73,13 @@ function Design2({ pageId, section }: Design2Props) {
       "translate-y-0": isVisible && autoHide && sticky, // show navbar when visible
       "bg-background/50 backdrop-blur-lg": glass,
       "shadow-lg": shadow,
+      "absolute bg-background/50 backdrop-blur-lg top-0 right-0 w-[calc(100vw_-_435px)] z-50":
+        glass && !sticky,
     }
   );
 
   const normalHeaderInnerClassName = cn(
-    "min-h-20 py-3 flex items-center justify-between",
+    "min-h-20 py-3 grid grid-cols-2 lg:grid-cols-[1fr_auto_1fr] gap-7 items-center",
     {
       "container max-w-container": width === "fit",
       "px-3": width === "fill",
@@ -84,11 +87,11 @@ function Design2({ pageId, section }: Design2Props) {
   );
 
   const floatHeaderClassName = cn(
-    "bg-background transition-transform ease-linear rounded-sm",
+    "bg-background transition-transform ease-linear",
     {
-      "mx-auto inset-x-0 mt-14 ms-[440px] fixed right-0 top-0 z-50 mt-14":
+      "mx-auto inset-x-0 mt-14 ms-[440px] rounded-md fixed right-0 top-0 z-50 mt-14":
         float,
-      "px-5 w-[calc(99vw_-_435px)]": width === "fill",
+      "w-[calc(99vw_-_435px)]": width === "fill",
       "-translate-y-48": !isVisible && autoHide && sticky, // hide navbar when not visible
       "translate-y-0": isVisible && autoHide && sticky, // show navbar when visible
       "bg-transparent ms-[430px]": width === "fit",
@@ -103,11 +106,17 @@ function Design2({ pageId, section }: Design2Props) {
   });
 
   const innerHeaderClassName = cn(
-    "flex items-center rounded-sm justify-between w-full bg-background px-3 py-3 min-h-20",
+    "grid grid-cols-2 rounded-md lg:grid-cols-[1fr_auto_1fr] items-center gap-7 w-full bg-background px-3 py-3 min-h-20",
     {
       "shadow-lg": shadow && width === "fit",
       "bg-transparent": glass && width === "fill",
       "bg-background/50 backdrop-blur-lg": glass && width === "fit",
+      "rounded-t-none":
+        headerContent.announcement.position === "above" &&
+        headerContent.announcement.text,
+      "rounded-b-none":
+        headerContent.announcement.position === "below" &&
+        headerContent.announcement.text,
     }
   );
 
@@ -138,17 +147,6 @@ function Design2({ pageId, section }: Design2Props) {
     }
   }, [lastScrollY]);
 
-  const ScrollIndicator = () => {
-    if (!scrollIndicator) return null;
-
-    return (
-      <Progress
-        className="h-1 transition-width duration-300 ease-in-out bg-background"
-        value={scrollProgress}
-      />
-    );
-  };
-
   if (float) {
     return (
       <header
@@ -159,8 +157,16 @@ function Design2({ pageId, section }: Design2Props) {
           dispatch(closeChooseIcon());
         }}
       >
-        <ScrollIndicator />
         <div className={floatHeaderInnerClassName}>
+          {headerContent.announcement.text &&
+            headerContent.announcement.position === "above" && (
+              <Announcement
+                announcement={headerContent.announcement}
+                headerFloat={float}
+                glassEffect={glass}
+                headerWidth={width}
+              />
+            )}
           <div className={innerHeaderClassName}>
             <LogoText
               logo={headerContent.logo}
@@ -215,7 +221,7 @@ function Design2({ pageId, section }: Design2Props) {
                 </HoverCard>
               ))}
             </nav>
-            <div className="hidden lg:flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-3 justify-self-end">
               <DesignButtons buttons={headerContent.buttons} reverse />
               <div
                 className="cursor-pointer"
@@ -230,10 +236,19 @@ function Design2({ pageId, section }: Design2Props) {
                 {NavIcon[headerContent.options.menuIcon]}
               </div>
             </div>
-            <div className="block lg:hidden cursor-pointer">
+            <div className="block lg:hidden cursor-pointer justify-self-end">
               {NavIcon[headerContent.options.menuIcon]}
             </div>
           </div>
+          {headerContent.announcement.text &&
+            headerContent.announcement.position === "below" && (
+              <Announcement
+                announcement={headerContent.announcement}
+                headerFloat={float}
+                glassEffect={glass}
+                headerWidth={width}
+              />
+            )}
         </div>
       </header>
     );
@@ -248,7 +263,15 @@ function Design2({ pageId, section }: Design2Props) {
         dispatch(closeChooseIcon());
       }}
     >
-      <ScrollIndicator />
+      {headerContent.announcement.text &&
+        headerContent.announcement.position === "above" && (
+          <Announcement
+            announcement={headerContent.announcement}
+            headerFloat={float}
+            glassEffect={glass}
+            headerWidth={width}
+          />
+        )}
       <div className={normalHeaderInnerClassName}>
         <LogoText logo={headerContent.logo} logoClassNames={logoClassNames} />
         <Logo
@@ -300,7 +323,7 @@ function Design2({ pageId, section }: Design2Props) {
             </HoverCard>
           ))}
         </nav>
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden lg:flex items-center gap-3 justify-self-end">
           <DesignButtons buttons={headerContent.buttons} reverse />
           <div
             className="cursor-pointer"
@@ -315,10 +338,19 @@ function Design2({ pageId, section }: Design2Props) {
             {NavIcon[headerContent.options.menuIcon]}
           </div>
         </div>
-        <div className="block lg:hidden cursor-pointer">
+        <div className="block lg:hidden cursor-pointer justify-self-end">
           {NavIcon[headerContent.options.menuIcon]}
         </div>
       </div>
+      {headerContent.announcement.text &&
+        headerContent.announcement.position === "below" && (
+          <Announcement
+            announcement={headerContent.announcement}
+            headerFloat={float}
+            glassEffect={glass}
+            headerWidth={width}
+          />
+        )}
     </header>
   );
 }

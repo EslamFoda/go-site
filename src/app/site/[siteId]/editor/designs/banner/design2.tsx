@@ -1,7 +1,7 @@
 import { ImagePlaceHolder, VideoPlaceHolder } from "@/icons/common";
 import { cn } from "@/lib/utils";
 import { updateSelectedSection } from "@/reduxStore/action";
-import { useAppDispatch } from "@/reduxStore/hooks";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import React, { useState, useRef } from "react";
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
 import BannerButtons from "./bannerButtons";
@@ -11,15 +11,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "react-responsive";
 import BackgroundImage from "@/components/shared/backgroundImage";
+import { HeaderContent, HeaderStyle } from "@/types/sectionsTypes/header";
 
 interface Design2Props {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
 
-function Design2({ section, pageId }: Design2Props) {
+function Design2({ section, pageId, sectionIndex }: Design2Props) {
   const dispatch = useAppDispatch();
+  const { globalSections } = useAppSelector((state) => state.editor.present);
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
+  const globalHeader = globalSections.find(
+    (section) => section.sectionName === "Header"
+  );
+  const headerStyle = globalHeader?.style as HeaderStyle;
+  const headerContent = globalHeader?.content as HeaderContent;
   const bannerContent = section?.content as BannerContent;
   const bannerStyle = section?.style as BannerStyle;
 
@@ -75,6 +83,19 @@ function Design2({ section, pageId }: Design2Props) {
     "justify-start": sectionBackground.align === "start",
     "justify-center": sectionBackground.align === "center",
     "justify-end": sectionBackground.align === "end",
+    "pt-[80px]":
+      (sectionIndex === 0 && headerStyle.designSettings.sticky) ||
+      (headerStyle.designSettings.glass &&
+        !headerStyle.designSettings.sticky &&
+        sectionIndex === 0),
+    "pt-[108px]":
+      (sectionIndex === 0 &&
+        headerStyle.designSettings.sticky &&
+        headerContent.announcement.text) ||
+      (headerStyle.designSettings.glass &&
+        !headerStyle.designSettings.sticky &&
+        sectionIndex === 0 &&
+        headerContent.announcement.text),
   });
 
   const getImageClassName = cn(

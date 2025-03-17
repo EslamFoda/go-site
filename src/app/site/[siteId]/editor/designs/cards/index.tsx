@@ -5,6 +5,7 @@ import Design2 from "./design2";
 interface CardsProps {
   section: any;
   pageId: string;
+  sectionIndex: number;
 }
 function Cards({ section, pageId }: CardsProps) {
   const designs = {
