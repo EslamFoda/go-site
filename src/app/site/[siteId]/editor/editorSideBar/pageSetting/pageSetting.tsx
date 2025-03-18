@@ -24,7 +24,12 @@ function PageSetting() {
 
   useEffect(() => {
     setLinkValue(pageSettings?.link || "");
-  }, [pageSettings?.link]);
+    if (!isHomePage && !pageSettings?.link?.trim()) {
+      setLinkError("Please enter a value for the link");
+    } else {
+      setLinkError("");
+    }
+  }, [pageSettings?.link, isHomePage]);
 
   const checkLinkExists = (link: string) => {
     return pages.some(
@@ -36,7 +41,9 @@ function PageSetting() {
     const newLink = e.target.value;
     setLinkValue(newLink);
 
-    if (checkLinkExists(newLink)) {
+    if (!newLink.trim()) {
+      setLinkError("Please enter a value for the link");
+    } else if (checkLinkExists(newLink)) {
       setLinkError("This link is already in use");
     } else {
       setLinkError("");
@@ -56,6 +63,7 @@ function PageSetting() {
         <Input
           className="w-4/6"
           id="title"
+          placeholder="Add title"
           value={pageSettings?.title}
           onChange={(e: any) => {
             dispatch(
@@ -72,7 +80,12 @@ function PageSetting() {
           <div className="flex items-center justify-between">
             <Label htmlFor="link">Link</Label>
             <div className="w-4/6">
-              <Input id="link" value={linkValue} onChange={handleLinkChange} />
+              <Input
+                placeholder="Add link"
+                id="link"
+                value={linkValue}
+                onChange={handleLinkChange}
+              />
               {linkError && (
                 <div className="flex items-center justify-start w-full">
                   <p className="text-red-500 text-sm mt-1">{linkError}</p>

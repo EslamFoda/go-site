@@ -65,7 +65,7 @@ const DraggableModal: React.FC<DraggableModalProps> = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 pointer-events-none"
-          style={{ zIndex: 50 }}
+          style={{ zIndex: 101 }}
         >
           <Draggable
             nodeRef={modalRef}

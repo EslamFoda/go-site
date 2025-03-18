@@ -501,6 +501,9 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
     switch (action.type) {
       case types.UPDATE_SELECTED_SECTION: {
         draft.openPallet = false;
+        draft.openPages = false;
+        draft.openPageSetting = false;
+        draft.openSectionDesigns = false;
         const page = state.editor.pages.find(
           (p) => p.pageId === action.payload.pageId
         );

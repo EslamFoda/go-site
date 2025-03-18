@@ -1,50 +1,50 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { File, Palette, Settings } from "lucide-react";
 import React from "react";
-import { useAppDispatch } from "@/reduxStore/hooks";
-import {
-  openPageSetting,
-  openPagesTab,
-  openPallet,
-} from "@/reduxStore/action";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { openPageSetting, openPagesTab, openPallet } from "@/reduxStore/action";
+import { PagesIcon, PalletIcon, SettingsIcon } from "@/icons/common";
 
 function SidebarButtons() {
   const dispatch = useAppDispatch();
+  const {
+    openPageSetting: pageSettings,
+    openPallet: pallet,
+    openPages,
+  } = useAppSelector((state) => state.editor.present);
   const handleOpenPallet = () => {
     dispatch(openPallet());
   };
   return (
-    <nav className="grid gap-3 p-2">
-      <Button
-        variant="ghost"
-        size="icon"
-        className="rounded-lg"
-        aria-label="Playground"
+    <nav className="flex flex-col">
+      <div
+        className="flex items-center h-12 relative justify-center group cursor-pointer hover:bg-muted/70"
         onClick={() => dispatch(openPagesTab())}
       >
-        <File className="size-5" />
-      </Button>
-      <Button
-        variant="ghost"
-        size="icon"
-        className="rounded-lg"
-        aria-label="Models"
+        <PagesIcon active={openPages} />
+        <div className="hidden group-hover:flex items-center justify-center bg-foreground : text-background w-full h-5 text-xs absolute -bottom-4 right-0">
+          <span>Pages</span>
+        </div>
+      </div>
+      <div
+        className="flex items-center h-12 justify-center cursor-pointer hover:bg-muted/70 relative group"
         onClick={handleOpenPallet}
       >
-        <Palette className="size-5" />
-      </Button>
+        <PalletIcon active={pallet} />{" "}
+        <div className="hidden group-hover:flex items-center justify-center bg-foreground : text-background w-full h-5 text-xs absolute -bottom-4 right-0">
+          <span>Design</span>
+        </div>
+      </div>
 
-      <Button
-        variant="ghost"
-        size="icon"
-        className="rounded-lg"
-        aria-label="API"
+      <div
+        className="flex items-center h-12 justify-center cursor-pointer hover:bg-muted/70 relative group"
         onClick={() => dispatch(openPageSetting())}
       >
-        <Settings className="size-5" />
-      </Button>
+        <SettingsIcon active={pageSettings} />{" "}
+        <div className="hidden group-hover:flex items-center justify-center bg-foreground : text-background w-full h-5 text-xs absolute -bottom-4 right-0">
+          <span>Settings</span>
+        </div>
+      </div>
     </nav>
   );
 }

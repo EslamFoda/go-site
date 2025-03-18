@@ -65,12 +65,13 @@ function Design4({ pageId, section }: Design4Props) {
   const normalHeaderClassName = cn(
     "bg-background transition-transform ease-linear",
     {
-      "fixed right-0  w-[calc(100vw_-_435px)] top-0 z-50 mt-12": sticky,
+      "fixed right-0 w-[calc(100vw_-_444px)] max-md:w-[calc(100vw_-_61px)]  top-0 z-50 mt-12":
+        sticky,
       "-translate-y-48": !isVisible && autoHide && sticky, // hide navbar when not visible
       "translate-y-0": isVisible && autoHide && sticky, // show navbar when visible
       "bg-background/50 backdrop-blur-lg": glass,
       "shadow-lg": shadow,
-      "absolute bg-background/50 backdrop-blur-lg top-0 right-0 w-[calc(100vw_-_435px)] z-50":
+      "absolute bg-background/50 backdrop-blur-lg top-0 right-0 w-[calc(100vw_-_444px)] max-md:w-[calc(100vw_-_61px)] z-50":
         glass && !sticky,
     }
   );
@@ -86,12 +87,12 @@ function Design4({ pageId, section }: Design4Props) {
   const floatHeaderClassName = cn(
     "bg-background transition-transform ease-linear",
     {
-      "mx-auto inset-x-0 mt-14 ms-[440px] rounded-md fixed right-0 top-0 z-50 mt-14":
+      "mx-auto inset-x-0 mt-14 ms-[455px] max-md:ms-[65px] rounded-md fixed right-0 top-0 z-50 mt-14":
         float,
-      "w-[calc(99vw_-_435px)]": width === "fill",
+      "w-[calc(99vw_-_455px)] max-md:w-[calc(99vw_-_75px)]": width === "fill",
       "-translate-y-48": !isVisible && autoHide && sticky, // hide navbar when not visible
       "translate-y-0": isVisible && autoHide && sticky, // show navbar when visible
-      "bg-transparent ms-[430px]": width === "fit",
+      "bg-transparent ms-[439px] max-md:ms-[55px]": width === "fit",
       "shadow-lg": shadow && width === "fill",
       "bg-background/50 backdrop-blur-lg": glass && width === "fill",
       "bg-transparent": glass && width === "fit",

@@ -33,18 +33,26 @@ function Editor({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="grid h-screen w-full pl-[46px]">
-      <aside className="inset-y fixed  left-0 z-20 flex h-full flex-col border-r">
-        <div className="border-b p-2" onClick={() => dispatch(closeSideBar())}>
+    <div className="grid h-screen w-full pl-[55px]">
+      <aside className="inset-y fixed w-14 left-0 z-50 flex h-full flex-col border-r">
+        <div
+          className="border-b h-12 flex items-center justify-center cursor-pointer hover:bg-muted/70"
+          onClick={() => dispatch(closeSideBar())}
+        >
           <Link href="/">
-            <Button variant="outline" size="icon" aria-label="Home">
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Home"
+              className="hover:bg-transparent"
+            >
               <Triangle className="size-5 fill-foreground" />
             </Button>
           </Link>
         </div>
         <SidebarButtons />
       </aside>
-      <aside className="inset-y fixed left-15 z-20 flex w-96  max-md:hidden  h-full flex-col border-r">
+      <aside className="inset-y fixed left-15 z-50 flex w-96  max-md:hidden  h-full flex-col border-r">
         <div className="border-b p-2 invisible">
           <Button variant="outline" size="icon" aria-label="Home">
             <Triangle className="size-5 fill-foreground" />
@@ -56,7 +64,7 @@ function Editor({ children }: { children: React.ReactNode }) {
       </aside>
       <div className="flex flex-col">
         <header
-          className="sticky top-0 flex  h-[48px] items-center gap-1 border-b bg-background px-4"
+          className="sticky top-0 flex  h-[48px] items-center gap-1 border-b bg-background px-4 ms-[1px]"
           style={{ zIndex: 100 }}
         >
           <h1 className="text-xl font-semibold">Playground</h1>

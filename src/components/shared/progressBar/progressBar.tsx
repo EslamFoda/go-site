@@ -12,7 +12,7 @@ function ProgressBar() {
 
   return (
     <motion.div
-      className="h-1 bg-primary fixed left-[430px] mt-[47px] top-0 right-0  pointer-events-none"
+      className="h-1 bg-primary fixed left-[440px] max-md:left-[57px] mt-[47px] top-0 right-0  pointer-events-none"
       style={{
         scaleX: springProgress, // Directly use the MotionValue
         transformOrigin: "left",

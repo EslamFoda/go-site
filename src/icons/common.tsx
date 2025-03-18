@@ -336,3 +336,64 @@ export const MenuIcon5 = ({
     ></path>
   </svg>
 );
+
+export const PagesIcon = ({ active }: { active: boolean }) => (
+  <svg
+    fill="none"
+    width={18}
+    height={18}
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="m21 22h-18v-20h11c1.7 0 3 1.3 3 3v1h1c1.7 0 3 1.3 3 3v13z"
+      className={active ? "fill-foreground" : "fill-muted-foreground "}
+    ></path>
+  </svg>
+);
+
+export const PalletIcon = ({ active }: { active: boolean }) => (
+  <svg
+    fill="none"
+    width={18}
+    height={18}
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clipPath="url(#a)">
+      <path
+        d="M14.632 17.957c-.319-.762-.632-1.507-.632-2.108 0-1.711 1.582-1.475 3.339-1.212C19.533 14.963 22 15.332 22 12c0-5.514-4.486-10-10-10S2 6.486 2 12s4.486 10 10 10c4.326 0 3.456-2.078 2.632-4.044zM8.554 5.998a2 2 0 1 1 0 4 2 2 0 1 1 0-4zm8.793 2.573a2 2 0 0 0-4 0 2 2 0 1 0 4 0zm-8.61 4.792a2 2 0 1 1 0 4 2 2 0 1 1 0-4z"
+        className={active ? "fill-foreground" : "fill-muted-foreground "}
+        fillRule="evenodd"
+      ></path>
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path d="M0 0h24v24H0z" fill="#fff"></path>
+      </clipPath>
+    </defs>
+  </svg>
+);
+
+export const SettingsIcon = ({ active }: { active: boolean }) => (
+  <svg
+    fill="none"
+    width={18}
+    height={18}
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#a)">
+      <path
+        d="M12 15.333c1.841 0 3.333-1.492 3.333-3.333S13.841 8.667 12 8.667 8.667 10.159 8.667 12s1.492 3.333 3.333 3.333zM12 .889l10 5.444v11.222l-10 5.556-10-5.444V6.444L12 .889z"
+        className={active ? "fill-foreground" : "fill-muted-foreground "}
+        fill-rule="evenodd"
+      ></path>
+    </g>
+    <defs>
+      <clipPath id="a">
+        <path d="M0 0h24v24H0z" fill="#fff"></path>
+      </clipPath>
+    </defs>
+  </svg>
+);
