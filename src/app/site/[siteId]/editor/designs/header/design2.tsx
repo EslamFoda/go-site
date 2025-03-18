@@ -1,11 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {
-  MenuIcon1,
-  MenuIcon2,
-  MenuIcon3,
-  MenuIcon4,
-  MenuIcon5,
-} from "@/icons/common";
 import { cn } from "@/lib/utils";
 import {
   closeChooseIcon,
@@ -21,12 +14,12 @@ import {
   HoverCardTrigger,
 } from "@/components/ui/hover-card";
 import { ChevronDown } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
 import { HeaderLink } from "./headerLink";
 import DesignButtons from "@/components/shared/designButtons";
 import Logo from "./logo";
 import { LogoText } from "./logoText";
 import Announcement from "./announcement";
+import HeaderMenu from "./headerMenu";
 
 interface Design2Props {
   section: any;
@@ -43,7 +36,6 @@ function Design2({ pageId, section }: Design2Props) {
 
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [hoveringIndex, setHoveringIndex] = useState<number | null>(null);
   const handleMouseEnter = (index: number) => {
     setHoveringIndex(index);
@@ -53,14 +45,6 @@ function Design2({ pageId, section }: Design2Props) {
     setHoveringIndex(null);
   };
 
-  const NavIcon = {
-    "icon-1": <MenuIcon1 className="animate-fadeIn" />,
-    "icon-2": <MenuIcon2 className="animate-fadeIn" />,
-    "icon-3": <MenuIcon3 className="animate-fadeIn" />,
-    "icon-4": <MenuIcon4 className="animate-fadeIn" />,
-    "icon-5": <MenuIcon5 className="animate-fadeIn" />,
-  };
-
   const logoClassNames = cn("text-xl", {
     "text-primary": headerStyle.designSettings.logoColor === "primary",
   });
@@ -68,7 +52,8 @@ function Design2({ pageId, section }: Design2Props) {
   const normalHeaderClassName = cn(
     "bg-background transition-transform ease-linear",
     {
-      "fixed right-0  w-[calc(100vw_-_444px)] max-md:w-[calc(100vw_-_61px)] top-0 z-50 mt-12": sticky,
+      "fixed right-0  w-[calc(100vw_-_444px)] max-md:w-[calc(100vw_-_61px)] top-0 z-50 mt-12":
+        sticky,
       "-translate-y-48": !isVisible && autoHide && sticky, // hide navbar when not visible
       "translate-y-0": isVisible && autoHide && sticky, // show navbar when visible
       "bg-background/50 backdrop-blur-lg": glass,
@@ -124,9 +109,6 @@ function Design2({ pageId, section }: Design2Props) {
     const handleScroll = () => {
       if (typeof window !== "undefined") {
         const scrollY = window.scrollY;
-        const totalHeight = document.body.scrollHeight - window.innerHeight;
-        const progress = (scrollY / totalHeight) * 100;
-        setScrollProgress(progress);
 
         if (scrollY > lastScrollY) {
           setIsVisible(false); // hide the navbar when scrolling down
@@ -233,11 +215,11 @@ function Design2({ pageId, section }: Design2Props) {
                   dispatch(closeChooseIcon());
                 }}
               >
-                {NavIcon[headerContent.options.menuIcon]}
+                <HeaderMenu options={headerContent.options} />
               </div>
             </div>
             <div className="block lg:hidden cursor-pointer justify-self-end">
-              {NavIcon[headerContent.options.menuIcon]}
+              <HeaderMenu options={headerContent.options} />
             </div>
           </div>
           {headerContent.announcement.text &&
@@ -335,11 +317,11 @@ function Design2({ pageId, section }: Design2Props) {
               dispatch(closeChooseIcon());
             }}
           >
-            {NavIcon[headerContent.options.menuIcon]}
+            <HeaderMenu options={headerContent.options} />
           </div>
         </div>
         <div className="block lg:hidden cursor-pointer justify-self-end">
-          {NavIcon[headerContent.options.menuIcon]}
+          <HeaderMenu options={headerContent.options} />
         </div>
       </div>
       {headerContent.announcement.text &&

@@ -1,11 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {
-  MenuIcon1,
-  MenuIcon2,
-  MenuIcon3,
-  MenuIcon4,
-  MenuIcon5,
-} from "@/icons/common";
 import { cn } from "@/lib/utils";
 import {
   closeChooseIcon,
@@ -26,6 +19,7 @@ import DesignButtons from "@/components/shared/designButtons";
 import Logo from "./logo";
 import { LogoText } from "./logoText";
 import Announcement from "./announcement";
+import HeaderMenu from "./headerMenu";
 
 interface Design3Props {
   section: any;
@@ -49,14 +43,6 @@ function Design3({ pageId, section }: Design3Props) {
 
   const handleMouseLeave = () => {
     setHoveringIndex(null);
-  };
-
-  const NavIcon = {
-    "icon-1": <MenuIcon1 className="animate-fadeIn" />,
-    "icon-2": <MenuIcon2 className="animate-fadeIn" />,
-    "icon-3": <MenuIcon3 className="animate-fadeIn" />,
-    "icon-4": <MenuIcon4 className="animate-fadeIn" />,
-    "icon-5": <MenuIcon5 className="animate-fadeIn" />,
   };
 
   const logoClassNames = cn("text-xl", {
@@ -230,11 +216,11 @@ function Design3({ pageId, section }: Design3Props) {
                     dispatch(closeChooseIcon());
                   }}
                 >
-                  {NavIcon[headerContent.options.menuIcon]}
+                  <HeaderMenu options={headerContent.options} />
                 </div>
               </div>
               <div className="block lg:hidden cursor-pointer">
-                {NavIcon[headerContent.options.menuIcon]}
+                <HeaderMenu options={headerContent.options} />
               </div>
             </div>
           </div>
@@ -334,11 +320,11 @@ function Design3({ pageId, section }: Design3Props) {
                 dispatch(closeChooseIcon());
               }}
             >
-              {NavIcon[headerContent.options.menuIcon]}
+              <HeaderMenu options={headerContent.options} />
             </div>
           </div>
           <div className="block lg:hidden cursor-pointer">
-            {NavIcon[headerContent.options.menuIcon]}
+            <HeaderMenu options={headerContent.options} />
           </div>
         </div>
       </div>

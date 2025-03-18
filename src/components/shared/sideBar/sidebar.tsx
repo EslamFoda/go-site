@@ -102,7 +102,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           </div>
           <button
             className={cn(
-              "h-8 rounded-md flex items-center justify-center w-8",
+              "rounded-md flex items-center justify-center",
               closeButtonClassName
             )}
             onClick={onClose}

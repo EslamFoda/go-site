@@ -1,11 +1,4 @@
 import React, { useEffect, useState } from "react";
-import {
-  MenuIcon1,
-  MenuIcon2,
-  MenuIcon3,
-  MenuIcon4,
-  MenuIcon5,
-} from "@/icons/common";
 import { cn } from "@/lib/utils";
 import {
   closeChooseIcon,
@@ -13,7 +6,7 @@ import {
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import { HeaderContent, HeaderStyle } from "@/types/sectionsTypes/header";
 import {
   HoverCard,
@@ -26,6 +19,7 @@ import DesignButtons from "@/components/shared/designButtons";
 import Logo from "./logo";
 import { LogoText } from "./logoText";
 import Announcement from "./announcement";
+import HeaderMenu from "./headerMenu";
 
 interface Design1Props {
   section: any;
@@ -34,10 +28,6 @@ interface Design1Props {
 
 function Design1({ pageId, section }: Design1Props) {
   const dispatch = useAppDispatch();
-  const { openHeaderOptions: headerOptions } = useAppSelector(
-    (state) => state.editor.present
-  );
-
   const headerContent = section.content as HeaderContent;
   const headerStyle = section.style as HeaderStyle;
   const { sticky, float, autoHide, width, shadow, glass } =
@@ -53,13 +43,6 @@ function Design1({ pageId, section }: Design1Props) {
 
   const handleMouseLeave = () => {
     setHoveringIndex(null);
-  };
-  const NavIcon = {
-    "icon-1": <MenuIcon1 className="animate-fadeIn" />,
-    "icon-2": <MenuIcon2 className="animate-fadeIn" />,
-    "icon-3": <MenuIcon3 className="animate-fadeIn" />,
-    "icon-4": <MenuIcon4 className="animate-fadeIn" />,
-    "icon-5": <MenuIcon5 className="animate-fadeIn" />,
   };
 
   const logoClassNames = cn("text-xl", {
@@ -234,11 +217,11 @@ function Design1({ pageId, section }: Design1Props) {
                   dispatch(closeChooseIcon());
                 }}
               >
-                {NavIcon[headerContent.options.menuIcon]}
+                <HeaderMenu options={headerContent.options} />
               </div>
             </div>
             <div className="block lg:hidden cursor-pointer">
-              {NavIcon[headerContent.options.menuIcon]}
+              <HeaderMenu options={headerContent.options} />
             </div>
           </div>
           {headerContent.announcement.text &&
@@ -338,11 +321,11 @@ function Design1({ pageId, section }: Design1Props) {
               dispatch(openHeaderOptions());
             }}
           >
-            {NavIcon[headerContent.options.menuIcon]}
+            <HeaderMenu options={headerContent.options} />
           </div>
         </div>
         <div className="block lg:hidden cursor-pointer">
-          {NavIcon[headerContent.options.menuIcon]}
+          <HeaderMenu options={headerContent.options} />
         </div>
       </div>
       {headerContent.announcement.text &&
