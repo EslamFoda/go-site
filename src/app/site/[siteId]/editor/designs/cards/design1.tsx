@@ -21,6 +21,7 @@ import {
 import { useMotion } from "@/hooks/useMotion";
 import { Button } from "@/components/ui/button";
 import BackgroundImage from "@/components/shared/backgroundImage";
+import DesignLabel from "@/components/shared/label";
 
 interface DesignProps {
   section: any;
@@ -36,7 +37,21 @@ function Design1({ section, pageId }: DesignProps) {
   const cardStyle = section?.style as CardStyle;
   const cardContent = section?.content as CardsContent;
   const { cards } = cardContent;
-  const { spacing } = cardStyle.designSettings;
+  const {
+    spacing,
+    sectionBackground,
+    layout,
+    grid,
+    align,
+    titleSize,
+    cardBackground,
+    cardBorder,
+    cardSlider,
+    displayType,
+    height,
+    image,
+    leftTitlePosition,
+  } = cardStyle.designSettings;
   const autoScroll = cardStyle?.designSettings?.cardSlider?.autoScroll;
   const scrollSpeed = cardStyle?.designSettings?.cardSlider?.scrollSpeed;
   const autoScrollPlugin = autoScroll
@@ -52,98 +67,94 @@ function Design1({ section, pageId }: DesignProps) {
     : [];
 
   const imageOrderClassName = cn(
-    cardStyle.designSettings.layout === "top" && "order-1",
-    cardStyle.designSettings.layout === "center" && "order-2",
-    cardStyle.designSettings.layout === "bottom" && "order-3"
+    layout === "top" && "order-1",
+    layout === "center" && "order-2",
+    layout === "bottom" && "order-3"
   );
   const titleClassName = cn(
-    cardStyle.designSettings.layout === "top" && "order-2",
-    cardStyle.designSettings.layout === "center" && "order-1",
-    cardStyle.designSettings.layout === "bottom" && "order-1",
-    cardStyle.designSettings.titleSize === "s" && "text-sm font-medium",
-    cardStyle.designSettings.titleSize === "m" && "text-base font-semibold",
-    cardStyle.designSettings.titleSize === "l" && "text-lg font-bold"
+    layout === "top" && "order-2",
+    layout === "center" && "order-1",
+    layout === "bottom" && "order-1",
+    titleSize === "s" && "text-sm font-medium",
+    titleSize === "m" && "text-base font-semibold",
+    titleSize === "l" && "text-lg font-bold"
   );
   const textOrderClassName = cn(
     "text-muted-foreground",
-    cardStyle.designSettings.layout === "top" && "order-3",
-    cardStyle.designSettings.layout === "center" && "order-3",
-    cardStyle.designSettings.layout === "bottom" && "order-2"
+    layout === "top" && "order-3",
+    layout === "center" && "order-3",
+    layout === "bottom" && "order-2"
   );
   const gridClassNames = cn(
     "grid",
-    cardStyle.designSettings.grid.desktop === 3 && "lg:grid-cols-3",
-    cardStyle.designSettings.grid.desktop === 2 && "lg:grid-cols-2",
-    cardStyle.designSettings.grid.desktop === 1 && "lg:grid-cols-1",
-    cardStyle.designSettings.grid.mobile === 2 && "grid-cols-2",
-    cardStyle.designSettings.grid.mobile === 1 && "grid-cols-1"
+    grid.desktop === 3 && "lg:grid-cols-3",
+    grid.desktop === 2 && "lg:grid-cols-2",
+    grid.desktop === 1 && "lg:grid-cols-1",
+    grid.mobile === 2 && "grid-cols-2",
+    grid.mobile === 1 && "grid-cols-1"
   );
 
   const alignClassNames = cn(
     "container max-w-container gap-10 w-full z-0",
-    cardStyle.designSettings.align === "start" && "text-start",
-    cardStyle.designSettings.align === "center" && "text-center",
-    cardStyle.designSettings.align === "end" && "text-end"
+    align === "start" && "text-start",
+    align === "center" && "text-center",
+    align === "end" && "text-end"
   );
 
   const cardClassNames = cn(
     "flex flex-col  gap-2 rounded-md",
-    cardStyle.designSettings.cardBackground && "bg-muted",
-    cardStyle.designSettings.cardBorder &&
-      "outline outline-[1px] outline-muted",
+    cardBackground && "bg-muted",
+    cardBorder && "outline outline-[1px] outline-muted",
     bgMuted && "bg-background"
   );
 
   const imagePlaceholderClassNames = cn(
     "w-full flex justify-center items-center rounded-md",
-    cardStyle.designSettings.cardBackground ? "bg-background" : "bg-muted",
+    cardBackground ? "bg-background" : "bg-muted",
     bgMuted && "bg-muted"
   );
 
   const containerClassNames = cn(
     " grid grid-cols-1 space-y-4",
-    cardStyle.designSettings.leftTitlePosition &&
+    leftTitlePosition &&
       "md:grid-cols-3 grid-cols-1 gap-4 md:space-y-0 space-y-4"
   );
 
   const sectionBgClassName = cn("flex flex-col relative overflow-hidden", {
-    "bg-primary":
-      cardStyle.designSettings.sectionBackground.color === "primary",
-    "bg-muted": cardStyle.designSettings.sectionBackground.color === "gray",
-    "bg-background":
-      cardStyle.designSettings.sectionBackground.color === "none",
-    "min-h-screen": cardStyle.designSettings.sectionBackground.height === "fill",
-    "h-auto": cardStyle.designSettings.sectionBackground.height === "fit",
-    "justify-start":
-      cardStyle.designSettings.sectionBackground.align === "start",
-    "justify-center":
-      cardStyle.designSettings.sectionBackground.align === "center",
-    "justify-end": cardStyle.designSettings.sectionBackground.align === "end",
+    "bg-primary": sectionBackground.color === "primary",
+    "bg-muted": sectionBackground.color === "gray",
+    "bg-background": sectionBackground.color === "none",
+    "min-h-screen": sectionBackground.height === "fill",
+    "h-auto": sectionBackground.height === "fit",
+    "justify-start": sectionBackground.align === "start",
+    "justify-center": sectionBackground.align === "center",
+    "justify-end": sectionBackground.align === "end",
   });
 
   const sectionTitleClassNames = cn("text-4xl", {
-    "text-primary-foreground":
-      section.style.designSettings.sectionBackground.color === "primary",
-    "text-start": cardStyle.designSettings.leftTitlePosition,
+    "text-primary-foreground": sectionBackground.color === "primary",
+    "text-start": leftTitlePosition,
     "text-white":
-      cardStyle.designSettings.sectionBackground.textColor === "light" &&
-      cardStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
     "text-black":
-      cardStyle.designSettings.sectionBackground.textColor === "dark" &&
-      cardStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
   const sectionSubTitleClassNames = cn({
-    "text-primary-foreground":
-      cardStyle.designSettings.sectionBackground.color === "primary",
-    "text-muted-foreground":
-      cardStyle.designSettings.sectionBackground.color !== "primary",
-    "text-start": cardStyle.designSettings.leftTitlePosition,
+    "text-primary-foreground": sectionBackground.color === "primary",
+    "text-muted-foreground": sectionBackground.color !== "primary",
+    "text-start": leftTitlePosition,
     "text-white":
-      cardStyle.designSettings.sectionBackground.textColor === "light" &&
-      cardStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
     "text-black":
-      cardStyle.designSettings.sectionBackground.textColor === "dark" &&
-      cardStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
+  });
+
+  const sectionTitleAndSubTitleClassNames = cn({
+    "text-start": leftTitlePosition,
   });
 
   return (
@@ -155,14 +166,14 @@ function Design1({ section, pageId }: DesignProps) {
       }}
     >
       <BackgroundImage
-        imageUrl={cardStyle.designSettings.sectionBackground.media.imageUrl}
-        parallax={cardStyle.designSettings.sectionBackground.parallax}
-        blur={cardStyle.designSettings.sectionBackground.blur}
-        blurEffect={cardStyle.designSettings.sectionBackground.blurEffect}
-        greyScale={cardStyle.designSettings.sectionBackground.greyScale}
-        overlay={cardStyle.designSettings.sectionBackground.overlay}
-        overlayEffect={cardStyle.designSettings.sectionBackground.overlayEffect}
-        backgroundColor={cardStyle.designSettings.sectionBackground.color}
+        imageUrl={sectionBackground.media.imageUrl}
+        parallax={sectionBackground.parallax}
+        blur={sectionBackground.blur}
+        blurEffect={sectionBackground.blurEffect}
+        greyScale={sectionBackground.greyScale}
+        overlay={sectionBackground.overlay}
+        overlayEffect={sectionBackground.overlayEffect}
+        backgroundColor={sectionBackground.color}
       />
       <div
         className={alignClassNames}
@@ -174,14 +185,18 @@ function Design1({ section, pageId }: DesignProps) {
         }}
       >
         <div className={containerClassNames}>
-          <div>
+          <div className={sectionTitleAndSubTitleClassNames}>
+            <DesignLabel
+              text={cardContent.label}
+              sectionBackground={sectionBackground.color}
+            />
             <h1 className={sectionTitleClassNames}>{section.content.title}</h1>
             <p className={sectionSubTitleClassNames}>
               {section.content.subtitle}
             </p>
           </div>
           <div className="md:col-span-2">
-            {cardStyle.designSettings.displayType === "grid" ? (
+            {displayType === "grid" ? (
               <div
                 className={gridClassNames}
                 style={{
@@ -212,16 +227,15 @@ function Design1({ section, pageId }: DesignProps) {
                     >
                       <h5 className={titleClassName}>{card.title}</h5>
                       <p className={textOrderClassName}>{card.text}</p>
-                      {cardStyle.designSettings.image && (
+                      {image && (
                         <div className={imageOrderClassName}>
                           {card.image?.length ? (
                             <div
                               className="relative w-full rounded-md"
                               style={{
                                 height: isDesktop
-                                  ? cardStyle.designSettings.height.desktop
-                                  : cardStyle.designSettings.height.mobile,
-                                // backgroundImage: `url(${card.image})`,
+                                  ? height.desktop
+                                  : height.mobile,
                               }}
                             >
                               <Image
@@ -236,16 +250,14 @@ function Design1({ section, pageId }: DesignProps) {
                             <div
                               style={{
                                 height: isDesktop
-                                  ? cardStyle.designSettings.height.desktop
-                                  : cardStyle.designSettings.height.mobile,
-                                // backgroundImage: `url(${card.image})`,
+                                  ? height.desktop
+                                  : height.mobile,
                               }}
                               className={imagePlaceholderClassNames}
                             >
                               <ImagePlaceHolder
                                 fillColor={
-                                  cardStyle.designSettings.cardBackground &&
-                                  !bgMuted
+                                  cardBackground && !bgMuted
                                     ? "fill-muted"
                                     : "fill-background"
                                 }
@@ -276,8 +288,8 @@ function Design1({ section, pageId }: DesignProps) {
                       key={card.id || index}
                       style={{
                         flexBasis: isDesktop
-                          ? cardStyle.designSettings.cardSlider.desktopWidth
-                          : cardStyle.designSettings.cardSlider.mobileWidth,
+                          ? cardSlider.desktopWidth
+                          : cardSlider.mobileWidth,
                         marginInlineEnd: isDesktop
                           ? spacing.gap.desktop
                           : spacing.gap.mobile,
@@ -301,16 +313,15 @@ function Design1({ section, pageId }: DesignProps) {
                       >
                         <h5 className={titleClassName}>{card.title}</h5>
                         <p className={textOrderClassName}>{card.text}</p>
-                        {cardStyle.designSettings.image && (
+                        {image && (
                           <div className={imageOrderClassName}>
                             {card.image.length ? (
                               <div
                                 className="relative w-full rounded-md"
                                 style={{
                                   height: isDesktop
-                                    ? cardStyle.designSettings.height.desktop
-                                    : cardStyle.designSettings.height.mobile,
-                                  // backgroundImage: `url(${card.image})`,
+                                    ? height.desktop
+                                    : height.mobile,
                                 }}
                               >
                                 <Image
@@ -325,16 +336,14 @@ function Design1({ section, pageId }: DesignProps) {
                               <div
                                 style={{
                                   height: isDesktop
-                                    ? cardStyle.designSettings.height.desktop
-                                    : cardStyle.designSettings.height.mobile,
-                                  // backgroundImage: `url(${card.image})`,
+                                    ? height.desktop
+                                    : height.mobile,
                                 }}
                                 className={imagePlaceholderClassNames}
                               >
                                 <ImagePlaceHolder
                                   fillColor={
-                                    cardStyle.designSettings.cardBackground &&
-                                    !bgMuted
+                                    cardBackground && !bgMuted
                                       ? "fill-muted"
                                       : "fill-background"
                                   }

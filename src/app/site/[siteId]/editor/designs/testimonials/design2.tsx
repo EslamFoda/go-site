@@ -25,6 +25,7 @@ import { Star } from "lucide-react";
 import { QuoteIcon } from "@/icons/testimonials";
 import { useMotion } from "@/hooks/useMotion";
 import BackgroundImage from "@/components/shared/backgroundImage";
+import DesignLabel from "@/components/shared/label";
 
 interface DesignProps {
   section: any;
@@ -38,12 +39,24 @@ function Design1({ section, pageId }: DesignProps) {
     section?.style.designSettings.sectionBackground.color === "gray";
   const testimonialStyle = section?.style as TestimonialStyle;
   const testimonialsContent = section?.content as TestimonialContent;
-  const { avatar, rating, spacing } = testimonialStyle.designSettings;
+  const {
+    avatar,
+    rating,
+    spacing,
+    align,
+    background,
+    border,
+    carouselSettings,
+    displayType,
+    grid,
+    leftTitlePosition,
+    sectionBackground,
+    shape,
+    textSize,
+  } = testimonialStyle?.designSettings;
 
-  const autoScroll =
-    testimonialStyle?.designSettings?.carouselSettings?.autoScroll;
-  const scrollSpeed =
-    testimonialStyle?.designSettings?.carouselSettings?.scrollSpeed;
+  const autoScroll = carouselSettings?.autoScroll;
+  const scrollSpeed = carouselSettings?.scrollSpeed;
   const autoScrollPlugin = autoScroll
     ? [
         AutoScroll({
@@ -56,119 +69,107 @@ function Design1({ section, pageId }: DesignProps) {
       ]
     : [];
 
-  const titleAndSubtitleClassName = cn(
-    testimonialStyle.designSettings.align === "start" && "text-start",
-    testimonialStyle.designSettings.align === "center" && "text-center",
-    testimonialStyle.designSettings.align === "end" && "text-end"
-  );
+  const titleAndSubtitleClassName = cn({
+    "text-start": align === "start" || leftTitlePosition,
+    "text-center": align === "center" && !leftTitlePosition,
+    "text-end": align === "end" && !leftTitlePosition,
+  });
   const reviewClassNames = cn({
-    "text-sm": testimonialStyle.designSettings.textSize === "s",
-    "text-sm font-semibold": testimonialStyle.designSettings.textSize === "m",
-    "text-md font-semibold": testimonialStyle.designSettings.textSize === "l",
+    "text-sm": textSize === "s",
+    "text-sm font-semibold": textSize === "m",
+    "text-md font-semibold": textSize === "l",
   });
 
   const gridClassNames = cn(
     "grid items-start",
-    testimonialStyle.designSettings.grid.desktop === 3 && "lg:grid-cols-3",
-    testimonialStyle.designSettings.grid.desktop === 2 && "lg:grid-cols-2",
-    testimonialStyle.designSettings.grid.desktop === 1 && "lg:grid-cols-1",
-    testimonialStyle.designSettings.grid.mobile === 2 && "grid-cols-2",
-    testimonialStyle.designSettings.grid.mobile === 1 && "grid-cols-1"
+    grid.desktop === 3 && "lg:grid-cols-3",
+    grid.desktop === 2 && "lg:grid-cols-2",
+    grid.desktop === 1 && "lg:grid-cols-1",
+    grid.mobile === 2 && "grid-cols-2",
+    grid.mobile === 1 && "grid-cols-1"
   );
 
   const listItemClassNames = cn(
     "flex flex-col justify-between h-full rounded-md min-h-44",
     {
-      "bg-muted p-5": testimonialStyle.designSettings.background,
-      "outline outline-[1px] outline-muted p-5":
-        testimonialStyle.designSettings.border,
+      "bg-muted p-5": background,
+      "outline outline-[1px] outline-muted p-5": border,
       "bg-background": bgMuted,
-      "items-start": testimonialStyle.designSettings.align === "start",
-      "items-center": testimonialStyle.designSettings.align === "center",
-      "items-end": testimonialStyle.designSettings.align === "end",
+      "items-start": align === "start",
+      "items-center": align === "center",
+      "items-end": align === "end",
     }
   );
 
   const avatarClassNames = cn(
     "flex items-center h-10 w-10 bg-background self-baseline  justify-center shrink-0",
     {
-      "rounded-md": testimonialStyle.designSettings.shape === "square",
-      "rounded-full": testimonialStyle.designSettings.shape === "rounded",
-      "self-baseline": testimonialStyle.designSettings.align === "start",
-      "self-center": testimonialStyle.designSettings.align === "center",
-      "self-end": testimonialStyle.designSettings.align === "end",
+      "rounded-md": shape === "square",
+      "rounded-full": shape === "rounded",
+      "self-baseline": align === "start",
+      "self-center": align === "center",
+      "self-end": align === "end",
     },
-    testimonialStyle.designSettings.background ? "bg-background" : "bg-muted",
+    background ? "bg-background" : "bg-muted",
     bgMuted && "bg-muted"
   );
 
   const containerClassNames = cn(" grid grid-cols-1 space-y-4", {
     "md:grid-cols-3 grid-cols-1 gap-4 md:space-y-0 space-y-4":
-      testimonialStyle.designSettings.leftTitlePosition,
+      leftTitlePosition,
   });
 
   const sectionBgClassName = cn(" flex flex-col relative overflow-hidden", {
-    "bg-primary":
-      section.style.designSettings.sectionBackground.color === "primary",
-    "bg-muted": section.style.designSettings.sectionBackground.color === "gray",
-    "bg-background":
-      section.style.designSettings.sectionBackground.color === "none",
-    "min-h-screen":
-      section.style.designSettings.sectionBackground.height === "fill",
-    "h-auto": section.style.designSettings.sectionBackground.height === "fit",
-    "justify-start":
-      section.style.designSettings.sectionBackground.align === "start",
-    "justify-center":
-      section.style.designSettings.sectionBackground.align === "center",
-    "justify-end":
-      section.style.designSettings.sectionBackground.align === "end",
+    "bg-primary": sectionBackground.color === "primary",
+    "bg-muted": sectionBackground.color === "gray",
+    "bg-background": sectionBackground.color === "none",
+    "min-h-screen": sectionBackground.height === "fill",
+    "h-auto": sectionBackground.height === "fit",
+    "justify-start": sectionBackground.align === "start",
+    "justify-center": sectionBackground.align === "center",
+    "justify-end": sectionBackground.align === "end",
   });
 
   const starsBoxClassNames = cn("flex flex-col", {
-    "items-start text-start": testimonialStyle.designSettings.align === "start",
-    "items-center text-center":
-      testimonialStyle.designSettings.align === "center",
-    "items-end text-end": testimonialStyle.designSettings.align === "end",
+    "items-start text-start": align === "start",
+    "items-center text-center": align === "center",
+    "items-end text-end": align === "end",
   });
 
   const userClassNames = cn("flex flex-col gap-1", {
-    "items-start text-start": testimonialStyle.designSettings.align === "start",
-    "items-center text-center":
-      testimonialStyle.designSettings.align === "center",
-    "items-end text-end": testimonialStyle.designSettings.align === "end",
+    "items-start text-start": align === "start",
+    "items-center text-center": align === "center",
+    "items-end text-end": align === "end",
   });
 
   const imgContainerClassNames = cn(
     "flex items-center h-10 w-10  self-baseline justify-center shrink-0",
     {
-      "rounded-md": testimonialStyle.designSettings.shape === "square",
-      "rounded-full": testimonialStyle.designSettings.shape === "rounded",
+      "rounded-md": shape === "square",
+      "rounded-full": shape === "rounded",
     }
   );
 
   const sectionTitleClassNames = cn("text-4xl", {
-    "text-primary-foreground":
-      testimonialStyle.designSettings.sectionBackground.color === "primary",
-    "text-start": testimonialStyle.designSettings.leftTitlePosition,
+    "text-primary-foreground": sectionBackground.color === "primary",
+    "text-start": leftTitlePosition,
     "text-white":
-      testimonialStyle.designSettings.sectionBackground.textColor === "light" &&
-      testimonialStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
     "text-black":
-      testimonialStyle.designSettings.sectionBackground.textColor === "dark" &&
-      testimonialStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
   const sectionSubTitleClassNames = cn({
-    "text-primary-foreground":
-      testimonialStyle.designSettings.sectionBackground.color === "primary",
-    "text-muted-foreground":
-      testimonialStyle.designSettings.sectionBackground.color !== "primary",
-    "text-start": testimonialStyle.designSettings.leftTitlePosition,
+    "text-primary-foreground": sectionBackground.color === "primary",
+    "text-muted-foreground": sectionBackground.color !== "primary",
+    "text-start": leftTitlePosition,
     "text-white":
-      testimonialStyle.designSettings.sectionBackground.textColor === "light" &&
-      testimonialStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
     "text-black":
-      testimonialStyle.designSettings.sectionBackground.textColor === "dark" &&
-      testimonialStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
 
   return (
@@ -181,22 +182,14 @@ function Design1({ section, pageId }: DesignProps) {
       }}
     >
       <BackgroundImage
-        imageUrl={
-          testimonialStyle.designSettings.sectionBackground.media.imageUrl
-        }
-        parallax={testimonialStyle.designSettings.sectionBackground.parallax}
-        blur={testimonialStyle.designSettings.sectionBackground.blur}
-        blurEffect={
-          testimonialStyle.designSettings.sectionBackground.blurEffect
-        }
-        greyScale={testimonialStyle.designSettings.sectionBackground.greyScale}
-        overlay={testimonialStyle.designSettings.sectionBackground.overlay}
-        overlayEffect={
-          testimonialStyle.designSettings.sectionBackground.overlayEffect
-        }
-        backgroundColor={
-          testimonialStyle.designSettings.sectionBackground.color
-        }
+        imageUrl={sectionBackground.media.imageUrl}
+        parallax={sectionBackground.parallax}
+        blur={sectionBackground.blur}
+        blurEffect={sectionBackground.blurEffect}
+        greyScale={sectionBackground.greyScale}
+        overlay={sectionBackground.overlay}
+        overlayEffect={sectionBackground.overlayEffect}
+        backgroundColor={sectionBackground.color}
       />
       <div
         className="container max-w-container gap-10 z-0 w-full"
@@ -209,13 +202,17 @@ function Design1({ section, pageId }: DesignProps) {
       >
         <div className={containerClassNames}>
           <div className={titleAndSubtitleClassName}>
+            <DesignLabel
+              text={testimonialsContent.label}
+              sectionBackground={sectionBackground.color}
+            />
             <h1 className={sectionTitleClassNames}>{section.content.title}</h1>
             <p className={sectionSubTitleClassNames}>
               {section.content.subtitle}
             </p>
           </div>
           <div className="md:col-span-2">
-            {testimonialStyle.designSettings.displayType === "grid" ? (
+            {displayType === "grid" ? (
               <div
                 className={gridClassNames}
                 style={{
@@ -253,7 +250,7 @@ function Design1({ section, pageId }: DesignProps) {
                                       className={
                                         i < review.rating
                                           ? "fill-primary stroke-none"
-                                          : "fill-muted-foreground stroke-none"
+                                          : "fill-muted-foreground/50 stroke-none"
                                       }
                                     />
                                   ))
@@ -322,10 +319,8 @@ function Design1({ section, pageId }: DesignProps) {
                           key={review.id || index}
                           style={{
                             flexBasis: isDesktop
-                              ? testimonialStyle.designSettings.carouselSettings
-                                  .desktopWidth
-                              : testimonialStyle.designSettings.carouselSettings
-                                  .mobileWidth,
+                              ? carouselSettings.desktopWidth
+                              : carouselSettings.mobileWidth,
                             marginInlineEnd: isDesktop
                               ? spacing.gap.desktop
                               : spacing.gap.mobile,
@@ -355,7 +350,7 @@ function Design1({ section, pageId }: DesignProps) {
                                       className={
                                         i < review.rating
                                           ? "fill-primary stroke-none"
-                                          : "fill-muted-foreground stroke-none"
+                                          : "fill-muted-foreground/50 stroke-none"
                                       }
                                     />
                                   ))

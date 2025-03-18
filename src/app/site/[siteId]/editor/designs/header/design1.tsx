@@ -331,10 +331,10 @@ function Design1({ pageId, section }: Design1Props) {
             className="cursor-pointer"
             onClick={(e) => {
               e.stopPropagation();
-              dispatch(openHeaderOptions());
               dispatch(updateSelectedSection(pageId, section.id));
               dispatch(updateSelectedItem(null));
               dispatch(closeChooseIcon());
+              dispatch(openHeaderOptions());
             }}
           >
             {NavIcon[headerContent.options.menuIcon]}

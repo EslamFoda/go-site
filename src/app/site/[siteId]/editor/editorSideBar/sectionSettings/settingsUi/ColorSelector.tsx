@@ -44,7 +44,7 @@ const ColorSelector: React.FC<ColorSelectorProps> = ({
       style={{ "--primary": primaryColor } as React.CSSProperties}
     >
       <Label>Color</Label>
-      <div className="border-muted-bg flex border-solid border-[1px] rounded-sm h-10 w-4/6">
+      <div className="border-muted-bg flex border-solid border-[1px] rounded-[4px] h-10 w-4/6">
         {colors.map((color) => (
           <div
             key={color}

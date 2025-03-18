@@ -12,9 +12,15 @@ import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "react-responsive";
 import BackgroundImage from "@/components/shared/backgroundImage";
 import { HeaderContent, HeaderStyle } from "@/types/sectionsTypes/header";
+import DesignLabel from "@/components/shared/label";
+import {
+  EditorSection,
+  SectionContentTypes,
+  SectionStyleTypes,
+} from "@/reduxStore/types";
 
 interface Design1Props {
-  section: any;
+  section: EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
   pageId: string;
   sectionIndex: number;
 }
@@ -176,7 +182,7 @@ function Design1({ section, pageId, sectionIndex }: Design1Props) {
 
   const formBtnClassName = cn("whitespace-normal", {
     "border-primary-foreground border-solid border text-primary-foreground":
-      bannerStyle.designSettings.sectionBackground.color === "primary",
+      sectionBackground.color === "primary",
   });
 
   // Handle click to select this section
@@ -235,9 +241,7 @@ function Design1({ section, pageId, sectionIndex }: Design1Props) {
       return (
         <div
           style={{
-            height: isDesktop
-              ? bannerStyle.designSettings.height.desktop
-              : bannerStyle.designSettings.height.mobile,
+            height: isDesktop ? height.desktop : height.mobile,
             backgroundImage: `url(${bannerContent?.imageSetting.imageUrl})`,
             backgroundSize: imageSetting.objectFit,
           }}
@@ -249,9 +253,7 @@ function Design1({ section, pageId, sectionIndex }: Design1Props) {
     return (
       <div
         style={{
-          height: isDesktop
-            ? bannerStyle.designSettings.height.desktop
-            : bannerStyle.designSettings.height.mobile,
+          height: isDesktop ? height.desktop : height.mobile,
         }}
         className={placeholderClassName}
       >
@@ -317,9 +319,7 @@ function Design1({ section, pageId, sectionIndex }: Design1Props) {
     return (
       <div
         style={{
-          height: isDesktop
-            ? bannerStyle.designSettings.height.desktop
-            : bannerStyle.designSettings.height.mobile,
+          height: isDesktop ? height.desktop : height.mobile,
         }}
         className={placeholderClassName}
       >
@@ -339,6 +339,10 @@ function Design1({ section, pageId, sectionIndex }: Design1Props) {
           width: leftTitlePosition ? `calc(${leftTitleWidth} - 50px)` : "",
         }}
       >
+        <DesignLabel
+          text={bannerContent.label}
+          sectionBackground={sectionBackground.color}
+        />
         <h1 className={getTitleClassName}>{bannerContent?.title}</h1>
       </div>
       <div
@@ -373,6 +377,10 @@ function Design1({ section, pageId, sectionIndex }: Design1Props) {
   const renderCenteredTitleLayout = () => (
     <div className="flex gap-3 w-full flex-col text-center justify-center items-center">
       <div className={getTitleAndSubtitleClassName}>
+        <DesignLabel
+          text={bannerContent.label}
+          sectionBackground={sectionBackground.color}
+        />
         <h1 className={getTitleClassName}>{bannerContent?.title}</h1>
         <div
           className="space-y-3"
@@ -404,16 +412,14 @@ function Design1({ section, pageId, sectionIndex }: Design1Props) {
   return (
     <section className={getSectionClassName} onClick={handleSectionClick}>
       <BackgroundImage
-        imageUrl={bannerStyle.designSettings.sectionBackground.media.imageUrl}
-        parallax={bannerStyle.designSettings.sectionBackground.parallax}
-        blur={bannerStyle.designSettings.sectionBackground.blur}
-        blurEffect={bannerStyle.designSettings.sectionBackground.blurEffect}
-        greyScale={bannerStyle.designSettings.sectionBackground.greyScale}
-        overlay={bannerStyle.designSettings.sectionBackground.overlay}
-        overlayEffect={
-          bannerStyle.designSettings.sectionBackground.overlayEffect
-        }
-        backgroundColor={bannerStyle.designSettings.sectionBackground.color}
+        imageUrl={sectionBackground.media.imageUrl}
+        parallax={sectionBackground.parallax}
+        blur={sectionBackground.blur}
+        blurEffect={sectionBackground.blurEffect}
+        greyScale={sectionBackground.greyScale}
+        overlay={sectionBackground.overlay}
+        overlayEffect={sectionBackground.overlayEffect}
+        backgroundColor={sectionBackground.color}
       />
       <div
         style={{

@@ -44,12 +44,13 @@ const Sidebar: React.FC<SidebarProps> = ({
     if (open && sidebarRef.current && parentRef.current) {
       const parentRect = parentRef.current.getBoundingClientRect();
       const sidebar = sidebarRef.current;
-
-      sidebar.style.top = `${parentRect.top}px`;
-      sidebar.style.height = `${window.innerHeight - parentRect.top}px`;
+      const scrollY = window.scrollY || window.pageYOffset; // Account for scroll position
+      sidebar.style.top = `${parentRect.top + scrollY}px`; // Adjust for scroll
+      sidebar.style.height = `${
+        window.innerHeight - (parentRect.top + scrollY)
+      }px`;
     }
   }, [open, parentRef]);
-
   if (!open) return null;
 
   // Animation variants for the sidebar

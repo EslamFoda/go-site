@@ -10,7 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
-import { ListStyle } from "@/types/sectionsTypes/list";
+import { ListContent, ListStyle } from "@/types/sectionsTypes/list";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   closeChooseIcon,
@@ -21,6 +21,7 @@ import {
 import { useMotion } from "@/hooks/useMotion";
 import { getPhosphorIcon } from "@/helper/phosphorIcons";
 import BackgroundImage from "@/components/shared/backgroundImage";
+import DesignLabel from "@/components/shared/label";
 
 interface DesignProps {
   section: any;
@@ -34,10 +35,27 @@ function Design1({ section, pageId }: DesignProps) {
     section?.style.designSettings.sectionBackground.color === "gray";
 
   const listStyle = section?.style as ListStyle;
-  const { spacing } = listStyle.designSettings;
+  const listContent = section?.content as ListContent;
+  const {
+    spacing,
+    align,
+    background,
+    border,
+    carouselSettings,
+    grid,
+    height,
+    iconColor,
+    layout,
+    leftTitlePosition,
+    sectionBackground,
+    shape,
+    textSize,
+    displayType,
+    icon,
+  } = listStyle.designSettings;
 
-  const autoScroll = listStyle?.designSettings?.carouselSettings?.autoScroll;
-  const scrollSpeed = listStyle?.designSettings?.carouselSettings?.scrollSpeed;
+  const autoScroll = carouselSettings?.autoScroll;
+  const scrollSpeed = carouselSettings?.scrollSpeed;
   const autoScrollPlugin = autoScroll
     ? [
         AutoScroll({
@@ -50,99 +68,87 @@ function Design1({ section, pageId }: DesignProps) {
       ]
     : [];
 
-  const titleAndSubtitleClassName = cn(
-    listStyle.designSettings.align === "start" && "text-start",
-    listStyle.designSettings.align === "center" && "text-center",
-    listStyle.designSettings.align === "end" && "text-end"
-  );
+  const titleAndSubtitleClassName = cn({
+    "text-start": align === "start" || leftTitlePosition,
+    "text-center": align === "center" && !leftTitlePosition,
+    "text-end": align === "end" && !leftTitlePosition,
+  });
 
   const titleClassName = cn(
-    listStyle.designSettings.textSize === "s" && "text-sm",
-    listStyle.designSettings.textSize === "m" && "text-base",
-    listStyle.designSettings.textSize === "l" && "text-lg"
+    textSize === "s" && "text-sm",
+    textSize === "m" && "text-base",
+    textSize === "l" && "text-lg"
   );
   const texClassName = cn("text-muted-foreground text-sm");
   const gridClassNames = cn(
     "grid items-start",
-    listStyle.designSettings.grid.desktop === 3 && "lg:grid-cols-3",
-    listStyle.designSettings.grid.desktop === 2 && "lg:grid-cols-2",
-    listStyle.designSettings.grid.desktop === 1 && "lg:grid-cols-1",
-    listStyle.designSettings.grid.mobile === 2 && "grid-cols-2",
-    listStyle.designSettings.grid.mobile === 1 && "grid-cols-1"
+    grid.desktop === 3 && "lg:grid-cols-3",
+    grid.desktop === 2 && "lg:grid-cols-2",
+    grid.desktop === 1 && "lg:grid-cols-1",
+    grid.mobile === 2 && "grid-cols-2",
+    grid.mobile === 1 && "grid-cols-1"
   );
 
   const listItemClassNames = cn("flex gap-5 gap-y-3  rounded-md", {
-    "bg-muted": listStyle.designSettings.background,
-    "outline outline-[1px] outline-muted": listStyle.designSettings.border,
+    "bg-muted": background,
+    "outline outline-[1px] outline-muted": border,
     "bg-background": bgMuted,
-    "flex-row items-start": listStyle.designSettings.layout === "row",
-    "flex-col": listStyle.designSettings.layout === "col",
+    "flex-row items-start": layout === "row",
+    "flex-col": layout === "col",
   });
 
   const listItemTextClassNames = cn("self-center", {
-    "self-start": listStyle.designSettings.layout === "col",
+    "self-start": layout === "col",
   });
 
   const iconContainerClassNames = cn(
     "flex items-center  justify-center shrink-0",
     {
-      "rounded-sm": listStyle.designSettings.shape === "square",
-      "rounded-full": listStyle.designSettings.shape === "rounded",
-      "bg-background": listStyle.designSettings.iconColor === "none",
-      "bg-primary": listStyle.designSettings.iconColor === "primary",
-      hidden: !listStyle.designSettings.icon,
-      "bg-muted":
-        (listStyle.designSettings.iconColor === "none" &&
-          listStyle.designSettings.border) ||
-        bgMuted,
+      "rounded-sm": shape === "square",
+      "rounded-full": shape === "rounded",
+      "bg-background": iconColor === "none",
+      "bg-primary": iconColor === "primary",
+      hidden: !icon,
+      "bg-muted": (iconColor === "none" && border) || bgMuted,
     }
   );
 
   const containerClassNames = cn(" grid grid-cols-1 space-y-4", {
     "md:grid-cols-3 grid-cols-1 gap-4 md:space-y-0 space-y-4":
-      listStyle.designSettings.leftTitlePosition,
+      leftTitlePosition,
   });
 
   const sectionBgClassName = cn("flex flex-col relative overflow-hidden", {
-    "bg-primary":
-      section.style.designSettings.sectionBackground.color === "primary",
-    "bg-muted": section.style.designSettings.sectionBackground.color === "gray",
-    "bg-background":
-      section.style.designSettings.sectionBackground.color === "none",
-    "min-h-screen":
-      section.style.designSettings.sectionBackground.height === "fill",
-    "h-auto": section.style.designSettings.sectionBackground.height === "fit",
-    "justify-start":
-      section.style.designSettings.sectionBackground.align === "start",
-    "justify-center":
-      section.style.designSettings.sectionBackground.align === "center",
-    "justify-end":
-      section.style.designSettings.sectionBackground.align === "end",
+    "bg-primary": sectionBackground.color === "primary",
+    "bg-muted": sectionBackground.color === "gray",
+    "bg-background": sectionBackground.color === "none",
+    "min-h-screen": sectionBackground.height === "fill",
+    "h-auto": sectionBackground.height === "fit",
+    "justify-start": sectionBackground.align === "start",
+    "justify-center": sectionBackground.align === "center",
+    "justify-end": sectionBackground.align === "end",
   });
 
   const sectionTitleClassNames = cn("text-4xl", {
-    "text-primary-foreground":
-      section.style.designSettings.sectionBackground.color === "primary",
-    "text-start": listStyle.designSettings.leftTitlePosition,
+    "text-primary-foreground": sectionBackground.color === "primary",
+    "text-start": leftTitlePosition,
     "text-white":
-      listStyle.designSettings.sectionBackground.textColor === "light" &&
-      listStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
     "text-black":
-      listStyle.designSettings.sectionBackground.textColor === "dark" &&
-      listStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
   const sectionSubTitleClassNames = cn({
-    "text-primary-foreground":
-      listStyle.designSettings.sectionBackground.color === "primary",
-    "text-muted-foreground":
-      listStyle.designSettings.sectionBackground.color !== "primary",
-    "text-start": listStyle.designSettings.leftTitlePosition,
+    "text-primary-foreground": sectionBackground.color === "primary",
+    "text-muted-foreground": sectionBackground.color !== "primary",
+    "text-start": leftTitlePosition,
     "text-white":
-      listStyle.designSettings.sectionBackground.textColor === "light" &&
-      listStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
     "text-black":
-      listStyle.designSettings.sectionBackground.textColor === "dark" &&
-      listStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
 
   return (
@@ -155,14 +161,14 @@ function Design1({ section, pageId }: DesignProps) {
       }}
     >
       <BackgroundImage
-        imageUrl={listStyle.designSettings.sectionBackground.media.imageUrl}
-        parallax={listStyle.designSettings.sectionBackground.parallax}
-        blur={listStyle.designSettings.sectionBackground.blur}
-        blurEffect={listStyle.designSettings.sectionBackground.blurEffect}
-        greyScale={listStyle.designSettings.sectionBackground.greyScale}
-        overlay={listStyle.designSettings.sectionBackground.overlay}
-        overlayEffect={listStyle.designSettings.sectionBackground.overlayEffect}
-        backgroundColor={listStyle.designSettings.sectionBackground.color}
+        imageUrl={sectionBackground.media.imageUrl}
+        parallax={sectionBackground.parallax}
+        blur={sectionBackground.blur}
+        blurEffect={sectionBackground.blurEffect}
+        greyScale={sectionBackground.greyScale}
+        overlay={sectionBackground.overlay}
+        overlayEffect={sectionBackground.overlayEffect}
+        backgroundColor={sectionBackground.color}
       />
       <div
         className="container max-w-container z-0 gap-10 w-full"
@@ -175,13 +181,17 @@ function Design1({ section, pageId }: DesignProps) {
       >
         <div className={containerClassNames}>
           <div className={titleAndSubtitleClassName}>
+            <DesignLabel
+              text={listContent.label}
+              sectionBackground={sectionBackground.color}
+            />
             <h1 className={sectionTitleClassNames}>{section.content.title}</h1>
             <p className={sectionSubTitleClassNames}>
               {section.content.subtitle}
             </p>
           </div>
           <div className="md:col-span-2">
-            {listStyle.designSettings.displayType === "grid" ? (
+            {displayType === "grid" ? (
               <div
                 className={gridClassNames}
                 style={{
@@ -216,24 +226,24 @@ function Design1({ section, pageId }: DesignProps) {
                         <div
                           className={iconContainerClassNames}
                           style={{
-                            height: listStyle.designSettings.height,
-                            width: listStyle.designSettings.height,
+                            height: height,
+                            width: height,
                           }}
                         >
                           {listItem.icon ? (
                             <ListIcon
-                              size={listStyle.designSettings.height / 2.5}
+                              size={height / 2.5}
                               className="text-primary-foreground"
                             />
                           ) : (
                             <ImagePlaceHolder
                               fillColor={
-                                listStyle.designSettings.border || bgMuted
+                                border || bgMuted
                                   ? "fill-background"
                                   : "fill-muted"
                               }
-                              height={listStyle.designSettings.height / 2.5}
-                              width={listStyle.designSettings.height / 2.5}
+                              height={height / 2.5}
+                              width={height / 2.5}
                             />
                           )}
                         </div>
@@ -264,10 +274,8 @@ function Design1({ section, pageId }: DesignProps) {
                         key={index}
                         style={{
                           flexBasis: isDesktop
-                            ? listStyle.designSettings.carouselSettings
-                                .desktopWidth
-                            : listStyle.designSettings.carouselSettings
-                                .mobileWidth,
+                            ? carouselSettings.desktopWidth
+                            : carouselSettings.mobileWidth,
                           marginInlineEnd: isDesktop
                             ? spacing.gap.desktop
                             : spacing.gap.mobile,
@@ -293,24 +301,24 @@ function Design1({ section, pageId }: DesignProps) {
                           <div
                             className={iconContainerClassNames}
                             style={{
-                              height: listStyle.designSettings.height,
-                              width: listStyle.designSettings.height,
+                              height: height,
+                              width: height,
                             }}
                           >
                             {listItem.icon ? (
                               <ListIcon
-                                size={listStyle.designSettings.height / 2.5}
+                                size={height / 2.5}
                                 className="text-primary-foreground"
                               />
                             ) : (
                               <ImagePlaceHolder
                                 fillColor={
-                                  listStyle.designSettings.border || bgMuted
+                                  border || bgMuted
                                     ? "fill-background"
                                     : "fill-muted"
                                 }
-                                height={listStyle.designSettings.height / 2.5}
-                                width={listStyle.designSettings.height / 2.5}
+                                height={height / 2.5}
+                                width={height / 2.5}
                               />
                             )}
                           </div>

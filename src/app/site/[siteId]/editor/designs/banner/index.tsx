@@ -5,8 +5,13 @@ import Design3 from "./design3";
 import Design4 from "./design4";
 import Design6 from "./design6";
 import Design5 from "./design5";
+import {
+  EditorSection,
+  SectionContentTypes,
+  SectionStyleTypes,
+} from "@/reduxStore/types";
 interface BannerProps {
-  section: any;
+  section: EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
   pageId: string;
   sectionIndex: number;
 }
@@ -20,12 +25,14 @@ function Banner({ section, pageId, sectionIndex }: BannerProps) {
     design6: Design6,
   };
 
-  //@ts-ignore
-  const BannerSection = designs[section.style.designName];
+  const BannerSection =
+    designs[section.style.designName as keyof typeof designs];
   return (
-    <>
-      <BannerSection section={section} pageId={pageId} sectionIndex={sectionIndex}/>
-    </>
+    <BannerSection
+      section={section}
+      pageId={pageId}
+      sectionIndex={sectionIndex}
+    />
   );
 }
 

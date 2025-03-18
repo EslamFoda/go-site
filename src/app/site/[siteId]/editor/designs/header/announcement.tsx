@@ -23,7 +23,7 @@ function Announcement({
     "rounded-t-md": announcement.position === "above" && headerFloat,
     "rounded-b-md": announcement.position === "below" && headerFloat,
     "bg-transparent backdrop-blur-lg": glassEffect,
-    "bg-background/50 backdrop-blur-lg": headerWidth === "fit" && glassEffect,
+    "bg-background/50 backdrop-blur-lg": headerWidth === "fit" && glassEffect && headerFloat,
   });
 
   const innerAnnouncementClassNames = cn(

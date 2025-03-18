@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import AlternatingLabel from "./AlternatingLabel";
 import { useMediaQuery } from "react-responsive";
 import BackgroundImage from "@/components/shared/backgroundImage";
+import DesignLabel from "@/components/shared/label";
 interface DesignProps {
   section: any;
   pageId: string;
@@ -31,67 +32,58 @@ function Design1({ pageId, section }: DesignProps) {
   const [activePlan, setActivePlan] = useState<number>(0);
   const pricingStyle = section?.style as PricingStyle;
   const pricingContent = section?.content as PricingContent;
-  const { spacing } = pricingStyle.designSettings;
+  const { spacing, background, border, sectionBackground, text } =
+    pricingStyle.designSettings;
 
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
 
   const sectionBgClassName = cn(
     "flex flex-col relative overflow-hidden",
-    pricingStyle.designSettings.sectionBackground.color === "primary" &&
-      "bg-primary",
-    pricingStyle.designSettings.sectionBackground.color === "gray" &&
-      "bg-muted",
-    pricingStyle.designSettings.sectionBackground.color === "none" &&
-      "bg-background",
-    pricingStyle.designSettings.sectionBackground.height === "fill" &&
-      "min-h-screen",
-    pricingStyle.designSettings.sectionBackground.height === "fit" && "h-auto",
-    pricingStyle.designSettings.sectionBackground.align === "start" &&
-      "justify-start",
-    pricingStyle.designSettings.sectionBackground.align === "center" &&
-      "justify-center",
-    pricingStyle.designSettings.sectionBackground.align === "end" &&
-      "justify-end"
+    sectionBackground.color === "primary" && "bg-primary",
+    sectionBackground.color === "gray" && "bg-muted",
+    sectionBackground.color === "none" && "bg-background",
+    sectionBackground.height === "fill" && "min-h-screen",
+    sectionBackground.height === "fit" && "h-auto",
+    sectionBackground.align === "start" && "justify-start",
+    sectionBackground.align === "center" && "justify-center",
+    sectionBackground.align === "end" && "justify-end"
   );
 
   const textColorClassName = cn({
-    "text-primary-foreground":
-      pricingStyle.designSettings.sectionBackground.color === "primary",
+    "text-primary-foreground": sectionBackground.color === "primary",
     "text-white":
-      pricingStyle.designSettings.sectionBackground.textColor === "light" &&
-      pricingStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
     "text-black":
-      pricingStyle.designSettings.sectionBackground.textColor === "dark" &&
-      pricingStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
 
   const subTitleClassName = cn({
-    "text-primary-foreground":
-      section.style.designSettings.sectionBackground.color === "primary",
-    "text-muted-foreground":
-      section.style.designSettings.sectionBackground.color !== "primary",
+    "text-primary-foreground": sectionBackground.color === "primary",
+    "text-muted-foreground": sectionBackground.color !== "primary",
     "text-white":
-      pricingStyle.designSettings.sectionBackground.textColor === "light" &&
-      pricingStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
     "text-black":
-      pricingStyle.designSettings.sectionBackground.textColor === "dark" &&
-      pricingStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
 
   const subItemClassNames = cn(
     "flex flex-col gap-5 gap-y-3 relative rounded-md overflow-hidden",
     {
-      "bg-muted": pricingStyle.designSettings.background,
-      "outline outline-[1px] outline-muted": pricingStyle.designSettings.border,
+      "bg-muted": background,
+      "outline outline-[1px] outline-muted": border,
       "bg-background": bgMuted,
     }
   );
 
   const titleClassName = cn(
-    pricingStyle.designSettings.text === "s" && "text-sm",
-    pricingStyle.designSettings.text === "m" && "text-base",
-    pricingStyle.designSettings.text === "l" && "text-lg"
+    text === "s" && "text-sm",
+    text === "m" && "text-base",
+    text === "l" && "text-lg"
   );
 
   useEffect(() => {
@@ -112,16 +104,14 @@ function Design1({ pageId, section }: DesignProps) {
       }}
     >
       <BackgroundImage
-        imageUrl={pricingStyle.designSettings.sectionBackground.media.imageUrl}
-        parallax={pricingStyle.designSettings.sectionBackground.parallax}
-        blur={pricingStyle.designSettings.sectionBackground.blur}
-        blurEffect={pricingStyle.designSettings.sectionBackground.blurEffect}
-        greyScale={pricingStyle.designSettings.sectionBackground.greyScale}
-        overlay={pricingStyle.designSettings.sectionBackground.overlay}
-        overlayEffect={
-          pricingStyle.designSettings.sectionBackground.overlayEffect
-        }
-        backgroundColor={pricingStyle.designSettings.sectionBackground.color}
+        imageUrl={sectionBackground.media.imageUrl}
+        parallax={sectionBackground.parallax}
+        blur={sectionBackground.blur}
+        blurEffect={sectionBackground.blurEffect}
+        greyScale={sectionBackground.greyScale}
+        overlay={sectionBackground.overlay}
+        overlayEffect={sectionBackground.overlayEffect}
+        backgroundColor={sectionBackground.color}
       />
 
       <div
@@ -136,19 +126,32 @@ function Design1({ pageId, section }: DesignProps) {
         <div className="space-y-4">
           <div className="flex items-start justify-between">
             <div className={textColorClassName}>
+              <DesignLabel
+                text={pricingContent.label}
+                sectionBackground={sectionBackground.color}
+              />
               <h1 className="text-4xl">{pricingContent.title}</h1>
               <p className={subTitleClassName}>{pricingContent.subtitle}</p>
             </div>
             {pricingContent.planType === SubscriptionPlanType.SUBSCRIPTION && (
-              <div className="h-10 bg-muted rounded-md flex items-center justify-center min-w-40 p-1">
+              <div className="h-10 bg-muted rounded-md flex items-center justify-center min-w-32 p-1">
                 {pricingContent.subscriptionPlans.map((plan, i) => {
                   if (!plan.billingCycle) return null;
+
+                  const onePlanBillingCycle =
+                    pricingContent.subscriptionPlans.filter(
+                      (plan) => plan.billingCycle
+                    ).length === 1;
+
                   return (
                     <div
                       key={i}
                       className={cn(
                         "h-full p-1 flex items-center min-w-[70px] justify-center text-xs break-keep cursor-pointer rounded-md transition-colors",
-                        activePlan === i ? "bg-background" : ""
+                        {
+                          "bg-background": activePlan === i,
+                          "bg-muted": onePlanBillingCycle,
+                        }
                       )}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -264,21 +267,27 @@ function Design1({ pageId, section }: DesignProps) {
                               "bg-background hover:bg-background":
                                 !subscription.featured.isActive,
                               "bg-muted hover:bg-muted":
-                                (pricingStyle.designSettings.sectionBackground
-                                  .color === "gray" ||
-                                  pricingStyle.designSettings.border) &&
+                                (sectionBackground.color === "gray" ||
+                                  border) &&
                                 !subscription.featured.isActive,
                             })}
                             onClick={() => {
                               if (plan.button.link) {
                                 // Ensure the link has http/https prefix
                                 let finalLink = plan.button.link;
-                                if (!finalLink.startsWith('http://') && !finalLink.startsWith('https://')) {
-                                  finalLink = 'https://' + finalLink;
+                                if (
+                                  !finalLink.startsWith("http://") &&
+                                  !finalLink.startsWith("https://")
+                                ) {
+                                  finalLink = "https://" + finalLink;
                                 }
-                                
+
                                 if (plan.button.openNewTab) {
-                                  window.open(finalLink, "_blank", "noopener,noreferrer");
+                                  window.open(
+                                    finalLink,
+                                    "_blank",
+                                    "noopener,noreferrer"
+                                  );
                                 } else {
                                   window.location.href = finalLink;
                                 }

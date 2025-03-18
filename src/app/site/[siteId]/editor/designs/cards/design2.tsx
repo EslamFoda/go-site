@@ -10,7 +10,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
-import { CardStyle } from "@/types/sectionsTypes/cards";
+import { CardsContent, CardStyle } from "@/types/sectionsTypes/cards";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   closePagesTab,
@@ -20,6 +20,7 @@ import {
 import { useMotion } from "@/hooks/useMotion";
 import { Button } from "@/components/ui/button";
 import BackgroundImage from "@/components/shared/backgroundImage";
+import DesignLabel from "@/components/shared/label";
 
 interface DesignProps {
   section: any;
@@ -32,7 +33,22 @@ function Design2({ section, pageId }: DesignProps) {
   const bgMuted =
     section?.style.designSettings.sectionBackground.color === "gray";
   const cardStyle = section?.style as CardStyle;
-  const { spacing } = cardStyle.designSettings;
+  const cardContent = section?.content as CardsContent;
+  const {
+    spacing,
+    sectionBackground,
+    grid,
+    align,
+    titleSize,
+    cardBackground,
+    cardBorder,
+    cardSlider,
+    displayType,
+    height,
+    layoutV2,
+    leftTitlePosition,
+    glassEffect,
+  } = cardStyle.designSettings;
   const autoScroll = cardStyle?.designSettings?.cardSlider?.autoScroll;
   const scrollSpeed = cardStyle?.designSettings?.cardSlider?.scrollSpeed;
   const autoScrollPlugin = autoScroll
@@ -48,36 +64,36 @@ function Design2({ section, pageId }: DesignProps) {
     : [];
 
   const titleClassName = cn(
-    cardStyle.designSettings.titleSize === "s" && "text-sm font-medium",
-    cardStyle.designSettings.titleSize === "m" && "text-base font-semibold",
-    cardStyle.designSettings.titleSize === "l" && "text-lg font-bold"
+    titleSize === "s" && "text-sm font-medium",
+    titleSize === "m" && "text-base font-semibold",
+    titleSize === "l" && "text-lg font-bold"
   );
-  const textOrderClassName = cn("text-muted-foreground");
+  const textOrderClassName = cn("text-muted-foreground", {
+    "text-foreground": glassEffect,
+  });
   const gridClassNames = cn(
     "grid",
-    cardStyle.designSettings.grid.desktop === 3 && "lg:grid-cols-3",
-    cardStyle.designSettings.grid.desktop === 2 && "lg:grid-cols-2",
-    cardStyle.designSettings.grid.desktop === 1 && "lg:grid-cols-1",
-    cardStyle.designSettings.grid.mobile === 2 && "grid-cols-2",
-    cardStyle.designSettings.grid.mobile === 1 && "grid-cols-1"
+    grid.desktop === 3 && "lg:grid-cols-3",
+    grid.desktop === 2 && "lg:grid-cols-2",
+    grid.desktop === 1 && "lg:grid-cols-1",
+    grid.mobile === 2 && "grid-cols-2",
+    grid.mobile === 1 && "grid-cols-1"
   );
 
   const alignClassNames = cn(
     "container max-w-container gap-10 w-full z-0",
-    cardStyle.designSettings.align === "start" && "text-start",
-    cardStyle.designSettings.align === "center" && "text-center",
-    cardStyle.designSettings.align === "end" && "text-end"
+    align === "start" && "text-start",
+    align === "center" && "text-center",
+    align === "end" && "text-end"
   );
 
   const cardClassNames = cn(
     "flex flex-col  gap-2 rounded-md relative bg-muted",
     bgMuted && "bg-background",
-    cardStyle.designSettings.layoutV2 === "top" && "justify-start",
-    cardStyle.designSettings.layoutV2 === "center" && "justify-center",
-    cardStyle.designSettings.layoutV2 === "bottom" && "justify-end",
-    !cardStyle.designSettings.cardBackground &&
-      !cardStyle.designSettings.cardBorder &&
-      "bg-muted"
+    layoutV2 === "top" && "justify-start",
+    layoutV2 === "center" && "justify-center",
+    layoutV2 === "bottom" && "justify-end",
+    !cardBackground && !cardBorder && "bg-muted"
   );
 
   const imagePlaceholderClassNames = cn(
@@ -86,65 +102,55 @@ function Design2({ section, pageId }: DesignProps) {
 
   const containerClassNames = cn(
     " grid grid-cols-1 space-y-4",
-    cardStyle.designSettings.leftTitlePosition &&
+    leftTitlePosition &&
       "md:grid-cols-3 grid-cols-1 gap-4 md:space-y-0 space-y-4"
   );
 
   const sectionBgClassName = cn(
     " flex flex-col relative overflow-hidden",
-    section.style.designSettings.sectionBackground.color === "primary" &&
-      "bg-primary",
-    section.style.designSettings.sectionBackground.color === "gray" &&
-      "bg-muted",
-    section.style.designSettings.sectionBackground.color === "none" &&
-      "bg-background",
-    section.style.designSettings.sectionBackground.height === "fill" &&
-      "min-h-screen",
-    section.style.designSettings.sectionBackground.height === "fit" && "h-auto",
-    section.style.designSettings.sectionBackground.align === "start" &&
-      "justify-start",
-    section.style.designSettings.sectionBackground.align === "center" &&
-      "justify-center",
-    section.style.designSettings.sectionBackground.align === "end" &&
-      "justify-end"
+    sectionBackground.color === "primary" && "bg-primary",
+    sectionBackground.color === "gray" && "bg-muted",
+    sectionBackground.color === "none" && "bg-background",
+    sectionBackground.height === "fill" && "min-h-screen",
+    sectionBackground.height === "fit" && "h-auto",
+    sectionBackground.align === "start" && "justify-start",
+    sectionBackground.align === "center" && "justify-center",
+    sectionBackground.align === "end" && "justify-end"
   );
 
   const cardContentClasses = cn(
     "z-10 rounded-md space-y-3 p-5",
-    cardStyle.designSettings.glassEffect &&
-      bgMuted &&
-      "bg-muted/30  backdrop-blur-lg",
-    cardStyle.designSettings.glassEffect &&
-      !bgMuted &&
-      "bg-background/30 backdrop-blur-lg",
-    !cardStyle.designSettings.glassEffect && bgMuted && "bg-muted",
-    !cardStyle.designSettings.glassEffect && !bgMuted && "bg-background"
+    glassEffect && bgMuted && "bg-muted/30  backdrop-blur-lg",
+    glassEffect && !bgMuted && "bg-background/30 backdrop-blur-lg",
+    !glassEffect && bgMuted && "bg-muted",
+    !glassEffect && !bgMuted && "bg-background"
   );
 
   const sectionTitleClassNames = cn("text-4xl", {
-    "text-primary-foreground":
-      section.style.designSettings.sectionBackground.color === "primary",
-    "text-start": cardStyle.designSettings.leftTitlePosition,
+    "text-primary-foreground": sectionBackground.color === "primary",
+    "text-start": leftTitlePosition,
     "text-white":
-      cardStyle.designSettings.sectionBackground.textColor === "light" &&
-      cardStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
     "text-black":
-      cardStyle.designSettings.sectionBackground.textColor === "dark" &&
-      cardStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
   const sectionSubTitleClassNames = cn({
-    "text-primary-foreground":
-      cardStyle.designSettings.sectionBackground.color === "primary",
-    "text-muted-foreground":
-      cardStyle.designSettings.sectionBackground.color !== "primary",
-    "text-start": cardStyle.designSettings.leftTitlePosition,
+    "text-primary-foreground": sectionBackground.color === "primary",
+    "text-muted-foreground": sectionBackground.color !== "primary",
+    "text-start": leftTitlePosition,
     "text-white":
-      cardStyle.designSettings.sectionBackground.textColor === "light" &&
-      cardStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
     "text-black":
-      cardStyle.designSettings.sectionBackground.textColor === "dark" &&
-      cardStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
+  const sectionTitleAndSubTitleClassNames = cn({
+    "text-start": leftTitlePosition,
+  });
+
   return (
     <section
       className={sectionBgClassName}
@@ -154,14 +160,14 @@ function Design2({ section, pageId }: DesignProps) {
       }}
     >
       <BackgroundImage
-        imageUrl={cardStyle.designSettings.sectionBackground.media.imageUrl}
-        parallax={cardStyle.designSettings.sectionBackground.parallax}
-        blur={cardStyle.designSettings.sectionBackground.blur}
-        blurEffect={cardStyle.designSettings.sectionBackground.blurEffect}
-        greyScale={cardStyle.designSettings.sectionBackground.greyScale}
-        overlay={cardStyle.designSettings.sectionBackground.overlay}
-        overlayEffect={cardStyle.designSettings.sectionBackground.overlayEffect}
-        backgroundColor={cardStyle.designSettings.sectionBackground.color}
+        imageUrl={sectionBackground.media.imageUrl}
+        parallax={sectionBackground.parallax}
+        blur={sectionBackground.blur}
+        blurEffect={sectionBackground.blurEffect}
+        greyScale={sectionBackground.greyScale}
+        overlay={sectionBackground.overlay}
+        overlayEffect={sectionBackground.overlayEffect}
+        backgroundColor={sectionBackground.color}
       />
       <div
         className={alignClassNames}
@@ -173,14 +179,18 @@ function Design2({ section, pageId }: DesignProps) {
         }}
       >
         <div className={containerClassNames}>
-          <div>
+          <div className={sectionTitleAndSubTitleClassNames}>
+            <DesignLabel
+              text={cardContent.label}
+              sectionBackground={sectionBackground.color}
+            />
             <h1 className={sectionTitleClassNames}>{section.content.title}</h1>
             <p className={sectionSubTitleClassNames}>
               {section.content.subtitle}
             </p>
           </div>
           <div className="md:col-span-2">
-            {cardStyle.designSettings.displayType === "grid" ? (
+            {displayType === "grid" ? (
               <div
                 className={gridClassNames}
                 style={{
@@ -197,9 +207,7 @@ function Design2({ section, pageId }: DesignProps) {
                       transition={{ type: "tween" }}
                       key={card.id || index}
                       style={{
-                        minHeight: isDesktop
-                          ? cardStyle.designSettings.height.desktop
-                          : cardStyle.designSettings.height.mobile,
+                        minHeight: isDesktop ? height.desktop : height.mobile,
                         backgroundImage: `url(${card.image})`,
                         backgroundPosition: "center",
                         backgroundSize: "cover",
@@ -253,8 +261,8 @@ function Design2({ section, pageId }: DesignProps) {
                       key={card.id || index}
                       style={{
                         flexBasis: isDesktop
-                          ? cardStyle.designSettings.cardSlider.desktopWidth
-                          : cardStyle.designSettings.cardSlider.mobileWidth,
+                          ? cardSlider.desktopWidth
+                          : cardSlider.mobileWidth,
                         marginInlineEnd: isDesktop
                           ? spacing.gap.desktop
                           : spacing.gap.mobile,
@@ -263,9 +271,7 @@ function Design2({ section, pageId }: DesignProps) {
                     >
                       <div
                         style={{
-                          minHeight: isDesktop
-                            ? cardStyle.designSettings.height.desktop
-                            : cardStyle.designSettings.height.mobile,
+                          minHeight: isDesktop ? height.desktop : height.mobile,
                           backgroundImage: `url(${card.image})`,
                           backgroundPosition: "center",
                           backgroundSize: "cover",

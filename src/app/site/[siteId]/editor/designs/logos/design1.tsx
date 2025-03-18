@@ -20,6 +20,7 @@ import {
 import { useMotion } from "@/hooks/useMotion";
 import { Logo, LogosContent, LogosStyle } from "@/types/sectionsTypes/logos";
 import BackgroundImage from "@/components/shared/backgroundImage";
+import DesignLabel from "@/components/shared/label";
 
 interface DesignProps {
   section: any;
@@ -36,10 +37,21 @@ function Design1({ section, pageId }: DesignProps) {
 
   const logoStyle = section?.style as LogosStyle;
   const logoContent = section?.content as LogosContent;
-  const { spacing } = logoStyle.designSettings;
+  const {
+    spacing,
+    align,
+    background,
+    border,
+    carouselSettings,
+    displayType,
+    grid,
+    height,
+    leftTitlePosition,
+    sectionBackground,
+  } = logoStyle.designSettings;
 
-  const autoScroll = logoStyle?.designSettings?.carouselSettings?.autoScroll;
-  const scrollSpeed = logoStyle?.designSettings?.carouselSettings?.scrollSpeed;
+  const autoScroll = carouselSettings?.autoScroll;
+  const scrollSpeed = carouselSettings?.scrollSpeed;
   const autoScrollPlugin = autoScroll
     ? [
         AutoScroll({
@@ -51,33 +63,29 @@ function Design1({ section, pageId }: DesignProps) {
         }),
       ]
     : [];
-  const titleAndSubtitleClassName = cn(
-    logoStyle.designSettings.align === "start" && "text-start",
-    logoStyle.designSettings.align === "center" && "text-center",
-    logoStyle.designSettings.align === "end" && "text-end"
-  );
+  const titleAndSubtitleClassName = cn({
+    "text-start": align === "start" || leftTitlePosition,
+    "text-center": align === "center" && !leftTitlePosition,
+    "text-end": align === "end" && !leftTitlePosition,
+  });
 
-  const gridClassNames = cn(
-    "grid",
-    logoStyle.designSettings.grid.desktop === 4 && "lg:grid-cols-4",
-    logoStyle.designSettings.grid.desktop === 3 && "lg:grid-cols-3",
-    logoStyle.designSettings.grid.desktop === 2 && "lg:grid-cols-2",
-    logoStyle.designSettings.grid.desktop === 1 && "lg:grid-cols-1",
-    logoStyle.designSettings.grid.mobile === 4 && "grid-cols-4",
-    logoStyle.designSettings.grid.mobile === 3 && "grid-cols-3",
-    logoStyle.designSettings.grid.mobile === 2 && "grid-cols-2",
-    logoStyle.designSettings.grid.mobile === 1 && "grid-cols-1"
-  );
+  const gridClassNames = cn("grid", {
+    "lg:grid-cols-4": grid.desktop === 4,
+    "lg:grid-cols-3": grid.desktop === 3,
+    "lg:grid-cols-2": grid.desktop === 2,
+    "lg:grid-cols-1": grid.desktop === 1,
+    "grid-cols-4": grid.mobile === 4,
+    "grid-cols-3": grid.mobile === 3,
+    "grid-cols-2": grid.mobile === 2,
+    "grid-cols-1": grid.mobile === 1,
+  });
 
   const cardClassNames = cn(
     "flex flex-col  gap-2 rounded-md overflow-hidden relative",
-    logoStyle.designSettings.background && "bg-muted p-5",
-    logoStyle.designSettings.border &&
-      "outline outline-[1px] outline-muted p-5",
-    bgMuted && logoStyle.designSettings.background && "bg-background",
-    bgMuted &&
-      logoStyle.designSettings.border &&
-      "outline outline-[1px] outline-background"
+    background && "bg-muted p-5",
+    border && "outline outline-[1px] outline-muted p-5",
+    bgMuted && background && "bg-background",
+    bgMuted && border && "outline outline-[1px] outline-background"
     // bgMuted && "bg-background"
   );
 
@@ -87,49 +95,42 @@ function Design1({ section, pageId }: DesignProps) {
 
   const containerClassNames = cn(
     " grid grid-cols-1 space-y-4",
-    logoStyle.designSettings.leftTitlePosition &&
+    leftTitlePosition &&
       "md:grid-cols-3 grid-cols-1 gap-4 md:space-y-0 space-y-4"
   );
 
   const sectionBgClassName = cn(
     " flex flex-col relative overflow-hidden",
-    logoStyle.designSettings.sectionBackground.color === "primary" &&
-      "bg-primary",
-    logoStyle.designSettings.sectionBackground.color === "gray" && "bg-muted",
-    logoStyle.designSettings.sectionBackground.color === "none" &&
-      "bg-background",
-    logoStyle.designSettings.sectionBackground.height === "fill" && "min-h-screen",
-    logoStyle.designSettings.sectionBackground.height === "fit" && "h-auto",
-    logoStyle.designSettings.sectionBackground.align === "start" &&
-      "justify-start",
-    logoStyle.designSettings.sectionBackground.align === "center" &&
-      "justify-center",
-    logoStyle.designSettings.sectionBackground.align === "end" && "justify-end"
+    sectionBackground.color === "primary" && "bg-primary",
+    sectionBackground.color === "gray" && "bg-muted",
+    sectionBackground.color === "none" && "bg-background",
+    sectionBackground.height === "fill" && "min-h-screen",
+    sectionBackground.height === "fit" && "h-auto",
+    sectionBackground.align === "start" && "justify-start",
+    sectionBackground.align === "center" && "justify-center",
+    sectionBackground.align === "end" && "justify-end"
   );
 
   const sectionTitleClassNames = cn("text-4xl", {
-    "text-primary-foreground":
-      section.style.designSettings.sectionBackground.color === "primary",
-    "text-start": logoStyle.designSettings.leftTitlePosition,
+    "text-primary-foreground": sectionBackground.color === "primary",
+    "text-start": leftTitlePosition,
     "text-white":
-      logoStyle.designSettings.sectionBackground.textColor === "light" &&
-      logoStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
     "text-black":
-      logoStyle.designSettings.sectionBackground.textColor === "dark" &&
-      logoStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
   const sectionSubTitleClassNames = cn({
-    "text-primary-foreground":
-      logoStyle.designSettings.sectionBackground.color === "primary",
-    "text-start": logoStyle.designSettings.leftTitlePosition,
-    "text-muted-foreground":
-      logoStyle.designSettings.sectionBackground.color !== "primary",
+    "text-primary-foreground": sectionBackground.color === "primary",
+    "text-start": leftTitlePosition,
+    "text-muted-foreground": sectionBackground.color !== "primary",
     "text-white":
-      logoStyle.designSettings.sectionBackground.textColor === "light" &&
-      logoStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "light" &&
+      sectionBackground.media.imageUrl,
     "text-black":
-      logoStyle.designSettings.sectionBackground.textColor === "dark" &&
-      logoStyle.designSettings.sectionBackground.media.imageUrl,
+      sectionBackground.textColor === "dark" &&
+      sectionBackground.media.imageUrl,
   });
 
   return (
@@ -141,14 +142,14 @@ function Design1({ section, pageId }: DesignProps) {
       }}
     >
       <BackgroundImage
-        imageUrl={logoStyle.designSettings.sectionBackground.media.imageUrl}
-        parallax={logoStyle.designSettings.sectionBackground.parallax}
-        blur={logoStyle.designSettings.sectionBackground.blur}
-        blurEffect={logoStyle.designSettings.sectionBackground.blurEffect}
-        greyScale={logoStyle.designSettings.sectionBackground.greyScale}
-        overlay={logoStyle.designSettings.sectionBackground.overlay}
-        overlayEffect={logoStyle.designSettings.sectionBackground.overlayEffect}
-        backgroundColor={logoStyle.designSettings.sectionBackground.color}
+        imageUrl={sectionBackground.media.imageUrl}
+        parallax={sectionBackground.parallax}
+        blur={sectionBackground.blur}
+        blurEffect={sectionBackground.blurEffect}
+        greyScale={sectionBackground.greyScale}
+        overlay={sectionBackground.overlay}
+        overlayEffect={sectionBackground.overlayEffect}
+        backgroundColor={sectionBackground.color}
       />
       <div
         className="container max-w-container z-0 gap-10 w-full"
@@ -161,11 +162,15 @@ function Design1({ section, pageId }: DesignProps) {
       >
         <div className={containerClassNames}>
           <div className={titleAndSubtitleClassName}>
+            <DesignLabel
+              text={logoContent.label}
+              sectionBackground={sectionBackground.color}
+            />
             <h1 className={sectionTitleClassNames}>{logoContent.title}</h1>
             <p className={sectionSubTitleClassNames}>{logoContent.subtitle}</p>
           </div>
           <div className="md:col-span-2">
-            {logoStyle.designSettings.displayType === "grid" ? (
+            {displayType === "grid" ? (
               <div
                 className={gridClassNames}
                 style={{
@@ -181,9 +186,7 @@ function Design1({ section, pageId }: DesignProps) {
                       exit={{ scale: 0.8, opacity: 0 }}
                       transition={{ type: "tween" }}
                       style={{
-                        minHeight: isDesktop
-                          ? logoStyle.designSettings.height.desktop
-                          : logoStyle.designSettings.height.mobile,
+                        minHeight: isDesktop ? height.desktop : height.mobile,
                       }}
                       key={logo.id || index} // Ensure this key is unique and stable
                       className={cardClassNames}
@@ -218,10 +221,9 @@ function Design1({ section, pageId }: DesignProps) {
                             height={30}
                             width={30}
                             fillColor={
-                              logoStyle.designSettings.background && !bgMuted
+                              background && !bgMuted
                                 ? "fill-background"
-                                : !logoStyle.designSettings.background &&
-                                  bgMuted
+                                : !background && bgMuted
                                 ? "fill-background"
                                 : "fill-muted"
                             }
@@ -248,10 +250,8 @@ function Design1({ section, pageId }: DesignProps) {
                       key={logo.id || index} // Ensure this key is unique and stable
                       style={{
                         flexBasis: isDesktop
-                          ? logoStyle.designSettings.carouselSettings
-                              .desktopWidth
-                          : logoStyle.designSettings.carouselSettings
-                              .mobileWidth,
+                          ? carouselSettings.desktopWidth
+                          : carouselSettings.mobileWidth,
                         marginInlineEnd: isDesktop
                           ? spacing.gap.desktop
                           : spacing.gap.mobile,
@@ -260,9 +260,7 @@ function Design1({ section, pageId }: DesignProps) {
                     >
                       <div
                         style={{
-                          minHeight: isDesktop
-                            ? logoStyle.designSettings.height.desktop
-                            : logoStyle.designSettings.height.mobile,
+                          minHeight: isDesktop ? height.desktop : height.mobile,
                         }}
                         key={index}
                         className={cardClassNames}
@@ -297,10 +295,9 @@ function Design1({ section, pageId }: DesignProps) {
                               height={30}
                               width={30}
                               fillColor={
-                                logoStyle.designSettings.background && !bgMuted
+                                background && !bgMuted
                                   ? "fill-background"
-                                  : !logoStyle.designSettings.background &&
-                                    bgMuted
+                                  : !background && bgMuted
                                   ? "fill-background"
                                   : "fill-muted"
                               }

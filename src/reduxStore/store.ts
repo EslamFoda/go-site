@@ -34,6 +34,12 @@ import {
   UPDATE_SELECTED_SECTION,
   UPDATE_SELECTED_SUB_LINK,
   CLOSE_PAGES_TAB,
+  CLOSE_CHOOSE_BG_IMAGE,
+  CLOSE_HEADER_OPTIONS,
+  CLOSE_LOGO_SETTINGS,
+  OPEN_CHOOSE_BG_IMAGE,
+  OPEN_HEADER_OPTIONS,
+  OPEN_LOGO_SETTINGS,
 } from "./actionTypes";
 
 const undoableReducer = undoable(editorReducer, {
@@ -85,6 +91,12 @@ const undoableReducer = undoable(editorReducer, {
       UPDATE_IS_DRAGGABLE_MODAL,
       SET_DRAGGABLE_MODAL_NAME,
       SET_FLUID_CARD,
+      CLOSE_CHOOSE_BG_IMAGE,
+      CLOSE_HEADER_OPTIONS,
+      CLOSE_LOGO_SETTINGS,
+      OPEN_CHOOSE_BG_IMAGE,
+      OPEN_HEADER_OPTIONS,
+      OPEN_LOGO_SETTINGS,
       // ... other existing excluded action types
     ];
 

@@ -13,11 +13,7 @@ function Accordion({ section, pageId }: AccordionProps) {
 
   //@ts-ignore
   const AccordionSection = designs[section.style.designName];
-  return (
-    <>
-      <AccordionSection section={section} pageId={pageId} />
-    </>
-  );
+  return <AccordionSection section={section} pageId={pageId} />;
 }
 
 export default Accordion;

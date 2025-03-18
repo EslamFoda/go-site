@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { useMediaQuery } from "react-responsive";
 import BackgroundImage from "@/components/shared/backgroundImage";
 import { HeaderContent, HeaderStyle } from "@/types/sectionsTypes/header";
+import DesignLabel from "@/components/shared/label";
 interface Design5Props {
   section: any;
   pageId: string;
@@ -41,7 +42,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
     spacing,
   } = bannerStyle.designSettings;
   const showImage = imageSetting.showImage;
-  const bgMuted = bannerStyle.designSettings.sectionBackground.color === "gray";
+  const bgMuted = sectionBackground.color === "gray";
 
   // State for video player
   const [playing, setPlaying] = useState(true);
@@ -95,8 +96,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
     "text-6xl": titleSize === "l",
     "text-5xl": titleSize === "m",
     "text-4xl": titleSize === "s",
-    "text-primary-foreground":
-      bannerStyle.designSettings.sectionBackground.color === "primary",
+    "text-primary-foreground": sectionBackground.color === "primary",
     "text-white":
       sectionBackground.textColor === "light" &&
       sectionBackground.media.imageUrl,
@@ -114,10 +114,8 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
   );
 
   const subTitleColor = cn("text-lg", {
-    "text-primary-foreground":
-      bannerStyle.designSettings.sectionBackground.color === "primary",
-    "text-muted-foreground":
-      bannerStyle.designSettings.sectionBackground.color !== "primary",
+    "text-primary-foreground": sectionBackground.color === "primary",
+    "text-muted-foreground": sectionBackground.color !== "primary",
     "text-white":
       sectionBackground.textColor === "light" &&
       sectionBackground.media.imageUrl,
@@ -151,7 +149,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
 
   const formBtnClassName = cn("whitespace-normal", {
     "border-primary-foreground border-solid border text-primary-foreground":
-      bannerStyle.designSettings.sectionBackground.color === "primary",
+      sectionBackground.color === "primary",
   });
 
   const renderFormFields = () => {
@@ -205,9 +203,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
       return (
         <div
           style={{
-            height: isDesktop
-              ? bannerStyle.designSettings.height.desktop
-              : bannerStyle.designSettings.height.mobile,
+            height: isDesktop ? height.desktop : height.mobile,
             backgroundImage: `url(${bannerContent?.imageSetting.imageUrl})`,
             backgroundSize: imageSetting.objectFit,
           }}
@@ -219,9 +215,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
     return (
       <div
         style={{
-          height: isDesktop
-            ? bannerStyle.designSettings.height.desktop
-            : bannerStyle.designSettings.height.mobile,
+          height: isDesktop ? height.desktop : height.mobile,
         }}
         className={placeholderClassName}
       >
@@ -287,9 +281,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
     return (
       <div
         style={{
-          height: isDesktop
-            ? bannerStyle.designSettings.height.desktop
-            : bannerStyle.designSettings.height.mobile,
+          height: isDesktop ? height.desktop : height.mobile,
         }}
         className={placeholderClassName}
       >
@@ -307,16 +299,14 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
       }}
     >
       <BackgroundImage
-        imageUrl={bannerStyle.designSettings.sectionBackground.media.imageUrl}
-        parallax={bannerStyle.designSettings.sectionBackground.parallax}
-        blur={bannerStyle.designSettings.sectionBackground.blur}
-        blurEffect={bannerStyle.designSettings.sectionBackground.blurEffect}
-        greyScale={bannerStyle.designSettings.sectionBackground.greyScale}
-        overlay={bannerStyle.designSettings.sectionBackground.overlay}
-        overlayEffect={
-          bannerStyle.designSettings.sectionBackground.overlayEffect
-        }
-        backgroundColor={bannerStyle.designSettings.sectionBackground.color}
+        imageUrl={sectionBackground.media.imageUrl}
+        parallax={sectionBackground.parallax}
+        blur={sectionBackground.blur}
+        blurEffect={sectionBackground.blurEffect}
+        greyScale={sectionBackground.greyScale}
+        overlay={sectionBackground.overlay}
+        overlayEffect={sectionBackground.overlayEffect}
+        backgroundColor={sectionBackground.color}
       />
       <div
         className="container max-w-container z-0 space-y-3"
@@ -327,6 +317,10 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
             : spacing.bottom.mobile,
         }}
       >
+        <DesignLabel
+          text={bannerContent.label}
+          sectionBackground={sectionBackground.color}
+        />
         <div>
           <h1 className={titleClassName}>{bannerContent?.title}</h1>
         </div>
@@ -350,9 +344,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
               {showButtons && (
                 <BannerButtons
                   buttons={bannerContent.buttons}
-                  sectionBackground={
-                    bannerStyle.designSettings.sectionBackground.color
-                  }
+                  sectionBackground={sectionBackground.color}
                 />
               )}
               {renderFormFields()}

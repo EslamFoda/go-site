@@ -1,4 +1,3 @@
-import DesignButtons from "@/components/shared/designButtons";
 import { Button } from "@/components/ui/button";
 import { HeaderContent } from "@/types/sectionsTypes/header";
 import React from "react";
@@ -7,10 +6,11 @@ interface HeaderMobMenuProps {
 }
 function HeaderMobMenu({ headerContent }: HeaderMobMenuProps) {
   const variants = ["default", "secondary"] as const;
+  console.log(headerContent, "headerContent");
 
   return (
     <div>
-      {headerContent.links.map((link, index) => (
+      {headerContent.links.map((link) => (
         <div key={link.id}>
           <div className="p-3 border-b border-muted-bg">
             <span>{link.text}</span>
