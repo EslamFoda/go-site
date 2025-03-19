@@ -69,7 +69,8 @@ function AccordionContentTab({
       <EditText
         label="Title"
         placeholder="Add title"
-        id="title"
+        inputType="textArea"
+        id={findSelectedSection?.id + "title"}
         value={accordionContent.title}
         handleUpdate={(e: any) =>
           dispatch(

@@ -63,7 +63,7 @@ function Design1({ section, pageId }: DesignProps) {
         }),
       ]
     : [];
-  const titleAndSubtitleClassName = cn({
+  const titleAndSubtitleClassName = cn("space-y-3", {
     "text-start": align === "start" || leftTitlePosition,
     "text-center": align === "center" && !leftTitlePosition,
     "text-end": align === "end" && !leftTitlePosition,
@@ -166,8 +166,18 @@ function Design1({ section, pageId }: DesignProps) {
               text={logoContent.label}
               sectionBackground={sectionBackground.color}
             />
-            <h1 className={sectionTitleClassNames}>{logoContent.title}</h1>
-            <p className={sectionSubTitleClassNames}>{logoContent.subtitle}</p>
+            <h1
+              className={sectionTitleClassNames}
+              style={{ whiteSpace: "pre-line" }}
+            >
+              {logoContent.title}
+            </h1>
+            <p
+              className={sectionSubTitleClassNames}
+              style={{ whiteSpace: "pre-line" }}
+            >
+              {logoContent.subtitle}
+            </p>
           </div>
           <div className="md:col-span-2">
             {displayType === "grid" ? (

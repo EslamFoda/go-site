@@ -1,9 +1,7 @@
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TabsContent } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
 import { updateContent, updateSelectedItem } from "@/reduxStore/action";
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
   SectionContentTypes,
@@ -135,6 +133,7 @@ function PricingContentTab({
         label="Title"
         placeholder="Add title"
         id="title"
+        inputType="textArea"
         value={pricingContent.title}
         handleUpdate={(e: any) =>
           dispatch(

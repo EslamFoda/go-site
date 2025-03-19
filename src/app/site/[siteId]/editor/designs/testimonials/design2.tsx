@@ -69,7 +69,7 @@ function Design1({ section, pageId }: DesignProps) {
       ]
     : [];
 
-  const titleAndSubtitleClassName = cn({
+  const titleAndSubtitleClassName = cn('space-y-3',{
     "text-start": align === "start" || leftTitlePosition,
     "text-center": align === "center" && !leftTitlePosition,
     "text-end": align === "end" && !leftTitlePosition,
@@ -206,8 +206,16 @@ function Design1({ section, pageId }: DesignProps) {
               text={testimonialsContent.label}
               sectionBackground={sectionBackground.color}
             />
-            <h1 className={sectionTitleClassNames}>{section.content.title}</h1>
-            <p className={sectionSubTitleClassNames}>
+            <h1
+              className={sectionTitleClassNames}
+              style={{ whiteSpace: "pre-line" }}
+            >
+              {section.content.title}
+            </h1>
+            <p
+              className={sectionSubTitleClassNames}
+              style={{ whiteSpace: "pre-line" }}
+            >
               {section.content.subtitle}
             </p>
           </div>
@@ -291,8 +299,16 @@ function Design1({ section, pageId }: DesignProps) {
                               </div>
                             )}
                             <div className={userClassNames}>
-                              <span className="text-xs">{review.name}</span>
-                              <span className="text-xs text-muted-foreground">
+                              <span
+                                className="text-xs"
+                                style={{ whiteSpace: "pre-line" }}
+                              >
+                                {review.name}
+                              </span>
+                              <span
+                                className="text-xs text-muted-foreground"
+                                style={{ whiteSpace: "pre-line" }}
+                              >
                                 {review.bio}
                               </span>
                             </div>
@@ -358,7 +374,10 @@ function Design1({ section, pageId }: DesignProps) {
                                   <QuoteIcon />
                                 )}
                               </div>
-                              <p className={reviewClassNames}>
+                              <p
+                                className={reviewClassNames}
+                                style={{ whiteSpace: "pre-line" }}
+                              >
                                 {review.review}
                               </p>
                             </div>
@@ -390,8 +409,16 @@ function Design1({ section, pageId }: DesignProps) {
                                 )}
                               </div>
                               <div className={userClassNames}>
-                                <span className="text-xs">{review.name}</span>
-                                <span className="text-xs text-muted-foreground">
+                                <span
+                                  className="text-xs"
+                                  style={{ whiteSpace: "pre-line" }}
+                                >
+                                  {review.name}
+                                </span>
+                                <span
+                                  className="text-xs text-muted-foreground"
+                                  style={{ whiteSpace: "pre-line" }}
+                                >
                                   {review.bio}
                                 </span>
                               </div>

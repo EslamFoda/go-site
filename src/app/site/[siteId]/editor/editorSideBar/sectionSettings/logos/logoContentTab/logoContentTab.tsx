@@ -71,6 +71,7 @@ function LogoContentTab({
         label="Title"
         placeholder="Add title"
         id="title"
+        inputType="textArea"
         value={logosContent.title}
         handleUpdate={(e: any) =>
           dispatch(

@@ -68,7 +68,7 @@ function Design1({ section, pageId }: DesignProps) {
       ]
     : [];
 
-  const titleAndSubtitleClassName = cn({
+  const titleAndSubtitleClassName = cn("space-y-3", {
     "text-start": align === "start" || leftTitlePosition,
     "text-center": align === "center" && !leftTitlePosition,
     "text-end": align === "end" && !leftTitlePosition,
@@ -185,8 +185,16 @@ function Design1({ section, pageId }: DesignProps) {
               text={listContent.label}
               sectionBackground={sectionBackground.color}
             />
-            <h1 className={sectionTitleClassNames}>{section.content.title}</h1>
-            <p className={sectionSubTitleClassNames}>
+            <h1
+              className={sectionTitleClassNames}
+              style={{ whiteSpace: "pre-line" }}
+            >
+              {section.content.title}
+            </h1>
+            <p
+              className={sectionSubTitleClassNames}
+              style={{ whiteSpace: "pre-line" }}
+            >
               {section.content.subtitle}
             </p>
           </div>
@@ -248,8 +256,18 @@ function Design1({ section, pageId }: DesignProps) {
                           )}
                         </div>
                         <div className={listItemTextClassNames}>
-                          <h5 className={titleClassName}>{listItem.title}</h5>
-                          <p className={texClassName}>{listItem.text}</p>
+                          <h5
+                            className={titleClassName}
+                            style={{ whiteSpace: "pre-line" }}
+                          >
+                            {listItem.title}
+                          </h5>
+                          <p
+                            className={texClassName}
+                            style={{ whiteSpace: "pre-line" }}
+                          >
+                            {listItem.text}
+                          </p>
                         </div>
                       </motion.div>
                     );
@@ -323,8 +341,18 @@ function Design1({ section, pageId }: DesignProps) {
                             )}
                           </div>
                           <div className={listItemTextClassNames}>
-                            <h5 className={titleClassName}>{listItem.title}</h5>
-                            <p className={texClassName}>{listItem.text}</p>
+                            <h5
+                              className={titleClassName}
+                              style={{ whiteSpace: "pre-line" }}
+                            >
+                              {listItem.title}
+                            </h5>
+                            <p
+                              className={texClassName}
+                              style={{ whiteSpace: "pre-line" }}
+                            >
+                              {listItem.text}
+                            </p>
                           </div>
                         </div>
                       </CarouselItem>

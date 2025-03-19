@@ -343,7 +343,9 @@ function Design1({ section, pageId, sectionIndex }: Design1Props) {
           text={bannerContent.label}
           sectionBackground={sectionBackground.color}
         />
-        <h1 className={getTitleClassName}>{bannerContent?.title}</h1>
+        <h1 className={getTitleClassName} style={{ whiteSpace: "pre-line" }}>
+          {bannerContent?.title}
+        </h1>
       </div>
       <div
         style={{
@@ -355,6 +357,7 @@ function Design1({ section, pageId, sectionIndex }: Design1Props) {
           <p
             style={{
               width: leftTitlePosition ? "" : subtitleWidth,
+              whiteSpace: "pre-line",
             }}
             className={getSubTitleClassName}
           >
@@ -381,7 +384,9 @@ function Design1({ section, pageId, sectionIndex }: Design1Props) {
           text={bannerContent.label}
           sectionBackground={sectionBackground.color}
         />
-        <h1 className={getTitleClassName}>{bannerContent?.title}</h1>
+        <h1 className={getTitleClassName} style={{ whiteSpace: "pre-line" }}>
+          {bannerContent?.title}
+        </h1>
         <div
           className="space-y-3"
           style={{
@@ -391,6 +396,7 @@ function Design1({ section, pageId, sectionIndex }: Design1Props) {
           <p
             style={{
               width: "100%",
+              whiteSpace: "pre-line",
             }}
             className={getSubTitleClassName}
           >

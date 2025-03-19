@@ -61,6 +61,7 @@ function BannerContentTab({
         label="Title"
         placeholder="Add title"
         id="title"
+        inputType="textArea"
         value={bannerContent.title}
         handleUpdate={(e: any) =>
           dispatch(

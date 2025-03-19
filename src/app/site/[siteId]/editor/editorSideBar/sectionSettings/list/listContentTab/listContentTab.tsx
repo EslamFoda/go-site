@@ -68,6 +68,7 @@ function ListContentTab({
       <EditText
         label="Title"
         placeholder="Add title"
+        inputType="textArea"
         id="title"
         value={listContent.title}
         handleUpdate={(e: any) =>

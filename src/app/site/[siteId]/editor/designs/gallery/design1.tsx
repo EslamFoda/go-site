@@ -145,7 +145,7 @@ function Design1({ section, pageId }: DesignProps) {
         }}
       >
         <div className={containerClassNames}>
-          <div>
+          <div className="space-y-3">
             <DesignLabel
               text={galleryContent.label}
               sectionBackground={sectionBackground.color}

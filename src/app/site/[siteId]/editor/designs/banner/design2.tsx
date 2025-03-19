@@ -236,9 +236,7 @@ function Design2({ section, pageId, sectionIndex }: Design2Props) {
       return (
         <div
           style={{
-            height: isDesktop
-              ? height.desktop
-              : height.mobile,
+            height: isDesktop ? height.desktop : height.mobile,
             backgroundImage: `url(${bannerContent?.imageSetting.imageUrl})`,
             backgroundSize: imageSetting.objectFit,
           }}
@@ -250,9 +248,7 @@ function Design2({ section, pageId, sectionIndex }: Design2Props) {
     return (
       <div
         style={{
-          height: isDesktop
-            ? height.desktop
-            : height.mobile,
+          height: isDesktop ? height.desktop : height.mobile,
         }}
         className={placeholderClassName}
       >
@@ -318,9 +314,7 @@ function Design2({ section, pageId, sectionIndex }: Design2Props) {
     return (
       <div
         style={{
-          height: isDesktop
-            ? height.desktop
-            : height.mobile,
+          height: isDesktop ? height.desktop : height.mobile,
         }}
         className={placeholderClassName}
       >
@@ -344,7 +338,9 @@ function Design2({ section, pageId, sectionIndex }: Design2Props) {
           text={bannerContent.label}
           sectionBackground={sectionBackground.color}
         />
-        <h1 className={getTitleClassName}>{bannerContent?.title}</h1>
+        <h1 className={getTitleClassName} style={{ whiteSpace: "pre-line" }}>
+          {bannerContent?.title}
+        </h1>
       </div>
       <div
         style={{
@@ -356,6 +352,7 @@ function Design2({ section, pageId, sectionIndex }: Design2Props) {
           <p
             style={{
               width: leftTitlePosition ? "" : subtitleWidth,
+              whiteSpace: "pre-line",
             }}
             className={getSubTitleClassName}
           >
@@ -382,7 +379,9 @@ function Design2({ section, pageId, sectionIndex }: Design2Props) {
           text={bannerContent.label}
           sectionBackground={sectionBackground.color}
         />
-        <h1 className={getTitleClassName}>{bannerContent?.title}</h1>
+        <h1 className={getTitleClassName} style={{ whiteSpace: "pre-line" }}>
+          {bannerContent?.title}
+        </h1>
         <div
           className="space-y-3"
           style={{
@@ -392,6 +391,7 @@ function Design2({ section, pageId, sectionIndex }: Design2Props) {
           <p
             style={{
               width: "100%",
+              whiteSpace: "pre-line",
             }}
             className={getSubTitleClassName}
           >
@@ -419,9 +419,7 @@ function Design2({ section, pageId, sectionIndex }: Design2Props) {
         blurEffect={sectionBackground.blurEffect}
         greyScale={sectionBackground.greyScale}
         overlay={sectionBackground.overlay}
-        overlayEffect={
-          sectionBackground.overlayEffect
-        }
+        overlayEffect={sectionBackground.overlayEffect}
         backgroundColor={sectionBackground.color}
       />
       <div

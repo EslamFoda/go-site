@@ -187,6 +187,7 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
           <EditText
             label="Title"
             placeholder="Add card title"
+            inputType="textArea"
             value={cardItem.title}
             id={cardItem.id}
             handleUpdate={(e: any) =>

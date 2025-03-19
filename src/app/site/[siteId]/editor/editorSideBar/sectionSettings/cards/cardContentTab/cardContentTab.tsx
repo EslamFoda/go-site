@@ -71,6 +71,7 @@ function CardContentTab({
       <EditText
         label="Title"
         placeholder="Add title"
+        inputType="textArea"
         id="title"
         value={cardsContent.title}
         handleUpdate={(e: any) =>

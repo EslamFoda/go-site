@@ -37,6 +37,7 @@ import ToggleGroup from "../settingsUi/toggleGroup";
 import SwitchSetting from "../settingsUi/SwitchSetting";
 import ChooseImage from "../gallery/chooseImage";
 import { UnsplashImage } from "@/types/common";
+import { getPhosphorIcon } from "@/helper/phosphorIcons";
 interface ListSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -169,7 +170,8 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
       />
     );
   }
-  if (selectedListItem)
+  if (selectedListItem) {
+    const ListIcon = getPhosphorIcon(selectedListItem.icon);
     return (
       <div className="space-y-2">
         <div
@@ -190,6 +192,7 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
           <EditText
             label="Title"
             placeholder="Add list title"
+            inputType="textArea"
             id={selectedListItem.id}
             value={selectedListItem.title}
             handleUpdate={(e: any) =>
@@ -214,11 +217,15 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
             <Label htmlFor="title">Icon</Label>
             <div className="w-4/6 border flex h-10 border-input rounded-md">
               <div className=" basis-4/5 flex items-center justify-center h-full">
-                <ImagePlaceHolder
-                  fillColor="fill-muted"
-                  width={20}
-                  height={20}
-                />
+                {selectedListItem.icon ? (
+                  <ListIcon size={18}/>
+                ) : (
+                  <ImagePlaceHolder
+                    fillColor="fill-muted"
+                    width={20}
+                    height={20}
+                  />
+                )}
               </div>
               <div className=" flex items-center border-s justify-center basis-1/5 h-full ">
                 <ArrowUpFromLine size="18px" />
@@ -228,6 +235,7 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
         </div>
       </div>
     );
+  }
 
   if (sectionBgOpened)
     return (

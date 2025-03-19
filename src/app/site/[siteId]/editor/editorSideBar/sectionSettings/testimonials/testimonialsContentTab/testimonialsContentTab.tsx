@@ -74,6 +74,7 @@ function TestimonialsContentTab({
       <EditText
         label="Title"
         placeholder="Add title"
+        inputType="textArea"
         id="title"
         value={testimonialsContent.title}
         handleUpdate={(e: any) =>

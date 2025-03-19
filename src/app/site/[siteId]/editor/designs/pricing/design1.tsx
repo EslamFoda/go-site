@@ -50,7 +50,7 @@ function Design1({ pageId, section }: DesignProps) {
     sectionBackground.align === "end" && "justify-end"
   );
 
-  const textColorClassName = cn({
+  const titleContainerClassName = cn("space-y-3", {
     "text-primary-foreground": sectionBackground.color === "primary",
     "text-white":
       sectionBackground.textColor === "light" &&
@@ -124,8 +124,8 @@ function Design1({ pageId, section }: DesignProps) {
         }}
       >
         <div className="space-y-4">
-          <div className="flex items-start justify-between">
-            <div className={textColorClassName}>
+          <div className="flex max-md:flex-col gap-3 items-start justify-between">
+            <div className={titleContainerClassName}>
               <DesignLabel
                 text={pricingContent.label}
                 sectionBackground={sectionBackground.color}
@@ -134,7 +134,7 @@ function Design1({ pageId, section }: DesignProps) {
               <p className={subTitleClassName}>{pricingContent.subtitle}</p>
             </div>
             {pricingContent.planType === SubscriptionPlanType.SUBSCRIPTION && (
-              <div className="h-10 bg-muted rounded-md flex items-center justify-center min-w-32 p-1">
+              <div className="h-10 bg-muted rounded-md flex items-center justify-center min-w-32 max-md:w-full shrink-0 p-1">
                 {pricingContent.subscriptionPlans.map((plan, i) => {
                   if (!plan.billingCycle) return null;
 
@@ -147,10 +147,11 @@ function Design1({ pageId, section }: DesignProps) {
                     <div
                       key={i}
                       className={cn(
-                        "h-full p-1 flex items-center min-w-[70px] justify-center text-xs break-keep cursor-pointer rounded-md transition-colors",
+                        "h-full p-1 flex items-center min-w-[70px] max-md:w-full justify-center text-xs break-keep cursor-pointer rounded-md transition-colors",
                         {
-                          "bg-background": activePlan === i,
-                          "bg-muted": onePlanBillingCycle,
+                          "bg-background":
+                            activePlan === i || onePlanBillingCycle,
+                          "w-full": onePlanBillingCycle,
                         }
                       )}
                       onClick={(e) => {

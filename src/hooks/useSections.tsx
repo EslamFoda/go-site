@@ -877,6 +877,350 @@ export function useSections() {
     },
     {
       id: v4(),
+      sectionName: "Pricing",
+      content: {
+        label: "",
+        title: "Heading",
+        subtitle: "",
+        currency: { code: "USD", name: "US Dollar", symbol: "$" },
+        planType: SubscriptionPlanType.ONETIME,
+        subscriptionPlans: [
+          {
+            billingCycle: "Monthly",
+            cycleDuration: "per month",
+            default: true,
+          },
+          {
+            billingCycle: "Yearly",
+            cycleDuration: "per month paid yearly",
+            default: false,
+          },
+          {
+            billingCycle: "",
+            cycleDuration: "",
+            default: false,
+          },
+        ],
+        subscriptions: [
+          {
+            id: v4(),
+            title: "Free",
+            text: "",
+            benefits: [
+              {
+                id: v4(),
+                title: "Benefit 1",
+              },
+            ],
+            oneTimePlan: {
+              id: v4(),
+              originalPrice: 0,
+              salePrice: 0,
+              isSale: false,
+              offer: "",
+              button: {
+                text: "Get Started",
+                link: "",
+                openNewTab: false,
+              },
+            },
+            price: [
+              {
+                originalPrice: "0",
+                salePrice: "0",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+              {
+                originalPrice: "0",
+                salePrice: "0",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+              {
+                originalPrice: "0",
+                salePrice: "0",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+            ],
+            featured: {
+              isActive: false,
+              text: "Best Deal",
+            },
+          },
+          {
+            id: v4(),
+            title: "Start",
+            text: "",
+            benefits: [
+              {
+                id: v4(),
+                title: "Benefit 1",
+              },
+              {
+                id: v4(),
+                title: "Benefit 2",
+              },
+              {
+                id: v4(),
+                title: "Benefit 3",
+              },
+            ],
+            oneTimePlan: {
+              id: v4(),
+              originalPrice: "20",
+              salePrice: "15",
+              isSale: false,
+              offer: "",
+              button: {
+                text: "Get Started",
+                link: "",
+                openNewTab: false,
+              },
+            },
+            price: [
+              {
+                originalPrice: "15",
+                salePrice: "10",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+              {
+                originalPrice: "30",
+                salePrice: "25",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+              {
+                originalPrice: "0",
+                salePrice: "0",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+            ],
+            featured: {
+              isActive: false,
+              text: "Best Deal",
+            },
+          },
+          {
+            id: v4(),
+            title: "Pro",
+            text: "",
+            benefits: [
+              {
+                id: v4(),
+                title: "Benefit 1",
+              },
+              {
+                id: v4(),
+                title: "Benefit 2",
+              },
+              {
+                id: v4(),
+                title: "Benefit 3",
+              },
+            ],
+            oneTimePlan: {
+              id: v4(),
+              originalPrice: "30",
+              salePrice: "25",
+              isSale: false,
+              offer: "",
+              button: {
+                text: "Get Started",
+                link: "",
+                openNewTab: false,
+              },
+            },
+            price: [
+              {
+                originalPrice: "30",
+                salePrice: "15",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+              {
+                originalPrice: "25",
+                salePrice: "15",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+              {
+                originalPrice: "0",
+                salePrice: "0",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+            ],
+            featured: {
+              isActive: false,
+              text: "Best Deal",
+            },
+          },
+          {
+            id: v4(),
+            title: "Plus",
+            text: "",
+            benefits: [
+              {
+                id: v4(),
+                title: "Benefit 1",
+              },
+              {
+                id: v4(),
+                title: "Benefit 2",
+              },
+              {
+                id: v4(),
+                title: "Benefit 3",
+              },
+            ],
+            oneTimePlan: {
+              id: v4(),
+              originalPrice: "60",
+              salePrice: "50",
+              isSale: false,
+              offer: "",
+              button: {
+                text: "Get Started",
+                link: "",
+                openNewTab: false,
+              },
+            },
+            price: [
+              {
+                originalPrice: "60",
+                salePrice: "50",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+              {
+                originalPrice: "50",
+                salePrice: "40",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+              {
+                originalPrice: "700",
+                salePrice: "0",
+                isSale: false,
+                offer: "",
+                button: {
+                  text: "Get Started",
+                  link: "",
+                  openNewTab: false,
+                },
+              },
+            ],
+            featured: {
+              isActive: false,
+              text: "Best Deal",
+            },
+          },
+        ],
+      },
+      style: {
+        designName: "design1",
+        designSettings: {
+          text: "m",
+          background: true,
+          border: false,
+          spacing: {
+            top: {
+              desktop: 50,
+              mobile: 15,
+            },
+            bottom: {
+              desktop: 50,
+              mobile: 15,
+            },
+            gap: {
+              desktop: 20,
+              mobile: 10,
+            },
+            padding: {
+              desktop: 20,
+              mobile: 10,
+            },
+          },
+          sectionBackground: {
+            color: "none",
+            media: {
+              imageUrl: "",
+              imageId: "",
+            },
+            textColor: "light",
+            height: "fit",
+            spacing: "l",
+            overlay: false,
+            blur: false,
+            greyScale: false,
+            parallax: false,
+            overlayEffect: "s",
+            blurEffect: "s",
+          },
+        },
+      },
+    },
+    {
+      id: v4(),
       sectionName: "Fluid",
       content: {
         gridLayout: {
@@ -1250,350 +1594,6 @@ export function useSections() {
       },
       style: {
         designName: "design1",
-      },
-    },
-    {
-      id: v4(),
-      sectionName: "Pricing",
-      content: {
-        label: "",
-        title: "Heading",
-        subtitle: "",
-        currency: { code: "USD", name: "US Dollar", symbol: "$" },
-        planType: SubscriptionPlanType.ONETIME,
-        subscriptionPlans: [
-          {
-            billingCycle: "Monthly",
-            cycleDuration: "per month",
-            default: true,
-          },
-          {
-            billingCycle: "Yearly",
-            cycleDuration: "per month paid yearly",
-            default: false,
-          },
-          {
-            billingCycle: "",
-            cycleDuration: "",
-            default: false,
-          },
-        ],
-        subscriptions: [
-          {
-            id: v4(),
-            title: "Free",
-            text: "",
-            benefits: [
-              {
-                id: v4(),
-                title: "Benefit 1",
-              },
-            ],
-            oneTimePlan: {
-              id: v4(),
-              originalPrice: 0,
-              salePrice: 0,
-              isSale: false,
-              offer: "",
-              button: {
-                text: "Get Started",
-                link: "",
-                openNewTab: false,
-              },
-            },
-            price: [
-              {
-                originalPrice: "0",
-                salePrice: "0",
-                isSale: false,
-                offer: "",
-                button: {
-                  text: "Get Started",
-                  link: "",
-                  openNewTab: false,
-                },
-              },
-              {
-                originalPrice: "0",
-                salePrice: "0",
-                isSale: false,
-                offer: "",
-                button: {
-                  text: "Get Started",
-                  link: "",
-                  openNewTab: false,
-                },
-              },
-              {
-                originalPrice: "0",
-                salePrice: "0",
-                isSale: false,
-                offer: "",
-                button: {
-                  text: "Get Started",
-                  link: "",
-                  openNewTab: false,
-                },
-              },
-            ],
-            featured: {
-              isActive: false,
-              text: "Best Deal",
-            },
-          },
-          {
-            id: v4(),
-            title: "Start",
-            text: "",
-            benefits: [
-              {
-                id: v4(),
-                title: "Benefit 1",
-              },
-              {
-                id: v4(),
-                title: "Benefit 2",
-              },
-              {
-                id: v4(),
-                title: "Benefit 3",
-              },
-            ],
-            oneTimePlan: {
-              id: v4(),
-              originalPrice: "20",
-              salePrice: "15",
-              isSale: false,
-              offer: "",
-              button: {
-                text: "Get Started",
-                link: "",
-                openNewTab: false,
-              },
-            },
-            price: [
-              {
-                originalPrice: "15",
-                salePrice: "10",
-                isSale: false,
-                offer: "",
-                button: {
-                  text: "Get Started",
-                  link: "",
-                  openNewTab: false,
-                },
-              },
-              {
-                originalPrice: "30",
-                salePrice: "25",
-                isSale: false,
-                offer: "",
-                button: {
-                  text: "Get Started",
-                  link: "",
-                  openNewTab: false,
-                },
-              },
-              {
-                originalPrice: "0",
-                salePrice: "0",
-                isSale: false,
-                offer: "",
-                button: {
-                  text: "Get Started",
-                  link: "",
-                  openNewTab: false,
-                },
-              },
-            ],
-            featured: {
-              isActive: false,
-              text: "Best Deal",
-            },
-          },
-          {
-            id: v4(),
-            title: "Pro",
-            text: "",
-            benefits: [
-              {
-                id: v4(),
-                title: "Benefit 1",
-              },
-              {
-                id: v4(),
-                title: "Benefit 2",
-              },
-              {
-                id: v4(),
-                title: "Benefit 3",
-              },
-            ],
-            oneTimePlan: {
-              id: v4(),
-              originalPrice: "30",
-              salePrice: "25",
-              isSale: false,
-              offer: "",
-              button: {
-                text: "Get Started",
-                link: "",
-                openNewTab: false,
-              },
-            },
-            price: [
-              {
-                originalPrice: "30",
-                salePrice: "15",
-                isSale: false,
-                offer: "",
-                button: {
-                  text: "Get Started",
-                  link: "",
-                  openNewTab: false,
-                },
-              },
-              {
-                originalPrice: "25",
-                salePrice: "15",
-                isSale: false,
-                offer: "",
-                button: {
-                  text: "Get Started",
-                  link: "",
-                  openNewTab: false,
-                },
-              },
-              {
-                originalPrice: "0",
-                salePrice: "0",
-                isSale: false,
-                offer: "",
-                button: {
-                  text: "Get Started",
-                  link: "",
-                  openNewTab: false,
-                },
-              },
-            ],
-            featured: {
-              isActive: false,
-              text: "Best Deal",
-            },
-          },
-          {
-            id: v4(),
-            title: "Plus",
-            text: "",
-            benefits: [
-              {
-                id: v4(),
-                title: "Benefit 1",
-              },
-              {
-                id: v4(),
-                title: "Benefit 2",
-              },
-              {
-                id: v4(),
-                title: "Benefit 3",
-              },
-            ],
-            oneTimePlan: {
-              id: v4(),
-              originalPrice: "60",
-              salePrice: "50",
-              isSale: false,
-              offer: "",
-              button: {
-                text: "Get Started",
-                link: "",
-                openNewTab: false,
-              },
-            },
-            price: [
-              {
-                originalPrice: "60",
-                salePrice: "50",
-                isSale: false,
-                offer: "",
-                button: {
-                  text: "Get Started",
-                  link: "",
-                  openNewTab: false,
-                },
-              },
-              {
-                originalPrice: "50",
-                salePrice: "40",
-                isSale: false,
-                offer: "",
-                button: {
-                  text: "Get Started",
-                  link: "",
-                  openNewTab: false,
-                },
-              },
-              {
-                originalPrice: "700",
-                salePrice: "0",
-                isSale: false,
-                offer: "",
-                button: {
-                  text: "Get Started",
-                  link: "",
-                  openNewTab: false,
-                },
-              },
-            ],
-            featured: {
-              isActive: false,
-              text: "Best Deal",
-            },
-          },
-        ],
-      },
-      style: {
-        designName: "design1",
-        designSettings: {
-          text: "m",
-          background: true,
-          border: false,
-          spacing: {
-            top: {
-              desktop: 50,
-              mobile: 15,
-            },
-            bottom: {
-              desktop: 50,
-              mobile: 15,
-            },
-            gap: {
-              desktop: 20,
-              mobile: 10,
-            },
-            padding: {
-              desktop: 20,
-              mobile: 10,
-            },
-          },
-          sectionBackground: {
-            color: "none",
-            media: {
-              imageUrl: "",
-              imageId: "",
-            },
-            textColor: "light",
-            height: "fit",
-            spacing: "l",
-            overlay: false,
-            blur: false,
-            greyScale: false,
-            parallax: false,
-            overlayEffect: "s",
-            blurEffect: "s",
-          },
-        },
       },
     },
   ];

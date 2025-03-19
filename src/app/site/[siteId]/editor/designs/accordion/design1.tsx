@@ -46,7 +46,7 @@ function Design1({ section, pageId }: DesignProps) {
     sectionBackground,
   } = accordionStyle.designSettings;
 
-  const titleAndSubtitleClassName = cn({
+  const titleAndSubtitleClassName = cn("space-y-3", {
     "text-start": align === "start" || leftTitlePosition,
     "text-center": align === "center" && !leftTitlePosition,
     "text-end": align === "end" && !leftTitlePosition,
@@ -128,8 +128,16 @@ function Design1({ section, pageId }: DesignProps) {
               text={accordionContent.label}
               sectionBackground={sectionBackground.color}
             />
-            <h1 className={sectionTitleClassNames}>{section.content.title}</h1>
-            <p className={sectionSubTitleClassNames}>
+            <h1
+              className={sectionTitleClassNames}
+              style={{ whiteSpace: "pre-line" }}
+            >
+              {section.content.title}
+            </h1>
+            <p
+              className={sectionSubTitleClassNames}
+              style={{ whiteSpace: "pre-line" }}
+            >
               {section.content.subtitle}
             </p>
           </div>
@@ -162,11 +170,16 @@ function Design1({ section, pageId }: DesignProps) {
                         dispatch(closePagesTab());
                       }}
                     >
-                      <AccordionTrigger className="text-2xl" iconType={icon}>
-                        {accordion.title}
+                      <AccordionTrigger iconType={icon}>
+                        <span>{accordion.title}</span>
                       </AccordionTrigger>
-                      <AccordionContent className="text-muted-foreground">
-                        {accordion.text}
+                      <AccordionContent>
+                        <span
+                          className="text-muted-foreground"
+                          style={{ whiteSpace: "pre-line" }}
+                        >
+                          {accordion.text}
+                        </span>
                       </AccordionContent>
                     </AccordionItem>
                   </motion.div>

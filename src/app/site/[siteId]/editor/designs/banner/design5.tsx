@@ -139,12 +139,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
   );
 
   const playBtnClassName = cn(
-    "absolute w-16 h-16 rounded-md bg-background flex items-center justify-center focus:outline-none transition-transform hover:scale-110",
-    {
-      "bottom-4 left-4": align === "start",
-      "bottom-4 right-4": align === "end",
-      "top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2": align === "center",
-    }
+    "absolute w-16 h-16 rounded-md bg-background flex items-center justify-center focus:outline-none transition-transform hover:scale-110 bottom-4 left-4"
   );
 
   const formBtnClassName = cn("whitespace-normal", {
@@ -322,7 +317,9 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
           sectionBackground={sectionBackground.color}
         />
         <div>
-          <h1 className={titleClassName}>{bannerContent?.title}</h1>
+          <h1 className={titleClassName} style={{ whiteSpace: "pre-line" }}>
+            {bannerContent?.title}
+          </h1>
         </div>
         <div
           className="flex max-lg:flex-col w-full text-center justify-center"
@@ -335,6 +332,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
               <p
                 style={{
                   width: showImage || showVideo ? "100%" : subtitleWidth,
+                  whiteSpace: "pre-line",
                 }}
                 className={subTitleColor}
               >

@@ -153,7 +153,7 @@ function Design1({ section, pageId }: DesignProps) {
       sectionBackground.media.imageUrl,
   });
 
-  const sectionTitleAndSubTitleClassNames = cn({
+  const sectionTitleAndSubTitleClassNames = cn("space-y-3", {
     "text-start": leftTitlePosition,
   });
 
@@ -190,8 +190,16 @@ function Design1({ section, pageId }: DesignProps) {
               text={cardContent.label}
               sectionBackground={sectionBackground.color}
             />
-            <h1 className={sectionTitleClassNames}>{section.content.title}</h1>
-            <p className={sectionSubTitleClassNames}>
+            <h1
+              className={sectionTitleClassNames}
+              style={{ whiteSpace: "pre-line" }}
+            >
+              {section.content.title}
+            </h1>
+            <p
+              className={sectionSubTitleClassNames}
+              style={{ whiteSpace: "pre-line" }}
+            >
               {section.content.subtitle}
             </p>
           </div>
@@ -225,8 +233,18 @@ function Design1({ section, pageId }: DesignProps) {
                         dispatch(closePagesTab());
                       }}
                     >
-                      <h5 className={titleClassName}>{card.title}</h5>
-                      <p className={textOrderClassName}>{card.text}</p>
+                      <h5
+                        className={titleClassName}
+                        style={{ whiteSpace: "pre-line" }}
+                      >
+                        {card.title}
+                      </h5>
+                      <p
+                        className={textOrderClassName}
+                        style={{ whiteSpace: "pre-line" }}
+                      >
+                        {card.text}
+                      </p>
                       {image && (
                         <div className={imageOrderClassName}>
                           {card.image?.length ? (
@@ -311,8 +329,18 @@ function Design1({ section, pageId }: DesignProps) {
                           dispatch(closePagesTab());
                         }}
                       >
-                        <h5 className={titleClassName}>{card.title}</h5>
-                        <p className={textOrderClassName}>{card.text}</p>
+                        <h5
+                          className={titleClassName}
+                          style={{ whiteSpace: "pre-line" }}
+                        >
+                          {card.title}
+                        </h5>
+                        <p
+                          className={textOrderClassName}
+                          style={{ whiteSpace: "pre-line" }}
+                        >
+                          {card.text}
+                        </p>
                         {image && (
                           <div className={imageOrderClassName}>
                             {card.image.length ? (

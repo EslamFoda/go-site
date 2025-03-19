@@ -330,13 +330,17 @@ function Design3({ section, pageId, sectionIndex }: Design3Props) {
             sectionBackground={sectionBackground.color}
           />
           <div>
-            <h1 className={titleClassName}>{bannerContent?.title}</h1>
+            <h1 className={titleClassName} style={{ whiteSpace: "pre-line" }}>
+              {bannerContent?.title}
+            </h1>
           </div>
           <div
             className={subAndButtonClassName}
             style={{ width: showImage || showVideo ? "100%" : subtitleWidth }}
           >
-            <p className={subTitleColor}>{bannerContent?.subtitle}</p>
+            <p className={subTitleColor} style={{ whiteSpace: "pre-line" }}>
+              {bannerContent?.subtitle}
+            </p>
 
             {showButtons && (
               <BannerButtons

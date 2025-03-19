@@ -2,14 +2,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import React from "react";
+
 interface EditTextProps {
   label: string;
   value: string;
   inputType?: "text" | "textArea";
-  handleUpdate: (e: any) => void;
+  handleUpdate: (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => void;
   placeholder?: string;
   id: string;
 }
+
 function EditText({
   label,
   value,
@@ -18,20 +22,20 @@ function EditText({
   placeholder,
   handleUpdate,
 }: EditTextProps) {
-
   return (
     <div className="space-y-1 flex items-center justify-between">
-      <Label htmlFor="title">{label}</Label>
+      <Label htmlFor={id}>{label}</Label>
       {inputType === "text" ? (
         <Input
           className="w-4/6"
           placeholder={placeholder}
           value={value}
           onChange={handleUpdate}
+          id={id}
         />
       ) : (
         <Textarea
-          className="w-4/6"
+          className="w-4/6 resize-none"
           id={id}
           placeholder={placeholder}
           value={value}
