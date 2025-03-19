@@ -21,12 +21,14 @@ import {
 } from "@/reduxStore/types";
 import ImageLayout from "../fluidLayoutSettings/imageLayout";
 import ButtonLayout from "../fluidLayoutSettings/buttonLayout";
+import PreviewSection from "../previewSections";
 
 function Page({ params }: any) {
   const dispatch = useAppDispatch();
   const pageContainerRef = useRef<HTMLDivElement>(null);
 
   const {
+    previewMode,
     selectedPallet,
     isDraggableModalActive,
     fluidCard,
@@ -99,7 +101,7 @@ function Page({ params }: any) {
         width.fullWidthPage ? "100%" : `${width.pages}px`
       );
     }
-  }, [borderRadius, colors, , width, pageContainerRef]);
+  }, [borderRadius, colors, width, pageContainerRef, width.fullWidthPage]);
 
   const fluidCardsMapper = {
     image: FluidImage,
@@ -155,8 +157,23 @@ function Page({ params }: any) {
 
   if (!params.pageId) return null;
 
+  // this is for the preview mode sections
+
+  if (previewMode) {
+    return (
+      <div
+        className={`${selectedPallet} page-container`}
+        ref={pageContainerRef}
+      >
+        <PreviewSection pageId={params.pageId} />
+      </div>
+    );
+  }
+
+  // this is for the editor mode sections
+
   return (
-    <main className={`${selectedPallet} page-container`} ref={pageContainerRef}>
+    <div className={`${selectedPallet} page-container`} ref={pageContainerRef}>
       <DraggableModal
         headText={modalHeadText}
         isOpen={isDraggableModalActive}
@@ -167,7 +184,7 @@ function Page({ params }: any) {
         {renderModalContent()}
       </DraggableModal>
       <Section pageId={params.pageId} />
-    </main>
+    </div>
   );
 }
 

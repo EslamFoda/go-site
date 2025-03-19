@@ -21,12 +21,14 @@ import {
 } from "@/reduxStore/types";
 import ButtonLayout from "./fluidLayoutSettings/buttonLayout";
 import ImageLayout from "./fluidLayoutSettings/imageLayout";
+import PreviewSection from "./previewSections";
 
 export default function Home({ params }: any) {
   const [loading, setLoading] = React.useState(true);
   const pageContainerRef = useRef<HTMLDivElement>(null);
 
   const {
+    previewMode,
     selectedPallet,
     isDraggableModalActive,
     fluidCard,
@@ -102,7 +104,7 @@ export default function Home({ params }: any) {
         width.fullWidthPage ? "100%" : `${width.pages}px`
       );
     }
-  }, [borderRadius, colors, , width, pageContainerRef]);
+  }, [borderRadius, colors, width, pageContainerRef, width.fullWidthPage]);
 
   const fluidCardsMapper = {
     image: FluidImage,
@@ -158,6 +160,21 @@ export default function Home({ params }: any) {
   };
 
   if (loading) return null;
+
+  // this is for the preview mode sections
+
+  if (previewMode) {
+    return (
+      <div
+        className={`${selectedPallet} page-container`}
+        ref={pageContainerRef}
+      >
+        <PreviewSection pageId={homePageId} />
+      </div>
+    );
+  }
+
+  // this is for the editor mode sections
 
   return (
     <div className={`${selectedPallet} page-container`} ref={pageContainerRef}>

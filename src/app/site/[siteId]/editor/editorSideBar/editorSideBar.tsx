@@ -111,22 +111,30 @@ const EditorSidebar = () => {
     };
   }, [pages, globalSections, storage, designSettings]);
 
-  return (
-    <div className="overflow-auto">
-      {openSectionDesigns ? (
-        <ChooseSection />
-      ) : SelectedSectionComponent ? (
+  // Determine which component to render in the sidebar
+  const renderSidebarContent = () => {
+    if (openSectionDesigns) {
+      return <ChooseSection />;
+    } else if (openPallet) {
+      return <DesignSettings />;
+    } else if (openPages) {
+      return <Pages />;
+    } else if (openPageSetting) {
+      return <PageSetting />;
+    } else if (SelectedSectionComponent) {
+      return (
         <SelectedSectionComponent
           sections={sectionsData}
           pageId={activePageId}
         />
-      ) : null}
+      );
+    } else {
+      // Default state when nothing is selected
+      return <Pages />;
+    }
+  };
 
-      {openPallet && <DesignSettings />}
-      {openPages && <Pages />}
-      {openPageSetting && <PageSetting />}
-    </div>
-  );
+  return <div className="overflow-auto">{renderSidebarContent()}</div>;
 };
 
 export default EditorSidebar;

@@ -1,0 +1,103 @@
+"use client";
+
+import { useAppSelector } from "@/reduxStore/hooks";
+import { useParams, useRouter } from "next/navigation";
+import useScrollParallax from "@/hooks/useScrollParallax";
+import ProgressBar from "@/components/shared/progressBar";
+import { HeaderStyle } from "@/types/sectionsTypes/header";
+import Banner from "../designs/banner";
+import Cards from "../designs/cards";
+import List from "../designs/list";
+import Accordion from "../designs/accordion";
+import Testimonials from "../designs/testimonials";
+import Gallery from "../designs/gallery";
+import Logos from "../designs/logos";
+import Fluid from "../designs/fluid";
+import Pricing from "../designs/pricing";
+import Header from "../designs/header";
+import Footer from "../designs/footer";
+
+const PreviewSection: React.FC<{ pageId: string }> = ({ pageId }) => {
+  const { globalSections } = useAppSelector((state) => state.editor.present);
+  const router = useRouter();
+  const { ParallaxProvider } = useScrollParallax();
+  const { siteId } = useParams();
+
+  const currentPage = useAppSelector((state) =>
+    state.editor.present.editor.pages.find((page) => page.pageId === pageId)
+  );
+
+  const globalHeader = globalSections.find(
+    (section) => section.sectionName === "Header"
+  );
+  const globalFooter = globalSections.find(
+    (section) => section.sectionName === "Footer"
+  );
+
+  const headerStyle = globalHeader?.style as HeaderStyle;
+
+  const sectionsMapper: { [key: string]: React.ComponentType<any> } = {
+    Banner,
+    Cards,
+    List,
+    Accordion,
+    Testimonials,
+    Gallery,
+    Logos,
+    Fluid,
+    Pricing,
+  };
+
+  const globalSectionMapper = {
+    Header,
+    Footer,
+  };
+
+  const GlobalHeaderSection = globalSectionMapper["Header"];
+  const GlobalFooterSection = globalSectionMapper["Footer"];
+
+  if (!currentPage) router.push(`/site/${siteId}/editor/`);
+
+  return (
+    <div className="relative">
+      {/* Parent container with conditional blur */}
+      {headerStyle.designSettings.scrollIndicator &&
+        currentPage?.pageSettings.showHeader && <ProgressBar />}
+
+      {currentPage?.pageSettings.showHeader && (
+        <div key="global-header">
+          <GlobalHeaderSection pageId={pageId} section={globalHeader} />
+        </div>
+      )}
+      {currentPage?.sections.map((section, i) => {
+        const SectionComponent = sectionsMapper[section.sectionName];
+
+        return (
+          <div key={section.id} className="relative">
+            <div
+              id={`section-${i}`} // Fixed template literal syntax
+            >
+              <ParallaxProvider>
+                <div>
+                  <SectionComponent
+                    key={section.id}
+                    section={section}
+                    pageId={pageId}
+                    sectionIndex={i}
+                  />
+                </div>
+              </ParallaxProvider>
+            </div>
+          </div>
+        );
+      })}
+      {currentPage?.pageSettings.showFooter && (
+        <div key="global-footer">
+          <GlobalFooterSection pageId={pageId} section={globalFooter} />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default PreviewSection;

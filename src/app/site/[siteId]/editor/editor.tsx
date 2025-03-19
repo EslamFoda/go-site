@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Redo2, Settings, Triangle, Undo2 } from "lucide-react";
+import { Settings, Triangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import SidebarButtons from "./editorSideBar/sidebarButtons";
@@ -10,31 +10,42 @@ import ThemeToggle from "@/components/themeToggle";
 import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { closeSideBar } from "@/reduxStore/action";
-import { ActionCreators } from "redux-undo";
-import {
-  Tooltip,
-  TooltipArrow,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import PublishBtn from "./editorSideBar/publishBtn";
+import EditorToggle from "@/components/shared/editorToggle";
+import { cn } from "@/lib/utils";
+import UndoAndRedo from "@/components/shared/undoAndRedo";
 function Editor({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
-  const canUndo = useAppSelector((state) => state.editor.past.length > 1);
-  const canRedo = useAppSelector((state) => state.editor.future.length > 0);
-  const handleUndo = () => {
-    dispatch(ActionCreators.undo());
-    console.log(canUndo);
-  };
+  const { previewMode } = useAppSelector((state) => state.editor.present);
 
-  const handleRedo = () => {
-    dispatch(ActionCreators.redo());
-  };
+  const mainEditorContainerClassName = cn("grid h-screen w-full pl-[55px]", {
+    "pl-0": previewMode,
+  });
+  const editorBtnsSidebarClasses = cn(
+    "inset-y fixed w-14 left-0 z-50 flex h-full flex-col border-r",
+    { hidden: previewMode }
+  );
+
+  const editorSettingsSidebarClasses = cn(
+    "inset-y fixed left-15 z-50 flex w-96  max-md:hidden  h-full flex-col border-r",
+    { hidden: previewMode }
+  );
+
+  const editorContentClasses = cn(
+    "grid flex-1 pl-[384px] max-md:pl-0 gap-4 overflow-auto  grid-cols-1",
+    { "pl-0": previewMode }
+  );
+
+  const editorHeaderClasses = cn(
+    "sticky top-0 flex  h-[48px] items-center gap-1 border-b bg-background px-4 ms-[1px]",
+    {
+      "ms-0": previewMode,
+    }
+  );
 
   return (
-    <div className="grid h-screen w-full pl-[55px]">
-      <aside className="inset-y fixed w-14 left-0 z-50 flex h-full flex-col border-r">
+    <div className={mainEditorContainerClassName}>
+      <aside className={editorBtnsSidebarClasses}>
         <div
           className="border-b h-12 flex items-center justify-center cursor-pointer hover:bg-muted/70"
           onClick={() => dispatch(closeSideBar())}
@@ -52,7 +63,7 @@ function Editor({ children }: { children: React.ReactNode }) {
         </div>
         <SidebarButtons />
       </aside>
-      <aside className="inset-y fixed left-15 z-50 flex w-96  max-md:hidden  h-full flex-col border-r">
+      <aside className={editorSettingsSidebarClasses}>
         <div className="border-b p-2 invisible">
           <Button variant="outline" size="icon" aria-label="Home">
             <Triangle className="size-5 fill-foreground" />
@@ -63,10 +74,7 @@ function Editor({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
       <div className="flex flex-col">
-        <header
-          className="sticky top-0 flex  h-[48px] items-center gap-1 border-b bg-background px-4 ms-[1px]"
-          style={{ zIndex: 100 }}
-        >
+        <header className={editorHeaderClasses} style={{ zIndex: 100 }}>
           <h1 className="text-xl font-semibold">Playground</h1>
           <Drawer>
             <DrawerTrigger asChild>
@@ -80,62 +88,15 @@ function Editor({ children }: { children: React.ReactNode }) {
             </DrawerContent>
           </Drawer>
           <div className="ml-auto h-full flex items-center gap-4 justify-between">
-            <div className="w-[1px] h-full bg-border" />
-            <div>
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <span className="cursor-pointer">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="rounded-lg"
-                        aria-label="Undo"
-                        onClick={handleUndo}
-                        disabled={!canUndo}
-                      >
-                        <Undo2 size={20} />
-                      </Button>
-                    </span>
-                  </TooltipTrigger>
-                  <TooltipContent className="bg-primary text-background">
-                    <TooltipArrow />
-                    undo
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <span className="cursor-pointer">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="rounded-lg"
-                        aria-label="Redo"
-                        onClick={handleRedo}
-                        disabled={!canRedo}
-                      >
-                        <Redo2 size={20} />
-                      </Button>
-                    </span>
-                  </TooltipTrigger>
-                  <TooltipContent className="bg-primary text-background">
-                    <TooltipArrow />
-                    redo
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            </div>
+            {!previewMode && <UndoAndRedo />}
             <div className="w-[1px] h-full bg-border" />
             <ThemeToggle />
+            <div className="w-[1px] h-full bg-border" />
+            <EditorToggle />
           </div>
           <div>{/* <PublishBtn /> */}</div>
         </header>
-        <main className="grid flex-1 pl-[384px] max-md:pl-0 gap-4 overflow-auto  grid-cols-1">
-          {children}
-        </main>
+        <main className={editorContentClasses}>{children}</main>
       </div>
       <Toaster visibleToasts={1} />
     </div>

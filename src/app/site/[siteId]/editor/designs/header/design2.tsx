@@ -6,7 +6,7 @@ import {
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
-import { useAppDispatch } from "@/reduxStore/hooks";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { HeaderContent, HeaderStyle } from "@/types/sectionsTypes/header";
 import {
   HoverCard,
@@ -28,6 +28,7 @@ interface Design2Props {
 
 function Design2({ pageId, section }: Design2Props) {
   const dispatch = useAppDispatch();
+  const { previewMode } = useAppSelector((state) => state.editor.present);
   const headerContent = section.content as HeaderContent;
   const headerStyle = section.style as HeaderStyle;
   const { sticky, float, autoHide, width, shadow, glass, scrollIndicator } =
@@ -60,6 +61,7 @@ function Design2({ pageId, section }: Design2Props) {
       "shadow-lg": shadow,
       "absolute bg-background/50 backdrop-blur-lg top-0 right-0 w-[calc(100vw_-_444px)] max-md:w-[calc(100vw_-_61px)] z-50":
         glass && !sticky,
+      "w-screen max-md:w-screen": previewMode,
     }
   );
 
@@ -83,6 +85,9 @@ function Design2({ pageId, section }: Design2Props) {
       "shadow-lg": shadow && width === "fill",
       "bg-background/50 backdrop-blur-lg": glass && width === "fill",
       "bg-transparent": glass && width === "fit",
+      "w-[99vw] ms-1 max-lg:ms-2 max-lg:w-[98vw] max-md:w-[96vw] max-md:ms-2":
+        previewMode && width === "fill",
+      "ms-0 max-md:ms-0": previewMode && width === "fit",
     }
   );
 

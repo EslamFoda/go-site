@@ -191,6 +191,7 @@ const initialState: EditorStore = {
   openPages: true,
   openHeaderOptions: false,
   openLogoSettings: false,
+  previewMode: false,
   designSettings: {
     fonts: {
       titleFont: {
@@ -878,6 +879,11 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.CLOSE_LOGO_SETTINGS: {
         draft.openLogoSettings = false;
+        break;
+      }
+
+      case types.TOGGLE_PREVIEW_MODE: {
+        draft.previewMode = !draft.previewMode;
         break;
       }
 

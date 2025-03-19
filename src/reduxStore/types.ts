@@ -95,6 +95,7 @@ export interface EditorStore {
   openLogoSettings: boolean;
   settings: SiteSettings;
   openPageSetting: boolean;
+  previewMode: boolean;
   dragItem: GridCard;
   isDragging: boolean;
   isDraggableModalActive: boolean;

@@ -265,3 +265,7 @@ export const openLogoSettings = () => ({
 export const closeLogoSettings = () => ({
   type: types.CLOSE_LOGO_SETTINGS,
 });
+
+export const togglePreviewMode = () => ({
+  type: types.TOGGLE_PREVIEW_MODE,
+});
