@@ -125,9 +125,8 @@ export function useSections() {
       sectionName: "Banner",
       content: {
         label: "",
-        title: "developer",
-        subtitle:
-          "Eslam** helps you build the best products for your customers. With our expertise and experience, we can help you take your ideas from concept to reality",
+        title: "Heading",
+        subtitle: "Add a brief description of this section",
         mediaType: "image",
         imageSetting: { imageUrl: "", altText: "", id: "" },
         videoSetting: { videoUrl: "" },
@@ -221,7 +220,7 @@ export function useSections() {
             mobile: 350,
           },
           video: true,
-          leftTitlePosition: true,
+          leftTitlePosition: false,
           leftTitleWidth: "50%",
           showButtons: true,
           showForm: false,
