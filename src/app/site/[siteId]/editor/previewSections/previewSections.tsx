@@ -12,10 +12,10 @@ import Accordion from "../designs/accordion";
 import Testimonials from "../designs/testimonials";
 import Gallery from "../designs/gallery";
 import Logos from "../designs/logos";
-import Fluid from "../designs/fluid";
 import Pricing from "../designs/pricing";
 import Header from "../designs/header";
 import Footer from "../designs/footer";
+import FluidPreview from "../designs/fluidPreview";
 
 const PreviewSection: React.FC<{ pageId: string }> = ({ pageId }) => {
   const { globalSections } = useAppSelector((state) => state.editor.present);
@@ -44,7 +44,7 @@ const PreviewSection: React.FC<{ pageId: string }> = ({ pageId }) => {
     Testimonials,
     Gallery,
     Logos,
-    Fluid,
+    Fluid: FluidPreview,
     Pricing,
   };
 

@@ -70,10 +70,17 @@ function Design1({ section, pageId }: DesignProps) {
   });
 
   const gridClassNames = cn("grid", {
+    "lg:grid-cols-10": grid.desktop === 10,
+    "lg:grid-cols-9": grid.desktop === 9,
+    "lg:grid-cols-8": grid.desktop === 8,
+    "lg:grid-cols-7": grid.desktop === 7,
+    "lg:grid-cols-6": grid.desktop === 6,
+    "lg:grid-cols-5": grid.desktop === 5,
     "lg:grid-cols-4": grid.desktop === 4,
     "lg:grid-cols-3": grid.desktop === 3,
     "lg:grid-cols-2": grid.desktop === 2,
     "lg:grid-cols-1": grid.desktop === 1,
+    "grid-cols-5": grid.mobile === 5,
     "grid-cols-4": grid.mobile === 4,
     "grid-cols-3": grid.mobile === 3,
     "grid-cols-2": grid.mobile === 2,

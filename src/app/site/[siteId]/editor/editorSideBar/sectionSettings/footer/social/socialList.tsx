@@ -67,9 +67,15 @@ function SocialList({
     const [inputValue, setInputValue] = React.useState(social.link);
 
     return (
-      <Draggable key={social.id} draggableId={social.id} index={index}>
+      <Draggable
+        data-vaul-no-drag="true"
+        key={social.id}
+        draggableId={social.id}
+        index={index}
+      >
         {(provided) => (
           <div
+            data-vaul-no-drag="true"
             onClick={() => dispatch(updateSelectedItem(social))}
             className={listClassName}
             ref={provided.innerRef}
@@ -106,11 +112,12 @@ function SocialList({
     );
   };
   return (
-    <div className="pt-4 space-y-2">
-      <DragDropContext onDragEnd={handleDragEnd}>
-        <Droppable droppableId="droppable">
+    <div data-vaul-no-drag="true" className="pt-4 space-y-2">
+      <DragDropContext data-vaul-no-drag="true" onDragEnd={handleDragEnd}>
+        <Droppable droppableId="droppable" data-vaul-no-drag="true">
           {(provided) => (
             <div
+              data-vaul-no-drag="true"
               className="space-y-2"
               {...provided.droppableProps}
               ref={provided.innerRef}

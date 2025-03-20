@@ -37,7 +37,7 @@ function Editor({ children }: { children: React.ReactNode }) {
   );
 
   const editorHeaderClasses = cn(
-    "sticky top-0 flex  h-[48px] items-center gap-1 border-b bg-background px-4 ms-[1px]",
+    "sticky top-0 flex h-[48px] items-center  border-b bg-background ps-4 ms-[1px]",
     {
       "ms-0": previewMode,
     }
@@ -87,7 +87,7 @@ function Editor({ children }: { children: React.ReactNode }) {
               <EditorSidebar />
             </DrawerContent>
           </Drawer>
-          <div className="ml-auto h-full flex items-center gap-4 justify-between">
+          <div className="ml-auto h-full flex items-center justify-between">
             {!previewMode && <UndoAndRedo />}
             <div className="w-[1px] h-full bg-border" />
             <ThemeToggle />

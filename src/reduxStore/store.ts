@@ -40,6 +40,7 @@ import {
   OPEN_CHOOSE_BG_IMAGE,
   OPEN_HEADER_OPTIONS,
   OPEN_LOGO_SETTINGS,
+  TOGGLE_PREVIEW_MODE,
 } from "./actionTypes";
 
 const undoableReducer = undoable(editorReducer, {
@@ -97,6 +98,7 @@ const undoableReducer = undoable(editorReducer, {
       OPEN_CHOOSE_BG_IMAGE,
       OPEN_HEADER_OPTIONS,
       OPEN_LOGO_SETTINGS,
+      TOGGLE_PREVIEW_MODE,
       // ... other existing excluded action types
     ];
 

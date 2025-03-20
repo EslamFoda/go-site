@@ -101,7 +101,9 @@ function LogoStyleTab({
           label="Grid"
           isDesktop={isDesktop}
           toggleGridSetting={handleToggleGridSetting}
-          max={4}
+          max={isDesktop 
+            ? (logosContent.logos.length > 10 ? 10 : logosContent.logos.length) 
+            : (logosContent.logos.length > 5 ? 5 : logosContent.logos.length)}
           customText={
             isDesktop
               ? `${logoStyle.designSettings.grid.desktop}`

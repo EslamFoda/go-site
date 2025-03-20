@@ -99,7 +99,9 @@ function GalleryStyleTab({
           label="Grid"
           isDesktop={isDesktop}
           toggleGridSetting={handleToggleGridSetting}
-          max={isDesktop ? 4 : 4}
+          max={isDesktop 
+            ? (galleryContent.photos.length > 10 ? 10 : galleryContent.photos.length) 
+            : (galleryContent.photos.length > 5 ? 5 : galleryContent.photos.length)}
           customText={
             isDesktop
               ? `${galleryStyle.designSettings.grid.desktop}`

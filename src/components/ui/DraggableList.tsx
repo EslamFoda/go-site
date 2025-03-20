@@ -49,9 +49,15 @@ function DraggableList({
         : logoItem.urlLight || logoItem.urlDark;
 
     return (
-      <Draggable key={item.id} draggableId={item.id} index={index}>
+      <Draggable
+        key={item.id}
+        draggableId={item.id}
+        index={index}
+        data-vaul-no-drag="true"
+      >
         {(provided) => (
           <div
+            data-vaul-no-drag="true"
             onClick={() => {
               dispatch(updateSelectedItem(item));
             }}
@@ -64,6 +70,9 @@ function DraggableList({
                 <div
                   className="drag-handle cursor-grab"
                   {...provided.dragHandleProps}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
                 >
                   <GripVertical size={16} />
                 </div>
@@ -97,13 +106,17 @@ function DraggableList({
   };
 
   return (
-    <div className={cn("pt-4 space-y-2", draggableContainerClassName)}>
+    <div
+      className={cn("pt-4 space-y-2", draggableContainerClassName)}
+      data-vaul-no-drag="true"
+    >
       <DragDropContext
+        data-vaul-no-drag="true"
         onDragEnd={(dropResult) => {
           handleDragEnd(dropResult);
         }}
       >
-        <Droppable droppableId="droppable">
+        <Droppable droppableId="droppable" data-vaul-no-drag="true">
           {(provided) => (
             <div
               className="space-y-2"
