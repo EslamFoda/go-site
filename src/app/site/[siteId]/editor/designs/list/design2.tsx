@@ -31,8 +31,6 @@ function Design2({ section, pageId }: DesignProps) {
   const { AnimatePresence, motion } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
-  const bgMuted =
-    section?.style.designSettings.sectionBackground.color === "gray";
   const listStyle = section?.style as ListStyle;
   const listContent = section?.content as ListContent;
 
@@ -53,6 +51,9 @@ function Design2({ section, pageId }: DesignProps) {
     shape,
     textSize,
   } = listStyle.designSettings;
+
+  const bgMuted = sectionBackground.color === "gray";
+  const bgPrimary = sectionBackground.color === "primary";
   const autoScroll = carouselSettings?.autoScroll;
   const scrollSpeed = carouselSettings?.scrollSpeed;
   const autoScrollPlugin = autoScroll
@@ -67,7 +68,7 @@ function Design2({ section, pageId }: DesignProps) {
       ]
     : [];
 
-  const titleAndSubtitleClassName = cn('space-y-3',{
+  const titleAndSubtitleClassName = cn("space-y-3", {
     "text-start": align === "start" || leftTitlePosition,
     "text-center": align === "center" && !leftTitlePosition,
     "text-end": align === "end" && !leftTitlePosition,
@@ -93,7 +94,7 @@ function Design2({ section, pageId }: DesignProps) {
     {
       "bg-muted": background,
       "outline outline-[1px] outline-muted": border,
-      "bg-background": bgMuted,
+      "bg-background": bgMuted || bgPrimary,
       "flex-row items-start": layout === "row",
       "flex-col-reverse": layout === "col",
     }
@@ -109,10 +110,9 @@ function Design2({ section, pageId }: DesignProps) {
       "rounded-md": shape === "square",
       "rounded-full": shape === "rounded",
       "bg-background": iconColor === "none",
-      "bg-primary": iconColor === "primary",
       hidden: !icon,
       "self-end": layout === "col",
-      "bg-muted": (iconColor === "none" && border) || bgMuted,
+      "bg-muted": (iconColor === "none" && border) || bgMuted || bgPrimary,
     }
   );
 
@@ -248,7 +248,14 @@ function Design2({ section, pageId }: DesignProps) {
                           </p>
                         </div>
                         <div
-                          className={iconContainerClassNames}
+                          className={cn(iconContainerClassNames, {
+                            "bg-primary":
+                              iconColor === "primary" && listItem.icon,
+                            "bg-background": !listItem.icon,
+                            "bg-muted":
+                              (bgMuted || bgPrimary || border) &&
+                              !listItem.icon,
+                          })}
                           style={{
                             height: height,
                             width: height,
@@ -262,7 +269,7 @@ function Design2({ section, pageId }: DesignProps) {
                           ) : (
                             <ImagePlaceHolder
                               fillColor={
-                                border || bgMuted
+                                border || bgMuted || bgPrimary
                                   ? "fill-background"
                                   : "fill-muted"
                               }
@@ -333,7 +340,14 @@ function Design2({ section, pageId }: DesignProps) {
                             </p>
                           </div>
                           <div
-                            className={iconContainerClassNames}
+                            className={cn(iconContainerClassNames, {
+                              "bg-primary":
+                                iconColor === "primary" && listItem.icon,
+                              "bg-background": !listItem.icon,
+                              "bg-muted":
+                                (bgMuted || bgPrimary || border) &&
+                                !listItem.icon,
+                            })}
                             style={{
                               height: height,
                               width: height,
@@ -347,7 +361,7 @@ function Design2({ section, pageId }: DesignProps) {
                             ) : (
                               <ImagePlaceHolder
                                 fillColor={
-                                  border || bgMuted
+                                  border || bgMuted || bgPrimary
                                     ? "fill-background"
                                     : "fill-muted"
                                 }

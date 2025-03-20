@@ -35,8 +35,6 @@ function Design1({ section, pageId }: DesignProps) {
   const { motion, AnimatePresence } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
-  const bgMuted =
-    section?.style.designSettings.sectionBackground.color === "gray";
   const testimonialStyle = section?.style as TestimonialStyle;
   const testimonialsContent = section?.content as TestimonialContent;
   const {
@@ -55,6 +53,8 @@ function Design1({ section, pageId }: DesignProps) {
     textSize,
   } = testimonialStyle?.designSettings;
 
+  const bgMuted = sectionBackground.color === "gray";
+  const bgPrimary = sectionBackground.color === "primary";
   const autoScroll = carouselSettings?.autoScroll;
   const scrollSpeed = carouselSettings?.scrollSpeed;
   const autoScrollPlugin = autoScroll
@@ -95,7 +95,7 @@ function Design1({ section, pageId }: DesignProps) {
     {
       "bg-muted p-5": background,
       "outline outline-[1px] outline-muted p-5": border,
-      "bg-background": bgMuted,
+      "bg-background": bgMuted || bgPrimary,
     }
   );
 
@@ -106,7 +106,8 @@ function Design1({ section, pageId }: DesignProps) {
       "rounded-full": shape === "rounded",
     },
     background ? "bg-background" : "bg-muted",
-    bgMuted && "bg-muted"
+    bgMuted && "bg-muted",
+    bgPrimary && "bg-muted"
   );
 
   const imgContainerClassNames = cn(
@@ -250,12 +251,12 @@ function Design1({ section, pageId }: DesignProps) {
                                 )}
                               </div>
                             )}
-                            <p
+                            <h5
                               className={reviewClassNames}
                               style={{ whiteSpace: "pre-line" }}
                             >
                               {review.review}
-                            </p>
+                            </h5>
                           </div>
                           <div className="flex items-center mt-10 gap-2">
                             {avatar && (
@@ -274,8 +275,7 @@ function Design1({ section, pageId }: DesignProps) {
                                   <div className={iconContainerClassNames}>
                                     <ImagePlaceHolder
                                       fillColor={
-                                        testimonialStyle.designSettings
-                                          .background && !bgMuted
+                                        background && !bgMuted && !bgPrimary
                                           ? "fill-muted"
                                           : "fill-background"
                                       }
@@ -365,9 +365,9 @@ function Design1({ section, pageId }: DesignProps) {
                                   )}
                                 </div>
                               )}
-                              <p className={reviewClassNames}>
+                              <h5 className={reviewClassNames}>
                                 {review.review}
-                              </p>
+                              </h5>
                             </div>
                             <div className="flex items-center mt-10 gap-2">
                               {avatar && (
@@ -386,8 +386,7 @@ function Design1({ section, pageId }: DesignProps) {
                                     <div className={iconContainerClassNames}>
                                       <ImagePlaceHolder
                                         fillColor={
-                                          testimonialStyle.designSettings
-                                            .background && !bgMuted
+                                          background && !bgMuted && !bgPrimary
                                             ? "fill-muted"
                                             : "fill-background"
                                         }

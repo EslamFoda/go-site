@@ -35,8 +35,8 @@ function Design1({ pageId, section }: DesignProps) {
   const { spacing, background, border, sectionBackground, text } =
     pricingStyle.designSettings;
 
-  const bgMuted =
-    section?.style.designSettings.sectionBackground.color === "gray";
+  const bgMuted = sectionBackground.color === "gray";
+  const bgPrimary = sectionBackground.color === "primary";
 
   const sectionBgClassName = cn(
     "flex flex-col relative overflow-hidden",
@@ -76,7 +76,13 @@ function Design1({ pageId, section }: DesignProps) {
     {
       "bg-muted": background,
       "outline outline-[1px] outline-muted": border,
-      "bg-background": bgMuted,
+      "bg-background": bgMuted || bgPrimary,
+    }
+  );
+  const planToggleContainerClassNames = cn(
+    "h-10 bg-muted rounded-md flex items-center justify-center min-w-32 max-md:w-full shrink-0 p-1",
+    {
+      "bg-background": bgMuted || bgPrimary,
     }
   );
 
@@ -134,7 +140,7 @@ function Design1({ pageId, section }: DesignProps) {
               <p className={subTitleClassName}>{pricingContent.subtitle}</p>
             </div>
             {pricingContent.planType === SubscriptionPlanType.SUBSCRIPTION && (
-              <div className="h-10 bg-muted rounded-md flex items-center justify-center min-w-32 max-md:w-full shrink-0 p-1">
+              <div className={planToggleContainerClassNames}>
                 {pricingContent.subscriptionPlans.map((plan, i) => {
                   if (!plan.billingCycle) return null;
 
@@ -149,8 +155,13 @@ function Design1({ pageId, section }: DesignProps) {
                       className={cn(
                         "h-full p-1 flex items-center min-w-[70px] max-md:w-full justify-center text-xs break-keep cursor-pointer rounded-md transition-colors",
                         {
+                          "bg-muted":
+                            (activePlan === i || onePlanBillingCycle) &&
+                            (bgMuted || bgPrimary),
                           "bg-background":
-                            activePlan === i || onePlanBillingCycle,
+                            (activePlan === i || onePlanBillingCycle) &&
+                            !bgMuted &&
+                            !bgPrimary,
                           "w-full": onePlanBillingCycle,
                         }
                       )}
@@ -205,6 +216,7 @@ function Design1({ pageId, section }: DesignProps) {
                         isActive={subscription.featured.isActive}
                         featuredText={subscription.featured.text}
                         offerText={plan.offer}
+                        background={sectionBackground.color}
                       />
                       <div>
                         <h5 className={titleClassName}>{subscription.title}</h5>
@@ -268,8 +280,7 @@ function Design1({ pageId, section }: DesignProps) {
                               "bg-background hover:bg-background":
                                 !subscription.featured.isActive,
                               "bg-muted hover:bg-muted":
-                                (sectionBackground.color === "gray" ||
-                                  border) &&
+                                (bgMuted || bgPrimary || border) &&
                                 !subscription.featured.isActive,
                             })}
                             onClick={() => {

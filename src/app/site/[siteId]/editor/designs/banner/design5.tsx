@@ -43,6 +43,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
   } = bannerStyle.designSettings;
   const showImage = imageSetting.showImage;
   const bgMuted = sectionBackground.color === "gray";
+  const bgPrimary = sectionBackground.color === "primary";
 
   // State for video player
   const [playing, setPlaying] = useState(true);
@@ -135,7 +136,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
 
   const placeholderClassName = cn(
     "w-full flex justify-center items-center rounded-md",
-    bgMuted ? "bg-background" : "bg-muted"
+    bgMuted || bgPrimary ? "bg-background" : "bg-muted"
   );
 
   const playBtnClassName = cn(
@@ -149,11 +150,42 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
 
   const renderFormFields = () => {
     if (!showForm) return null;
+    const onlyEmail =
+      bannerContent?.form.fields.filter((field) => field.active).length === 1;
 
     return (
       <div className="space-y-3 w-full">
         {bannerContent?.form.fields.map((field) => {
           if (!field.active) return null;
+
+          if (
+            field.type === "email" &&
+            bannerContent?.form.button.text &&
+            onlyEmail
+          ) {
+            return (
+              <div className="relative w-full" key={field.id}>
+                <Input
+                  className={cn(
+                    "w-full h-14 pr-[calc(theme(spacing.3)+theme(spacing.24))]", // Add padding to the right to make space for the button
+                    bgMuted || bgPrimary
+                      ? "bg-background focus:bg-background"
+                      : "bg-muted"
+                  )}
+                  placeholder={field.value || field.placeholder}
+                  type={field.type}
+                />
+
+                <Button
+                  className={cn(
+                    "absolute right-2 top-1/2 -translate-y-1/2" // Center vertically and position from the right
+                  )}
+                >
+                  {bannerContent?.form.button.text}
+                </Button>
+              </div>
+            );
+          }
 
           if (field.type === "textarea") {
             return (
@@ -162,7 +194,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
                   id={field.id}
                   className={cn(
                     "w-full !h-52 !max-h-52 !min-h-52 resize-none",
-                    bgMuted ? "bg-background" : "bg-muted"
+                    bgMuted || bgPrimary ? "bg-background" : "bg-muted"
                   )}
                   placeholder={field.value || field.placeholder}
                 />
@@ -174,7 +206,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
               <Input
                 className={cn(
                   "w-full h-12",
-                  bgMuted ? "bg-background" : "bg-muted"
+                  bgMuted || bgPrimary ? "bg-background" : "bg-muted"
                 )}
                 placeholder={field.value || field.placeholder}
                 type={field.type}
@@ -182,7 +214,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
             </div>
           );
         })}
-        {bannerContent?.form.button.text && (
+        {bannerContent?.form.button.text && !onlyEmail && (
           <Button className={formBtnClassName}>
             {bannerContent?.form.button.text}
           </Button>
@@ -215,7 +247,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
         className={placeholderClassName}
       >
         <ImagePlaceHolder
-          fillColor={bgMuted ? "fill-muted" : "fill-background"}
+          fillColor={bgMuted || bgPrimary ? "fill-muted" : "fill-background"}
         />
       </div>
     );
@@ -281,7 +313,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
         className={placeholderClassName}
       >
         <VideoPlaceHolder
-          fillColor={bgMuted ? "fill-muted" : "fill-background"}
+          fillColor={bgMuted || bgPrimary ? "fill-muted" : "fill-background"}
         />
       </div>
     );

@@ -32,8 +32,7 @@ function Design1({ section, pageId }: DesignProps) {
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
 
   const dispatch = useAppDispatch();
-  const bgMuted =
-    section?.style.designSettings.sectionBackground.color === "gray";
+
   const accordionStyle = section?.style as AccordionStyle;
   const accordionContent = section?.content as AccordionContentType;
   const {
@@ -45,6 +44,9 @@ function Design1({ section, pageId }: DesignProps) {
     leftTitlePosition,
     sectionBackground,
   } = accordionStyle.designSettings;
+
+  const bgMuted = sectionBackground.color === "gray";
+  const bgPrimary = sectionBackground.color === "primary";
 
   const titleAndSubtitleClassName = cn("space-y-3", {
     "text-start": align === "start" || leftTitlePosition,
@@ -71,7 +73,7 @@ function Design1({ section, pageId }: DesignProps) {
   const accordionItemClassNames = cn("p-5 py-2 rounded-md", {
     "bg-muted": background,
     "outline outline-[1px] outline-muted": border,
-    "bg-background": bgMuted,
+    "bg-background": bgMuted || bgPrimary,
   });
   const sectionTitleClassNames = cn("text-4xl", {
     "text-primary-foreground": sectionBackground.color === "primary",

@@ -31,8 +31,6 @@ function Design1({ section, pageId }: DesignProps) {
   const { motion, AnimatePresence } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
-  const bgMuted =
-    section?.style.designSettings.sectionBackground.color === "gray";
 
   const cardStyle = section?.style as CardStyle;
   const cardContent = section?.content as CardsContent;
@@ -52,6 +50,7 @@ function Design1({ section, pageId }: DesignProps) {
     image,
     leftTitlePosition,
   } = cardStyle.designSettings;
+  const bgMuted = sectionBackground.color === "gray";
   const autoScroll = cardStyle?.designSettings?.cardSlider?.autoScroll;
   const scrollSpeed = cardStyle?.designSettings?.cardSlider?.scrollSpeed;
   const autoScrollPlugin = autoScroll

@@ -35,8 +35,6 @@ function Design1({ section, pageId }: DesignProps) {
   const { motion, AnimatePresence } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
-  const bgMuted =
-    section?.style.designSettings.sectionBackground.color === "gray";
   const testimonialStyle = section?.style as TestimonialStyle;
   const testimonialsContent = section?.content as TestimonialContent;
   const {
@@ -55,6 +53,8 @@ function Design1({ section, pageId }: DesignProps) {
     textSize,
   } = testimonialStyle?.designSettings;
 
+  const bgMuted = sectionBackground.color === "gray";
+  const bgPrimary = sectionBackground.color === "primary";
   const autoScroll = carouselSettings?.autoScroll;
   const scrollSpeed = carouselSettings?.scrollSpeed;
   const autoScrollPlugin = autoScroll
@@ -69,7 +69,7 @@ function Design1({ section, pageId }: DesignProps) {
       ]
     : [];
 
-  const titleAndSubtitleClassName = cn('space-y-3',{
+  const titleAndSubtitleClassName = cn("space-y-3", {
     "text-start": align === "start" || leftTitlePosition,
     "text-center": align === "center" && !leftTitlePosition,
     "text-end": align === "end" && !leftTitlePosition,
@@ -94,7 +94,7 @@ function Design1({ section, pageId }: DesignProps) {
     {
       "bg-muted p-5": background,
       "outline outline-[1px] outline-muted p-5": border,
-      "bg-background": bgMuted,
+      "bg-background": bgMuted || bgPrimary,
       "items-start": align === "start",
       "items-center": align === "center",
       "items-end": align === "end",
@@ -111,7 +111,8 @@ function Design1({ section, pageId }: DesignProps) {
       "self-end": align === "end",
     },
     background ? "bg-background" : "bg-muted",
-    bgMuted && "bg-muted"
+    bgMuted && "bg-muted",
+    bgPrimary && "bg-muted"
   );
 
   const containerClassNames = cn(" grid grid-cols-1 space-y-4", {
@@ -267,7 +268,9 @@ function Design1({ section, pageId }: DesignProps) {
                                 )}
                               </div>
                             )}
-                            <p className={reviewClassNames}>{review.review}</p>
+                            <h5 className={reviewClassNames}>
+                              {review.review}
+                            </h5>
                           </div>
                           <div className="flex flex-col items-start mt-10 gap-2">
                             {avatar && (
@@ -287,7 +290,9 @@ function Design1({ section, pageId }: DesignProps) {
                                     <ImagePlaceHolder
                                       fillColor={
                                         testimonialStyle.designSettings
-                                          .background && !bgMuted
+                                          .background &&
+                                        !bgMuted &&
+                                        !bgPrimary
                                           ? "fill-muted"
                                           : "fill-background"
                                       }
@@ -374,12 +379,12 @@ function Design1({ section, pageId }: DesignProps) {
                                   <QuoteIcon />
                                 )}
                               </div>
-                              <p
+                              <h5
                                 className={reviewClassNames}
                                 style={{ whiteSpace: "pre-line" }}
                               >
                                 {review.review}
-                              </p>
+                              </h5>
                             </div>
                             <div className="flex flex-col items-center mt-10 gap-2">
                               <div className={avatarClassNames}>
@@ -398,7 +403,9 @@ function Design1({ section, pageId }: DesignProps) {
                                     <ImagePlaceHolder
                                       fillColor={
                                         testimonialStyle.designSettings
-                                          .background && !bgMuted
+                                          .background &&
+                                        !bgMuted &&
+                                        !bgPrimary
                                           ? "fill-muted"
                                           : "fill-background"
                                       }

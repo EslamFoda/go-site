@@ -30,8 +30,6 @@ function Design2({ section, pageId }: DesignProps) {
   const { motion, AnimatePresence } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const dispatch = useAppDispatch();
-  const bgMuted =
-    section?.style.designSettings.sectionBackground.color === "gray";
   const cardStyle = section?.style as CardStyle;
   const cardContent = section?.content as CardsContent;
   const {
@@ -49,6 +47,9 @@ function Design2({ section, pageId }: DesignProps) {
     leftTitlePosition,
     glassEffect,
   } = cardStyle.designSettings;
+
+  const bgMuted = sectionBackground.color === "gray";
+  const bgPrimary = sectionBackground.color === "primary";
   const autoScroll = cardStyle?.designSettings?.cardSlider?.autoScroll;
   const scrollSpeed = cardStyle?.designSettings?.cardSlider?.scrollSpeed;
   const autoScrollPlugin = autoScroll
@@ -89,13 +90,22 @@ function Design2({ section, pageId }: DesignProps) {
 
   const cardClassNames = cn(
     "flex flex-col  gap-2 rounded-md relative bg-muted",
-    bgMuted && "bg-background",
+    (bgMuted || bgPrimary) && "bg-background",
     layoutV2 === "top" && "justify-start",
     layoutV2 === "center" && "justify-center",
     layoutV2 === "bottom" && "justify-end",
     !cardBackground && !cardBorder && "bg-muted"
   );
 
+  const cardContentClasses = cn(
+    "z-10 rounded-md space-y-3",
+    glassEffect && "backdrop-blur-lg",
+    glassEffect && (bgMuted || bgPrimary) && "bg-muted/40",
+    glassEffect && !bgMuted && !bgPrimary && "bg-background/40",
+    !glassEffect && (bgMuted || bgPrimary) && "bg-muted",
+    !glassEffect && !bgMuted && !bgPrimary && "bg-background"
+  );
+  
   const imagePlaceholderClassNames = cn(
     " absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
   );
@@ -116,14 +126,6 @@ function Design2({ section, pageId }: DesignProps) {
     sectionBackground.align === "start" && "justify-start",
     sectionBackground.align === "center" && "justify-center",
     sectionBackground.align === "end" && "justify-end"
-  );
-
-  const cardContentClasses = cn(
-    "z-10 rounded-md space-y-3 ",
-    glassEffect && bgMuted && "bg-muted/30  backdrop-blur-lg",
-    glassEffect && !bgMuted && "bg-background/30 backdrop-blur-lg",
-    !glassEffect && bgMuted && "bg-muted",
-    !glassEffect && !bgMuted && "bg-background"
   );
 
   const sectionTitleClassNames = cn("text-4xl", {
@@ -265,7 +267,9 @@ function Design2({ section, pageId }: DesignProps) {
                         <div className={imagePlaceholderClassNames}>
                           <ImagePlaceHolder
                             fillColor={
-                              bgMuted ? "fill-muted" : "fill-background"
+                              bgMuted || bgPrimary
+                                ? "fill-muted"
+                                : "fill-background"
                             }
                           />
                         </div>
@@ -346,7 +350,9 @@ function Design2({ section, pageId }: DesignProps) {
                           <div className={imagePlaceholderClassNames}>
                             <ImagePlaceHolder
                               fillColor={
-                                bgMuted ? "fill-muted" : "fill-background"
+                                bgMuted || bgPrimary
+                                  ? "fill-muted"
+                                  : "fill-background"
                               }
                             />
                           </div>
