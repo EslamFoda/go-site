@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from "react";
 import { debounce } from "lodash";
-// import CreateSite from "./createSite";
+import CreateSite from "./createSite";
 import EmptySiteState from "./emptySiteState";
 import { ActiveUserType } from "@/utlis/auth-helper/client";
 import { createClient } from "@/utlis/supabase/client";
@@ -56,7 +56,7 @@ function Dashboard({ user }: DashboardProps) {
 
   return (
     <div className="max-w-4xl m-auto px-5 mt-16">
-      {/* <CreateSite user={user} setSites={setSites} sites={sites} /> */}
+      <CreateSite user={user} setSites={setSites} sites={sites} />
       {loading ? (
         <SiteSkeleton />
       ) : (
