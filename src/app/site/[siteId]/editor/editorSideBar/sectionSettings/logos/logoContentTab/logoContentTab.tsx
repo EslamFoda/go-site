@@ -1,13 +1,17 @@
 import DraggableList from "@/components/ui/DraggableList";
 import { TabsContent } from "@/components/ui/tabs";
-import { updateContent, updateSelectedItem } from "@/reduxStore/action";
+import {
+  updateContent,
+  updateSelectedItem,
+  updateStyle,
+} from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
-import { Logo, LogosContent } from "@/types/sectionsTypes/logos";
+import { Logo, LogosContent, LogosStyle } from "@/types/sectionsTypes/logos";
 import React from "react";
 import { v4 } from "uuid";
 import EditText from "../../settingsUi/EditText";
@@ -17,12 +21,14 @@ interface LogoContentTabProps {
     keyof SectionStyleTypes
   >;
   logosContent: LogosContent;
+  logoStyle: LogosStyle;
   items: Logo[];
   pageId: string;
 }
 function LogoContentTab({
   findSelectedSection,
   logosContent,
+  logoStyle,
   items,
   pageId,
 }: LogoContentTabProps) {
@@ -73,13 +79,23 @@ function LogoContentTab({
         id="title"
         inputType="textArea"
         value={logosContent.title}
-        handleUpdate={(e: any) =>
+        handleUpdate={(e: any) => {
           dispatch(
             updateContent(pageId, findSelectedSection.id, {
               title: e.target.value,
             })
-          )
-        }
+          );
+          if (e.target.value === "") {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...logoStyle.designSettings!,
+                  leftTitlePosition: false,
+                },
+              })
+            );
+          }
+        }}
       />
       <EditText
         label="Subtitle"

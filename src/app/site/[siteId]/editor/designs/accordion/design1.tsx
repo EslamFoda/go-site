@@ -21,7 +21,7 @@ import {
 import { useMotion } from "@/hooks/useMotion";
 import { useMediaQuery } from "react-responsive";
 import BackgroundImage from "@/components/shared/backgroundImage";
-import DesignLabel from "@/components/shared/label";
+import SectionHeader from "@/components/shared/sectionHeader";
 
 interface DesignProps {
   section: any;
@@ -48,12 +48,6 @@ function Design1({ section, pageId }: DesignProps) {
   const bgMuted = sectionBackground.color === "gray";
   const bgPrimary = sectionBackground.color === "primary";
 
-  const titleAndSubtitleClassName = cn("space-y-3", {
-    "text-start": align === "start" || leftTitlePosition,
-    "text-center": align === "center" && !leftTitlePosition,
-    "text-end": align === "end" && !leftTitlePosition,
-  });
-
   const containerClassNames = cn(" grid grid-cols-1 space-y-4", {
     "md:grid-cols-3 grid-cols-1 gap-4 md:space-y-0 space-y-4":
       leftTitlePosition,
@@ -75,27 +69,7 @@ function Design1({ section, pageId }: DesignProps) {
     "outline outline-[1px] outline-muted": border,
     "bg-background": bgMuted || bgPrimary,
   });
-  const sectionTitleClassNames = cn("text-4xl", {
-    "text-primary-foreground": sectionBackground.color === "primary",
-    "text-start": leftTitlePosition,
-    "text-white":
-      sectionBackground.textColor === "light" &&
-      sectionBackground.media.imageUrl,
-    "text-black":
-      sectionBackground.textColor === "dark" &&
-      sectionBackground.media.imageUrl,
-  });
-  const sectionSubTitleClassNames = cn({
-    "text-primary-foreground": sectionBackground.color === "primary",
-    "text-muted-foreground": sectionBackground.color !== "primary",
-    "text-start": leftTitlePosition,
-    "text-white":
-      sectionBackground.textColor === "light" &&
-      sectionBackground.media.imageUrl,
-    "text-black":
-      sectionBackground.textColor === "dark" &&
-      sectionBackground.media.imageUrl,
-  });
+
   return (
     <section
       className={sectionBgClassName}
@@ -125,24 +99,12 @@ function Design1({ section, pageId }: DesignProps) {
         }}
       >
         <div className={containerClassNames}>
-          <div className={titleAndSubtitleClassName}>
-            <DesignLabel
-              text={accordionContent.label}
-              sectionBackground={sectionBackground.color}
-            />
-            <h1
-              className={sectionTitleClassNames}
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {section.content.title}
-            </h1>
-            <p
-              className={sectionSubTitleClassNames}
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {section.content.subtitle}
-            </p>
-          </div>
+          <SectionHeader
+            content={accordionContent}
+            sectionBackground={sectionBackground}
+            align={align}
+            leftTitlePosition={leftTitlePosition}
+          />
           <div className="md:col-span-2">
             <Accordion
               type="multiple"

@@ -1,13 +1,17 @@
 import DraggableList from "@/components/ui/DraggableList";
 import { TabsContent } from "@/components/ui/tabs";
-import { updateContent, updateSelectedItem } from "@/reduxStore/action";
+import {
+  updateContent,
+  updateSelectedItem,
+  updateStyle,
+} from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
-import { ListContent, ListItem } from "@/types/sectionsTypes/list";
+import { ListContent, ListItem, ListStyle } from "@/types/sectionsTypes/list";
 import React from "react";
 import { v4 } from "uuid";
 import EditText from "../../settingsUi/EditText";
@@ -17,6 +21,7 @@ interface ListContentTabProps {
     keyof SectionStyleTypes
   >;
   listContent: ListContent;
+  listStyle: ListStyle;
   items: ListItem[];
   pageId: string;
   setItems: React.Dispatch<React.SetStateAction<ListItem[]>>;
@@ -24,6 +29,7 @@ interface ListContentTabProps {
 function ListContentTab({
   findSelectedSection,
   listContent,
+  listStyle,
   items,
   pageId,
   setItems,
@@ -71,13 +77,24 @@ function ListContentTab({
         inputType="textArea"
         id="title"
         value={listContent.title}
-        handleUpdate={(e: any) =>
+        handleUpdate={(e: any) => {
           dispatch(
             updateContent(pageId, findSelectedSection.id, {
               title: e.target.value,
             })
-          )
-        }
+          );
+
+          if (e.target.value === "") {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...listStyle.designSettings!,
+                  leftTitlePosition: false,
+                },
+              })
+            );
+          }
+        }}
       />
       <EditText
         label="Subtitle"

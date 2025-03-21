@@ -2,7 +2,11 @@ import React from "react";
 import { v4 } from "uuid";
 import DraggableList from "@/components/ui/DraggableList";
 import { TabsContent } from "@/components/ui/tabs";
-import { updateContent, updateSelectedItem } from "@/reduxStore/action";
+import {
+  updateContent,
+  updateSelectedItem,
+  updateStyle,
+} from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
@@ -12,6 +16,7 @@ import {
 import {
   Testimonial,
   TestimonialContent,
+  TestimonialStyle,
 } from "@/types/sectionsTypes/testimonials";
 import ReviewType from "../../settingsUi/ReviewType";
 import EditText from "../../settingsUi/EditText";
@@ -21,12 +26,14 @@ interface TestimonialsContentTabProps {
     keyof SectionStyleTypes
   >;
   testimonialsContent: TestimonialContent;
+  testimonialStyle: TestimonialStyle;
   items: Testimonial[];
   pageId: string;
 }
 function TestimonialsContentTab({
   findSelectedSection,
   testimonialsContent,
+  testimonialStyle,
   items,
   pageId,
 }: TestimonialsContentTabProps) {
@@ -77,13 +84,24 @@ function TestimonialsContentTab({
         inputType="textArea"
         id="title"
         value={testimonialsContent.title}
-        handleUpdate={(e: any) =>
+        handleUpdate={(e: any) => {
           dispatch(
             updateContent(pageId, findSelectedSection.id, {
               title: e.target.value,
             })
-          )
-        }
+          );
+
+          if (e.target.value === "") {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...testimonialStyle.designSettings!,
+                  leftTitlePosition: false,
+                },
+              })
+            );
+          }
+        }}
       />
       <EditText
         label="Subtitle"

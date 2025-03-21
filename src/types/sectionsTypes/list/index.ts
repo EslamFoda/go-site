@@ -31,6 +31,7 @@ interface GridSettings {
 
 interface DesignSettings {
   layout: "row" | "col";
+  layout2: "row" | "col";
   grid: GridSettings;
   height: number;
   shape: ShapeType;

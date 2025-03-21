@@ -1,13 +1,21 @@
 import DraggableList from "@/components/ui/DraggableList";
 import { TabsContent } from "@/components/ui/tabs";
-import { updateContent, updateSelectedItem } from "@/reduxStore/action";
+import {
+  updateContent,
+  updateSelectedItem,
+  updateStyle,
+} from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
-import { GalleryContent, Photo } from "@/types/sectionsTypes/gallery";
+import {
+  GalleryContent,
+  GalleryStyle,
+  Photo,
+} from "@/types/sectionsTypes/gallery";
 import React from "react";
 import { v4 } from "uuid";
 import EditText from "../../settingsUi/EditText";
@@ -17,12 +25,14 @@ interface GalleryContentTabProps {
     keyof SectionStyleTypes
   >;
   galleryContent: GalleryContent;
+  galleryStyle: GalleryStyle;
   items: Photo[];
   pageId: string;
 }
 function GalleryContentTab({
   findSelectedSection,
   galleryContent,
+  galleryStyle,
   items,
   pageId,
 }: GalleryContentTabProps) {
@@ -68,13 +78,23 @@ function GalleryContentTab({
         placeholder="Add title"
         id="title"
         value={galleryContent.title}
-        handleUpdate={(e: any) =>
+        handleUpdate={(e: any) => {
           dispatch(
             updateContent(pageId, findSelectedSection.id, {
               title: e.target.value,
             })
-          )
-        }
+          );
+          if (e.target.value === "") {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...galleryStyle.designSettings!,
+                  leftTitlePosition: false,
+                },
+              })
+            );
+          }
+        }}
       />
       <EditText
         label="Subtitle"

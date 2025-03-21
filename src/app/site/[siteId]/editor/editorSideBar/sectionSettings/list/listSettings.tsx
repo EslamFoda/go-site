@@ -518,6 +518,7 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
         <ListContentTab
           pageId={pageId}
           listContent={listContent}
+          listStyle={listStyle}
           findSelectedSection={findSelectedSection}
           items={items}
           setItems={setItems}

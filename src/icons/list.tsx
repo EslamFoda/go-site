@@ -110,3 +110,80 @@ export const ListSectionLightIcon = () => (
     />
   </svg>
 );
+
+export const RowIcon = () => {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      data-v-606de803=""
+      width={16}
+      height={16}
+    >
+      <path d="m14 8h8v2h-8v-2z" fill="currentColor"></path>
+      <path d="m14 14h8v2h-8v-2z" fill="currentColor"></path>
+      <path d="m2 8h8v8h-8v-8z" fill="currentColor"></path>
+    </svg>
+  );
+};
+
+export const RowIcon2 = () => {
+  return (
+    <svg
+      width={16}
+      height={16}
+      fill="none"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      data-v-606de803=""
+    >
+      <path
+        d="m10 8h-8v2h8v-2zm0 6h-8v2h8v-2zm12-6h-8v8h8v-8z"
+        clipRule="evenodd"
+        fill="currentColor"
+        fillRule="evenodd"
+      ></path>
+    </svg>
+  );
+};
+
+export const ColIcon = () => {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      data-v-606de803=""
+      width={16}
+      height={16}
+    >
+      <path
+        d="M2 20H22V22H2V20Z"
+        clipRule="evenodd"
+        fill="currentColor"
+        fillRule="evenodd"
+      ></path>
+      <path d="M2 14H22V16H2V14Z" fill="currentColor"></path>
+      <path d="m2 2h8v8h-8v-8z" fill="currentColor"></path>
+    </svg>
+  );
+};
+export const ColIcon2 = () => {
+  return (
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+      data-v-606de803=""
+    >
+      <path
+        d="M2 20H22V22H2V20Z"
+        clipRule="evenodd"
+        fill="currentColor"
+        fillRule="evenodd"
+      ></path>
+      <path d="M2 14H22V16H2V14Z" fill="currentColor"></path>
+      <path d="m14 2h8v8h-8v-8z" fill="currentColor"></path>
+    </svg>
+  );
+};

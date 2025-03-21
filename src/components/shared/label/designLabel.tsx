@@ -8,6 +8,7 @@ interface DesignLabelProps {
 }
 function DesignLabel({ text, sectionBackground }: DesignLabelProps) {
   const badgeClassNames = cn("text-foreground rounded-md", {
+    hidden: !text,
     "bg-background hover:bg-background":
       sectionBackground === "gray" || sectionBackground === "primary",
     "bg-muted  hover:bg-muted": sectionBackground === "none",

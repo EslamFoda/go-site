@@ -186,6 +186,15 @@ function Design1({ section, pageId, sectionIndex }: Design1Props) {
       sectionBackground.color === "primary",
   });
 
+  const bannerSectionContainerClassName = cn(
+    "flex container max-w-container flex-col w-full z-0 text-center justify-center items-center",
+    {
+      "max-lg:flex-col-reverse": bannerStyle.designSettings.mobile === "flex-col",
+      "max-lg:flex-col":
+        bannerStyle.designSettings.mobile === "flex-col-reverse",
+    }
+  );
+
   // Handle click to select this section
   const handleSectionClick = () => {
     dispatch(updateSelectedSection(pageId, section.id));
@@ -469,7 +478,8 @@ function Design1({ section, pageId, sectionIndex }: Design1Props) {
             ? spacing.bottom.desktop
             : spacing.bottom.mobile,
         }}
-        className="flex container max-w-container  w-full flex-col z-0 text-center justify-center items-center"
+        // className="flex container max-w-container  w-full flex-col z-0 text-center justify-center items-center"
+        className={bannerSectionContainerClassName}
       >
         {leftTitlePosition
           ? renderLeftTitleLayout()

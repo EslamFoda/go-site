@@ -24,6 +24,7 @@ import {
 import { useMotion } from "@/hooks/useMotion";
 import BackgroundImage from "@/components/shared/backgroundImage";
 import DesignLabel from "@/components/shared/label";
+import SectionHeader from "@/components/shared/sectionHeader";
 
 interface DesignProps {
   section: any;
@@ -153,16 +154,12 @@ function Design1({ section, pageId }: DesignProps) {
         }}
       >
         <div className={containerClassNames}>
-          <div className="space-y-3">
-            <DesignLabel
-              text={galleryContent.label}
-              sectionBackground={sectionBackground.color}
-            />
-            <h1 className={sectionTitleClassNames}>{galleryContent.title}</h1>
-            <p className={sectionSubTitleClassNames}>
-              {galleryContent.subtitle}
-            </p>
-          </div>
+          <SectionHeader
+            content={galleryContent}
+            sectionBackground={sectionBackground}
+            leftTitlePosition={leftTitlePosition}
+            containerClassName="space-y-3 text-start"
+          />
           <div className="md:col-span-2">
             {displayType === "grid" ? (
               <div

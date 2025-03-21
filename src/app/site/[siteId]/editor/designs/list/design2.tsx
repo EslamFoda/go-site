@@ -21,7 +21,7 @@ import {
 import { useMotion } from "@/hooks/useMotion";
 import { getPhosphorIcon } from "@/helper/phosphorIcons";
 import BackgroundImage from "@/components/shared/backgroundImage";
-import DesignLabel from "@/components/shared/label";
+import SectionHeader from "@/components/shared/sectionHeader";
 
 interface DesignProps {
   section: any;
@@ -45,7 +45,7 @@ function Design2({ section, pageId }: DesignProps) {
     height,
     icon,
     iconColor,
-    layout,
+    layout2,
     leftTitlePosition,
     sectionBackground,
     shape,
@@ -68,12 +68,6 @@ function Design2({ section, pageId }: DesignProps) {
       ]
     : [];
 
-  const titleAndSubtitleClassName = cn("space-y-3", {
-    "text-start": align === "start" || leftTitlePosition,
-    "text-center": align === "center" && !leftTitlePosition,
-    "text-end": align === "end" && !leftTitlePosition,
-  });
-
   const titleClassName = cn(
     textSize === "s" && "text-sm",
     textSize === "m" && "text-base",
@@ -95,13 +89,13 @@ function Design2({ section, pageId }: DesignProps) {
       "bg-muted": background,
       "outline outline-[1px] outline-muted": border,
       "bg-background": bgMuted || bgPrimary,
-      "flex-row items-start": layout === "row",
-      "flex-col-reverse": layout === "col",
+      "flex-row items-start": layout2 === "row",
+      "flex-col-reverse": layout2 === "col",
     }
   );
 
   const listItemTextClassNames = cn("self-center", {
-    "self-start": layout === "col",
+    "self-start": layout2 === "col",
   });
 
   const iconContainerClassNames = cn(
@@ -111,7 +105,7 @@ function Design2({ section, pageId }: DesignProps) {
       "rounded-full": shape === "rounded",
       "bg-background": iconColor === "none",
       hidden: !icon,
-      "self-end": layout === "col",
+      "self-end": layout2 === "col",
       "bg-muted": (iconColor === "none" && border) || bgMuted || bgPrimary,
     }
   );
@@ -130,27 +124,6 @@ function Design2({ section, pageId }: DesignProps) {
     "justify-start": sectionBackground.align === "start",
     "justify-center": sectionBackground.align === "center",
     "justify-end": sectionBackground.align === "end",
-  });
-  const sectionTitleClassNames = cn("text-4xl", {
-    "text-primary-foreground": sectionBackground.color === "primary",
-    "text-start": leftTitlePosition,
-    "text-white":
-      sectionBackground.textColor === "light" &&
-      sectionBackground.media.imageUrl,
-    "text-black":
-      sectionBackground.textColor === "dark" &&
-      sectionBackground.media.imageUrl,
-  });
-  const sectionSubTitleClassNames = cn({
-    "text-primary-foreground": sectionBackground.color === "primary",
-    "text-muted-foreground": sectionBackground.color !== "primary",
-    "text-start": leftTitlePosition,
-    "text-white":
-      sectionBackground.textColor === "light" &&
-      sectionBackground.media.imageUrl,
-    "text-black":
-      sectionBackground.textColor === "dark" &&
-      sectionBackground.media.imageUrl,
   });
 
   return (
@@ -182,24 +155,12 @@ function Design2({ section, pageId }: DesignProps) {
         }}
       >
         <div className={containerClassNames}>
-          <div className={titleAndSubtitleClassName}>
-            <DesignLabel
-              text={listContent.label}
-              sectionBackground={sectionBackground.color}
-            />
-            <h1
-              className={sectionTitleClassNames}
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {section.content.title}
-            </h1>
-            <p
-              className={sectionSubTitleClassNames}
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {section.content.subtitle}
-            </p>
-          </div>
+          <SectionHeader
+            content={listContent}
+            sectionBackground={sectionBackground}
+            align={align}
+            leftTitlePosition={leftTitlePosition}
+          />
           <div className="md:col-span-2">
             {displayType === "grid" ? (
               <div

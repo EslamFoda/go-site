@@ -21,7 +21,7 @@ import {
 import { useMotion } from "@/hooks/useMotion";
 import { Button } from "@/components/ui/button";
 import BackgroundImage from "@/components/shared/backgroundImage";
-import DesignLabel from "@/components/shared/label";
+import SectionHeader from "@/components/shared/sectionHeader";
 
 interface DesignProps {
   section: any;
@@ -130,28 +130,6 @@ function Design1({ section, pageId }: DesignProps) {
     "justify-end": sectionBackground.align === "end",
   });
 
-  const sectionTitleClassNames = cn("text-4xl", {
-    "text-primary-foreground": sectionBackground.color === "primary",
-    "text-start": leftTitlePosition,
-    "text-white":
-      sectionBackground.textColor === "light" &&
-      sectionBackground.media.imageUrl,
-    "text-black":
-      sectionBackground.textColor === "dark" &&
-      sectionBackground.media.imageUrl,
-  });
-  const sectionSubTitleClassNames = cn({
-    "text-primary-foreground": sectionBackground.color === "primary",
-    "text-muted-foreground": sectionBackground.color !== "primary",
-    "text-start": leftTitlePosition,
-    "text-white":
-      sectionBackground.textColor === "light" &&
-      sectionBackground.media.imageUrl,
-    "text-black":
-      sectionBackground.textColor === "dark" &&
-      sectionBackground.media.imageUrl,
-  });
-
   const sectionTitleAndSubTitleClassNames = cn("space-y-3", {
     "text-start": leftTitlePosition,
   });
@@ -184,24 +162,13 @@ function Design1({ section, pageId }: DesignProps) {
         }}
       >
         <div className={containerClassNames}>
-          <div className={sectionTitleAndSubTitleClassNames}>
-            <DesignLabel
-              text={cardContent.label}
-              sectionBackground={sectionBackground.color}
-            />
-            <h1
-              className={sectionTitleClassNames}
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {section.content.title}
-            </h1>
-            <p
-              className={sectionSubTitleClassNames}
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {section.content.subtitle}
-            </p>
-          </div>
+          <SectionHeader
+            content={cardContent}
+            sectionBackground={sectionBackground}
+            align={align}
+            leftTitlePosition={leftTitlePosition}
+            containerClassName={sectionTitleAndSubTitleClassNames}
+          />
           <div className="md:col-span-2">
             {displayType === "grid" ? (
               <div

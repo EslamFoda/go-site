@@ -609,6 +609,7 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
           findSelectedSection={findSelectedSection}
           items={logosContent?.logos || []}
           logosContent={logosContent}
+          logoStyle={logosStyle}
           pageId={pageId}
         />
         <LogoStyleTab

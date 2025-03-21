@@ -535,6 +535,7 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
           testimonialsContent={TestimonialsContent}
           findSelectedSection={findSelectedSection}
           items={TestimonialsContent?.testimonials}
+          testimonialStyle={TestimonialsStyle}
         />
         <TestimonialsStyleTab
           pageId={pageId}

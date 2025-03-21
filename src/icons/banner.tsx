@@ -182,3 +182,33 @@ export const BannerSectionLightIcon = () => (
     />
   </svg>
 );
+
+export const FlexColIcon = () => {
+  return (
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path fill="currentColor" d="M22 2H2V10H22V2Z"></path>
+      <path fill="currentColor" d="M22 14H2V16H22V14Z"></path>
+      <path fill="currentColor" d="M22 20H2V22H22V20Z"></path>
+    </svg>
+  );
+};
+
+export const FlexColReverseIcon = () => {
+  return (
+    <svg
+      width={16}
+      height={16}
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path fill="currentColor" d="M22 2H2V4H22V2Z"></path>
+      <path fill="currentColor" d="M22 8H2V10H22V8Z"></path>
+      <path fill="currentColor" d="M22 14H2V22H22V14Z"></path>
+    </svg>
+  );
+};

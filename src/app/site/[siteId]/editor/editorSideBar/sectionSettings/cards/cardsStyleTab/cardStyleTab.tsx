@@ -270,20 +270,22 @@ function CardStyleTab({
         }}
       />
       <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
-        <SwitchSetting
-          label="Left Title"
-          defaultChecked={cardStyle.designSettings.leftTitlePosition}
-          onCheckedChange={(value) =>
-            dispatch(
-              updateStyle(pageId, findSelectedSection?.id!, {
-                designSettings: {
-                  ...cardStyle.designSettings!,
-                  leftTitlePosition: value,
-                },
-              })
-            )
-          }
-        />
+        {cardsContent.title && (
+          <SwitchSetting
+            label="Left Title"
+            defaultChecked={cardStyle.designSettings.leftTitlePosition}
+            onCheckedChange={(value) =>
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...cardStyle.designSettings!,
+                    leftTitlePosition: value,
+                  },
+                })
+              )
+            }
+          />
+        )}
         {findSelectedSection.style.designName === "design1" ? (
           <>
             <SwitchSetting

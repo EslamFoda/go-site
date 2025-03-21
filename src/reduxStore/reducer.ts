@@ -116,6 +116,7 @@ const initialState: EditorStore = {
                 showButtons: true,
                 showForm: false,
                 showVideo: false,
+                mobile: "flex-col",
                 spacing: {
                   top: {
                     desktop: 50,

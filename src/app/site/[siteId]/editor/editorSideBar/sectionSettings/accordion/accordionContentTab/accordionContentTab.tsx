@@ -1,6 +1,10 @@
 import DraggableList from "@/components/ui/DraggableList";
 import { TabsContent } from "@/components/ui/tabs";
-import { updateContent, updateSelectedItem } from "@/reduxStore/action";
+import {
+  updateContent,
+  updateSelectedItem,
+  updateStyle,
+} from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
@@ -10,6 +14,7 @@ import {
 import {
   Accordion,
   AccordionContent,
+  AccordionStyle,
 } from "@/types/sectionsTypes/accordion/accordion";
 import React from "react";
 import { v4 } from "uuid";
@@ -20,12 +25,14 @@ interface AccordionContentTabProps {
     keyof SectionStyleTypes
   >;
   accordionContent: AccordionContent;
+  accordionStyle: AccordionStyle;
   items: Accordion[];
   pageId: string;
 }
 function AccordionContentTab({
   findSelectedSection,
   accordionContent,
+  accordionStyle,
   items,
   pageId,
 }: AccordionContentTabProps) {
@@ -72,13 +79,24 @@ function AccordionContentTab({
         inputType="textArea"
         id={findSelectedSection?.id + "title"}
         value={accordionContent.title}
-        handleUpdate={(e: any) =>
+        handleUpdate={(e: any) => {
           dispatch(
             updateContent(pageId, findSelectedSection.id, {
               title: e.target.value,
             })
-          )
-        }
+          );
+
+          if (e.target.value === "") {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...accordionStyle.designSettings!,
+                  leftTitlePosition: false,
+                },
+              })
+            );
+          }
+        }}
       />
       <EditText
         label="Subtitle"

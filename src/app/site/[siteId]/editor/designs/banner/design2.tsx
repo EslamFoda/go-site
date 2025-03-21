@@ -180,6 +180,15 @@ function Design2({ section, pageId, sectionIndex }: Design2Props) {
     "border-primary-foreground border-solid border text-primary-foreground":
       sectionBackground.color === "primary",
   });
+  const bannerSectionContainerClassName = cn(
+    "flex container max-w-container flex-col w-full z-0 text-center justify-center items-center",
+    {
+      "max-lg:flex-col":
+        bannerStyle.designSettings.mobile === "flex-col",
+      "max-lg:flex-col-reverse":
+        bannerStyle.designSettings.mobile === "flex-col-reverse",
+    }
+  );
 
   // Handle click to select this section
   const handleSectionClick = () => {
@@ -464,7 +473,8 @@ function Design2({ section, pageId, sectionIndex }: Design2Props) {
             ? spacing.bottom.desktop
             : spacing.bottom.mobile,
         }}
-        className="flex container max-w-container w-full flex-col text-center z-0 justify-center items-center"
+        // className="flex container max-w-container w-full flex-col text-center z-0 justify-center items-center"
+        className={bannerSectionContainerClassName}
       >
         {renderImage()}
         {renderVideo()}

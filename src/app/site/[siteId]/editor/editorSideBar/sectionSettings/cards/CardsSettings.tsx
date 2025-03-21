@@ -572,6 +572,7 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
         <CardContentTab
           pageId={pageId}
           cardsContent={cardsContent}
+          cardStyle={cardStyle}
           findSelectedSection={findSelectedSection}
           items={cardsContent?.cards}
         />

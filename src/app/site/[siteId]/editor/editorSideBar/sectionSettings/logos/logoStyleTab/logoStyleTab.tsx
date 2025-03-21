@@ -101,9 +101,15 @@ function LogoStyleTab({
           label="Grid"
           isDesktop={isDesktop}
           toggleGridSetting={handleToggleGridSetting}
-          max={isDesktop 
-            ? (logosContent.logos.length > 10 ? 10 : logosContent.logos.length) 
-            : (logosContent.logos.length > 5 ? 5 : logosContent.logos.length)}
+          max={
+            isDesktop
+              ? logosContent.logos.length > 10
+                ? 10
+                : logosContent.logos.length
+              : logosContent.logos.length > 5
+              ? 5
+              : logosContent.logos.length
+          }
           customText={
             isDesktop
               ? `${logoStyle.designSettings.grid.desktop}`
@@ -202,7 +208,7 @@ function LogoStyleTab({
         }}
       />
 
-      {!logoStyle.designSettings.leftTitlePosition && (
+      {!logoStyle.designSettings.leftTitlePosition && logosContent.title && (
         <Align
           alignValue={logoStyle.designSettings?.align}
           onValueChange={(value) => {
@@ -218,20 +224,22 @@ function LogoStyleTab({
         />
       )}
       <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
-        <SwitchSetting
-          label="Left Title"
-          defaultChecked={logoStyle.designSettings.leftTitlePosition}
-          onCheckedChange={(value) =>
-            dispatch(
-              updateStyle(pageId, findSelectedSection?.id!, {
-                designSettings: {
-                  ...logoStyle.designSettings!,
-                  leftTitlePosition: value,
-                },
-              })
-            )
-          }
-        />
+        {logosContent.title && (
+          <SwitchSetting
+            label="Left Title"
+            defaultChecked={logoStyle.designSettings.leftTitlePosition}
+            onCheckedChange={(value) =>
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...logoStyle.designSettings!,
+                    leftTitlePosition: value,
+                  },
+                })
+              )
+            }
+          />
+        )}
         <SwitchSetting
           label="Background"
           defaultChecked={logoStyle.designSettings.background}

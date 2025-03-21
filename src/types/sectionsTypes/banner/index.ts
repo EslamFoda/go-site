@@ -62,6 +62,7 @@ export interface BannerStyle {
     video: boolean;
     leftTitlePosition: boolean;
     leftTitleWidth: string;
+    mobile: "flex-col" | "flex-col-reverse";
     showButtons: boolean;
     showForm: boolean;
     showVideo: boolean;

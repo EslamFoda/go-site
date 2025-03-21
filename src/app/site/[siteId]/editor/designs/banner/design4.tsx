@@ -158,6 +158,15 @@ function Design4({ section, pageId, sectionIndex }: Design4Props) {
     }
   );
 
+  const bannerSectionContainerClassName = cn(
+    "flex container max-w-container  w-full z-0 text-center justify-center items-center",
+    {
+      "max-lg:flex-col": bannerStyle.designSettings.mobile === "flex-col",
+      "max-lg:flex-col-reverse":
+        bannerStyle.designSettings.mobile === "flex-col-reverse",
+    }
+  );
+
   const renderFormFields = () => {
     if (!showForm) return null;
     const onlyEmail =
@@ -347,7 +356,7 @@ function Design4({ section, pageId, sectionIndex }: Design4Props) {
         backgroundColor={sectionBackground.color}
       />
       <div
-        className="flex max-lg:flex-col container max-w-container  w-full z-0  text-center justify-center items-center"
+        className={bannerSectionContainerClassName}
         style={{
           gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
           paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,

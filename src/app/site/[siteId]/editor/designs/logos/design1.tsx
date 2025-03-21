@@ -20,7 +20,7 @@ import {
 import { useMotion } from "@/hooks/useMotion";
 import { Logo, LogosContent, LogosStyle } from "@/types/sectionsTypes/logos";
 import BackgroundImage from "@/components/shared/backgroundImage";
-import DesignLabel from "@/components/shared/label";
+import SectionHeader from "@/components/shared/sectionHeader";
 
 interface DesignProps {
   section: any;
@@ -63,11 +63,6 @@ function Design1({ section, pageId }: DesignProps) {
         }),
       ]
     : [];
-  const titleAndSubtitleClassName = cn("space-y-3", {
-    "text-start": align === "start" || leftTitlePosition,
-    "text-center": align === "center" && !leftTitlePosition,
-    "text-end": align === "end" && !leftTitlePosition,
-  });
 
   const gridClassNames = cn("grid", {
     "lg:grid-cols-10": grid.desktop === 10,
@@ -118,28 +113,6 @@ function Design1({ section, pageId }: DesignProps) {
     sectionBackground.align === "end" && "justify-end"
   );
 
-  const sectionTitleClassNames = cn("text-4xl", {
-    "text-primary-foreground": sectionBackground.color === "primary",
-    "text-start": leftTitlePosition,
-    "text-white":
-      sectionBackground.textColor === "light" &&
-      sectionBackground.media.imageUrl,
-    "text-black":
-      sectionBackground.textColor === "dark" &&
-      sectionBackground.media.imageUrl,
-  });
-  const sectionSubTitleClassNames = cn({
-    "text-primary-foreground": sectionBackground.color === "primary",
-    "text-start": leftTitlePosition,
-    "text-muted-foreground": sectionBackground.color !== "primary",
-    "text-white":
-      sectionBackground.textColor === "light" &&
-      sectionBackground.media.imageUrl,
-    "text-black":
-      sectionBackground.textColor === "dark" &&
-      sectionBackground.media.imageUrl,
-  });
-
   return (
     <section
       className={sectionBgClassName}
@@ -168,24 +141,12 @@ function Design1({ section, pageId }: DesignProps) {
         }}
       >
         <div className={containerClassNames}>
-          <div className={titleAndSubtitleClassName}>
-            <DesignLabel
-              text={logoContent.label}
-              sectionBackground={sectionBackground.color}
-            />
-            <h1
-              className={sectionTitleClassNames}
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {logoContent.title}
-            </h1>
-            <p
-              className={sectionSubTitleClassNames}
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {logoContent.subtitle}
-            </p>
-          </div>
+          <SectionHeader
+            content={logoContent}
+            sectionBackground={sectionBackground}
+            align={align}
+            leftTitlePosition={leftTitlePosition}
+          />
           <div className="md:col-span-2">
             {displayType === "grid" ? (
               <div

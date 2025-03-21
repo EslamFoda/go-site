@@ -31,6 +31,7 @@ interface AccordionStyleTabProps {
 function AccordionStyleTab({
   findSelectedSection,
   accordionStyle,
+  accordionContent,
   pageId,
   setSectionBgOpened,
   setOpenSpacingTab,
@@ -52,35 +53,39 @@ function AccordionStyleTab({
         }
       />
 
-      <Align
-        alignValue={accordionStyle.designSettings.align}
-        onValueChange={(value) => {
-          dispatch(
-            updateStyle(pageId, findSelectedSection?.id!, {
-              designSettings: {
-                ...accordionStyle.designSettings!,
-                align: value,
-              },
-            })
-          );
-        }}
-      />
-
-      <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
-        <SwitchSetting
-          label="Left Title"
-          defaultChecked={accordionStyle.designSettings.leftTitlePosition}
-          onCheckedChange={(value) =>
+      {accordionContent.title && (
+        <Align
+          alignValue={accordionStyle.designSettings.align}
+          onValueChange={(value) => {
             dispatch(
               updateStyle(pageId, findSelectedSection?.id!, {
                 designSettings: {
                   ...accordionStyle.designSettings!,
-                  leftTitlePosition: value,
+                  align: value,
                 },
               })
-            )
-          }
+            );
+          }}
         />
+      )}
+
+      <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
+        {accordionContent.title && (
+          <SwitchSetting
+            label="Left Title"
+            defaultChecked={accordionStyle.designSettings.leftTitlePosition}
+            onCheckedChange={(value) =>
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...accordionStyle.designSettings!,
+                    leftTitlePosition: value,
+                  },
+                })
+              )
+            }
+          />
+        )}
 
         {accordionStyle.designSettings.sectionBackground.color === "none" && (
           <>

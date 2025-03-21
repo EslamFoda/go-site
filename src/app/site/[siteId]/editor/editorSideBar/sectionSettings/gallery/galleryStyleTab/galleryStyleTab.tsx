@@ -99,9 +99,15 @@ function GalleryStyleTab({
           label="Grid"
           isDesktop={isDesktop}
           toggleGridSetting={handleToggleGridSetting}
-          max={isDesktop 
-            ? (galleryContent.photos.length > 10 ? 10 : galleryContent.photos.length) 
-            : (galleryContent.photos.length > 5 ? 5 : galleryContent.photos.length)}
+          max={
+            isDesktop
+              ? galleryContent.photos.length > 10
+                ? 10
+                : galleryContent.photos.length
+              : galleryContent.photos.length > 5
+              ? 5
+              : galleryContent.photos.length
+          }
           customText={
             isDesktop
               ? `${galleryStyle.designSettings.grid.desktop}`
@@ -201,20 +207,22 @@ function GalleryStyleTab({
       />
 
       <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
-        <SwitchSetting
-          label="Left Title"
-          defaultChecked={galleryStyle.designSettings.leftTitlePosition}
-          onCheckedChange={(value) =>
-            dispatch(
-              updateStyle(pageId, findSelectedSection?.id!, {
-                designSettings: {
-                  ...galleryStyle.designSettings!,
-                  leftTitlePosition: value,
-                },
-              })
-            )
-          }
-        />
+        {galleryContent.title && (
+          <SwitchSetting
+            label="Left Title"
+            defaultChecked={galleryStyle.designSettings.leftTitlePosition}
+            onCheckedChange={(value) =>
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...galleryStyle.designSettings!,
+                    leftTitlePosition: value,
+                  },
+                })
+              )
+            }
+          />
+        )}
 
         {galleryStyle.designSettings.displayType === "carousel" && (
           <SwitchSetting

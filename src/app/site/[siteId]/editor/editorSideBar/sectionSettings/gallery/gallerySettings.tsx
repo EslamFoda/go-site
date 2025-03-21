@@ -461,6 +461,7 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
         <GalleryContentTab
           findSelectedSection={findSelectedSection}
           galleryContent={galleryContent}
+          galleryStyle={galleryStyle}
           items={galleryContent?.photos || []}
           pageId={pageId}
         />

@@ -158,6 +158,15 @@ function Design3({ section, pageId, sectionIndex }: Design3Props) {
     }
   );
 
+  const bannerSectionContainerClassName = cn(
+    "flex container max-w-container  w-full z-0 text-center justify-center items-center",
+    {
+      "max-lg:flex-col-reverse": bannerStyle.designSettings.mobile === "flex-col",
+      "max-lg:flex-col":
+        bannerStyle.designSettings.mobile === "flex-col-reverse",
+    }
+  );
+
   const renderFormFields = () => {
     if (!showForm) return null;
     const onlyEmail =
@@ -178,7 +187,9 @@ function Design3({ section, pageId, sectionIndex }: Design3Props) {
                 <Input
                   className={cn(
                     "w-full h-14 pr-[calc(theme(spacing.3)+theme(spacing.24))]", // Add padding to the right to make space for the button
-                    bgMuted || bgPrimary ? "bg-background focus:bg-background" : "bg-muted"
+                    bgMuted || bgPrimary
+                      ? "bg-background focus:bg-background"
+                      : "bg-muted"
                   )}
                   placeholder={field.value || field.placeholder}
                   type={field.type}
@@ -345,7 +356,7 @@ function Design3({ section, pageId, sectionIndex }: Design3Props) {
         backgroundColor={sectionBackground.color}
       />
       <div
-        className="flex max-lg:flex-col container max-w-container  w-full z-0  text-center justify-center items-center"
+        className={bannerSectionContainerClassName}
         style={{
           gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
           paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,

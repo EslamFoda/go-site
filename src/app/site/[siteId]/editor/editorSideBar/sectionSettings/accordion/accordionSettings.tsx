@@ -466,6 +466,7 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
         <AccordionContentTab
           pageId={pageId}
           accordionContent={accordionContent}
+          accordionStyle={accordionStyle}
           findSelectedSection={findSelectedSection}
           items={accordionContent?.accordions}
         />

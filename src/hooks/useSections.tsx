@@ -220,6 +220,7 @@ export function useSections() {
             mobile: 350,
           },
           video: true,
+          mobile: "flex-col",
           leftTitlePosition: false,
           leftTitleWidth: "50%",
           showButtons: true,
@@ -440,6 +441,7 @@ export function useSections() {
         designName: "design1",
         designSettings: {
           layout: "row",
+          layout2: "row",
           grid: {
             desktop: 3,
             mobile: 1,

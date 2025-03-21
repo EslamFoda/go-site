@@ -240,20 +240,22 @@ function TestimonialsStyleTab({
         />
       )}
       <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
-        <SwitchSetting
-          label="Left Title"
-          defaultChecked={testimonialStyle.designSettings.leftTitlePosition}
-          onCheckedChange={(value) =>
-            dispatch(
-              updateStyle(pageId, findSelectedSection?.id!, {
-                designSettings: {
-                  ...testimonialStyle.designSettings!,
-                  leftTitlePosition: value,
-                },
-              })
-            )
-          }
-        />
+        {testimonialContent.title && (
+          <SwitchSetting
+            label="Left Title"
+            defaultChecked={testimonialStyle.designSettings.leftTitlePosition}
+            onCheckedChange={(value) =>
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...testimonialStyle.designSettings!,
+                    leftTitlePosition: value,
+                  },
+                })
+              )
+            }
+          />
+        )}
 
         <SwitchSetting
           label="Avatar"

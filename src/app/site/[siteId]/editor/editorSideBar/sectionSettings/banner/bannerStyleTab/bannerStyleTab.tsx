@@ -3,6 +3,8 @@ import { TabsContent } from "@/components/ui/tabs";
 import {
   FifthDesign,
   FirstDesign,
+  FlexColIcon,
+  FlexColReverseIcon,
   FourthDesign,
   SecondDesign,
   SixthDesign,
@@ -24,6 +26,7 @@ import {
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { updateStyle } from "@/reduxStore/action";
 import HeightOrWidthSetting from "../../settingsUi/HeightOrWidthSetting";
+import ToggleGroup from "../../settingsUi/toggleGroup";
 
 const BANNER_DESIGNS = [
   { designName: "design1", Icon: FirstDesign },
@@ -90,59 +93,54 @@ function BannerStyleTab({
           );
         })}
       </div>
-      {bannerContent?.mediaType === "image" ? (
-        <>
-          <div className="space-y-1 flex items-center justify-between">
-            <Label>Image</Label>
 
-            <div className="border-muted-bg  flex border-solid border-[1px] rounded-sm h-10 w-4/6">
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...bannerStyle.designSettings,
-                        imageSetting: {
-                          ...bannerStyle.designSettings.imageSetting,
-                          objectFit: "cover",
-                        },
-                      },
-                    })
-                  );
-                }}
-                className={`${
-                  bannerStyle.designSettings.imageSetting.objectFit === "cover"
-                    ? "bg-muted-bg"
-                    : ""
-                } w-full flex items-center justify-center cursor-pointer`}
-              >
-                cover
-              </div>
-              <div
-                onClick={() => {
-                  dispatch(
-                    updateStyle(pageId, findSelectedSection?.id!, {
-                      designSettings: {
-                        ...bannerStyle.designSettings,
-                        imageSetting: {
-                          ...bannerStyle.designSettings.imageSetting,
-                          objectFit: "contain",
-                        },
-                      },
-                    })
-                  );
-                }}
-                className={`${
-                  bannerStyle.designSettings.imageSetting.objectFit ===
-                  "contain"
-                    ? "bg-muted-bg"
-                    : ""
-                } w-full flex items-center justify-center cursor-pointer`}
-              >
-                contain
-              </div>
-            </div>
-          </div>
+      {findSelectedSection.style.designName !== "design5" &&
+        findSelectedSection.style.designName !== "design6" && (
+          <ToggleGroup
+            label="Mobile"
+            options={[
+              { value: "flex-col", label: <FlexColIcon /> },
+              { value: "flex-col-reverse", label: <FlexColReverseIcon /> },
+            ]}
+            value={bannerStyle.designSettings.mobile}
+            onValueChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...bannerStyle.designSettings,
+                    mobile: value,
+                  },
+                })
+              );
+            }}
+          />
+        )}
+
+      {/* <ToggleGroup /> */}
+      {bannerContent?.mediaType === "image" &&
+      bannerContent.imageSetting?.imageUrl ? (
+        <>
+          <ToggleGroup
+            label="Image"
+            options={[
+              { value: "cover", label: "Cover" },
+              { value: "contain", label: "Contain" },
+            ]}
+            value={bannerStyle.designSettings.imageSetting.objectFit}
+            onValueChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...bannerStyle.designSettings,
+                    imageSetting: {
+                      ...bannerStyle.designSettings.imageSetting,
+                      objectFit: value,
+                    },
+                  },
+                })
+              );
+            }}
+          />
           {bannerStyle.designSettings.imageSetting.objectFit === "contain" && (
             <ColorSelector
               selectedColor={

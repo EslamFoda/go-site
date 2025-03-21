@@ -1,13 +1,17 @@
 import DraggableList from "@/components/ui/DraggableList";
 import { TabsContent } from "@/components/ui/tabs";
-import { updateContent, updateSelectedItem } from "@/reduxStore/action";
+import {
+  updateContent,
+  updateSelectedItem,
+  updateStyle,
+} from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
-import { Card, CardsContent } from "@/types/sectionsTypes/cards";
+import { Card, CardsContent, CardStyle } from "@/types/sectionsTypes/cards";
 import React from "react";
 import { v4 } from "uuid";
 import EditText from "../../settingsUi/EditText";
@@ -17,12 +21,14 @@ interface CardContentTabProps {
     keyof SectionStyleTypes
   >;
   cardsContent: CardsContent;
+  cardStyle: CardStyle;
   items: Card[];
   pageId: string;
 }
 function CardContentTab({
   findSelectedSection,
   cardsContent,
+  cardStyle,
   items,
   pageId,
 }: CardContentTabProps) {
@@ -74,13 +80,24 @@ function CardContentTab({
         inputType="textArea"
         id="title"
         value={cardsContent.title}
-        handleUpdate={(e: any) =>
+        handleUpdate={(e: any) => {
           dispatch(
             updateContent(pageId, findSelectedSection.id, {
               title: e.target.value,
             })
-          )
-        }
+          );
+
+          if (e.target.value === "") {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...cardStyle.designSettings!,
+                  leftTitlePosition: false,
+                },
+              })
+            );
+          }
+        }}
       />
       <EditText
         label="Subtitle"

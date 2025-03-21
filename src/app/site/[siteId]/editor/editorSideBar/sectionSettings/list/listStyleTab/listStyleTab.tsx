@@ -20,7 +20,15 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { updateStyle } from "@/reduxStore/action";
-import { FirstDesign, SecDesign } from "@/icons/list";
+import {
+  ColIcon,
+  ColIcon2,
+  FirstDesign,
+  RowIcon,
+  RowIcon2,
+  SecDesign,
+} from "@/icons/list";
+import ToggleGroup from "../../settingsUi/toggleGroup";
 const List_DESIGNS = [
   { designName: "design1", Icon: FirstDesign },
   { designName: "design2", Icon: SecDesign },
@@ -84,19 +92,46 @@ function ListStyleTab({
           );
         })}
       </div>
-      <ListLayout
-        layoutValue={listStyle.designSettings.layout}
-        onValueChange={(value) => {
-          dispatch(
-            updateStyle(pageId, findSelectedSection?.id!, {
-              designSettings: {
-                ...listStyle.designSettings,
-                layout: value,
-              },
-            })
-          );
-        }}
-      />
+      {listStyle.designName === "design1" && (
+        <ToggleGroup
+          label="Align"
+          options={[
+            { value: "row", label: <RowIcon /> },
+            { value: "col", label: <ColIcon /> },
+          ]}
+          value={listStyle.designSettings.layout}
+          onValueChange={(value) => {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...listStyle.designSettings,
+                  layout: value,
+                },
+              })
+            );
+          }}
+        />
+      )}
+      {listStyle.designName === "design2" && (
+        <ToggleGroup
+          label="Align"
+          options={[
+            { value: "row", label: <RowIcon2 /> },
+            { value: "col", label: <ColIcon2 /> },
+          ]}
+          value={listStyle.designSettings.layout2}
+          onValueChange={(value) => {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...listStyle.designSettings,
+                  layout2: value,
+                },
+              })
+            );
+          }}
+        />
+      )}
       {listContent.list.length >= 5 && (
         <DisplaySettings
           label="Display"
@@ -264,7 +299,7 @@ function ListStyleTab({
           );
         }}
       />
-      {!listStyle.designSettings.leftTitlePosition && (
+      {!listStyle.designSettings.leftTitlePosition && listContent.title && (
         <Align
           alignValue={listStyle.designSettings.align}
           onValueChange={(value) => {
@@ -280,20 +315,22 @@ function ListStyleTab({
         />
       )}
       <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
-        <SwitchSetting
-          label="Left Title"
-          defaultChecked={listStyle.designSettings.leftTitlePosition}
-          onCheckedChange={(value) =>
-            dispatch(
-              updateStyle(pageId, findSelectedSection?.id!, {
-                designSettings: {
-                  ...listStyle.designSettings!,
-                  leftTitlePosition: value,
-                },
-              })
-            )
-          }
-        />
+        {listContent.title && (
+          <SwitchSetting
+            label="Left Title"
+            defaultChecked={listStyle.designSettings.leftTitlePosition}
+            onCheckedChange={(value) =>
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...listStyle.designSettings!,
+                    leftTitlePosition: value,
+                  },
+                })
+              )
+            }
+          />
+        )}
         <SwitchSetting
           label="Icon"
           defaultChecked={listStyle.designSettings?.icon}

@@ -25,7 +25,7 @@ import { Star } from "lucide-react";
 import { QuoteIcon } from "@/icons/testimonials";
 import { useMotion } from "@/hooks/useMotion";
 import BackgroundImage from "@/components/shared/backgroundImage";
-import DesignLabel from "@/components/shared/label";
+import SectionHeader from "@/components/shared/sectionHeader";
 
 interface DesignProps {
   section: any;
@@ -69,11 +69,6 @@ function Design1({ section, pageId }: DesignProps) {
       ]
     : [];
 
-  const titleAndSubtitleClassName = cn("space-y-3", {
-    "text-start": align === "start" || leftTitlePosition,
-    "text-center": align === "center" && !leftTitlePosition,
-    "text-end": align === "end" && !leftTitlePosition,
-  });
   const reviewClassNames = cn({
     "text-sm": textSize === "s",
     "text-sm font-semibold": textSize === "m",
@@ -151,28 +146,6 @@ function Design1({ section, pageId }: DesignProps) {
     }
   );
 
-  const sectionTitleClassNames = cn("text-4xl", {
-    "text-primary-foreground": sectionBackground.color === "primary",
-    "text-start": leftTitlePosition,
-    "text-white":
-      sectionBackground.textColor === "light" &&
-      sectionBackground.media.imageUrl,
-    "text-black":
-      sectionBackground.textColor === "dark" &&
-      sectionBackground.media.imageUrl,
-  });
-  const sectionSubTitleClassNames = cn({
-    "text-primary-foreground": sectionBackground.color === "primary",
-    "text-muted-foreground": sectionBackground.color !== "primary",
-    "text-start": leftTitlePosition,
-    "text-white":
-      sectionBackground.textColor === "light" &&
-      sectionBackground.media.imageUrl,
-    "text-black":
-      sectionBackground.textColor === "dark" &&
-      sectionBackground.media.imageUrl,
-  });
-
   return (
     <section
       className={sectionBgClassName}
@@ -202,24 +175,12 @@ function Design1({ section, pageId }: DesignProps) {
         }}
       >
         <div className={containerClassNames}>
-          <div className={titleAndSubtitleClassName}>
-            <DesignLabel
-              text={testimonialsContent.label}
-              sectionBackground={sectionBackground.color}
-            />
-            <h1
-              className={sectionTitleClassNames}
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {section.content.title}
-            </h1>
-            <p
-              className={sectionSubTitleClassNames}
-              style={{ whiteSpace: "pre-line" }}
-            >
-              {section.content.subtitle}
-            </p>
-          </div>
+          <SectionHeader
+            content={testimonialsContent}
+            sectionBackground={sectionBackground}
+            align={align}
+            leftTitlePosition={leftTitlePosition}
+          />
           <div className="md:col-span-2">
             {displayType === "grid" ? (
               <div
