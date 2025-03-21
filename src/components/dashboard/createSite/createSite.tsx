@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ActiveUserType } from "@/utlis/auth-helper/client";
 import { CircleCheck } from "lucide-react";
 import React from "react";
-import CreateSiteModal from "../createSiteModal";
+// import CreateSiteModal from "../createSiteModal";
 interface CreateSiteProps {
   user: ActiveUserType;
   setSites: React.Dispatch<React.SetStateAction<any[]>>;
@@ -29,13 +29,13 @@ function CreateSite({ user, setSites, sites }: CreateSiteProps) {
         >
           <CircleCheck className="fill-primary stroke-background" />
         </Button>
-        {hideCreateSite && (
+        {/* {hideCreateSite && (
           <CreateSiteModal user={user} setSites={setSites} sites={sites}>
             <Button className="w-32 flex items-center justify-between">
               New Site <Stars />
             </Button>
           </CreateSiteModal>
-        )}
+        )} */}
       </div>
     </div>
   );
