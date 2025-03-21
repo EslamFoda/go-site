@@ -12,7 +12,7 @@ export default async function Home() {
   if (!user) redirect("/login");
   return (
     <div>
-      {/* <Dashboard user={user} /> */}
+      <Dashboard user={user} />
       <Toaster />
     </div>
   );
