@@ -218,7 +218,7 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
             <div className="w-4/6 border flex h-10 border-input rounded-md">
               <div className=" basis-4/5 flex items-center justify-center h-full">
                 {selectedListItem.icon ? (
-                  <ListIcon size={18}/>
+                  <ListIcon size={18} />
                 ) : (
                   <ImagePlaceHolder
                     fillColor="fill-muted"
@@ -227,9 +227,21 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
                   />
                 )}
               </div>
-              <div className=" flex items-center border-s justify-center basis-1/5 h-full ">
-                <ArrowUpFromLine size="18px" />
-              </div>
+              {selectedListItem.icon ? (
+                <div
+                  className="flex items-center border-s justify-center basis-1/5 h-full"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleUpdateListItem("icon", "");
+                  }}
+                >
+                  <Trash2 className="stroke-destructive" size={16} />
+                </div>
+              ) : (
+                <div className="flex items-center border-s justify-center basis-1/5 h-full">
+                  <ArrowUpFromLine size={18} />
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -256,6 +268,7 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
                       sectionBackground: {
                         ...listStyle.designSettings.sectionBackground,
                         color,
+                        width: "fill",
                       },
                     },
                   })
@@ -340,6 +353,27 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
                       ...listStyle.designSettings.sectionBackground,
                       height: value,
                       align: "center",
+                    },
+                  },
+                })
+              );
+            }}
+          />
+          <ToggleGroup
+            label="Width"
+            options={[
+              { value: "fill", label: "Fill" },
+              { value: "fit", label: "Fit" },
+            ]}
+            value={listStyle.designSettings.sectionBackground.width}
+            onValueChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...listStyle.designSettings!,
+                    sectionBackground: {
+                      ...listStyle.designSettings.sectionBackground,
+                      width: value,
                     },
                   },
                 })

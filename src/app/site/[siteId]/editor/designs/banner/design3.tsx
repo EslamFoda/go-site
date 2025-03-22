@@ -69,30 +69,6 @@ function Design3({ section, pageId, sectionIndex }: Design3Props) {
     setShowPlayButton(true);
   };
 
-  const sectionBgClassName = cn("flex flex-col relative overflow-hidden", {
-    "bg-primary": sectionBackground.color === "primary",
-    "bg-muted": sectionBackground.color === "gray",
-    "bg-background": sectionBackground.color === "none",
-    "min-h-screen": sectionBackground.height === "fill",
-    "h-auto": sectionBackground.height === "fit",
-    "justify-start": sectionBackground.align === "start",
-    "justify-center": sectionBackground.align === "center",
-    "justify-end": sectionBackground.align === "end",
-    "pt-[80px]":
-      (sectionIndex === 0 && headerStyle.designSettings.sticky) ||
-      (headerStyle.designSettings.glass &&
-        !headerStyle.designSettings.sticky &&
-        sectionIndex === 0),
-    "pt-[108px]":
-      (sectionIndex === 0 &&
-        headerStyle.designSettings.sticky &&
-        headerContent.announcement.text) ||
-      (headerStyle.designSettings.glass &&
-        !headerStyle.designSettings.sticky &&
-        sectionIndex === 0 &&
-        headerContent.announcement.text),
-  });
-
   const titleClassName = cn({
     "text-7xl": titleSize === "xl",
     "text-6xl": titleSize === "l",
@@ -158,14 +134,62 @@ function Design3({ section, pageId, sectionIndex }: Design3Props) {
     }
   );
 
-  const bannerSectionContainerClassName = cn(
-    "flex container max-w-container  w-full z-0 text-center justify-center items-center",
+  const sectionInnerContainer = cn(
+    "flex w-full z-0 text-center justify-center items-center",
     {
-      "max-lg:flex-col-reverse": bannerStyle.designSettings.mobile === "flex-col",
+      "max-lg:flex-col-reverse":
+        bannerStyle.designSettings.mobile === "flex-col",
       "max-lg:flex-col":
         bannerStyle.designSettings.mobile === "flex-col-reverse",
+      "container max-w-container": sectionBackground.width === "fill",
     }
   );
+
+  const sectionBgClassName = cn("flex flex-col relative overflow-hidden", {
+    "bg-primary": sectionBackground.color === "primary",
+    "bg-muted": sectionBackground.color === "gray",
+    "bg-background": sectionBackground.color === "none",
+    "min-h-screen": sectionBackground.height === "fill",
+    "h-auto": sectionBackground.height === "fit",
+    "justify-start": sectionBackground.align === "start",
+    "justify-center": sectionBackground.align === "center",
+    "justify-end": sectionBackground.align === "end",
+    "container max-w-container rounded-md": sectionBackground.width === "fit",
+    "pt-[80px]":
+      ((sectionIndex === 0 && headerStyle.designSettings.sticky) ||
+        (headerStyle.designSettings.glass &&
+          !headerStyle.designSettings.sticky &&
+          sectionIndex === 0)) &&
+      sectionBackground.width === "fill",
+    "pt-[108px]":
+      ((sectionIndex === 0 &&
+        headerStyle.designSettings.sticky &&
+        headerContent.announcement.text) ||
+        (headerStyle.designSettings.glass &&
+          !headerStyle.designSettings.sticky &&
+          sectionIndex === 0 &&
+          headerContent.announcement.text)) &&
+      sectionBackground.width === "fill",
+    "mt-[80px]":
+      ((sectionIndex === 0 && headerStyle.designSettings.sticky) ||
+        (headerStyle.designSettings.glass &&
+          !headerStyle.designSettings.sticky &&
+          sectionIndex === 0)) &&
+      sectionBackground.width === "fit",
+    "mt-[108px]":
+      ((sectionIndex === 0 &&
+        headerStyle.designSettings.sticky &&
+        headerContent.announcement.text) ||
+        (headerStyle.designSettings.glass &&
+          !headerStyle.designSettings.sticky &&
+          sectionIndex === 0 &&
+          headerContent.announcement.text)) &&
+      sectionBackground.width === "fit",
+  });
+
+  const mainSectionClassName = cn("flex flex-col overflow-hidden", {
+    "container max-w-container my-4": sectionBackground.width === "fit",
+  });
 
   const renderFormFields = () => {
     if (!showForm) return null;
@@ -340,60 +364,62 @@ function Design3({ section, pageId, sectionIndex }: Design3Props) {
 
   return (
     <section
-      className={sectionBgClassName}
+      className={mainSectionClassName}
       onClick={() => {
         dispatch(updateSelectedSection(pageId, section.id));
       }}
     >
-      <BackgroundImage
-        imageUrl={sectionBackground.media.imageUrl}
-        parallax={sectionBackground.parallax}
-        blur={sectionBackground.blur}
-        blurEffect={sectionBackground.blurEffect}
-        greyScale={sectionBackground.greyScale}
-        overlay={sectionBackground.overlay}
-        overlayEffect={sectionBackground.overlayEffect}
-        backgroundColor={sectionBackground.color}
-      />
-      <div
-        className={bannerSectionContainerClassName}
-        style={{
-          gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
-          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
-          paddingBottom: isDesktop
-            ? spacing.bottom.desktop
-            : spacing.bottom.mobile,
-        }}
-      >
-        <div className={TitleAndSubtitleClassName}>
-          <DesignLabel
-            text={bannerContent.label}
-            sectionBackground={sectionBackground.color}
-          />
-          <div>
-            <h1 className={titleClassName} style={{ whiteSpace: "pre-line" }}>
-              {bannerContent?.title}
-            </h1>
-          </div>
-          <div
-            className={subAndButtonClassName}
-            style={{ width: showImage || showVideo ? "100%" : subtitleWidth }}
-          >
-            <p className={subTitleColor} style={{ whiteSpace: "pre-line" }}>
-              {bannerContent?.subtitle}
-            </p>
+      <div className={sectionBgClassName}>
+        <BackgroundImage
+          imageUrl={sectionBackground.media.imageUrl}
+          parallax={sectionBackground.parallax}
+          blur={sectionBackground.blur}
+          blurEffect={sectionBackground.blurEffect}
+          greyScale={sectionBackground.greyScale}
+          overlay={sectionBackground.overlay}
+          overlayEffect={sectionBackground.overlayEffect}
+          backgroundColor={sectionBackground.color}
+        />
+        <div
+          className={sectionInnerContainer}
+          style={{
+            gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
+            paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+            paddingBottom: isDesktop
+              ? spacing.bottom.desktop
+              : spacing.bottom.mobile,
+          }}
+        >
+          <div className={TitleAndSubtitleClassName}>
+            <DesignLabel
+              text={bannerContent.label}
+              sectionBackground={sectionBackground.color}
+            />
+            <div>
+              <h1 className={titleClassName} style={{ whiteSpace: "pre-line" }}>
+                {bannerContent?.title}
+              </h1>
+            </div>
+            <div
+              className={subAndButtonClassName}
+              style={{ width: showImage || showVideo ? "100%" : subtitleWidth }}
+            >
+              <p className={subTitleColor} style={{ whiteSpace: "pre-line" }}>
+                {bannerContent?.subtitle}
+              </p>
 
-            {showButtons && (
-              <BannerButtons
-                buttons={bannerContent.buttons}
-                sectionBackground={sectionBackground.color}
-              />
-            )}
-            {renderFormFields()}
+              {showButtons && (
+                <BannerButtons
+                  buttons={bannerContent.buttons}
+                  sectionBackground={sectionBackground.color}
+                />
+              )}
+              {renderFormFields()}
+            </div>
           </div>
+          {renderImage()}
+          {renderVideo()}
         </div>
-        {renderImage()}
-        {renderVideo()}
       </div>
     </section>
   );

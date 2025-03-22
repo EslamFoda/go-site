@@ -216,6 +216,7 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
                       sectionBackground: {
                         ...pricingStyle.designSettings.sectionBackground,
                         color,
+                        width: "fill",
                       },
                     },
                   })
@@ -302,6 +303,27 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
                       ...pricingStyle.designSettings.sectionBackground,
                       height: value,
                       align: "center",
+                    },
+                  },
+                })
+              );
+            }}
+          />
+          <ToggleGroup
+            label="Width"
+            options={[
+              { value: "fill", label: "Fill" },
+              { value: "fit", label: "Fit" },
+            ]}
+            value={pricingStyle.designSettings.sectionBackground.width}
+            onValueChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...pricingStyle.designSettings!,
+                    sectionBackground: {
+                      ...pricingStyle.designSettings.sectionBackground,
+                      width: value,
                     },
                   },
                 })

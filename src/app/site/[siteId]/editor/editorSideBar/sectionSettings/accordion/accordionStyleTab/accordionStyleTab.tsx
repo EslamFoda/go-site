@@ -53,7 +53,7 @@ function AccordionStyleTab({
         }
       />
 
-      {accordionContent.title && (
+      {accordionContent.title && !accordionStyle.designSettings.leftTitlePosition && (
         <Align
           alignValue={accordionStyle.designSettings.align}
           onValueChange={(value) => {

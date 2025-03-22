@@ -24,6 +24,7 @@ interface PageTypeProps {
 }
 function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
   const dispatch = useAppDispatch();
+
   const pageMapper = {
     about: about,
     landing: landing,
@@ -77,6 +78,7 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
       setAddPage(false);
     }
   };
+
   return (
     <div>
       <BackBtn label={pageType} handleBack={() => setPageType("")} />
@@ -86,7 +88,7 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
             <div key={index} className="bg-muted p-2 rounded-sm">
               <div className="w-full h-52 overflow-hidden relative">
                 <div
-                  className="overflow-y-auto"
+                  className={`${selectedPallet} page-container overflow-y-auto`}
                   style={{
                     transformOrigin: "0 0",
                     transform: "scale(0.2)",
@@ -99,10 +101,7 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
                     const SectionComponent =
                       sectionsMapper[section.sectionName];
                     return (
-                      <div
-                        key={section.id}
-                        className={`${selectedPallet} page-container relative`}
-                      >
+                      <div key={section.id} className="relative">
                         <div className="absolute inset-0 pointer-events-auto" />
                         <div>
                           <SectionComponent section={section} pageId={""} />

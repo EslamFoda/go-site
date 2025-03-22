@@ -29,7 +29,7 @@ const BackgroundImage: React.FC<BackgroundImageProps> = ({
   return (
     <Parallax
       speed={parallax ? -25 : 0}
-      className={cn("absolute inset-0", parallax && "min-h-[150%]")}
+      className={cn("absolute inset-0", parallax && "min-h-screen")}
       style={{
         ...(parallax && {
           top: "-20px",
@@ -40,7 +40,7 @@ const BackgroundImage: React.FC<BackgroundImageProps> = ({
       }}
     >
       <div
-        className={cn("absolute inset-0", parallax && "min-h-[120%]")}
+        className={cn("absolute inset-0", parallax && "min-h-screen")}
         style={{
           backgroundImage: `url(${imageUrl})`,
           backgroundPosition: "center",

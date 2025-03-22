@@ -56,6 +56,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const currentPage = useAppSelector((state) =>
     state.editor.present.editor.pages.find((page) => page.pageId === pageId)
   );
+  console.log(currentPage?.sections, "currentPage?.sections");
 
   const globalHeader = globalSections.find(
     (section) => section.sectionName === "Header"
@@ -98,7 +99,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   if (!currentPage) router.push(`/site/${siteId}/editor/`);
 
   return (
-    <div className="relative">
+    <div className="relative bg-background">
       {/* Parent container with conditional blur */}
       {headerStyle.designSettings.scrollIndicator &&
         currentPage?.pageSettings.showHeader && <ProgressBar />}

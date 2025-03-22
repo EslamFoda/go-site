@@ -344,6 +344,7 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
                       sectionBackground: {
                         ...logosStyle.designSettings.sectionBackground,
                         color,
+                        width: "fill",
                       },
                     },
                   })
@@ -430,6 +431,27 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
                       ...logosStyle.designSettings.sectionBackground,
                       height: value,
                       align: "center",
+                    },
+                  },
+                })
+              );
+            }}
+          />
+          <ToggleGroup
+            label="Width"
+            options={[
+              { value: "fill", label: "Fill" },
+              { value: "fit", label: "Fit" },
+            ]}
+            value={logosStyle.designSettings.sectionBackground.width}
+            onValueChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...logosStyle.designSettings!,
+                    sectionBackground: {
+                      ...logosStyle.designSettings.sectionBackground,
+                      width: value,
                     },
                   },
                 })

@@ -75,31 +75,6 @@ function Design2({ section, pageId, sectionIndex }: Design2Props) {
     setShowPlayButton(true);
   };
 
-  // Extract class name generation logic into separate functions
-  const getSectionClassName = cn("flex flex-col relative overflow-hidden", {
-    "bg-primary": sectionBackground.color === "primary",
-    "bg-muted": sectionBackground.color === "gray",
-    "bg-background": sectionBackground.color === "none",
-    "min-h-screen": sectionBackground.height === "fill",
-    "h-auto": sectionBackground.height === "fit",
-    "justify-start": sectionBackground.align === "start",
-    "justify-center": sectionBackground.align === "center",
-    "justify-end": sectionBackground.align === "end",
-    "pt-[80px]":
-      (sectionIndex === 0 && headerStyle.designSettings.sticky) ||
-      (headerStyle.designSettings.glass &&
-        !headerStyle.designSettings.sticky &&
-        sectionIndex === 0),
-    "pt-[108px]":
-      (sectionIndex === 0 &&
-        headerStyle.designSettings.sticky &&
-        headerContent.announcement.text) ||
-      (headerStyle.designSettings.glass &&
-        !headerStyle.designSettings.sticky &&
-        sectionIndex === 0 &&
-        headerContent.announcement.text),
-  });
-
   const getImageClassName = cn(
     "bg-cover bg-no-repeat bg-center rounded-md w-full",
     {
@@ -180,15 +155,62 @@ function Design2({ section, pageId, sectionIndex }: Design2Props) {
     "border-primary-foreground border-solid border text-primary-foreground":
       sectionBackground.color === "primary",
   });
-  const bannerSectionContainerClassName = cn(
-    "flex container max-w-container flex-col w-full z-0 text-center justify-center items-center",
+  const sectionInnerContainer = cn(
+    "flex flex-col w-full z-0 text-center justify-center items-center",
     {
-      "max-lg:flex-col":
-        bannerStyle.designSettings.mobile === "flex-col",
       "max-lg:flex-col-reverse":
+        bannerStyle.designSettings.mobile === "flex-col",
+      "max-lg:flex-col":
         bannerStyle.designSettings.mobile === "flex-col-reverse",
+      "container max-w-container": sectionBackground.width === "fill",
     }
   );
+
+  const mainSectionClassName = cn("flex flex-col overflow-hidden", {
+    "container max-w-container my-4": sectionBackground.width === "fit",
+  });
+
+  const sectionBgClassName = cn("flex flex-col relative overflow-hidden", {
+    "bg-primary": sectionBackground.color === "primary",
+    "bg-muted": sectionBackground.color === "gray",
+    "bg-background": sectionBackground.color === "none",
+    "min-h-screen": sectionBackground.height === "fill",
+    "h-auto": sectionBackground.height === "fit",
+    "justify-start": sectionBackground.align === "start",
+    "justify-center": sectionBackground.align === "center",
+    "justify-end": sectionBackground.align === "end",
+    "container max-w-container rounded-md": sectionBackground.width === "fit",
+    "pt-[80px]":
+      ((sectionIndex === 0 && headerStyle.designSettings.sticky) ||
+        (headerStyle.designSettings.glass &&
+          !headerStyle.designSettings.sticky &&
+          sectionIndex === 0)) &&
+      sectionBackground.width === "fill",
+    "pt-[108px]":
+      ((sectionIndex === 0 &&
+        headerStyle.designSettings.sticky &&
+        headerContent.announcement.text) ||
+        (headerStyle.designSettings.glass &&
+          !headerStyle.designSettings.sticky &&
+          sectionIndex === 0 &&
+          headerContent.announcement.text)) &&
+      sectionBackground.width === "fill",
+    "mt-[80px]":
+      ((sectionIndex === 0 && headerStyle.designSettings.sticky) ||
+        (headerStyle.designSettings.glass &&
+          !headerStyle.designSettings.sticky &&
+          sectionIndex === 0)) &&
+      sectionBackground.width === "fit",
+    "mt-[108px]":
+      ((sectionIndex === 0 &&
+        headerStyle.designSettings.sticky &&
+        headerContent.announcement.text) ||
+        (headerStyle.designSettings.glass &&
+          !headerStyle.designSettings.sticky &&
+          sectionIndex === 0 &&
+          headerContent.announcement.text)) &&
+      sectionBackground.width === "fit",
+  });
 
   // Handle click to select this section
   const handleSectionClick = () => {
@@ -454,33 +476,34 @@ function Design2({ section, pageId, sectionIndex }: Design2Props) {
   );
 
   return (
-    <section className={getSectionClassName} onClick={handleSectionClick}>
-      <BackgroundImage
-        imageUrl={sectionBackground.media.imageUrl}
-        parallax={sectionBackground.parallax}
-        blur={sectionBackground.blur}
-        blurEffect={sectionBackground.blurEffect}
-        greyScale={sectionBackground.greyScale}
-        overlay={sectionBackground.overlay}
-        overlayEffect={sectionBackground.overlayEffect}
-        backgroundColor={sectionBackground.color}
-      />
-      <div
-        style={{
-          gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
-          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
-          paddingBottom: isDesktop
-            ? spacing.bottom.desktop
-            : spacing.bottom.mobile,
-        }}
-        // className="flex container max-w-container w-full flex-col text-center z-0 justify-center items-center"
-        className={bannerSectionContainerClassName}
-      >
-        {renderImage()}
-        {renderVideo()}
-        {leftTitlePosition
-          ? renderLeftTitleLayout()
-          : renderCenteredTitleLayout()}
+    <section className={mainSectionClassName} onClick={handleSectionClick}>
+      <div className={sectionBgClassName}>
+        <BackgroundImage
+          imageUrl={sectionBackground.media.imageUrl}
+          parallax={sectionBackground.parallax}
+          blur={sectionBackground.blur}
+          blurEffect={sectionBackground.blurEffect}
+          greyScale={sectionBackground.greyScale}
+          overlay={sectionBackground.overlay}
+          overlayEffect={sectionBackground.overlayEffect}
+          backgroundColor={sectionBackground.color}
+        />
+        <div
+          className={sectionInnerContainer}
+          style={{
+            gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
+            paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+            paddingBottom: isDesktop
+              ? spacing.bottom.desktop
+              : spacing.bottom.mobile,
+          }}
+        >
+          {renderImage()}
+          {renderVideo()}
+          {leftTitlePosition
+            ? renderLeftTitleLayout()
+            : renderCenteredTitleLayout()}
+        </div>
       </div>
     </section>
   );

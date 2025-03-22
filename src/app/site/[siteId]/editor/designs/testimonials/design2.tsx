@@ -87,8 +87,8 @@ function Design1({ section, pageId }: DesignProps) {
   const listItemClassNames = cn(
     "flex flex-col justify-between h-full rounded-md min-h-44",
     {
-      "bg-muted p-5": background,
-      "outline outline-[1px] outline-muted p-5": border,
+      "bg-muted": background,
+      "outline outline-[1px] outline-muted": border,
       "bg-background": bgMuted || bgPrimary,
       "items-start": align === "start",
       "items-center": align === "center",
@@ -201,6 +201,11 @@ function Design1({ section, pageId }: DesignProps) {
                           transition={{ type: "tween" }}
                           key={review.id || index}
                           className={listItemClassNames}
+                          style={{
+                            padding: isDesktop
+                              ? spacing.padding.desktop
+                              : spacing.padding.mobile,
+                          }}
                           onClick={(e) => {
                             e.stopPropagation();
                             dispatch(updateSelectedSection(pageId, section.id));
@@ -229,7 +234,10 @@ function Design1({ section, pageId }: DesignProps) {
                                 )}
                               </div>
                             )}
-                            <h5 className={reviewClassNames}>
+                            <h5
+                              className={reviewClassNames}
+                              style={{ whiteSpace: "pre-line" }}
+                            >
                               {review.review}
                             </h5>
                           </div>

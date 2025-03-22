@@ -124,11 +124,11 @@ export const generateSections = (
         spacing: {
           top: {
             desktop: 50,
-            mobile: 15,
+            mobile: 25,
           },
           bottom: {
             desktop: 50,
-            mobile: 15,
+            mobile: 25,
           },
           gap: {
             desktop: 20,
@@ -202,11 +202,11 @@ export const generateSections = (
         spacing: {
           top: {
             desktop: 50,
-            mobile: 15,
+            mobile: 25,
           },
           bottom: {
             desktop: 50,
-            mobile: 15,
+            mobile: 25,
           },
           gap: {
             desktop: 20,
@@ -271,11 +271,11 @@ export const generateSections = (
         spacing: {
           top: {
             desktop: 50,
-            mobile: 15,
+            mobile: 25,
           },
           bottom: {
             desktop: 50,
-            mobile: 15,
+            mobile: 25,
           },
           gap: {
             desktop: 20,
@@ -325,11 +325,11 @@ export const generateSections = (
         spacing: {
           top: {
             desktop: 50,
-            mobile: 15,
+            mobile: 25,
           },
           bottom: {
             desktop: 50,
-            mobile: 15,
+            mobile: 25,
           },
           gap: {
             desktop: 20,

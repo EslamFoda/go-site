@@ -198,6 +198,7 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
                       sectionBackground: {
                         ...accordionStyle.designSettings.sectionBackground,
                         color,
+                        width: "fill",
                       },
                     },
                   })
@@ -267,7 +268,6 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
               }}
             />
           )}
-
           <ToggleGroup
             label="Height"
             options={[
@@ -284,6 +284,27 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
                       ...accordionStyle.designSettings.sectionBackground,
                       height: value,
                       align: "center",
+                    },
+                  },
+                })
+              );
+            }}
+          />{" "}
+          <ToggleGroup
+            label="Width"
+            options={[
+              { value: "fill", label: "Fill" },
+              { value: "fit", label: "Fit" },
+            ]}
+            value={accordionStyle.designSettings.sectionBackground.width}
+            onValueChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...accordionStyle.designSettings!,
+                    sectionBackground: {
+                      ...accordionStyle.designSettings.sectionBackground,
+                      width: value,
                     },
                   },
                 })

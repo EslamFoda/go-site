@@ -32,7 +32,6 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
   const {
     showButtons,
     showForm,
-    align,
     titleSize,
     imageSetting,
     sectionBackground,
@@ -67,30 +66,6 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
     setMuted(true);
     setShowPlayButton(true);
   };
-
-  const sectionBgClassName = cn("flex flex-col relative overflow-hidden", {
-    "bg-primary": sectionBackground.color === "primary",
-    "bg-muted": sectionBackground.color === "gray",
-    "bg-background": sectionBackground.color === "none",
-    "min-h-screen": sectionBackground.height === "fill",
-    "h-auto": sectionBackground.height === "fit",
-    "justify-start": sectionBackground.align === "start",
-    "justify-center": sectionBackground.align === "center",
-    "justify-end": sectionBackground.align === "end",
-    "pt-[80px]":
-      (sectionIndex === 0 && headerStyle.designSettings.sticky) ||
-      (headerStyle.designSettings.glass &&
-        !headerStyle.designSettings.sticky &&
-        sectionIndex === 0),
-    "pt-[108px]":
-      (sectionIndex === 0 &&
-        headerStyle.designSettings.sticky &&
-        headerContent.announcement.text) ||
-      (headerStyle.designSettings.glass &&
-        !headerStyle.designSettings.sticky &&
-        sectionIndex === 0 &&
-        headerContent.announcement.text),
-  });
 
   const titleClassName = cn({
     "text-7xl": titleSize === "xl",
@@ -146,6 +121,56 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
   const formBtnClassName = cn("whitespace-normal", {
     "border-primary-foreground border-solid border text-primary-foreground":
       sectionBackground.color === "primary",
+  });
+
+  const mainSectionClassName = cn("flex flex-col overflow-hidden", {
+    "container max-w-container my-4": sectionBackground.width === "fit",
+  });
+
+  const sectionBgClassName = cn("flex flex-col relative overflow-hidden", {
+    "bg-primary": sectionBackground.color === "primary",
+    "bg-muted": sectionBackground.color === "gray",
+    "bg-background": sectionBackground.color === "none",
+    "min-h-screen": sectionBackground.height === "fill",
+    "h-auto": sectionBackground.height === "fit",
+    "justify-start": sectionBackground.align === "start",
+    "justify-center": sectionBackground.align === "center",
+    "justify-end": sectionBackground.align === "end",
+    "container max-w-container rounded-md": sectionBackground.width === "fit",
+    "pt-[80px]":
+      ((sectionIndex === 0 && headerStyle.designSettings.sticky) ||
+        (headerStyle.designSettings.glass &&
+          !headerStyle.designSettings.sticky &&
+          sectionIndex === 0)) &&
+      sectionBackground.width === "fill",
+    "pt-[108px]":
+      ((sectionIndex === 0 &&
+        headerStyle.designSettings.sticky &&
+        headerContent.announcement.text) ||
+        (headerStyle.designSettings.glass &&
+          !headerStyle.designSettings.sticky &&
+          sectionIndex === 0 &&
+          headerContent.announcement.text)) &&
+      sectionBackground.width === "fill",
+    "mt-[80px]":
+      ((sectionIndex === 0 && headerStyle.designSettings.sticky) ||
+        (headerStyle.designSettings.glass &&
+          !headerStyle.designSettings.sticky &&
+          sectionIndex === 0)) &&
+      sectionBackground.width === "fit",
+    "mt-[108px]":
+      ((sectionIndex === 0 &&
+        headerStyle.designSettings.sticky &&
+        headerContent.announcement.text) ||
+        (headerStyle.designSettings.glass &&
+          !headerStyle.designSettings.sticky &&
+          sectionIndex === 0 &&
+          headerContent.announcement.text)) &&
+      sectionBackground.width === "fit",
+  });
+
+  const sectionInnerContainer = cn("z-0 space-y-3", {
+    "container max-w-container": sectionBackground.width === "fill",
   });
 
   const renderFormFields = () => {
@@ -320,64 +345,68 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
   };
   return (
     <section
-      className={sectionBgClassName}
+      className={mainSectionClassName}
       onClick={() => {
         dispatch(updateSelectedSection(pageId, section.id));
       }}
     >
-      <BackgroundImage
-        imageUrl={sectionBackground.media.imageUrl}
-        parallax={sectionBackground.parallax}
-        blur={sectionBackground.blur}
-        blurEffect={sectionBackground.blurEffect}
-        greyScale={sectionBackground.greyScale}
-        overlay={sectionBackground.overlay}
-        overlayEffect={sectionBackground.overlayEffect}
-        backgroundColor={sectionBackground.color}
-      />
-      <div
-        className="container max-w-container z-0 space-y-3"
-        style={{
-          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
-          paddingBottom: isDesktop
-            ? spacing.bottom.desktop
-            : spacing.bottom.mobile,
-        }}
-      >
-        <DesignLabel
-          text={bannerContent.label}
-          sectionBackground={sectionBackground.color}
+      <div className={sectionBgClassName}>
+        <BackgroundImage
+          imageUrl={sectionBackground.media.imageUrl}
+          parallax={sectionBackground.parallax}
+          blur={sectionBackground.blur}
+          blurEffect={sectionBackground.blurEffect}
+          greyScale={sectionBackground.greyScale}
+          overlay={sectionBackground.overlay}
+          overlayEffect={sectionBackground.overlayEffect}
+          backgroundColor={sectionBackground.color}
         />
-        <div>
-          <h1 className={titleClassName} style={{ whiteSpace: "pre-line" }}>
-            {bannerContent?.title}
-          </h1>
-        </div>
         <div
-          className="flex max-lg:flex-col w-full text-center justify-center"
-          style={{ gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile }}
+          className={sectionInnerContainer}
+          style={{
+            paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+            paddingBottom: isDesktop
+              ? spacing.bottom.desktop
+              : spacing.bottom.mobile,
+          }}
         >
-          {renderImage()}
-          {renderVideo()}
-          <div className={TitleAndSubtitleClassName}>
-            <div className={subAndButtonClassName}>
-              <p
-                style={{
-                  width: showImage || showVideo ? "100%" : subtitleWidth,
-                  whiteSpace: "pre-line",
-                }}
-                className={subTitleColor}
-              >
-                {bannerContent?.subtitle}
-              </p>
+          <DesignLabel
+            text={bannerContent.label}
+            sectionBackground={sectionBackground.color}
+          />
+          <div>
+            <h1 className={titleClassName} style={{ whiteSpace: "pre-line" }}>
+              {bannerContent?.title}
+            </h1>
+          </div>
+          <div
+            className="flex max-lg:flex-col w-full text-center justify-center"
+            style={{
+              gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
+            }}
+          >
+            {renderImage()}
+            {renderVideo()}
+            <div className={TitleAndSubtitleClassName}>
+              <div className={subAndButtonClassName}>
+                <p
+                  style={{
+                    width: showImage || showVideo ? "100%" : subtitleWidth,
+                    whiteSpace: "pre-line",
+                  }}
+                  className={subTitleColor}
+                >
+                  {bannerContent?.subtitle}
+                </p>
 
-              {showButtons && (
-                <BannerButtons
-                  buttons={bannerContent.buttons}
-                  sectionBackground={sectionBackground.color}
-                />
-              )}
-              {renderFormFields()}
+                {showButtons && (
+                  <BannerButtons
+                    buttons={bannerContent.buttons}
+                    sectionBackground={sectionBackground.color}
+                  />
+                )}
+                {renderFormFields()}
+              </div>
             </div>
           </div>
         </div>

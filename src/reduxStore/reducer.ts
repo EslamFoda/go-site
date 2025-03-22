@@ -143,6 +143,7 @@ const initialState: EditorStore = {
                   },
                   textColor: "light",
                   height: "fit",
+                  width: "fill",
                   spacing: "l",
                   overlay: false,
                   blur: false,

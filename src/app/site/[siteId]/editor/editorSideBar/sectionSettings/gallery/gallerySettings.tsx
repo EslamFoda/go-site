@@ -194,6 +194,7 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
                       sectionBackground: {
                         ...galleryStyle.designSettings.sectionBackground,
                         color,
+                        width: "fill",
                       },
                     },
                   })
@@ -280,6 +281,27 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
                       ...galleryStyle.designSettings.sectionBackground,
                       height: value,
                       align: "center",
+                    },
+                  },
+                })
+              );
+            }}
+          />
+          <ToggleGroup
+            label="Width"
+            options={[
+              { value: "fill", label: "Fill" },
+              { value: "fit", label: "Fit" },
+            ]}
+            value={galleryStyle.designSettings.sectionBackground.width}
+            onValueChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...galleryStyle.designSettings!,
+                    sectionBackground: {
+                      ...galleryStyle.designSettings.sectionBackground,
+                      width: value,
                     },
                   },
                 })

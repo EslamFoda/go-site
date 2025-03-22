@@ -229,11 +229,11 @@ export function useSections() {
           spacing: {
             top: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             bottom: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             gap: {
               desktop: 20,
@@ -252,6 +252,7 @@ export function useSections() {
             },
             textColor: "light",
             height: "fit",
+            width: "fill",
             spacing: "l",
             overlay: false,
             blur: false,
@@ -350,11 +351,11 @@ export function useSections() {
           spacing: {
             top: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             bottom: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             gap: {
               desktop: 20,
@@ -373,6 +374,7 @@ export function useSections() {
             },
             textColor: "light",
             height: "fit",
+            width: "fill",
             spacing: "l",
             overlay: false,
             blur: false,
@@ -465,11 +467,11 @@ export function useSections() {
           spacing: {
             top: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             bottom: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             gap: {
               desktop: 20,
@@ -488,6 +490,7 @@ export function useSections() {
             },
             textColor: "light",
             height: "fit",
+            width: "fill",
             spacing: "l",
             overlay: false,
             blur: false,
@@ -535,11 +538,11 @@ export function useSections() {
           spacing: {
             top: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             bottom: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             gap: {
               desktop: 20,
@@ -558,6 +561,7 @@ export function useSections() {
             },
             textColor: "light",
             height: "fit",
+            width: "fill",
             spacing: "l",
             overlay: false,
             blur: false,
@@ -638,11 +642,11 @@ export function useSections() {
           spacing: {
             top: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             bottom: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             gap: {
               desktop: 20,
@@ -661,6 +665,7 @@ export function useSections() {
             },
             textColor: "light",
             height: "fit",
+            width: "fill",
             spacing: "l",
             overlay: false,
             blur: false,
@@ -725,11 +730,11 @@ export function useSections() {
           spacing: {
             top: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             bottom: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             gap: {
               desktop: 20,
@@ -748,6 +753,7 @@ export function useSections() {
             },
             textColor: "light",
             height: "fit",
+            width: "fill",
             spacing: "l",
             overlay: false,
             blur: false,
@@ -842,11 +848,11 @@ export function useSections() {
           spacing: {
             top: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             bottom: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             gap: {
               desktop: 20,
@@ -865,6 +871,7 @@ export function useSections() {
             },
             textColor: "light",
             height: "fit",
+            width: "fill",
             spacing: "l",
             overlay: false,
             blur: false,
@@ -1186,11 +1193,11 @@ export function useSections() {
           spacing: {
             top: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             bottom: {
               desktop: 50,
-              mobile: 15,
+              mobile: 25,
             },
             gap: {
               desktop: 20,
@@ -1209,6 +1216,7 @@ export function useSections() {
             },
             textColor: "light",
             height: "fit",
+            width: "fill",
             spacing: "l",
             overlay: false,
             blur: false,

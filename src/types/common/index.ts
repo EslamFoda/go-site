@@ -160,6 +160,7 @@ export interface SectionBackground {
   };
   textColor: "light" | "dark";
   height: "fill" | "fit";
+  width: "fill" | "fit";
   spacing?: string;
   overlay: boolean;
   blur: boolean;

@@ -93,6 +93,7 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
         findSelectedSection={findSelectedSection}
         sectionStyle={TestimonialsStyle}
         setOpenSpacingTab={setOpenSpacingTab}
+        showPadding
       />
     );
   }
@@ -257,6 +258,7 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
                       sectionBackground: {
                         ...TestimonialsStyle.designSettings.sectionBackground,
                         color,
+                        width: "fill",
                       },
                     },
                   })
@@ -346,6 +348,27 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
                       ...TestimonialsStyle.designSettings.sectionBackground,
                       height: value,
                       align: "center",
+                    },
+                  },
+                })
+              );
+            }}
+          />
+          <ToggleGroup
+            label="Width"
+            options={[
+              { value: "fill", label: "Fill" },
+              { value: "fit", label: "Fit" },
+            ]}
+            value={TestimonialsStyle.designSettings.sectionBackground.width}
+            onValueChange={(value) => {
+              dispatch(
+                updateStyle(pageId, findSelectedSection?.id!, {
+                  designSettings: {
+                    ...TestimonialsStyle.designSettings!,
+                    sectionBackground: {
+                      ...TestimonialsStyle.designSettings.sectionBackground,
+                      width: value,
                     },
                   },
                 })

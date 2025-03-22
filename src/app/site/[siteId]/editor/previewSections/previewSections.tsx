@@ -59,7 +59,7 @@ const PreviewSection: React.FC<{ pageId: string }> = ({ pageId }) => {
   if (!currentPage) router.push(`/site/${siteId}/editor/`);
 
   return (
-    <div className="relative">
+    <div className="relative bg-background">
       {/* Parent container with conditional blur */}
       {headerStyle.designSettings.scrollIndicator &&
         currentPage?.pageSettings.showHeader && <ProgressBar />}
@@ -74,9 +74,7 @@ const PreviewSection: React.FC<{ pageId: string }> = ({ pageId }) => {
 
         return (
           <div key={section.id} className="relative">
-            <div
-              id={`section-${i}`} // Fixed template literal syntax
-            >
+            <div id={`section-${i}`}>
               <ParallaxProvider>
                 <div>
                   <SectionComponent
