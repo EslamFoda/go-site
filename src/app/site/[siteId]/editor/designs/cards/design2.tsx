@@ -81,13 +81,6 @@ function Design2({ section, pageId }: DesignProps) {
     grid.mobile === 1 && "grid-cols-1"
   );
 
-  const alignClassNames = cn(
-    "container max-w-container gap-10 w-full z-0",
-    align === "start" && "text-start",
-    align === "center" && "text-center",
-    align === "end" && "text-end"
-  );
-
   const cardClassNames = cn(
     "flex flex-col  gap-2 rounded-md relative bg-muted",
     (bgMuted || bgPrimary) && "bg-background",
@@ -116,161 +109,79 @@ function Design2({ section, pageId }: DesignProps) {
       "md:grid-cols-3 grid-cols-1 gap-4 md:space-y-0 space-y-4"
   );
 
-  const sectionBgClassName = cn(
-    " flex flex-col relative overflow-hidden",
-    sectionBackground.color === "primary" && "bg-primary",
-    sectionBackground.color === "gray" && "bg-muted",
-    sectionBackground.color === "none" && "bg-background",
-    sectionBackground.height === "fill" && "min-h-screen",
-    sectionBackground.height === "fit" && "h-auto",
-    sectionBackground.align === "start" && "justify-start",
-    sectionBackground.align === "center" && "justify-center",
-    sectionBackground.align === "end" && "justify-end"
-  );
-
   const sectionTitleAndSubTitleClassNames = cn("space-y-3", {
     "text-start": leftTitlePosition,
   });
 
+  const sectionBgClassName = cn("flex flex-col relative overflow-hidden", {
+    "bg-primary": sectionBackground.color === "primary",
+    "bg-muted": sectionBackground.color === "gray",
+    "bg-background": sectionBackground.color === "none",
+    "min-h-screen": sectionBackground.height === "fill",
+    "h-auto": sectionBackground.height === "fit",
+    "justify-start": sectionBackground.align === "start",
+    "justify-center": sectionBackground.align === "center",
+    "justify-end": sectionBackground.align === "end",
+    "container max-w-container rounded-md": sectionBackground.width === "fit",
+  });
+  const mainSection = cn("flex flex-col overflow-hidden", {
+    "container max-w-container my-4": sectionBackground.width === "fit",
+  });
+
+  const sectionInnerContainer = cn("z-0 gap-10 w-full", {
+    "container max-w-container": sectionBackground.width === "fill",
+    "text-start": align === "start",
+    "text-center": align === "center",
+    "text-end": align === "end",
+  });
+
   return (
-    <section
-      className={sectionBgClassName}
-      onClick={() => {
-        dispatch(updateSelectedSection(pageId, section.id));
-        dispatch(updateSelectedItem(null));
-      }}
-    >
-      <BackgroundImage
-        imageUrl={sectionBackground.media.imageUrl}
-        parallax={sectionBackground.parallax}
-        blur={sectionBackground.blur}
-        blurEffect={sectionBackground.blurEffect}
-        greyScale={sectionBackground.greyScale}
-        overlay={sectionBackground.overlay}
-        overlayEffect={sectionBackground.overlayEffect}
-        backgroundColor={sectionBackground.color}
-      />
-      <div
-        className={alignClassNames}
-        style={{
-          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
-          paddingBottom: isDesktop
-            ? spacing.bottom.desktop
-            : spacing.bottom.mobile,
-        }}
-      >
-        <div className={containerClassNames}>
-          <SectionHeader
-            content={cardContent}
-            sectionBackground={sectionBackground}
-            align={align}
-            leftTitlePosition={leftTitlePosition}
-            containerClassName={sectionTitleAndSubTitleClassNames}
-          />
-          <div className="md:col-span-2">
-            {displayType === "grid" ? (
-              <div
-                className={gridClassNames}
-                style={{
-                  gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
-                }}
-              >
-                <AnimatePresence>
-                  {section.content.cards.map((card: any, index: number) => (
-                    <motion.div
-                      layout
-                      initial={{ scale: 0.9, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0.8, opacity: 0 }}
-                      transition={{ type: "tween" }}
-                      key={card.id || index}
-                      style={{
-                        minHeight: isDesktop ? height.desktop : height.mobile,
-                        backgroundImage: `url(${card.image})`,
-                        backgroundPosition: "center",
-                        backgroundSize: "cover",
-                        padding: isDesktop
-                          ? spacing.padding.desktop
-                          : spacing.padding.mobile,
-                      }}
-                      className={cardClassNames}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        dispatch(updateSelectedSection(pageId, section.id));
-                        dispatch(updateSelectedItem(card));
-                        dispatch(closePagesTab());
-                      }}
-                    >
-                      <div
-                        className={cn(cardContentClasses, {
-                          hidden: !card.title && !card.text && !card.button,
-                        })}
-                        style={{
-                          padding: isDesktop
-                            ? `clamp(10px, ${spacing.padding.desktop}px, 20px)`
-                            : `clamp(10px, ${spacing.padding.mobile}px, 20px)`,
-                        }}
-                      >
-                        <h5
-                          className={titleClassName}
-                          style={{ whiteSpace: "pre-line" }}
-                        >
-                          {card.title}
-                        </h5>
-                        <p
-                          className={cn(textOrderClassName, {
-                            hidden: !card.text,
-                          })}
-                          style={{ whiteSpace: "pre-line" }}
-                        >
-                          {card.text}
-                        </p>
-                        {card.button && (
-                          <Button className="order-4 w-full">
-                            {card.button}
-                          </Button>
-                        )}
-                      </div>
-                      {!card.image && (
-                        <div className={imagePlaceholderClassNames}>
-                          <ImagePlaceHolder
-                            fillColor={
-                              bgMuted || bgPrimary
-                                ? "fill-muted"
-                                : "fill-background"
-                            }
-                          />
-                        </div>
-                      )}
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-              </div>
-            ) : (
-              <Carousel
-                plugins={autoScrollPlugin}
-                opts={{
-                  skipSnaps: true,
-                  loop: autoScroll ? true : false,
-                }}
-                className="w-full items-stretch"
-              >
-                <CarouselContent className="items-stretch py-1">
-                  {section.content.cards.map((card: any, index: number) => (
-                    <CarouselItem
-                      className="h-full"
-                      key={card.id || index}
-                      style={{
-                        flexBasis: isDesktop
-                          ? cardSlider.desktopWidth
-                          : cardSlider.mobileWidth,
-                        marginInlineEnd: isDesktop
-                          ? spacing.gap.desktop
-                          : spacing.gap.mobile,
-                        paddingInlineStart: index !== 0 ? 0 : "",
-                      }}
-                    >
-                      <div
+    <section className={mainSection}>
+      <div className={sectionBgClassName}>
+        <BackgroundImage
+          imageUrl={sectionBackground.media.imageUrl}
+          parallax={sectionBackground.parallax}
+          blur={sectionBackground.blur}
+          blurEffect={sectionBackground.blurEffect}
+          greyScale={sectionBackground.greyScale}
+          overlay={sectionBackground.overlay}
+          overlayEffect={sectionBackground.overlayEffect}
+          backgroundColor={sectionBackground.color}
+        />
+        <div
+          className={sectionInnerContainer}
+          style={{
+            paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+            paddingBottom: isDesktop
+              ? spacing.bottom.desktop
+              : spacing.bottom.mobile,
+          }}
+        >
+          <div className={containerClassNames}>
+            <SectionHeader
+              content={cardContent}
+              sectionBackground={sectionBackground}
+              align={align}
+              leftTitlePosition={leftTitlePosition}
+              containerClassName={sectionTitleAndSubTitleClassNames}
+            />
+            <div className="md:col-span-2">
+              {displayType === "grid" ? (
+                <div
+                  className={gridClassNames}
+                  style={{
+                    gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
+                  }}
+                >
+                  <AnimatePresence>
+                    {section.content.cards.map((card: any, index: number) => (
+                      <motion.div
+                        layout
+                        initial={{ scale: 0.9, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        transition={{ type: "tween" }}
+                        key={card.id || index}
                         style={{
                           minHeight: isDesktop ? height.desktop : height.mobile,
                           backgroundImage: `url(${card.image})`,
@@ -280,7 +191,6 @@ function Design2({ section, pageId }: DesignProps) {
                             ? spacing.padding.desktop
                             : spacing.padding.mobile,
                         }}
-                        key={index}
                         className={cardClassNames}
                         onClick={(e) => {
                           e.stopPropagation();
@@ -293,6 +203,11 @@ function Design2({ section, pageId }: DesignProps) {
                           className={cn(cardContentClasses, {
                             hidden: !card.title && !card.text && !card.button,
                           })}
+                          style={{
+                            padding: isDesktop
+                              ? `clamp(10px, ${spacing.padding.desktop}px, 20px)`
+                              : `clamp(10px, ${spacing.padding.mobile}px, 20px)`,
+                          }}
                         >
                           <h5
                             className={titleClassName}
@@ -325,14 +240,105 @@ function Design2({ section, pageId }: DesignProps) {
                             />
                           </div>
                         )}
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-              </Carousel>
-            )}
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <Carousel
+                  plugins={autoScrollPlugin}
+                  opts={{
+                    skipSnaps: true,
+                    loop: autoScroll ? true : false,
+                  }}
+                  className="w-full items-stretch"
+                >
+                  <CarouselContent className="items-stretch py-1">
+                    {section.content.cards.map((card: any, index: number) => (
+                      <CarouselItem
+                        className="h-full"
+                        key={card.id || index}
+                        style={{
+                          flexBasis: isDesktop
+                            ? cardSlider.desktopWidth
+                            : cardSlider.mobileWidth,
+                          marginInlineEnd: isDesktop
+                            ? spacing.gap.desktop
+                            : spacing.gap.mobile,
+                          paddingInlineStart: index !== 0 ? 0 : "",
+                        }}
+                      >
+                        <div
+                          style={{
+                            minHeight: isDesktop
+                              ? height.desktop
+                              : height.mobile,
+                            backgroundImage: `url(${card.image})`,
+                            backgroundPosition: "center",
+                            backgroundSize: "cover",
+                            padding: isDesktop
+                              ? spacing.padding.desktop
+                              : spacing.padding.mobile,
+                          }}
+                          key={index}
+                          className={cardClassNames}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch(updateSelectedSection(pageId, section.id));
+                            dispatch(updateSelectedItem(card));
+                            dispatch(closePagesTab());
+                          }}
+                        >
+                          <div
+                            className={cn(cardContentClasses, {
+                              hidden: !card.title && !card.text && !card.button,
+                            })}
+                            style={{
+                              padding: isDesktop
+                                ? `clamp(10px, ${spacing.padding.desktop}px, 20px)`
+                                : `clamp(10px, ${spacing.padding.mobile}px, 20px)`,
+                            }}
+                          >
+                            <h5
+                              className={titleClassName}
+                              style={{ whiteSpace: "pre-line" }}
+                            >
+                              {card.title}
+                            </h5>
+                            <p
+                              className={cn(textOrderClassName, {
+                                hidden: !card.text,
+                              })}
+                              style={{ whiteSpace: "pre-line" }}
+                            >
+                              {card.text}
+                            </p>
+                            {card.button && (
+                              <Button className="order-4 w-full">
+                                {card.button}
+                              </Button>
+                            )}
+                          </div>
+                          {!card.image && (
+                            <div className={imagePlaceholderClassNames}>
+                              <ImagePlaceHolder
+                                fillColor={
+                                  bgMuted || bgPrimary
+                                    ? "fill-muted"
+                                    : "fill-background"
+                                }
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </Carousel>
+              )}
+            </div>
           </div>
         </div>
       </div>

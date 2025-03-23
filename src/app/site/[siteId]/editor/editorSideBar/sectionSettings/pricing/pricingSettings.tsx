@@ -309,27 +309,29 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
               );
             }}
           />
-          <ToggleGroup
-            label="Width"
-            options={[
-              { value: "fill", label: "Fill" },
-              { value: "fit", label: "Fit" },
-            ]}
-            value={pricingStyle.designSettings.sectionBackground.width}
-            onValueChange={(value) => {
-              dispatch(
-                updateStyle(pageId, findSelectedSection?.id!, {
-                  designSettings: {
-                    ...pricingStyle.designSettings!,
-                    sectionBackground: {
-                      ...pricingStyle.designSettings.sectionBackground,
-                      width: value,
+          {pricingStyle.designSettings.sectionBackground.color !== "none" && (
+            <ToggleGroup
+              label="Width"
+              options={[
+                { value: "fill", label: "Fill" },
+                { value: "fit", label: "Fit" },
+              ]}
+              value={pricingStyle.designSettings.sectionBackground.width}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...pricingStyle.designSettings!,
+                      sectionBackground: {
+                        ...pricingStyle.designSettings.sectionBackground,
+                        width: value,
+                      },
                     },
-                  },
-                })
-              );
-            }}
-          />
+                  })
+                );
+              }}
+            />
+          )}
           {pricingStyle.designSettings.sectionBackground.overlay && (
             <ToggleGroup
               label="Overlay"

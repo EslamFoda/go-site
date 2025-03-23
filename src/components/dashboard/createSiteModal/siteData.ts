@@ -140,12 +140,13 @@ export const generateSections = (
           },
         },
         sectionBackground: {
-          color: "none",
+          color: "gray",
           media: {
             imageUrl: "",
             imageId: "",
           },
           textColor: "light",
+          width: "fill",
           height: "fit",
           spacing: "l",
           overlay: false,
@@ -218,13 +219,14 @@ export const generateSections = (
           },
         },
         sectionBackground: {
-          color: "none",
+          color: "primary",
           media: {
             imageUrl: "",
             imageId: "",
           },
           textColor: "light",
           height: "fit",
+          width: "fill",
           spacing: "l",
           overlay: false,
           blur: false,
@@ -294,6 +296,7 @@ export const generateSections = (
           },
           textColor: "light",
           height: "fit",
+          width: "fill",
           spacing: "l",
           overlay: false,
           blur: false,
@@ -341,13 +344,14 @@ export const generateSections = (
           },
         },
         sectionBackground: {
-          color: "none",
+          color: "primary",
           media: {
             imageUrl: "",
             imageId: "",
           },
           textColor: "light",
           height: "fit",
+          width: "fill",
           spacing: "l",
           overlay: false,
           blur: false,
@@ -524,7 +528,7 @@ export const insertSiteData = (
         designSettings: {
           logoColor: "none",
           mobileMenuIcon: "icon-1", // icon-1, icon-2, icon-3
-          width: "fill", // fill , fit
+          width: "fit", // fill , fit
           sticky: false,
           float: false,
           shadow: false,

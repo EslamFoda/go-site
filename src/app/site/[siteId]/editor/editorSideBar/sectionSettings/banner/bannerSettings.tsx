@@ -270,27 +270,29 @@ function BannerSettings({ sections, pageId }: BannerSettingsProps) {
               );
             }}
           />
-          <ToggleGroup
-            label="Width"
-            options={[
-              { value: "fill", label: "Fill" },
-              { value: "fit", label: "Fit" },
-            ]}
-            value={bannerStyle.designSettings.sectionBackground.width}
-            onValueChange={(value) => {
-              dispatch(
-                updateStyle(pageId, findSelectedSection?.id!, {
-                  designSettings: {
-                    ...bannerStyle.designSettings!,
-                    sectionBackground: {
-                      ...bannerStyle.designSettings.sectionBackground,
-                      width: value,
+          {bannerStyle.designSettings.sectionBackground.color !== "none" && (
+            <ToggleGroup
+              label="Width"
+              options={[
+                { value: "fill", label: "Fill" },
+                { value: "fit", label: "Fit" },
+              ]}
+              value={bannerStyle.designSettings.sectionBackground.width}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...bannerStyle.designSettings!,
+                      sectionBackground: {
+                        ...bannerStyle.designSettings.sectionBackground,
+                        width: value,
+                      },
                     },
-                  },
-                })
-              );
-            }}
-          />
+                  })
+                );
+              }}
+            />
+          )}
 
           {bannerStyle.designSettings.sectionBackground.overlay && (
             <ToggleGroup

@@ -437,27 +437,29 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
               );
             }}
           />
-          <ToggleGroup
-            label="Width"
-            options={[
-              { value: "fill", label: "Fill" },
-              { value: "fit", label: "Fit" },
-            ]}
-            value={logosStyle.designSettings.sectionBackground.width}
-            onValueChange={(value) => {
-              dispatch(
-                updateStyle(pageId, findSelectedSection?.id!, {
-                  designSettings: {
-                    ...logosStyle.designSettings!,
-                    sectionBackground: {
-                      ...logosStyle.designSettings.sectionBackground,
-                      width: value,
+          {logosStyle.designSettings.sectionBackground.color !== "none" && (
+            <ToggleGroup
+              label="Width"
+              options={[
+                { value: "fill", label: "Fill" },
+                { value: "fit", label: "Fit" },
+              ]}
+              value={logosStyle.designSettings.sectionBackground.width}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...logosStyle.designSettings!,
+                      sectionBackground: {
+                        ...logosStyle.designSettings.sectionBackground,
+                        width: value,
+                      },
                     },
-                  },
-                })
-              );
-            }}
-          />
+                  })
+                );
+              }}
+            />
+          )}
           {logosStyle.designSettings.sectionBackground.overlay && (
             <ToggleGroup
               label="Overlay"

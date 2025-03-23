@@ -120,154 +120,69 @@ function Design1({ section, pageId }: DesignProps) {
     "justify-start": sectionBackground.align === "start",
     "justify-center": sectionBackground.align === "center",
     "justify-end": sectionBackground.align === "end",
+    "container max-w-container rounded-md": sectionBackground.width === "fit",
+  });
+  const mainSection = cn("flex flex-col overflow-hidden", {
+    "container max-w-container my-4": sectionBackground.width === "fit",
+  });
+
+  const sectionInnerContainer = cn("z-0 gap-10 w-full", {
+    "container max-w-container": sectionBackground.width === "fill",
   });
 
   return (
     <section
-      className={sectionBgClassName}
+      className={mainSection}
       onClick={() => {
-        dispatch(updateSelectedSection(pageId, section.id));
-        dispatch(updateSelectedItem(null));
         dispatch(closeChooseIcon());
       }}
     >
-      <BackgroundImage
-        imageUrl={sectionBackground.media.imageUrl}
-        parallax={sectionBackground.parallax}
-        blur={sectionBackground.blur}
-        blurEffect={sectionBackground.blurEffect}
-        greyScale={sectionBackground.greyScale}
-        overlay={sectionBackground.overlay}
-        overlayEffect={sectionBackground.overlayEffect}
-        backgroundColor={sectionBackground.color}
-      />
-      <div
-        className="container max-w-container z-0 gap-10 w-full"
-        style={{
-          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
-          paddingBottom: isDesktop
-            ? spacing.bottom.desktop
-            : spacing.bottom.mobile,
-        }}
-      >
-        <div className={containerClassNames}>
-          <SectionHeader
-            content={listContent}
-            sectionBackground={sectionBackground}
-            align={align}
-            leftTitlePosition={leftTitlePosition}
-          />
-          <div className="md:col-span-2">
-            {displayType === "grid" ? (
-              <div
-                className={gridClassNames}
-                style={{
-                  gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
-                }}
-              >
-                <AnimatePresence>
-                  {section.content.list.map((listItem: any, index: number) => {
-                    const ListIcon = getPhosphorIcon(listItem.icon);
-                    return (
-                      <motion.div
-                        layout
-                        initial={{ scale: 1, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.8, opacity: 0 }}
-                        transition={{ type: "tween" }}
-                        key={listItem.id || index}
-                        className={listItemClassNames}
-                        style={{
-                          padding: isDesktop
-                            ? spacing.padding.desktop
-                            : spacing.padding.mobile,
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          dispatch(updateSelectedSection(pageId, section.id));
-                          dispatch(updateSelectedItem(listItem));
-                          dispatch(closeChooseIcon());
-                          dispatch(closePagesTab());
-                        }}
-                      >
-                        <div
-                          className={cn(iconContainerClassNames, {
-                            "bg-primary":
-                              iconColor === "primary" && listItem.icon,
-                            "bg-background": !listItem.icon,
-                            "bg-muted":
-                              (bgMuted || bgPrimary || border) &&
-                              !listItem.icon,
-                          })}
-                          style={{
-                            height: height,
-                            width: height,
-                          }}
-                        >
-                          {listItem.icon ? (
-                            <ListIcon
-                              size={height / 2.5}
-                              className="text-primary-foreground"
-                            />
-                          ) : (
-                            <ImagePlaceHolder
-                              fillColor={
-                                border || bgMuted || bgPrimary
-                                  ? "fill-background"
-                                  : "fill-muted"
-                              }
-                              height={height / 2.5}
-                              width={height / 2.5}
-                            />
-                          )}
-                        </div>
-                        <div className={listItemTextClassNames}>
-                          <h5
-                            className={titleClassName}
-                            style={{ whiteSpace: "pre-line" }}
-                          >
-                            {listItem.title}
-                          </h5>
-                          <p
-                            className={texClassName}
-                            style={{ whiteSpace: "pre-line" }}
-                          >
-                            {listItem.text}
-                          </p>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </AnimatePresence>
-              </div>
-            ) : (
-              <Carousel
-                plugins={autoScrollPlugin}
-                opts={{
-                  skipSnaps: true,
-                  loop: autoScroll ? true : false,
-                }}
-                className="w-full"
-              >
-                <CarouselContent className="items-stretch py-1">
-                  {section.content.list.map((listItem: any, index: number) => {
-                    const ListIcon = getPhosphorIcon(listItem.icon);
-                    return (
-                      <CarouselItem
-                        className="h-full"
-                        key={index}
-                        style={{
-                          flexBasis: isDesktop
-                            ? carouselSettings.desktopWidth
-                            : carouselSettings.mobileWidth,
-                          marginInlineEnd: isDesktop
-                            ? spacing.gap.desktop
-                            : spacing.gap.mobile,
-                          paddingInlineStart: index !== 0 ? 0 : "",
-                        }}
-                      >
-                        <div
-                          key={index}
+      <div className={sectionBgClassName}>
+        <BackgroundImage
+          imageUrl={sectionBackground.media.imageUrl}
+          parallax={sectionBackground.parallax}
+          blur={sectionBackground.blur}
+          blurEffect={sectionBackground.blurEffect}
+          greyScale={sectionBackground.greyScale}
+          overlay={sectionBackground.overlay}
+          overlayEffect={sectionBackground.overlayEffect}
+          backgroundColor={sectionBackground.color}
+        />
+        <div
+          className={sectionInnerContainer}
+          style={{
+            paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+            paddingBottom: isDesktop
+              ? spacing.bottom.desktop
+              : spacing.bottom.mobile,
+          }}
+        >
+          <div className={containerClassNames}>
+            <SectionHeader
+              content={listContent}
+              sectionBackground={sectionBackground}
+              align={align}
+              leftTitlePosition={leftTitlePosition}
+            />
+            <div className="md:col-span-2">
+              {displayType === "grid" ? (
+                <div
+                  className={gridClassNames}
+                  style={{
+                    gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
+                  }}
+                >
+                  <AnimatePresence>
+                    {listContent.list.map((listItem, index: number) => {
+                      const ListIcon = getPhosphorIcon(listItem.icon);
+                      return (
+                        <motion.div
+                          layout
+                          initial={{ scale: 1, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.8, opacity: 0 }}
+                          transition={{ type: "tween" }}
+                          key={listItem.id || index}
                           className={listItemClassNames}
                           style={{
                             padding: isDesktop
@@ -299,7 +214,10 @@ function Design1({ section, pageId }: DesignProps) {
                             {listItem.icon ? (
                               <ListIcon
                                 size={height / 2.5}
-                                className="text-primary-foreground"
+                                className={cn({
+                                  "text-primary-foreground":
+                                    iconColor === "primary",
+                                })}
                               />
                             ) : (
                               <ImagePlaceHolder
@@ -327,15 +245,115 @@ function Design1({ section, pageId }: DesignProps) {
                               {listItem.text}
                             </p>
                           </div>
-                        </div>
-                      </CarouselItem>
-                    );
-                  })}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-              </Carousel>
-            )}
+                        </motion.div>
+                      );
+                    })}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <Carousel
+                  plugins={autoScrollPlugin}
+                  opts={{
+                    skipSnaps: true,
+                    loop: autoScroll ? true : false,
+                  }}
+                  className="w-full"
+                >
+                  <CarouselContent className="items-stretch py-1">
+                    {section.content.list.map(
+                      (listItem: any, index: number) => {
+                        const ListIcon = getPhosphorIcon(listItem.icon);
+                        return (
+                          <CarouselItem
+                            className="h-full"
+                            key={index}
+                            style={{
+                              flexBasis: isDesktop
+                                ? carouselSettings.desktopWidth
+                                : carouselSettings.mobileWidth,
+                              marginInlineEnd: isDesktop
+                                ? spacing.gap.desktop
+                                : spacing.gap.mobile,
+                              paddingInlineStart: index !== 0 ? 0 : "",
+                            }}
+                          >
+                            <div
+                              key={index}
+                              className={listItemClassNames}
+                              style={{
+                                padding: isDesktop
+                                  ? spacing.padding.desktop
+                                  : spacing.padding.mobile,
+                              }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                dispatch(
+                                  updateSelectedSection(pageId, section.id)
+                                );
+                                dispatch(updateSelectedItem(listItem));
+                                dispatch(closeChooseIcon());
+                                dispatch(closePagesTab());
+                              }}
+                            >
+                              <div
+                                className={cn(iconContainerClassNames, {
+                                  "bg-primary":
+                                    iconColor === "primary" && listItem.icon,
+                                  "bg-background": !listItem.icon,
+                                  "bg-muted":
+                                    (bgMuted || bgPrimary || border) &&
+                                    !listItem.icon,
+                                })}
+                                style={{
+                                  height: height,
+                                  width: height,
+                                }}
+                              >
+                                {listItem.icon ? (
+                                  <ListIcon
+                                    size={height / 2.5}
+                                    className={cn({
+                                      "text-primary-foreground":
+                                        iconColor === "primary",
+                                    })}
+                                  />
+                                ) : (
+                                  <ImagePlaceHolder
+                                    fillColor={
+                                      border || bgMuted || bgPrimary
+                                        ? "fill-background"
+                                        : "fill-muted"
+                                    }
+                                    height={height / 2.5}
+                                    width={height / 2.5}
+                                  />
+                                )}
+                              </div>
+                              <div className={listItemTextClassNames}>
+                                <h5
+                                  className={titleClassName}
+                                  style={{ whiteSpace: "pre-line" }}
+                                >
+                                  {listItem.title}
+                                </h5>
+                                <p
+                                  className={texClassName}
+                                  style={{ whiteSpace: "pre-line" }}
+                                >
+                                  {listItem.text}
+                                </p>
+                              </div>
+                            </div>
+                          </CarouselItem>
+                        );
+                      }
+                    )}
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </Carousel>
+              )}
+            </div>
           </div>
         </div>
       </div>

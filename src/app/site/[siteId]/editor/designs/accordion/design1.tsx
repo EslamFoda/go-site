@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/accordion";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
-  closeChooseIcon,
   closePagesTab,
   updateSelectedItem,
   updateSelectedSection,
@@ -53,7 +52,13 @@ function Design1({ section, pageId }: DesignProps) {
       leftTitlePosition,
   });
 
-  const sectionBgClassName = cn(" flex flex-col relative overflow-hidden", {
+  const accordionItemClassNames = cn("p-5 py-2 rounded-md", {
+    "bg-muted": background,
+    "outline outline-[1px] outline-muted": border,
+    "bg-background": bgMuted || bgPrimary,
+  });
+
+  const sectionBgClassName = cn("flex flex-col relative overflow-hidden", {
     "bg-primary": sectionBackground.color === "primary",
     "bg-muted": sectionBackground.color === "gray",
     "bg-background": sectionBackground.color === "none",
@@ -62,94 +67,93 @@ function Design1({ section, pageId }: DesignProps) {
     "justify-start": sectionBackground.align === "start",
     "justify-center": sectionBackground.align === "center",
     "justify-end": sectionBackground.align === "end",
+    "container max-w-container rounded-md": sectionBackground.width === "fit",
+  });
+  const mainSection = cn("flex flex-col overflow-hidden", {
+    "container max-w-container my-4": sectionBackground.width === "fit",
   });
 
-  const accordionItemClassNames = cn("p-5 py-2 rounded-md", {
-    "bg-muted": background,
-    "outline outline-[1px] outline-muted": border,
-    "bg-background": bgMuted || bgPrimary,
+  const sectionInnerContainer = cn("z-0 gap-10 w-full", {
+    "container max-w-container": sectionBackground.width === "fill",
   });
 
   return (
-    <section
-      className={sectionBgClassName}
-      onClick={() => {
-        dispatch(updateSelectedSection(pageId, section.id));
-        dispatch(updateSelectedItem(null));
-        dispatch(closeChooseIcon());
-      }}
-    >
-      <BackgroundImage
-        imageUrl={sectionBackground.media.imageUrl}
-        parallax={sectionBackground.parallax}
-        blur={sectionBackground.blur}
-        blurEffect={sectionBackground.blurEffect}
-        greyScale={sectionBackground.greyScale}
-        overlay={sectionBackground.overlay}
-        overlayEffect={sectionBackground.overlayEffect}
-        backgroundColor={sectionBackground.color}
-      />
-      <div
-        className="container max-w-container gap-10 z-0 w-full"
-        style={{
-          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
-          paddingBottom: isDesktop
-            ? spacing.bottom.desktop
-            : spacing.bottom.mobile,
-        }}
-      >
-        <div className={containerClassNames}>
-          <SectionHeader
-            content={accordionContent}
-            sectionBackground={sectionBackground}
-            align={align}
-            leftTitlePosition={leftTitlePosition}
-          />
-          <div className="md:col-span-2">
-            <Accordion
-              type="multiple"
-              className="w-full flex flex-col"
-              style={{
-                gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
-              }}
-            >
-              <AnimatePresence>
-                {accordionContent.accordions.map((accordion: AccordionType) => (
-                  <motion.div
-                    layout
-                    initial={{ scale: 1, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    exit={{ scale: 0.8, opacity: 0 }}
-                    transition={{ type: "tween" }}
-                    key={accordion.id}
-                  >
-                    <AccordionItem
-                      className={accordionItemClassNames}
-                      key={accordion.id}
-                      value={accordion.id}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        dispatch(updateSelectedSection(pageId, section.id));
-                        dispatch(updateSelectedItem(accordion));
-                        dispatch(closePagesTab());
-                      }}
-                    >
-                      <AccordionTrigger iconType={icon}>
-                        <span>{accordion.title}</span>
-                      </AccordionTrigger>
-                      <AccordionContent>
-                        <span
-                          className="text-muted-foreground"
-                          style={{ whiteSpace: "pre-line" }}
+    <section className={mainSection}>
+      <div className={sectionBgClassName}>
+        <BackgroundImage
+          imageUrl={sectionBackground.media.imageUrl}
+          parallax={sectionBackground.parallax}
+          blur={sectionBackground.blur}
+          blurEffect={sectionBackground.blurEffect}
+          greyScale={sectionBackground.greyScale}
+          overlay={sectionBackground.overlay}
+          overlayEffect={sectionBackground.overlayEffect}
+          backgroundColor={sectionBackground.color}
+        />
+        <div
+          className={sectionInnerContainer}
+          style={{
+            paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+            paddingBottom: isDesktop
+              ? spacing.bottom.desktop
+              : spacing.bottom.mobile,
+          }}
+        >
+          <div className={containerClassNames}>
+            <SectionHeader
+              content={accordionContent}
+              sectionBackground={sectionBackground}
+              align={align}
+              leftTitlePosition={leftTitlePosition}
+            />
+            <div className="md:col-span-2">
+              <Accordion
+                type="multiple"
+                className="w-full flex flex-col"
+                style={{
+                  gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
+                }}
+              >
+                <AnimatePresence>
+                  {accordionContent.accordions.map(
+                    (accordion: AccordionType) => (
+                      <motion.div
+                        layout
+                        initial={{ scale: 1, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        transition={{ type: "tween" }}
+                        key={accordion.id}
+                      >
+                        <AccordionItem
+                          className={accordionItemClassNames}
+                          key={accordion.id}
+                          value={accordion.id}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch(updateSelectedSection(pageId, section.id));
+                            dispatch(updateSelectedItem(accordion));
+                            dispatch(closePagesTab());
+                          }}
                         >
-                          {accordion.text}
-                        </span>
-                      </AccordionContent>
-                    </AccordionItem>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </Accordion>
+                          <AccordionTrigger iconType={icon}>
+                            <span>{accordion.title}</span>
+                          </AccordionTrigger>
+                          <AccordionContent>
+                            <span
+                              className="text-muted-foreground"
+                              style={{ whiteSpace: "pre-line" }}
+                            >
+                              {accordion.text}
+                            </span>
+                          </AccordionContent>
+                        </AccordionItem>
+                      </motion.div>
+                    )
+                  )}
+                </AnimatePresence>
+              </Accordion>
+            </div>
           </div>
         </div>
       </div>

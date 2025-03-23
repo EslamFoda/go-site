@@ -101,146 +101,74 @@ function Design1({ section, pageId }: DesignProps) {
       "md:grid-cols-3 grid-cols-1 gap-4 md:space-y-0 space-y-4"
   );
 
-  const sectionBgClassName = cn(
-    " flex flex-col relative overflow-hidden",
-    sectionBackground.color === "primary" && "bg-primary",
-    sectionBackground.color === "gray" && "bg-muted",
-    sectionBackground.color === "none" && "bg-background",
-    sectionBackground.height === "fill" && "min-h-screen",
-    sectionBackground.height === "fit" && "h-auto",
-    sectionBackground.align === "start" && "justify-start",
-    sectionBackground.align === "center" && "justify-center",
-    sectionBackground.align === "end" && "justify-end"
-  );
+  const sectionBgClassName = cn("flex flex-col relative overflow-hidden", {
+    "bg-primary": sectionBackground.color === "primary",
+    "bg-muted": sectionBackground.color === "gray",
+    "bg-background": sectionBackground.color === "none",
+    "min-h-screen": sectionBackground.height === "fill",
+    "h-auto": sectionBackground.height === "fit",
+    "justify-start": sectionBackground.align === "start",
+    "justify-center": sectionBackground.align === "center",
+    "justify-end": sectionBackground.align === "end",
+    "container max-w-container rounded-md": sectionBackground.width === "fit",
+  });
+  const mainSection = cn("flex flex-col overflow-hidden", {
+    "container max-w-container my-4": sectionBackground.width === "fit",
+  });
+
+  const sectionInnerContainer = cn("z-0 gap-10 w-full", {
+    "container max-w-container": sectionBackground.width === "fill",
+  });
 
   return (
-    <section
-      className={sectionBgClassName}
-      onClick={() => {
-        dispatch(updateSelectedSection(pageId, section.id));
-        dispatch(updateSelectedItem(null));
-      }}
-    >
-      <BackgroundImage
-        imageUrl={sectionBackground.media.imageUrl}
-        parallax={sectionBackground.parallax}
-        blur={sectionBackground.blur}
-        blurEffect={sectionBackground.blurEffect}
-        greyScale={sectionBackground.greyScale}
-        overlay={sectionBackground.overlay}
-        overlayEffect={sectionBackground.overlayEffect}
-        backgroundColor={sectionBackground.color}
-      />
-      <div
-        className="container max-w-container z-0 gap-10 w-full"
-        style={{
-          paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
-          paddingBottom: isDesktop
-            ? spacing.bottom.desktop
-            : spacing.bottom.mobile,
-        }}
-      >
-        <div className={containerClassNames}>
-          <SectionHeader
-            content={logoContent}
-            sectionBackground={sectionBackground}
-            align={align}
-            leftTitlePosition={leftTitlePosition}
-          />
-          <div className="md:col-span-2">
-            {displayType === "grid" ? (
-              <div
-                className={gridClassNames}
-                style={{
-                  gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
-                }}
-              >
-                <AnimatePresence>
-                  {logoContent.logos.map((logo: Logo, index: number) => (
-                    <motion.div
-                      layout
-                      initial={{ scale: 1, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      exit={{ scale: 0.8, opacity: 0 }}
-                      transition={{ type: "tween" }}
-                      style={{
-                        minHeight: isDesktop ? height.desktop : height.mobile,
-                      }}
-                      key={logo.id || index} // Ensure this key is unique and stable
-                      className={cardClassNames}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        dispatch(updateSelectedSection(pageId, section.id));
-                        dispatch(updateSelectedItem(logo));
-                        dispatch(closePagesTab());
-                      }}
-                    >
-                      <div
-                        className="absolute top-0 right-0"
-                        style={{
-                          transform: `scale(${
-                            isDesktop ? logo.size.desktop : logo.size.mobile
-                          })`,
-                          backgroundSize: "contain",
-                          backgroundPosition: "center",
-                          backgroundRepeat: "no-repeat",
-                          width: "100%",
-                          height: "100%",
-                          backgroundImage: `url(${
-                            theme === "dark"
-                              ? logo.urlDark || logo.urlLight
-                              : logo.urlLight || logo.urlDark
-                          })`,
-                        }}
-                      ></div>
-                      {!logo.urlDark && !logo.urlLight && (
-                        <div className={imagePlaceholderClassNames}>
-                          <ImagePlaceHolder
-                            height={30}
-                            width={30}
-                            fillColor={
-                              background && !bgMuted
-                                ? "fill-background"
-                                : !background && bgMuted
-                                ? "fill-background"
-                                : "fill-muted"
-                            }
-                          />
-                        </div>
-                      )}
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-              </div>
-            ) : (
-              <Carousel
-                plugins={autoScrollPlugin}
-                opts={{
-                  skipSnaps: true,
-                  loop: autoScroll ? true : false,
-                }}
-                className="w-full"
-              >
-                <CarouselContent className="items-stretch">
-                  {logoContent.logos.map((logo: Logo, index: number) => (
-                    <CarouselItem
-                      className="h-full"
-                      key={logo.id || index} // Ensure this key is unique and stable
-                      style={{
-                        flexBasis: isDesktop
-                          ? carouselSettings.desktopWidth
-                          : carouselSettings.mobileWidth,
-                        marginInlineEnd: isDesktop
-                          ? spacing.gap.desktop
-                          : spacing.gap.mobile,
-                        paddingInlineStart: index !== 0 ? 0 : "",
-                      }}
-                    >
-                      <div
+    <section className={mainSection}>
+      <div className={sectionBgClassName}>
+        <BackgroundImage
+          imageUrl={sectionBackground.media.imageUrl}
+          parallax={sectionBackground.parallax}
+          blur={sectionBackground.blur}
+          blurEffect={sectionBackground.blurEffect}
+          greyScale={sectionBackground.greyScale}
+          overlay={sectionBackground.overlay}
+          overlayEffect={sectionBackground.overlayEffect}
+          backgroundColor={sectionBackground.color}
+        />
+        <div
+          className={sectionInnerContainer}
+          style={{
+            paddingTop: isDesktop ? spacing.top.desktop : spacing.top.mobile,
+            paddingBottom: isDesktop
+              ? spacing.bottom.desktop
+              : spacing.bottom.mobile,
+          }}
+        >
+          <div className={containerClassNames}>
+            <SectionHeader
+              content={logoContent}
+              sectionBackground={sectionBackground}
+              align={align}
+              leftTitlePosition={leftTitlePosition}
+            />
+            <div className="md:col-span-2">
+              {displayType === "grid" ? (
+                <div
+                  className={gridClassNames}
+                  style={{
+                    gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
+                  }}
+                >
+                  <AnimatePresence>
+                    {logoContent.logos.map((logo: Logo, index: number) => (
+                      <motion.div
+                        layout
+                        initial={{ scale: 1, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        transition={{ type: "tween" }}
                         style={{
                           minHeight: isDesktop ? height.desktop : height.mobile,
                         }}
-                        key={index}
+                        key={logo.id || index} // Ensure this key is unique and stable
                         className={cardClassNames}
                         onClick={(e) => {
                           e.stopPropagation();
@@ -267,7 +195,7 @@ function Design1({ section, pageId }: DesignProps) {
                             })`,
                           }}
                         ></div>
-                        {!logo.urlDark && (
+                        {!logo.urlDark && !logo.urlLight && (
                           <div className={imagePlaceholderClassNames}>
                             <ImagePlaceHolder
                               height={30}
@@ -282,14 +210,91 @@ function Design1({ section, pageId }: DesignProps) {
                             />
                           </div>
                         )}
-                      </div>
-                    </CarouselItem>
-                  ))}
-                </CarouselContent>
-                <CarouselPrevious />
-                <CarouselNext />
-              </Carousel>
-            )}
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <Carousel
+                  plugins={autoScrollPlugin}
+                  opts={{
+                    skipSnaps: true,
+                    loop: autoScroll ? true : false,
+                  }}
+                  className="w-full"
+                >
+                  <CarouselContent className="items-stretch">
+                    {logoContent.logos.map((logo: Logo, index: number) => (
+                      <CarouselItem
+                        className="h-full"
+                        key={logo.id || index} // Ensure this key is unique and stable
+                        style={{
+                          flexBasis: isDesktop
+                            ? carouselSettings.desktopWidth
+                            : carouselSettings.mobileWidth,
+                          marginInlineEnd: isDesktop
+                            ? spacing.gap.desktop
+                            : spacing.gap.mobile,
+                          paddingInlineStart: index !== 0 ? 0 : "",
+                        }}
+                      >
+                        <div
+                          style={{
+                            minHeight: isDesktop
+                              ? height.desktop
+                              : height.mobile,
+                          }}
+                          key={index}
+                          className={cardClassNames}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch(updateSelectedSection(pageId, section.id));
+                            dispatch(updateSelectedItem(logo));
+                            dispatch(closePagesTab());
+                          }}
+                        >
+                          <div
+                            className="absolute top-0 right-0"
+                            style={{
+                              transform: `scale(${
+                                isDesktop ? logo.size.desktop : logo.size.mobile
+                              })`,
+                              backgroundSize: "contain",
+                              backgroundPosition: "center",
+                              backgroundRepeat: "no-repeat",
+                              width: "100%",
+                              height: "100%",
+                              backgroundImage: `url(${
+                                theme === "dark"
+                                  ? logo.urlDark || logo.urlLight
+                                  : logo.urlLight || logo.urlDark
+                              })`,
+                            }}
+                          ></div>
+                          {!logo.urlDark && (
+                            <div className={imagePlaceholderClassNames}>
+                              <ImagePlaceHolder
+                                height={30}
+                                width={30}
+                                fillColor={
+                                  background && !bgMuted
+                                    ? "fill-background"
+                                    : !background && bgMuted
+                                    ? "fill-background"
+                                    : "fill-muted"
+                                }
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </Carousel>
+              )}
+            </div>
           </div>
         </div>
       </div>

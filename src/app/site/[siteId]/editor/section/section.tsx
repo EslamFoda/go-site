@@ -17,6 +17,8 @@ import {
   closeHeaderOptions,
   closeSectionDesigns,
   updateSectionIndex,
+  updateSelectedItem,
+  updateSelectedSection,
 } from "@/reduxStore/action";
 import ControlButtons from "./controlButtons";
 import {
@@ -173,7 +175,13 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                     </HoverCardContent>
                     <HoverCardTrigger>
                       <ParallaxProvider>
-                        <div onClick={() => dispatch(closeSectionDesigns())}>
+                        <div
+                          onClick={() => {
+                            dispatch(closeSectionDesigns());
+                            dispatch(updateSelectedSection(pageId, section.id));
+                            dispatch(updateSelectedItem(null));
+                          }}
+                        >
                           <SectionComponent
                             key={section.id}
                             section={section}

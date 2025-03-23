@@ -1,7 +1,6 @@
 import { ImagePlaceHolder, VideoPlaceHolder } from "@/icons/common";
 import { cn } from "@/lib/utils";
-import { updateSelectedSection } from "@/reduxStore/action";
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { useAppSelector } from "@/reduxStore/hooks";
 import React, { useRef, useState } from "react";
 import BannerButtons from "./bannerButtons";
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
@@ -19,7 +18,6 @@ interface Design5Props {
   sectionIndex: number;
 }
 function Design5({ section, pageId, sectionIndex }: Design5Props) {
-  const dispatch = useAppDispatch();
   const { globalSections } = useAppSelector((state) => state.editor.present);
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const globalHeader = globalSections.find(
@@ -344,12 +342,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
     );
   };
   return (
-    <section
-      className={mainSectionClassName}
-      onClick={() => {
-        dispatch(updateSelectedSection(pageId, section.id));
-      }}
-    >
+    <section className={mainSectionClassName}>
       <div className={sectionBgClassName}>
         <BackgroundImage
           imageUrl={sectionBackground.media.imageUrl}

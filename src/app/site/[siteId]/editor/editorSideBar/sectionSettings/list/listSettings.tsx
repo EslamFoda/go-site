@@ -359,27 +359,29 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
               );
             }}
           />
-          <ToggleGroup
-            label="Width"
-            options={[
-              { value: "fill", label: "Fill" },
-              { value: "fit", label: "Fit" },
-            ]}
-            value={listStyle.designSettings.sectionBackground.width}
-            onValueChange={(value) => {
-              dispatch(
-                updateStyle(pageId, findSelectedSection?.id!, {
-                  designSettings: {
-                    ...listStyle.designSettings!,
-                    sectionBackground: {
-                      ...listStyle.designSettings.sectionBackground,
-                      width: value,
+          {listStyle.designSettings.sectionBackground.color !== "none" && (
+            <ToggleGroup
+              label="Width"
+              options={[
+                { value: "fill", label: "Fill" },
+                { value: "fit", label: "Fit" },
+              ]}
+              value={listStyle.designSettings.sectionBackground.width}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...listStyle.designSettings!,
+                      sectionBackground: {
+                        ...listStyle.designSettings.sectionBackground,
+                        width: value,
+                      },
                     },
-                  },
-                })
-              );
-            }}
-          />
+                  })
+                );
+              }}
+            />
+          )}
           {listStyle.designSettings.sectionBackground.overlay && (
             <ToggleGroup
               label="Overlay"

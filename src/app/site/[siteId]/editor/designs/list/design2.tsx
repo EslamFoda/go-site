@@ -138,8 +138,6 @@ function Design2({ section, pageId }: DesignProps) {
     <section
       className={mainSection}
       onClick={() => {
-        dispatch(updateSelectedSection(pageId, section.id));
-        dispatch(updateSelectedItem(null));
         dispatch(closeChooseIcon());
       }}
     >
@@ -237,7 +235,10 @@ function Design2({ section, pageId }: DesignProps) {
                               {listItem.icon ? (
                                 <ListIcon
                                   size={height / 2.5}
-                                  className="text-primary-foreground"
+                                  className={cn({
+                                    "text-primary-foreground":
+                                      iconColor === "primary",
+                                  })}
                                 />
                               ) : (
                                 <ImagePlaceHolder
@@ -333,7 +334,10 @@ function Design2({ section, pageId }: DesignProps) {
                                 {listItem.icon ? (
                                   <ListIcon
                                     size={height / 2.5}
-                                    className="text-primary-foreground"
+                                    className={cn({
+                                      "text-primary-foreground":
+                                        iconColor === "primary",
+                                    })}
                                   />
                                 ) : (
                                   <ImagePlaceHolder

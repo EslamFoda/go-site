@@ -354,27 +354,30 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
               );
             }}
           />
-          <ToggleGroup
-            label="Width"
-            options={[
-              { value: "fill", label: "Fill" },
-              { value: "fit", label: "Fit" },
-            ]}
-            value={TestimonialsStyle.designSettings.sectionBackground.width}
-            onValueChange={(value) => {
-              dispatch(
-                updateStyle(pageId, findSelectedSection?.id!, {
-                  designSettings: {
-                    ...TestimonialsStyle.designSettings!,
-                    sectionBackground: {
-                      ...TestimonialsStyle.designSettings.sectionBackground,
-                      width: value,
+          {TestimonialsStyle.designSettings.sectionBackground.color !==
+            "none" && (
+            <ToggleGroup
+              label="Width"
+              options={[
+                { value: "fill", label: "Fill" },
+                { value: "fit", label: "Fit" },
+              ]}
+              value={TestimonialsStyle.designSettings.sectionBackground.width}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...TestimonialsStyle.designSettings!,
+                      sectionBackground: {
+                        ...TestimonialsStyle.designSettings.sectionBackground,
+                        width: value,
+                      },
                     },
-                  },
-                })
-              );
-            }}
-          />
+                  })
+                );
+              }}
+            />
+          )}
           {TestimonialsStyle.designSettings.sectionBackground.overlay && (
             <ToggleGroup
               label="Overlay"

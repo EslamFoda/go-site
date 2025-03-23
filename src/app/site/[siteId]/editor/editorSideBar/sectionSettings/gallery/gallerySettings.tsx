@@ -287,27 +287,29 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
               );
             }}
           />
-          <ToggleGroup
-            label="Width"
-            options={[
-              { value: "fill", label: "Fill" },
-              { value: "fit", label: "Fit" },
-            ]}
-            value={galleryStyle.designSettings.sectionBackground.width}
-            onValueChange={(value) => {
-              dispatch(
-                updateStyle(pageId, findSelectedSection?.id!, {
-                  designSettings: {
-                    ...galleryStyle.designSettings!,
-                    sectionBackground: {
-                      ...galleryStyle.designSettings.sectionBackground,
-                      width: value,
+          {galleryStyle.designSettings.sectionBackground.color !== "none" && (
+            <ToggleGroup
+              label="Width"
+              options={[
+                { value: "fill", label: "Fill" },
+                { value: "fit", label: "Fit" },
+              ]}
+              value={galleryStyle.designSettings.sectionBackground.width}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...galleryStyle.designSettings!,
+                      sectionBackground: {
+                        ...galleryStyle.designSettings.sectionBackground,
+                        width: value,
+                      },
                     },
-                  },
-                })
-              );
-            }}
-          />
+                  })
+                );
+              }}
+            />
+          )}
           {galleryStyle.designSettings.sectionBackground.overlay && (
             <ToggleGroup
               label="Overlay"

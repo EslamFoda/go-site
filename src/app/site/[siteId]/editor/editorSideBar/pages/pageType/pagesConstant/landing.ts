@@ -47,7 +47,7 @@ export const landing = [
             sectionBackground: {
               color: "gray",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -189,6 +189,7 @@ export const landing = [
               color: "gray",
               media: "",
               height: "fit",
+              width: "fill",
               spacing: "l",
             },
           },
@@ -278,7 +279,7 @@ export const landing = [
             sectionBackground: {
               color: "none",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -419,7 +420,7 @@ export const landing = [
             sectionBackground: {
               color: "none",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -568,7 +569,7 @@ export const landing = [
             sectionBackground: {
               color: "none",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -702,7 +703,7 @@ export const landing = [
             leftTitlePosition: false,
             sectionBackground: {
               color: "gray",
-              media: "",
+              media: "", width: "fill",
               height: "fit",
               spacing: "l",
             },
@@ -778,7 +779,7 @@ export const landing = [
               align: "center",
               color: "primary",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -931,7 +932,7 @@ export const landing = [
             sectionBackground: {
               color: "gray",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -1084,7 +1085,7 @@ export const landing = [
             leftTitlePosition: false,
             sectionBackground: {
               color: "none",
-              media: "",
+              media: "", width: "fill",
               height: "fit",
               spacing: "l",
             },
@@ -1183,7 +1184,7 @@ export const landing = [
             sectionBackground: {
               color: "none",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -1332,7 +1333,7 @@ export const landing = [
             sectionBackground: {
               color: "none",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -1481,7 +1482,7 @@ export const landing = [
             sectionBackground: {
               color: "none",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -1629,7 +1630,7 @@ export const landing = [
             leftTitlePosition: true,
             sectionBackground: {
               color: "gray",
-              media: "",
+              media: "", width: "fill",
               height: "fit",
               spacing: "l",
             },
@@ -1706,7 +1707,7 @@ export const landing = [
             sectionBackground: {
               align: "center",
               color: "none",
-              media: "",
+              media: "", width: "fill",
               height: "fit",
               spacing: "l",
             },
@@ -1780,7 +1781,7 @@ export const landing = [
             sectionBackground: {
               color: "primary",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -1933,7 +1934,7 @@ export const landing = [
             sectionBackground: {
               color: "primary",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -2081,7 +2082,7 @@ export const landing = [
             sectionBackground: {
               color: "none",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -2231,7 +2232,7 @@ export const landing = [
             sectionBackground: {
               color: "gray",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -2381,7 +2382,7 @@ export const landing = [
             sectionBackground: {
               color: "none",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -2532,7 +2533,7 @@ export const landing = [
             sectionBackground: {
               color: "gray",
               media: "",
-              height: "fit",
+              height: "fit", width: "fill",
               spacing: "l",
             },
           },
@@ -2618,7 +2619,7 @@ export const landing = [
             sectionBackground: {
               color: "none",
               media: "",
-              height: "fit",
+              height: "fit", width: "fill",
               spacing: "l",
             },
           },
@@ -2840,7 +2841,7 @@ export const landing = [
             sectionBackground: {
               color: "gray",
               media: "",
-              height: "fit",
+              height: "fit", width: "fill",
               spacing: "l",
             },
           },
@@ -2895,7 +2896,7 @@ export const landing = [
             leftTitlePosition: true,
             sectionBackground: {
               color: "none",
-              media: "",
+              media: "", width: "fill",
               height: "fit",
               spacing: "l",
             },
@@ -2969,7 +2970,7 @@ export const landing = [
             sectionBackground: {
               color: "primary",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -3122,7 +3123,7 @@ export const landing = [
             sectionBackground: {
               color: "primary",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -3271,7 +3272,7 @@ export const landing = [
             sectionBackground: {
               color: "none",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -3467,7 +3468,7 @@ export const landing = [
               },
               textColor: "light",
               height: "fit",
-              spacing: "l",
+              spacing: "l", width: "fill",
               overlay: false,
               blur: false,
               greyScale: false,
@@ -3522,7 +3523,7 @@ export const landing = [
             sectionBackground: {
               color: "none",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },
@@ -3655,7 +3656,7 @@ export const landing = [
             sectionBackground: {
               color: "gray",
               media: "",
-              height: "fit",
+              height: "fit", width: "fill",
               spacing: "l",
             },
           },
@@ -3922,6 +3923,7 @@ export const landing = [
             sectionBackground: {
               color: "none",
               media: "",
+              width: "fill",
               height: "fit",
               spacing: "l",
             },
@@ -3996,7 +3998,7 @@ export const landing = [
             sectionBackground: {
               color: "primary",
               media: "",
-              width: "100%",
+              width: "fill",
               height: "fit",
               spacing: "xl",
             },

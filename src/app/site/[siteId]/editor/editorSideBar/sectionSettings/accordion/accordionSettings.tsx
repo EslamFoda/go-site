@@ -289,28 +289,31 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
                 })
               );
             }}
-          />{" "}
-          <ToggleGroup
-            label="Width"
-            options={[
-              { value: "fill", label: "Fill" },
-              { value: "fit", label: "Fit" },
-            ]}
-            value={accordionStyle.designSettings.sectionBackground.width}
-            onValueChange={(value) => {
-              dispatch(
-                updateStyle(pageId, findSelectedSection?.id!, {
-                  designSettings: {
-                    ...accordionStyle.designSettings!,
-                    sectionBackground: {
-                      ...accordionStyle.designSettings.sectionBackground,
-                      width: value,
-                    },
-                  },
-                })
-              );
-            }}
           />
+
+          {accordionStyle.designSettings.sectionBackground.color !== "none" && (
+            <ToggleGroup
+              label="Width"
+              options={[
+                { value: "fill", label: "Fill" },
+                { value: "fit", label: "Fit" },
+              ]}
+              value={accordionStyle.designSettings.sectionBackground.width}
+              onValueChange={(value) => {
+                dispatch(
+                  updateStyle(pageId, findSelectedSection?.id!, {
+                    designSettings: {
+                      ...accordionStyle.designSettings!,
+                      sectionBackground: {
+                        ...accordionStyle.designSettings.sectionBackground,
+                        width: value,
+                      },
+                    },
+                  })
+                );
+              }}
+            />
+          )}
           {accordionStyle.designSettings.sectionBackground.overlay && (
             <ToggleGroup
               label="Overlay"

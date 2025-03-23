@@ -1,7 +1,6 @@
 import { ImagePlaceHolder, VideoPlaceHolder } from "@/icons/common";
 import { cn } from "@/lib/utils";
-import { updateSelectedSection } from "@/reduxStore/action";
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { useAppSelector } from "@/reduxStore/hooks";
 import React, { useState, useRef } from "react";
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
 import BannerButtons from "./bannerButtons";
@@ -26,7 +25,6 @@ interface Design1Props {
 }
 
 function Design1({ section, pageId, sectionIndex }: Design1Props) {
-  const dispatch = useAppDispatch();
   const { globalSections } = useAppSelector((state) => state.editor.present);
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const globalHeader = globalSections.find(
@@ -218,9 +216,6 @@ function Design1({ section, pageId, sectionIndex }: Design1Props) {
   });
 
   // Handle click to select this section
-  const handleSectionClick = () => {
-    dispatch(updateSelectedSection(pageId, section.id));
-  };
 
   // Render form fields
   const renderFormFields = () => {
@@ -481,7 +476,7 @@ function Design1({ section, pageId, sectionIndex }: Design1Props) {
   );
 
   return (
-    <section className={mainSectionClassName} onClick={handleSectionClick}>
+    <section className={mainSectionClassName}>
       <div className={sectionBgClassName}>
         <BackgroundImage
           imageUrl={sectionBackground.media.imageUrl}

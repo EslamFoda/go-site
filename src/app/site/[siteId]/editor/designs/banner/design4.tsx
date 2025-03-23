@@ -1,7 +1,6 @@
 import { ImagePlaceHolder, VideoPlaceHolder } from "@/icons/common";
 import { cn } from "@/lib/utils";
-import { updateSelectedSection } from "@/reduxStore/action";
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
+import { useAppSelector } from "@/reduxStore/hooks";
 import { BannerContent, BannerStyle } from "@/types/sectionsTypes/banner";
 import React, { useRef, useState } from "react";
 import BannerButtons from "./bannerButtons";
@@ -19,7 +18,6 @@ interface Design4Props {
   sectionIndex: number;
 }
 function Design4({ section, pageId, sectionIndex }: Design4Props) {
-  const dispatch = useAppDispatch();
   const { globalSections } = useAppSelector((state) => state.editor.present);
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
   const globalHeader = globalSections.find(
@@ -362,12 +360,7 @@ function Design4({ section, pageId, sectionIndex }: Design4Props) {
   };
 
   return (
-    <section
-      className={mainSectionClassName}
-      onClick={() => {
-        dispatch(updateSelectedSection(pageId, section.id));
-      }}
-    >
+    <section className={mainSectionClassName}>
       <div className={sectionBgClassName}>
         <BackgroundImage
           imageUrl={sectionBackground.media.imageUrl}
