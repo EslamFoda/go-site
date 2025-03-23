@@ -87,7 +87,7 @@ function Design3({ section, pageId, sectionIndex }: Design3Props) {
     "items-end text-end": align === "end",
   });
 
-  const subAndButtonClassName = cn("w-full flex space-y-3 flex-col", {
+  const subAndButtonClassName = cn("flex space-y-3 flex-col", {
     "items-start": align === "start",
     "items-center": align === "center",
     "items-end": align === "end",
@@ -395,7 +395,7 @@ function Design3({ section, pageId, sectionIndex }: Design3Props) {
             </div>
             <div
               className={subAndButtonClassName}
-              style={{ width: showImage || showVideo ? "100%" : subtitleWidth }}
+              style={{ width: showImage || showVideo || !isDesktop ? "100%" : subtitleWidth }}
             >
               <p className={subTitleColor} style={{ whiteSpace: "pre-line" }}>
                 {bannerContent?.subtitle}

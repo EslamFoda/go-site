@@ -29,6 +29,7 @@
     --container-padding-sm: 1rem;
     --container-padding-lg: 1rem;
     --container-max-width: 1400px;
+    --medium-grey: 0 0% 80%;
   }
 
   .dark {
@@ -53,6 +54,7 @@
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
     --radius: 0.5rem;
+    --medium-grey: 0 0% 33%;
   }
 
   .dark .default-theme {
@@ -530,5 +532,4 @@
   body {
     @apply bg-background text-foreground;
   }
-  
 }

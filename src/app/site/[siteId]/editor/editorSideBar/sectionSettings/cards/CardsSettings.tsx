@@ -33,6 +33,7 @@ import { Input } from "@/components/ui/input";
 import validator from "validator";
 import { Switch } from "@/components/ui/switch";
 import LinkSelector from "../settingsUi/LinkSelector";
+import { getCSSVariableValueByClassName } from "@/helper";
 
 interface CardsSettingsProps {
   sections:
@@ -47,13 +48,22 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
 
   const dispatch = useAppDispatch();
 
-  const { selectedItem, chooseImage, selectedSection, chooseBgImage, editor } =
-    useAppSelector((state) => state.editor.present);
+  const {
+    selectedItem,
+    chooseImage,
+    selectedSection,
+    chooseBgImage,
+    editor,
+    selectedPallet,
+  } = useAppSelector((state) => state.editor.present);
   const { pages } = editor;
   const findSelectedSection = sections?.find(
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
-
+  const primaryColor = getCSSVariableValueByClassName(
+    "page-container",
+    "--primary"
+  );
   const cardsContent =
     findSelectedSection?.content as SectionContentTypes["cards"];
   const cardStyle = findSelectedSection?.style as SectionStyleTypes["cards"];
@@ -226,6 +236,33 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
               })
             }
           />
+
+          {cardItem.button && (
+            <ToggleGroup
+              label="Color"
+              options={[
+                {
+                  value: "gray",
+                  label: <div className="w-4 h-4 rounded-full bg-muted" />,
+                },
+                {
+                  value: "primary",
+                  label: (
+                    <div
+                      style={
+                        { "--primary": primaryColor } as React.CSSProperties
+                      }
+                      className={`${selectedPallet} w-4 h-4 rounded-full bg-primary`}
+                    />
+                  ),
+                },
+              ]}
+              value={cardItem.buttonColor}
+              onValueChange={(value) => {
+                handleUpdateCardItem({ buttonColor: value });
+              }}
+            />
+          )}
 
           <ToggleGroup
             label="Link Type"

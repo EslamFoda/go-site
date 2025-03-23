@@ -12,11 +12,16 @@ import Accordion from "../../../designs/accordion";
 import Testimonials from "../../../designs/testimonials";
 import { createClient } from "@/utlis/supabase/client";
 import { useRouter } from "next/navigation";
-import { about } from "./pagesConstant/about";
-import { landing } from "./pagesConstant/landing";
 import Pricing from "../../../designs/pricing";
 import Logos from "../../../designs/logos";
 import Gallery from "../../../designs/gallery";
+import { about } from "./pagesConstant/about";
+import { landing } from "./pagesConstant/landing";
+import { services } from "./pagesConstant/services";
+import { portfolio } from "./pagesConstant/portfolio";
+import { pricing } from "./pagesConstant/pricing";
+import { contact } from "./pagesConstant/contact";
+
 interface PageTypeProps {
   pageType: PageTypes;
   setPageType: React.Dispatch<React.SetStateAction<PageTypes>>;
@@ -24,10 +29,20 @@ interface PageTypeProps {
 }
 function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
   const dispatch = useAppDispatch();
+  const { selectedPallet, editor, settings } = useAppSelector(
+    (state) => state.editor.present
+  );
+  const { pages } = editor;
+  const siteId = settings.siteId;
+  const router = useRouter();
 
   const pageMapper = {
     about: about,
     landing: landing,
+    services: services,
+    portfolio: portfolio,
+    pricing: pricing,
+    contact: contact,
   };
   const pageData = pageMapper[pageType as keyof typeof pageMapper];
   const sectionsMapper: { [key: string]: React.ComponentType<any> } = {
@@ -40,12 +55,7 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
     Logos,
     Pricing,
   };
-  const { selectedPallet, editor, settings } = useAppSelector(
-    (state) => state.editor.present
-  );
-  const { pages } = editor;
-  const siteId = settings.siteId;
-  const router = useRouter();
+
   const generateUniqueLink = (baseLink: string) => {
     const matchingPages = pages.filter((page) =>
       page.pageSettings.link.startsWith(baseLink)
@@ -85,8 +95,8 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
       <div className="space-y-7 p-5">
         {pageData.map((page, index) => {
           return (
-            <div key={index} className="bg-muted p-2 rounded-sm">
-              <div className="w-full h-52 overflow-hidden relative">
+            <div key={index} className="bg-muted p-1 rounded-sm">
+              <div className="w-full h-52 bg-background overflow-hidden relative">
                 <div
                   className={`${selectedPallet} page-container overflow-y-auto`}
                   style={{
@@ -114,6 +124,7 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
               <div
                 className="bg-secondary-foreground text-background rounded-sm p-1 flex items-center justify-center cursor-pointer hover:bg-secondary-foreground/80"
                 onClick={() => {
+                  console.log(page,'page')
                   const newPageLink = generateUniqueLink(pageType);
                   const newPage = {
                     pageId: v4(),

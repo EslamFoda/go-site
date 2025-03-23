@@ -384,7 +384,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
               <div className={subAndButtonClassName}>
                 <p
                   style={{
-                    width: showImage || showVideo ? "100%" : subtitleWidth,
+                    width: showImage || showVideo || !isDesktop ? "100%" : subtitleWidth,
                     whiteSpace: "pre-line",
                   }}
                   className={subTitleColor}

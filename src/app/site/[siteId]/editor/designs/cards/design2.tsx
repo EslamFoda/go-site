@@ -224,7 +224,14 @@ function Design2({ section, pageId }: DesignProps) {
                             {card.text}
                           </p>
                           {card.button && (
-                            <Button className="order-4 w-full">
+                            <Button
+                              variant="ghost"
+                              className={cn("order-4 w-full", {
+                                "bg-primary": card.buttonColor === "primary",
+                                "bg-mediumGrey hover:bg-mediumGrey":
+                                  card.buttonColor === "gray",
+                              })}
+                            >
                               {card.button}
                             </Button>
                           )}
@@ -314,7 +321,13 @@ function Design2({ section, pageId }: DesignProps) {
                               {card.text}
                             </p>
                             {card.button && (
-                              <Button className="order-4 w-full">
+                              <Button
+                                className={cn("order-4 w-full", {
+                                  "bg-primary": card.buttonColor === "primary",
+                                  "bg-mediumGrey hover:bg-mediumGrey":
+                                    card.buttonColor === "gray",
+                                })}
+                              >
                                 {card.button}
                               </Button>
                             )}

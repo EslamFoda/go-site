@@ -250,7 +250,13 @@ function Design1({ section, pageId }: DesignProps) {
                           </div>
                         )}
                         {card.button && (
-                          <Button className="order-4 mt-2">
+                          <Button
+                            className={cn("order-4 mt-2", {
+                              "bg-primary": card.buttonColor === "primary",
+                              "bg-mediumGrey hover:bg-mediumGrey text-foreground":
+                                card.buttonColor === "gray",
+                            })}
+                          >
                             {card.button}
                           </Button>
                         )}
@@ -348,7 +354,13 @@ function Design1({ section, pageId }: DesignProps) {
                             </div>
                           )}
                           {card.button && (
-                            <Button className="order-4 mt-2">
+                            <Button
+                              className={cn("order-4 mt-2", {
+                                "bg-primary": card.buttonColor === "primary",
+                                "bg-mediumGrey hover:bg-mediumGrey text-foreground":
+                                  card.buttonColor === "gray",
+                              })}
+                            >
                               {card.button}
                             </Button>
                           )}

@@ -396,7 +396,7 @@ function Design4({ section, pageId, sectionIndex }: Design4Props) {
             </div>
             <div
               className={subAndButtonClassName}
-              style={{ width: showImage || showVideo ? "100%" : subtitleWidth }}
+              style={{ width: showImage || showVideo || !isDesktop ? "100%" : subtitleWidth }}
             >
               <p className={subTitleColor} style={{ whiteSpace: "pre-line" }}>
                 {bannerContent?.subtitle}

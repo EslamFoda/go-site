@@ -51,12 +51,16 @@ function Design1({ pageId, section }: DesignProps) {
   const subTitleClassName = cn({
     "text-primary-foreground": sectionBackground.color === "primary",
     "text-muted-foreground": sectionBackground.color !== "primary",
+    hidden: !pricingContent.subtitle,
     "text-white":
       sectionBackground.textColor === "light" &&
       sectionBackground.media.imageUrl,
     "text-black":
       sectionBackground.textColor === "dark" &&
       sectionBackground.media.imageUrl,
+  });
+  const sectionTitleClassName = cn("text-4xl", {
+    hidden: !pricingContent.title,
   });
 
   const subItemClassNames = cn(
@@ -99,6 +103,14 @@ function Design1({ pageId, section }: DesignProps) {
     "container max-w-container": sectionBackground.width === "fill",
   });
 
+  const pricingHeaderContainer = cn(
+    "flex max-md:flex-col gap-3 items-start justify-center",
+    {
+      "justify-between":
+        pricingContent.title || pricingContent.subtitle || pricingContent.label,
+    }
+  );
+
   useEffect(() => {
     const defaultPlanIndex = pricingContent.subscriptionPlans.findIndex(
       (plan) => plan.default
@@ -131,13 +143,15 @@ function Design1({ pageId, section }: DesignProps) {
           }}
         >
           <div className="space-y-4">
-            <div className="flex max-md:flex-col gap-3 items-start justify-between">
+            <div className={pricingHeaderContainer}>
               <div className={titleContainerClassName}>
                 <DesignLabel
                   text={pricingContent.label}
                   sectionBackground={sectionBackground.color}
                 />
-                <h1 className="text-4xl">{pricingContent.title}</h1>
+                <h1 className={sectionTitleClassName}>
+                  {pricingContent.title}
+                </h1>
                 <p className={subTitleClassName}>{pricingContent.subtitle}</p>
               </div>
               {pricingContent.planType ===

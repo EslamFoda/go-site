@@ -52,7 +52,12 @@ function CardContentTab({
       button: "",
       buttonColor: "gray",
       link: "",
-    };
+      linkType: "internal",
+      externalLink: "",
+      openNewTab: false,
+      imgId: "",
+      pageId: "",
+    } as Card;
     const newItems = [...items, newItem] as Card[];
 
     dispatch(
