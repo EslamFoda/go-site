@@ -37,7 +37,10 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
     "page-container",
     "--primary"
   );
-  const maxWidth = getCSSVariableValueByClassName("page-container", "--container-max-width");
+  const maxWidth = getCSSVariableValueByClassName(
+    "page-container",
+    "--container-max-width"
+  );
   const { pages } = editor;
   const siteId = settings.siteId;
   const router = useRouter();
@@ -98,7 +101,10 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
   return (
     <div>
       <BackBtn label={pageType} handleBack={() => setPageType("")} />
-      <div className="space-y-7 p-5">
+      <div
+        className="space-y-7 px-5 py-2 overflow-y-auto"
+        style={{ height: "calc(92vh - 70px)" }}
+      >
         {pageData.map((page, index) => {
           return (
             <div key={index} className="bg-muted p-1 rounded-sm">
@@ -113,7 +119,7 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
                       aspectRatio: "2 / 1",
                       height: "calc(100% / 0.2)",
                       "--primary": primaryColor,
-                      '--container-max-width': maxWidth
+                      "--container-max-width": maxWidth,
                     } as React.CSSProperties
                   }
                 >

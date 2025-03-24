@@ -156,7 +156,7 @@ function AiThemes() {
 
   return (
     <div
-      className="pb-20 overflow-y-auto"
+      className="overflow-y-auto"
       style={{ height: "calc(92vh - 70px)" }}
     >
       <motion.div
