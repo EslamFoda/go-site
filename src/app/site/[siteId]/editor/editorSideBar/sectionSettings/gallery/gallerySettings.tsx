@@ -66,14 +66,50 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
   const photoItem = selectedItem as Photo;
 
   const handleDeletePhoto = () => {
-    const filterPhotos = galleryContent?.photos?.filter(
-      (photo) => photo.id !== photoItem?.id
+    if (!galleryContent?.photos || !photoItem?.id) return;
+
+    // Filter out the deleted photo
+    const filterPhotos = galleryContent.photos.filter(
+      (photo) => photo.id !== photoItem.id
     );
+
+    // Update content with filtered photos
     dispatch(
-      updateContent(pageId, findSelectedSection.id, {
-        photos: filterPhotos,
-      })
+      updateContent(pageId, findSelectedSection.id, { photos: filterPhotos })
     );
+
+    // Calculate updated grid settings
+    const updatedGrid = {
+      desktop: Math.min(
+        filterPhotos.length,
+        galleryStyle.designSettings.grid.desktop
+      ),
+      mobile: Math.min(
+        filterPhotos.length,
+        galleryStyle.designSettings.grid.mobile
+      ),
+    };
+
+    // Update styles after a brief delay
+    setTimeout(() => {
+      dispatch(
+        updateStyle(pageId, findSelectedSection.id, {
+          designSettings: {
+            ...galleryStyle.designSettings,
+            displayType:
+              filterPhotos.length <= 4
+                ? "grid"
+                : galleryStyle.designSettings.displayType,
+            grid: {
+              ...galleryStyle.designSettings.grid,
+              ...updatedGrid,
+            },
+          },
+        })
+      );
+    }, 600);
+
+    // Clear selected item
     dispatch(updateSelectedItem(null));
   };
 

@@ -235,7 +235,7 @@ const ThemeItem: React.FC<ThemeItemProps> = React.memo(
             <div ref={setRef}></div>
           </div>
           <div className="flex items-center justify-between pt-2">
-            <span className="text-sm">
+            <span className="text-sm capitalize">
               {theme.colorName.replace("theme-", "")}
             </span>
             {isSelected && <Check size={15} />}

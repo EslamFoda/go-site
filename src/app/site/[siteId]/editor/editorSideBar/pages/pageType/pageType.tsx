@@ -21,6 +21,7 @@ import { services } from "./pagesConstant/services";
 import { portfolio } from "./pagesConstant/portfolio";
 import { pricing } from "./pagesConstant/pricing";
 import { contact } from "./pagesConstant/contact";
+import { getCSSVariableValueByClassName } from "@/helper";
 
 interface PageTypeProps {
   pageType: PageTypes;
@@ -32,6 +33,11 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
   const { selectedPallet, editor, settings } = useAppSelector(
     (state) => state.editor.present
   );
+  const primaryColor = getCSSVariableValueByClassName(
+    "page-container",
+    "--primary"
+  );
+  const maxWidth = getCSSVariableValueByClassName("page-container", "--container-max-width");
   const { pages } = editor;
   const siteId = settings.siteId;
   const router = useRouter();
@@ -99,13 +105,17 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
               <div className="w-full h-52 bg-background overflow-hidden relative">
                 <div
                   className={`${selectedPallet} page-container overflow-y-auto`}
-                  style={{
-                    transformOrigin: "0 0",
-                    transform: "scale(0.2)",
-                    width: "calc(100% / 0.2)", // Adjust the width based on the scale factor
-                    aspectRatio: "2 / 1",
-                    height: "calc(100% / 0.2)",
-                  }}
+                  style={
+                    {
+                      transformOrigin: "0 0",
+                      transform: "scale(0.2)",
+                      width: "calc(100% / 0.2)", // Adjust the width based on the scale factor
+                      aspectRatio: "2 / 1",
+                      height: "calc(100% / 0.2)",
+                      "--primary": primaryColor,
+                      '--container-max-width': maxWidth
+                    } as React.CSSProperties
+                  }
                 >
                   {page.sections.map((section) => {
                     const SectionComponent =
@@ -124,7 +134,7 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
               <div
                 className="bg-secondary-foreground text-background rounded-sm p-1 flex items-center justify-center cursor-pointer hover:bg-secondary-foreground/80"
                 onClick={() => {
-                  console.log(page,'page')
+                  console.log(page, "page");
                   const newPageLink = generateUniqueLink(pageType);
                   const newPage = {
                     pageId: v4(),

@@ -10,7 +10,6 @@ import SwitchSetting from "../../settingsUi/SwitchSetting";
 import { Label } from "@/components/ui/label";
 import { ChevronRightIcon } from "lucide-react";
 import { ListContent, ListStyle } from "@/types/sectionsTypes/list";
-import ListLayout from "../../settingsUi/ListLayout";
 import Shape from "../../settingsUi/Shape";
 import ListIconColor from "../../settingsUi/ListIconColor";
 import {
@@ -178,7 +177,15 @@ function ListStyleTab({
           label="Grid"
           isDesktop={isDesktop}
           toggleGridSetting={handleToggleGridSetting}
-          max={isDesktop ? 3 : 2}
+          max={
+            isDesktop
+              ? listContent.list.length < 3
+                ? listContent.list.length
+                : 3
+              : listContent.list.length < 2
+              ? listContent.list.length
+              : 2
+          }
           customText={
             isDesktop
               ? `${listStyle.designSettings.grid.desktop}`

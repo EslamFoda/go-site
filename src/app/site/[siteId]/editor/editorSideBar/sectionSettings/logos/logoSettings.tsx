@@ -79,6 +79,34 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
         logos: filterLogo,
       })
     );
+    const updatedGrid = {
+      desktop: Math.min(
+        filterLogo.length,
+        logosStyle.designSettings.grid.desktop
+      ),
+      mobile: Math.min(
+        filterLogo.length,
+        logosStyle.designSettings.grid.mobile
+      ),
+    };
+
+    setTimeout(() => {
+      dispatch(
+        updateStyle(pageId, findSelectedSection.id, {
+          designSettings: {
+            ...logosStyle.designSettings,
+            displayType:
+              filterLogo.length <= 4
+                ? "grid"
+                : logosStyle.designSettings.displayType,
+            grid: {
+              ...logosStyle.designSettings.grid,
+              ...updatedGrid,
+            },
+          },
+        })
+      );
+    }, 600);
     dispatch(updateSelectedItem(null));
   };
 

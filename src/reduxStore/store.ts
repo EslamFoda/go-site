@@ -41,6 +41,11 @@ import {
   OPEN_HEADER_OPTIONS,
   OPEN_LOGO_SETTINGS,
   TOGGLE_PREVIEW_MODE,
+  ADD_NEW_PAGE,
+  DELETE_PAGE,
+  DUPLICATE_PAGE,
+  UPDATE_EDITOR_SECTIONS,
+  UPDATE_SITE_SETTINGS,
 } from "./actionTypes";
 
 const undoableReducer = undoable(editorReducer, {
@@ -99,6 +104,9 @@ const undoableReducer = undoable(editorReducer, {
       OPEN_HEADER_OPTIONS,
       OPEN_LOGO_SETTINGS,
       TOGGLE_PREVIEW_MODE,
+      ADD_NEW_PAGE,
+      DELETE_PAGE,
+      DUPLICATE_PAGE,
       // ... other existing excluded action types
     ];
 

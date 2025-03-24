@@ -155,7 +155,10 @@ function AiThemes() {
   );
 
   return (
-    <div className="pb-20">
+    <div
+      className="pb-20 overflow-y-auto"
+      style={{ height: "calc(92vh - 70px)" }}
+    >
       <motion.div
         className="grid grid-cols-2 gap-2"
         variants={variants}

@@ -154,11 +154,12 @@ function Design1({ section, pageId }: DesignProps) {
                     {galleryContent.photos.map(
                       (photo: Photo, index: number) => (
                         <motion.div
+                          key={photo.id || index} // Ensure this key is unique and stable
                           layout
                           initial={{ scale: 1, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
                           exit={{ scale: 0.8, opacity: 0 }}
-                          transition={{ type: "tween" }}
+                          transition={{ type: 'keyframes' }}
                           style={{
                             minHeight: isDesktop
                               ? height.desktop
@@ -167,7 +168,6 @@ function Design1({ section, pageId }: DesignProps) {
                             backgroundPosition: "center",
                             backgroundSize: "cover",
                           }}
-                          key={photo.id || index} // Ensure this key is unique and stable
                           className={cardClassNames}
                           onClick={(e) => {
                             e.stopPropagation();

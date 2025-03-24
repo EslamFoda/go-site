@@ -1,18 +1,11 @@
 import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipArrow,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { ActionCreators } from "redux-undo";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { Redo2, Undo2 } from "lucide-react";
 import React from "react";
 
 function UndoAndRedo() {
-  const canUndo = useAppSelector((state) => state.editor.past.length > 1);
+  const canUndo = useAppSelector((state) => state.editor.past.length > 3);
   const canRedo = useAppSelector((state) => state.editor.future.length > 0);
   const dispatch = useAppDispatch();
   const handleUndo = () => {

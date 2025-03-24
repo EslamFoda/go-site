@@ -145,7 +145,15 @@ function TestimonialsStyleTab({
           label="Grid"
           isDesktop={isDesktop}
           toggleGridSetting={handleToggleGridSetting}
-          max={isDesktop ? 3 : 2}
+          max={
+            isDesktop
+              ? testimonialContent.testimonials.length < 3
+                ? testimonialContent.testimonials.length
+                : 3
+              : testimonialContent.testimonials.length < 2
+              ? testimonialContent.testimonials.length
+              : 2
+          }
           customText={
             isDesktop
               ? `${testimonialStyle.designSettings.grid.desktop}`

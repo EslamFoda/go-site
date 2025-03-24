@@ -66,8 +66,8 @@ function Design1({ section, pageId }: DesignProps) {
 
   const reviewClassNames = cn({
     "text-sm": textSize === "s",
-    "text-sm font-semibold": textSize === "m",
-    "text-md font-semibold": textSize === "l",
+    "text-md": textSize === "m",
+    "text-lg": textSize === "l",
   });
 
   const gridClassNames = cn(

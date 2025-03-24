@@ -144,7 +144,15 @@ function CardStyleTab({
           label="Grid"
           isDesktop={isDesktop}
           toggleGridSetting={handleToggleGridSetting}
-          max={isDesktop ? 3 : 2}
+          max={
+            isDesktop
+              ? cardsContent.cards.length < 3
+                ? cardsContent.cards.length
+                : 3
+              : cardsContent.cards.length < 2
+              ? cardsContent.cards.length
+              : 2
+          }
           customText={
             isDesktop
               ? `${cardStyle.designSettings.grid.desktop}`

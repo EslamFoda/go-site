@@ -41,7 +41,7 @@ const ColorPicker: React.FC = () => {
 
   const handleThemeClick = useCallback(
     (key: string) => {
-      dispatch(updateSelectedPallet(key));
+      dispatch(updateSelectedPallet("custom"));
 
       if (key === "default-theme") {
         const pageContainer = document.querySelector(
@@ -109,13 +109,19 @@ const ColorPicker: React.FC = () => {
                     backgroundColor: `hsl(${selectedColor})`,
                   }}
                   color={cssColorToHex(selectedColor)}
-                  onChange={updateColors}
+                  onChange={(color) => {
+                    dispatch(updateSelectedPallet("custom"));
+                    updateColors(color);
+                  }}
                 />
               </PopoverTrigger>
               <PopoverContent align="start" className="border-none w-auto p-0">
                 <HexColorPicker
                   color={cssColorToHex(selectedColor)}
-                  onChange={updateColors}
+                  onChange={(color) => {
+                    dispatch(updateSelectedPallet("custom"));
+                    updateColors(color);
+                  }}
                 />
               </PopoverContent>
             </Popover>

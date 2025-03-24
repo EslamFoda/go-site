@@ -97,6 +97,8 @@ const FontSelector = ({
     },
   };
 
+  console.log(storedFonts, "fonts");
+
   return (
     <>
       <BackBtn label="Fonts" handleBack={() => setOpenFonts(false)} />

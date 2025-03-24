@@ -67,6 +67,34 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
         testimonials: filterTestimonials,
       })
     );
+    const updatedGrid = {
+      desktop: Math.min(
+        filterTestimonials.length,
+        TestimonialsStyle.designSettings.grid.desktop
+      ),
+      mobile: Math.min(
+        filterTestimonials.length,
+        TestimonialsStyle.designSettings.grid.mobile
+      ),
+    };
+
+    setTimeout(() => {
+      dispatch(
+        updateStyle(pageId, findSelectedSection.id, {
+          designSettings: {
+            ...TestimonialsStyle.designSettings,
+            displayType:
+              filterTestimonials.length <= 4
+                ? "grid"
+                : TestimonialsStyle.designSettings.displayType,
+            grid: {
+              ...TestimonialsStyle.designSettings.grid,
+              ...updatedGrid,
+            },
+          },
+        })
+      );
+    }, 600);
     dispatch(updateSelectedItem(null));
   };
 

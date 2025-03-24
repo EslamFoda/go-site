@@ -76,17 +76,35 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
     dispatch(
       updateContent(pageId, findSelectedSection.id, { cards: filterCards })
     );
-    dispatch(updateSelectedItem(null));
-    if (cardsContent.cards.length <= 5) {
+    const updatedGrid = {
+      desktop: Math.min(
+        filterCards.length,
+        cardStyle.designSettings.grid.desktop
+      ),
+      mobile: Math.min(
+        filterCards.length,
+        cardStyle.designSettings.grid.mobile
+      ),
+    };
+
+    setTimeout(() => {
       dispatch(
-        updateStyle(pageId, findSelectedSection?.id!, {
+        updateStyle(pageId, findSelectedSection.id, {
           designSettings: {
             ...cardStyle.designSettings,
-            displayType: "grid",
+            displayType:
+              filterCards.length <= 4
+                ? "grid"
+                : cardStyle.designSettings.displayType,
+            grid: {
+              ...cardStyle.designSettings.grid,
+              ...updatedGrid,
+            },
           },
         })
       );
-    }
+    }, 600);
+    dispatch(updateSelectedItem(null));
   };
 
   const handleUpdateCardItem = (updates: Partial<Card>) => {

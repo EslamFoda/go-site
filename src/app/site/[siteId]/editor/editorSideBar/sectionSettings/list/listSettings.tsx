@@ -78,17 +78,32 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
     dispatch(
       updateContent(pageId, findSelectedSection.id, { list: filterList })
     );
-    dispatch(updateSelectedItem(null));
-    if (listContent.list.length <= 5) {
+    const updatedGrid = {
+      desktop: Math.min(
+        filterList.length,
+        listStyle.designSettings.grid.desktop
+      ),
+      mobile: Math.min(filterList.length, listStyle.designSettings.grid.mobile),
+    };
+
+    setTimeout(() => {
       dispatch(
-        updateStyle(pageId, findSelectedSection?.id!, {
+        updateStyle(pageId, findSelectedSection.id, {
           designSettings: {
             ...listStyle.designSettings,
-            displayType: "grid",
+            displayType:
+              filterList.length <= 4
+                ? "grid"
+                : listStyle.designSettings.displayType,
+            grid: {
+              ...listStyle.designSettings.grid,
+              ...updatedGrid,
+            },
           },
         })
       );
-    }
+    }, 600);
+    dispatch(updateSelectedItem(null));
   };
 
   const handleUpdateListItem = (field: keyof ListItem, value: any) => {
