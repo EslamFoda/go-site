@@ -45,9 +45,9 @@ import ProgressBar from "@/components/shared/progressBar";
 
 const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const dispatch = useAppDispatch();
-  const { globalSections, openHeaderOptions } = useAppSelector(
-    (state) => state.editor.present
-  );
+  const { globalSections, openHeaderOptions, isGenerating, settings } =
+    useAppSelector((state) => state.editor.present);
+  console.log(settings, "settings");
   const [hoveringIndex, setHoveringIndex] = useState<number | null>(null);
   const { motion, AnimatePresence } = useMotion();
   const router = useRouter();
@@ -58,7 +58,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const currentPage = useAppSelector((state) =>
     state.editor.present.editor.pages.find((page) => page.pageId === pageId)
   );
-  console.log(currentPage?.sections, "currentPage?.sections");
+  console.log(currentPage, "currentPage?.sections");
 
   const globalHeader = globalSections.find(
     (section) => section.sectionName === "Header"
@@ -139,7 +139,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                 layout
                 initial={{ scale: 1, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.8, opacity: 0 }}
+                exit={{ scale: 1, opacity: 0 }}
                 transition={{ type: "tween" }}
                 key={section.id}
                 className="relative"

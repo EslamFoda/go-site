@@ -36,6 +36,7 @@ export default function Home({ params }: any) {
     selectedSection,
     draggableModalName,
     designSettings: { borderRadius, colors, width },
+    isGenerating,
   } = useAppSelector((state) => state.editor.present);
   const page = useAppSelector((state) =>
     state.editor.present.editor.pages.find(
@@ -55,41 +56,33 @@ export default function Home({ params }: any) {
   React.useEffect(() => {
     const fetchSiteData = async () => {
       const supabase = createClient();
-
       const { data: siteData, error } = await supabase
         .from("sites")
         .select()
         .eq("siteId", params.siteId)
         .single();
 
-      if (error) console.log(error);
       if (siteData) {
-        // Update designSettings
         dispatch(
           updateEditorState(["designSettings"], siteData.designSettings)
         );
         dispatch(
           updateEditorState(["globalSections"], siteData.globalSections)
         );
-        // Update pages
         dispatch(updateEditorState(["editor", "pages"], siteData.pages));
-
-        // Update activePage
         dispatch(updateActivePage(siteData.pages[0].pageId));
-        // Update site settings
         dispatch(updateEditorState(["settings"], siteData.settings));
-
-        // Update selected pallet settings
         dispatch(updateSelectedPallet(siteData.selectedPallet));
-
         dispatch(updateStorage(siteData.storage));
-
         setLoading(false);
+        dispatch(updateEditorState(["isGenerating"], false));
       }
+      if (error) console.log(error);
     };
 
-    fetchSiteData();
-  }, [params.siteId, dispatch, homePageId, params.pageId]);
+    if (!isGenerating) fetchSiteData();
+    else setLoading(false); // Skip fetch during generation, show live updates
+  }, [params.siteId, dispatch, isGenerating]);
 
   useEffect(() => {
     if (pageContainerRef.current) {
@@ -163,7 +156,7 @@ export default function Home({ params }: any) {
 
   // this is for the preview mode sections
 
-  if (previewMode) {
+  if (previewMode || isGenerating) {
     return (
       <div
         className={`${selectedPallet} page-container`}
@@ -175,15 +168,12 @@ export default function Home({ params }: any) {
   }
 
   // this is for the editor mode sections
-
   return (
     <div className={`${selectedPallet} page-container`} ref={pageContainerRef}>
       <DraggableModal
         headText={modalHeadText}
         isOpen={isDraggableModalActive}
-        closeModal={() => {
-          dispatch(updateIsDraggableModal(false));
-        }}
+        closeModal={() => dispatch(updateIsDraggableModal(false))}
       >
         {renderModalContent()}
       </DraggableModal>

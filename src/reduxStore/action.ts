@@ -269,3 +269,7 @@ export const closeLogoSettings = () => ({
 export const togglePreviewMode = () => ({
   type: types.TOGGLE_PREVIEW_MODE,
 });
+
+export const resetEditorState = () => ({
+  type: types.RESET_EDITOR_STATE,
+});

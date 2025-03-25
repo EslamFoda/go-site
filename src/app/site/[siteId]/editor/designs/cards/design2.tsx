@@ -109,7 +109,7 @@ function Design2({ section, pageId }: DesignProps) {
       "md:grid-cols-3 grid-cols-1 gap-4 md:space-y-0 space-y-4"
   );
 
-  const sectionTitleAndSubTitleClassNames = cn("space-y-3", {
+  const sectionTitleAndSubTitleClassNames = cn({
     "text-start": leftTitlePosition,
   });
 
