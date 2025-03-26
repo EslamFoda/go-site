@@ -7,6 +7,9 @@ import { ActiveUserType } from "@/utlis/auth-helper/client";
 import { createClient } from "@/utlis/supabase/client";
 import Sites from "./sites";
 import SiteSkeleton from "./sites/sitesSkeleton/siteSkeleton";
+import { resetEditorState } from "@/reduxStore/action";
+import { useAppDispatch } from "@/reduxStore/hooks";
+import { ActionCreators as UndoActionCreators } from "redux-undo";
 
 interface DashboardProps {
   user: ActiveUserType;
@@ -14,18 +17,23 @@ interface DashboardProps {
 
 function Dashboard({ user }: DashboardProps) {
   const ownerId = user?.id;
+  const dispatch = useAppDispatch();
   const [sites, setSites] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    dispatch(resetEditorState());
+    dispatch(UndoActionCreators.clearHistory());
+
     const fetchUserSites = async () => {
       try {
         const supabase = createClient();
         const { data, error } = await supabase
           .from("sites")
           .select()
-          .eq("owner_id", ownerId);
+          .eq("owner_id", ownerId)
+          .order("created_at", { ascending: false }); // Add ordering by creation time;
         if (error) {
           throw error;
         }

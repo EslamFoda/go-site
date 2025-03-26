@@ -26,24 +26,24 @@ const ColorPicker: React.FC = () => {
     (state) => state.editor.present.designSettings
   );
 
-  useEffect(() => {
-    const pageContainer = document.querySelector(
-      ".page-container"
-    ) as HTMLElement;
-    if (pageContainer) {
-      const primaryColor = getCSSVariableValueByElement(
-        pageContainer,
-        "--primary"
-      );
-      updateColors(primaryColor);
-    }
-  }, [updateColors]);
+  // useEffect(() => {
+  //   const pageContainer = document.querySelector(
+  //     ".page-container"
+  //   ) as HTMLElement;
+  //   if (pageContainer) {
+  //     const primaryColor = getCSSVariableValueByElement(
+  //       pageContainer,
+  //       "--primary"
+  //     );
+  //     updateColors(primaryColor);
+  //   }
+  // }, [updateColors]);
 
   const handleThemeClick = useCallback(
     (key: string) => {
       dispatch(updateSelectedPallet("custom"));
 
-      if (key === "default-theme") {
+      if (key === "default-theme") { 
         const pageContainer = document.querySelector(
           ".page-container"
         ) as HTMLElement;

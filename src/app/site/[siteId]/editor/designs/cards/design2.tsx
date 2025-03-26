@@ -225,10 +225,9 @@ function Design2({ section, pageId }: DesignProps) {
                           </p>
                           {card.button && (
                             <Button
-                              variant="ghost"
                               className={cn("order-4 w-full", {
                                 "bg-primary": card.buttonColor === "primary",
-                                "bg-mediumGrey hover:bg-mediumGrey":
+                                "bg-mediumGrey hover:bg-mediumGrey text-foreground":
                                   card.buttonColor === "gray",
                               })}
                             >
@@ -324,7 +323,7 @@ function Design2({ section, pageId }: DesignProps) {
                               <Button
                                 className={cn("order-4 w-full", {
                                   "bg-primary": card.buttonColor === "primary",
-                                  "bg-mediumGrey hover:bg-mediumGrey":
+                                  "bg-mediumGrey hover:bg-mediumGrey text-foreground":
                                     card.buttonColor === "gray",
                                 })}
                               >

@@ -85,13 +85,17 @@ export default function Home({ params }: any) {
   }, [params.siteId, dispatch, isGenerating]);
 
   useEffect(() => {
+    console.log(selectedPallet,'selectedPallet')
     if (pageContainerRef.current) {
       pageContainerRef.current.style.setProperty("--radius", borderRadius);
-      pageContainerRef.current.style.setProperty("--primary", colors.primary);
-      pageContainerRef.current.style.setProperty(
-        "--primary-foreground",
-        colors.primaryForGround
-      );
+
+      if (selectedPallet === "custom") {
+        pageContainerRef.current.style.setProperty("--primary", colors.primary);
+        pageContainerRef.current.style.setProperty(
+          "--primary-foreground",
+          colors.primaryForGround
+        );
+      }
       pageContainerRef.current.style.setProperty(
         "--container-max-width",
         width.fullWidthPage ? "100%" : `${width.pages}px`

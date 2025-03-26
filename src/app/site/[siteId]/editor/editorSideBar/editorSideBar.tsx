@@ -38,6 +38,7 @@ const EditorSidebar = () => {
     globalSections,
     storage,
     designSettings,
+    selectedPallet,
   } = useAppSelector((state) => state.editor.present);
 
   const page = useAppSelector((state) =>
@@ -88,6 +89,7 @@ const EditorSidebar = () => {
         globalSections: globalSections,
         storage: storage,
         designSettings: designSettings,
+        selectedPallet: selectedPallet,
       })
       .eq("siteId", siteId)
       .select();
@@ -95,7 +97,7 @@ const EditorSidebar = () => {
     if (error) {
       console.error("Error updating pages:", error);
     }
-  }, [pages, siteId, globalSections, storage, designSettings]);
+  }, [pages, siteId, globalSections, storage, designSettings, selectedPallet]);
 
   const debouncedUpdatePageStyleAndContent = debounce(
     updatePageStyleAndContent,

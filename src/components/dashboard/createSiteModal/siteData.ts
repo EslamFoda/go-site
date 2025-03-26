@@ -1,3 +1,4 @@
+import { themes } from "@/constant/createSiteThemes";
 import {
   EditorSection,
   SectionContentTypes,
@@ -76,13 +77,14 @@ export const generateSections = (
               active: false,
             },
           ],
-          successMessage: "Thank you! Your submission has been received",
           countryCode: {
             code: "US",
             name: "United States",
             dialCode: "+1",
             flag: "🇺🇸",
           },
+          button: { text: "button 1", link: "", id: v4() },
+          successMessage: "Thank you! Your submission has been received",
         },
         buttons: [
           {
@@ -112,13 +114,13 @@ export const generateSections = (
           align: "center",
           subtitleWidth: "80%",
           height: {
-            desktop: 460,
+            desktop: 480,
             mobile: 350,
           },
           video: true,
           leftTitlePosition: false,
           leftTitleWidth: "50%",
-          mobile: "flex-col",
+          mobile: "flex-col-reverse",
           showButtons: true,
           showForm: false,
           showVideo: false,
@@ -184,7 +186,7 @@ export const generateSections = (
             mobile: 1,
           },
           height: {
-            desktop: 300,
+            desktop: 340,
             mobile: 300,
           },
           titleSize: "m",
@@ -372,7 +374,8 @@ export const insertSiteData = (
   user: any,
   siteId: string,
   homePageId: string,
-  siteName: string
+  siteName: string,
+  selectedPallet: (typeof themes)[0]
 ) => ({
   settings: {
     email: user?.email,
@@ -410,29 +413,27 @@ export const insertSiteData = (
   designSettings: {
     fonts: {
       titleFont: {
-        fontFamily: "Space Grotesk",
-        fontWeight: "600",
-        fontFamilyUrl:
-          "https://fonts.gstatic.com/s/spacegrotesk/v15/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gOoraIAEj4PVksjNsFjTDJK.ttf",
+        fontFamily: selectedPallet.titleFontFamily,
+        fontWeight: selectedPallet.titleFontWeight,
+        fontFamilyUrl: selectedPallet.titleFontFamilyUrl,
       },
       bodyFont: {
-        fontFamily: "Space Grotesk",
-        fontWeight: "regular",
-        fontFamilyUrl:
-          "https://fonts.gstatic.com/s/spacegrotesk/v15/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gOoraIAEj7oUUsjNsFjTDJK.ttf",
+        fontFamily: selectedPallet.bodyFontFamily,
+        fontWeight: selectedPallet.bodyFontWeight,
+        fontFamilyUrl: selectedPallet.bodyFontFamilyUrl,
       },
     },
     colors: {
-      primary: "",
-      primaryForGround: "",
+      primary: selectedPallet.primaryColor,
+      primaryForGround: selectedPallet.primaryForGround,
     },
-    borderRadius: ".5rem",
+    borderRadius: selectedPallet.borderRadius,
     width: {
       pages: 1400,
       fullWidthPage: false,
     },
   },
-  selectedPallet: "default-theme",
+  selectedPallet: selectedPallet.colorPallet,
   globalSections: [
     {
       id: v4(),

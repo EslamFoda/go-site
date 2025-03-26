@@ -6,8 +6,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MainLogo } from "@/icons/mainLogo";
 import { cn } from "@/lib/utils";
-import { updateEditorState } from "@/reduxStore/action";
-import { useAppDispatch } from "@/reduxStore/hooks";
 import { createClient } from "@/utlis/supabase/client";
 import { Ellipsis } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -18,8 +16,8 @@ interface SiteCardProps {
 }
 function SiteCard({ site, setSites }: SiteCardProps) {
   const [openMenu, setOpenMenu] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const siteCardClassName = cn(
     "flex items-center justify-between border rounded-sm p-3 hover:bg-muted group transition-all",
     {
@@ -50,6 +48,7 @@ function SiteCard({ site, setSites }: SiteCardProps) {
   );
 
   const deleteSite = async () => {
+    setLoading(true);
     const supabase = createClient();
     const { data } = await supabase
       .from("sites")
@@ -61,6 +60,7 @@ function SiteCard({ site, setSites }: SiteCardProps) {
       setSites((prev: any) =>
         prev.filter((s: any) => s.siteId !== data[0].siteId)
       );
+      setLoading(false);
     }
   };
 
@@ -81,24 +81,15 @@ function SiteCard({ site, setSites }: SiteCardProps) {
         <div
           className={editBtnClassName}
           onClick={() => {
-            // Update designSettings
-            dispatch(
-              updateEditorState(["designSettings"], site.designSettings)
-            );
-
-            // Update pages
-            dispatch(updateEditorState(["editor", "pages"], site.pages));
-
-            // Update activePage
-            dispatch(updateEditorState(["activePage"], site.pages[0].pageId));
-
-            // Navigate to the editor page
             router.push(`site/${site.siteId}/editor`);
           }}
         >
           <span className="group-hover:text-background">Edit</span>
         </div>
-        <DropdownMenu defaultOpen={openMenu} onOpenChange={setOpenMenu}>
+        <DropdownMenu
+          defaultOpen={openMenu && !loading}
+          onOpenChange={setOpenMenu}
+        >
           <DropdownMenuTrigger>
             <div className={menuBtnClassName}>
               <Ellipsis size={16} className={menuIconClassName} />
@@ -106,7 +97,11 @@ function SiteCard({ site, setSites }: SiteCardProps) {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem>Duplicate</DropdownMenuItem>
-            <DropdownMenuItem className="text-destructive" onClick={deleteSite}>
+            <DropdownMenuItem
+              className="text-destructive"
+              onClick={deleteSite}
+              disabled={loading}
+            >
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>

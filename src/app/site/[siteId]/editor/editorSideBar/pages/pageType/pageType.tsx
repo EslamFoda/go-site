@@ -118,8 +118,10 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
                       width: "calc(100% / 0.2)", // Adjust the width based on the scale factor
                       aspectRatio: "2 / 1",
                       height: "calc(100% / 0.2)",
-                      "--primary": primaryColor,
                       "--container-max-width": maxWidth,
+                      ...(selectedPallet === "custom"
+                        ? { "--primary": primaryColor }
+                        : {}),
                     } as React.CSSProperties
                   }
                 >

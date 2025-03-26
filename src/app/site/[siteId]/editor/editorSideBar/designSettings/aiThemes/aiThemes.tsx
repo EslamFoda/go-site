@@ -4,11 +4,8 @@ import {
   updateDesignSettings,
   updateSelectedPallet,
 } from "@/reduxStore/action";
-import { getCSSVariableValueByElement } from "@/helper";
 import { aiThemes } from "@/constant/theme";
 import ThemeItem from "./themeItem";
-import { createClient } from "@/utlis/supabase/client";
-import { DesignSettings } from "@/reduxStore/types";
 import { useMotion } from "@/hooks/useMotion";
 
 // Define types
@@ -45,23 +42,8 @@ function AiThemes() {
   const selectedPallet = useAppSelector(
     (state) => state.editor.present.selectedPallet
   );
-  const {
-    settings: { siteId },
-  } = useAppSelector((state) => state.editor.present);
-  const updateSitePallet = async (
-    pallet: string,
-    designSettings: DesignSettings
-  ) => {
-    const supabase = createClient();
-    const { data, error } = await supabase
-      .from("sites")
-      .update({ selectedPallet: pallet, designSettings })
-      .eq("siteId", siteId)
-      .select();
-  };
 
   const activeTheme = {
-    colorPallet: designSettings.colors.primary,
     colorName: selectedPallet,
     borderRadius: designSettings.borderRadius,
     titleFontFamily: designSettings.fonts.titleFont.fontFamily,
@@ -70,7 +52,12 @@ function AiThemes() {
     titleFontFamilyUrl: designSettings.fonts.titleFont.fontFamilyUrl,
     bodyFontFamilyUrl: designSettings.fonts.bodyFont.fontFamilyUrl,
     bodyFontWeight: designSettings.fonts.bodyFont.fontWeight,
-    primaryForGround: designSettings.colors.primaryForGround,
+    primaryForGround:
+      selectedPallet === "custom" ? designSettings.colors.primaryForGround : "",
+    colorPallet:
+      selectedPallet === "custom"
+        ? designSettings.colors.primary
+        : selectedPallet,
   } as Theme;
   const handleThemeClick = useCallback(
     (theme: Theme) => {
@@ -86,43 +73,15 @@ function AiThemes() {
       } else {
         const themeElement = themeRefs.current[theme.colorPallet];
         if (themeElement) {
-          const primaryColor = getCSSVariableValueByElement(
-            themeElement,
-            "--primary"
-          );
-          const primaryForGround = getCSSVariableValueByElement(
-            themeElement,
-            "--primary-foreground"
-          );
-          pageContainer.style.setProperty("--primary", primaryColor);
+          pageContainer.style.removeProperty("--primary");
+          pageContainer.style.removeProperty("--primary-foreground");
           pageContainer.style.setProperty("--radius", theme.borderRadius);
-          pageContainer.style.setProperty(
-            "--primary-foreground",
-            primaryForGround
-          );
         }
       }
 
       const updatedDesignSettings = {
         ...designSettings,
         borderRadius: theme.borderRadius,
-        colors: {
-          ...designSettings.colors,
-          primary:
-            theme.colorPallet === "default-theme"
-              ? ""
-              : getCSSVariableValueByElement(
-                  themeRefs.current[theme.colorPallet],
-                  "--primary"
-                ),
-          primaryForGround:
-            theme.colorPallet === "default-theme"
-              ? ""
-              : getCSSVariableValueByElement(
-                  themeRefs.current[theme.colorPallet],
-                  "--primary-foreground"
-                ),
-        },
         fonts: {
           ...designSettings.fonts,
           bodyFont: {
@@ -142,7 +101,6 @@ function AiThemes() {
 
       dispatch(updateSelectedPallet(theme.colorPallet));
       dispatch(updateDesignSettings(updatedDesignSettings));
-      updateSitePallet(theme.colorPallet, updatedDesignSettings);
     },
     [dispatch, designSettings]
   );
@@ -155,10 +113,7 @@ function AiThemes() {
   );
 
   return (
-    <div
-      className="overflow-y-auto"
-      style={{ height: "calc(92vh - 70px)" }}
-    >
+    <div className="overflow-y-auto" style={{ height: "calc(92vh - 70px)" }}>
       <motion.div
         className="grid grid-cols-2 gap-2"
         variants={variants}
@@ -167,6 +122,7 @@ function AiThemes() {
       >
         {/* Selected Theme */}
         <ThemeItem
+          key={activeTheme.colorPallet}
           theme={activeTheme}
           isSelected={true}
           onClick={() => {}}
