@@ -24,7 +24,6 @@ function SubscriptionTab({
   setOpenSubscriptionTab,
 }: SubscriptionTabProps) {
   const { subscriptionPlans } = pricingContent;
-  console.log(subscriptionPlans, "subscriptionPlans");
 
   return (
     <div>

@@ -47,7 +47,6 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const dispatch = useAppDispatch();
   const { globalSections, openHeaderOptions, isGenerating, settings } =
     useAppSelector((state) => state.editor.present);
-  console.log(settings, "settings");
   const [hoveringIndex, setHoveringIndex] = useState<number | null>(null);
   const { motion, AnimatePresence } = useMotion();
   const router = useRouter();
@@ -58,7 +57,6 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const currentPage = useAppSelector((state) =>
     state.editor.present.editor.pages.find((page) => page.pageId === pageId)
   );
-  console.log(currentPage?.pageSettings, "currentPage");
 
   const globalHeader = globalSections.find(
     (section) => section.sectionName === "Header"

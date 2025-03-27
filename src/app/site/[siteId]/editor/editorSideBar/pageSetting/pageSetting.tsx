@@ -100,7 +100,6 @@ function PageSetting() {
           label="Show Header"
           defaultChecked={pageSettings?.showHeader}
           onCheckedChange={(value) => {
-            console.log(homePage, "pageSettings");
             dispatch(
               updatePageSetting(pageId || homePage, {
                 ...pageSettings,

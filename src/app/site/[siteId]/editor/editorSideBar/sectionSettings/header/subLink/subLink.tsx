@@ -26,7 +26,6 @@ function SubLink({
   const {
     editor: { pages },
   } = useAppSelector((state) => state.editor.present);
-  console.log("selectedSubLink:", selectedSubLink);
 
   return (
     <div className="space-y-2">

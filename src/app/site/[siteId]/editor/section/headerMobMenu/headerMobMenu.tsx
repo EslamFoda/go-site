@@ -6,7 +6,6 @@ interface HeaderMobMenuProps {
 }
 function HeaderMobMenu({ headerContent }: HeaderMobMenuProps) {
   const variants = ["default", "secondary"] as const;
-  console.log(headerContent, "headerContent");
 
   return (
     <div>

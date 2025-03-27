@@ -142,7 +142,6 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
               <div
                 className="bg-secondary-foreground text-background rounded-sm p-1 flex items-center justify-center cursor-pointer hover:bg-secondary-foreground/80"
                 onClick={() => {
-                  console.log(page, "page");
                   const newPageLink = generateUniqueLink(pageType);
                   const newPage = {
                     pageId: v4(),

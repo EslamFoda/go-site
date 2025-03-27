@@ -107,7 +107,6 @@ function ResizeHeight({
         200,
         startHeight.current + (e.clientY - startY.current)
       );
-      console.log(newHeight, "newHeight");
 
       // Update the state immediately for visual feedback
       setMinHeight((prev) => {

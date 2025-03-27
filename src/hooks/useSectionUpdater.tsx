@@ -28,7 +28,6 @@ function useSectionUpdater(pageId: string) {
         .update({ pages })
         .eq("siteId", settings.siteId)
         .select();
-      console.log("Supabase update result:", data);
     } catch (error) {
       console.error("Error updating section content and style:", error);
     }

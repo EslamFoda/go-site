@@ -85,7 +85,6 @@ export default function Home({ params }: any) {
   }, [params.siteId, dispatch, isGenerating]);
 
   useEffect(() => {
-    console.log(selectedPallet, "selectedPallet");
     if (pageContainerRef.current) {
       pageContainerRef.current.style.setProperty("--radius", borderRadius);
 
