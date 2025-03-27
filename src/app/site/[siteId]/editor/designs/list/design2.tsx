@@ -282,7 +282,7 @@ function Design2({ section, pageId }: DesignProps) {
                               marginInlineEnd: isDesktop
                                 ? spacing.gap.desktop
                                 : spacing.gap.mobile,
-                              paddingInlineStart: index !== 0 ? 0 : "",
+                              paddingInlineStart: index === 0 ? "" : 0,
                             }}
                           >
                             <div

@@ -58,7 +58,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const currentPage = useAppSelector((state) =>
     state.editor.present.editor.pages.find((page) => page.pageId === pageId)
   );
-  console.log(currentPage, "currentPage?.sections");
+  console.log(currentPage?.pageSettings, "currentPage");
 
   const globalHeader = globalSections.find(
     (section) => section.sectionName === "Header"

@@ -23,7 +23,6 @@ import {
 } from "@/types/sectionsTypes/gallery";
 import { useMotion } from "@/hooks/useMotion";
 import BackgroundImage from "@/components/shared/backgroundImage";
-import DesignLabel from "@/components/shared/label";
 import SectionHeader from "@/components/shared/sectionHeader";
 
 interface DesignProps {
@@ -159,7 +158,7 @@ function Design1({ section, pageId }: DesignProps) {
                           initial={{ scale: 1, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
                           exit={{ scale: 0.8, opacity: 0 }}
-                          transition={{ type: 'keyframes' }}
+                          transition={{ type: "keyframes" }}
                           style={{
                             minHeight: isDesktop
                               ? height.desktop
@@ -212,7 +211,7 @@ function Design1({ section, pageId }: DesignProps) {
                             marginInlineEnd: isDesktop
                               ? spacing.gap.desktop
                               : spacing.gap.mobile,
-                            paddingInlineStart: index !== 0 ? 0 : "",
+                            paddingInlineStart: index === 0 ? "" : 0,
                           }}
                         >
                           <div

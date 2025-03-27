@@ -1,11 +1,12 @@
-import React, { useEffect, useRef, useMemo, useCallback } from "react";
+import React, { useRef, useMemo, useCallback } from "react";
 import { HexColorInput, HexColorPicker } from "react-colorful";
-import {
-  updateDesignSettings,
-  updateSelectedPallet,
-} from "@/reduxStore/action";
+import { updateSelectedPallet } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
-import { cssColorToHex, getCSSVariableValueByElement } from "@/helper";
+import {
+  cssColorToHex,
+  getCSSVariableValueByClassName,
+  getCSSVariableValueByElement,
+} from "@/helper";
 import { Label } from "@/components/ui/label";
 import { themeMapping } from "@/constant/theme";
 import {
@@ -19,54 +20,26 @@ const ColorPicker: React.FC = () => {
   const dispatch = useAppDispatch();
   const themeRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
   const { selectedColor, textColor, updateColors } = useColorManagement();
-  const selectedPalette = useAppSelector(
+  const selectedPallet = useAppSelector(
     (state) => state.editor.present.selectedPallet
   );
   const designSettings = useAppSelector(
     (state) => state.editor.present.designSettings
   );
-
-  // useEffect(() => {
-  //   const pageContainer = document.querySelector(
-  //     ".page-container"
-  //   ) as HTMLElement;
-  //   if (pageContainer) {
-  //     const primaryColor = getCSSVariableValueByElement(
-  //       pageContainer,
-  //       "--primary"
-  //     );
-  //     updateColors(primaryColor);
-  //   }
-  // }, [updateColors]);
+  const primaryColor = getCSSVariableValueByClassName(
+    "page-container",
+    "--primary"
+  );
 
   const handleThemeClick = useCallback(
     (key: string) => {
       dispatch(updateSelectedPallet("custom"));
 
-      if (key === "default-theme") { 
-        const pageContainer = document.querySelector(
-          ".page-container"
-        ) as HTMLElement;
-        if (pageContainer) {
-          pageContainer.style.removeProperty("--primary");
-          pageContainer.style.removeProperty("--primary-foreground");
-        }
-        dispatch(
-          updateDesignSettings({
-            ...designSettings,
-            colors: {
-              primary: "",
-              primaryForGround: "",
-            },
-          })
-        );
-      } else {
-        const primaryColor = getCSSVariableValueByElement(
-          themeRefs.current[key],
-          "--primary"
-        );
-        updateColors(primaryColor);
-      }
+      const primaryColor = getCSSVariableValueByElement(
+        themeRefs.current[key],
+        "--primary"
+      );
+      updateColors(primaryColor);
     },
     [dispatch, updateColors]
   );
@@ -98,18 +71,29 @@ const ColorPicker: React.FC = () => {
         <Label>Color</Label>
         <div className="border-solid border divide-y rounded-sm w-4/6">
           <div className="grid grid-cols-4 gap-1 p-1">{themeButtons}</div>
-          <div className={selectedPalette}>
+          <div
+            className={
+              selectedPallet === "custom"
+                ? designSettings.colors.primary
+                : selectedPallet
+            }
+          >
             <Popover>
               <PopoverTrigger className="w-full">
                 <HexColorInput
                   prefixed
-                  className="px-2 w-full focus:outline-none focus-within:outline-none outline-none rounded-b-[4px] h-10"
+                  className="px-2 w-full bg-primary text-primary-foreground focus:outline-none focus-within:outline-none outline-none rounded-b-[4px] h-10"
                   style={{
-                    color: `hsl(${textColor})`,
-                    backgroundColor: `hsl(${selectedColor})`,
+                    ...(selectedPallet === "custom" && {
+                      color: `hsl(${textColor})`,
+                      backgroundColor: `hsl(${selectedColor})`,
+                    }),
                   }}
-                  color={cssColorToHex(selectedColor)}
+                  color={cssColorToHex(
+                    selectedPallet === "custom" ? selectedColor : primaryColor
+                  )}
                   onChange={(color) => {
+                    //custom is for color picker not for theme pallets colors
                     dispatch(updateSelectedPallet("custom"));
                     updateColors(color);
                   }}
@@ -117,8 +101,11 @@ const ColorPicker: React.FC = () => {
               </PopoverTrigger>
               <PopoverContent align="start" className="border-none w-auto p-0">
                 <HexColorPicker
-                  color={cssColorToHex(selectedColor)}
+                  color={cssColorToHex(
+                    selectedPallet === "custom" ? selectedColor : primaryColor
+                  )}
                   onChange={(color) => {
+                    //custom is for color picker not for theme pallets colors
                     dispatch(updateSelectedPallet("custom"));
                     updateColors(color);
                   }}

@@ -11,7 +11,11 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
-import { CardsContent, CardStyle } from "@/types/sectionsTypes/cards";
+import {
+  Card as CardType,
+  CardsContent,
+  CardStyle,
+} from "@/types/sectionsTypes/cards";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   closePagesTab,
@@ -22,15 +26,128 @@ import { useMotion } from "@/hooks/useMotion";
 import { Button } from "@/components/ui/button";
 import BackgroundImage from "@/components/shared/backgroundImage";
 import SectionHeader from "@/components/shared/sectionHeader";
+import { displayType, Spacing } from "@/types/common";
+
+interface CardProps {
+  card: CardType;
+  index: number;
+  cardClassNames: string;
+  titleClassName: string;
+  textOrderClassName: string;
+  imageOrderClassName: string;
+  imagePlaceholderClassNames: string;
+  cardBackground: boolean;
+  bgMuted: boolean;
+  image: boolean;
+  height: { desktop: number; mobile: number };
+  spacing: Spacing;
+  pageId: string;
+  sectionId: string;
+  isDesktop: boolean;
+  displayType: displayType;
+}
+
+const Card: React.FC<CardProps> = ({
+  card,
+  index,
+  cardClassNames,
+  titleClassName,
+  textOrderClassName,
+  imageOrderClassName,
+  imagePlaceholderClassNames,
+  cardBackground,
+  bgMuted,
+  image,
+  height,
+  spacing,
+  pageId,
+  sectionId,
+  isDesktop,
+  displayType,
+}) => {
+  const dispatch = useAppDispatch();
+  const { motion } = useMotion();
+
+  return (
+    <motion.div
+      layout={displayType === "grid"}
+      initial={{ scale: 0.9, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.8, opacity: 0 }}
+      transition={{ type: "tween" }}
+      key={card.id || index}
+      className={cardClassNames}
+      style={{
+        padding: isDesktop ? spacing.padding.desktop : spacing.padding.mobile,
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        dispatch(updateSelectedSection(pageId, sectionId));
+        dispatch(updateSelectedItem(card));
+        dispatch(closePagesTab());
+      }}
+    >
+      <h5 className={titleClassName} style={{ whiteSpace: "pre-line" }}>
+        {card.title}
+      </h5>
+      <p className={textOrderClassName} style={{ whiteSpace: "pre-line" }}>
+        {card.text}
+      </p>
+      {image && (
+        <div className={imageOrderClassName}>
+          {card.image?.length ? (
+            <div
+              className="relative w-full rounded-md"
+              style={{
+                height: isDesktop ? height.desktop : height.mobile,
+              }}
+            >
+              <Image
+                alt={card.image}
+                src={card.image}
+                fill
+                sizes="100%"
+                className="object-cover"
+              />
+            </div>
+          ) : (
+            <div
+              style={{
+                height: isDesktop ? height.desktop : height.mobile,
+              }}
+              className={imagePlaceholderClassNames}
+            >
+              <ImagePlaceHolder
+                fillColor={
+                  cardBackground && !bgMuted ? "fill-muted" : "fill-background"
+                }
+              />
+            </div>
+          )}
+        </div>
+      )}
+      {card.button && (
+        <Button
+          className={cn("order-4 mt-2", {
+            "bg-primary": card.buttonColor === "primary",
+            "bg-mediumGrey hover:bg-mediumGrey text-foreground":
+              card.buttonColor === "gray",
+          })}
+        >
+          {card.button}
+        </Button>
+      )}
+    </motion.div>
+  );
+};
 
 interface DesignProps {
   section: any;
   pageId: string;
 }
 function Design1({ section, pageId }: DesignProps) {
-  const { motion, AnimatePresence } = useMotion();
+  const { AnimatePresence } = useMotion();
   const isDesktop = useMediaQuery({ query: "(min-width: 1024px)" });
-  const dispatch = useAppDispatch();
 
   const cardStyle = section?.style as CardStyle;
   const cardContent = section?.content as CardsContent;
@@ -50,6 +167,7 @@ function Design1({ section, pageId }: DesignProps) {
     image,
     leftTitlePosition,
   } = cardStyle.designSettings;
+
   const bgMuted = sectionBackground.color === "gray";
   const autoScroll = cardStyle?.designSettings?.cardSlider?.autoScroll;
   const scrollSpeed = cardStyle?.designSettings?.cardSlider?.scrollSpeed;
@@ -94,7 +212,7 @@ function Design1({ section, pageId }: DesignProps) {
   );
 
   const cardClassNames = cn(
-    "flex flex-col  gap-2 rounded-md",
+    "flex flex-col gap-2 rounded-md",
     cardBackground && "bg-muted",
     cardBorder && "outline outline-[1px] outline-muted",
     bgMuted && "bg-background"
@@ -107,7 +225,7 @@ function Design1({ section, pageId }: DesignProps) {
   );
 
   const containerClassNames = cn(
-    " grid grid-cols-1 space-y-4",
+    "grid grid-cols-1 space-y-4",
     leftTitlePosition &&
       "md:grid-cols-3 grid-cols-1 gap-4 md:space-y-0 space-y-4"
   );
@@ -178,89 +296,25 @@ function Design1({ section, pageId }: DesignProps) {
                 >
                   <AnimatePresence>
                     {section.content.cards.map((card: any, index: number) => (
-                      <motion.div
-                        layout
-                        initial={{ scale: 0.9, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        exit={{ scale: 0.8, opacity: 0 }}
-                        transition={{ type: "tween" }}
+                      <Card
                         key={card.id || index}
-                        className={cardClassNames}
-                        style={{
-                          padding: isDesktop
-                            ? spacing.padding.desktop
-                            : spacing.padding.mobile,
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          dispatch(updateSelectedSection(pageId, section.id));
-                          dispatch(updateSelectedItem(card));
-                          dispatch(closePagesTab());
-                        }}
-                      >
-                        <h5
-                          className={titleClassName}
-                          style={{ whiteSpace: "pre-line" }}
-                        >
-                          {card.title}
-                        </h5>
-                        <p
-                          className={textOrderClassName}
-                          style={{ whiteSpace: "pre-line" }}
-                        >
-                          {card.text}
-                        </p>
-                        {image && (
-                          <div className={imageOrderClassName}>
-                            {card.image?.length ? (
-                              <div
-                                className="relative w-full rounded-md"
-                                style={{
-                                  height: isDesktop
-                                    ? height.desktop
-                                    : height.mobile,
-                                }}
-                              >
-                                <Image
-                                  alt={card.image}
-                                  src={card.image}
-                                  fill
-                                  sizes="100%"
-                                  className="object-cover"
-                                />
-                              </div>
-                            ) : (
-                              <div
-                                style={{
-                                  height: isDesktop
-                                    ? height.desktop
-                                    : height.mobile,
-                                }}
-                                className={imagePlaceholderClassNames}
-                              >
-                                <ImagePlaceHolder
-                                  fillColor={
-                                    cardBackground && !bgMuted
-                                      ? "fill-muted"
-                                      : "fill-background"
-                                  }
-                                />
-                              </div>
-                            )}
-                          </div>
-                        )}
-                        {card.button && (
-                          <Button
-                            className={cn("order-4 mt-2", {
-                              "bg-primary": card.buttonColor === "primary",
-                              "bg-mediumGrey hover:bg-mediumGrey text-foreground":
-                                card.buttonColor === "gray",
-                            })}
-                          >
-                            {card.button}
-                          </Button>
-                        )}
-                      </motion.div>
+                        card={card}
+                        index={index}
+                        cardClassNames={cardClassNames}
+                        titleClassName={titleClassName}
+                        textOrderClassName={textOrderClassName}
+                        imageOrderClassName={imageOrderClassName}
+                        imagePlaceholderClassNames={imagePlaceholderClassNames}
+                        cardBackground={cardBackground}
+                        bgMuted={bgMuted}
+                        image={image}
+                        height={height}
+                        spacing={spacing}
+                        pageId={pageId}
+                        sectionId={section.id}
+                        isDesktop={isDesktop}
+                        displayType={displayType}
+                      />
                     ))}
                   </AnimatePresence>
                 </div>
@@ -284,87 +338,29 @@ function Design1({ section, pageId }: DesignProps) {
                           marginInlineEnd: isDesktop
                             ? spacing.gap.desktop
                             : spacing.gap.mobile,
-                          paddingInlineStart: index !== 0 ? 0 : "",
+                          paddingInlineStart: index === 0 ? "" : 0,
                         }}
                       >
-                        <div
-                          key={index}
-                          className={cardClassNames + " h-full"}
-                          style={{
-                            padding: isDesktop
-                              ? spacing.padding.desktop
-                              : spacing.padding.mobile,
-                          }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            dispatch(updateSelectedSection(pageId, section.id));
-                            dispatch(updateSelectedItem(card));
-                            dispatch(closePagesTab());
-                          }}
-                        >
-                          <h5
-                            className={titleClassName}
-                            style={{ whiteSpace: "pre-line" }}
-                          >
-                            {card.title}
-                          </h5>
-                          <p
-                            className={textOrderClassName}
-                            style={{ whiteSpace: "pre-line" }}
-                          >
-                            {card.text}
-                          </p>
-                          {image && (
-                            <div className={imageOrderClassName}>
-                              {card.image.length ? (
-                                <div
-                                  className="relative w-full rounded-md"
-                                  style={{
-                                    height: isDesktop
-                                      ? height.desktop
-                                      : height.mobile,
-                                  }}
-                                >
-                                  <Image
-                                    alt={card.image}
-                                    src={card.image}
-                                    fill
-                                    sizes="100%"
-                                    className="object-cover"
-                                  />
-                                </div>
-                              ) : (
-                                <div
-                                  style={{
-                                    height: isDesktop
-                                      ? height.desktop
-                                      : height.mobile,
-                                  }}
-                                  className={imagePlaceholderClassNames}
-                                >
-                                  <ImagePlaceHolder
-                                    fillColor={
-                                      cardBackground && !bgMuted
-                                        ? "fill-muted"
-                                        : "fill-background"
-                                    }
-                                  />
-                                </div>
-                              )}
-                            </div>
-                          )}
-                          {card.button && (
-                            <Button
-                              className={cn("order-4 mt-2", {
-                                "bg-primary": card.buttonColor === "primary",
-                                "bg-mediumGrey hover:bg-mediumGrey text-foreground":
-                                  card.buttonColor === "gray",
-                              })}
-                            >
-                              {card.button}
-                            </Button>
-                          )}
-                        </div>
+                        <Card
+                          card={card}
+                          index={index}
+                          cardClassNames={cardClassNames + " h-full"}
+                          titleClassName={titleClassName}
+                          textOrderClassName={textOrderClassName}
+                          imageOrderClassName={imageOrderClassName}
+                          imagePlaceholderClassNames={
+                            imagePlaceholderClassNames
+                          }
+                          cardBackground={cardBackground}
+                          bgMuted={bgMuted}
+                          image={image}
+                          height={height}
+                          spacing={spacing}
+                          pageId={pageId}
+                          sectionId={section.id}
+                          isDesktop={isDesktop}
+                          displayType={displayType}
+                        />
                       </CarouselItem>
                     ))}
                   </CarouselContent>

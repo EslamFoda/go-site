@@ -2,6 +2,7 @@ import { Check } from "lucide-react";
 import React from "react";
 import { Theme } from "../aiThemes";
 import { useMotion } from "@/hooks/useMotion";
+import { motion } from "framer-motion";
 
 const variants = {
   open: {
@@ -21,6 +22,7 @@ const variants = {
 };
 
 interface ThemeItemProps {
+  noAnimation?: boolean;
   theme: Theme;
   isSelected: boolean;
   onClick: () => void;
@@ -28,8 +30,8 @@ interface ThemeItemProps {
 }
 
 const ThemeItem: React.FC<ThemeItemProps> = React.memo(
-  ({ theme, isSelected, onClick, setRef }) => {
-    const { motion } = useMotion();
+  ({ noAnimation = false, theme, isSelected, onClick, setRef }) => {
+    const { motion: motionEnabled } = useMotion();
 
     // Normalize font weight for CSS (e.g., "regular" -> "400")
     const normalizeFontWeight = (weight: string) => {
@@ -39,6 +41,19 @@ const ThemeItem: React.FC<ThemeItemProps> = React.memo(
     // Generate unique font family names to avoid conflicts
     const titleFontFamily = `${theme.colorName}-title-${theme.titleFontFamily}`;
     const bodyFontFamily = `${theme.colorName}-body-${theme.bodyFontFamily}`;
+
+    // Determine which wrapper to use based on animation settings
+    const Wrapper = noAnimation || !motionEnabled ? "div" : motion.div;
+
+    // Prepare wrapper props
+    const wrapperProps =
+      noAnimation || !motionEnabled
+        ? {}
+        : {
+            variants,
+            whileHover: { scale: 1 },
+            whileTap: { scale: 0.95 },
+          };
 
     return (
       <>
@@ -58,10 +73,8 @@ const ThemeItem: React.FC<ThemeItemProps> = React.memo(
           }
         `}</style>
 
-        <motion.div
-          variants={variants}
-          whileHover={{ scale: 1 }}
-          whileTap={{ scale: 0.95 }}
+        <Wrapper
+          {...wrapperProps}
           className={theme.colorPallet}
           onClick={onClick}
         >
@@ -119,7 +132,7 @@ const ThemeItem: React.FC<ThemeItemProps> = React.memo(
               {isSelected && <Check size={15} />}
             </div>
           </div>
-        </motion.div>
+        </Wrapper>
       </>
     );
   }

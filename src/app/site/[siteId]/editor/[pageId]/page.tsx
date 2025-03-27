@@ -104,7 +104,14 @@ function Page({ params }: any) {
         width.fullWidthPage ? "100%" : `${width.pages}px`
       );
     }
-  }, [borderRadius, colors, width, pageContainerRef, width.fullWidthPage]);
+  }, [
+    borderRadius,
+    colors,
+    width,
+    pageContainerRef,
+    width.fullWidthPage,
+    selectedPallet,
+  ]);
 
   const fluidCardsMapper = {
     image: FluidImage,

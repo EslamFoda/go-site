@@ -85,7 +85,7 @@ export default function Home({ params }: any) {
   }, [params.siteId, dispatch, isGenerating]);
 
   useEffect(() => {
-    console.log(selectedPallet,'selectedPallet')
+    console.log(selectedPallet, "selectedPallet");
     if (pageContainerRef.current) {
       pageContainerRef.current.style.setProperty("--radius", borderRadius);
 
@@ -101,7 +101,14 @@ export default function Home({ params }: any) {
         width.fullWidthPage ? "100%" : `${width.pages}px`
       );
     }
-  }, [borderRadius, colors, width, pageContainerRef, width.fullWidthPage]);
+  }, [
+    borderRadius,
+    colors,
+    width,
+    pageContainerRef,
+    width.fullWidthPage,
+    selectedPallet,
+  ]);
 
   const fluidCardsMapper = {
     image: FluidImage,

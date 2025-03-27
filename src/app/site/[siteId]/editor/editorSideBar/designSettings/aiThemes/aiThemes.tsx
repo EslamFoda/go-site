@@ -8,7 +8,6 @@ import { aiThemes } from "@/constant/theme";
 import ThemeItem from "./themeItem";
 import { useMotion } from "@/hooks/useMotion";
 
-// Define types
 export interface Theme {
   colorPallet: string;
   colorName: string;
@@ -69,7 +68,6 @@ function AiThemes() {
       if (theme.colorPallet === "default-theme") {
         pageContainer.style.removeProperty("--primary");
         pageContainer.style.removeProperty("--primary-foreground");
-        pageContainer.style.removeProperty("--radius");
       } else {
         const themeElement = themeRefs.current[theme.colorPallet];
         if (themeElement) {
@@ -122,6 +120,7 @@ function AiThemes() {
       >
         {/* Selected Theme */}
         <ThemeItem
+          noAnimation
           key={activeTheme.colorPallet}
           theme={activeTheme}
           isSelected={true}

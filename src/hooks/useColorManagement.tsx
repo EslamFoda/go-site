@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { updateDesignSettings } from "@/reduxStore/action";
 import { calculateTextColor, cssColorToHex } from "@/helper";
@@ -10,38 +9,21 @@ export const useColorManagement = () => {
     (state) => state.editor.present.designSettings
   );
 
-  const updateColors = useCallback(
-    (bgColor: string) => {
-      const hexColor = cssColorToHex(bgColor);
-      const hslColor = Color(hexColor).hsl().string();
-      const hslPrimaryColor = hslColor.replace(/hsl\(|\)|,/g, "").trim();
-      const newTextColor = calculateTextColor(hexColor);
+  const updateColors = (bgColor: string) => {
+    const hexColor = cssColorToHex(bgColor);
+    const hslColor = Color(hexColor).hsl().string();
+    const hslPrimaryColor = hslColor.replace(/hsl\(|\)|,/g, "").trim();
+    const newTextColor = calculateTextColor(hexColor);
 
-      dispatch(
-        updateDesignSettings({
-          ...designSettings,
-          colors: {
-            primary: hslPrimaryColor,
-            primaryForGround: newTextColor,
-          },
-        })
-      );
-
-      updatePageContainerColor(hexColor, newTextColor);
-    },
-    [dispatch]
-  );
-
-  const updatePageContainerColor = (bgColor: string, textColorHSL: string) => {
-    const pageContainer = document.querySelector(
-      ".page-container"
-    ) as HTMLElement;
-    if (pageContainer) {
-      const hslColor = Color(bgColor).hsl().string();
-      const hslValues = hslColor.replace(/hsl\(|\)|,/g, "").trim();
-      pageContainer.style.setProperty("--primary", hslValues);
-      pageContainer.style.setProperty("--primary-foreground", textColorHSL);
-    }
+    dispatch(
+      updateDesignSettings({
+        ...designSettings,
+        colors: {
+          primary: hslPrimaryColor,
+          primaryForGround: newTextColor,
+        },
+      })
+    );
   };
 
   return {
