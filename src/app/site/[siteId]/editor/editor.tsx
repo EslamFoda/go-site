@@ -46,11 +46,11 @@ function Editor({ children }: { children: React.ReactNode }) {
   return (
     <div className={mainEditorContainerClassName}>
       <aside className={editorBtnsSidebarClasses}>
-        <div
-          className="border-b h-12 flex items-center justify-center cursor-pointer hover:bg-muted/70"
-          onClick={() => dispatch(closeSideBar())}
-        >
-          <Link href="/">
+        <Link href="/">
+          <div
+            className="border-b h-12 flex items-center justify-center cursor-pointer hover:bg-muted/70"
+            onClick={() => dispatch(closeSideBar())}
+          >
             <Button
               variant="ghost"
               size="icon"
@@ -59,8 +59,8 @@ function Editor({ children }: { children: React.ReactNode }) {
             >
               <Triangle className="size-5 fill-foreground" />
             </Button>
-          </Link>
-        </div>
+          </div>
+        </Link>
         <SidebarButtons />
       </aside>
       <aside className={editorSettingsSidebarClasses}>
