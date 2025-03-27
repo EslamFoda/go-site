@@ -9,7 +9,7 @@ export const FirstDesign = ({ active }: { active: boolean }) => {
       xmlns="http://www.w3.org/2000/svg"
       data-v-62352d9f=""
     >
-      <g clip-path="url(#clip0_10810_16056)" data-v-62352d9f="">
+      <g clipPath="url(#clip0_10810_16056)" data-v-62352d9f="">
         <rect width="60" height="40" fill="none" data-v-62352d9f=""></rect>
         <path d="M0 0L60 8.58307e-06V1.00001L0 1V0Z" data-v-62352d9f=""></path>
         <path d="M0 6L60 6.00001V7.00001L0 7V6Z" data-v-62352d9f=""></path>
@@ -35,7 +35,7 @@ export const SecondDesign = ({ active }: { active: boolean }) => {
       xmlns="http://www.w3.org/2000/svg"
       data-v-62352d9f=""
     >
-      <g clip-path="url(#clip0_10810_16060)" data-v-62352d9f="">
+      <g clipPath="url(#clip0_10810_16060)" data-v-62352d9f="">
         <rect width="60" height="40" fill="none" data-v-62352d9f=""></rect>
         <path d="M0 0H60V17H0V0Z" data-v-62352d9f=""></path>
         <path d="M60 23L0 23V24L60 24V23Z" data-v-62352d9f=""></path>

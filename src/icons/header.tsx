@@ -219,7 +219,7 @@ export const FourthDesign = ({ active }: { active: boolean }) => (
     data-v-90cc7c96=""
     className={`${active ? "fill-primary" : "fill-muted-foreground/70"}`}
   >
-    <g clip-path="url(#clip0_19179_10438)" data-v-90cc7c96="">
+    <g clipPath="url(#clip0_19179_10438)" data-v-90cc7c96="">
       <path
         fillRule="evenodd"
         clipRule="evenodd"
