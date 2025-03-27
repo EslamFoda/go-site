@@ -91,17 +91,27 @@ function Page({ params }: any) {
   useEffect(() => {
     if (pageContainerRef.current) {
       pageContainerRef.current.style.setProperty("--radius", borderRadius);
-      pageContainerRef.current.style.setProperty("--primary", colors.primary);
-      pageContainerRef.current.style.setProperty(
-        "--primary-foreground",
-        colors.primaryForGround
-      );
+
+      if (selectedPallet === "custom") {
+        pageContainerRef.current.style.setProperty("--primary", colors.primary);
+        pageContainerRef.current.style.setProperty(
+          "--primary-foreground",
+          colors.primaryForGround
+        );
+      }
       pageContainerRef.current.style.setProperty(
         "--container-max-width",
         width.fullWidthPage ? "100%" : `${width.pages}px`
       );
     }
-  }, [borderRadius, colors, width, pageContainerRef, width.fullWidthPage]);
+  }, [
+    borderRadius,
+    colors,
+    width,
+    pageContainerRef,
+    width.fullWidthPage,
+    selectedPallet,
+  ]);
 
   const fluidCardsMapper = {
     image: FluidImage,

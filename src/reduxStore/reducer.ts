@@ -15,9 +15,8 @@ const initialState: EditorStore = {
             sectionName: "Banner",
             content: {
               label: "",
-              title: "developer",
-              subtitle:
-                "Eslam helps you build the best products for your customers. With our expertise and experience, we can help you take your ideas from concept to reality",
+              title: "",
+              subtitle: "",
               mediaType: "image",
               imageSetting: { imageUrl: "", altText: "" },
               videoSetting: { videoUrl: "" },
@@ -194,6 +193,7 @@ const initialState: EditorStore = {
   openHeaderOptions: false,
   openLogoSettings: false,
   previewMode: false,
+  isGenerating: false, // New: Track if generation is in progress
   designSettings: {
     fonts: {
       titleFont: {
@@ -507,6 +507,8 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPages = false;
         draft.openPageSetting = false;
         draft.openSectionDesigns = false;
+        draft.chooseImage = false;
+        draft.chooseBgImage = false;
         const page = state.editor.pages.find(
           (p) => p.pageId === action.payload.pageId
         );
@@ -529,6 +531,8 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
       }
 
       case types.UPDATE_SELECTED_ITEM: {
+        draft.chooseImage = false;
+        draft.chooseBgImage = false;
         draft.selectedItem = action.payload;
         break;
       }
@@ -887,6 +891,10 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
       case types.TOGGLE_PREVIEW_MODE: {
         draft.previewMode = !draft.previewMode;
         break;
+      }
+      case types.RESET_EDITOR_STATE: {
+        // Completely reset the state to the initial state
+        return initialState;
       }
 
       default:

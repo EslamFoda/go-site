@@ -36,7 +36,7 @@ function UnsplashTab({
   const [page, setPage] = useState<number>(1);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const { motion,AnimatePresence } = useMotion();
+  const { motion } = useMotion();
 
   const fetchUnsplashImages = async () => {
     if (page === 20) {
@@ -73,6 +73,7 @@ function UnsplashTab({
       const unsplashResponse = await unsplashClient.search.getPhotos({
         query,
         page: 1,
+        perPage: 30,
       });
       setSearchResults(unsplashResponse.response?.results as UnsplashImage[]);
       setHasMore(false);

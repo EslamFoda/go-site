@@ -1,3 +1,9 @@
+import { themes } from "@/constant/createSiteThemes";
+import {
+  EditorSection,
+  SectionContentTypes,
+  SectionStyleTypes,
+} from "@/reduxStore/types";
 import { SocialLinkIcons } from "@/types/common";
 import { v4 } from "uuid";
 
@@ -6,372 +12,370 @@ export const generateSections = (
   generatedData: any,
   siteId?: string,
   homePageId?: string
-) => [
-  {
-    id: v4(),
-    sectionName: "Banner",
-    content: {
-      label: "",
-      title: generatedData.banner?.title || "Banner title",
-      subtitle:
-        generatedData.banner?.subtitle ||
-        "Eslam helps you build the best products for your customers. With our expertise and experience, we can help you take your ideas from concept to reality",
-      mediaType: "image",
-      imageSetting: {
-        imageUrl: generatedData.banner?.imageUrl,
-        altText: "Banner image",
-        id: generatedData.banner?.imgId,
-      },
-      videoSetting: { videoUrl: "" },
-      actionType: "buttons",
-      form: {
-        fields: [
+) =>
+  [
+    {
+      id: v4(),
+      sectionName: "Banner",
+      content: {
+        label: "",
+        title: generatedData.banner?.title || "",
+        subtitle: generatedData.banner?.subtitle || "",
+        mediaType: "image",
+        imageSetting: {
+          imageUrl: generatedData.banner?.imageUrl,
+          altText: "Banner image",
+          id: generatedData.banner?.imgId,
+        },
+        videoSetting: { videoUrl: "" },
+        actionType: "buttons",
+        form: {
+          fields: [
+            {
+              id: v4(),
+              type: "text",
+              label: "First name",
+              value: "First name",
+              placeholder: "First name",
+              required: false,
+              active: true,
+            },
+            {
+              id: v4(),
+              type: "text",
+              label: "Last name",
+              value: "Last name",
+              placeholder: "Last name",
+              required: false,
+              active: true,
+            },
+            {
+              id: v4(),
+              type: "email",
+              label: "Email",
+              value: "Email",
+              placeholder: "Email",
+              required: true,
+              active: true,
+            },
+            {
+              id: v4(),
+              type: "tel",
+              label: "Phone",
+              value: "Phone",
+              placeholder: "Phone",
+              required: false,
+              active: false,
+            },
+            {
+              id: v4(),
+              type: "textarea",
+              label: "Message",
+              value: "Message",
+              placeholder: "Message",
+              required: false,
+              active: false,
+            },
+          ],
+          countryCode: {
+            code: "US",
+            name: "United States",
+            dialCode: "+1",
+            flag: "🇺🇸",
+          },
+          button: { text: "button 1", link: "", id: v4() },
+          successMessage: "Thank you! Your submission has been received",
+        },
+        buttons: [
           {
+            text: generatedData.banner?.buttons?.primaryButton?.text || "",
+            link: "",
             id: v4(),
-            type: "text",
-            label: "First name",
-            value: "First name",
-            placeholder: "First name",
-            required: false,
-            active: true,
+            pageId: "",
+            linkType: "internal",
+            externalLink: "",
+            openNewTab: false,
           },
           {
+            text: generatedData.banner?.buttons?.secondaryButton?.text || "",
+            link: "",
             id: v4(),
-            type: "text",
-            label: "Last name",
-            value: "Last name",
-            placeholder: "Last name",
-            required: false,
-            active: true,
-          },
-          {
-            id: v4(),
-            type: "email",
-            label: "Email",
-            value: "Email",
-            placeholder: "Email",
-            required: true,
-            active: true,
-          },
-          {
-            id: v4(),
-            type: "tel",
-            label: "Phone",
-            value: "Phone",
-            placeholder: "Phone",
-            required: false,
-            active: false,
-          },
-          {
-            id: v4(),
-            type: "textarea",
-            label: "Message",
-            value: "Message",
-            placeholder: "Message",
-            required: false,
-            active: false,
+            pageId: "",
+            linkType: "internal",
+            externalLink: "",
+            openNewTab: false,
           },
         ],
-        button: { text: "button 1", link: "", id: v4() },
-        successMessage: "Thank you! Your submission has been received",
-        countryCode: {
-          code: "US",
-          name: "United States",
-          dialCode: "+1",
-          flag: "🇺🇸",
-        },
       },
-      buttons: [
-        {
-          text:
-            generatedData.banner?.buttons?.primaryButton?.text || "Get Started",
-          link: "",
-          id: v4(),
-          pageId: "",
-          linkType: "internal",
-          externalLink: "",
-          openNewTab: false,
-        },
-        {
-          text:
-            generatedData.banner?.buttons?.secondaryButton?.text ||
-            "Learn More",
-          link: "",
-          id: v4(),
-          pageId: "",
-          linkType: "internal",
-          externalLink: "",
-          openNewTab: false,
-        },
-      ],
-    },
-    style: {
-      designName: "design1",
-      designSettings: {
-        titleSize: "l",
-        align: "center",
-        subtitleWidth: "80%",
-        height: {
-          desktop: 460,
-          mobile: 350,
-        },
-        video: true,
-        leftTitlePosition: false,
-        leftTitleWidth: "50%",
-        showButtons: true,
-        showForm: false,
-        showVideo: false,
-        spacing: {
-          top: {
-            desktop: 50,
-            mobile: 25,
+      style: {
+        designName: "design1",
+        designSettings: {
+          titleSize: "l",
+          align: "center",
+          subtitleWidth: "80%",
+          height: {
+            desktop: 480,
+            mobile: 350,
           },
-          bottom: {
-            desktop: 50,
-            mobile: 25,
+          video: true,
+          leftTitlePosition: false,
+          leftTitleWidth: "50%",
+          mobile: "flex-col-reverse",
+          showButtons: true,
+          showForm: false,
+          showVideo: false,
+          spacing: {
+            top: {
+              desktop: 50,
+              mobile: 25,
+            },
+            bottom: {
+              desktop: 50,
+              mobile: 25,
+            },
+            gap: {
+              desktop: 20,
+              mobile: 10,
+            },
+            padding: {
+              desktop: 20,
+              mobile: 10,
+            },
           },
-          gap: {
-            desktop: 20,
-            mobile: 10,
+          sectionBackground: {
+            color: "gray",
+            media: {
+              imageUrl: "",
+              imageId: "",
+            },
+            textColor: "light",
+            width: "fill",
+            height: "fit",
+            spacing: "l",
+            overlay: false,
+            blur: false,
+            greyScale: false,
+            parallax: false,
+            overlayEffect: "s",
+            blurEffect: "s",
           },
-          padding: {
-            desktop: 20,
-            mobile: 10,
+          imageSetting: {
+            objectFit: "cover",
+            backgroundColor: "primary",
+            showImage: true,
           },
-        },
-        sectionBackground: {
-          color: "gray",
-          media: {
-            imageUrl: "",
-            imageId: "",
-          },
-          textColor: "light",
-          width: "fill",
-          height: "fit",
-          spacing: "l",
-          overlay: false,
-          blur: false,
-          greyScale: false,
-          parallax: false,
-          overlayEffect: "s",
-          blurEffect: "s",
-        },
-        imageSetting: {
-          objectFit: "cover",
-          backgroundColor: "primary",
-          showImage: true,
         },
       },
     },
-  },
-  {
-    id: v4(),
-    sectionName: "Cards",
-    content: {
-      label: "",
-      title: generatedData.cards?.title || "Heading",
-      subtitle: generatedData.cards?.subtitle || "",
-      cards: generatedData.cards?.cards || [],
-    },
-    style: {
-      designName: "design1",
-      designSettings: {
-        layout: "top",
-        layoutV2: "bottom",
-        grid: {
-          desktop: 3,
-          mobile: 1,
-        },
-        height: {
-          desktop: 300,
-          mobile: 300,
-        },
-        titleSize: "m",
-        align: "start",
-        image: true,
-        cardBackground: true,
-        cardBorder: false,
-        leftTitlePosition: false,
-        displayType: "grid",
-        cardSlider: {
-          desktopWidth: 300,
-          mobileWidth: 300,
-          autoScroll: false,
-          scrollSpeed: 2,
-        },
-        button: true,
-        spacing: {
-          top: {
-            desktop: 50,
-            mobile: 25,
+    {
+      id: v4(),
+      sectionName: "Cards",
+      content: {
+        label: "",
+        title: generatedData.cards?.title || "Heading",
+        subtitle: generatedData.cards?.subtitle || "",
+        cards: generatedData.cards?.cards || [],
+      },
+      style: {
+        designName: "design1",
+        designSettings: {
+          layout: "top",
+          layoutV2: "bottom",
+          grid: {
+            desktop: 3,
+            mobile: 1,
           },
-          bottom: {
-            desktop: 50,
-            mobile: 25,
+          height: {
+            desktop: 340,
+            mobile: 300,
           },
-          gap: {
-            desktop: 20,
-            mobile: 10,
+          titleSize: "m",
+          align: "start",
+          image: true,
+          cardBackground: true,
+          cardBorder: false,
+          leftTitlePosition: false,
+          displayType: "grid",
+          cardSlider: {
+            desktopWidth: 300,
+            mobileWidth: 300,
+            autoScroll: false,
+            scrollSpeed: 2,
           },
-          padding: {
-            desktop: 20,
-            mobile: 10,
+          button: true,
+          spacing: {
+            top: {
+              desktop: 50,
+              mobile: 25,
+            },
+            bottom: {
+              desktop: 50,
+              mobile: 25,
+            },
+            gap: {
+              desktop: 20,
+              mobile: 10,
+            },
+            padding: {
+              desktop: 20,
+              mobile: 10,
+            },
           },
-        },
-        sectionBackground: {
-          color: "primary",
-          media: {
-            imageUrl: "",
-            imageId: "",
+          sectionBackground: {
+            color: "primary",
+            media: {
+              imageUrl: "",
+              imageId: "",
+            },
+            textColor: "light",
+            height: "fit",
+            width: "fill",
+            spacing: "l",
+            overlay: false,
+            blur: false,
+            greyScale: false,
+            parallax: false,
+            overlayEffect: "s",
+            blurEffect: "s",
           },
-          textColor: "light",
-          height: "fit",
-          width: "fill",
-          spacing: "l",
-          overlay: false,
-          blur: false,
-          greyScale: false,
-          parallax: false,
-          overlayEffect: "s",
-          blurEffect: "s",
         },
       },
     },
-  },
-  {
-    id: v4(),
-    sectionName: "Testimonials",
-    content: {
-      label: "",
-      title: generatedData.testimonials?.title || "Heading",
-      subtitle: generatedData.testimonials?.subtitle || "",
-      iconType: "star",
-      testimonials: generatedData.testimonials?.testimonials || [],
-    },
-    style: {
-      designName: "design1",
-      designSettings: {
-        textSize: "m",
-        displayType: "grid",
-        grid: {
-          desktop: 3,
-          mobile: 1,
-        },
-        shape: "square",
-        align: "start",
-        background: true,
-        border: false,
-        avatar: true,
-        rating: true,
-        leftTitlePosition: false,
-        carouselSettings: {
-          desktopWidth: 350,
-          mobileWidth: 300,
-          autoScroll: false,
-          scrollSpeed: 2,
-        },
-        spacing: {
-          top: {
-            desktop: 50,
-            mobile: 25,
+    {
+      id: v4(),
+      sectionName: "Testimonials",
+      content: {
+        label: "",
+        title: generatedData.testimonials?.title || "Heading",
+        subtitle: generatedData.testimonials?.subtitle || "",
+        iconType: "star",
+        testimonials: generatedData.testimonials?.testimonials || [],
+      },
+      style: {
+        designName: "design1",
+        designSettings: {
+          textSize: "m",
+          displayType: "grid",
+          grid: {
+            desktop: 3,
+            mobile: 1,
           },
-          bottom: {
-            desktop: 50,
-            mobile: 25,
+          shape: "square",
+          align: "start",
+          background: true,
+          border: false,
+          avatar: true,
+          rating: true,
+          leftTitlePosition: false,
+          carouselSettings: {
+            desktopWidth: 350,
+            mobileWidth: 300,
+            autoScroll: false,
+            scrollSpeed: 2,
           },
-          gap: {
-            desktop: 20,
-            mobile: 10,
+          spacing: {
+            top: {
+              desktop: 50,
+              mobile: 25,
+            },
+            bottom: {
+              desktop: 50,
+              mobile: 25,
+            },
+            gap: {
+              desktop: 20,
+              mobile: 10,
+            },
+            padding: {
+              desktop: 20,
+              mobile: 10,
+            },
           },
-          padding: {
-            desktop: 20,
-            mobile: 10,
+          sectionBackground: {
+            color: "none",
+            media: {
+              imageUrl: "",
+              imageId: "",
+            },
+            textColor: "light",
+            height: "fit",
+            width: "fill",
+            spacing: "l",
+            overlay: false,
+            blur: false,
+            greyScale: false,
+            parallax: false,
+            overlayEffect: "s",
+            blurEffect: "s",
           },
-        },
-        sectionBackground: {
-          color: "none",
-          media: {
-            imageUrl: "",
-            imageId: "",
-          },
-          textColor: "light",
-          height: "fit",
-          width: "fill",
-          spacing: "l",
-          overlay: false,
-          blur: false,
-          greyScale: false,
-          parallax: false,
-          overlayEffect: "s",
-          blurEffect: "s",
         },
       },
     },
-  },
-  {
-    id: v4(),
-    sectionName: "Accordion",
-    content: {
-      label: "",
-      title: generatedData.accordions?.title || "Heading",
-      subtitle: generatedData.accordions?.subtitle || "",
-      accordions: generatedData.accordions?.accordions || [],
-    },
-    style: {
-      designName: "design1",
-      designSettings: {
-        icon: "arrow",
-        align: "start",
-        background: true,
-        border: false,
-        leftTitlePosition: false,
-        spacing: {
-          top: {
-            desktop: 50,
-            mobile: 25,
+    {
+      id: v4(),
+      sectionName: "Accordion",
+      content: {
+        label: "",
+        title: generatedData.accordions?.title || "Heading",
+        subtitle: generatedData.accordions?.subtitle || "",
+        accordions: generatedData.accordions?.accordions || [],
+      },
+      style: {
+        designName: "design1",
+        designSettings: {
+          icon: "arrow",
+          align: "start",
+          background: true,
+          border: false,
+          leftTitlePosition: false,
+          spacing: {
+            top: {
+              desktop: 50,
+              mobile: 25,
+            },
+            bottom: {
+              desktop: 50,
+              mobile: 25,
+            },
+            gap: {
+              desktop: 20,
+              mobile: 10,
+            },
+            padding: {
+              desktop: 20,
+              mobile: 10,
+            },
           },
-          bottom: {
-            desktop: 50,
-            mobile: 25,
+          sectionBackground: {
+            color: "primary",
+            media: {
+              imageUrl: "",
+              imageId: "",
+            },
+            textColor: "light",
+            height: "fit",
+            width: "fill",
+            spacing: "l",
+            overlay: false,
+            blur: false,
+            greyScale: false,
+            parallax: false,
+            overlayEffect: "s",
+            blurEffect: "s",
           },
-          gap: {
-            desktop: 20,
-            mobile: 10,
-          },
-          padding: {
-            desktop: 20,
-            mobile: 10,
-          },
-        },
-        sectionBackground: {
-          color: "primary",
-          media: {
-            imageUrl: "",
-            imageId: "",
-          },
-          textColor: "light",
-          height: "fit",
-          width: "fill",
-          spacing: "l",
-          overlay: false,
-          blur: false,
-          greyScale: false,
-          parallax: false,
-          overlayEffect: "s",
-          blurEffect: "s",
         },
       },
     },
-  },
-  // Add more sections here...
-];
+    // Add more sections here...
+  ] as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[];
 
 export const insertSiteData = (
   generatedData: any,
   user: any,
   siteId: string,
   homePageId: string,
-  siteName: string
+  siteName: string,
+  selectedPallet: (typeof themes)[0]
 ) => ({
   settings: {
     email: user?.email,
@@ -392,8 +396,7 @@ export const insertSiteData = (
       pageId: homePageId,
       sections: generateSections(generatedData, siteId, homePageId),
       pageSettings: {
-        coverImage:
-          "https://images.unsplash.com/photo-1674062284636-c7b6b6c7a358...",
+        coverImage: "",
         description: "Shop for the latest mobile phones...",
         isPublished: true,
         isVisibleInSearch: true,
@@ -410,29 +413,27 @@ export const insertSiteData = (
   designSettings: {
     fonts: {
       titleFont: {
-        fontFamily: "Space Grotesk",
-        fontWeight: "600",
-        fontFamilyUrl:
-          "https://fonts.gstatic.com/s/spacegrotesk/v15/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gOoraIAEj4PVksjNsFjTDJK.ttf",
+        fontFamily: selectedPallet.titleFontFamily,
+        fontWeight: selectedPallet.titleFontWeight,
+        fontFamilyUrl: selectedPallet.titleFontFamilyUrl,
       },
       bodyFont: {
-        fontFamily: "Space Grotesk",
-        fontWeight: "regular",
-        fontFamilyUrl:
-          "https://fonts.gstatic.com/s/spacegrotesk/v15/V8mQoQDjQSkFtoMM3T6r8E7mF71Q-gOoraIAEj7oUUsjNsFjTDJK.ttf",
+        fontFamily: selectedPallet.bodyFontFamily,
+        fontWeight: selectedPallet.bodyFontWeight,
+        fontFamilyUrl: selectedPallet.bodyFontFamilyUrl,
       },
     },
     colors: {
-      primary: "",
-      primaryForGround: "",
+      primary: selectedPallet.primaryColor,
+      primaryForGround: selectedPallet.primaryForGround,
     },
-    borderRadius: ".5rem",
+    borderRadius: selectedPallet.borderRadius,
     width: {
       pages: 1400,
       fullWidthPage: false,
     },
   },
-  selectedPallet: "default-theme",
+  selectedPallet: selectedPallet.colorPallet,
   globalSections: [
     {
       id: v4(),

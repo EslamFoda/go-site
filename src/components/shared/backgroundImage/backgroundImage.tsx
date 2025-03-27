@@ -46,6 +46,7 @@ const BackgroundImage: React.FC<BackgroundImageProps> = ({
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundSize: "cover",
+          ...(blur && { transform: "scale(1.1)" }),
           ...(parallax && { transform: "scale(1.2)" }),
           filter: `
             ${

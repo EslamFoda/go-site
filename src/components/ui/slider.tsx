@@ -21,7 +21,7 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       <SliderPrimitive.Track className="relative cursor-e-resize h-10 w-full grow overflow-hidden rounded-sm ">
         <SliderPrimitive.Range className="absolute h-full bg-muted-bg" />
       </SliderPrimitive.Track>
-      <SliderPrimitive.Thumb className="block cursor-e-resize h-10 w-10 rounded-sm bg-[#555] ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
+      <SliderPrimitive.Thumb className="block cursor-e-resize h-10 w-3 rounded-sm bg-[#555] ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />
       {customText && (
         <span className="block absolute top-1 right-2 cursor-e-resize">
           {customText}

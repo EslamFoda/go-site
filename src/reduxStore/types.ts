@@ -98,6 +98,7 @@ export interface EditorStore {
   previewMode: boolean;
   dragItem: GridCard;
   isDragging: boolean;
+  isGenerating: boolean;
   isDraggableModalActive: boolean;
   fluidCard: GridCard | null;
   draggableModalName: DraggableModalName;

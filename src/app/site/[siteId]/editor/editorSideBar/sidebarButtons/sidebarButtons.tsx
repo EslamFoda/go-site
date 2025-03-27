@@ -8,6 +8,7 @@ import { PagesIcon, PalletIcon, SettingsIcon } from "@/icons/common";
 function SidebarButtons() {
   const dispatch = useAppDispatch();
   const {
+    isGenerating,
     openPageSetting: pageSettings,
     openPallet: pallet,
     openPages,
@@ -30,7 +31,7 @@ function SidebarButtons() {
         className="flex items-center h-12 justify-center cursor-pointer hover:bg-muted/70 relative group"
         onClick={handleOpenPallet}
       >
-        <PalletIcon active={pallet} />{" "}
+        <PalletIcon active={pallet} />
         <div className="hidden group-hover:flex items-center justify-center bg-foreground : text-background w-full h-5 text-xs absolute -bottom-4 right-0">
           <span>Design</span>
         </div>
@@ -38,9 +39,12 @@ function SidebarButtons() {
 
       <div
         className="flex items-center h-12 justify-center cursor-pointer hover:bg-muted/70 relative group"
-        onClick={() => dispatch(openPageSetting())}
+        onClick={() => {
+          if (isGenerating) return;
+          dispatch(openPageSetting());
+        }}
       >
-        <SettingsIcon active={pageSettings} />{" "}
+        <SettingsIcon active={pageSettings} />
         <div className="hidden group-hover:flex items-center justify-center bg-foreground : text-background w-full h-5 text-xs absolute -bottom-4 right-0">
           <span>Settings</span>
         </div>

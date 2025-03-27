@@ -36,7 +36,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
   containerClassName,
 }) => {
   const titleAndSubtitleClassName = cn(
-    "space-y-3",
+    "space-y-1",
     {
       "text-start": align === "start" || leftTitlePosition,
       "text-center": align === "center" && !leftTitlePosition,
