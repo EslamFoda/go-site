@@ -93,7 +93,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       variants={sidebarVariants}
     >
       <div className="flex flex-col  h-full">
-        <div className="flex p-3 border-b border-muted-bg justify-between items-center">
+        <div className="flex h-14 px-3 border-b border-muted-bg justify-between items-center">
           <div>
             {title && <h2 className="text-lg font-semibold">{title}</h2>}
             {description && (

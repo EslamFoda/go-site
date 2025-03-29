@@ -8,20 +8,19 @@ import React from "react";
 function PublishBtn() {
   const dispatch = useAppDispatch();
   const { toast } = useToast();
-  const { editor } = useAppSelector((state) => state);
+  const { settings, editor, designSettings, selectedPallet, globalSections } =
+    useAppSelector((state) => state.editor.present);
   const publishSite = async () => {
     const supabase = createClient();
     try {
       // Update site settings to mark as published
-      dispatch(
-        updateSiteSettings({ ...editor.present.settings, isPublished: true })
-      );
+      dispatch(updateSiteSettings({ ...settings, isPublished: true }));
 
       // Check if a site already exists
       const { data: existingSites, error: checkError } = await supabase
         .from("published_sites")
         .select()
-        .eq("settings->>siteId", editor.present.settings.siteId) // Changed -> to ->>
+        .eq("settings->>siteId", settings.siteId) // Changed -> to ->>
         .maybeSingle();
 
       if (checkError) {
@@ -33,14 +32,14 @@ function PublishBtn() {
         const { data, error: updateError } = await supabase
           .from("published_sites")
           .update({
-            pages: editor.present.editor.pages,
-            designSettings: editor.present.designSettings,
-            selectedPallet: editor.present.selectedPallet,
-            globalSections: editor.present.globalSections,
-            settings: editor.present.settings,
-            owner_id: editor.present.settings.owner_id,
+            pages: editor.pages,
+            designSettings: designSettings,
+            selectedPallet: selectedPallet,
+            globalSections: globalSections,
+            settings: settings,
+            owner_id: settings.owner_id,
           })
-          .eq("owner_id", editor.present.settings.owner_id)
+          .eq("owner_id", settings.owner_id)
           .select();
 
         if (updateError) throw updateError;
@@ -55,12 +54,12 @@ function PublishBtn() {
           .from("published_sites")
           .insert([
             {
-              pages: editor.present.editor.pages,
-              designSettings: editor.present.designSettings,
-              selectedPallet: editor.present.selectedPallet,
-              globalSections: editor.present.globalSections,
-              settings: editor.present.settings,
-              owner_id: editor.present.settings.owner_id,
+              pages: editor.pages,
+              designSettings: designSettings,
+              selectedPallet: selectedPallet,
+              globalSections: globalSections,
+              settings: settings,
+              owner_id: settings.owner_id,
             },
           ])
           .select();
@@ -83,7 +82,7 @@ function PublishBtn() {
     }
   };
   return (
-    <Button size="sm" onClick={publishSite}>
+    <Button className="w-20 h-8 mx-3" onClick={publishSite}>
       Publish
     </Button>
   );

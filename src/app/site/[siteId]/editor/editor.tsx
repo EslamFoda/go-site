@@ -93,8 +93,9 @@ function Editor({ children }: { children: React.ReactNode }) {
             <ThemeToggle />
             <div className="w-[1px] h-full bg-border" />
             <EditorToggle />
+            <div className="w-[1px] h-full bg-border" />
+            {!previewMode && <PublishBtn />}
           </div>
-          <div>{/* <PublishBtn /> */}</div>
         </header>
         <main className={editorContentClasses}>{children}</main>
       </div>

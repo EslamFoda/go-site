@@ -22,11 +22,11 @@ const HeaderMenu: React.FC<HeaderMenuProps> = ({
 }) => {
   // Map of icon components
   const NavIcon = {
-    "icon-1": <MenuIcon1 className="animate-fadeIn" />,
-    "icon-2": <MenuIcon2 className="animate-fadeIn" />,
-    "icon-3": <MenuIcon3 className="animate-fadeIn" />,
-    "icon-4": <MenuIcon4 className="animate-fadeIn" />,
-    "icon-5": <MenuIcon5 className="animate-fadeIn" />,
+    "icon-1": <MenuIcon1 />,
+    "icon-2": <MenuIcon2 />,
+    "icon-3": <MenuIcon3 />,
+    "icon-4": <MenuIcon4 />,
+    "icon-5": <MenuIcon5 />,
   };
 
   return (

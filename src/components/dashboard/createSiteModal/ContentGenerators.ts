@@ -159,6 +159,10 @@ export const generateCards = async (
           button: card?.button?.text,
           buttonColor: card?.buttonColor || "gray",
           link: "",
+          pageId: "",
+          linkType: "internal",
+          externalLink: "",
+          openNewTab: false,
         };
       }),
     };

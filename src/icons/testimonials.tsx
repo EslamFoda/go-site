@@ -1,5 +1,3 @@
-import { SVGProps } from "react";
-
 interface QuoteIconProps extends React.SVGProps<SVGSVGElement> {
   height?: number;
   width?: number;

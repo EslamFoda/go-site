@@ -18,7 +18,7 @@ export function ThemeSelector({
 }: ThemeSelectorProps) {
   return (
     <>
-      <div className="py-3 space-y-4">
+      <div className="py-1 space-y-4">
         <p className="text-muted-foreground text-center text-sm px-16">
           Customize your site instantly with matching fonts, colors, and shapes.
         </p>
@@ -34,10 +34,13 @@ export function ThemeSelector({
           ))}
         </div>
       </div>
-      <div className="gap-3">
+      <div className="space-y-2">
         <Button className="w-full" onClick={onContinue}>
           Continue
         </Button>
+        <p className="text-muted-foreground text-center text-xs px-16">
+          You can edit these later
+        </p>
       </div>
     </>
   );
