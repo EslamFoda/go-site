@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Draggable from "react-draggable";
 import { X } from "lucide-react";
 import { useMotion } from "@/hooks/useMotion";
@@ -20,29 +20,28 @@ const DraggableModal: React.FC<DraggableModalProps> = ({
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
-  const positionRef = useRef(position);
+  const backdropRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    positionRef.current = position;
-  }, [position]);
+    const handleClickOutside = (event: MouseEvent) => {
+      // Check if the click is on the backdrop overlay or the close button
+      const isClickOnOverlay =
+        backdropRef.current && backdropRef.current === event.target;
 
-  useEffect(() => {
-    if (isOpen && modalRef.current) {
-      const modalWidth = modalRef.current.offsetWidth;
-      const modalHeight = modalRef.current.offsetHeight;
-      const windowWidth = window.innerWidth;
-      const windowHeight = window.innerHeight;
-      
-      const newPosition = {
-        x: (windowWidth - modalWidth) / 2,
-        y: (windowHeight - modalHeight) / 2,
-      };
-      
-      if (positionRef.current.x === 0 && positionRef.current.y === 0) {
-        setPosition(newPosition);
+      // Close the modal only if the click is on the overlay or the close button
+      if (isClickOnOverlay) {
+        closeModal();
       }
-    }
+    };
 
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [closeModal]);
+
+  useEffect(() => {
     const handleEscapeKey = (event: KeyboardEvent) => {
       if (event.key === "Escape" && isOpen) {
         closeModal();
@@ -51,7 +50,7 @@ const DraggableModal: React.FC<DraggableModalProps> = ({
 
     document.addEventListener("keydown", handleEscapeKey);
     return () => document.removeEventListener("keydown", handleEscapeKey);
-  }, [isOpen, closeModal]);
+  }, [closeModal, isOpen]);
 
   const handleDrag = (e: any, ui: any) => {
     setPosition({ x: ui.x, y: ui.y });
@@ -61,11 +60,12 @@ const DraggableModal: React.FC<DraggableModalProps> = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
+          style={{ zIndex: 50 }}
+          ref={backdropRef}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 pointer-events-none"
-          style={{ zIndex: 101 }}
+          className="fixed inset-0 z-30 flex items-center justify-center"
         >
           <Draggable
             nodeRef={modalRef}
@@ -78,12 +78,16 @@ const DraggableModal: React.FC<DraggableModalProps> = ({
           >
             <div
               ref={modalRef}
-              className={`rounded-[4px] w-96 bg-background overflow-hidden antialiased pointer-events-auto shadow-2xl shadow-zinc-900 cursor-default transition-all duration-300 ease-out ${
-                isDragging ? "" : "transition-transform"
+              className={`rounded-[4px] w-96 bg-background overflow-hidden antialiased  shadow-2xl shadow-zinc-900 cursor-default transition-all duration-300 ease-out ${
+                isDragging ? "" : "transition- transform"
               }`}
+              style={{
+                transform: `translate(${position.x}px, ${position.y}px)`,
+              }}
             >
               <div className="h-1 w-full bg-primary"></div>
-              <div className="drag-handle flex items-center justify-between p-2 w-full cursor-move border-b rounded-t-3xl">
+              {/* Drag Handle Area */}
+              <div className="drag-handle flex items-center justify-between p-2 w-full cursor-move border-b  rounded-t-3xl">
                 <span className="text-lg">{headText}</span>
                 <button
                   onMouseDown={(e) => e.stopPropagation()}

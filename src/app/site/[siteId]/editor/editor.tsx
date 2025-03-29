@@ -37,7 +37,7 @@ function Editor({ children }: { children: React.ReactNode }) {
   );
 
   const editorHeaderClasses = cn(
-    "sticky top-0 flex h-[48px] items-center  border-b bg-background ps-4 ms-[1px]",
+    "sticky top-0 flex h-[48px] items-center  border-b bg-background ps-4 ms-[1px] z-50",
     {
       "ms-0": previewMode,
     }
@@ -74,7 +74,7 @@ function Editor({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
       <div className="flex flex-col">
-        <header className={editorHeaderClasses} style={{ zIndex: 100 }}>
+        <header className={editorHeaderClasses}>
           <h1 className="text-xl font-semibold">Playground</h1>
           <Drawer>
             <DrawerTrigger asChild>
