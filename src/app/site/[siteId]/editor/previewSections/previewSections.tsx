@@ -5,17 +5,19 @@ import { useParams, useRouter } from "next/navigation";
 import useScrollParallax from "@/hooks/useScrollParallax";
 import ProgressBar from "@/components/shared/progressBar";
 import { HeaderStyle } from "@/types/sectionsTypes/header";
-import Banner from "../designs/banner";
-import Cards from "../designs/cards";
-import List from "../designs/list";
-import Accordion from "../designs/accordion";
-import Testimonials from "../designs/testimonials";
-import Gallery from "../designs/gallery";
-import Logos from "../designs/logos";
-import Pricing from "../designs/pricing";
-import Header from "../designs/header";
-import Footer from "../designs/footer";
-import FluidPreview from "../designs/fluidPreview";
+import { lazy } from "react";
+
+const Banner = lazy(() => import("../designs/banner"));
+const Cards = lazy(() => import("../designs/cards"));
+const List = lazy(() => import("../designs/list"));
+const Accordion = lazy(() => import("../designs/accordion"));
+const Testimonials = lazy(() => import("../designs/testimonials"));
+const Gallery = lazy(() => import("../designs/gallery"));
+const Logos = lazy(() => import("../designs/logos"));
+const FluidPreview = lazy(() => import("../designs/fluidPreview"));
+const Pricing = lazy(() => import("../designs/pricing"));
+const Header = lazy(() => import("../designs/header"));
+const Footer = lazy(() => import("../designs/footer"));
 
 const PreviewSection: React.FC<{ pageId: string }> = ({ pageId }) => {
   const { globalSections } = useAppSelector((state) => state.editor.present);

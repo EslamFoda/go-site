@@ -1,16 +1,5 @@
 "use client";
-import React, { useRef, useState } from "react";
-import Banner from "../designs/banner";
-import Cards from "../designs/cards";
-import List from "../designs/list";
-import Accordion from "../designs/accordion";
-import Testimonials from "../designs/testimonials";
-import Gallery from "../designs/gallery";
-import Header from "../designs/header";
-import Footer from "../designs/footer";
-import Logos from "../designs/logos";
-import Pricing from "../designs/pricing";
-import Fluid from "../designs/fluid";
+import React, { lazy, useRef, useState } from "react";
 import AddSection from "./addSection";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
@@ -42,6 +31,18 @@ import HeaderMobMenu from "./headerMobMenu";
 import { HeaderContent, HeaderStyle } from "@/types/sectionsTypes/header";
 import { X } from "lucide-react";
 import ProgressBar from "@/components/shared/progressBar";
+
+const Banner = lazy(() => import("../designs/banner"));
+const Cards = lazy(() => import("../designs/cards"));
+const List = lazy(() => import("../designs/list"));
+const Accordion = lazy(() => import("../designs/accordion"));
+const Testimonials = lazy(() => import("../designs/testimonials"));
+const Gallery = lazy(() => import("../designs/gallery"));
+const Logos = lazy(() => import("../designs/logos"));
+const Fluid = lazy(() => import("../designs/fluid"));
+const Pricing = lazy(() => import("../designs/pricing"));
+const Header = lazy(() => import("../designs/header"));
+const Footer = lazy(() => import("../designs/footer"));
 
 const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   const dispatch = useAppDispatch();

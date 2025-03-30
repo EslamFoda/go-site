@@ -14,7 +14,7 @@ function TopBar({ user }: { user: ActiveUserType }) {
     <header className="h-16 w-full border-b px-5 flex items-center justify-between">
       <div>
         <Link href="/">
-          <span className="font-bold text-lg">Go-site</span>
+          <span className="font-bold text-lg">Vixx</span>
         </Link>
       </div>
       <div className="flex items-center justify-center gap-3">
