@@ -16,7 +16,9 @@ import { cn } from "@/lib/utils";
 import UndoAndRedo from "@/components/shared/undoAndRedo";
 function Editor({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
-  const { previewMode } = useAppSelector((state) => state.editor.present);
+  const { previewMode, isGenerating } = useAppSelector(
+    (state) => state.editor.present
+  );
 
   const mainEditorContainerClassName = cn("grid h-screen w-full pl-[55px]", {
     "pl-0": previewMode,
@@ -88,13 +90,13 @@ function Editor({ children }: { children: React.ReactNode }) {
             </DrawerContent>
           </Drawer>
           <div className="ml-auto h-full flex items-center justify-between">
-            {!previewMode && <UndoAndRedo />}
+            {!isGenerating && !previewMode && <UndoAndRedo />}
             <div className="w-[1px] h-full bg-border" />
             <ThemeToggle />
             <div className="w-[1px] h-full bg-border" />
             <EditorToggle />
             <div className="w-[1px] h-full bg-border" />
-            {!previewMode && <PublishBtn />}
+            {!isGenerating && !previewMode && <PublishBtn />}
           </div>
         </header>
         <main className={editorContentClasses}>{children}</main>

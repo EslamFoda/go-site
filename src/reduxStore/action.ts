@@ -273,3 +273,8 @@ export const togglePreviewMode = () => ({
 export const resetEditorState = () => ({
   type: types.RESET_EDITOR_STATE,
 });
+
+export const updateSavingStatus = (isSaving: boolean) => ({
+  type: types.UPDATE_SAVING_STATUS,
+  payload: isSaving,
+});

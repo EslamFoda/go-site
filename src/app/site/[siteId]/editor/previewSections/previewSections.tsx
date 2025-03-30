@@ -6,6 +6,7 @@ import useScrollParallax from "@/hooks/useScrollParallax";
 import ProgressBar from "@/components/shared/progressBar";
 import { HeaderStyle } from "@/types/sectionsTypes/header";
 import { lazy } from "react";
+import { cn } from "@/lib/utils";
 
 const Banner = lazy(() => import("../designs/banner"));
 const Cards = lazy(() => import("../designs/cards"));
@@ -20,7 +21,9 @@ const Header = lazy(() => import("../designs/header"));
 const Footer = lazy(() => import("../designs/footer"));
 
 const PreviewSection: React.FC<{ pageId: string }> = ({ pageId }) => {
-  const { globalSections } = useAppSelector((state) => state.editor.present);
+  const { globalSections, isGenerating } = useAppSelector(
+    (state) => state.editor.present
+  );
   const router = useRouter();
   const { ParallaxProvider } = useScrollParallax();
   const { siteId } = useParams();
@@ -61,7 +64,11 @@ const PreviewSection: React.FC<{ pageId: string }> = ({ pageId }) => {
   if (!currentPage) router.push(`/site/${siteId}/editor/`);
 
   return (
-    <div className="relative bg-background">
+    <div
+      className={cn("relative bg-background", {
+        "pointer-events-none": isGenerating,
+      })}
+    >
       {/* Parent container with conditional blur */}
       {headerStyle.designSettings.scrollIndicator &&
         currentPage?.pageSettings.showHeader && <ProgressBar />}

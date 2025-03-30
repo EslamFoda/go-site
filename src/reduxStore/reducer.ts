@@ -193,6 +193,7 @@ const initialState: EditorStore = {
   openHeaderOptions: false,
   openLogoSettings: false,
   previewMode: false,
+  isSaving: false,
   isGenerating: false, // New: Track if generation is in progress
   designSettings: {
     fonts: {
@@ -895,6 +896,11 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
       case types.RESET_EDITOR_STATE: {
         // Completely reset the state to the initial state
         return initialState;
+      }
+
+      case types.UPDATE_SAVING_STATUS: {
+        draft.isSaving = action.payload;
+        break;
       }
 
       default:

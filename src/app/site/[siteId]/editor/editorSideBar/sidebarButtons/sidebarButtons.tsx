@@ -14,6 +14,7 @@ function SidebarButtons() {
     openPages,
   } = useAppSelector((state) => state.editor.present);
   const handleOpenPallet = () => {
+    if (isGenerating) return;
     dispatch(openPallet());
   };
   return (

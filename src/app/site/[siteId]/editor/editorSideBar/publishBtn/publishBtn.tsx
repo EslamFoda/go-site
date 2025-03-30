@@ -53,8 +53,14 @@ function PublishBtn() {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [publishedDomain, setPublishedDomain] = useState("");
   const [isCopied, setIsCopied] = useState(false);
-  const { settings, editor, designSettings, selectedPallet, globalSections } =
-    useAppSelector((state) => state.editor.present);
+  const {
+    settings,
+    editor,
+    designSettings,
+    selectedPallet,
+    globalSections,
+    isSaving,
+  } = useAppSelector((state) => state.editor.present);
 
   const sanitizeDomainName = (siteName: string) => {
     // Create a URL-friendly domain name
@@ -254,11 +260,11 @@ function PublishBtn() {
   return (
     <>
       <Button
-        className="min-w-20 h-8 mx-3"
+        className="min-w-20 h-8 mx-3 disabled:bg-primary disabled:opacity-100"
         onClick={publishSite}
-        disabled={isPublishing}
+        disabled={isPublishing || isSaving}
       >
-        {isPublishing ? "Publishing..." : "Publish"}
+        {isPublishing ? "Publishing..." : isSaving ? "Saving..." : "Publish"}
       </Button>
 
       {/* Success Modal */}

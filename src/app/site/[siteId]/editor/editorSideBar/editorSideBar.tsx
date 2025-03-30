@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect } from "react";
 import ChooseSection from "./chooseSection";
-import { useAppSelector } from "@/reduxStore/hooks";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import DesignSettings from "./designSettings";
 import banner from "./sectionSettings/banner";
 import cards from "./sectionSettings/cards";
@@ -24,6 +24,7 @@ import logos from "./sectionSettings/logos";
 import fluid from "./sectionSettings/fluid";
 import footer from "./sectionSettings/footer";
 import pricing from "./sectionSettings/pricing";
+import { updateSavingStatus } from "@/reduxStore/action";
 
 const EditorSidebar = () => {
   const {
@@ -40,6 +41,7 @@ const EditorSidebar = () => {
     designSettings,
     selectedPallet,
   } = useAppSelector((state) => state.editor.present);
+  const dispatch = useAppDispatch();
 
   const page = useAppSelector((state) =>
     state.editor.present.editor.pages.find(
@@ -81,6 +83,7 @@ const EditorSidebar = () => {
     : null;
 
   const updatePageStyleAndContent = useCallback(async () => {
+    dispatch(updateSavingStatus(true));
     const supabase = await createClient();
     const { data, error } = await supabase
       .from("sites")
@@ -93,11 +96,20 @@ const EditorSidebar = () => {
       })
       .eq("siteId", siteId)
       .select();
+      dispatch(updateSavingStatus(false));
 
     if (error) {
       console.error("Error updating pages:", error);
     }
-  }, [pages, siteId, globalSections, storage, designSettings, selectedPallet]);
+  }, [
+    pages,
+    siteId,
+    globalSections,
+    storage,
+    designSettings,
+    selectedPallet,
+    dispatch,
+  ]);
 
   const debouncedUpdatePageStyleAndContent = debounce(
     updatePageStyleAndContent,
