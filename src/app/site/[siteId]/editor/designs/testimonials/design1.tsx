@@ -91,7 +91,7 @@ function Design1({ section, pageId }: DesignProps) {
   const iconContainerClassNames = cn(
     "flex items-center h-10 w-10 bg-background self-baseline  justify-center shrink-0",
     {
-      "rounded-md": shape === "square",
+      "rounded-[8px]": shape === "square",
       "rounded-full": shape === "rounded",
     },
     background ? "bg-background" : "bg-muted",
@@ -102,7 +102,7 @@ function Design1({ section, pageId }: DesignProps) {
   const imgContainerClassNames = cn(
     "flex items-center h-10 w-10  self-baseline  justify-center shrink-0",
     {
-      "rounded-md": shape === "square",
+      "rounded-[8px]": shape === "square",
       "rounded-full": shape === "rounded",
     }
   );

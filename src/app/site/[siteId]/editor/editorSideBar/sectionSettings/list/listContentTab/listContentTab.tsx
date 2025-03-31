@@ -15,6 +15,7 @@ import { ListContent, ListItem, ListStyle } from "@/types/sectionsTypes/list";
 import React from "react";
 import { v4 } from "uuid";
 import EditText from "../../settingsUi/EditText";
+import ToggleGroup from "../../settingsUi/toggleGroup";
 interface ListContentTabProps {
   findSelectedSection: EditorSection<
     keyof SectionContentTypes,
@@ -51,6 +52,12 @@ function ListContentTab({
       text: "Add text here",
       icon: "",
       link: "",
+      externalLink: "",
+      image: "",
+      imageId: "",
+      linkType: "internal",
+      openNewTab: false,
+      pageId: "",
     } as ListItem;
     const newItems = [...items, newItem] as ListItem[];
     setItems(newItems);
@@ -109,6 +116,21 @@ function ListContentTab({
             })
           )
         }
+      />
+      <ToggleGroup
+        label="Type"
+        options={[
+          { value: "icon", label: "Icon" },
+          { value: "image", label: "Image" },
+        ]}
+        value={listContent.type}
+        onValueChange={(value) => {
+          dispatch(
+            updateContent(pageId, findSelectedSection.id, {
+              type: value,
+            })
+          );
+        }}
       />
       <DraggableList
         label="List"

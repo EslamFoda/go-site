@@ -99,7 +99,7 @@ function Design2({ section, pageId }: DesignProps) {
   });
 
   const iconContainerClassNames = cn(
-    "flex items-center justify-center shrink-0",
+    "flex items-center justify-center overflow-hidden shrink-0",
     {
       "rounded-md": shape === "square",
       "rounded-full": shape === "rounded",
@@ -177,17 +177,141 @@ function Design2({ section, pageId }: DesignProps) {
                   }}
                 >
                   <AnimatePresence>
-                    {section.content.list.map(
-                      (listItem: any, index: number) => {
-                        const ListIcon = getPhosphorIcon(listItem.icon);
-                        return (
-                          <motion.div
-                            layout
-                            initial={{ scale: 1, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.8, opacity: 0 }}
-                            transition={{ type: "tween" }}
-                            key={listItem.id || index}
+                    {listContent.list.map((listItem, index: number) => {
+                      const ListIcon = getPhosphorIcon(listItem.icon);
+                      return (
+                        <motion.div
+                          layout
+                          initial={{ scale: 1, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.8, opacity: 0 }}
+                          transition={{ type: "tween" }}
+                          key={listItem.id || index}
+                          className={listItemClassNames}
+                          style={{
+                            padding: isDesktop
+                              ? spacing.padding.desktop
+                              : spacing.padding.mobile,
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            dispatch(updateSelectedSection(pageId, section.id));
+                            dispatch(updateSelectedItem(listItem));
+                            dispatch(closeChooseIcon());
+                            dispatch(closePagesTab());
+                          }}
+                        >
+                          <div className={listItemTextClassNames}>
+                            <h5
+                              className={titleClassName}
+                              style={{ whiteSpace: "pre-line" }}
+                            >
+                              {listItem.title}
+                            </h5>
+                            <p
+                              className={texClassName}
+                              style={{ whiteSpace: "pre-line" }}
+                            >
+                              {listItem.text}
+                            </p>
+                          </div>
+                          <div
+                            className={cn(iconContainerClassNames, {
+                              "bg-primary":
+                                iconColor === "primary" && listItem.icon,
+                              "bg-background": !listItem.icon,
+                              "bg-muted":
+                                (bgMuted || bgPrimary || border) &&
+                                !listItem.icon,
+                            })}
+                            style={{
+                              height: height,
+                              width: height,
+                            }}
+                          >
+                            {listContent.type === "icon" && (
+                              <>
+                                {listItem.icon ? (
+                                  <ListIcon
+                                    size={height / 2.5}
+                                    className={cn({
+                                      "text-primary-foreground":
+                                        iconColor === "primary",
+                                    })}
+                                  />
+                                ) : (
+                                  <ImagePlaceHolder
+                                    fillColor={
+                                      border || bgMuted || bgPrimary
+                                        ? "fill-background"
+                                        : "fill-muted"
+                                    }
+                                    height={height / 2.5}
+                                    width={height / 2.5}
+                                  />
+                                )}
+                              </>
+                            )}
+                            {listContent.type === "image" && (
+                              <>
+                                {listItem.image ? (
+                                  <div
+                                    style={{
+                                      height: "100%",
+                                      width: "100%",
+                                      backgroundImage: `url(${listItem.image})`,
+                                      backgroundSize: "cover",
+                                      backgroundPosition: "center",
+                                      backgroundRepeat: "no-repeat",
+                                    }}
+                                  />
+                                ) : (
+                                  <ImagePlaceHolder
+                                    fillColor={
+                                      border || bgMuted || bgPrimary
+                                        ? "fill-background"
+                                        : "fill-muted"
+                                    }
+                                    height={height / 2.5}
+                                    width={height / 2.5}
+                                  />
+                                )}
+                              </>
+                            )}
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+                  </AnimatePresence>
+                </div>
+              ) : (
+                <Carousel
+                  plugins={autoScrollPlugin}
+                  opts={{
+                    skipSnaps: true,
+                    loop: autoScroll ? true : false,
+                  }}
+                  className="w-full"
+                >
+                  <CarouselContent className="items-stretch py-1">
+                    {listContent.list.map((listItem: any, index: number) => {
+                      const ListIcon = getPhosphorIcon(listItem.icon);
+                      return (
+                        <CarouselItem
+                          className="h-full"
+                          key={index}
+                          style={{
+                            flexBasis: isDesktop
+                              ? carouselSettings.desktopWidth
+                              : carouselSettings.mobileWidth,
+                            marginInlineEnd: isDesktop
+                              ? spacing.gap.desktop
+                              : spacing.gap.mobile,
+                            paddingInlineStart: index === 0 ? "" : 0,
+                          }}
+                        >
+                          <div
+                            key={index}
                             className={listItemClassNames}
                             style={{
                               padding: isDesktop
@@ -232,130 +356,60 @@ function Design2({ section, pageId }: DesignProps) {
                                 width: height,
                               }}
                             >
-                              {listItem.icon ? (
-                                <ListIcon
-                                  size={height / 2.5}
-                                  className={cn({
-                                    "text-primary-foreground":
-                                      iconColor === "primary",
-                                  })}
-                                />
-                              ) : (
-                                <ImagePlaceHolder
-                                  fillColor={
-                                    border || bgMuted || bgPrimary
-                                      ? "fill-background"
-                                      : "fill-muted"
-                                  }
-                                  height={height / 2.5}
-                                  width={height / 2.5}
-                                />
+                              {listContent.type === "icon" && (
+                                <>
+                                  {listItem.icon ? (
+                                    <ListIcon
+                                      size={height / 2.5}
+                                      className={cn({
+                                        "text-primary-foreground":
+                                          iconColor === "primary",
+                                      })}
+                                    />
+                                  ) : (
+                                    <ImagePlaceHolder
+                                      fillColor={
+                                        border || bgMuted || bgPrimary
+                                          ? "fill-background"
+                                          : "fill-muted"
+                                      }
+                                      height={height / 2.5}
+                                      width={height / 2.5}
+                                    />
+                                  )}
+                                </>
+                              )}
+                              {listContent.type === "image" && (
+                                <>
+                                  {listItem.image ? (
+                                    <div
+                                      style={{
+                                        height: "100%",
+                                        width: "100%",
+                                        backgroundImage: `url(${listItem.image})`,
+                                        backgroundSize: "cover",
+                                        backgroundPosition: "center",
+                                        backgroundRepeat: "no-repeat",
+                                      }}
+                                    />
+                                  ) : (
+                                    <ImagePlaceHolder
+                                      fillColor={
+                                        border || bgMuted || bgPrimary
+                                          ? "fill-background"
+                                          : "fill-muted"
+                                      }
+                                      height={height / 2.5}
+                                      width={height / 2.5}
+                                    />
+                                  )}
+                                </>
                               )}
                             </div>
-                          </motion.div>
-                        );
-                      }
-                    )}
-                  </AnimatePresence>
-                </div>
-              ) : (
-                <Carousel
-                  plugins={autoScrollPlugin}
-                  opts={{
-                    skipSnaps: true,
-                    loop: autoScroll ? true : false,
-                  }}
-                  className="w-full"
-                >
-                  <CarouselContent className="items-stretch py-1">
-                    {section.content.list.map(
-                      (listItem: any, index: number) => {
-                        const ListIcon = getPhosphorIcon(listItem.icon);
-                        return (
-                          <CarouselItem
-                            className="h-full"
-                            key={index}
-                            style={{
-                              flexBasis: isDesktop
-                                ? carouselSettings.desktopWidth
-                                : carouselSettings.mobileWidth,
-                              marginInlineEnd: isDesktop
-                                ? spacing.gap.desktop
-                                : spacing.gap.mobile,
-                              paddingInlineStart: index === 0 ? "" : 0,
-                            }}
-                          >
-                            <div
-                              key={index}
-                              className={listItemClassNames}
-                              style={{
-                                padding: isDesktop
-                                  ? spacing.padding.desktop
-                                  : spacing.padding.mobile,
-                              }}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                dispatch(
-                                  updateSelectedSection(pageId, section.id)
-                                );
-                                dispatch(updateSelectedItem(listItem));
-                                dispatch(closeChooseIcon());
-                                dispatch(closePagesTab());
-                              }}
-                            >
-                              <div className={listItemTextClassNames}>
-                                <h5
-                                  className={titleClassName}
-                                  style={{ whiteSpace: "pre-line" }}
-                                >
-                                  {listItem.title}
-                                </h5>
-                                <p
-                                  className={texClassName}
-                                  style={{ whiteSpace: "pre-line" }}
-                                >
-                                  {listItem.text}
-                                </p>
-                              </div>
-                              <div
-                                className={cn(iconContainerClassNames, {
-                                  "bg-primary":
-                                    iconColor === "primary" && listItem.icon,
-                                  "bg-background": !listItem.icon,
-                                  "bg-muted":
-                                    (bgMuted || bgPrimary || border) &&
-                                    !listItem.icon,
-                                })}
-                                style={{
-                                  height: height,
-                                  width: height,
-                                }}
-                              >
-                                {listItem.icon ? (
-                                  <ListIcon
-                                    size={height / 2.5}
-                                    className={cn({
-                                      "text-primary-foreground":
-                                        iconColor === "primary",
-                                    })}
-                                  />
-                                ) : (
-                                  <ImagePlaceHolder
-                                    fillColor={
-                                      border || bgMuted || bgPrimary
-                                        ? "fill-background"
-                                        : "fill-muted"
-                                    }
-                                    height={height / 2.5}
-                                    width={height / 2.5}
-                                  />
-                                )}
-                              </div>
-                            </div>
-                          </CarouselItem>
-                        );
-                      }
-                    )}
+                          </div>
+                        </CarouselItem>
+                      );
+                    })}
                   </CarouselContent>
                   <CarouselPrevious />
                   <CarouselNext />

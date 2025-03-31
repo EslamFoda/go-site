@@ -532,7 +532,6 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
       }
 
       case types.UPDATE_SELECTED_ITEM: {
-        draft.chooseImage = false;
         draft.chooseBgImage = false;
         draft.selectedItem = action.payload;
         break;

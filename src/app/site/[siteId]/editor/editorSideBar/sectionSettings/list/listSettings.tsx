@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowUpFromLine, ChevronLeft, Trash2 } from "lucide-react";
 import EditText from "../settingsUi/EditText";
-
+import validator from "validator";
 import ColorSelector from "../settingsUi/ColorSelector";
 import {
   ImagePlaceHolder,
@@ -24,6 +24,7 @@ import {
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
   closeChooseIcon,
+  openChooseBgImage,
   openChooseIcon,
   openChooseImage,
   updateContent,
@@ -38,6 +39,9 @@ import SwitchSetting from "../settingsUi/SwitchSetting";
 import ChooseImage from "../gallery/chooseImage";
 import { UnsplashImage } from "@/types/common";
 import { getPhosphorIcon } from "@/helper/phosphorIcons";
+import LinkSelector from "../settingsUi/LinkSelector";
+import { Input } from "@/components/ui/input";
+import { Switch } from "@/components/ui/switch";
 interface ListSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -49,9 +53,9 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
   const [openSpacingTab, setOpenSpacingTab] = useState(false);
   const [sectionBgOpened, setSectionBgOpened] = useState(false);
   const dispatch = useAppDispatch();
-  const { selectedSection, chooseImage } = useAppSelector(
-    (state) => state.editor.present
-  );
+  const { selectedSection, chooseBgImage, chooseImage, editor } =
+    useAppSelector((state) => state.editor.present);
+  const { pages } = editor;
   const selectedItem = useAppSelector(
     (state) => state.editor.present.selectedItem
   );
@@ -106,19 +110,21 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
     dispatch(updateSelectedItem(null));
   };
 
-  const handleUpdateListItem = (field: keyof ListItem, value: any) => {
+  const handleUpdateListItem = (updates: Partial<ListItem>) => {
     const updatedList = listContent.list.map((listItem) =>
       listItem.id === selectedListItem.id
-        ? { ...listItem, [field]: value }
+        ? { ...listItem, ...updates }
         : listItem
     );
-    dispatch(updateSelectedItem({ ...selectedListItem, [field]: value }));
+    dispatch(updateSelectedItem({ ...selectedListItem, ...updates }));
     dispatch(
-      updateContent(pageId, findSelectedSection.id, { list: updatedList })
+      updateContent(pageId, findSelectedSection.id, {
+        list: updatedList,
+      })
     );
   };
 
-  if (chooseImage) {
+  if (chooseBgImage) {
     return (
       <ChooseImage
         mediaType="image"
@@ -161,6 +167,27 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
     );
   }
 
+  if (chooseImage) {
+    return (
+      <ChooseImage
+        mediaType="image"
+        selectedImgId={selectedListItem.imageId || ""}
+        handleUpdateUnsplash={(image: UnsplashImage) => {
+          handleUpdateListItem({
+            image: image.urls.regular,
+            imageId: image.id,
+          });
+        }}
+        handleUpdateUploadedImg={(image: Storage) => {
+          handleUpdateListItem({
+            image: image.url,
+            imageId: image.id,
+          });
+        }}
+      />
+    );
+  }
+
   if (openSpacingTab) {
     return (
       <SpacingTab
@@ -180,7 +207,7 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
         icon={selectedListItem.icon}
         handleBack={() => dispatch(closeChooseIcon())}
         handlePropertyChange={(icon: string) => {
-          handleUpdateListItem("icon", icon);
+          handleUpdateListItem({ icon });
         }}
       />
     );
@@ -211,7 +238,7 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
             id={selectedListItem.id}
             value={selectedListItem.title}
             handleUpdate={(e: any) =>
-              handleUpdateListItem("title", e.target.value)
+              handleUpdateListItem({ title: e.target.value })
             }
           />
           <EditText
@@ -221,44 +248,119 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
             id={selectedListItem.id}
             value={selectedListItem.text}
             handleUpdate={(e: any) =>
-              handleUpdateListItem("text", e.target.value)
+              handleUpdateListItem({ text: e.target.value })
             }
           />
 
-          <div
-            onClick={() => dispatch(openChooseIcon())}
-            className="space-y-1 cursor-pointer flex items-center justify-between"
-          >
-            <Label htmlFor="title">Icon</Label>
-            <div className="w-4/6 border flex h-10 border-input rounded-md">
-              <div className=" basis-4/5 flex items-center justify-center h-full">
+          {listContent.type === "icon" && (
+            <div
+              onClick={() => dispatch(openChooseIcon())}
+              className="space-y-1 cursor-pointer flex items-center justify-between"
+            >
+              <Label htmlFor="title">Icon</Label>
+              <div className="w-4/6 border flex h-10 border-input rounded-md">
+                <div className=" basis-4/5 flex items-center justify-center h-full">
+                  {selectedListItem.icon ? (
+                    <ListIcon size={18} />
+                  ) : (
+                    <ImagePlaceHolder
+                      fillColor="fill-muted"
+                      width={20}
+                      height={20}
+                    />
+                  )}
+                </div>
                 {selectedListItem.icon ? (
-                  <ListIcon size={18} />
+                  <div
+                    className="flex items-center border-s justify-center basis-1/5 h-full"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleUpdateListItem({ icon: "" });
+                    }}
+                  >
+                    <Trash2 className="stroke-destructive" size={16} />
+                  </div>
                 ) : (
-                  <ImagePlaceHolder
-                    fillColor="fill-muted"
-                    width={20}
-                    height={20}
-                  />
+                  <div className="flex items-center border-s justify-center basis-1/5 h-full">
+                    <ArrowUpFromLine size={18} />
+                  </div>
                 )}
               </div>
-              {selectedListItem.icon ? (
-                <div
-                  className="flex items-center border-s justify-center basis-1/5 h-full"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleUpdateListItem("icon", "");
-                  }}
-                >
-                  <Trash2 className="stroke-destructive" size={16} />
-                </div>
-              ) : (
-                <div className="flex items-center border-s justify-center basis-1/5 h-full">
-                  <ArrowUpFromLine size={18} />
-                </div>
-              )}
             </div>
-          </div>
+          )}
+          {listContent.type === "image" && (
+            <ImageSelector
+              imageUrl={selectedListItem.image}
+              onImageSelect={() => dispatch(openChooseImage())}
+              onImageDelete={() =>
+                handleUpdateListItem({ image: "", imageId: "" })
+              }
+              onBack={() => {}}
+              showBackButton={false}
+            />
+          )}
+
+          <ToggleGroup
+            label="Link Type"
+            options={[
+              { value: "internal", label: "Internal" },
+              { value: "external", label: "External" },
+            ]}
+            value={selectedListItem.linkType}
+            onValueChange={(value) => {
+              handleUpdateListItem({ linkType: value });
+            }}
+          />
+          {selectedListItem.linkType === "internal" && (
+            <LinkSelector
+              label="Link"
+              links={pages.map((page) => ({
+                id: page.pageId,
+                link: page.pageSettings.link,
+              }))}
+              selectedLink={selectedListItem.link}
+              onSelect={(link) => {
+                const findPageWithLink = pages.find(
+                  (page) => page.pageSettings.link === link.slice(1)
+                );
+                handleUpdateListItem({
+                  link: link,
+                  pageId: findPageWithLink?.pageId || "",
+                });
+              }}
+            />
+          )}
+
+          {selectedListItem.linkType === "external" && (
+            <div className="flex items-center justify-between space-y-1">
+              <Label htmlFor="Link">Link</Label>
+              <div className="w-4/6 border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
+                <div className="flex items-center">
+                  <Input
+                    value={selectedListItem.externalLink}
+                    className="flex-1 border-none outline-none"
+                    placeholder="Paste link"
+                    onChange={(e) => {
+                      handleUpdateListItem({ externalLink: e.target.value });
+                    }}
+                  />
+                </div>
+
+                {validator.isURL(selectedListItem.externalLink) && (
+                  <div className="flex h-10 items-center justify-between px-3 py-2">
+                    <span>Open in new tab</span>
+                    <Switch
+                      defaultChecked={selectedListItem.openNewTab}
+                      checked={selectedListItem.openNewTab}
+                      onCheckedChange={(value) => {
+                        handleUpdateListItem({ openNewTab: value });
+                      }}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -307,7 +409,7 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
           />
           <ImageSelector
             imageUrl={listStyle.designSettings.sectionBackground.media.imageUrl}
-            onImageSelect={() => dispatch(openChooseImage())}
+            onImageSelect={() => dispatch(openChooseBgImage())}
             onImageDelete={() =>
               dispatch(
                 updateStyle(pageId, findSelectedSection?.id, {

@@ -94,7 +94,7 @@ function Design1({ section, pageId }: DesignProps) {
   const avatarClassNames = cn(
     "flex items-center h-10 w-10 bg-background self-baseline  justify-center shrink-0",
     {
-      "rounded-md": shape === "square",
+      "rounded-[8px]": shape === "square",
       "rounded-full": shape === "rounded",
       "self-baseline": align === "start",
       "self-center": align === "center",
@@ -125,7 +125,7 @@ function Design1({ section, pageId }: DesignProps) {
   const imgContainerClassNames = cn(
     "flex items-center h-10 w-10  self-baseline justify-center shrink-0",
     {
-      "rounded-md": shape === "square",
+      "rounded-[8px]": shape === "square",
       "rounded-full": shape === "rounded",
     }
   );

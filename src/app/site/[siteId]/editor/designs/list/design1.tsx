@@ -211,24 +211,54 @@ function Design1({ section, pageId }: DesignProps) {
                               width: height,
                             }}
                           >
-                            {listItem.icon ? (
-                              <ListIcon
-                                size={height / 2.5}
-                                className={cn({
-                                  "text-primary-foreground":
-                                    iconColor === "primary",
-                                })}
-                              />
-                            ) : (
-                              <ImagePlaceHolder
-                                fillColor={
-                                  border || bgMuted || bgPrimary
-                                    ? "fill-background"
-                                    : "fill-muted"
-                                }
-                                height={height / 2.5}
-                                width={height / 2.5}
-                              />
+                            {listContent.type === "icon" && (
+                              <>
+                                {listItem.icon ? (
+                                  <ListIcon
+                                    size={height / 2.5}
+                                    className={cn({
+                                      "text-primary-foreground":
+                                        iconColor === "primary",
+                                    })}
+                                  />
+                                ) : (
+                                  <ImagePlaceHolder
+                                    fillColor={
+                                      border || bgMuted || bgPrimary
+                                        ? "fill-background"
+                                        : "fill-muted"
+                                    }
+                                    height={height / 2.5}
+                                    width={height / 2.5}
+                                  />
+                                )}
+                              </>
+                            )}
+                            {listContent.type === "image" && (
+                              <>
+                                {listItem.image ? (
+                                  <div
+                                    style={{
+                                      height: "100%",
+                                      width: "100%",
+                                      backgroundImage: `url(${listItem.image})`,
+                                      backgroundSize: "cover",
+                                      backgroundPosition: "center",
+                                      backgroundRepeat: "no-repeat",
+                                    }}
+                                  />
+                                ) : (
+                                  <ImagePlaceHolder
+                                    fillColor={
+                                      border || bgMuted || bgPrimary
+                                        ? "fill-background"
+                                        : "fill-muted"
+                                    }
+                                    height={height / 2.5}
+                                    width={height / 2.5}
+                                  />
+                                )}
+                              </>
                             )}
                           </div>
                           <div className={listItemTextClassNames}>
@@ -309,24 +339,54 @@ function Design1({ section, pageId }: DesignProps) {
                                   width: height,
                                 }}
                               >
-                                {listItem.icon ? (
-                                  <ListIcon
-                                    size={height / 2.5}
-                                    className={cn({
-                                      "text-primary-foreground":
-                                        iconColor === "primary",
-                                    })}
-                                  />
-                                ) : (
-                                  <ImagePlaceHolder
-                                    fillColor={
-                                      border || bgMuted || bgPrimary
-                                        ? "fill-background"
-                                        : "fill-muted"
-                                    }
-                                    height={height / 2.5}
-                                    width={height / 2.5}
-                                  />
+                                {listContent.type === "icon" && (
+                                  <>
+                                    {listItem.icon ? (
+                                      <ListIcon
+                                        size={height / 2.5}
+                                        className={cn({
+                                          "text-primary-foreground":
+                                            iconColor === "primary",
+                                        })}
+                                      />
+                                    ) : (
+                                      <ImagePlaceHolder
+                                        fillColor={
+                                          border || bgMuted || bgPrimary
+                                            ? "fill-background"
+                                            : "fill-muted"
+                                        }
+                                        height={height / 2.5}
+                                        width={height / 2.5}
+                                      />
+                                    )}
+                                  </>
+                                )}
+                                {listContent.type === "image" && (
+                                  <>
+                                    {listItem.image ? (
+                                      <div
+                                        style={{
+                                          height: "100%",
+                                          width: "100%",
+                                          backgroundImage: `url(${listItem.image})`,
+                                          backgroundSize: "cover",
+                                          backgroundPosition: "center",
+                                          backgroundRepeat: "no-repeat",
+                                        }}
+                                      />
+                                    ) : (
+                                      <ImagePlaceHolder
+                                        fillColor={
+                                          border || bgMuted || bgPrimary
+                                            ? "fill-background"
+                                            : "fill-muted"
+                                        }
+                                        height={height / 2.5}
+                                        width={height / 2.5}
+                                      />
+                                    )}
+                                  </>
                                 )}
                               </div>
                               <div className={listItemTextClassNames}>

@@ -97,7 +97,7 @@ const Card: React.FC<CardProps> = ({
         <div className={imageOrderClassName}>
           {card.image?.length ? (
             <div
-              className="relative w-full rounded-md"
+              className="relative w-full overflow-hidden rounded-md"
               style={{
                 height: isDesktop ? height.desktop : height.mobile,
               }}

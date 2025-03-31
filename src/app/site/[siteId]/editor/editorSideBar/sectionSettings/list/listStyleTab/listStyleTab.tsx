@@ -279,19 +279,21 @@ function ListStyleTab({
           )
         }
       />
-      <ListIconColor
-        iconColorValue={listStyle.designSettings.iconColor}
-        onValueChange={(value) =>
-          dispatch(
-            updateStyle(pageId, findSelectedSection?.id!, {
-              designSettings: {
-                ...listStyle.designSettings!,
-                iconColor: value,
-              },
-            })
-          )
-        }
-      />
+      {listContent.type === "icon" && (
+        <ListIconColor
+          iconColorValue={listStyle.designSettings.iconColor}
+          onValueChange={(value) =>
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...listStyle.designSettings!,
+                  iconColor: value,
+                },
+              })
+            )
+          }
+        />
+      )}
       <TextSize
         label="Text"
         titleSizeValue={listStyle.designSettings?.textSize}
