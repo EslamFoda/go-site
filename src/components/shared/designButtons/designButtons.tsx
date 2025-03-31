@@ -18,12 +18,14 @@ interface ButtonConfig {
 interface DesignButtonsProps {
   buttons: ButtonConfig[];
   btnClassNames?: string;
+  btnContainerClassNames?: string;
   reverse?: boolean;
 }
 
 function DesignButtons({
   buttons,
   btnClassNames,
+  btnContainerClassNames,
   reverse = false,
 }: DesignButtonsProps) {
   const { siteId } = useParams();
@@ -66,6 +68,7 @@ function DesignButtons({
 
     return (
       <Button
+        className={btnClassNames}
         key={btn.id}
         variant={buttonVariant}
         onClick={() => handleButtonClick(btn)}
@@ -79,7 +82,7 @@ function DesignButtons({
   const filteredButtons = renderButtons.filter(Boolean);
 
   return (
-    <div className={cn("flex items-center gap-2", btnClassNames)}>
+    <div className={cn("flex items-center gap-2", btnContainerClassNames)}>
       {reverse ? filteredButtons.reverse() : filteredButtons}
     </div>
   );

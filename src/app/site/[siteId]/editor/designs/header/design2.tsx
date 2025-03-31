@@ -209,7 +209,11 @@ function Design2({ pageId, section }: Design2Props) {
               ))}
             </nav>
             <div className="hidden lg:flex items-center gap-3 justify-self-end">
-              <DesignButtons buttons={headerContent.buttons} reverse />
+              <DesignButtons
+                buttons={headerContent.buttons}
+                reverse
+                btnClassNames="min-w-24"
+              />
               <div
                 className="cursor-pointer"
                 onClick={(e) => {
@@ -311,7 +315,11 @@ function Design2({ pageId, section }: Design2Props) {
           ))}
         </nav>
         <div className="hidden lg:flex items-center gap-3 justify-self-end">
-          <DesignButtons buttons={headerContent.buttons} reverse />
+          <DesignButtons
+            buttons={headerContent.buttons}
+            reverse
+            btnClassNames="min-w-24"
+          />
           <div
             className="cursor-pointer"
             onClick={(e) => {

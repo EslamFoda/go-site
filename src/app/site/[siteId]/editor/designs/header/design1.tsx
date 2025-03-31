@@ -28,7 +28,7 @@ interface Design1Props {
 
 function Design1({ pageId, section }: Design1Props) {
   const dispatch = useAppDispatch();
-    const { previewMode } = useAppSelector((state) => state.editor.present);
+  const { previewMode } = useAppSelector((state) => state.editor.present);
   const headerContent = section.content as HeaderContent;
   const headerStyle = section.style as HeaderStyle;
   const { sticky, float, autoHide, width, shadow, glass } =
@@ -211,7 +211,11 @@ function Design1({ pageId, section }: Design1Props) {
               </nav>
             </div>
             <div className="hidden lg:flex items-center gap-3">
-              <DesignButtons buttons={headerContent.buttons} reverse />
+              <DesignButtons
+                buttons={headerContent.buttons}
+                reverse
+                btnClassNames="min-w-24"
+              />
               <div
                 className="cursor-pointer"
                 onClick={(e) => {
@@ -315,7 +319,11 @@ function Design1({ pageId, section }: Design1Props) {
           </nav>
         </div>
         <div className="hidden lg:flex items-center gap-3">
-          <DesignButtons buttons={headerContent.buttons} reverse />
+          <DesignButtons
+            buttons={headerContent.buttons}
+            reverse
+            btnClassNames="min-w-24"
+          />
           <div
             className="cursor-pointer"
             onClick={(e) => {

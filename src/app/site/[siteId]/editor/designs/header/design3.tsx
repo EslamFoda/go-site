@@ -210,7 +210,11 @@ function Design3({ pageId, section }: Design3Props) {
                 ))}
               </nav>
               <div className="hidden lg:flex items-center gap-3">
-                <DesignButtons buttons={headerContent.buttons} reverse />
+                <DesignButtons
+                  buttons={headerContent.buttons}
+                  reverse
+                  btnClassNames="min-w-24"
+                />
                 <div
                   className="cursor-pointer"
                   onClick={(e) => {
@@ -314,7 +318,11 @@ function Design3({ pageId, section }: Design3Props) {
             ))}
           </nav>
           <div className="hidden lg:flex items-center gap-3">
-            <DesignButtons buttons={headerContent.buttons} reverse />
+            <DesignButtons
+              buttons={headerContent.buttons}
+              reverse
+              btnClassNames="min-w-24"
+            />
             <div
               className="cursor-pointer"
               onClick={(e) => {

@@ -96,7 +96,7 @@ function Design1({ section, pageId }: DesignProps) {
   });
 
   const iconContainerClassNames = cn(
-    "flex items-center  justify-center shrink-0",
+    "flex items-center  justify-center overflow-hidden shrink-0",
     {
       "rounded-sm": shape === "square",
       "rounded-full": shape === "rounded",

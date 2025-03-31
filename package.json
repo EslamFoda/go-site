@@ -82,6 +82,7 @@
     "redux-undo": "^1.1.0",
     "shadcn": "^2.4.0-canary.14",
     "sonner": "^1.5.0",
+    "swr": "^2.3.3",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "tiptap-extension-font-size": "^1.2.0",

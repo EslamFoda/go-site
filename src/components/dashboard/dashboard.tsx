@@ -48,7 +48,7 @@ function Dashboard({ user }: DashboardProps) {
     };
 
     fetchUserSites();
-  }, [ownerId, dispatch]);
+  }, []);
 
   return (
     <div className="max-w-4xl m-auto px-5 mt-16">
