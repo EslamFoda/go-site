@@ -207,7 +207,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
     >
       <div
         id={`fluid-grid-container-${section.id}`}
-        className="relative border-2 border-dashed"
+        className="relative border border-primary border-dashed"
       >
         {showGridPattern && (
           <GridBackground
@@ -271,7 +271,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                 e.stopPropagation();
               }}
               key={card.i}
-              className={`relative rounded-md overflow-hidden ${
+              className={`relative rounded-md overflow-hidden select-none ${
                 card.i === selectedItemId && "isActive"
               }`}
               style={{ zIndex: card.i === selectedItemId ? 6 : 5 }}

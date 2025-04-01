@@ -259,7 +259,7 @@ function Design2({ section, pageId, sectionIndex }: Design2Props) {
                   id={field.id}
                   className={cn(
                     "w-full !h-52 !max-h-52 !min-h-52 resize-none",
-                    bgMuted || bgPrimary ? "bg-background" : "bg-muted"
+                    bgMuted || bgPrimary ? "bg-background focus:bg-background" : "bg-muted"
                   )}
                   placeholder={field.value || field.placeholder}
                 />
@@ -271,7 +271,7 @@ function Design2({ section, pageId, sectionIndex }: Design2Props) {
               <Input
                 className={cn(
                   "w-full h-12",
-                  bgMuted || bgPrimary ? "bg-background" : "bg-muted"
+                  bgMuted || bgPrimary ? "bg-background focus:bg-background" : "bg-muted"
                 )}
                 placeholder={field.value || field.placeholder}
                 type={field.type}

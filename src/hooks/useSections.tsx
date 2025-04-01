@@ -236,8 +236,8 @@ export function useSections() {
               mobile: 25,
             },
             gap: {
-              desktop: 20,
-              mobile: 10,
+              desktop: 50,
+              mobile: 20,
             },
             padding: {
               desktop: 20,

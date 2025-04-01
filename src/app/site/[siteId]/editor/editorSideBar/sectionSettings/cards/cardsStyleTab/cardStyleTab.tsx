@@ -68,6 +68,17 @@ function CardStyleTab({
           return (
             <div
               onClick={() => {
+                if (designName === "design2") {
+                  dispatch(
+                    updateStyle(pageId, findSelectedSection?.id!, {
+                      designName: designName,
+                      designSettings: {
+                        ...cardStyle.designSettings,
+                        image: true,
+                      },
+                    })
+                  );
+                }
                 dispatch(
                   updateStyle(pageId, findSelectedSection?.id!, {
                     designName: designName,
@@ -217,39 +228,41 @@ function CardStyleTab({
         />
       )}
 
-      <HeightOrWidthSetting
-        isDesktop={isHeightDesktop}
-        label="Height"
-        min={100}
-        max={500}
-        handleToggleSetting={handleToggleHeightSetting}
-        customText={
-          isHeightDesktop
-            ? `${cardStyle.designSettings.height.desktop}px`
-            : `${cardStyle.designSettings.height.mobile}px`
-        }
-        value={
-          isHeightDesktop
-            ? [cardStyle.designSettings.height.desktop]
-            : [cardStyle.designSettings.height.mobile]
-        }
-        onValueChange={(value) => {
-          const newHeightSetting = isHeightDesktop
-            ? { desktop: value[0] }
-            : { mobile: value[0] };
-          dispatch(
-            updateStyle(pageId, findSelectedSection?.id!, {
-              designSettings: {
-                ...cardStyle.designSettings!,
-                height: {
-                  ...cardStyle.designSettings.height,
-                  ...newHeightSetting,
+      {cardStyle.designSettings.image && (
+        <HeightOrWidthSetting
+          isDesktop={isHeightDesktop}
+          label="Height"
+          min={100}
+          max={500}
+          handleToggleSetting={handleToggleHeightSetting}
+          customText={
+            isHeightDesktop
+              ? `${cardStyle.designSettings.height.desktop}px`
+              : `${cardStyle.designSettings.height.mobile}px`
+          }
+          value={
+            isHeightDesktop
+              ? [cardStyle.designSettings.height.desktop]
+              : [cardStyle.designSettings.height.mobile]
+          }
+          onValueChange={(value) => {
+            const newHeightSetting = isHeightDesktop
+              ? { desktop: value[0] }
+              : { mobile: value[0] };
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...cardStyle.designSettings!,
+                  height: {
+                    ...cardStyle.designSettings.height,
+                    ...newHeightSetting,
+                  },
                 },
-              },
-            })
-          );
-        }}
-      />
+              })
+            );
+          }}
+        />
+      )}
       <TextSize
         label="Text"
         titleSizeValue={cardStyle.designSettings?.titleSize}

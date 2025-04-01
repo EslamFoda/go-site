@@ -187,8 +187,8 @@ function Design1({ section, pageId }: DesignProps) {
                   }}
                 >
                   <AnimatePresence>
-                    {section.content.testimonials.map(
-                      (review: any, index: number) => {
+                    {testimonialsContent.testimonials.map(
+                      (testimonial, index: number) => {
                         return (
                           <motion.div
                             layout
@@ -196,7 +196,7 @@ function Design1({ section, pageId }: DesignProps) {
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.8, opacity: 0 }}
                             transition={{ type: "tween" }}
-                            key={review.id || index}
+                            key={testimonial.id || index}
                             className={listItemClassNames}
                             style={{
                               padding: isDesktop
@@ -208,7 +208,7 @@ function Design1({ section, pageId }: DesignProps) {
                               dispatch(
                                 updateSelectedSection(pageId, section.id)
                               );
-                              dispatch(updateSelectedItem(review));
+                              dispatch(updateSelectedItem(testimonial));
                             }}
                           >
                             <div className={starsBoxClassNames}>
@@ -220,7 +220,7 @@ function Design1({ section, pageId }: DesignProps) {
                                         key={i}
                                         size={24}
                                         className={
-                                          i < review.rating
+                                          i < testimonial.rating
                                             ? "fill-primary stroke-none"
                                             : "fill-muted-foreground/50 stroke-none"
                                         }
@@ -231,21 +231,21 @@ function Design1({ section, pageId }: DesignProps) {
                                   )}
                                 </div>
                               )}
-                              <h5
+                              <p
                                 className={reviewClassNames}
                                 style={{ whiteSpace: "pre-line" }}
                               >
-                                {review.review}
-                              </h5>
+                                {testimonial.review}
+                              </p>
                             </div>
                             <div className="flex flex-col items-start mt-10 gap-2">
                               {avatar && (
                                 <div className={avatarClassNames}>
-                                  {review.avatar ? (
+                                  {testimonial.avatar ? (
                                     <div
                                       className={imgContainerClassNames}
                                       style={{
-                                        backgroundImage: `url(${review.avatar})`,
+                                        backgroundImage: `url(${testimonial.avatar})`,
                                         backgroundSize: "cover",
                                         backgroundPosition: "center",
                                         backgroundRepeat: "no-repeat",
@@ -274,13 +274,13 @@ function Design1({ section, pageId }: DesignProps) {
                                   className="text-xs"
                                   style={{ whiteSpace: "pre-line" }}
                                 >
-                                  {review.name}
+                                  {testimonial.name}
                                 </span>
                                 <span
                                   className="text-xs text-muted-foreground"
                                   style={{ whiteSpace: "pre-line" }}
                                 >
-                                  {review.bio}
+                                  {testimonial.bio}
                                 </span>
                               </div>
                             </div>
@@ -299,11 +299,11 @@ function Design1({ section, pageId }: DesignProps) {
                   }}
                 >
                   <CarouselContent className="py-1">
-                    {section.content.testimonials.map(
-                      (review: any, index: number) => {
+                    {testimonialsContent.testimonials.map(
+                      (testimonial, index: number) => {
                         return (
                           <CarouselItem
-                            key={review.id || index}
+                            key={testimonial.id || index}
                             style={{
                               flexBasis: isDesktop
                                 ? carouselSettings.desktopWidth
@@ -327,7 +327,7 @@ function Design1({ section, pageId }: DesignProps) {
                                 dispatch(
                                   updateSelectedSection(pageId, section.id)
                                 );
-                                dispatch(updateSelectedItem(review));
+                                dispatch(updateSelectedItem(testimonial));
                               }}
                             >
                               <div className={starsBoxClassNames}>
@@ -338,7 +338,7 @@ function Design1({ section, pageId }: DesignProps) {
                                         key={i}
                                         size={21}
                                         className={
-                                          i < review.rating
+                                          i < testimonial.rating
                                             ? "fill-primary stroke-none"
                                             : "fill-muted-foreground/50 stroke-none"
                                         }
@@ -348,20 +348,20 @@ function Design1({ section, pageId }: DesignProps) {
                                     <QuoteIcon />
                                   )}
                                 </div>
-                                <h5
+                                <p
                                   className={reviewClassNames}
                                   style={{ whiteSpace: "pre-line" }}
                                 >
-                                  {review.review}
-                                </h5>
+                                  {testimonial.review}
+                                </p>
                               </div>
                               <div className="flex flex-col items-center mt-10 gap-2">
                                 <div className={avatarClassNames}>
-                                  {review.avatar ? (
+                                  {testimonial.avatar ? (
                                     <div
                                       className={imgContainerClassNames}
                                       style={{
-                                        backgroundImage: `url(${review.avatar})`,
+                                        backgroundImage: `url(${testimonial.avatar})`,
                                         backgroundSize: "cover",
                                         backgroundPosition: "center",
                                         backgroundRepeat: "no-repeat",
@@ -389,13 +389,13 @@ function Design1({ section, pageId }: DesignProps) {
                                     className="text-xs"
                                     style={{ whiteSpace: "pre-line" }}
                                   >
-                                    {review.name}
+                                    {testimonial.name}
                                   </span>
                                   <span
                                     className="text-xs text-muted-foreground"
                                     style={{ whiteSpace: "pre-line" }}
                                   >
-                                    {review.bio}
+                                    {testimonial.bio}
                                   </span>
                                 </div>
                               </div>

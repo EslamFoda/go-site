@@ -169,8 +169,8 @@ function Design1({ section, pageId }: DesignProps) {
                   }}
                 >
                   <AnimatePresence>
-                    {section.content.testimonials.map(
-                      (review: any, index: number) => {
+                    {testimonialsContent.testimonials.map(
+                      (testimonial, index: number) => {
                         return (
                           <motion.div
                             layout
@@ -178,7 +178,7 @@ function Design1({ section, pageId }: DesignProps) {
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.8, opacity: 0 }}
                             transition={{ type: "tween" }}
-                            key={review.id || index}
+                            key={testimonial.id || index}
                             className={listItemClassNames}
                             style={{
                               padding: isDesktop
@@ -190,7 +190,7 @@ function Design1({ section, pageId }: DesignProps) {
                               dispatch(
                                 updateSelectedSection(pageId, section.id)
                               );
-                              dispatch(updateSelectedItem(review));
+                              dispatch(updateSelectedItem(testimonial));
                             }}
                           >
                             <div>
@@ -202,7 +202,7 @@ function Design1({ section, pageId }: DesignProps) {
                                         key={i}
                                         size={24}
                                         className={
-                                          i < review.rating
+                                          i < testimonial.rating
                                             ? "fill-primary stroke-none"
                                             : "fill-muted-foreground/50 stroke-none"
                                         }
@@ -213,21 +213,21 @@ function Design1({ section, pageId }: DesignProps) {
                                   )}
                                 </div>
                               )}
-                              <h5
+                              <p
                                 className={reviewClassNames}
                                 style={{ whiteSpace: "pre-line" }}
                               >
-                                {review.review}
-                              </h5>
+                                {testimonial.review}
+                              </p>
                             </div>
                             <div className="flex items-center mt-10 gap-2">
                               {avatar && (
                                 <>
-                                  {review.avatar ? (
+                                  {testimonial.avatar ? (
                                     <div
                                       className={imgContainerClassNames}
                                       style={{
-                                        backgroundImage: `url(${review.avatar})`,
+                                        backgroundImage: `url(${testimonial.avatar})`,
                                         backgroundSize: "cover",
                                         backgroundPosition: "center",
                                         backgroundRepeat: "no-repeat",
@@ -253,13 +253,13 @@ function Design1({ section, pageId }: DesignProps) {
                                   className="text-xs"
                                   style={{ whiteSpace: "pre-line" }}
                                 >
-                                  {review.name}
+                                  {testimonial.name}
                                 </span>
                                 <span
                                   className="text-xs text-muted-foreground"
                                   style={{ whiteSpace: "pre-line" }}
                                 >
-                                  {review.bio}
+                                  {testimonial.bio}
                                 </span>
                               </div>
                             </div>
@@ -279,11 +279,11 @@ function Design1({ section, pageId }: DesignProps) {
                   className="w-full"
                 >
                   <CarouselContent className="py-1">
-                    {section.content.testimonials.map(
-                      (review: any, index: number) => {
+                    {testimonialsContent.testimonials.map(
+                      (testimonial, index: number) => {
                         return (
                           <CarouselItem
-                            key={review.id || index}
+                            key={testimonial.id || index}
                             style={{
                               flexBasis: isDesktop
                                 ? carouselSettings.desktopWidth
@@ -307,7 +307,7 @@ function Design1({ section, pageId }: DesignProps) {
                                 dispatch(
                                   updateSelectedSection(pageId, section.id)
                                 );
-                                dispatch(updateSelectedItem(review));
+                                dispatch(updateSelectedItem(testimonial));
                               }}
                             >
                               <div>
@@ -319,7 +319,7 @@ function Design1({ section, pageId }: DesignProps) {
                                           key={i}
                                           size={21}
                                           className={
-                                            i < review.rating
+                                            i < testimonial.rating
                                               ? "fill-primary stroke-none"
                                               : "fill-muted-foreground/50 stroke-none"
                                           }
@@ -330,18 +330,18 @@ function Design1({ section, pageId }: DesignProps) {
                                     )}
                                   </div>
                                 )}
-                                <h5 className={reviewClassNames}>
-                                  {review.review}
-                                </h5>
+                                <p className={reviewClassNames}>
+                                  {testimonial.review}
+                                </p>
                               </div>
                               <div className="flex items-center mt-10 gap-2">
                                 {avatar && (
                                   <>
-                                    {review.avatar ? (
+                                    {testimonial.avatar ? (
                                       <div
                                         className={imgContainerClassNames}
                                         style={{
-                                          backgroundImage: `url(${review.avatar})`,
+                                          backgroundImage: `url(${testimonial.avatar})`,
                                           backgroundSize: "cover",
                                           backgroundPosition: "center",
                                           backgroundRepeat: "no-repeat",
@@ -363,9 +363,11 @@ function Design1({ section, pageId }: DesignProps) {
                                   </>
                                 )}
                                 <div className="flex flex-col gap-1">
-                                  <span className="text-xs">{review.name}</span>
+                                  <span className="text-xs">
+                                    {testimonial.name}
+                                  </span>
                                   <span className="text-xs text-muted-foreground">
-                                    {review.bio}
+                                    {testimonial.bio}
                                   </span>
                                 </div>
                               </div>

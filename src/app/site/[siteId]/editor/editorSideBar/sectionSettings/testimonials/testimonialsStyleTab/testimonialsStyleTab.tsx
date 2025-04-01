@@ -218,19 +218,21 @@ function TestimonialsStyleTab({
         />
       )}
 
-      <Shape
-        shapeValue={testimonialStyle.designSettings.shape}
-        onValueChange={(value) => {
-          dispatch(
-            updateStyle(pageId, findSelectedSection?.id!, {
-              designSettings: {
-                ...testimonialStyle.designSettings!,
-                shape: value,
-              },
-            })
-          );
-        }}
-      />
+      {testimonialStyle.designSettings.avatar && (
+        <Shape
+          shapeValue={testimonialStyle.designSettings.shape}
+          onValueChange={(value) => {
+            dispatch(
+              updateStyle(pageId, findSelectedSection?.id!, {
+                designSettings: {
+                  ...testimonialStyle.designSettings!,
+                  shape: value,
+                },
+              })
+            );
+          }}
+        />
+      )}
 
       {testimonialStyle.designName === "design2" && (
         <Align

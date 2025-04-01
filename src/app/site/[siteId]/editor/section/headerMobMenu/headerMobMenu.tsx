@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import DesignButtons from "@/components/shared/designButtons";
 import { HeaderContent } from "@/types/sectionsTypes/header";
 import React from "react";
 interface HeaderMobMenuProps {
@@ -15,19 +15,20 @@ function HeaderMobMenu({ headerContent }: HeaderMobMenuProps) {
             <span>{link.text}</span>
           </div>
           {link.subLinks.map((subLink) => (
-            <div key={subLink.id} className="py-4 px-6 border-b border-muted-bg">
+            <div
+              key={subLink.id}
+              className="py-4 px-6 border-b border-muted-bg"
+            >
               <span>{subLink.text}</span>
             </div>
           ))}
         </div>
       ))}
-      <div className="p-3 flex flex-col-reverse gap-3">
-        {headerContent.buttons.map((button, index) => (
-          <Button className="w-full" variant={variants[index]} key={button.id}>
-            {button.text}
-          </Button>
-        ))}
-      </div>
+      <DesignButtons
+        buttons={headerContent.buttons}
+        btnClassNames="w-full"
+        btnContainerClassNames="p-3 flex flex-col-reverse gap-3"
+      />
     </div>
   );
 }

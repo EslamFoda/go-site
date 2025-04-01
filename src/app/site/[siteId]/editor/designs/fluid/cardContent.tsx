@@ -50,7 +50,7 @@ export const renderCardContent = ({
   };
 
   const cardClassNames = cn("relative w-full h-full", {
-    "outline outline-1 cursor-move": isSelected,
+    "outline outline-1 outline-primary cursor-move": isSelected,
     "cursor-default": isEditing,
   });
 

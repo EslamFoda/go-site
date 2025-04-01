@@ -1,10 +1,10 @@
 import {
+    DesignSettings,
   EditorPage,
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
-import { DesignSettings } from "../sectionsTypes/fluid";
 
 export interface SiteData {
   created_at: string;

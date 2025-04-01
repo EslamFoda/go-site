@@ -53,13 +53,13 @@ function Design2({ pageId, section }: Design2Props) {
   const normalHeaderClassName = cn(
     "bg-background transition-transform ease-linear",
     {
-      "fixed right-0  w-[calc(100vw_-_444px)] max-md:w-[calc(100vw_-_61px)] top-0 z-50 mt-12":
+      "fixed right-0  w-[calc(100vw_-_444px)] max-md:w-[calc(100vw_-_61px)] top-0 z-40 mt-12":
         sticky,
       "-translate-y-48": !isVisible && autoHide && sticky, // hide navbar when not visible
       "translate-y-0": isVisible && autoHide && sticky, // show navbar when visible
       "bg-background/50 backdrop-blur-lg": glass,
       "shadow-lg": shadow,
-      "absolute bg-background/50 backdrop-blur-lg top-0 right-0 w-[calc(100vw_-_444px)] max-md:w-[calc(100vw_-_61px)] z-50":
+      "absolute bg-background/50 backdrop-blur-lg top-0 right-0 w-[calc(100vw_-_444px)] max-md:w-[calc(100vw_-_61px)] z-40":
         glass && !sticky,
       "w-screen max-md:w-screen": previewMode,
     }
@@ -76,7 +76,7 @@ function Design2({ pageId, section }: Design2Props) {
   const floatHeaderClassName = cn(
     "bg-background transition-transform ease-linear",
     {
-      "mx-auto inset-x-0 mt-14 ms-[455px] max-md:ms-[65px] rounded-md fixed right-0 top-0 z-50 mt-14":
+      "mx-auto inset-x-0 mt-14 ms-[455px] max-md:ms-[65px] rounded-md fixed right-0 top-0 z-40 mt-14":
         float,
       "w-[calc(99vw_-_455px)] max-md:w-[calc(99vw_-_75px)]": width === "fill",
       "-translate-y-48": !isVisible && autoHide && sticky, // hide navbar when not visible

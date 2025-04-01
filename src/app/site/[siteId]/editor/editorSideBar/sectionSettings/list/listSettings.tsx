@@ -23,6 +23,7 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
+  closeChooseBgImage,
   closeChooseIcon,
   openChooseBgImage,
   openChooseIcon,
@@ -127,7 +128,7 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
   if (chooseBgImage) {
     return (
       <ChooseImage
-        mediaType="image"
+        mediaType="background-image"
         selectedImgId={
           listStyle?.designSettings.sectionBackground.media.imageId || ""
         }

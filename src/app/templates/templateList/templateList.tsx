@@ -5,19 +5,19 @@ import { SiteData } from "@/types/siteData";
 import { ActiveUserType } from "@/utlis/auth-helper/client";
 import { createClient } from "@/utlis/supabase/client";
 import { useTheme } from "next-themes";
-import React from "react";
+import React, { useState } from "react";
 import useSWR from "swr";
 import Image from "next/image";
-import { v4 } from "uuid";
-import { useRouter } from "next/navigation";
-
+import { Skeleton } from "@/components/ui/skeleton"; // Add this import
+import CreateTemplate from "../createTemplate";
 interface TemplateListProps {
   user: ActiveUserType;
 }
 
 function TemplateList({ user }: TemplateListProps) {
   const { theme } = useTheme();
-  const router = useRouter();
+  const [selectedTemplate, setSelectedTemplate] = useState<SiteData>();
+  const [openCreateTemplateModal, setOpenCreateTemplateModal] = useState(false);
 
   const fetcher = async (key: string, theme: string | undefined) => {
     const supabase = createClient();
@@ -27,7 +27,6 @@ function TemplateList({ user }: TemplateListProps) {
       .eq("settings->>isTemplate", true);
     if (error) throw error;
 
-    // Add imageLink to each template based on current theme
     const cafeImg =
       theme === "dark"
         ? "https://res.cloudinary.com/dt92g80c6/image/upload/f_auto,q_auto/im3pcdkwxtgme3stpn2d"
@@ -37,9 +36,21 @@ function TemplateList({ user }: TemplateListProps) {
         ? "https://res.cloudinary.com/dt92g80c6/image/upload/f_auto,q_auto/r99yffp346utwplkpu6c"
         : "https://res.cloudinary.com/dt92g80c6/image/upload/f_auto,q_auto/he9vcy01i5rla4hyi2zr";
 
+    const entrepreneur =
+      theme === "dark"
+        ? "https://res.cloudinary.com/dt92g80c6/image/upload/v1743523011/entrepreneur.vixx.site__1_f5zuag.png"
+        : "https://res.cloudinary.com/dt92g80c6/image/upload/v1743523010/entrepreneur.vixx.site__2_los7e9.png";
+
+    const law =
+      theme === "dark"
+        ? "https://res.cloudinary.com/dt92g80c6/image/upload/v1743528639/law.vixx.site__xi4gwc.png"
+        : "https://res.cloudinary.com/dt92g80c6/image/upload/v1743528640/law.vixx.site__1_fsefmk.png";
+
     const imageMapper = {
       cafe: cafeImg,
       "ux-portfolio": uiUXImage,
+      entrepreneur: entrepreneur,
+      law: law,
     };
 
     const templatesWithImages = templates.map((template) => ({
@@ -61,24 +72,38 @@ function TemplateList({ user }: TemplateListProps) {
   });
 
   if (isLoading) {
-    return <div>Loading templates...</div>;
+    return (
+      <div className="grid grid-cols-3 gap-6">
+        {[...Array(4)].map((_, index) => (
+          <Skeleton key={index} className="h-80 flex rounded-md" />
+        ))}
+      </div>
+    );
   }
 
-  if (error) {
-    console.error("Error fetching templates:", error);
-    return <div>Error loading templates</div>;
-  }
+  if (error) return <div>Error loading templates</div>;
+
+  console.log(templates, "templates");
 
   return (
     <div className="grid grid-cols-3 gap-6">
       {templates?.map((template) => (
         <div
           key={template.id}
-          className="h-80 bg-muted relative rounded-md p-2 flex flex-col gap-y-1 group"
+          className={`${template.selectedPallet} h-80 bg-muted relative rounded-md p-2 flex flex-col gap-y-1 group`}
         >
           <span>{template.settings.name}</span>
 
-          <div className="relative flex-grow overflow-hidden rounded-md">
+          <div
+            className="relative flex-grow border border-primary overflow-hidden rounded-md"
+            style={
+              {
+                ...(template.selectedPallet === "custom"
+                  ? { "--primary": template.designSettings.colors.primary }
+                  : {}),
+              } as React.CSSProperties
+            }
+          >
             <Image
               src={template.imageLink}
               alt={template.settings.name}
@@ -102,37 +127,9 @@ function TemplateList({ user }: TemplateListProps) {
             <Button
               size="sm"
               className="w-full"
-              onClick={async () => {
-                const homePageId = v4();
-                const siteId = v4();
-                const supabase = createClient();
-                const { data, error } = await supabase
-                  .from("sites")
-                  .insert([
-                    {
-                      settings: {
-                        email: user?.email,
-                        favicon: "",
-                        homePage: homePageId,
-                        isTemplate: false,
-                        showMadeBy: true,
-                        name: "test",
-                        link: "",
-                        siteId: siteId,
-                        owner_id: user?.id,
-                      },
-                      selectedPallet: template.selectedPallet,
-                      owner_id: user?.id,
-                      deployed: false,
-                      siteId: siteId,
-                      designSettings: template.designSettings,
-                      storage: [],
-                      globalSections: template.globalSections,
-                      pages: template.pages,
-                    },
-                  ])
-                  .select();
-                router.push(`/site/${siteId}/editor`);
+              onClick={() => {
+                setOpenCreateTemplateModal(true);
+                setSelectedTemplate(template);
               }}
             >
               Use Template
@@ -140,6 +137,13 @@ function TemplateList({ user }: TemplateListProps) {
           </div>
         </div>
       ))}
+      <CreateTemplate
+        user={user}
+        template={selectedTemplate as SiteData}
+        openCreateTemplateModal={openCreateTemplateModal}
+        setSelectedTemplate={setSelectedTemplate}
+        setOpenCreateTemplateModal={setOpenCreateTemplateModal}
+      />
     </div>
   );
 }
