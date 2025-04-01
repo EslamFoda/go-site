@@ -23,32 +23,39 @@ const navItems = [
 
 function TopBar({ user }: { user: ActiveUserType }) {
   const pathname = usePathname();
+  const loginAndSignup =
+    pathname === "/login" ||
+    pathname === "/signup" ||
+    pathname === "/account" ||
+    pathname === "/forgot_password";
 
   if (pathname.includes("/site")) return null;
   return (
-    <header className="h-16 w-full border-b px-5 flex items-center justify-between">
+    <header className="h-16 z-20 fixed top-0 right-0 bg-background w-full border-b px-5 flex items-center justify-between">
       <div>
         <Link href="/">
           <span className="font-bold text-lg">Vixx</span>
         </Link>
       </div>
-      <div className="flex gap-6">
-        {navItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className={cn(
-              "text-muted-foreground h-16 flex items-center border-b border-transparent hover:text-foreground transition-colors",
-              {
-                "border-b border-foreground  text-foreground":
-                  item.isActive(pathname),
-              }
-            )}
-          >
-            {item.label}
-          </Link>
-        ))}
-      </div>
+      {!loginAndSignup && (
+        <div className="flex gap-6">
+          {navItems.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                "text-muted-foreground h-16 flex items-center border-b border-transparent hover:text-foreground transition-colors",
+                {
+                  "border-b border-foreground  text-foreground":
+                    item.isActive(pathname),
+                }
+              )}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
       <div className="flex items-center justify-center gap-3">
         <ThemeToggle />
         <UserMenu user={user} />

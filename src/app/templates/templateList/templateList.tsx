@@ -46,11 +46,17 @@ function TemplateList({ user }: TemplateListProps) {
         ? "https://res.cloudinary.com/dt92g80c6/image/upload/v1743528639/law.vixx.site__xi4gwc.png"
         : "https://res.cloudinary.com/dt92g80c6/image/upload/v1743528640/law.vixx.site__1_fsefmk.png";
 
+    const personal =
+      theme === "dark"
+        ? "https://res.cloudinary.com/dt92g80c6/image/upload/v1743540566/personal.vixx.site__pfe7pu.png"
+        : "https://res.cloudinary.com/dt92g80c6/image/upload/v1743540588/personal.vixx.site__1_myrms2.png";
+
     const imageMapper = {
       cafe: cafeImg,
       "ux-portfolio": uiUXImage,
       entrepreneur: entrepreneur,
       law: law,
+      personal: personal,
     };
 
     const templatesWithImages = templates.map((template) => ({
@@ -73,8 +79,8 @@ function TemplateList({ user }: TemplateListProps) {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-3 gap-6">
-        {[...Array(4)].map((_, index) => (
+      <div className="grid md:grid-cols-3  grid-cols-2 gap-6">
+        {[...Array(5)].map((_, index) => (
           <Skeleton key={index} className="h-80 flex rounded-md" />
         ))}
       </div>
@@ -86,16 +92,16 @@ function TemplateList({ user }: TemplateListProps) {
   console.log(templates, "templates");
 
   return (
-    <div className="grid grid-cols-3 gap-6">
+    <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
       {templates?.map((template) => (
         <div
           key={template.id}
-          className={`${template.selectedPallet} h-80 bg-muted relative rounded-md p-2 flex flex-col gap-y-1 group`}
+          className="h-80 bg-muted relative rounded-md p-2 flex flex-col gap-y-1 group"
         >
           <span>{template.settings.name}</span>
 
           <div
-            className="relative flex-grow border border-primary overflow-hidden rounded-md"
+            className={`${template.selectedPallet} relative flex-grow border border-primary overflow-hidden rounded-md`}
             style={
               {
                 ...(template.selectedPallet === "custom"
@@ -111,10 +117,10 @@ function TemplateList({ user }: TemplateListProps) {
               className="object-cover"
             />
           </div>
-          <div className="hidden group-hover:flex gap-1 bg-muted p-2 absolute bottom-0 right-0 left-0 w-full">
+          <div className="hidden text-lg max-md:grid group-hover:grid grid-cols-2 gap-1 bg-muted p-2 absolute bottom-0 right-0 left-0 w-full">
             <Button
               size="sm"
-              className="w-full bg-background text-foreground hover:bg-background/60"
+              className="w-full bg-background text-foreground hover:bg-background/60 text-xs"
               onClick={() =>
                 window.open(
                   `https://${template.domainName}.vixx.site`,
@@ -126,7 +132,7 @@ function TemplateList({ user }: TemplateListProps) {
             </Button>
             <Button
               size="sm"
-              className="w-full"
+              className="w-full text-xs"
               onClick={() => {
                 setOpenCreateTemplateModal(true);
                 setSelectedTemplate(template);

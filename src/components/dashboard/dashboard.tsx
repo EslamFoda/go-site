@@ -51,7 +51,7 @@ function Dashboard({ user }: DashboardProps) {
   }, []);
 
   return (
-    <div className="max-w-4xl m-auto px-5 mt-16">
+    <div className="max-w-4xl m-auto px-5 mt-28">
       <CreateSite user={user} setSites={setSites} sites={sites} />
       {loading ? (
         <SiteSkeleton />

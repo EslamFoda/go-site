@@ -96,7 +96,6 @@ function SiteCard({ site, setSites }: SiteCardProps) {
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Duplicate</DropdownMenuItem>
             <DropdownMenuItem
               className="text-destructive"
               onClick={deleteSite}

@@ -13,8 +13,8 @@ async function Page() {
 
   return (
     <AuthWrapper>
-      <div className="flex items-center justify-center w-full px-5">
-        <div className="mt-20 space-y-8 w-[700px]">
+      <div className="flex items-center mt-28 justify-center w-full px-5">
+        <div className="space-y-8 w-[700px]">
           <div className="space-y-4">
             <h1 className="text-3xl font-bold">hello {userName}</h1>
             <span className="text-muted-foreground block">

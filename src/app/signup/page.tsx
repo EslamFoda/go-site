@@ -14,8 +14,8 @@ async function Page() {
   if (user) redirect("/");
 
   return (
-    <div className="flex justify-center text-center h-screen">
-      <div className="space-y-3 mt-20 w-80">
+    <div className="flex justify-center mt-28 text-center h-screen">
+      <div className="space-y-3 w-80">
         <h1 className="text-2xl font-bold">Create Account</h1>
         <div className="flex !mb-8 items-center justify-center gap-1">
           <span className="text-muted-foreground">Already on vixx?</span>

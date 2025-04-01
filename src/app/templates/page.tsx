@@ -10,7 +10,7 @@ async function Page() {
 
   if (!user) redirect("/login");
   return (
-    <div className="max-w-screen-md space-y-10 mx-auto">
+    <div className="container max-w-screen-md space-y-10 mt-28 mx-auto">
       <div className="flex flex-col mt-10 gap-5 items-center justify-center text-center">
         <h1 className="text-2xl font-bold">AI Business Websites</h1>
         <p className="text-sm text-muted-foreground max-w-[360px]">

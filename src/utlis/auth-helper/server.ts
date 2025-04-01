@@ -334,3 +334,38 @@ export async function updateName(formData: FormData) {
     );
   }
 }
+
+export async function signInAsGuest(formData: FormData) {
+  const cookieStore = cookies();
+  const pathName = String(formData.get("pathName")).trim() || "/";
+  let redirectPath: string;
+
+  const supabase = createClient();
+
+  // Sign in anonymously
+  const { data, error } = await supabase.auth.signInAnonymously();
+
+  if (error) {
+    redirectPath = getErrorRedirect(
+      pathName,
+      "Guest sign-in failed.",
+      error.message
+    );
+  } else if (data.user) {
+    // Optionally set a cookie to track guest preference
+    cookieStore.set("preferredSignInView", "guest", { path: "/" });
+    redirectPath = getStatusRedirect(
+      pathName,
+      "Success!",
+      "You are now signed in as a guest."
+    );
+  } else {
+    redirectPath = getErrorRedirect(
+      pathName,
+      "Hmm... Something went wrong.",
+      "Could not sign in as guest."
+    );
+  }
+
+  return redirectPath;
+}
