@@ -12,7 +12,6 @@ import {
   SoundcloudLogo,
   TelegramLogo,
   TiktokLogo,
-  TwitterLogo,
   WhatsappLogo,
   XLogo,
   YoutubeLogo,
