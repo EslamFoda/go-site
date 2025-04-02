@@ -26,7 +26,7 @@ function FontLoader() {
         <style type="text/css">
           {`
             @font-face {
-              font-family: '${bodyFont.fontFamily}';
+              font-family: '${bodyFont.fontFamily}-body';
               src: url('${bodyFont.fontFamilyUrl}') format('truetype');
               font-weight: normal;
               font-style: normal;
@@ -37,7 +37,7 @@ function FontLoader() {
             .page-container p,
             .page-container div,
             .text-body {
-              font-family: '${bodyFont.fontFamily}', sans-serif;
+              font-family: '${bodyFont.fontFamily}-body', sans-serif;
             }
           `}
         </style>
@@ -48,7 +48,7 @@ function FontLoader() {
         <style type="text/css">
           {`
             @font-face {
-              font-family: '${titleFont.fontFamily}';
+              font-family: '${titleFont.fontFamily}-title';
               src: url('${titleFont.fontFamilyUrl}') format('truetype');
               font-weight: normal;
               font-style: normal;
@@ -62,7 +62,7 @@ function FontLoader() {
             .page-container h5,
             .page-container h6,
             .text-title {
-              font-family: '${titleFont.fontFamily}', sans-serif;
+              font-family: '${titleFont.fontFamily}-title', sans-serif;
             }
           `}
         </style>

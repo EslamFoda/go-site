@@ -87,48 +87,52 @@ const Card: React.FC<CardProps> = ({
         dispatch(closePagesTab());
       }}
     >
-      <h5 className={titleClassName} style={{ whiteSpace: "pre-line" }}>
-        {card.title}
-      </h5>
-      <p className={textOrderClassName} style={{ whiteSpace: "pre-line" }}>
-        {card.text}
-      </p>
-      {image && (
-        <div className={imageOrderClassName}>
-          {card.image?.length ? (
-            <div
-              className="relative w-full overflow-hidden rounded-md"
-              style={{
-                height: isDesktop ? height.desktop : height.mobile,
-              }}
-            >
-              <Image
-                alt={card.image}
-                src={card.image}
-                fill
-                sizes="100%"
-                className="object-cover"
-              />
-            </div>
-          ) : (
-            <div
-              style={{
-                height: isDesktop ? height.desktop : height.mobile,
-              }}
-              className={imagePlaceholderClassNames}
-            >
-              <ImagePlaceHolder
-                fillColor={
-                  cardBackground && !bgMuted ? "fill-muted" : "fill-background"
-                }
-              />
-            </div>
-          )}
-        </div>
-      )}
+      <div className="flex flex-col gap-2">
+        <h5 className={titleClassName} style={{ whiteSpace: "pre-line" }}>
+          {card.title}
+        </h5>
+        <p className={textOrderClassName} style={{ whiteSpace: "pre-line" }}>
+          {card.text}
+        </p>
+        {image && (
+          <div className={imageOrderClassName}>
+            {card.image?.length ? (
+              <div
+                className="relative w-full overflow-hidden rounded-md"
+                style={{
+                  height: isDesktop ? height.desktop : height.mobile,
+                }}
+              >
+                <Image
+                  alt={card.image}
+                  src={card.image}
+                  fill
+                  sizes="100%"
+                  className="object-cover"
+                />
+              </div>
+            ) : (
+              <div
+                style={{
+                  height: isDesktop ? height.desktop : height.mobile,
+                }}
+                className={imagePlaceholderClassNames}
+              >
+                <ImagePlaceHolder
+                  fillColor={
+                    cardBackground && !bgMuted
+                      ? "fill-muted"
+                      : "fill-background"
+                  }
+                />
+              </div>
+            )}
+          </div>
+        )}
+      </div>
       {card.button && (
         <Button
-          className={cn("order-4 mt-2", {
+          className={cn("mt-2", {
             "bg-primary": card.buttonColor === "primary",
             "bg-mediumGrey hover:bg-mediumGrey text-foreground":
               card.buttonColor === "gray",
@@ -212,7 +216,7 @@ function Design1({ section, pageId }: DesignProps) {
   );
 
   const cardClassNames = cn(
-    "flex flex-col gap-2 rounded-md",
+    "flex flex-col gap-2 justify-between rounded-md",
     cardBackground && "bg-muted",
     cardBorder && "outline outline-[1px] outline-muted",
     bgMuted && "bg-background"

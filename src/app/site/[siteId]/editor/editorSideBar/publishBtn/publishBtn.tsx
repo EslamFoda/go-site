@@ -178,6 +178,14 @@ function PublishBtn() {
           ])
           .select();
 
+        if (data) {
+          const { data: sitesData, error } = await supabase
+            .from("sites")
+            .update({ domainName: data[0].domainName }) // Only update the domainName column
+            .eq("siteId", siteId) // Assuming 'id' is your primary key column
+            .select(); // Returns the updated row(s)
+        }
+
         if (insertError) throw insertError;
 
         // Set domain for success modal

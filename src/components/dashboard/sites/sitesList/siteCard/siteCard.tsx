@@ -73,7 +73,9 @@ function SiteCard({ site, setSites }: SiteCardProps) {
         <div>
           <span>{site.settings.name}</span>
           <span className="block text-muted-foreground text-xs">
-            {site.settings.url || "Free · Unpublished"}
+            {site.domainName
+              ? `${site.domainName}.vixx.site`
+              : "Free · Unpublished"}
           </span>
         </div>
       </div>

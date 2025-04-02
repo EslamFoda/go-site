@@ -33,6 +33,7 @@ function CreateTemplate({
 }: GeneratingDialogProps) {
   const [siteName, setSiteName] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+  const siteId = v4();
   const router = useRouter();
   const { toast } = useToast();
 
@@ -75,8 +76,6 @@ function CreateTemplate({
             disabled={!siteName || loading}
             onClick={async () => {
               setLoading(true); // Disable the button immediately
-              const homePageId = v4();
-              const siteId = v4();
               const supabase = createClient();
               try {
                 const { data, error } = await supabase
@@ -86,7 +85,7 @@ function CreateTemplate({
                       settings: {
                         email: user?.email,
                         favicon: "",
-                        homePage: homePageId,
+                        homePage: template.pages[0].pageId,
                         isTemplate: false,
                         showMadeBy: true,
                         name: siteName,
