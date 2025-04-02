@@ -525,7 +525,7 @@ export const TemplatesIcon = () => (
     viewBox="0 0 24 24"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g data-v-8dcba7c4="" clip-path="url(#a)" fill="currentColor">
+    <g data-v-8dcba7c4="" clipPath="url(#a)" fill="currentColor">
       <path data-v-8dcba7c4="" d="M8 4H16V2H8V4Z"></path>
       <path data-v-8dcba7c4="" d="M5 8H19V6H5V8Z"></path>
       <path data-v-8dcba7c4="" d="m3 10v12h18v-12h-18z"></path>
