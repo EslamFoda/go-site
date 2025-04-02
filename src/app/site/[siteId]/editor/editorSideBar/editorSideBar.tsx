@@ -96,7 +96,7 @@ const EditorSidebar = () => {
       })
       .eq("siteId", siteId)
       .select();
-      dispatch(updateSavingStatus(false));
+    dispatch(updateSavingStatus(false));
 
     if (error) {
       console.error("Error updating pages:", error);

@@ -7,6 +7,7 @@ import Toaster from "@/components/shared/toaster/";
 import TopBar from "@/components/shared/topBar";
 import { createClient } from "@/utlis/supabase/server";
 import FontLoader from "./site/[siteId]/editor/fontLoader";
+import BottomBar from "@/components/shared/bottomBar/bottomBar";
 
 export const metadata: Metadata = {
   title: "Vixx",
@@ -31,6 +32,7 @@ export default async function RootLayout({
           <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
             <TopBar user={user} />
             <main>{children}</main>
+            <BottomBar />
           </ThemeProvider>
           <Suspense>
             <Toaster />

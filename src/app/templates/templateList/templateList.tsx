@@ -51,12 +51,18 @@ function TemplateList({ user }: TemplateListProps) {
         ? "https://res.cloudinary.com/dt92g80c6/image/upload/v1743540566/personal.vixx.site__pfe7pu.png"
         : "https://res.cloudinary.com/dt92g80c6/image/upload/v1743540588/personal.vixx.site__1_myrms2.png";
 
+    const pets =
+      theme === "dark"
+        ? "https://res.cloudinary.com/dt92g80c6/image/upload/v1743597998/pets.vixx.site__zyvshx.png"
+        : "https://res.cloudinary.com/dt92g80c6/image/upload/v1743597997/pets.vixx.site__1_r8z5g3.png";
+
     const imageMapper = {
       cafe: cafeImg,
       "ux-portfolio": uiUXImage,
       entrepreneur: entrepreneur,
       law: law,
       personal: personal,
+      pets: pets,
     };
 
     const templatesWithImages = templates.map((template) => ({
@@ -80,7 +86,7 @@ function TemplateList({ user }: TemplateListProps) {
   if (isLoading) {
     return (
       <div className="grid md:grid-cols-3  grid-cols-2 gap-6">
-        {[...Array(5)].map((_, index) => (
+        {[...Array(6)].map((_, index) => (
           <Skeleton key={index} className="h-80 flex rounded-md" />
         ))}
       </div>

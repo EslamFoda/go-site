@@ -103,7 +103,12 @@ function SocialList({
               }}
               onBlur={() => handleTextChange(index, inputValue)}
             />
-            <div onClick={() => handleDeleteLink(social.id)}>
+            <div
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteLink(social.id);
+              }}
+            >
               <X size={16} className="cursor-pointer text-destructive" />
             </div>
           </div>

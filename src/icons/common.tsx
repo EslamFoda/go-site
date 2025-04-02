@@ -498,3 +498,42 @@ export const Stars = () => (
     ></path>
   </svg>
 );
+
+export const HomeIcon = () => (
+  <svg
+    data-v-8dcba7c4=""
+    width="24"
+    height="25"
+    fill="none"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      data-v-8dcba7c4=""
+      d="M3 9L12 2L21 9V22H3V9Z"
+      fill="currentColor"
+    ></path>
+  </svg>
+);
+
+export const TemplatesIcon = () => (
+  <svg
+    data-v-8dcba7c4=""
+    width="24"
+    height="25"
+    fill="none"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g data-v-8dcba7c4="" clip-path="url(#a)" fill="currentColor">
+      <path data-v-8dcba7c4="" d="M8 4H16V2H8V4Z"></path>
+      <path data-v-8dcba7c4="" d="M5 8H19V6H5V8Z"></path>
+      <path data-v-8dcba7c4="" d="m3 10v12h18v-12h-18z"></path>
+    </g>
+    <defs data-v-8dcba7c4="">
+      <clipPath data-v-8dcba7c4="" id="a">
+        <rect data-v-8dcba7c4="" width="24" height="24" fill="#fff"></rect>
+      </clipPath>
+    </defs>
+  </svg>
+);

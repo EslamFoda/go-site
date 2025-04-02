@@ -23,10 +23,9 @@ const navItems = [
 
 function TopBar({ user }: { user: ActiveUserType }) {
   const pathname = usePathname();
-  const loginAndSignup =
+  const hideInPages =
     pathname === "/login" ||
     pathname === "/signup" ||
-    pathname === "/account" ||
     pathname === "/forgot_password";
 
   if (pathname.includes("/site")) return null;
@@ -37,8 +36,8 @@ function TopBar({ user }: { user: ActiveUserType }) {
           <span className="font-bold text-lg">Vixx</span>
         </Link>
       </div>
-      {!loginAndSignup && (
-        <div className="flex gap-6">
+      {!hideInPages && (
+        <div className="sm:flex hidden gap-6">
           {navItems.map((item) => (
             <Link
               key={item.href}
