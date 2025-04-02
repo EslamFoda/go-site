@@ -100,7 +100,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
   if (!currentPage) router.push(`/site/${siteId}/editor/`);
 
   return (
-    <div className="relative bg-background cursor-pointer">
+    <div className="relative bg-background">
       {/* Parent container with conditional blur */}
       {headerStyle.designSettings.scrollIndicator &&
         currentPage?.pageSettings.showHeader && <ProgressBar />}
