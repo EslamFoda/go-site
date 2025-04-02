@@ -85,7 +85,7 @@ function TemplateList({ user }: TemplateListProps) {
 
   if (isLoading) {
     return (
-      <div className="grid md:grid-cols-3  grid-cols-2 gap-6">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-6">
         {[...Array(6)].map((_, index) => (
           <Skeleton key={index} className="h-80 flex rounded-md" />
         ))}
@@ -98,7 +98,7 @@ function TemplateList({ user }: TemplateListProps) {
   console.log(templates, "templates");
 
   return (
-    <div className="grid md:grid-cols-3 grid-cols-2 gap-6">
+    <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-6">
       {templates?.map((template) => (
         <div
           key={template.id}
