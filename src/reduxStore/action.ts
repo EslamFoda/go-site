@@ -278,3 +278,8 @@ export const updateSavingStatus = (isSaving: boolean) => ({
   type: types.UPDATE_SAVING_STATUS,
   payload: isSaving,
 });
+
+export const updateIsGenerating = (isGenerating: boolean) => ({
+  type: types.UPDATE_IS_GENERATING,
+  payload: isGenerating,
+});

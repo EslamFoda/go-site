@@ -75,7 +75,6 @@ export default function Home({ params }: any) {
         dispatch(updateSelectedPallet(siteData.selectedPallet));
         dispatch(updateStorage(siteData.storage));
         setLoading(false);
-        dispatch(updateEditorState(["isGenerating"], false));
       }
       if (error) console.log(error);
     };

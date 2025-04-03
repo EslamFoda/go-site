@@ -5,7 +5,7 @@ import { Redo2, Undo2 } from "lucide-react";
 import React from "react";
 
 function UndoAndRedo() {
-  const canUndo = useAppSelector((state) => state.editor.past.length > 3);
+  const canUndo = useAppSelector((state) => state.editor.past.length > 1);
   const canRedo = useAppSelector((state) => state.editor.future.length > 0);
   const dispatch = useAppDispatch();
   const handleUndo = () => {

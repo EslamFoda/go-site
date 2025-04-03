@@ -3,125 +3,101 @@ import editorReducer from "./reducer";
 import { thunk } from "redux-thunk";
 import undoable, { StateWithHistory } from "redux-undo";
 import {
-  CLOSE_CHOOSE_ICON,
-  CLOSE_CHOOSE_IMAGE,
-  CLOSE_PAGE_SETTING,
-  OPEN_PAGES_TAB,
-  CLOSE_PALLET,
-  CLOSE_SECTION_DESIGNS,
-  CLOSE_SIDEBAR,
-  OPEN_CHOOSE_ICON,
-  OPEN_CHOOSE_IMAGE,
-  OPEN_PAGE_SETTING,
-  OPEN_PALLET,
-  OPEN_SECTION_DESIGNS,
-  SET_DRAGGABLE_MODAL_NAME,
-  SET_FLUID_CARD,
-  TOGGLE_CHOOSE_ICON,
-  TOGGLE_PALLET,
-  TOGGLE_SECTION_DESIGNS,
-  UPDATE_ACTIVE_PAGE,
-  UPDATE_DESIGN_SETTINGS,
-  UPDATE_EDITOR,
-  UPDATE_IS_DRAGGABLE_MODAL,
-  UPDATE_IS_DRAGGING,
-  UPDATE_IS_DRAGGING_ITEM,
-  UPDATE_PAGE_SETTING,
-  UPDATE_SECTION_INDEX,
-  UPDATE_SELECTED_ITEM,
-  UPDATE_SELECTED_PAGE,
-  UPDATE_SELECTED_PALLET,
-  UPDATE_SELECTED_SECTION,
-  UPDATE_SELECTED_SUB_LINK,
-  CLOSE_PAGES_TAB,
-  CLOSE_CHOOSE_BG_IMAGE,
-  CLOSE_HEADER_OPTIONS,
-  CLOSE_LOGO_SETTINGS,
-  OPEN_CHOOSE_BG_IMAGE,
-  OPEN_HEADER_OPTIONS,
-  OPEN_LOGO_SETTINGS,
-  TOGGLE_PREVIEW_MODE,
-  UPDATE_SAVING_STATUS,
-  RESET_EDITOR_STATE,
+  UPDATE_STORAGE,
+  ADD_NEW_PAGE,
+  DELETE_PAGE,
+  DUPLICATE_PAGE,
+  UPDATE_CONTENT,
+  UPDATE_EDITOR_SECTIONS,
+  UPDATE_GLOBAL_CONTENT,
+  UPDATE_GLOBAL_STYLE,
+  UPDATE_SITE_SETTINGS,
+  UPDATE_STYLE,
 } from "./actionTypes";
 
-const undoableReducer = undoable(editorReducer, {
-  limit: 50,
-  filter: (action, currentState, previousState) => {
-    // Exclude actions for sections named 'Fluid'
-    if (action.type === "UPDATE_CONTENT" || action.type === "UPDATE_STYLE") {
-      const page = currentState.editor.pages.find((p) =>
-        p.sections.some(
-          (s) => s.id === action.payload.sectionId && s.sectionName === "Fluid"
-        )
-      );
+// Define the actions that should be tracked in undo/redo history
+const trackableActions = [
+  UPDATE_STORAGE,
+  ADD_NEW_PAGE,
+  DELETE_PAGE,
+  DUPLICATE_PAGE,
+  UPDATE_CONTENT,
+  UPDATE_EDITOR_SECTIONS,
+  UPDATE_GLOBAL_CONTENT,
+  UPDATE_GLOBAL_STYLE,
+  UPDATE_SITE_SETTINGS,
+  UPDATE_STYLE,
+] as const;
 
-      if (page) {
-        return false; // Don't include in undo/redo history
+// Create a type for better type safety
+type TrackableActionType = typeof trackableActions[number];
+
+const undoableReducer = undoable(editorReducer, {
+  limit: 50, // Maximum number of undo steps
+  filter: (action, currentState): boolean => {
+    // Type guard to ensure action.type is compatible
+    const isTrackable = (actionType: string): actionType is TrackableActionType =>
+      trackableActions.includes(actionType as TrackableActionType);
+
+    // Log all actions to debug
+    console.log(`Action: ${action.type}, Trackable: ${isTrackable(action.type)}`);
+
+    // Only include specified actions in history
+    if (!isTrackable(action.type)) {
+      return false;
+    }
+
+    // Additional filtering for Fluid sections
+    if (action.type === UPDATE_CONTENT || action.type === UPDATE_STYLE) {
+      const payload = action.payload as { sectionId?: string };
+      if (payload.sectionId) {
+        const hasFluidSection = currentState.editor.pages.some((page) =>
+          page.sections.some(
+            (section) =>
+              section.id === payload.sectionId && section.sectionName === "Fluid"
+          )
+        );
+        console.log(`Fluid Section Check: ${hasFluidSection}`);
+        return !hasFluidSection;
       }
     }
 
-    // Original excluded actions
-    const excludedActionTypes = [
-      UPDATE_SELECTED_SECTION,
-      UPDATE_SELECTED_ITEM,
-      UPDATE_SELECTED_PALLET,
-      TOGGLE_PALLET,
-      TOGGLE_SECTION_DESIGNS,
-      TOGGLE_CHOOSE_ICON,
-      OPEN_SECTION_DESIGNS,
-      CLOSE_SECTION_DESIGNS,
-      OPEN_CHOOSE_ICON,
-      CLOSE_CHOOSE_ICON,
-      OPEN_PALLET,
-      CLOSE_PALLET,
-      UPDATE_DESIGN_SETTINGS,
-      UPDATE_ACTIVE_PAGE,
-      OPEN_PAGES_TAB,
-      CLOSE_PAGES_TAB,
-      UPDATE_EDITOR,
-      UPDATE_SECTION_INDEX,
-      OPEN_PAGE_SETTING,
-      CLOSE_PAGE_SETTING,
-      UPDATE_PAGE_SETTING,
-      UPDATE_SELECTED_SUB_LINK,
-      CLOSE_SIDEBAR,
-      UPDATE_SELECTED_PAGE,
-      OPEN_CHOOSE_IMAGE,
-      CLOSE_CHOOSE_IMAGE,
-      UPDATE_IS_DRAGGING_ITEM,
-      UPDATE_IS_DRAGGING,
-      UPDATE_IS_DRAGGABLE_MODAL,
-      SET_DRAGGABLE_MODAL_NAME,
-      SET_FLUID_CARD,
-      CLOSE_CHOOSE_BG_IMAGE,
-      CLOSE_HEADER_OPTIONS,
-      CLOSE_LOGO_SETTINGS,
-      OPEN_CHOOSE_BG_IMAGE,
-      OPEN_HEADER_OPTIONS,
-      OPEN_LOGO_SETTINGS,
-      TOGGLE_PREVIEW_MODE,
-      UPDATE_SAVING_STATUS,
-      RESET_EDITOR_STATE,
-      // ... other existing excluded action types
-    ];
-
-    return !excludedActionTypes.includes(action.type);
+    return true;
   },
+  groupBy: (action): string | null => {
+    // Group rapid successive updates of the same type
+    if ([UPDATE_CONTENT, UPDATE_STYLE].includes(action.type as TrackableActionType)) {
+      return `${action.type}_${Date.now()}`;
+    }
+    return null;
+  },
+  ignoreInitialState: true, // Don't record initial state as an undoable action
 });
 
+// Configure the store with better typing and middleware
 const store = configureStore({
   reducer: {
     editor: undoableReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().prepend(thunk as any),
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore redux-undo specific actions (using default types)
+        ignoredActions: ["@@redux-undo/UNDO", "@@redux-undo/REDO"],
+      },
+    }).prepend(thunk),
+  devTools: process.env.NODE_ENV !== "production", // Enable Redux DevTools in development
 });
 
+// Export types for better TypeScript integration
 export type RootState = {
   editor: StateWithHistory<ReturnType<typeof editorReducer>>;
 };
 
 export type AppDispatch = typeof store.dispatch;
+
+// Utility functions for undo/redo using default redux-undo action types
+export const undo = () => store.dispatch({ type: "@@redux-undo/UNDO" });
+export const redo = () => store.dispatch({ type: "@@redux-undo/REDO" });
 
 export default store;

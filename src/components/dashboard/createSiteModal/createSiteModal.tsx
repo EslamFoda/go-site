@@ -18,6 +18,7 @@ import {
   updateEditorSections,
   updateSelectedPallet,
   updateDesignSettings,
+  updateIsGenerating,
 } from "@/reduxStore/action";
 import { useScrollTo } from "@/hooks/useScrollTo";
 import { insertSiteData, generateSections } from "./siteData";
@@ -31,6 +32,7 @@ import {
   generateAccordions,
 } from "./ContentGenerators";
 import { ThemeSelector } from "./themeSelector";
+import { ActionCreators as UndoActionCreators } from "redux-undo";
 
 interface CreateSiteModalProps {
   children: React.ReactNode;
@@ -69,6 +71,7 @@ export default function CreateSiteModal({
   );
 
   const startSiteGeneration = async (siteId: string) => {
+    dispatch(updateIsGenerating(true));
     try {
       const initialPage = {
         pageId: homePageId,
@@ -185,9 +188,10 @@ export default function CreateSiteModal({
         variant: "destructive",
       });
     } finally {
-      dispatch(updateEditorState(["isGenerating"], false));
+      dispatch(updateIsGenerating(false));
       setSiteName("");
       setSiteDescription("");
+      dispatch(UndoActionCreators.clearHistory());
     }
   };
 
@@ -202,7 +206,6 @@ export default function CreateSiteModal({
     }
 
     const siteId = v4();
-    dispatch(updateEditorState(["isGenerating"], true));
     startSiteGeneration(siteId);
     router.push(`/site/${siteId}/editor`);
     setOpen(false);

@@ -194,7 +194,7 @@ const initialState: EditorStore = {
   openLogoSettings: false,
   previewMode: false,
   isSaving: false,
-  isGenerating: false, // New: Track if generation is in progress
+  isGenerating: false,
   designSettings: {
     fonts: {
       titleFont: {
@@ -899,6 +899,11 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.UPDATE_SAVING_STATUS: {
         draft.isSaving = action.payload;
+        break;
+      }
+
+      case types.UPDATE_IS_GENERATING: {
+        draft.isGenerating = action.payload;
         break;
       }
 
