@@ -30,17 +30,16 @@ const trackableActions = [
 ] as const;
 
 // Create a type for better type safety
-type TrackableActionType = typeof trackableActions[number];
+type TrackableActionType = (typeof trackableActions)[number];
 
 const undoableReducer = undoable(editorReducer, {
   limit: 50, // Maximum number of undo steps
   filter: (action, currentState): boolean => {
     // Type guard to ensure action.type is compatible
-    const isTrackable = (actionType: string): actionType is TrackableActionType =>
+    const isTrackable = (
+      actionType: string
+    ): actionType is TrackableActionType =>
       trackableActions.includes(actionType as TrackableActionType);
-
-    // Log all actions to debug
-    console.log(`Action: ${action.type}, Trackable: ${isTrackable(action.type)}`);
 
     // Only include specified actions in history
     if (!isTrackable(action.type)) {
@@ -54,10 +53,10 @@ const undoableReducer = undoable(editorReducer, {
         const hasFluidSection = currentState.editor.pages.some((page) =>
           page.sections.some(
             (section) =>
-              section.id === payload.sectionId && section.sectionName === "Fluid"
+              section.id === payload.sectionId &&
+              section.sectionName === "Fluid"
           )
         );
-        console.log(`Fluid Section Check: ${hasFluidSection}`);
         return !hasFluidSection;
       }
     }
@@ -66,7 +65,11 @@ const undoableReducer = undoable(editorReducer, {
   },
   groupBy: (action): string | null => {
     // Group rapid successive updates of the same type
-    if ([UPDATE_CONTENT, UPDATE_STYLE].includes(action.type as TrackableActionType)) {
+    if (
+      [UPDATE_CONTENT, UPDATE_STYLE].includes(
+        action.type as TrackableActionType
+      )
+    ) {
       return `${action.type}_${Date.now()}`;
     }
     return null;

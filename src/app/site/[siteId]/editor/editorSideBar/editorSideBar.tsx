@@ -84,22 +84,24 @@ const EditorSidebar = () => {
 
   const updatePageStyleAndContent = useCallback(async () => {
     dispatch(updateSavingStatus(true));
-    const supabase = await createClient();
-    const { data, error } = await supabase
-      .from("sites")
-      .update({
-        pages: pages,
-        globalSections: globalSections,
-        storage: storage,
-        designSettings: designSettings,
-        selectedPallet: selectedPallet,
-      })
-      .eq("siteId", siteId)
-      .select();
-    dispatch(updateSavingStatus(false));
+    if (siteId.length) {
+      const supabase = await createClient();
+      const { data, error } = await supabase
+        .from("sites")
+        .update({
+          pages: pages,
+          globalSections: globalSections,
+          storage: storage,
+          designSettings: designSettings,
+          selectedPallet: selectedPallet,
+        })
+        .eq("siteId", siteId)
+        .select();
+      dispatch(updateSavingStatus(false));
 
-    if (error) {
-      console.error("Error updating pages:", error);
+      if (error) {
+        console.error("Error updating pages:", error);
+      }
     }
   }, [
     pages,

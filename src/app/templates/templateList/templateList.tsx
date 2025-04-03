@@ -95,8 +95,6 @@ function TemplateList({ user }: TemplateListProps) {
 
   if (error) return <div>Error loading templates</div>;
 
-  console.log(templates, "templates");
-
   return (
     <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-6">
       {templates?.map((template) => (

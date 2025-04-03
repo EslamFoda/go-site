@@ -23,7 +23,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { useMotion } from "@/hooks/useMotion";
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams } from "next/navigation";
 import useScrollParallax from "@/hooks/useScrollParallax";
 import { cn } from "@/lib/utils"; // Import cn utility for className merging
 import Sidebar from "@/components/shared/sideBar";
@@ -50,7 +50,6 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
     useAppSelector((state) => state.editor.present);
   const [hoveringIndex, setHoveringIndex] = useState<number | null>(null);
   const { motion, AnimatePresence } = useMotion();
-  const router = useRouter();
   const { ParallaxProvider } = useScrollParallax();
   const { siteId } = useParams();
   const headerRef = useRef<HTMLDivElement>(null);
@@ -97,7 +96,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
     setHoveringIndex(null);
   };
 
-  if (!currentPage) router.push(`/site/${siteId}/editor/`);
+  if (!currentPage) redirect(`/site/${siteId}/editor/`);
 
   return (
     <div className="relative bg-background">

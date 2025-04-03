@@ -129,7 +129,7 @@ export const VideoPlaceHolder = ({
         className={iconClassName}
         data-v-549a1164=""
         fillRule="evenodd"
-        clip-rule="evenodd"
+        clipRule="evenodd"
         d="M2 3H22V21H2V3ZM4 5H6V7H4V5ZM4 13H6V15H4V13ZM6 9H4V11H6V9ZM4 16.9995H6V18.9995H4V16.9995ZM20 5H18V7H20V5ZM18 13H20V15H18V13ZM20 9H18V11H20V9ZM18 16.9995H20V18.9995H18V16.9995ZM16 5H8V11H16V5ZM8 13H16V19H8V13Z"
       ></path>
     </svg>
