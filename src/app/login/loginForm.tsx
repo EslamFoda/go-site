@@ -79,7 +79,7 @@ function LoginForm() {
         onClick={handleGuestSubmit}
         disabled={isGuestSubmitting}
       >
-        {isGuestSubmitting ? "Processing..." : "Continue as Guest"}
+        {isGuestSubmitting ? "Processing..." : "Login as Guest"}
       </Button>
     </div>
   );
