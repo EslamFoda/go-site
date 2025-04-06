@@ -72,7 +72,7 @@ function LoginForm() {
         </div>
       </form>
 
-      {/* Guest login button */}
+      {/* Guest login button  */}
       <Button
         variant="outline"
         className="w-full"
