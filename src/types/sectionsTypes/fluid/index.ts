@@ -74,23 +74,29 @@ export interface GridCardButton {
   w: number;
   h: number;
   type: "button"; // Discriminator
+  x?: number;
+  y?: number;
 }
 
 export interface GridCardImage {
   i: string;
   content: string;
   settings: FluidImageSettings;
-  w: number;
-  h: number;
+  x?: number;
+  y?: number;
+  w?: number;
+  h?: number;
   type: "image"; // Discriminator
 }
 export interface GridCardText {
   i: string;
   content: string;
   settings: FluidTextSettings;
-  w: number;
-  h: number;
   type: "text"; // Discriminator
+  x?: number;
+  y?: number;
+  w?: number;
+  h?: number;
 }
 
 // Union of GridCard types

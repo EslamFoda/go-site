@@ -1,27 +1,18 @@
-import React, { useEffect, useState } from "react";
-import { Responsive, WidthProvider, Layout, Layouts } from "react-grid-layout";
-import "react-grid-layout/css/styles.css";
-import "react-resizable/css/styles.css";
-import "./styles.css";
+"use client";
+
+import React, { useEffect, useRef, useState } from "react";
+import "gridstack/dist/gridstack.min.css";
+import { GridStack, GridStackOptions } from "gridstack";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
   updateIsDragging,
   updateIsDraggingItem,
   updateSelectedItem,
   updateSelectedSection,
 } from "@/reduxStore/action";
-import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
-import GridBackground from "./gridBackground";
-import { HoverCard } from "@/components/ui/hover-card";
-import { HoverCardTrigger } from "@radix-ui/react-hover-card";
 import { FluidStyle, GridCard } from "@/types/sectionsTypes/fluid";
-import { renderCardContent } from "./cardContent";
-import ResizeHeight from "./resizeHeight";
-import { useGridDimensions } from "@/hooks/useGridDimensions";
-import HoverCardActions from "./hoverCardActions";
-import { useGridOperations } from "@/hooks/useGridOperations";
-import { useGridHeight } from "@/hooks/useGridHeight";
-
-const ResponsiveGridLayout = WidthProvider(Responsive);
+import { renderCardContent } from "./cardContent"; // Import your renderCardContent
+import { createRoot } from "react-dom/client";
 
 interface DraggableGridLayoutProps {
   section: any;
@@ -32,281 +23,154 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   pageId,
   section,
 }) => {
-  const fluidSectionStyles = section.style as FluidStyle;
+  const gridRef = useRef<HTMLDivElement>(null);
+  const [grid, setGrid] = useState<GridStack | null>(null);
   const dispatch = useAppDispatch();
   const { dragItem, isDragging } = useAppSelector(
     (state) => state.editor.present
   );
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
-  const [isResizing, setIsResizing] = useState(false);
-  const breakpoints = { lg: 1200, sm: 768, xs: 480 };
   const [isEditing, setIsEditing] = useState(false);
   const [cardType, setCardType] = useState("");
-  const { gridSettings } = fluidSectionStyles;
+  const fluidSectionStyles = section.style as FluidStyle;
+  const roots = useRef<Map<string, any>>(new Map()); // Store React roots for each widget
 
-  const {
-    containerRef,
-    containerWidth,
-    minHeight,
-    setMinHeight,
-    isLg,
-    isMd,
-    isXs,
-  } = useGridDimensions(section.style);
-
-  const { updateGridHeight } = useGridHeight({
-    pageId,
-    sectionId: section.id,
-    breakpoints: {
-      lg: isLg,
-      md: isMd,
-      xs: isXs,
+  const gridOptions: GridStackOptions = {
+    column: 12,
+    minRow: 1,
+    row: fluidSectionStyles.minHeights.lg / 10,
+    cellHeight: 10,
+    margin: 5,
+    float: true,
+    disableOneColumnMode: true,
+    animate: true,
+    acceptWidgets: true,
+    removable: false,
+    resizable: {
+      handles: "e, se, s, sw, w",
     },
-    currentStyles: {
-      minHeights: fluidSectionStyles.minHeights,
-    },
-  });
-
-  const {
-    currentBreakpoint,
-    setCurrentBreakpoint,
-    handleDelete,
-    debouncedUpdateLayout,
-    updateSectionContent,
-  } = useGridOperations(pageId, section);
-
-  const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
-    const updatedLayouts = Object.keys(allLayouts).reduce((acc, key) => {
-      acc[key] = allLayouts[key].map((layoutItem) => ({ ...layoutItem }));
-      return acc;
-    }, {} as Layouts);
-
-    updateSectionContent(section.content.gridCards, updatedLayouts);
   };
 
-  const onResize = (
-    layout: Layout[],
-    oldItem: Layout,
-    newItem: Layout,
-    placeholder: Layout,
-    event: MouseEvent,
-    element: HTMLElement
-  ) => {
-    const selectedCard = section.content.gridCards.find(
-      (card: GridCard) => card.i === selectedItemId
-    );
+  // Initialize GridStack
+  useEffect(() => {
+    if (gridRef.current && !grid) {
+      const gridInstance = GridStack.init(gridOptions, gridRef.current);
 
-    if (selectedCard && selectedCard.type === "text") {
-      const updatedLayouts = { ...section.content.gridLayout };
+      gridInstance.on("dragstart", () => {
+        dispatch(updateIsDragging(true));
+      });
 
-      if (currentBreakpoint === "lg") {
-        Object.keys(breakpoints).forEach((breakpoint) => {
-          updatedLayouts[breakpoint] = updatedLayouts[breakpoint].map(
-            (item: Layout) => {
-              if (item.i === newItem.i) {
-                return { ...item, w: newItem.w, h: newItem.h };
-              }
-              return item;
-            }
-          );
-        });
-      } else {
-        updatedLayouts[currentBreakpoint] = updatedLayouts[
-          currentBreakpoint
-        ].map((item: Layout) => {
-          if (item.i === newItem.i) {
-            return { ...item, w: newItem.w, h: newItem.h };
-          }
-          return item;
-        });
+      gridInstance.on("dragstop", () => {
+        dispatch(updateIsDragging(false));
+        const updatedLayout = gridInstance.save(false);
+        // Update your section content with the new layout here
+      });
+
+      gridInstance.on("dropped", (event, previousWidget, newWidget) => {
+        if (dragItem && newWidget) {
+          const newCard: GridCard = {
+            ...dragItem,
+            i: `${dragItem.i}-${Date.now()}`,
+            x: newWidget.x || 0,
+            y: newWidget.y || 0,
+            w: newWidget.width || 3,
+            h: newWidget.height || 3,
+          };
+          updateSectionContent([...section.content.gridCards, newCard]);
+          dispatch(updateIsDraggingItem(null));
+          dispatch(updateIsDragging(false));
+        }
+      });
+
+      gridInstance.on("resizestop", () => {
+        const updatedLayout = gridInstance.save(false);
+        // Update your section content with the new layout here
+      });
+
+      setGrid(gridInstance);
+    }
+
+    return () => {
+      if (grid) {
+        grid.destroy(false);
       }
+      roots.current.forEach((root) => root.unmount());
+      roots.current.clear();
+    };
+  }, [gridRef, grid]);
 
-      debouncedUpdateLayout(updatedLayouts);
+  // Function to update section content (simplified version)
+  const updateSectionContent = (newGridCards: GridCard[]) => {
+    // This should update your Redux store or wherever you store section data
+    section.content.gridCards = newGridCards;
+    renderWidgets();
+  };
+
+  // Render widgets with React components
+  const renderWidgets = () => {
+    if (grid && section.content.gridCards) {
+      grid.removeAll();
+      section.content.gridCards.forEach((card: GridCard) => {
+        const widget = grid.addWidget({
+          w: card.w || 3,
+          h: card.h || 3,
+          id: card.i,
+        });
+
+        const contentDiv = widget.querySelector(".grid-stack-item-content");
+        if (contentDiv) {
+          // Clear existing content
+          contentDiv.innerHTML = "";
+
+          // Create a container for React
+          const reactContainer = document.createElement("div");
+          reactContainer.style.height = "100%";
+          contentDiv.appendChild(reactContainer);
+
+          // Render React component
+          const root = createRoot(reactContainer);
+          roots.current.set(card.i, root);
+
+          root.render(
+            renderCardContent({
+              card,
+              pageId,
+              section,
+              selectedItemId,
+              isEditing,
+              setSelectedItemId,
+              updateSectionContent,
+              dispatch,
+              setCardType,
+              setIsEditing,
+            })
+          );
+        }
+      });
     }
   };
 
   useEffect(() => {
-    return () => {
-      debouncedUpdateLayout.cancel();
-    };
-  }, [debouncedUpdateLayout]);
-
-  const handleOnDrop = (
-    layout: Layout[],
-    layoutItem: Layout,
-    _event: DragEvent
-  ) => {
-    if (dragItem) {
-      const newCard: GridCard = {
-        ...dragItem,
-        i: `${dragItem.i}-${Date.now()}`,
-      };
-
-      const newLayout: Layout = {
-        i: newCard.i,
-        x: layoutItem.x,
-        y: layoutItem.y,
-        w: newCard.w || 3,
-        h: newCard.h || 3,
-        static: false,
-      };
-
-      const newGridCards = [...section.content.gridCards, newCard];
-
-      const updatedLayouts = Object.keys(breakpoints).reduce(
-        (acc, breakpoint) => {
-          acc[breakpoint] = [
-            ...(section.content.gridLayout[breakpoint] || []),
-            { ...newLayout },
-          ];
-          return acc;
-        },
-        {} as Layouts
-      );
-
-      updateSectionContent(newGridCards, updatedLayouts);
-      setSelectedItemId(newCard.i);
-    }
-    dispatch(updateIsDraggingItem(null));
-    dispatch(updateIsDragging(false));
-    updateGridHeight();
-  };
-
-  const onDragStop = (layout: Layout[], oldItem: Layout, newItem: Layout) => {
-    // Update isDragging state
-    const updatedLayouts = { ...section.content.gridLayout };
-    updatedLayouts[currentBreakpoint] = updatedLayouts[currentBreakpoint].map(
-      (item: Layout) => {
-        if (item.i === newItem.i) {
-          return { ...item, x: newItem.x, y: newItem.y };
-        }
-        return item;
-      }
-    );
-
-    debouncedUpdateLayout(updatedLayouts);
-    dispatch(updateIsDragging(false));
-    updateGridHeight();
-  };
-
-  const onBreakpointChange = (newBreakpoint: string) => {
-    setCurrentBreakpoint(newBreakpoint);
-  };
-
-  const showGridPattern =
-    section.content.gridCards.length === 0 || isDragging || isResizing;
+    renderWidgets();
+  }, [grid, section.content.gridCards, selectedItemId, isEditing]);
 
   return (
     <div
-      ref={containerRef}
       onClick={() => {
         dispatch(updateSelectedSection(pageId, section.id));
         dispatch(updateSelectedItem(null));
         setSelectedItemId(null);
       }}
+      className="relative border border-dashed border-primary"
     >
       <div
-        id={`fluid-grid-container-${section.id}`}
-        className="relative border border-primary border-dashed"
-      >
-        {showGridPattern && (
-          <GridBackground
-            containerWidth={containerWidth}
-            cols={
-              gridSettings.cols[
-                currentBreakpoint as keyof typeof gridSettings.cols
-              ]
-            }
-            rowHeight={gridSettings.rowHeight}
-            padding={gridSettings.padding}
-            sectionId={section.id}
-          />
-        )}
-        <ResponsiveGridLayout
-          layouts={section.content.gridLayout}
-          breakpoints={breakpoints}
-          cols={gridSettings.cols}
-          rowHeight={gridSettings.rowHeight}
-          margin={gridSettings.padding}
-          isBounded
-          style={{
-            minHeight: isLg
-              ? minHeight.lg || fluidSectionStyles.minHeights.lg
-              : isMd
-              ? minHeight.md || fluidSectionStyles.minHeights.md
-              : minHeight.xs || fluidSectionStyles.minHeights.xs,
-            background: "transparent",
-          }}
-          containerPadding={[0, 0]}
-          compactType={null}
-          allowOverlap={true}
-          preventCollision={false}
-          isDroppable={!isEditing} // Disable dropping while editing
-          isDraggable={!isEditing} // Disable dragging while editing
-          isResizable={!isEditing} // Optionally disable resizing while editing
-          onLayoutChange={handleLayoutChange}
-          onBreakpointChange={onBreakpointChange}
-          onDrop={handleOnDrop}
-          onResize={onResize}
-          onDragStart={() => {
-            setSelectedItemId(null);
-            updateGridHeight();
-            dispatch(updateIsDragging(true));
-          }}
-          onDragStop={onDragStop}
-          onResizeStart={() => setIsResizing(true)}
-          onResizeStop={() => {
-            setIsResizing(false);
-            updateGridHeight();
-          }}
-          resizeHandles={
-            cardType === "text"
-              ? ["e", "w", "s"]
-              : ["sw", "nw", "se", "ne", "e", "w", "s", "n"]
-          }
-        >
-          {section.content.gridCards.map((card: GridCard) => (
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-              key={card.i}
-              className={`relative rounded-md overflow-hidden select-none ${
-                card.i === selectedItemId && "isActive"
-              }`}
-              style={{ zIndex: card.i === selectedItemId ? 6 : 5 }}
-            >
-              <HoverCard open={selectedItemId === card.i}>
-                <HoverCardActions card={card} onDelete={handleDelete} />
-                <HoverCardTrigger>
-                  {renderCardContent({
-                    card,
-                    pageId,
-                    dispatch,
-                    isEditing,
-                    section,
-                    selectedItemId,
-                    setSelectedItemId,
-                    setCardType,
-                    setIsEditing,
-                    updateSectionContent,
-                  })}
-                </HoverCardTrigger>
-              </HoverCard>
-            </div>
-          ))}
-        </ResponsiveGridLayout>
-        <ResizeHeight
-          fluidSectionStyles={fluidSectionStyles}
-          isLg={isLg}
-          isMd={isMd}
-          isXs={isXs}
-          pageId={pageId}
-          section={section}
-          minHeight={minHeight}
-          setMinHeight={setMinHeight}
-        />
-      </div>
+        ref={gridRef}
+        className="grid-stack"
+        style={{
+          minHeight: `${fluidSectionStyles.minHeights.lg}px`,
+          background: "transparent",
+        }}
+      />
     </div>
   );
 };
