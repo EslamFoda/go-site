@@ -94,19 +94,44 @@ export const FourthDesign = ({ active }: { active: boolean }) => {
 export const FifthDesign = ({ active }: { active: boolean }) => {
   return (
     <svg
-      width="60"
-      height="40"
-      viewBox="0 0 60 40"
-      fill="none"
-      className={`${active ? "fill-primary" : "fill-muted-foreground/70"}`}
+      width="61"
+      height="41"
+      viewBox="0 0 61 41"
+      
       xmlns="http://www.w3.org/2000/svg"
-      data-v-62352d9f=""
+      className={`${active ? "fill-primary" : "fill-muted-foreground/70"}`}
+      data-v-e6fb3d76=""
     >
-      <rect width="60" height="40" fill="none" data-v-62352d9f=""></rect>
-      <path d="M0 0H30V40H0V0Z" data-v-62352d9f=""></path>
-      <path d="M45 24H35V29H45V24Z" data-v-62352d9f=""></path>
-      <path d="M35 12L60 12V13L35 13V12Z" data-v-62352d9f=""></path>
-      <path d="M60 18L35 18V19L60 19V18Z" data-v-62352d9f=""></path>
+      <path
+        d="M0.73877 0.243164L60.7388 0.243173V1.24317L0.73877 1.24316V0.243164Z"
+        
+        data-v-e6fb3d76=""
+      ></path>
+      <path
+        d="M0.73877 6.24316L60.7388 6.24317V7.24317L0.73877 7.24316V6.24316Z"
+        
+        data-v-e6fb3d76=""
+      ></path>
+      <path
+        d="M60.7388 13.2432L35.7388 13.2432V14.2432L60.7388 14.2432V13.2432Z"
+        
+        data-v-e6fb3d76=""
+      ></path>
+      <path
+        d="M35.7388 25.2432H45.7388V30.2432H35.7388V25.2432Z"
+        
+        data-v-e6fb3d76=""
+      ></path>
+      <path
+        d="M60.7388 19.2432L35.7388 19.2432V20.2432L60.7388 20.2432V19.2432Z"
+        
+        data-v-e6fb3d76=""
+      ></path>
+      <path
+        d="M30.7388 13.2432H0.73877V40.2432H30.7388V13.2432Z"
+        
+        data-v-e6fb3d76=""
+      ></path>
     </svg>
   );
 };
