@@ -70,6 +70,7 @@ function Design6({ section, pageId, sectionIndex }: Design6Props) {
     "text-6xl": titleSize === "l",
     "text-5xl": titleSize === "m",
     "text-4xl": titleSize === "s",
+    "text-end": !showImage && !showVideo,
     "text-primary-foreground": sectionBackground.color === "primary",
     "text-white":
       sectionBackground.textColor === "light" &&
@@ -80,11 +81,17 @@ function Design6({ section, pageId, sectionIndex }: Design6Props) {
   });
 
   const TitleAndSubtitleClassName = cn(
-    "w-full flex space-y-3 flex-col text-start"
+    "w-full flex space-y-3 flex-col text-start",
+    {
+      "text-end": !showImage && !showVideo,
+    }
   );
 
   const subAndButtonClassName = cn(
-    "w-full flex space-y-3 flex-col items-start"
+    "w-full flex space-y-3 flex-col items-start",
+    {
+      "text-end items-end": !showImage && !showVideo,
+    }
   );
 
   const subTitleColor = cn("text-lg", {
@@ -377,7 +384,7 @@ function Design6({ section, pageId, sectionIndex }: Design6Props) {
             </h1>
           </div>
           <div
-            className="flex max-lg:flex-col w-full text-center justify-center"
+            className="flex max-lg:flex-col w-full"
             style={{
               gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
             }}

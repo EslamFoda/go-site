@@ -373,7 +373,7 @@ function Design5({ section, pageId, sectionIndex }: Design5Props) {
             </h1>
           </div>
           <div
-            className="flex max-lg:flex-col w-full text-center justify-center"
+            className="flex max-lg:flex-col w-full"
             style={{
               gap: isDesktop ? spacing.gap.desktop : spacing.gap.mobile,
             }}
