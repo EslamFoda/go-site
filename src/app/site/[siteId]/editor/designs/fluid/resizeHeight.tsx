@@ -5,7 +5,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { updateIsDragging, updateStyle } from "@/reduxStore/action";
+import { updateIsDragging, updateSelectedSection, updateStyle } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { FluidStyle } from "@/types/sectionsTypes/fluid";
 import debounce from "lodash/debounce";
@@ -80,6 +80,7 @@ function ResizeHeight({
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    dispatch(updateSelectedSection(pageId, section.id));
 
     startY.current = e.clientY;
     isDraggingRef.current = true;

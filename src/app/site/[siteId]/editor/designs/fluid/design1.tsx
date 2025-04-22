@@ -34,7 +34,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
 }) => {
   const fluidSectionStyles = section.style as FluidStyle;
   const dispatch = useAppDispatch();
-  const { dragItem, isDragging } = useAppSelector(
+  const { dragItem, isDragging, selectedSection } = useAppSelector(
     (state) => state.editor.present
   );
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
@@ -194,7 +194,9 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
   };
 
   const showGridPattern =
-    section.content.gridCards.length === 0 || isDragging || isResizing;
+    section.content.gridCards.length === 0 ||
+    (isDragging && selectedSection?.id === section.id) ||
+    (isResizing && selectedSection?.id === section.id);
 
   return (
     <section className="container max-w-container">

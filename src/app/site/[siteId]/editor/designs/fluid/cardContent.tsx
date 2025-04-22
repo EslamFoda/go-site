@@ -57,11 +57,13 @@ export const renderCardContent = ({
   return (
     <div
       className={cardClassNames}
+      onMouseDown={() => {
+        dispatch(updateSelectedSection(pageId, section.id));
+      }}
       onClick={(e) => {
         e.stopPropagation();
         setSelectedItemId(card.i);
         setCardType(card.type);
-        dispatch(updateSelectedSection(pageId, section.id));
       }}
     >
       <div className="w-full h-full">
