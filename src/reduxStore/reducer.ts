@@ -250,6 +250,7 @@ const initialState: EditorStore = {
     w: 1,
     h: 1,
     type: "button",
+    zIndex: 5,
   },
   isDragging: false,
   isDraggableModalActive: false,
