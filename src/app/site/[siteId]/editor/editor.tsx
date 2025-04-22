@@ -77,7 +77,6 @@ function Editor({ children }: { children: React.ReactNode }) {
       </aside>
       <div className="flex flex-col">
         <header className={editorHeaderClasses}>
-          <h1 className="text-xl font-semibold">Playground</h1>
           <Drawer>
             <DrawerTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden">
