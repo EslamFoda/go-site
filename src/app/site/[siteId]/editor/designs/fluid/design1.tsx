@@ -193,10 +193,57 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
     setCurrentBreakpoint(newBreakpoint);
   };
 
+  const handleZIndexChange = (
+    cardId: string,
+    direction: "forward" | "backward"
+  ) => {
+    // Get all gridCards
+    const gridCards = section.content.gridCards as GridCard[];
+
+    // Find the current card and the maximum zIndex
+    const currentCard = gridCards.find((card) => card.i === cardId);
+    if (!currentCard) return; // Exit if card not found
+
+    const currentZIndex = currentCard.zIndex || 5; // Default to 5
+    const maxZIndex = Math.max(...gridCards.map((card) => card.zIndex || 5));
+    const cardsAtMaxZIndex = gridCards.filter(
+      (card) => (card.zIndex || 5) === maxZIndex
+    ).length;
+
+    // Calculate new zIndex based on direction
+    let newZIndex = currentZIndex;
+    if (direction === "forward") {
+      // Only increment if the card is at the max zIndex and there are multiple cards at that level
+      if (currentZIndex === maxZIndex && cardsAtMaxZIndex > 1) {
+        newZIndex = maxZIndex + 1;
+      } else if (currentZIndex < maxZIndex) {
+        newZIndex = currentZIndex + 1; // Move forward up to maxZIndex
+      }
+      // If already at maxZIndex with only one card, no change
+    } else if (direction === "backward") {
+      newZIndex = Math.max(5, currentZIndex - 1); // Never go below 5
+    }
+
+    // Update gridCards with the new zIndex
+    const updatedGridCards = gridCards.map((card) =>
+      card.i === cardId ? { ...card, zIndex: newZIndex } : card
+    );
+
+    // Persist changes
+    updateSectionContent(updatedGridCards, section.content.gridLayout);
+  };
+
   const showGridPattern =
     section.content.gridCards.length === 0 ||
     (isDragging && selectedSection?.id === section.id) ||
     (isResizing && selectedSection?.id === section.id);
+
+  const maxZIndex = Math.max(
+    ...section.content.gridCards.map((card: GridCard) => card.zIndex || 5)
+  );
+  const cardsAtMaxZIndex = section.content.gridCards.filter(
+    (card: GridCard) => (card.zIndex || 5) === maxZIndex
+  ).length;
 
   return (
     <section className="container max-w-container">
@@ -268,36 +315,46 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                 : ["sw", "nw", "se", "ne", "e", "w", "s", "n"]
             }
           >
-            {section.content.gridCards.map((card: GridCard) => (
-              <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                }}
-                key={card.i}
-                className={`relative rounded-md overflow-hidden select-none ${
-                  card.i === selectedItemId && "isActive"
-                }`}
-                style={{ zIndex: card.i === selectedItemId ? 6 : 5 }}
-              >
-                <HoverCard open={selectedItemId === card.i}>
-                  <HoverCardActions card={card} onDelete={handleDelete} />
-                  <HoverCardTrigger>
-                    {renderCardContent({
-                      card,
-                      pageId,
-                      dispatch,
-                      isEditing,
-                      section,
-                      selectedItemId,
-                      setSelectedItemId,
-                      setCardType,
-                      setIsEditing,
-                      updateSectionContent,
-                    })}
-                  </HoverCardTrigger>
-                </HoverCard>
-              </div>
-            ))}
+            {section.content.gridCards.map((card: GridCard) => {
+              return (
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
+                  key={card.i}
+                  className={`relative rounded-md overflow-hidden select-none ${
+                    card.i === selectedItemId && "isActive"
+                  }`}
+                  style={{
+                    zIndex: card.i === selectedItemId ? 100 : card.zIndex,
+                  }}
+                >
+                  <HoverCard open={selectedItemId === card.i}>
+                    <HoverCardActions
+                      card={card}
+                      onDelete={handleDelete}
+                      onZIndexChange={handleZIndexChange}
+                      maxZIndex={maxZIndex}
+                      cardsAtMaxZIndex={cardsAtMaxZIndex}
+                    />
+                    <HoverCardTrigger>
+                      {renderCardContent({
+                        card,
+                        pageId,
+                        dispatch,
+                        isEditing,
+                        section,
+                        selectedItemId,
+                        setSelectedItemId,
+                        setCardType,
+                        setIsEditing,
+                        updateSectionContent,
+                      })}
+                    </HoverCardTrigger>
+                  </HoverCard>
+                </div>
+              );
+            })}
           </ResponsiveGridLayout>
           <ResizeHeight
             fluidSectionStyles={fluidSectionStyles}

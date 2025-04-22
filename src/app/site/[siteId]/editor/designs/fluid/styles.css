@@ -1,5 +1,6 @@
 .react-grid-item {
   overflow: unset;
+  z-index: unset;
 }
 
 .react-grid-item > .react-resizable-handle {

@@ -16,6 +16,7 @@ const initialCards: GridCard[] = [
     w: 5,
     h: 1,
     type: "text",
+    zIndex: 5,
   },
 
   {
@@ -34,6 +35,7 @@ const initialCards: GridCard[] = [
     w: 5,
     h: 1,
     type: "button",
+    zIndex: 5,
   },
   {
     i: "image",
@@ -48,6 +50,7 @@ const initialCards: GridCard[] = [
       originalSrc: "",
       imageFilters: {},
     },
+    zIndex: 5,
   },
 ];
 

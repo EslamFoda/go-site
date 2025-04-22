@@ -1442,6 +1442,7 @@ export function useSections() {
           {
             i: "1",
             content: "Click Me",
+            zIndex: 5,
             w: 5,
             h: 1,
             type: "button",
@@ -1459,6 +1460,7 @@ export function useSections() {
           {
             i: "2",
             content: "Spell Caster",
+            zIndex: 5,
             w: 11,
             h: 6,
             type: "image",
@@ -1470,6 +1472,7 @@ export function useSections() {
           {
             i: "3",
             content: "Spell Caster",
+            zIndex: 5,
             w: 11,
             h: 6,
             type: "image",
@@ -1481,6 +1484,7 @@ export function useSections() {
           {
             i: "4",
             content: "Click Me",
+            zIndex: 5,
             w: 5,
             h: 1,
             type: "button",
@@ -1498,6 +1502,7 @@ export function useSections() {
           {
             i: "5",
             content: "Spell Caster",
+            zIndex: 5,
             w: 11,
             h: 6,
             type: "image",
@@ -1509,6 +1514,7 @@ export function useSections() {
           {
             i: "6",
             content: "Click Me",
+            zIndex: 5,
             w: 5,
             h: 1,
             type: "button",

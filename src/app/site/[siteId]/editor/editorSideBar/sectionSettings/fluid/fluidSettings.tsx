@@ -24,8 +24,6 @@ function FluidSettings({ pageId, sections }: FluidSettingsProps) {
     (section) => section.id === selectedSection?.id
   ) as EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>;
 
-  const fluidStyle = findSelectedSection?.style as SectionStyleTypes["fluid"];
-
   return (
     <div>
       <Tabs onValueChange={setTabValue} value={tabValue} className="w-full">

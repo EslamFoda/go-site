@@ -49,7 +49,11 @@ const FluidPreview: React.FC<FluidPreviewProps> = ({ section }) => {
         isResizable={false} // Optionally disable resizing while editing
       >
         {section.content.gridCards.map((card: GridCard) => (
-          <div key={card.i} className="relative rounded-md overflow-hidden">
+          <div
+            key={card.i}
+            className="relative rounded-md overflow-hidden"
+            style={{ zIndex: card.zIndex }}
+          >
             {renderCardContent({
               card,
             })}

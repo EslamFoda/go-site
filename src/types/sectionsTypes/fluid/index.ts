@@ -74,6 +74,7 @@ export interface GridCardButton {
   w: number;
   h: number;
   type: "button"; // Discriminator
+  zIndex: number;
 }
 
 export interface GridCardImage {
@@ -83,6 +84,7 @@ export interface GridCardImage {
   w: number;
   h: number;
   type: "image"; // Discriminator
+  zIndex: number;
 }
 export interface GridCardText {
   i: string;
@@ -91,6 +93,7 @@ export interface GridCardText {
   w: number;
   h: number;
   type: "text"; // Discriminator
+  zIndex: number;
 }
 
 // Union of GridCard types

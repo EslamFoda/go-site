@@ -1,5 +1,5 @@
 import React from "react";
-import { LayoutIcon, Trash } from "lucide-react";
+import { ChevronDown, ChevronUp, LayoutIcon, Trash } from "lucide-react";
 import { HoverCardContent } from "@/components/ui/hover-card";
 import { GridCard } from "@/types/sectionsTypes/fluid";
 import {
@@ -8,14 +8,37 @@ import {
   updateIsDraggableModal,
 } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
+import { cn } from "@/lib/utils";
 
 interface HoverCardActionsProps {
   card: GridCard;
+  maxZIndex: number;
+  cardsAtMaxZIndex: any;
   onDelete: (id: string) => void;
+  onZIndexChange: (id: string, direction: "forward" | "backward") => void;
 }
 
-const HoverCardActions = ({ card, onDelete }: HoverCardActionsProps) => {
+const HoverCardActions = ({
+  card,
+  maxZIndex,
+  cardsAtMaxZIndex,
+  onDelete,
+  onZIndexChange,
+}: HoverCardActionsProps) => {
   const dispatch = useAppDispatch();
+  const moveForwardClassName = cn(
+    "h-8 w-8 rounded-full flex items-center hover:bg-primary/80 shadow-md justify-center bg-primary transition-colors cursor-pointer",
+    {
+      "opacity-50 cursor-not-allowed":
+        (card.zIndex || 5) === maxZIndex && cardsAtMaxZIndex === 1,
+    }
+  );
+  const moveBackwardClassName = cn(
+    "h-8 w-8 rounded-full flex items-center shadow-md justify-center bg-primary hover:bg-primary/80 transition-colors cursor-pointer",
+    {
+      "opacity-50 cursor-not-allowed": card.zIndex === 5,
+    }
+  );
   const handleSettingsClick = () => {
     dispatch(updateIsDraggableModal(true));
     dispatch(setDraggableModalName("SETTINGS"));
@@ -35,6 +58,21 @@ const HoverCardActions = ({ card, onDelete }: HoverCardActionsProps) => {
       side={card.type === "text" ? "right" : "top"}
       className="flex items-center justify-center gap-3 bg-transparent shadow-none border-none"
     >
+      {/* Move Backward Button */}
+      <div
+        onClick={() => onZIndexChange(card.i, "backward")}
+        className={moveBackwardClassName}
+      >
+        <ChevronDown size={16} className="stroke-primary-foreground" />
+      </div>
+
+      {/* Move Forward Button */}
+      <div
+        onClick={() => onZIndexChange(card.i, "forward")}
+        className={moveForwardClassName}
+      >
+        <ChevronUp size={16} className="stroke-primary-foreground" />
+      </div>
       {card.type !== "text" && (
         <div
           onClick={handleSettingsClick}
