@@ -103,6 +103,10 @@ export interface EditorStore {
   isDraggableModalActive: boolean;
   fluidCard: GridCard | null;
   draggableModalName: DraggableModalName;
+  copiedSection: EditorSection<
+    keyof SectionContentTypes,
+    keyof SectionStyleTypes
+  > | null;
   globalSections: EditorSection<
     keyof SectionContentTypes,
     keyof SectionStyleTypes

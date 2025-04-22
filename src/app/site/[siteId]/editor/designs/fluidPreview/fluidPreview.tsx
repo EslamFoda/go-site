@@ -4,7 +4,6 @@ import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { FluidStyle, GridCard } from "@/types/sectionsTypes/fluid";
 import { renderCardContent } from "./cardContent";
-// import { useGridDimensions } from "@/hooks/useGridDimensions";
 import { useMediaQuery } from "react-responsive";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
@@ -23,45 +22,40 @@ const FluidPreview: React.FC<FluidPreviewProps> = ({ section }) => {
     query: "(min-width: 768px)",
   });
 
-  //   const { containerRef, isLg, isMd } = useGridDimensions(section.style);
-
   return (
-    <div
-    // ref={containerRef}
-    >
-      <div id={`fluid-grid-container-${section.id}`}>
-        <ResponsiveGridLayout
-          layouts={section.content.gridLayout}
-          breakpoints={breakpoints}
-          cols={gridSettings.cols}
-          rowHeight={gridSettings.rowHeight}
-          margin={gridSettings.padding}
-          isBounded
-          style={{
-            minHeight: isLg
-              ? fluidSectionStyles.minHeights.lg
-              : isMd
-              ? fluidSectionStyles.minHeights.md
-              : fluidSectionStyles.minHeights.xs,
-            background: "transparent",
-          }}
-          containerPadding={[0, 0]}
-          compactType={null}
-          allowOverlap={true}
-          preventCollision={false}
-          isDroppable={false} // Disable dropping while editing
-          isDraggable={false} // Disable dragging while editing
-          isResizable={false} // Optionally disable resizing while editing
-        >
-          {section.content.gridCards.map((card: GridCard) => (
-            <div key={card.i} className="relative rounded-md overflow-hidden">
-              {renderCardContent({
-                card,
-              })}
-            </div>
-          ))}
-        </ResponsiveGridLayout>
-      </div>
+    <div id={`fluid-grid-container-${section.id}`}>
+      <ResponsiveGridLayout
+        className="container max-w-container"
+        layouts={section.content.gridLayout}
+        breakpoints={breakpoints}
+        cols={gridSettings.cols}
+        rowHeight={gridSettings.rowHeight}
+        margin={gridSettings.padding}
+        isBounded
+        style={{
+          minHeight: isLg
+            ? fluidSectionStyles.minHeights.lg
+            : isMd
+            ? fluidSectionStyles.minHeights.md
+            : fluidSectionStyles.minHeights.xs,
+          background: "transparent",
+        }}
+        containerPadding={[0, 0]}
+        compactType={null}
+        allowOverlap={true}
+        preventCollision={false}
+        isDroppable={false} // Disable dropping while editing
+        isDraggable={false} // Disable dragging while editing
+        isResizable={false} // Optionally disable resizing while editing
+      >
+        {section.content.gridCards.map((card: GridCard) => (
+          <div key={card.i} className="relative rounded-md overflow-hidden">
+            {renderCardContent({
+              card,
+            })}
+          </div>
+        ))}
+      </ResponsiveGridLayout>
     </div>
   );
 };

@@ -13,6 +13,7 @@ import {
   UPDATE_GLOBAL_STYLE,
   UPDATE_SITE_SETTINGS,
   UPDATE_STYLE,
+  COPY_SECTION,
 } from "./actionTypes";
 
 // Define the actions that should be tracked in undo/redo history

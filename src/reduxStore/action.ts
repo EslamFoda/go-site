@@ -283,3 +283,10 @@ export const updateIsGenerating = (isGenerating: boolean) => ({
   type: types.UPDATE_IS_GENERATING,
   payload: isGenerating,
 });
+
+export const copySection = (
+  section: EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes> | null
+) => ({
+  type: types.COPY_SECTION,
+  payload: section,
+});

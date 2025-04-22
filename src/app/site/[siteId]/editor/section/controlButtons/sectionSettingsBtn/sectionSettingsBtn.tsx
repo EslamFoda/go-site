@@ -26,8 +26,9 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useAppDispatch } from "@/reduxStore/hooks";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
+  copySection,
   openPagesTab,
   updateEditorSections,
   updateSelectedSection,
@@ -55,6 +56,7 @@ function SectionSettingsBtn({
   sections,
 }: SectionSettingsBtnProps) {
   const dispatch = useAppDispatch();
+  const { copiedSection } = useAppSelector((state) => state.editor.present);
 
   const duplicateSection = () => {
     if (!sections) return;
@@ -99,6 +101,25 @@ function SectionSettingsBtn({
     });
   };
 
+  const handleCopy = () => {
+    const section = sections?.find((section) => section.id === sectionId);
+    if (section) {
+      dispatch(copySection(section));
+      toast.success(`Section ${section.sectionName} copied successfully`);
+    }
+  };
+
+  const handlePaste = () => {
+    if (!sections) return;
+    if (copiedSection) {
+      const newSection = { ...copiedSection, id: v4() };
+      const cloneSections = [...sections];
+      cloneSections.splice(sectionIndex, 0, newSection);
+      dispatch(updateEditorSections(pageId, cloneSections));
+      dispatch(updateSelectedSection(pageId, newSection.id));
+    }
+  };
+
   return (
     <div>
       <AlertDialog>
@@ -119,7 +140,11 @@ function SectionSettingsBtn({
                 </TooltipContent>
               </Tooltip>
               <MenubarContent align="end">
-                <MenubarItem onClick={duplicateSection}>duplicate</MenubarItem>
+                <MenubarItem onClick={duplicateSection}>Duplicate</MenubarItem>
+
+                <MenubarSeparator />
+                <MenubarItem onClick={handleCopy}>Copy section</MenubarItem>
+
                 <MenubarSeparator />
                 <AlertDialogTrigger className="w-full text-start">
                   <MenubarItem className="text-destructive">Delete</MenubarItem>

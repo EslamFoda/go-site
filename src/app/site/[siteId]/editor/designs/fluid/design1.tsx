@@ -197,117 +197,119 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
     section.content.gridCards.length === 0 || isDragging || isResizing;
 
   return (
-    <div
-      ref={containerRef}
-      onClick={() => {
-        dispatch(updateSelectedSection(pageId, section.id));
-        dispatch(updateSelectedItem(null));
-        setSelectedItemId(null);
-      }}
-    >
+    <section className="container max-w-container">
       <div
-        id={`fluid-grid-container-${section.id}`}
-        className="relative border border-primary border-dashed"
+        ref={containerRef}
+        onClick={() => {
+          dispatch(updateSelectedSection(pageId, section.id));
+          dispatch(updateSelectedItem(null));
+          setSelectedItemId(null);
+        }}
       >
-        {showGridPattern && (
-          <GridBackground
-            containerWidth={containerWidth}
-            cols={
-              gridSettings.cols[
-                currentBreakpoint as keyof typeof gridSettings.cols
-              ]
-            }
-            rowHeight={gridSettings.rowHeight}
-            padding={gridSettings.padding}
-            sectionId={section.id}
-          />
-        )}
-        <ResponsiveGridLayout
-          layouts={section.content.gridLayout}
-          breakpoints={breakpoints}
-          cols={gridSettings.cols}
-          rowHeight={gridSettings.rowHeight}
-          margin={gridSettings.padding}
-          isBounded
-          style={{
-            minHeight: isLg
-              ? minHeight.lg || fluidSectionStyles.minHeights.lg
-              : isMd
-              ? minHeight.md || fluidSectionStyles.minHeights.md
-              : minHeight.xs || fluidSectionStyles.minHeights.xs,
-            background: "transparent",
-          }}
-          containerPadding={[0, 0]}
-          compactType={null}
-          allowOverlap={true}
-          preventCollision={false}
-          isDroppable={!isEditing} // Disable dropping while editing
-          isDraggable={!isEditing} // Disable dragging while editing
-          isResizable={!isEditing} // Optionally disable resizing while editing
-          onLayoutChange={handleLayoutChange}
-          onBreakpointChange={onBreakpointChange}
-          onDrop={handleOnDrop}
-          onResize={onResize}
-          onDragStart={() => {
-            setSelectedItemId(null);
-            updateGridHeight();
-            dispatch(updateIsDragging(true));
-          }}
-          onDragStop={onDragStop}
-          onResizeStart={() => setIsResizing(true)}
-          onResizeStop={() => {
-            setIsResizing(false);
-            updateGridHeight();
-          }}
-          resizeHandles={
-            cardType === "text"
-              ? ["e", "w", "s"]
-              : ["sw", "nw", "se", "ne", "e", "w", "s", "n"]
-          }
+        <div
+          id={`fluid-grid-container-${section.id}`}
+          className="relative border border-primary border-dashed"
         >
-          {section.content.gridCards.map((card: GridCard) => (
-            <div
-              onClick={(e) => {
-                e.stopPropagation();
-              }}
-              key={card.i}
-              className={`relative rounded-md overflow-hidden select-none ${
-                card.i === selectedItemId && "isActive"
-              }`}
-              style={{ zIndex: card.i === selectedItemId ? 6 : 5 }}
-            >
-              <HoverCard open={selectedItemId === card.i}>
-                <HoverCardActions card={card} onDelete={handleDelete} />
-                <HoverCardTrigger>
-                  {renderCardContent({
-                    card,
-                    pageId,
-                    dispatch,
-                    isEditing,
-                    section,
-                    selectedItemId,
-                    setSelectedItemId,
-                    setCardType,
-                    setIsEditing,
-                    updateSectionContent,
-                  })}
-                </HoverCardTrigger>
-              </HoverCard>
-            </div>
-          ))}
-        </ResponsiveGridLayout>
-        <ResizeHeight
-          fluidSectionStyles={fluidSectionStyles}
-          isLg={isLg}
-          isMd={isMd}
-          isXs={isXs}
-          pageId={pageId}
-          section={section}
-          minHeight={minHeight}
-          setMinHeight={setMinHeight}
-        />
+          {showGridPattern && (
+            <GridBackground
+              containerWidth={containerWidth}
+              cols={
+                gridSettings.cols[
+                  currentBreakpoint as keyof typeof gridSettings.cols
+                ]
+              }
+              rowHeight={gridSettings.rowHeight}
+              padding={gridSettings.padding}
+              sectionId={section.id}
+            />
+          )}
+          <ResponsiveGridLayout
+            layouts={section.content.gridLayout}
+            breakpoints={breakpoints}
+            cols={gridSettings.cols}
+            rowHeight={gridSettings.rowHeight}
+            margin={gridSettings.padding}
+            isBounded
+            style={{
+              minHeight: isLg
+                ? minHeight.lg || fluidSectionStyles.minHeights.lg
+                : isMd
+                ? minHeight.md || fluidSectionStyles.minHeights.md
+                : minHeight.xs || fluidSectionStyles.minHeights.xs,
+              background: "transparent",
+            }}
+            containerPadding={[0, 0]}
+            compactType={null}
+            allowOverlap={true}
+            preventCollision={false}
+            isDroppable={!isEditing} // Disable dropping while editing
+            isDraggable={!isEditing} // Disable dragging while editing
+            isResizable={!isEditing} // Optionally disable resizing while editing
+            onLayoutChange={handleLayoutChange}
+            onBreakpointChange={onBreakpointChange}
+            onDrop={handleOnDrop}
+            onResize={onResize}
+            onDragStart={() => {
+              setSelectedItemId(null);
+              updateGridHeight();
+              dispatch(updateIsDragging(true));
+            }}
+            onDragStop={onDragStop}
+            onResizeStart={() => setIsResizing(true)}
+            onResizeStop={() => {
+              setIsResizing(false);
+              updateGridHeight();
+            }}
+            resizeHandles={
+              cardType === "text"
+                ? ["e", "w", "s"]
+                : ["sw", "nw", "se", "ne", "e", "w", "s", "n"]
+            }
+          >
+            {section.content.gridCards.map((card: GridCard) => (
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                }}
+                key={card.i}
+                className={`relative rounded-md overflow-hidden select-none ${
+                  card.i === selectedItemId && "isActive"
+                }`}
+                style={{ zIndex: card.i === selectedItemId ? 6 : 5 }}
+              >
+                <HoverCard open={selectedItemId === card.i}>
+                  <HoverCardActions card={card} onDelete={handleDelete} />
+                  <HoverCardTrigger>
+                    {renderCardContent({
+                      card,
+                      pageId,
+                      dispatch,
+                      isEditing,
+                      section,
+                      selectedItemId,
+                      setSelectedItemId,
+                      setCardType,
+                      setIsEditing,
+                      updateSectionContent,
+                    })}
+                  </HoverCardTrigger>
+                </HoverCard>
+              </div>
+            ))}
+          </ResponsiveGridLayout>
+          <ResizeHeight
+            fluidSectionStyles={fluidSectionStyles}
+            isLg={isLg}
+            isMd={isMd}
+            isXs={isXs}
+            pageId={pageId}
+            section={section}
+            minHeight={minHeight}
+            setMinHeight={setMinHeight}
+          />
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 

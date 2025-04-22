@@ -19,15 +19,18 @@ import {
 } from "@/icons/testimonials";
 import {
   closeSectionDesigns,
+  copySection,
   updateEditorSections,
   updatePageSetting,
   updateSelectedSection,
 } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { PageSettings } from "@/reduxStore/types";
-import { ChevronRight } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useScrollTo } from "@/hooks/useScrollTo";
+import { PasteDark, PasteLight } from "@/icons/paste";
+import SectionDesign from "./sectionDesign";
+import { v4 } from "uuid";
 
 const variants = {
   open: {
@@ -38,35 +41,18 @@ const variants = {
   },
 };
 
-const sectionVariants = {
-  open: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      y: { stiffness: 1000, velocity: -100 },
-    },
-  },
-  closed: {
-    y: 20,
-    opacity: 0,
-    transition: {
-      y: { stiffness: 1000 },
-    },
-  },
-};
-
 function ChooseSection() {
   const { motion } = useMotion();
   const { theme } = useTheme();
   const dispatch = useAppDispatch();
   const { sections } = useSections();
   const { scrollToElement } = useScrollTo();
-  const sectionIndex = useAppSelector(
-    (state) => state.editor.present.sectionIndex
-  );
-  const activePageId = useAppSelector(
-    (state) => state.editor.present.activePage
-  );
+  const {
+    sectionIndex,
+    copiedSection,
+    activePage: activePageId,
+  } = useAppSelector((state) => state.editor.present);
+
   const page = useAppSelector((state) =>
     state.editor.present.editor.pages.find(
       (page) => page.pageId === activePageId
@@ -129,6 +115,8 @@ function ChooseSection() {
     // Add more mappings as needed
   };
 
+  const PasteIcon = theme === "dark" ? PasteDark : PasteLight;
+
   if (!page) return null;
 
   const handleChooseSection = (section: any) => {
@@ -179,6 +167,17 @@ function ChooseSection() {
     }
   };
 
+  const handlePaste = () => {
+    if (copiedSection) {
+      const newSection = { ...copiedSection, id: v4() };
+      let newSections = [...page.sections];
+      newSections.splice(sectionIndex + 1, 0, newSection);
+      dispatch(updateEditorSections(activePageId, newSections));
+      dispatch(updateSelectedSection(activePageId, newSection.id));
+      dispatch(copySection(null)); // Clear copied section after pasting
+    }
+  };
+
   return (
     <motion.div
       variants={variants}
@@ -186,6 +185,14 @@ function ChooseSection() {
       animate="open"
       className="p-5 space-y-3"
     >
+      {copiedSection && (
+        <SectionDesign
+          sectionName="Paste"
+          desc="Add copied section"
+          Icon={PasteIcon}
+          onClick={handlePaste}
+        />
+      )}
       {sections.map((section) => {
         if (
           (section.sectionName === "Header" && showHeader) ||
@@ -195,34 +202,16 @@ function ChooseSection() {
 
         const { Icon, desc } = SectionIcons[section.sectionName];
         return (
-          <motion.div
-            variants={sectionVariants}
-            whileHover={{ scale: 1.06 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex justify-between items-center bg-muted p-[10px] cursor-pointer rounded-sm hover:bg-muted-foreground/65 group"
+          <SectionDesign
             key={section.id}
+            sectionName={section.sectionName}
+            desc={desc}
+            Icon={Icon}
             onClick={() => {
               handleChooseSection(section);
               scrollToElement(`section-${sectionIndex + 1}`);
             }}
-          >
-            <div className="flex items-center gap-3">
-              <div className="p-1 bg-background rounded-sm">
-                <Icon />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xs font-medium">
-                  {section.sectionName}
-                </span>
-                <span className="text-[11px] text-muted-foreground group-hover:text-textColor">
-                  {desc}
-                </span>
-              </div>
-            </div>
-            <div>
-              <ChevronRight size={16} />
-            </div>
-          </motion.div>
+          />
         );
       })}
     </motion.div>

@@ -56,7 +56,7 @@ export const renderCardContent = ({ card }: renderCardContentProps) => {
                     <Image
                       alt={card.settings.imageId}
                       src={card.settings.src}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full rounded-md object-cover"
                       fill
                       objectFit="cover"
                     />

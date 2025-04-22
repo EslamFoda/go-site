@@ -195,6 +195,7 @@ const initialState: EditorStore = {
   previewMode: false,
   isSaving: false,
   isGenerating: false,
+  copiedSection: null,
   designSettings: {
     fonts: {
       titleFont: {
@@ -904,6 +905,11 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.UPDATE_IS_GENERATING: {
         draft.isGenerating = action.payload;
+        break;
+      }
+
+      case types.COPY_SECTION: {
+        draft.copiedSection = action.payload;
         break;
       }
 
