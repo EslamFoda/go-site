@@ -7,6 +7,7 @@ import {
   updateIsDragging,
   updateIsDraggingItem,
   updateSelectedItem,
+  updateSelectedItemId,
   updateSelectedSection,
 } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
@@ -34,10 +35,8 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
 }) => {
   const fluidSectionStyles = section.style as FluidStyle;
   const dispatch = useAppDispatch();
-  const { dragItem, isDragging, selectedSection } = useAppSelector(
-    (state) => state.editor.present
-  );
-  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+  const { dragItem, isDragging, selectedSection, selectedItemId } =
+    useAppSelector((state) => state.editor.present);
   const [isResizing, setIsResizing] = useState(false);
   const breakpoints = { lg: 1200, sm: 768, xs: 480 };
   const [isEditing, setIsEditing] = useState(false);
@@ -48,10 +47,10 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
     containerRef,
     containerWidth,
     minHeight,
-    setMinHeight,
     isLg,
     isMd,
     isXs,
+    setMinHeight,
   } = useGridDimensions(section.style);
 
   const { updateGridHeight } = useGridHeight({
@@ -69,10 +68,11 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
 
   const {
     currentBreakpoint,
+    debouncedUpdateLayout,
     setCurrentBreakpoint,
     handleDelete,
-    debouncedUpdateLayout,
     updateSectionContent,
+    handleDuplicate,
   } = useGridOperations(pageId, section);
 
   const handleLayoutChange = (currentLayout: Layout[], allLayouts: Layouts) => {
@@ -165,7 +165,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
       );
 
       updateSectionContent(newGridCards, updatedLayouts);
-      setSelectedItemId(newCard.i);
+      dispatch(updateSelectedItemId(newCard.i));
     }
     dispatch(updateIsDraggingItem(null));
     dispatch(updateIsDragging(false));
@@ -252,7 +252,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
         onClick={() => {
           dispatch(updateSelectedSection(pageId, section.id));
           dispatch(updateSelectedItem(null));
-          setSelectedItemId(null);
+          dispatch(updateSelectedItemId(null));
         }}
       >
         <div
@@ -299,7 +299,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
             onDrop={handleOnDrop}
             onResize={onResize}
             onDragStart={() => {
-              setSelectedItemId(null);
+              dispatch(updateSelectedItemId(null));
               updateGridHeight();
               dispatch(updateIsDragging(true));
             }}
@@ -309,11 +309,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
               setIsResizing(false);
               updateGridHeight();
             }}
-            resizeHandles={
-              cardType === "text"
-                ? ["e", "w", "s"]
-                : ["sw", "nw", "se", "ne", "e", "w", "s", "n"]
-            }
+            resizeHandles={["sw", "nw", "se", "ne", "e", "w", "s", "n"]}
           >
             {section.content.gridCards.map((card: GridCard) => {
               return (
@@ -326,7 +322,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                     card.i === selectedItemId && "isActive"
                   }`}
                   style={{
-                    zIndex: card.i === selectedItemId ? 100 : card.zIndex,
+                    zIndex: card.zIndex,
                   }}
                 >
                   <HoverCard open={selectedItemId === card.i}>
@@ -336,6 +332,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                       onZIndexChange={handleZIndexChange}
                       maxZIndex={maxZIndex}
                       cardsAtMaxZIndex={cardsAtMaxZIndex}
+                      onDuplicate={handleDuplicate}
                     />
                     <HoverCardTrigger>
                       {renderCardContent({
@@ -345,7 +342,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                         isEditing,
                         section,
                         selectedItemId,
-                        setSelectedItemId,
+
                         setCardType,
                         setIsEditing,
                         updateSectionContent,

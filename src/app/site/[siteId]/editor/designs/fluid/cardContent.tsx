@@ -3,29 +3,33 @@ import { cn } from "@/lib/utils";
 import { FluidTextSettings, GridCard } from "@/types/sectionsTypes/fluid";
 import { Layouts } from "react-grid-layout";
 import TextComp from "./textComp";
-import { updateSelectedSection } from "@/reduxStore/action";
+import {
+  updateSelectedItemId,
+  updateSelectedSection,
+} from "@/reduxStore/action";
 import { getPhosphorIcon } from "@/helper/phosphorIcons";
 import Image from "next/image";
 import { ImagePlaceHolder } from "@/icons/common";
+import { shapes } from "@/utlis/shapes";
+
 interface renderCardContentProps {
   card: GridCard;
   pageId: string;
   section: any;
   selectedItemId: string | null;
   isEditing: boolean;
-  setSelectedItemId: React.Dispatch<React.SetStateAction<string | null>>;
-  updateSectionContent: (newGridCards: GridCard[], newLayouts: Layouts) => void;
   dispatch: any;
+  updateSectionContent: (newGridCards: GridCard[], newLayouts: Layouts) => void;
   setCardType: React.Dispatch<React.SetStateAction<string>>;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
 export const renderCardContent = ({
   card,
   isEditing,
   section,
   selectedItemId,
   pageId,
-  setSelectedItemId,
   updateSectionContent,
   setCardType,
   setIsEditing,
@@ -62,7 +66,7 @@ export const renderCardContent = ({
       }}
       onClick={(e) => {
         e.stopPropagation();
-        setSelectedItemId(card.i);
+        dispatch(updateSelectedItemId(card.i));
         setCardType(card.type);
       }}
     >
@@ -128,10 +132,22 @@ export const renderCardContent = ({
                   isSelected={isSelected}
                   textSettings={card.settings}
                   onTextChange={handleTextChange}
-                  onFocus={() => setIsEditing(true)} // Set editing state on focus
-                  onBlur={() => setIsEditing(false)} // Reset editing state on blur
+                  onFocus={() => setIsEditing(true)}
+                  onBlur={() => setIsEditing(false)}
                 />
               );
+            case "box":
+              const selectedShape = shapes.find(
+                (shape) => shape.id === card.settings.boxDesign
+              );
+              return selectedShape?.component({
+                bgColor: card.settings.bgColor,
+                borderColor: card.settings.border?.color,
+                borderWidth: card.settings.border?.width,
+                corners: card.settings.corners,
+                blur: card.settings.blur,
+                glassEffect: card.settings.glassEffect,
+              });
             default:
               return <div>default</div>;
           }

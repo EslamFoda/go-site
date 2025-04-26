@@ -196,6 +196,7 @@ const initialState: EditorStore = {
   isSaving: false,
   isGenerating: false,
   copiedSection: null,
+  selectedItemId: "",
   designSettings: {
     fonts: {
       titleFont: {
@@ -512,6 +513,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openSectionDesigns = false;
         draft.chooseImage = false;
         draft.chooseBgImage = false;
+        draft.selectedItemId = null;
         const page = state.editor.pages.find(
           (p) => p.pageId === action.payload.pageId
         );
@@ -590,6 +592,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPageSetting = false;
         draft.openHeaderOptions = false;
         draft.openLogoSettings = false;
+        draft.selectedItemId = null;
         break;
       }
 
@@ -600,6 +603,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPageSetting = false;
         draft.openHeaderOptions = false;
         draft.openLogoSettings = false;
+        draft.selectedItemId = null;
         break;
       }
 
@@ -635,6 +639,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.selectedItem = null;
         draft.openHeaderOptions = false;
         draft.openLogoSettings = false;
+        draft.selectedItemId = null;
         break;
       }
 
@@ -669,6 +674,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPageSetting = false;
         draft.openHeaderOptions = false;
         draft.openLogoSettings = false;
+        draft.selectedItemId = null;
         break;
       }
 
@@ -701,6 +707,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPageSetting = false;
         draft.openHeaderOptions = false;
         draft.openLogoSettings = false;
+        draft.selectedItemId = null;
         break;
       }
 
@@ -714,6 +721,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPageSetting = false;
         draft.openHeaderOptions = false;
         draft.openLogoSettings = false;
+        draft.selectedItemId = null;
 
         break;
       }
@@ -745,6 +753,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.selectedSection = null;
         draft.openHeaderOptions = false;
         draft.openLogoSettings = false;
+        draft.selectedItemId = null;
         break;
       }
 
@@ -791,6 +800,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
         draft.openPages = true;
         draft.openHeaderOptions = false;
         draft.openLogoSettings = false;
+        draft.selectedItemId = null;
         break;
       }
 
@@ -868,6 +878,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
       }
 
       case types.OPEN_HEADER_OPTIONS: {
+        draft.selectedItemId = null;
         draft.openHeaderOptions = true;
         draft.openPageSetting = false;
         draft.openPages = false;
@@ -911,6 +922,11 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.COPY_SECTION: {
         draft.copiedSection = action.payload;
+        break;
+      }
+
+      case types.UPDATE_SELECTED_ITEM_ID: {
+        draft.selectedItemId = action.payload;
         break;
       }
 

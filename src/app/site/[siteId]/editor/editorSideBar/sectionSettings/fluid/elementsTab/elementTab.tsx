@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { updateIsDragging, updateIsDraggingItem } from "@/reduxStore/action";
 import { GridCard } from "@/types/sectionsTypes/fluid";
-import { ImageIcon, SquareMousePointer, Type } from "lucide-react";
+import { ImageIcon, Square, SquareMousePointer, Type } from "lucide-react";
 import { TabsContent } from "@/components/ui/tabs";
 
 const initialCards: GridCard[] = [
@@ -52,6 +52,18 @@ const initialCards: GridCard[] = [
     },
     zIndex: 5,
   },
+  {
+    i: "box",
+    content: "Box",
+    settings: {
+      boxDesign: "square",
+      bgColor: "",
+    },
+    w: 8,
+    h: 4,
+    type: "box",
+    zIndex: 5,
+  },
 ];
 
 // Map of element renderers based on type
@@ -72,6 +84,12 @@ const cardElementMap: Record<string, (card: GridCard) => JSX.Element> = {
     <div className="w-full border p-2 flex items-center gap-2">
       <SquareMousePointer size={20} />
       <span className="capitalize text-md">{card.type}</span>
+    </div>
+  ),
+  box: (card) => (
+    <div className="w-full border p-2 flex items-center gap-2">
+      <Square size={20} />
+      <span className="capitalize text-lg">{card.type}</span>
     </div>
   ),
 };

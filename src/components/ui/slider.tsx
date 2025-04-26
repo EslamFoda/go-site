@@ -6,10 +6,11 @@ import { cn } from "@/lib/utils";
 interface SliderProps
   extends React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root> {
   customText?: React.ReactNode;
+  trackClassName?: string;
 }
 
 const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
-  ({ className, customText, ...props }, ref) => (
+  ({ className, customText, trackClassName, ...props }, ref) => (
     <SliderPrimitive.Root
       ref={ref}
       className={cn(
@@ -18,7 +19,12 @@ const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
       )}
       {...props}
     >
-      <SliderPrimitive.Track className="relative cursor-e-resize h-10 w-full grow overflow-hidden rounded-sm ">
+      <SliderPrimitive.Track
+        className={
+          "relative cursor-e-resize h-10 w-full grow overflow-hidden rounded-sm" +
+          trackClassName
+        }
+      >
         <SliderPrimitive.Range className="absolute h-full bg-muted-bg" />
       </SliderPrimitive.Track>
       <SliderPrimitive.Thumb className="block cursor-e-resize h-10 w-3 rounded-sm bg-[#555] ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" />

@@ -22,6 +22,8 @@ import {
 import ImageLayout from "../fluidLayoutSettings/imageLayout";
 import ButtonLayout from "../fluidLayoutSettings/buttonLayout";
 import PreviewSection from "../previewSections";
+import FluidBox from "../fluidSectionSettings/fluidBox";
+import BoxLayout from "../fluidLayoutSettings/boxLayout";
 
 function Page({ params }: any) {
   const dispatch = useAppDispatch();
@@ -116,17 +118,20 @@ function Page({ params }: any) {
   const fluidCardsMapper = {
     image: FluidImage,
     button: FluidButton,
+    box: FluidBox,
   };
 
   const fluidCardLayoutMapper = {
     image: ImageLayout,
     button: ButtonLayout,
+    box: BoxLayout,
   };
 
   const modalHeadTextMapper = {
     image: "Image Settings",
     button: "Button Settings",
     text: "Text Settings",
+    box: "Box Settings",
   };
 
   const settingsModalMapper = {

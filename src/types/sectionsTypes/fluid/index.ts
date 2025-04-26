@@ -40,6 +40,24 @@ export interface FluidButtonSettings {
   textIconGap: number;
   iconPosition: IconPositionTypes;
 }
+
+export interface CornerRadius {
+  topLeft?: number;
+  topRight?: number;
+  bottomLeft?: number;
+  bottomRight?: number;
+}
+export interface FluidBoxSettings {
+  boxDesign: string;
+  bgColor: string;
+  border?: {
+    color?: string;
+    width?: number;
+  };
+  corners?: CornerRadius;
+  blur?: number;
+  glassEffect?: boolean;
+}
 export interface FluidImageSettings {
   imageId: string;
   src: string;
@@ -96,5 +114,19 @@ export interface GridCardText {
   zIndex: number;
 }
 
+export interface GridCardBox {
+  i: string;
+  content: string;
+  settings: FluidBoxSettings;
+  w: number;
+  h: number;
+  type: "box"; // Discriminator
+  zIndex: number;
+}
+
 // Union of GridCard types
-export type GridCard = GridCardButton | GridCardImage | GridCardText;
+export type GridCard =
+  | GridCardButton
+  | GridCardImage
+  | GridCardText
+  | GridCardBox;

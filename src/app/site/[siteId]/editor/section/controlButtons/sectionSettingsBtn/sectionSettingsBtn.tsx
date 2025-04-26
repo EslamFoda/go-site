@@ -147,7 +147,7 @@ function SectionSettingsBtn({
 
                 <MenubarSeparator />
                 <AlertDialogTrigger className="w-full text-start">
-                  <MenubarItem className="text-destructive">Delete</MenubarItem>
+                  <MenubarItem className="text-destructive-foreground !bg-destructive hover:!bg-destructive/50">Delete</MenubarItem>
                 </AlertDialogTrigger>
               </MenubarContent>
             </MenubarMenu>

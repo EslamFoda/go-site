@@ -4,6 +4,7 @@ import { GridCard } from "@/types/sectionsTypes/fluid";
 import { getPhosphorIcon } from "@/helper/phosphorIcons";
 import Image from "next/image";
 import { ImagePlaceHolder } from "@/icons/common";
+import { shapes } from "@/utlis/shapes";
 interface renderCardContentProps {
   card: GridCard;
 }
@@ -76,6 +77,18 @@ export const renderCardContent = ({ card }: renderCardContentProps) => {
                   }}
                 />
               );
+            case "box":
+              const selectedShape = shapes.find(
+                (shape) => shape.id === card.settings.boxDesign
+              );
+              return selectedShape?.component({
+                bgColor: card.settings.bgColor,
+                borderColor: card.settings.border?.color,
+                borderWidth: card.settings.border?.width,
+                corners: card.settings.corners,
+                blur: card.settings.blur,
+                glassEffect: card.settings.glassEffect,
+              });
             default:
               return <div>default</div>;
           }

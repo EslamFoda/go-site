@@ -290,3 +290,8 @@ export const copySection = (
   type: types.COPY_SECTION,
   payload: section,
 });
+
+export const updateSelectedItemId = (itemId: string | null) => ({
+  type: types.UPDATE_SELECTED_ITEM_ID,
+  payload: itemId,
+});

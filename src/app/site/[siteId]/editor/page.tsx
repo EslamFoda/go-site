@@ -22,6 +22,8 @@ import {
 import ButtonLayout from "./fluidLayoutSettings/buttonLayout";
 import ImageLayout from "./fluidLayoutSettings/imageLayout";
 import PreviewSection from "./previewSections";
+import BoxLayout from "./fluidLayoutSettings/boxLayout";
+import FluidBox from "./fluidSectionSettings/fluidBox";
 
 export default function Home({ params }: any) {
   const [loading, setLoading] = React.useState(true);
@@ -111,17 +113,20 @@ export default function Home({ params }: any) {
   const fluidCardsMapper = {
     image: FluidImage,
     button: FluidButton,
+    box: FluidBox,
   };
 
   const fluidCardLayoutMapper = {
     image: ImageLayout,
     button: ButtonLayout,
+    box: BoxLayout,
   };
 
   const modalHeadTextMapper = {
     image: "Image Settings",
     button: "Button Settings",
     text: "Text Settings",
+    box: "Box Settings",
   };
 
   const settingsModalMapper = {
