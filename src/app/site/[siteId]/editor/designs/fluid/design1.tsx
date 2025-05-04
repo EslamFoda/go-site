@@ -257,7 +257,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
       >
         <div
           id={`fluid-grid-container-${section.id}`}
-          className="relative border border-primary border-dashed"
+          className="relative outline outline-1 outline-primary"
         >
           {showGridPattern && (
             <GridBackground
@@ -312,6 +312,8 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
             resizeHandles={["sw", "nw", "se", "ne", "e", "w", "s", "n"]}
           >
             {section.content.gridCards.map((card: GridCard) => {
+              const isCardSelected =
+                selectedItemId === card.i && selectedSection?.id === section.id;
               return (
                 <div
                   onClick={(e) => {
@@ -319,13 +321,13 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                   }}
                   key={card.i}
                   className={`relative rounded-md overflow-hidden select-none ${
-                    card.i === selectedItemId && "isActive"
+                    isCardSelected && "isActive"
                   }`}
                   style={{
                     zIndex: card.zIndex,
                   }}
                 >
-                  <HoverCard open={selectedItemId === card.i}>
+                  <HoverCard open={isCardSelected}>
                     <HoverCardActions
                       card={card}
                       onDelete={handleDelete}
@@ -341,8 +343,7 @@ const DraggableGridLayout: React.FC<DraggableGridLayoutProps> = ({
                         dispatch,
                         isEditing,
                         section,
-                        selectedItemId,
-
+                        isCardSelected,
                         setCardType,
                         setIsEditing,
                         updateSectionContent,

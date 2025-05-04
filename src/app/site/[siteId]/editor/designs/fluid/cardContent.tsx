@@ -16,9 +16,9 @@ interface renderCardContentProps {
   card: GridCard;
   pageId: string;
   section: any;
-  selectedItemId: string | null;
   isEditing: boolean;
   dispatch: any;
+  isCardSelected: boolean;
   updateSectionContent: (newGridCards: GridCard[], newLayouts: Layouts) => void;
   setCardType: React.Dispatch<React.SetStateAction<string>>;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,14 +28,13 @@ export const renderCardContent = ({
   card,
   isEditing,
   section,
-  selectedItemId,
   pageId,
+  isCardSelected,
   updateSectionContent,
   setCardType,
   setIsEditing,
   dispatch,
 }: renderCardContentProps) => {
-  const isSelected = card.i === selectedItemId;
   const handleTextChange = (key: keyof FluidTextSettings, value: any) => {
     const updatedGridCards = section.content.gridCards.map((c: GridCard) => {
       if (c.i === card.i) {
@@ -54,7 +53,7 @@ export const renderCardContent = ({
   };
 
   const cardClassNames = cn("relative w-full h-full", {
-    "outline outline-1 outline-primary cursor-move": isSelected,
+    "outline outline-1 outline-primary cursor-move": isCardSelected,
     "cursor-default": isEditing,
   });
 
@@ -129,7 +128,7 @@ export const renderCardContent = ({
               return (
                 <TextComp
                   isEditing={isEditing}
-                  isSelected={isSelected}
+                  isSelected={isCardSelected}
                   textSettings={card.settings}
                   onTextChange={handleTextChange}
                   onFocus={() => setIsEditing(true)}
