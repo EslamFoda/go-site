@@ -12,6 +12,9 @@ import BottomBar from "@/components/shared/bottomBar/bottomBar";
 export const metadata: Metadata = {
   title: "Vixx",
   description: "the best website builder powered by ai",
+  icons: {
+    icon: "/logo.svg",
+  },
 };
 
 export default async function RootLayout({
