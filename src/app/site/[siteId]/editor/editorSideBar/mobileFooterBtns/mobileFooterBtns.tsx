@@ -26,8 +26,8 @@ function MobileFooterBtns() {
   if (previewMode) return null;
   return (
     <div
-      style={{ zIndex: 70 }}
-      className="bg-background border-t border-muted h-20 w-full fixed bottom-0 hidden max-md:flex items-center justify-around px-4"
+      style={{ zIndex: 40 }}
+      className="bg-background border-t  border-muted h-20 w-full fixed bottom-0 hidden max-md:flex items-center justify-between px-4"
     >
       <div
         className="flex flex-col items-center justify-center cursor-pointer"

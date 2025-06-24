@@ -111,7 +111,7 @@ function AiThemes() {
   );
 
   return (
-    <div className="overflow-y-auto max-md:pb-24 pr-1" style={{ height: "calc(92vh - 70px)" }}>
+    <div className="overflow-y-auto pr-1" style={{ height: "calc(92vh - 70px)" }}>
       <motion.div
         className="grid grid-cols-2 gap-2"
         variants={variants}

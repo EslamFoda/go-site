@@ -102,7 +102,7 @@ function PageType({ pageType, setPageType, setAddPage }: PageTypeProps) {
     <div>
       <BackBtn label={pageType} handleBack={() => setPageType("")} />
       <div
-        className="space-y-7 px-5 py-2 overflow-y-auto max-md:pb-8"
+        className="space-y-7 px-5 py-2 overflow-y-auto"
         style={{ height: "calc(92vh - 70px)" }}
       >
         {pageData.map((page, index) => {

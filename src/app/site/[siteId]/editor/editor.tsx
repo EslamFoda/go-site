@@ -82,7 +82,10 @@ function Editor({ children }: { children: React.ReactNode }) {
       <div className="flex flex-col">
         <header className={editorHeaderClasses}>
           {drawerOpen && !previewMode && (
-            <div className="fixed left-0 top-0 z-50  h-screen w-screen bg-background flex-col hidden max-md:flex">
+            <div
+              style={{ zIndex: 80 }}
+              className="fixed left-0 top-0  h-screen w-screen bg-background flex-col hidden max-md:flex"
+            >
               <EditorSidebar />
             </div>
           )}
