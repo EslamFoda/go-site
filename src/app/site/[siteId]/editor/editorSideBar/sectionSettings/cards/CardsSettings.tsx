@@ -16,6 +16,8 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
+  closeDrawer,
+  closeSideBar,
   openChooseBgImage,
   openChooseImage,
   updateContent,
@@ -643,6 +645,18 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
     );
   return (
     <div>
+      <BackBtn
+        label="Cards"
+        btnContainerClassName="max-md:hidden"
+        handleBack={() => dispatch(closeSideBar())}
+      />
+      <BackBtn
+        doneBtn
+        handleDone={() => dispatch(closeDrawer())}
+        btnContainerClassName="w-full md:hidden"
+        label="Cards"
+        handleBack={() => dispatch(closeDrawer())}
+      />
       <Tabs onValueChange={setTabValue} value={tabValue} className="w-full">
         <TabsList className="grid m-5 grid-cols-2">
           <TabsTrigger value="content">content</TabsTrigger>

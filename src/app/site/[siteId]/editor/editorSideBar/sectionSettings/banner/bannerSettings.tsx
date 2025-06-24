@@ -1,4 +1,3 @@
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React, { useState } from "react";
 import { JustifyCenter, JustifyEnd, JustifyStart } from "@/icons/common";
@@ -13,6 +12,8 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
+  closeDrawer,
+  closeSideBar,
   openChooseBgImage,
   updateContent,
   updateStyle,
@@ -459,6 +460,19 @@ function BannerSettings({ sections, pageId }: BannerSettingsProps) {
 
   return (
     <div>
+      <BackBtn
+        label="Banner"
+        btnContainerClassName="max-md:hidden"
+        handleBack={() => dispatch(closeSideBar())}
+      />
+
+      <BackBtn
+        doneBtn
+        handleDone={() => dispatch(closeDrawer())}
+        btnContainerClassName="w-full md:hidden"
+        label="Banner"
+        handleBack={() => dispatch(closeDrawer())}
+      />
       <Tabs onValueChange={setTabValue} value={tabValue} className="w-full">
         <TabsList className="grid m-5 grid-cols-2">
           <TabsTrigger value="content">Content</TabsTrigger>

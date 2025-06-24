@@ -337,7 +337,7 @@ export const MenuIcon5 = ({
   </svg>
 );
 
-export const PagesIcon = ({ active }: { active: boolean }) => (
+export const PagesIcon = ({ active }: { active?: boolean }) => (
   <svg
     fill="none"
     width={18}
@@ -352,7 +352,7 @@ export const PagesIcon = ({ active }: { active: boolean }) => (
   </svg>
 );
 
-export const PalletIcon = ({ active }: { active: boolean }) => (
+export const PalletIcon = ({ active }: { active?: boolean }) => (
   <svg
     fill="none"
     width={18}
@@ -375,7 +375,7 @@ export const PalletIcon = ({ active }: { active: boolean }) => (
   </svg>
 );
 
-export const SettingsIcon = ({ active }: { active: boolean }) => (
+export const SettingsIcon = ({ active }: { active?: boolean }) => (
   <svg
     fill="none"
     width={18}

@@ -1,11 +1,14 @@
-import { useAppSelector } from "@/reduxStore/hooks";
+import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { Plus } from "lucide-react";
 import React from "react";
 import PageItem from "./pageItem";
 import { PageTypes } from "@/types/common";
 import PageType from "./pageType";
 import ChoosePage from "./choosePage";
+import BackBtn from "@/components/shared/backBtn";
+import { closeDrawer } from "@/reduxStore/action";
 function Pages() {
+  const dispatch = useAppDispatch();
   const pages = useAppSelector((state) => state.editor.present.editor.pages);
   const [addPage, setAddPage] = React.useState(false);
   const [pageType, setPageType] = React.useState<PageTypes>("");
@@ -23,17 +26,26 @@ function Pages() {
     return <ChoosePage setAddPage={setAddPage} setPageType={setPageType} />;
 
   return (
-    <div className="px-5 space-y-2 py-5">
-      <div
-        className="w-full flex items-center h-10 rounded-sm px-2 gap-2 cursor-pointer bg-secondary-foreground text-background"
-        onClick={() => setAddPage(true)}
-      >
-        <Plus size={16} />
-        <span>New Page</span>
+    <div>
+      <BackBtn
+        doneBtn
+        handleDone={() => dispatch(closeDrawer())}
+        btnContainerClassName="w-full md:hidden"
+        label="Pages"
+        handleBack={() => dispatch(closeDrawer())}
+      />
+      <div className="px-5 space-y-2 py-5">
+        <div
+          className="w-full flex items-center h-10 rounded-sm px-2 gap-2 cursor-pointer bg-secondary-foreground text-background"
+          onClick={() => setAddPage(true)}
+        >
+          <Plus size={16} />
+          <span>New Page</span>
+        </div>
+        {pages.map((page) => (
+          <PageItem page={page} key={page.pageId} />
+        ))}
       </div>
-      {pages.map((page) => (
-        <PageItem page={page} key={page.pageId} />
-      ))}
     </div>
   );
 }

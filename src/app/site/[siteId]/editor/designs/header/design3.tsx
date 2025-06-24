@@ -136,14 +136,7 @@ function Design3({ pageId, section }: Design3Props) {
 
   if (float) {
     return (
-      <header
-        className={floatHeaderClassName}
-        onClick={() => {
-          dispatch(updateSelectedSection(pageId, section.id));
-          dispatch(updateSelectedItem(null));
-          dispatch(closeChooseIcon());
-        }}
-      >
+      <header className={floatHeaderClassName}>
         <div className={floatHeaderInnerClassName}>
           {headerContent.announcement.text &&
             headerContent.announcement.position === "above" && (
@@ -248,14 +241,7 @@ function Design3({ pageId, section }: Design3Props) {
   }
 
   return (
-    <header
-      className={normalHeaderClassName}
-      onClick={() => {
-        dispatch(updateSelectedSection(pageId, section.id));
-        dispatch(updateSelectedItem(null));
-        dispatch(closeChooseIcon());
-      }}
-    >
+    <header className={normalHeaderClassName}>
       {headerContent.announcement.text &&
         headerContent.announcement.position === "above" && (
           <Announcement

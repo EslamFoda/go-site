@@ -3,6 +3,7 @@ import React, { lazy, useRef, useState } from "react";
 import AddSection from "./addSection";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
+  closeChooseIcon,
   closeHeaderOptions,
   closeSectionDesigns,
   updateSectionIndex,
@@ -31,6 +32,7 @@ import HeaderMobMenu from "./headerMobMenu";
 import { HeaderContent, HeaderStyle } from "@/types/sectionsTypes/header";
 import { X } from "lucide-react";
 import ProgressBar from "@/components/shared/progressBar";
+import { useMediaQuery } from "react-responsive";
 
 const Banner = lazy(() => import("../designs/banner"));
 const Cards = lazy(() => import("../designs/cards"));
@@ -45,9 +47,11 @@ const Header = lazy(() => import("../designs/header"));
 const Footer = lazy(() => import("../designs/footer"));
 
 const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const dispatch = useAppDispatch();
-  const { globalSections, openHeaderOptions, isGenerating, settings } =
-    useAppSelector((state) => state.editor.present);
+  const { globalSections, openHeaderOptions } = useAppSelector(
+    (state) => state.editor.present
+  );
   const [hoveringIndex, setHoveringIndex] = useState<number | null>(null);
   const { motion, AnimatePresence } = useMotion();
   const { ParallaxProvider } = useScrollParallax();
@@ -124,7 +128,13 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
             <motion.div
               key="global-header"
               layout
-              onClick={() => dispatch(closeSectionDesigns())}
+              onClick={() => {
+                if (!globalHeader) return;
+                dispatch(closeSectionDesigns());
+                dispatch(updateSelectedSection(pageId, globalHeader.id));
+                dispatch(updateSelectedItem(null));
+                dispatch(closeChooseIcon());
+              }}
             >
               <GlobalHeaderSection pageId={pageId} section={globalHeader} />
             </motion.div>
@@ -146,7 +156,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
                   key={section.id}
                   closeDelay={0}
                   openDelay={0}
-                  open={hoveringIndex === i}
+                  open={hoveringIndex === i || isMobile}
                 >
                   <div
                     id={`section-${i}`} // Fixed template literal syntax
@@ -214,7 +224,12 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
             <motion.div
               key="global-footer"
               layout
-              onClick={() => dispatch(closeSectionDesigns())}
+              onClick={() => {
+                if (!globalFooter) return;
+                dispatch(closeSectionDesigns());
+                dispatch(updateSelectedSection(pageId, globalFooter.id));
+                dispatch(updateSelectedItem(null));
+              }}
             >
               <GlobalFooterSection pageId={pageId} section={globalFooter} />
             </motion.div>

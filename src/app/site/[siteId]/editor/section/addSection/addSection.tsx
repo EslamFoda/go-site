@@ -1,4 +1,8 @@
-import { openSectionDesigns, updateSectionIndex } from "@/reduxStore/action";
+import {
+  openDrawer,
+  openSectionDesigns,
+  updateSectionIndex,
+} from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { PlusCircle } from "lucide-react";
 import React from "react";
@@ -11,6 +15,7 @@ function AddSection({ sectionIndex }: AddSectionProps) {
   const handleToggleSectionDesigns = () => {
     dispatch(openSectionDesigns());
     dispatch(updateSectionIndex(sectionIndex));
+    dispatch(openDrawer());
   };
   return (
     <div

@@ -285,7 +285,10 @@ export const updateIsGenerating = (isGenerating: boolean) => ({
 });
 
 export const copySection = (
-  section: EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes> | null
+  section: EditorSection<
+    keyof SectionContentTypes,
+    keyof SectionStyleTypes
+  > | null
 ) => ({
   type: types.COPY_SECTION,
   payload: section,
@@ -294,4 +297,12 @@ export const copySection = (
 export const updateSelectedItemId = (itemId: string | null) => ({
   type: types.UPDATE_SELECTED_ITEM_ID,
   payload: itemId,
+});
+
+export const openDrawer = () => ({
+  type: types.OPEN_DRAWER,
+});
+
+export const closeDrawer = () => ({
+  type: types.CLOSE_DRAWER,
 });

@@ -136,14 +136,7 @@ function Design4({ pageId, section }: Design4Props) {
 
   if (float) {
     return (
-      <header
-        className={floatHeaderClassName}
-        onClick={() => {
-          dispatch(updateSelectedSection(pageId, section.id));
-          dispatch(updateSelectedItem(null));
-          dispatch(closeChooseIcon());
-        }}
-      >
+      <header className={floatHeaderClassName}>
         <div className={floatHeaderInnerClassName}>
           {headerContent.announcement.text &&
             headerContent.announcement.position === "above" && (
@@ -246,14 +239,7 @@ function Design4({ pageId, section }: Design4Props) {
   }
 
   return (
-    <header
-      className={normalHeaderClassName}
-      onClick={() => {
-        dispatch(updateSelectedSection(pageId, section.id));
-        dispatch(updateSelectedItem(null));
-        dispatch(closeChooseIcon());
-      }}
-    >
+    <header className={normalHeaderClassName}>
       {headerContent.announcement.text &&
         headerContent.announcement.position === "above" && (
           <Announcement

@@ -41,7 +41,7 @@ function SiteCard({ site, setSites }: SiteCardProps) {
   });
 
   const editBtnClassName = cn(
-    "hidden group-hover:flex items-center justify-center h-6 w-fit px-3  rounded-full bg-primary cursor-pointer",
+    "hidden group-hover:flex items-center justify-center h-6 w-fit px-3  rounded-full bg-primary cursor-pointer max-md:flex max-md:text-background",
     {
       "flex text-background": openMenu,
     }

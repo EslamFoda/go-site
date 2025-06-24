@@ -5,22 +5,43 @@ import React from "react";
 interface BackBtnProps {
   label?: string;
   backBtnClassName?: string;
+  btnContainerClassName?: string;
+  doneBtn?: boolean;
   handleBack: () => void;
+  handleDone?: () => void;
 }
-function BackBtn({ label, backBtnClassName, handleBack }: BackBtnProps) {
-  const classNames = cn(
-    "flex p-5 items-center border-b-[1px] gap-4 border-b-muted-bg mb-3",
-    backBtnClassName
+function BackBtn({
+  label,
+  backBtnClassName,
+  btnContainerClassName,
+  doneBtn,
+  handleBack,
+  handleDone,
+}: BackBtnProps) {
+  const classNames = cn("flex items-center gap-4", backBtnClassName);
+  const containerClassNames = cn(
+    "flex items-center justify-between p-5 border-b-[1px] border-b-muted-bg",
+    btnContainerClassName
   );
   return (
-    <div className={classNames}>
-      <div
-        className="cursor-pointer hover:text-muted-foreground"
-        onClick={handleBack}
-      >
-        <ChevronLeft size={18} />
+    <div className={containerClassNames}>
+      <div className={classNames}>
+        <div
+          className="cursor-pointer hover:text-muted-foreground"
+          onClick={handleBack}
+        >
+          <ChevronLeft size={18} />
+        </div>
+        <Label>{label}</Label>
       </div>
-      <Label>{label}</Label>
+      {doneBtn && (
+        <div
+          className="bg-foreground text-background px-2 rounded-full cursor-pointer"
+          onClick={handleDone}
+        >
+          done
+        </div>
+      )}
     </div>
   );
 }

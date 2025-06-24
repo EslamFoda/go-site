@@ -1,8 +1,7 @@
 "use client";
 import React from "react";
-import { Settings, Triangle } from "lucide-react";
+import { Triangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import SidebarButtons from "./editorSideBar/sidebarButtons";
 import EditorSidebar from "./editorSideBar";
 import { Toaster } from "@/components/ui/sonner";
@@ -14,32 +13,37 @@ import PublishBtn from "./editorSideBar/publishBtn";
 import EditorToggle from "@/components/shared/editorToggle";
 import { cn } from "@/lib/utils";
 import UndoAndRedo from "@/components/shared/undoAndRedo";
+import MobileFooterBtns from "./editorSideBar/mobileFooterBtns";
+
 function Editor({ children }: { children: React.ReactNode }) {
   const dispatch = useAppDispatch();
-  const { previewMode, isGenerating } = useAppSelector(
+  const { previewMode, isGenerating, drawerOpen } = useAppSelector(
     (state) => state.editor.present
   );
 
-  const mainEditorContainerClassName = cn("grid h-screen w-full pl-[55px]", {
-    "pl-0": previewMode,
-  });
+  const mainEditorContainerClassName = cn(
+    "grid h-screen w-full pl-[55px] max-md:pl-0",
+    {
+      "pl-0": previewMode,
+    }
+  );
   const editorBtnsSidebarClasses = cn(
-    "inset-y fixed w-14 left-0 z-50 flex h-full flex-col border-r",
+    "inset-y fixed w-14 left-0 z-50 flex h-full flex-col border-r max-md:hidden",
     { hidden: previewMode }
   );
 
   const editorSettingsSidebarClasses = cn(
-    "inset-y fixed left-15 z-50 flex w-96  max-md:hidden  h-full flex-col border-r",
+    "inset-y fixed left-15 z-50 flex w-96  max-md:hidden  h-full flex-col border-r max-md:hidden",
     { hidden: previewMode }
   );
 
   const editorContentClasses = cn(
-    "grid flex-1 pl-[384px] max-md:pl-0 gap-4 overflow-auto  grid-cols-1",
-    { "pl-0": previewMode }
+    "grid flex-1 pl-[384px] max-md:pl-0 gap-4 overflow-auto  grid-cols-1 max-md:pl-0 max-md:pb-20",
+    { "pl-0 max-md:pb-0": previewMode }
   );
 
   const editorHeaderClasses = cn(
-    "sticky top-0 flex h-[48px] items-center  border-b bg-background ps-4 ms-[1px] z-50",
+    "sticky top-0 flex h-[48px] items-center  border-b bg-background ps-4 ms-[1px] z-50 max-md:ms-0",
     {
       "ms-0": previewMode,
     }
@@ -77,17 +81,26 @@ function Editor({ children }: { children: React.ReactNode }) {
       </aside>
       <div className="flex flex-col">
         <header className={editorHeaderClasses}>
-          <Drawer>
-            <DrawerTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Settings className="size-4" />
-                <span className="sr-only">Settings</span>
-              </Button>
-            </DrawerTrigger>
-            <DrawerContent className="max-h-[80vh]">
+          {drawerOpen && !previewMode && (
+            <div className="fixed left-0 top-0 z-50  h-screen w-screen bg-background flex-col hidden max-md:flex">
               <EditorSidebar />
-            </DrawerContent>
-          </Drawer>
+            </div>
+          )}
+          <Link className="max-md:inline-block hidden" href="/">
+            <div
+              className="border-b h-12 flex items-center justify-center cursor-pointer"
+              onClick={() => dispatch(closeSideBar())}
+            >
+              <Button
+                variant="ghost"
+                size="icon"
+                aria-label="Home"
+                className="hover:bg-transparent"
+              >
+                <Triangle className="size-5 fill-foreground" />
+              </Button>
+            </div>
+          </Link>
           <div className="ml-auto h-full flex items-center justify-between">
             {!isGenerating && !previewMode && <UndoAndRedo />}
             <div className="w-[1px] h-full bg-border" />
@@ -101,6 +114,7 @@ function Editor({ children }: { children: React.ReactNode }) {
         <main className={editorContentClasses}>{children}</main>
       </div>
       <Toaster visibleToasts={1} />
+      <MobileFooterBtns />
     </div>
   );
 }

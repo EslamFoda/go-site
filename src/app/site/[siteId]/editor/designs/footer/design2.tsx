@@ -1,4 +1,3 @@
-import { updateSelectedItem, updateSelectedSection } from "@/reduxStore/action";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { FooterContent } from "@/types/sectionsTypes/footer";
 import React from "react";
@@ -57,13 +56,7 @@ function Design2({ pageId, section }: Design2Props) {
   });
 
   return (
-    <section
-      className="container max-w-container  w-full py-12"
-      onClick={() => {
-        dispatch(updateSelectedSection(pageId, section.id));
-        dispatch(updateSelectedItem(null));
-      }}
-    >
+    <section className="container max-w-container  w-full py-12">
       <div className="space-y-6">
         <div className="flex lg:flex-row flex-col items-start gap-7 md:gap-10 lg:gap-36 justify-between">
           <div className="lg:flex hidden basis-3/5  flex-wrap items-start gap-8 justify-start">

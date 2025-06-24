@@ -18,6 +18,7 @@ import {
   TestimonialSectionLightIcon,
 } from "@/icons/testimonials";
 import {
+  closeDrawer,
   closeSectionDesigns,
   copySection,
   updateEditorSections,
@@ -31,6 +32,7 @@ import { useScrollTo } from "@/hooks/useScrollTo";
 import { PasteDark, PasteLight } from "@/icons/paste";
 import SectionDesign from "./sectionDesign";
 import { v4 } from "uuid";
+import BackBtn from "@/components/shared/backBtn";
 
 const variants = {
   open: {
@@ -179,42 +181,51 @@ function ChooseSection() {
   };
 
   return (
-    <motion.div
-      variants={variants}
-      initial="closed"
-      animate="open"
-      className="p-5 space-y-3"
-    >
-      {copiedSection && (
-        <SectionDesign
-          sectionName="Paste"
-          desc="Add copied section"
-          Icon={PasteIcon}
-          onClick={handlePaste}
-        />
-      )}
-      {sections.map((section) => {
-        if (
-          (section.sectionName === "Header" && showHeader) ||
-          (section.sectionName === "Footer" && showFooter)
-        )
-          return null;
-
-        const { Icon, desc } = SectionIcons[section.sectionName];
-        return (
+    <div>
+      <BackBtn
+        doneBtn
+        handleDone={() => dispatch(closeDrawer())}
+        btnContainerClassName="w-full md:hidden"
+        label="Add Section"
+        handleBack={() => dispatch(closeDrawer())}
+      />
+      <motion.div
+        variants={variants}
+        initial="closed"
+        animate="open"
+        className="p-5 space-y-3"
+      >
+        {copiedSection && (
           <SectionDesign
-            key={section.id}
-            sectionName={section.sectionName}
-            desc={desc}
-            Icon={Icon}
-            onClick={() => {
-              handleChooseSection(section);
-              scrollToElement(`section-${sectionIndex + 1}`);
-            }}
+            sectionName="Paste"
+            desc="Add copied section"
+            Icon={PasteIcon}
+            onClick={handlePaste}
           />
-        );
-      })}
-    </motion.div>
+        )}
+        {sections.map((section) => {
+          if (
+            (section.sectionName === "Header" && showHeader) ||
+            (section.sectionName === "Footer" && showFooter)
+          )
+            return null;
+
+          const { Icon, desc } = SectionIcons[section.sectionName];
+          return (
+            <SectionDesign
+              key={section.id}
+              sectionName={section.sectionName}
+              desc={desc}
+              Icon={Icon}
+              onClick={() => {
+                handleChooseSection(section);
+                scrollToElement(`section-${sectionIndex + 1}`);
+              }}
+            />
+          );
+        })}
+      </motion.div>
+    </div>
   );
 }
 

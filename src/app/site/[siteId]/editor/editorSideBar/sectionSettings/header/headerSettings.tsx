@@ -10,6 +10,8 @@ import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import HeaderContentTab from "./headerContentTab";
 import Links from "./links";
 import {
+  closeDrawer,
+  closeSideBar,
   updateGlobalContent,
   updateSelectedItem,
   updateSelectedSubLink,
@@ -24,6 +26,7 @@ import Options from "./options";
 import ChooseImage from "../gallery/chooseImage";
 import { UnsplashImage } from "@/types/common";
 import LogoSettings from "./logoSettings";
+import BackBtn from "@/components/shared/backBtn";
 interface HeaderSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -272,6 +275,18 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
 
   return (
     <div>
+      <BackBtn
+        label="Header"
+        btnContainerClassName="max-md:hidden"
+        handleBack={() => dispatch(closeSideBar())}
+      />
+      <BackBtn
+        doneBtn
+        handleDone={() => dispatch(closeDrawer())}
+        btnContainerClassName="w-full md:hidden"
+        label="Header"
+        handleBack={() => dispatch(closeDrawer())}
+      />
       <Tabs onValueChange={setTabValue} value={tabValue} className="w-full">
         <TabsList className="grid m-5 grid-cols-2">
           <TabsTrigger value="content">content</TabsTrigger>

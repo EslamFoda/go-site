@@ -5,7 +5,8 @@ import SwitchSetting from "../sectionSettings/settingsUi/SwitchSetting";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import { useParams } from "next/navigation";
 import { EditorPage } from "@/reduxStore/types";
-import { updatePageSetting } from "@/reduxStore/action";
+import { closeDrawer, updatePageSetting } from "@/reduxStore/action";
+import BackBtn from "@/components/shared/backBtn";
 
 function PageSetting() {
   const dispatch = useAppDispatch();
@@ -57,69 +58,78 @@ function PageSetting() {
   };
 
   return (
-    <div className="px-5 space-y-2 py-5">
-      <div className="space-y-1 flex items-center justify-between">
-        <Label htmlFor="title">Title</Label>
-        <Input
-          className="w-4/6"
-          id="title"
-          placeholder="Add title"
-          value={pageSettings?.title}
-          onChange={(e: any) => {
-            dispatch(
-              updatePageSetting(pageId || homePage, {
-                ...pageSettings,
-                title: e.target.value,
-              })
-            );
-          }}
-        />
-      </div>
-      {!isHomePage && (
-        <div className="space-y-1">
-          <div className="flex items-center justify-between">
-            <Label htmlFor="link">Link</Label>
-            <div className="w-4/6">
-              <Input
-                placeholder="Add link"
-                id="link"
-                value={linkValue}
-                onChange={handleLinkChange}
-              />
-              {linkError && (
-                <div className="flex items-center justify-start w-full">
-                  <p className="text-red-500 text-sm mt-1">{linkError}</p>
-                </div>
-              )}
+    <div>
+      <BackBtn
+        doneBtn
+        handleDone={() => dispatch(closeDrawer())}
+        btnContainerClassName="w-full md:hidden"
+        label="Settings"
+        handleBack={() => dispatch(closeDrawer())}
+      />
+      <div className="px-5 space-y-2 py-5">
+        <div className="space-y-1 flex items-center justify-between">
+          <Label htmlFor="title">Title</Label>
+          <Input
+            className="w-4/6"
+            id="title"
+            placeholder="Add title"
+            value={pageSettings?.title}
+            onChange={(e: any) => {
+              dispatch(
+                updatePageSetting(pageId || homePage, {
+                  ...pageSettings,
+                  title: e.target.value,
+                })
+              );
+            }}
+          />
+        </div>
+        {!isHomePage && (
+          <div className="space-y-1">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="link">Link</Label>
+              <div className="w-4/6">
+                <Input
+                  placeholder="Add link"
+                  id="link"
+                  value={linkValue}
+                  onChange={handleLinkChange}
+                />
+                {linkError && (
+                  <div className="flex items-center justify-start w-full">
+                    <p className="text-red-500 text-sm mt-1">{linkError}</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
+        )}
+        <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
+          <SwitchSetting
+            label="Show Header"
+            defaultChecked={pageSettings?.showHeader}
+            onCheckedChange={(value) => {
+              dispatch(
+                updatePageSetting(pageId || homePage, {
+                  ...pageSettings,
+                  showHeader: value,
+                })
+              );
+            }}
+          />
+          <SwitchSetting
+            label="Show Footer"
+            defaultChecked={pageSettings?.showFooter}
+            onCheckedChange={(value) => {
+              dispatch(
+                updatePageSetting(pageId || homePage, {
+                  ...pageSettings,
+                  showFooter: value,
+                })
+              );
+            }}
+          />
         </div>
-      )}
-      <div className="border-muted-bg border-solid border-[1px] rounded-sm divide-y-[1px] divide-muted-bg">
-        <SwitchSetting
-          label="Show Header"
-          defaultChecked={pageSettings?.showHeader}
-          onCheckedChange={(value) => {
-            dispatch(
-              updatePageSetting(pageId || homePage, {
-                ...pageSettings,
-                showHeader: value,
-              })
-            );
-          }}
-        />
-        <SwitchSetting
-          label="Show Footer"
-          defaultChecked={pageSettings?.showFooter}
-          onCheckedChange={(value) => {
-            dispatch(
-              updatePageSetting(pageId || homePage, {
-                ...pageSettings,
-                showFooter: value,
-              })
-            );
-          }}
-        />
       </div>
     </div>
   );

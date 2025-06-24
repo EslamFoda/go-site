@@ -196,6 +196,7 @@ const initialState: EditorStore = {
   isSaving: false,
   isGenerating: false,
   copiedSection: null,
+  drawerOpen: false,
   selectedItemId: "",
   designSettings: {
     fonts: {
@@ -507,6 +508,7 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
   produce(state, (draft) => {
     switch (action.type) {
       case types.UPDATE_SELECTED_SECTION: {
+        draft.drawerOpen = true;
         draft.openPallet = false;
         draft.openPages = false;
         draft.openPageSetting = false;
@@ -927,6 +929,15 @@ const editorReducer = (state = initialState, action: any): EditorStore =>
 
       case types.UPDATE_SELECTED_ITEM_ID: {
         draft.selectedItemId = action.payload;
+        break;
+      }
+
+      case types.OPEN_DRAWER: {
+        draft.drawerOpen = true;
+        break;
+      }
+      case types.CLOSE_DRAWER: {
+        draft.drawerOpen = false;
         break;
       }
 

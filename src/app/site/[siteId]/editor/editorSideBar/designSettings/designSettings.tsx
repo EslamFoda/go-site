@@ -5,7 +5,11 @@ import Customize from "./customize";
 import Fonts from "./customize/fonts";
 import useGoogleFonts from "@/hooks/useGoogleFonts";
 import Width from "./customize/width";
+import BackBtn from "@/components/shared/backBtn";
+import { closeDrawer } from "@/reduxStore/action";
+import { useAppDispatch } from "@/reduxStore/hooks";
 function DesignSettings() {
+  const dispatch = useAppDispatch();
   const [tabValue, setTabValue] = useState("ai-theme");
   const [fontSettingsTab, setFontSettingsTab] = useState("Title");
   const [openFonts, setOpenFonts] = useState(false);
@@ -33,6 +37,13 @@ function DesignSettings() {
 
   return (
     <div>
+      <BackBtn
+        doneBtn
+        handleDone={() => dispatch(closeDrawer())}
+        btnContainerClassName="w-full md:hidden"
+        label="Design"
+        handleBack={() => dispatch(closeDrawer())}
+      />
       <Tabs onValueChange={setTabValue} value={tabValue} className="w-full">
         <TabsList className="grid m-5 grid-cols-2">
           <TabsTrigger value="ai-theme">AI Theme</TabsTrigger>

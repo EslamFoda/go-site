@@ -13,6 +13,8 @@ import {
 } from "@/reduxStore/types";
 import { useAppDispatch, useAppSelector } from "@/reduxStore/hooks";
 import {
+  closeDrawer,
+  closeSideBar,
   openChooseImage,
   updateContent,
   updateSelectedItem,
@@ -482,6 +484,18 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
 
   return (
     <div>
+      <BackBtn
+        label="Accordion"
+        btnContainerClassName="max-md:hidden"
+        handleBack={() => dispatch(closeSideBar())}
+      />
+      <BackBtn
+        doneBtn
+        handleDone={() => dispatch(closeDrawer())}
+        btnContainerClassName="w-full md:hidden"
+        label="Accordion"
+        handleBack={() => dispatch(closeDrawer())}
+      />
       <Tabs onValueChange={setTabValue} value={tabValue} className="w-full">
         <TabsList className="grid m-5 grid-cols-2">
           <TabsTrigger value="content">content</TabsTrigger>

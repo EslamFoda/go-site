@@ -16,6 +16,8 @@ import {
 } from "@/types/sectionsTypes/pricing";
 import SelectedPlan from "./pricingContentTab/selectedPlan";
 import {
+  closeDrawer,
+  closeSideBar,
   openChooseImage,
   updateContent,
   updateSelectedItem,
@@ -537,25 +539,39 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
   }
 
   return (
-    <Tabs onValueChange={setTabValue} value={tabValue} className="w-full">
-      <TabsList className="grid m-5 grid-cols-2">
-        <TabsTrigger value="content">Content</TabsTrigger>
-        <TabsTrigger value="style">Style</TabsTrigger>
-      </TabsList>
-      <PricingContentTab
-        findSelectedSection={findSelectedSection}
-        pageId={pageId}
-        pricingContent={pricingContent}
-        setOpenSubscriptionTab={setOpenSubscriptionTab}
+    <div>
+      <BackBtn
+        label="Pricing"
+        btnContainerClassName="max-md:hidden"
+        handleBack={() => dispatch(closeSideBar())}
       />
-      <PricingStyleTab
-        findSelectedSection={findSelectedSection}
-        pageId={pageId}
-        pricingStyle={pricingStyle}
-        setSectionBgOpened={setSectionBgOpened}
-        setOpenSpacingTab={setOpenSpacingTab}
+      <BackBtn
+        doneBtn
+        handleDone={() => dispatch(closeDrawer())}
+        btnContainerClassName="w-full md:hidden"
+        label="Pricing"
+        handleBack={() => dispatch(closeDrawer())}
       />
-    </Tabs>
+      <Tabs onValueChange={setTabValue} value={tabValue} className="w-full">
+        <TabsList className="grid m-5 grid-cols-2">
+          <TabsTrigger value="content">Content</TabsTrigger>
+          <TabsTrigger value="style">Style</TabsTrigger>
+        </TabsList>
+        <PricingContentTab
+          findSelectedSection={findSelectedSection}
+          pageId={pageId}
+          pricingContent={pricingContent}
+          setOpenSubscriptionTab={setOpenSubscriptionTab}
+        />
+        <PricingStyleTab
+          findSelectedSection={findSelectedSection}
+          pageId={pageId}
+          pricingStyle={pricingStyle}
+          setSectionBgOpened={setSectionBgOpened}
+          setOpenSpacingTab={setOpenSpacingTab}
+        />
+      </Tabs>
+    </div>
   );
 }
 
