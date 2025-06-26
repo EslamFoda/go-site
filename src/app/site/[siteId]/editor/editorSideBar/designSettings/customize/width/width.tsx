@@ -56,7 +56,7 @@ const Width: React.FC<WidthProps> = ({ setOpenWidth }) => {
 
   return (
     <div>
-      <BackBtn label="Width" handleBack={() => setOpenWidth(false)} />
+      <BackBtn label="Width" handleBack={() => setOpenWidth(false)} doneBtn />
       <div className="px-5 space-y-4">
         {!designSettings.width.fullWidthPage && (
           <div className="space-y-1 flex items-center justify-between">

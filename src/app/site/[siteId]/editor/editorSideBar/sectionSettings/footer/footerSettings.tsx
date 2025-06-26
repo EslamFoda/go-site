@@ -217,7 +217,6 @@ function FooterSettings({ sections, pageId }: FooterSettingsProps) {
       />
       <BackBtn
         doneBtn
-        handleDone={() => dispatch(closeDrawer())}
         btnContainerClassName="w-full md:hidden"
         label="Footer"
         handleBack={() => dispatch(closeDrawer())}

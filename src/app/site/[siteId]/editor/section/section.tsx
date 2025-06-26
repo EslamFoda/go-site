@@ -109,7 +109,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
         currentPage?.pageSettings.showHeader && <ProgressBar />}
       {openHeaderOptions && (
         <div
-          className="fixed inset-0 z-40 bg-transparent"
+          className="fixed inset-0 z-40 bg-transparent max-md:hidden"
           onClick={() => dispatch(closeHeaderOptions())}
         />
       )}
@@ -239,7 +239,7 @@ const Section: React.FC<{ pageId: string }> = ({ pageId }) => {
 
       {/*header sidebar for the mobile screen */}
       {openHeaderOptions && (
-        <div className="fixed inset-0 z-50 pointer-events-none">
+        <div className="fixed inset-0 z-50 pointer-events-none max-md:hidden">
           <div className="pointer-events-auto">
             <Sidebar
               open={openHeaderOptions}

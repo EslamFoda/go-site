@@ -1,5 +1,3 @@
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   EditorSection,
   SectionContentTypes,
@@ -10,13 +8,15 @@ import {
   SubscriptionPlanType,
   SubscriptionPriceOption,
 } from "@/types/sectionsTypes/pricing";
-import { ChevronLeft, Trash2 } from "lucide-react";
 import React from "react";
 import Benefits from "./benefits";
 import Price from "./price";
 import Featured from "./featured";
 import SubscriptionPrice from "./subscriptionPrice";
 import EditText from "../../settingsUi/EditText";
+import ItemBackBtn from "@/components/shared/itemBackBtn/itemBackBtn";
+import { useAppDispatch } from "@/reduxStore/hooks";
+import { closeDrawer } from "@/reduxStore/action";
 interface SelectedPlanProps {
   pageId: string;
   selectedSubscriptionPlan: SubscriptionPlan;
@@ -42,6 +42,7 @@ function SelectedPlan({
   handleDeletePlan,
   setSelectedPlan,
 }: SelectedPlanProps) {
+  const dispatch = useAppDispatch();
   const pricingContent =
     findSelectedSection?.content as SectionContentTypes["pricing"];
 
@@ -49,20 +50,11 @@ function SelectedPlan({
 
   return (
     <div className="space-y-2">
-      <div
-        className="flex justify-between p-5 items-center gap-4 border-b-[1px] border-b-muted-bg mb-3"
-        onClick={clearSubscriptionItem}
-      >
-        <div className="flex gap-4 items-center cursor-pointer">
-          <ChevronLeft size={18} />
-          <Label className="cursor-pointer">
-            {selectedSubscriptionPlan?.title}
-          </Label>
-        </div>
-        <div className="cursor-pointer" onClick={handleDeletePlan}>
-          <Trash2 size="18px" color="red" />
-        </div>
-      </div>
+      <ItemBackBtn
+        title={selectedSubscriptionPlan.title}
+        handleBack={clearSubscriptionItem}
+        handleDelete={handleDeletePlan}
+      />
       <div className="px-5 space-y-2">
         <EditText
           label="Title"

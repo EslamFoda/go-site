@@ -33,6 +33,7 @@ function LogoSettings({
     <div>
       <BackBtn
         label="Logo"
+        doneBtn
         handleBack={() => {
           dispatch(closeLogoSettings());
         }}

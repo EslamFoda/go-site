@@ -282,7 +282,6 @@ function HeaderSettings({ sections, pageId }: HeaderSettingsProps) {
       />
       <BackBtn
         doneBtn
-        handleDone={() => dispatch(closeDrawer())}
         btnContainerClassName="w-full md:hidden"
         label="Header"
         handleBack={() => dispatch(closeDrawer())}

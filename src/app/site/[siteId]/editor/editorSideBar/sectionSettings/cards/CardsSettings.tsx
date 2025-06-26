@@ -1,7 +1,6 @@
 import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ChevronLeft, Trash2 } from "lucide-react";
 import EditText from "../settingsUi/EditText";
 import { Card } from "@/types/sectionsTypes/cards";
 import CardContentTab from "./cardContentTab";
@@ -36,6 +35,7 @@ import validator from "validator";
 import { Switch } from "@/components/ui/switch";
 import LinkSelector from "../settingsUi/LinkSelector";
 import { getCSSVariableValueByClassName } from "@/helper";
+import ItemBackBtn from "@/components/shared/itemBackBtn/itemBackBtn";
 
 interface CardsSettingsProps {
   sections:
@@ -199,20 +199,13 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
   if (cardItem)
     return (
       <div className="space-y-2">
-        <div
-          className="flex justify-between p-5 items-center gap-4  border-b-[1px] border-b-muted-bg mb-3"
-          onClick={() => {
+        <ItemBackBtn
+          title={cardItem.title}
+          handleBack={() => {
             dispatch(updateSelectedItem(null));
           }}
-        >
-          <div className="flex gap-4 items-center cursor-pointer">
-            <ChevronLeft size={18} />
-            <Label className="cursor-pointer">{cardItem.title}</Label>
-          </div>
-          <div className="cursor-pointer" onClick={handleDeleteCard}>
-            <Trash2 size="18px" color="red" />
-          </div>
-        </div>
+          handleDelete={handleDeleteCard}
+        />
         <div className="px-5 space-y-2">
           <EditText
             label="Title"
@@ -353,6 +346,7 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
     return (
       <div className="space-y-2">
         <BackBtn
+          doneBtn
           label="Section Background"
           handleBack={() => setSectionBgOpened(false)}
         />
@@ -652,7 +646,6 @@ function CardsSettings({ pageId, sections }: CardsSettingsProps) {
       />
       <BackBtn
         doneBtn
-        handleDone={() => dispatch(closeDrawer())}
         btnContainerClassName="w-full md:hidden"
         label="Cards"
         handleBack={() => dispatch(closeDrawer())}

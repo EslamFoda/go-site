@@ -31,6 +31,7 @@ function Options({ headerContent, findSelectedSection }: OptionsProps) {
     <div>
       <BackBtn
         label="Options"
+        doneBtn
         handleBack={() => {
           dispatch(closeHeaderOptions());
         }}

@@ -1,4 +1,6 @@
 import { cn } from "@/lib/utils";
+import { closeDrawer } from "@/reduxStore/action";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import { Label } from "@radix-ui/react-label";
 import { ChevronLeft } from "lucide-react";
 import React from "react";
@@ -8,7 +10,6 @@ interface BackBtnProps {
   btnContainerClassName?: string;
   doneBtn?: boolean;
   handleBack: () => void;
-  handleDone?: () => void;
 }
 function BackBtn({
   label,
@@ -16,8 +17,8 @@ function BackBtn({
   btnContainerClassName,
   doneBtn,
   handleBack,
-  handleDone,
 }: BackBtnProps) {
+  const dispatch = useAppDispatch();
   const classNames = cn("flex items-center gap-4", backBtnClassName);
   const containerClassNames = cn(
     "flex items-center justify-between p-5 border-b-[1px] border-b-muted-bg",
@@ -36,8 +37,8 @@ function BackBtn({
       </div>
       {doneBtn && (
         <div
-          className="bg-foreground text-background px-2 rounded-full cursor-pointer"
-          onClick={handleDone}
+          className="bg-foreground text-background px-2 rounded-full cursor-pointer hidden max-md:block"
+          onClick={() => dispatch(closeDrawer())}
         >
           done
         </div>

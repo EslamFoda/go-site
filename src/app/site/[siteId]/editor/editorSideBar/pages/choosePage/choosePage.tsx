@@ -112,7 +112,7 @@ function ChoosePage({ setPageType, setAddPage }: ChoosePageProps) {
   };
   return (
     <div>
-      <BackBtn label="Add Page" handleBack={() => setAddPage(false)} />
+      <BackBtn label="Add Page" handleBack={() => setAddPage(false)} doneBtn />
       <div className="p-2 px-5 space-y-3">
         {pagesTypes.map((page) => (
           <div

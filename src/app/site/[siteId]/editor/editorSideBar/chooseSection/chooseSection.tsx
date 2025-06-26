@@ -184,7 +184,6 @@ function ChooseSection() {
     <div>
       <BackBtn
         doneBtn
-        handleDone={() => dispatch(closeDrawer())}
         btnContainerClassName="w-full md:hidden"
         label="Add Section"
         handleBack={() => dispatch(closeDrawer())}

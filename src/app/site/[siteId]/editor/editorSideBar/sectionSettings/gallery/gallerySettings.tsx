@@ -1,14 +1,7 @@
-import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowUpFromLine, ChevronLeft, Trash2 } from "lucide-react";
 import ColorSelector from "../settingsUi/ColorSelector";
-import {
-  ImagePlaceHolder,
-  JustifyCenter,
-  JustifyEnd,
-  JustifyStart,
-} from "@/icons/common";
+import { JustifyCenter, JustifyEnd, JustifyStart } from "@/icons/common";
 import {
   EditorSection,
   SectionContentTypes,
@@ -218,6 +211,7 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
       <div className="space-y-2">
         <BackBtn
           label="Section Background"
+          doneBtn
           handleBack={() => setSectionBgOpened(false)}
         />
         <div className="px-5 space-y-2">
@@ -522,7 +516,6 @@ function GallerySettings({ pageId, sections }: GallerySettingsProps) {
       />
       <BackBtn
         doneBtn
-        handleDone={() => dispatch(closeDrawer())}
         btnContainerClassName="w-full md:hidden"
         label="Gallery"
         handleBack={() => dispatch(closeDrawer())}

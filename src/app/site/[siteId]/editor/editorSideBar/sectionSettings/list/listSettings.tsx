@@ -45,6 +45,7 @@ import { getPhosphorIcon } from "@/helper/phosphorIcons";
 import LinkSelector from "../settingsUi/LinkSelector";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import ItemBackBtn from "@/components/shared/itemBackBtn/itemBackBtn";
 interface ListSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -219,20 +220,13 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
     const ListIcon = getPhosphorIcon(selectedListItem.icon);
     return (
       <div className="space-y-2">
-        <div
-          className="flex justify-between p-5 items-center gap-4  border-b-[1px] border-b-muted-bg mb-3"
-          onClick={() => {
+        <ItemBackBtn
+          title={selectedListItem.title}
+          handleBack={() => {
             dispatch(updateSelectedItem(null));
           }}
-        >
-          <div className="flex gap-4 items-center cursor-pointer">
-            <ChevronLeft size={18} />
-            <Label className="cursor-pointer">{selectedListItem.title}</Label>
-          </div>
-          <div className="cursor-pointer" onClick={handleDeleteCard}>
-            <Trash2 size="18px" color="red" />
-          </div>
-        </div>
+          handleDelete={handleDeleteCard}
+        />
         <div className="px-5 space-y-2">
           <EditText
             label="Title"
@@ -374,6 +368,7 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
       <div className="space-y-2">
         <BackBtn
           label="Section Background"
+          doneBtn
           handleBack={() => setSectionBgOpened(false)}
         />
         <div className="px-5 space-y-2">
@@ -673,7 +668,6 @@ function ListSettings({ pageId, sections }: ListSettingsProps) {
       />
       <BackBtn
         doneBtn
-        handleDone={() => dispatch(closeDrawer())}
         btnContainerClassName="w-full md:hidden"
         label="List"
         handleBack={() => dispatch(closeDrawer())}

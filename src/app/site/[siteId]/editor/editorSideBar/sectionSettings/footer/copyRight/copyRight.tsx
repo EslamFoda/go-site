@@ -27,6 +27,7 @@ function CopyRight({
   return (
     <div>
       <BackBtn
+        doneBtn
         label="Copyright"
         handleBack={() => setOpenCopyRightTab(false)}
       />

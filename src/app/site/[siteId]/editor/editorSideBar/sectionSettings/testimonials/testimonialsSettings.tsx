@@ -36,6 +36,7 @@ import { UnsplashImage } from "@/types/common";
 import SpacingTab from "@/components/shared/spacingTab";
 import SwitchSetting from "../settingsUi/SwitchSetting";
 import ToggleGroup from "../settingsUi/toggleGroup";
+import ItemBackBtn from "@/components/shared/itemBackBtn/itemBackBtn";
 interface TestimonialsSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -195,20 +196,13 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
   if (TestimonialItem)
     return (
       <div className="space-y-2">
-        <div
-          className="flex justify-between p-5 items-center gap-4  border-b-[1px] border-b-muted-bg mb-3"
-          onClick={() => {
+        <ItemBackBtn
+          title={TestimonialItem.name}
+          handleBack={() => {
             dispatch(updateSelectedItem(null));
           }}
-        >
-          <div className="flex gap-4 items-center cursor-pointer">
-            <ChevronLeft size={18} />
-            <Label className="cursor-pointer">{TestimonialItem.name}</Label>
-          </div>
-          <div className="cursor-pointer" onClick={handleDeleteTestimonial}>
-            <Trash2 size="18px" color="red" />
-          </div>
-        </div>
+          handleDelete={handleDeleteTestimonial}
+        />
         <div className="px-5 pb-1 space-y-2">
           <EditText
             inputType="textArea"
@@ -272,6 +266,7 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
       <div className="space-y-2">
         <BackBtn
           label="Section Background"
+          doneBtn
           handleBack={() => setSectionBgOpened(false)}
         />
         <div className="px-5 space-y-2">
@@ -588,7 +583,6 @@ function TestimonialsSettings({ pageId, sections }: TestimonialsSettingsProps) {
       />
       <BackBtn
         doneBtn
-        handleDone={() => dispatch(closeDrawer())}
         btnContainerClassName="w-full md:hidden"
         label="Testimonials"
         handleBack={() => dispatch(closeDrawer())}

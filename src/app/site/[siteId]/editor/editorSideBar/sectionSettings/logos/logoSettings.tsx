@@ -36,6 +36,7 @@ import SpacingTab from "@/components/shared/spacingTab";
 import SwitchSetting from "../settingsUi/SwitchSetting";
 import ToggleGroup from "../settingsUi/toggleGroup";
 import ImageSelector from "@/components/shared/imageSelector";
+import ItemBackBtn from "@/components/shared/itemBackBtn/itemBackBtn";
 
 interface LogosSettingsProps {
   sections:
@@ -219,20 +220,13 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
   if (logoItem)
     return (
       <div className="space-y-2">
-        <div
-          className="flex justify-between p-5 items-center gap-4  border-b-[1px] border-b-muted-bg mb-3"
-          onClick={() => {
+        <ItemBackBtn
+          title={"Media"}
+          handleBack={() => {
             dispatch(updateSelectedItem(null));
           }}
-        >
-          <div className="flex gap-4 items-center cursor-pointer">
-            <ChevronLeft size={18} />
-            <Label className="cursor-pointer">Media</Label>
-          </div>
-          <div className="cursor-pointer" onClick={handleDeleteLogo}>
-            <Trash2 size="18px" color="red" />
-          </div>
-        </div>
+          handleDelete={handleDeleteLogo}
+        />
         <div className="px-5 pb-1 space-y-2">
           <div
             onClick={() => {
@@ -360,6 +354,7 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
       <div className="space-y-2">
         <BackBtn
           label="Section Background"
+          doneBtn
           handleBack={() => setSectionBgOpened(false)}
         />
         <div className="px-5 space-y-2">
@@ -661,7 +656,6 @@ function LogosSettings({ pageId, sections }: LogosSettingsProps) {
       />
       <BackBtn
         doneBtn
-        handleDone={() => dispatch(closeDrawer())}
         btnContainerClassName="w-full md:hidden"
         label="Logos"
         handleBack={() => dispatch(closeDrawer())}

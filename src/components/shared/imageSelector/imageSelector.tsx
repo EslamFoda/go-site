@@ -1,7 +1,9 @@
 import React from "react";
 import { Label } from "@/components/ui/label";
-import { ArrowUpFromLine, ChevronLeft, Trash2 } from "lucide-react";
+import { ArrowUpFromLine, Trash2 } from "lucide-react";
 import { ImagePlaceHolder } from "@/icons/common";
+import ItemBackBtn from "../itemBackBtn/itemBackBtn";
+
 
 interface ImageSelectorProps {
   title?: string;
@@ -25,24 +27,12 @@ const ImageSelector: React.FC<ImageSelectorProps> = ({
   return (
     <div className="space-y-2">
       {showBackButton && (
-        <div
-          className="flex justify-between p-5 items-center gap-4 border-b-[1px] border-b-muted-bg mb-3"
-          onClick={onBack}
-        >
-          <div className="flex gap-4 items-center cursor-pointer">
-            <ChevronLeft size={18} />
-            <Label className="cursor-pointer">{backButtonLabel}</Label>
-          </div>
-          <div
-            className="cursor-pointer"
-            onClick={(e) => {
-              e.stopPropagation();
-              onImageDelete();
-            }}
-          >
-            <Trash2 size="18px" color="red" />
-          </div>
-        </div>
+        <ItemBackBtn
+          backBtnContainerClassName="px-0"
+          title={backButtonLabel}
+          handleBack={onBack}
+          handleDelete={onImageDelete}
+        />
       )}
       <div className="space-y-2">
         <div

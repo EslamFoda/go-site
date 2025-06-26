@@ -61,7 +61,6 @@ function PageSetting() {
     <div>
       <BackBtn
         doneBtn
-        handleDone={() => dispatch(closeDrawer())}
         btnContainerClassName="w-full md:hidden"
         label="Settings"
         handleBack={() => dispatch(closeDrawer())}

@@ -36,7 +36,6 @@ function FluidSettings({ pageId, sections }: FluidSettingsProps) {
       />
       <BackBtn
         doneBtn
-        handleDone={() => dispatch(closeDrawer())}
         btnContainerClassName="w-full md:hidden"
         label="Fluid"
         handleBack={() => dispatch(closeDrawer())}

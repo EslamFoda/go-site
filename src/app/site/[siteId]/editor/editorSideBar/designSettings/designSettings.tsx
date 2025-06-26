@@ -39,7 +39,6 @@ function DesignSettings() {
     <div>
       <BackBtn
         doneBtn
-        handleDone={() => dispatch(closeDrawer())}
         btnContainerClassName="w-full md:hidden"
         label="Design"
         handleBack={() => dispatch(closeDrawer())}

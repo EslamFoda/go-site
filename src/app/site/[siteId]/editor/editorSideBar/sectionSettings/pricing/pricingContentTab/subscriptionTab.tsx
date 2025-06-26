@@ -29,9 +29,10 @@ function SubscriptionTab({
     <div>
       <BackBtn
         label="Subscription"
+        doneBtn
         handleBack={() => setOpenSubscriptionTab(false)}
       />
-      <div className="space-y-3 px-5">
+      <div className="space-y-3 py-3 px-5">
         {subscriptionPlans.map((plan, index) => (
           <Plan
             key={index}

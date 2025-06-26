@@ -34,6 +34,7 @@ function Announcement({
     <div>
       <BackBtn
         label="Announcement"
+        doneBtn
         handleBack={() => setOpenAnnounceTab(false)}
       />
       <div className="px-5 h space-y-2">

@@ -28,6 +28,7 @@ function Social({
   return (
     <div>
       <BackBtn
+        doneBtn
         label="Social links"
         handleBack={() => {
           setOpenSocialTab(false);
@@ -41,7 +42,10 @@ function Social({
           pageId={pageId}
           footerContent={footerContent}
         />
-        <SocialIconsList social={footerContent?.social || []} findSelectedSection={findSelectedSection}/>
+        <SocialIconsList
+          social={footerContent?.social || []}
+          findSelectedSection={findSelectedSection}
+        />
       </div>
     </div>
   );

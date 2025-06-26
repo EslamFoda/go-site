@@ -26,7 +26,6 @@ import {
 import PriceOption from "./pricingContentTab/priceOption";
 import BackBtn from "@/components/shared/backBtn";
 import ColorSelector from "../settingsUi/ColorSelector";
-import { Label } from "@/components/ui/label";
 import { JustifyCenter, JustifyEnd, JustifyStart } from "@/icons/common";
 import SpacingTab from "@/components/shared/spacingTab";
 import ImageSelector from "@/components/shared/imageSelector";
@@ -204,6 +203,7 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
       <div className="space-y-2">
         <BackBtn
           label="Section Background"
+          doneBtn
           handleBack={() => setSectionBgOpened(false)}
         />
         <div className="px-5 space-y-2">
@@ -547,7 +547,6 @@ function PricingSettings({ pageId, sections }: PricingSettingsProps) {
       />
       <BackBtn
         doneBtn
-        handleDone={() => dispatch(closeDrawer())}
         btnContainerClassName="w-full md:hidden"
         label="Pricing"
         handleBack={() => dispatch(closeDrawer())}

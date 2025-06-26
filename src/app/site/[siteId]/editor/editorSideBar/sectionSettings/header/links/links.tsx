@@ -1,6 +1,7 @@
 import BackBtn from "@/components/shared/backBtn";
 import DraggableList from "@/components/ui/DraggableList";
 import {
+  closeDrawer,
   openLogoSettings,
   updateGlobalContent,
   updateSelectedItem,
@@ -82,6 +83,7 @@ function Links({
     <div>
       <BackBtn
         label="Links"
+        doneBtn
         handleBack={() => {
           setOpenLinkTab(false);
         }}

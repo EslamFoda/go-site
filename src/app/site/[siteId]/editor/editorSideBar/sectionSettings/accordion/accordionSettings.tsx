@@ -30,6 +30,7 @@ import { UnsplashImage } from "@/types/common";
 import SwitchSetting from "../settingsUi/SwitchSetting";
 import ToggleGroup from "../settingsUi/toggleGroup";
 import ImageSelector from "@/components/shared/imageSelector";
+import ItemBackBtn from "@/components/shared/itemBackBtn/itemBackBtn";
 interface AccordionSettingsProps {
   sections:
     | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
@@ -141,20 +142,13 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
   if (accordionItem)
     return (
       <div className="space-y-2">
-        <div
-          className="flex justify-between p-5 items-center gap-4  border-b-[1px] border-b-muted-bg mb-3"
-          onClick={() => {
+        <ItemBackBtn
+          title={accordionItem.title}
+          handleBack={() => {
             dispatch(updateSelectedItem(null));
           }}
-        >
-          <div className="flex gap-4 items-center cursor-pointer">
-            <ChevronLeft size={18} />
-            <Label className="cursor-pointer">{accordionItem.title}</Label>
-          </div>
-          <div className="cursor-pointer" onClick={handleDeleteAccordion}>
-            <Trash2 size="18px" color="red" />
-          </div>
-        </div>
+          handleDelete={handleDeleteAccordion}
+        />
         <div className="px-5 pb-1 space-y-2">
           <EditText
             label="Title"
@@ -184,6 +178,7 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
       <div className="space-y-2">
         <BackBtn
           label="Section Background"
+          doneBtn
           handleBack={() => setSectionBgOpened(false)}
         />
         <div className="px-5 space-y-2">
@@ -491,7 +486,6 @@ function AccordionSettings({ pageId, sections }: AccordionSettingsProps) {
       />
       <BackBtn
         doneBtn
-        handleDone={() => dispatch(closeDrawer())}
         btnContainerClassName="w-full md:hidden"
         label="Accordion"
         handleBack={() => dispatch(closeDrawer())}

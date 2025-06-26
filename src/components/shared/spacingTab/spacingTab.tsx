@@ -62,8 +62,12 @@ function SpacingTab({
   };
   return (
     <div className="pb-5">
-      <BackBtn label="Spacing" handleBack={() => setOpenSpacingTab(false)} />
-      <div className="px-5 space-y-2">
+      <BackBtn
+        label="Spacing"
+        handleBack={() => setOpenSpacingTab(false)}
+        doneBtn
+      />
+      <div className="px-5 py-2 space-y-2">
         <HeightOrWidthSetting
           label="Top"
           min={isTopSpaceDesktop ? 20 : 10}

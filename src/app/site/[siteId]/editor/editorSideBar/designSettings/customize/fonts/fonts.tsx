@@ -99,7 +99,7 @@ const FontSelector = ({
 
   return (
     <>
-      <BackBtn label="Fonts" handleBack={() => setOpenFonts(false)} />
+      <BackBtn label="Fonts" handleBack={() => setOpenFonts(false)} doneBtn/>
       <Tabs
         onValueChange={setFontSettingsTab}
         value={fontSettingsTab}

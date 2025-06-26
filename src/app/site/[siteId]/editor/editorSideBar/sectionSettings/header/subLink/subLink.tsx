@@ -1,6 +1,5 @@
 import { Label } from "@/components/ui/label";
 import { SubLink as SubLinkType } from "@/types/sectionsTypes/header";
-import { ChevronLeft, Trash2 } from "lucide-react";
 import React from "react";
 import EditText from "../../settingsUi/EditText";
 import { useAppSelector } from "@/reduxStore/hooks";
@@ -9,6 +8,7 @@ import ToggleGroup from "../../settingsUi/toggleGroup";
 import { Switch } from "@/components/ui/switch";
 import validator from "validator";
 import { Input } from "@/components/ui/input";
+import ItemBackBtn from "@/components/shared/itemBackBtn";
 
 interface SubLinkProps {
   selectedSubLink: SubLinkType;
@@ -29,18 +29,11 @@ function SubLink({
 
   return (
     <div className="space-y-2">
-      <div
-        className="flex justify-between p-5 items-center gap-4 border-b-[1px] border-b-muted-bg mb-3"
-        onClick={clearSubLinkItem}
-      >
-        <div className="flex gap-4 items-center cursor-pointer">
-          <ChevronLeft size={18} />
-          <Label className="cursor-pointer">{selectedSubLink.text}</Label>
-        </div>
-        <div className="cursor-pointer" onClick={handleDeleteSubLink}>
-          <Trash2 size="18px" color="red" />
-        </div>
-      </div>
+      <ItemBackBtn
+        title={selectedSubLink.text}
+        handleBack={clearSubLinkItem}
+        handleDelete={handleDeleteSubLink}
+      />
       <div className="px-5 space-y-2">
         <EditText
           label="Text"

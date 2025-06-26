@@ -26,6 +26,7 @@ function ChooseImage({
     <>
       <BackBtn
         label="Media"
+        doneBtn
         handleBack={() => {
           mediaType === "background-image"
             ? dispatch(closeChooseBgImage())

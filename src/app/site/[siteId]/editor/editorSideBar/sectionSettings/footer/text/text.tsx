@@ -26,7 +26,7 @@ function Text({
   const dispatch = useAppDispatch();
   return (
     <div>
-      <BackBtn label="Text" handleBack={() => setOpenTextTab(false)} />
+      <BackBtn label="Text" handleBack={() => setOpenTextTab(false)} doneBtn />
       <div className="px-5">
         <TextEditor
           content={footerContent.text}

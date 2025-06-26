@@ -163,6 +163,7 @@ function BannerSettings({ sections, pageId }: BannerSettingsProps) {
     return (
       <div className="space-y-2">
         <BackBtn
+          doneBtn
           label="Section Background"
           handleBack={() => setSectionBgOpened(false)}
         />
@@ -468,7 +469,6 @@ function BannerSettings({ sections, pageId }: BannerSettingsProps) {
 
       <BackBtn
         doneBtn
-        handleDone={() => dispatch(closeDrawer())}
         btnContainerClassName="w-full md:hidden"
         label="Banner"
         handleBack={() => dispatch(closeDrawer())}
