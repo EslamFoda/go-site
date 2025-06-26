@@ -64,7 +64,7 @@ function ListContentTab({
     dispatch(updateContent(pageId, findSelectedSection.id, { list: newItems }));
   };
   return (
-    <TabsContent className="px-5 h space-y-2" value="content">
+    <TabsContent className="px-5 h max-md:pb-8 space-y-2" value="content">
       <EditText
         label="Label"
         placeholder="Add label"
