@@ -84,7 +84,7 @@ function Editor({ children }: { children: React.ReactNode }) {
           {drawerOpen && !previewMode && (
             <div
               style={{ zIndex: 80 }}
-              className="fixed left-0 top-0  h-screen w-screen bg-background flex-col hidden max-md:flex"
+              className="fixed left-0 top-0  h-screen w-screen bg-background flex-col hidden max-md:flex overflow-y-auto"
             >
               <EditorSidebar />
             </div>
