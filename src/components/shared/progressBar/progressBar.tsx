@@ -6,7 +6,7 @@ import React from "react";
 function ProgressBar() {
   const { previewMode } = useAppSelector((state) => state.editor.present);
   const progressBarClassNames = cn(
-    "h-1 bg-primary fixed left-[440px] max-md:left-[57px] mt-[47px] top-0 right-0  pointer-events-none",
+    "h-1 bg-primary fixed left-[440px] max-md:left-0  mt-[47px] top-0 right-0  pointer-events-none",
     {
       "left-0 max-md:left-0": previewMode,
     }
@@ -25,7 +25,7 @@ function ProgressBar() {
       style={{
         scaleX: springProgress, // Directly use the MotionValue
         transformOrigin: "left",
-        zIndex: 97,
+        zIndex: 45,
       }}
     />
   );
