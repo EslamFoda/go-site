@@ -29,8 +29,8 @@ function Pages() {
     <div>
       <BackBtn
         doneBtn
-        handleDone={() => dispatch(closeDrawer())}
         btnContainerClassName="w-full md:hidden"
+        //there is no handle done here
         label="Pages"
         handleBack={() => dispatch(closeDrawer())}
       />
