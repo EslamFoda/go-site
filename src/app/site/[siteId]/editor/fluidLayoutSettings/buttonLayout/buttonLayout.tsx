@@ -16,7 +16,6 @@ import {
 } from "@/reduxStore/types";
 import { FluidButtonSettings, GridCard } from "@/types/sectionsTypes/fluid";
 import React from "react";
-import Align from "../../editorSideBar/sectionSettings/settingsUi/Align";
 import { Slider } from "@/components/ui/slider";
 import IconPosition from "../../editorSideBar/sectionSettings/settingsUi/IconPosition";
 import AlignFlexible from "../../editorSideBar/sectionSettings/settingsUi/alignFlexible";

@@ -87,7 +87,6 @@ const FluidButton: React.FC<FluidButtonProps> = ({
     return (
       <IconList
         backBtnLabel="Back"
-        backBtnClassName="p-2 pb-4"
         listHeight="350px"
         icon={fluidCardSettings?.buttonIcon}
         handleBack={() => setIsIconListOpen(false)} // Close IconList on back

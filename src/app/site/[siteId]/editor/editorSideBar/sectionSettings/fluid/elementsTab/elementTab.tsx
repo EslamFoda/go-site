@@ -28,7 +28,7 @@ const initialCards: GridCard[] = [
       size: "sm",
       buttonDisplay: "Text only",
       alignment: "center",
-      buttonIcon: "",
+      buttonIcon: "CaretRight",
       textIconGap: 8,
       iconPosition: "right",
     },
