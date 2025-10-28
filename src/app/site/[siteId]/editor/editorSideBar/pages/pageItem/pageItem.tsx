@@ -38,17 +38,40 @@ function PageItem({ page }: PageItemProps) {
   );
 
   const handleDeletePage = async () => {
-    const supabase = createClient();
-    const { data } = await supabase
-      .from("sites")
-      .update({ pages: pages.filter((p) => p.pageId !== page.pageId) })
-      .eq("siteId", siteId)
-      .select();
-    if (data) {
+    try {
+      const supabase = createClient();
+
+      // 1️⃣ Create a new array of remaining pages
+      const remainingPages = pages.filter((p) => p.pageId !== page.pageId);
+
+      // 2️⃣ Find a valid page to redirect to
+      const fallbackPage = remainingPages[remainingPages.length - 1];
+
+      // 3️⃣ Update Supabase
+      const { data, error } = await supabase
+        .from("sites")
+        .update({ pages: remainingPages })
+        .eq("siteId", siteId)
+        .select();
+
+      if (error) throw error;
+
+      // 4️⃣ Update Redux
       dispatch(deletePage(page.pageId));
-      const findLastPageId = pages.findLast((p) => p.pageId !== page.pageId);
-      const lastPageId = findLastPageId?.pageId;
-      router.push(`/site/${siteId}/editor/${lastPageId}`);
+
+      // 5️⃣ Redirect AFTER DOM updates — use setTimeout to avoid rendering crash
+      if (fallbackPage) {
+        setTimeout(() => {
+          router.replace(`/site/${siteId}/editor/${fallbackPage.pageId}`);
+        }, 50);
+      } else {
+        // If no pages remain, go back to main site dashboard or safe route
+        setTimeout(() => {
+          router.replace(`/site/${siteId}`);
+        }, 50);
+      }
+    } catch (err) {
+      console.error("Failed to delete page:", err);
     }
   };
 

@@ -10,6 +10,7 @@ import SiteSkeleton from "./sites/sitesSkeleton/siteSkeleton";
 import { resetEditorState } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { ActionCreators as UndoActionCreators } from "redux-undo";
+import Image from "next/image";
 
 interface DashboardProps {
   user: ActiveUserType;
@@ -53,6 +54,7 @@ function Dashboard({ user }: DashboardProps) {
   return (
     <div className="max-w-4xl m-auto px-5 mt-28 sm:mb-4 mb-24">
       <CreateSite user={user} setSites={setSites} sites={sites} />
+
       {loading ? (
         <SiteSkeleton />
       ) : (
