@@ -7,11 +7,15 @@ import PageType from "./pageType";
 import ChoosePage from "./choosePage";
 import BackBtn from "@/components/shared/backBtn";
 import { closeDrawer } from "@/reduxStore/action";
+import PageSections from "./pageSections";
+import { useParams } from "next/navigation";
+
 function Pages() {
   const dispatch = useAppDispatch();
   const pages = useAppSelector((state) => state.editor.present.editor.pages);
   const [addPage, setAddPage] = React.useState(false);
   const [pageType, setPageType] = React.useState<PageTypes>("");
+  const [openPageSections, setOpenPageSections] = React.useState(false);
 
   if (pageType)
     return (
@@ -20,6 +24,11 @@ function Pages() {
         setPageType={setPageType}
         setAddPage={setAddPage}
       />
+    );
+
+  if (openPageSections)
+    return (
+      <PageSections pages={pages} setOpenPageSections={setOpenPageSections} />
     );
 
   if (addPage)
@@ -43,7 +52,11 @@ function Pages() {
           <span>New Page</span>
         </div>
         {pages.map((page) => (
-          <PageItem page={page} key={page.pageId} />
+          <PageItem
+            page={page}
+            key={page.pageId}
+            setOpenPageSections={setOpenPageSections}
+          />
         ))}
       </div>
     </div>

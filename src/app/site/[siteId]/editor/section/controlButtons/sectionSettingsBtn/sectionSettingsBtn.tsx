@@ -109,17 +109,6 @@ function SectionSettingsBtn({
     }
   };
 
-  const handlePaste = () => {
-    if (!sections) return;
-    if (copiedSection) {
-      const newSection = { ...copiedSection, id: v4() };
-      const cloneSections = [...sections];
-      cloneSections.splice(sectionIndex, 0, newSection);
-      dispatch(updateEditorSections(pageId, cloneSections));
-      dispatch(updateSelectedSection(pageId, newSection.id));
-    }
-  };
-
   return (
     <div>
       <AlertDialog>
@@ -147,7 +136,9 @@ function SectionSettingsBtn({
 
                 <MenubarSeparator />
                 <AlertDialogTrigger className="w-full text-start">
-                  <MenubarItem className="text-destructive-foreground !bg-destructive hover:!bg-destructive/50">Delete</MenubarItem>
+                  <MenubarItem className="text-destructive-foreground !bg-destructive hover:!bg-destructive/50">
+                    Delete
+                  </MenubarItem>
                 </AlertDialogTrigger>
               </MenubarContent>
             </MenubarMenu>

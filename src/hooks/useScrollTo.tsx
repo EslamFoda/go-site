@@ -1,4 +1,5 @@
-import { scroller } from "react-scroll";
+import { scroller, animateScroll } from "react-scroll";
+
 interface ScrollOptions {
   duration?: number;
   delay?: number;
@@ -7,18 +8,26 @@ interface ScrollOptions {
   containerId?: string;
   isDynamic?: boolean;
 }
+
 export const useScrollTo = () => {
-  const scrollToElement = (
-    elementId: string,
-    options: ScrollOptions = {
-      duration: 500,
-      delay: 0,
-      smooth: "easeInOutQuart",
-      offset: -50,
-    }
-  ) => {
-    scroller.scrollTo(elementId, options);
+  const defaultOptions: ScrollOptions = {
+    duration: 500,
+    delay: 0,
+    smooth: "easeInOutQuart",
+    offset: -50,
   };
 
-  return { scrollToElement };
+  const scrollToElement = (elementId: string, options: ScrollOptions = {}) => {
+    scroller.scrollTo(elementId, { ...defaultOptions, ...options });
+  };
+
+  const scrollToTop = (options: ScrollOptions = {}) => {
+    animateScroll.scrollToTop({ ...defaultOptions, ...options });
+  };
+
+  const scrollToBottom = (options: ScrollOptions = {}) => {
+    animateScroll.scrollToBottom({ ...defaultOptions, ...options });
+  };
+
+  return { scrollToElement, scrollToTop, scrollToBottom };
 };

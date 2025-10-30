@@ -16,12 +16,14 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { v4 } from "uuid";
+import PageSections from "../pageSections";
 
 interface PageItemProps {
   page: EditorPage;
+  setOpenPageSections: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function PageItem({ page }: PageItemProps) {
+function PageItem({ page, setOpenPageSections }: PageItemProps) {
   const dispatch = useAppDispatch();
   const { pageId, siteId } = useParams();
   const { editor, settings } = useAppSelector((state) => state.editor.present);
@@ -125,7 +127,12 @@ function PageItem({ page }: PageItemProps) {
   };
 
   return (
-    <div className={pageButtonClassNames}>
+    <div
+      className={pageButtonClassNames}
+      onClick={() => {
+        setOpenPageSections(true);
+      }}
+    >
       <Link
         href={`/site/${siteId}/editor/${page.pageId}`}
         className="h-10 w-full flex items-center"
@@ -133,7 +140,12 @@ function PageItem({ page }: PageItemProps) {
         <span>{page.pageSettings.title}</span>
       </Link>
       <div className="h-10 flex items-center">
-        <Menubar className="bg-inherit">
+        <Menubar
+          className="bg-inherit h-full"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <MenubarMenu>
             <MenubarTrigger className="cursor-pointer">
               <Ellipsis size={16} />

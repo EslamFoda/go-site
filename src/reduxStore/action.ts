@@ -76,7 +76,7 @@ export const toggleChooseIcon = () => ({
 
 // Update editor sections
 export const updateEditorSections = (
-  pageId: string,
+  pageId: string | string[],
   sections: EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
 ) => ({
   type: types.UPDATE_EDITOR_SECTIONS,
