@@ -23,6 +23,8 @@ function PageSections({ pages, setOpenPageSections }: PageSectionsProps) {
   const pageSections =
     pages.find((page) => page.pageId === pageId)?.sections || [];
 
+  const pageTitle = currentPage?.pageSettings.title || "";
+
   const handleDragEnd = (result: any) => {
     if (!result.destination) return; // dropped outside the list
     const newItems = [...pageSections];
@@ -39,7 +41,7 @@ function PageSections({ pages, setOpenPageSections }: PageSectionsProps) {
       <BackBtn
         doneBtn
         btnContainerClassName="w-full"
-        label="Pages"
+        label={pageTitle}
         handleBack={() => setOpenPageSections(false)}
       />
       <motion.div

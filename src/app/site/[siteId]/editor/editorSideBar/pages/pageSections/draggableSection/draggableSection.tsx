@@ -60,8 +60,8 @@ function DraggableSection({
                 </div>
               )}
               <span className="flex-1 truncate min-w-0">
-                {`${item.sectionName} ${item.content.title && "- "} ${
-                  item.content.title
+                {`${item.sectionName} ${(item?.content?.title && "- ") || ""} ${
+                  item?.content?.title || ""
                 }`}
               </span>
               <div>
