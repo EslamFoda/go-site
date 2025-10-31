@@ -59,6 +59,7 @@ function PageSections({ pages, setOpenPageSections }: PageSectionsProps) {
         <DraggableSection
           items={pageSections || []}
           handleDragEnd={handleDragEnd}
+          pageId={pageId}
         />
         {currentPage?.pageSettings.showFooter && (
           <div

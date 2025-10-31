@@ -1,21 +1,4 @@
 import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarTrigger,
-} from "@/components/ui/menubar";
-import {
-  Tooltip,
-  TooltipArrow,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Ellipsis } from "lucide-react";
-import React from "react";
-import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -26,35 +9,42 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useAppDispatch } from "@/reduxStore/hooks";
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarTrigger,
+} from "@/components/ui/menubar";
 import {
   copySection,
   openPagesTab,
   updateEditorSections,
   updateSelectedSection,
 } from "@/reduxStore/action";
-import { v4 } from "uuid";
-import { toast } from "sonner";
+import { useAppDispatch } from "@/reduxStore/hooks";
 import {
   EditorSection,
   SectionContentTypes,
   SectionStyleTypes,
 } from "@/reduxStore/types";
-
-interface SectionSettingsBtnProps {
+import { Ellipsis } from "lucide-react";
+import React from "react";
+import { toast } from "sonner";
+import { v4 } from "uuid";
+interface SectionDropMenuProps {
+  sections: EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[];
   sectionId: string;
   sectionIndex: number;
-  pageId: string;
-  sections:
-    | EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[]
-    | undefined;
+  pageId: string | string[];
 }
-function SectionSettingsBtn({
+function SectionDropMenu({
+  sections,
   sectionId,
   sectionIndex,
   pageId,
-  sections,
-}: SectionSettingsBtnProps) {
+}: SectionDropMenuProps) {
   const dispatch = useAppDispatch();
 
   const duplicateSection = () => {
@@ -111,38 +101,29 @@ function SectionSettingsBtn({
   return (
     <div>
       <AlertDialog>
-        <TooltipProvider>
-          <Menubar>
-            <MenubarMenu>
-              <Tooltip delayDuration={100}>
-                <MenubarTrigger asChild>
-                  <TooltipTrigger asChild>
-                    <div className="h-[30px] w-[30px] flex items-center justify-center hover:bg-muted">
-                      <Ellipsis size={16} />
-                    </div>
-                  </TooltipTrigger>
-                </MenubarTrigger>
-                <TooltipContent>
-                  <span>Settings</span>
-                  <TooltipArrow className="fill-secondary" />
-                </TooltipContent>
-              </Tooltip>
-              <MenubarContent align="end">
-                <MenubarItem onClick={duplicateSection}>Duplicate</MenubarItem>
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger asChild>
+              <div className="h-[30px] w-[30px] cursor-pointer flex items-center justify-center hover:bg-muted">
+                <Ellipsis size={16} />
+              </div>
+            </MenubarTrigger>
 
-                <MenubarSeparator />
-                <MenubarItem onClick={handleCopy}>Copy section</MenubarItem>
+            <MenubarContent align="end">
+              <MenubarItem onClick={duplicateSection}>Duplicate</MenubarItem>
 
-                <MenubarSeparator />
-                <AlertDialogTrigger className="w-full text-start">
-                  <MenubarItem className="text-destructive-foreground !bg-destructive hover:!bg-destructive/50">
-                    Delete
-                  </MenubarItem>
-                </AlertDialogTrigger>
-              </MenubarContent>
-            </MenubarMenu>
-          </Menubar>
-        </TooltipProvider>
+              <MenubarSeparator />
+              <MenubarItem onClick={handleCopy}>Copy section</MenubarItem>
+
+              <MenubarSeparator />
+              <AlertDialogTrigger className="w-full text-start">
+                <MenubarItem className="text-destructive-foreground !bg-destructive hover:!bg-destructive/50">
+                  Delete
+                </MenubarItem>
+              </AlertDialogTrigger>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
 
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -167,4 +148,4 @@ function SectionSettingsBtn({
   );
 }
 
-export default SectionSettingsBtn;
+export default SectionDropMenu;

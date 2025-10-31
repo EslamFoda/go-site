@@ -1,6 +1,6 @@
 import React from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { GripVertical, Ellipsis } from "lucide-react";
+import { GripVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 import {
@@ -9,16 +9,19 @@ import {
   SectionStyleTypes,
 } from "@/reduxStore/types";
 import { useScrollTo } from "@/hooks/useScrollTo";
+import SectionDropMenu from "../sectionDropMenu";
 
 interface DraggableSectionProps {
   items: EditorSection<keyof SectionContentTypes, keyof SectionStyleTypes>[];
   draggableContainerClassName?: string;
+  pageId: string | string[];
   handleDragEnd: (result: any) => void;
 }
 
 function DraggableSection({
   items,
   draggableContainerClassName,
+  pageId,
   handleDragEnd,
 }: DraggableSectionProps) {
   const { scrollToElement } = useScrollTo();
@@ -64,9 +67,12 @@ function DraggableSection({
                   item?.content?.title || ""
                 }`}
               </span>
-              <div>
-                <Ellipsis size={16} />
-              </div>
+              <SectionDropMenu
+                sections={items}
+                sectionId={item.id}
+                pageId={pageId}
+                sectionIndex={index}
+              />
             </div>
           </div>
         )}

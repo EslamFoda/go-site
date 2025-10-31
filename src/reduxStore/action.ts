@@ -15,7 +15,7 @@ import { GridCard } from "@/types/sectionsTypes/fluid";
 
 // Update selected section
 export const updateSelectedSection = (
-  pageId: string,
+  pageId: string | string[],
   sectionId: string | null
 ) => ({
   type: types.UPDATE_SELECTED_SECTION,
