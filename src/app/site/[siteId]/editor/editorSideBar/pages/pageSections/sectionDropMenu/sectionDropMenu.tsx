@@ -57,7 +57,7 @@ function SectionDropMenu({
       const newSection = { ...sectionToClone, id: v4() };
       cloneSections.splice(sectionIndex + 1, 0, newSection);
       dispatch(updateEditorSections(pageId, cloneSections));
-      dispatch(updateSelectedSection(pageId, newSection.id));
+      // dispatch(updateSelectedSection(pageId, newSection.id));
     }
   };
 
