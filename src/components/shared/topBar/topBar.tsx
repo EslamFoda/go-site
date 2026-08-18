@@ -33,7 +33,7 @@ function TopBar({ user }: { user: ActiveUserType }) {
     <header className="h-16 z-20 fixed top-0 right-0 bg-background w-full border-b px-5 flex items-center justify-between">
       <div>
         <Link href="/">
-          <span className="font-bold text-lg">Vixx</span>
+          <span className="font-bold text-lg">Vexx</span>
         </Link>
       </div>
       {!hideInPages && (

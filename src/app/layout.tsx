@@ -10,7 +10,7 @@ import FontLoader from "./site/[siteId]/editor/fontLoader";
 import BottomBar from "@/components/shared/bottomBar/bottomBar";
 
 export const metadata: Metadata = {
-  title: "Vixx",
+  title: "Vexx",
   description: "the best website builder powered by ai",
   icons: {
     icon: "/logo.svg",

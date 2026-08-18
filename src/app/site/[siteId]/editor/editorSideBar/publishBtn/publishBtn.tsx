@@ -206,7 +206,7 @@ function PublishBtn() {
   };
 
   const copyToClipboard = () => {
-    const url = `${publishedDomain}.vixx.site`;
+    const url = `${publishedDomain}.vexx.site`;
     navigator.clipboard.writeText(url).then(
       () => {
         setIsCopied(true);
@@ -225,7 +225,7 @@ function PublishBtn() {
   };
 
   const getSiteUrl = () => {
-    return `${publishedDomain}.vixx.site`;
+    return `${publishedDomain}.vexx.site`;
   };
 
   const shareToSocial = (platform: string) => {
@@ -294,7 +294,7 @@ function PublishBtn() {
             <div className="bg-muted px-2 h-12 rounded-md w-96 flex justify-between items-center">
               <span className="font-mono min-w-0 flex-1 truncate">
                 {publishedDomain
-                  ? `${publishedDomain}.vixx.site`
+                  ? `${publishedDomain}.vexx.site`
                   : "yourdomain.com/yoursite"}
               </span>
               <Button
@@ -330,7 +330,7 @@ function PublishBtn() {
             <Button
               className="w-96"
               onClick={() => {
-                window.open(`https://${publishedDomain}.vixx.site`, "_blank");
+                window.open(`https://${publishedDomain}.vexx.site`, "_blank");
               }}
             >
               Visit site

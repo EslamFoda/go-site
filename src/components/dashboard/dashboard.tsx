@@ -10,7 +10,6 @@ import SiteSkeleton from "./sites/sitesSkeleton/siteSkeleton";
 import { resetEditorState } from "@/reduxStore/action";
 import { useAppDispatch } from "@/reduxStore/hooks";
 import { ActionCreators as UndoActionCreators } from "redux-undo";
-import Image from "next/image";
 
 interface DashboardProps {
   user: ActiveUserType;

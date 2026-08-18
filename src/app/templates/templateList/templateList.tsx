@@ -38,23 +38,23 @@ function TemplateList({ user }: TemplateListProps) {
 
     const entrepreneur =
       theme === "dark"
-        ? "https://res.cloudinary.com/dt92g80c6/image/upload/v1743523011/entrepreneur.vixx.site__1_f5zuag.png"
-        : "https://res.cloudinary.com/dt92g80c6/image/upload/v1743523010/entrepreneur.vixx.site__2_los7e9.png";
+        ? "https://res.cloudinary.com/dt92g80c6/image/upload/v1743523011/entrepreneur.vexx.site__1_f5zuag.png"
+        : "https://res.cloudinary.com/dt92g80c6/image/upload/v1743523010/entrepreneur.vexx.site__2_los7e9.png";
 
     const law =
       theme === "dark"
-        ? "https://res.cloudinary.com/dt92g80c6/image/upload/v1743528639/law.vixx.site__xi4gwc.png"
-        : "https://res.cloudinary.com/dt92g80c6/image/upload/v1743528640/law.vixx.site__1_fsefmk.png";
+        ? "https://res.cloudinary.com/dt92g80c6/image/upload/v1743528639/law.vexx.site__xi4gwc.png"
+        : "https://res.cloudinary.com/dt92g80c6/image/upload/v1743528640/law.vexx.site__1_fsefmk.png";
 
     const personal =
       theme === "dark"
-        ? "https://res.cloudinary.com/dt92g80c6/image/upload/v1743540566/personal.vixx.site__pfe7pu.png"
-        : "https://res.cloudinary.com/dt92g80c6/image/upload/v1743540588/personal.vixx.site__1_myrms2.png";
+        ? "https://res.cloudinary.com/dt92g80c6/image/upload/v1743540566/personal.vexx.site__pfe7pu.png"
+        : "https://res.cloudinary.com/dt92g80c6/image/upload/v1743540588/personal.vexx.site__1_myrms2.png";
 
     const pets =
       theme === "dark"
-        ? "https://res.cloudinary.com/dt92g80c6/image/upload/v1743597998/pets.vixx.site__zyvshx.png"
-        : "https://res.cloudinary.com/dt92g80c6/image/upload/v1743597997/pets.vixx.site__1_r8z5g3.png";
+        ? "https://res.cloudinary.com/dt92g80c6/image/upload/v1743597998/pets.vexx.site__zyvshx.png"
+        : "https://res.cloudinary.com/dt92g80c6/image/upload/v1743597997/pets.vexx.site__1_r8z5g3.png";
 
     const imageMapper = {
       cafe: cafeImg,
@@ -127,7 +127,7 @@ function TemplateList({ user }: TemplateListProps) {
               className="w-full bg-background text-foreground hover:bg-background/60 text-xs"
               onClick={() =>
                 window.open(
-                  `https://${template.domainName}.vixx.site`,
+                  `https://${template.domainName}.vexx.site`,
                   "_blank"
                 )
               }

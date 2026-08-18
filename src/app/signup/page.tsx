@@ -18,7 +18,7 @@ async function Page() {
       <div className="space-y-3 w-80">
         <h1 className="text-2xl font-bold">Create Account</h1>
         <div className="flex !mb-8 items-center justify-center gap-1">
-          <span className="text-muted-foreground">Already on vixx?</span>
+          <span className="text-muted-foreground">Already on vexx?</span>
           <Link className="underline underline-offset-4" href="/login">
             Log in
           </Link>
