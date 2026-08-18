@@ -22,19 +22,19 @@ function SiteCard({ site, setSites }: SiteCardProps) {
     "flex items-center justify-between border rounded-sm p-3 hover:bg-muted group transition-all",
     {
       "bg-muted": openMenu,
-    }
+    },
   );
   const logoContainerClassName = cn(
     "h-10 w-10 rounded-sm bg-muted flex items-center justify-center group-hover:bg-background",
     {
       "bg-background": openMenu,
-    }
+    },
   );
   const menuBtnClassName = cn(
     "flex items-center justify-center h-6 w-6 rounded-full bg-muted group-hover:bg-primary",
     {
       "bg-primary svg:stroke-background": openMenu,
-    }
+    },
   );
   const menuIconClassName = cn("group-hover:stroke-background cursor-pointer", {
     "stroke-background": openMenu,
@@ -44,7 +44,7 @@ function SiteCard({ site, setSites }: SiteCardProps) {
     "hidden group-hover:flex items-center justify-center h-6 w-fit px-3  rounded-full bg-primary cursor-pointer max-md:flex max-md:text-background",
     {
       "flex text-background": openMenu,
-    }
+    },
   );
 
   const deleteSite = async () => {
@@ -58,7 +58,7 @@ function SiteCard({ site, setSites }: SiteCardProps) {
 
     if (data) {
       setSites((prev: any) =>
-        prev.filter((s: any) => s.siteId !== data[0].siteId)
+        prev.filter((s: any) => s.siteId !== data[0].siteId),
       );
       setLoading(false);
     }
@@ -88,7 +88,7 @@ function SiteCard({ site, setSites }: SiteCardProps) {
         >
           <span className="group-hover:text-background">Edit</span>
         </div>
-        <DropdownMenu
+        {/* <DropdownMenu
           defaultOpen={openMenu && !loading}
           onOpenChange={setOpenMenu}
         >
@@ -106,7 +106,7 @@ function SiteCard({ site, setSites }: SiteCardProps) {
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
       </div>
     </div>
   );
