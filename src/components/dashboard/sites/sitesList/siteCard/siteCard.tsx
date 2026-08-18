@@ -88,7 +88,7 @@ function SiteCard({ site, setSites }: SiteCardProps) {
         >
           <span className="group-hover:text-background">Edit</span>
         </div>
-        {/* <DropdownMenu
+        <DropdownMenu
           defaultOpen={openMenu && !loading}
           onOpenChange={setOpenMenu}
         >
@@ -106,7 +106,7 @@ function SiteCard({ site, setSites }: SiteCardProps) {
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
-        </DropdownMenu> */}
+        </DropdownMenu>
       </div>
     </div>
   );
